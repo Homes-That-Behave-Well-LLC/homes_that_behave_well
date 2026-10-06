@@ -352,6 +352,10 @@ request their own erasure.
   because they can be assembled.
 - A **later association** with a known Person is additive. It does not retroactively reclassify the
   earlier records, and it does not extend their retention by itself.
+- **An Unknown Actor Reference's Primary Hypothesis Label and Criteria Satisfaction Record (DL-74)
+  change nothing above.** Naming a hypothesis — Probably One Actor, Probably Multiple Actors, or
+  Unresolved Plurality — is not a characterisation of the actor, grants no retroactive permission,
+  and remains bound by every rule already stated in this section.
 
 Ordinary operational retention, extended retention, and incident-related preservation remain three
 different things, classified under the floors and ceilings above and under **DL-47**, **OD-36**, and

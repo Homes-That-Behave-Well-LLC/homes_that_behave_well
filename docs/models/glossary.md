@@ -568,8 +568,31 @@ its own records. An HTBW architectural term, **not a claim of legal effect**.
 A bounded, non-Person reference within a **single** Historical Reconstruction, grouping observations
 sufficiently supported as belonging to one actor. Part of the projection — **never a store, never an
 identity, never a role, and never proof that the observations share one human**. Temporal proximity
-alone never establishes one. Correlation confidence is open decision **OD-72**.
+alone never establishes one. Carries a **Primary Hypothesis Label**, a **Criteria Satisfaction
+Record**, **Supporting Evidence**, and **Contradicting Evidence** (**DL-74**).
 Model: [temporal-record.md](temporal-record.md)
+
+**Primary Hypothesis Label (DL-74)**
+The sole summarising output of an Unknown Actor Reference reconstruction: **Probably One Actor**,
+**Probably Multiple Actors**, or **Unresolved Plurality**. Never a numeric score, probability,
+percentage, or weighted calculation. Derived from the pattern of a **Criteria Satisfaction Record**,
+never from a calculation. **Unresolved Plurality is a first-class, non-ordered outcome, never a
+synonym for low confidence in a one-actor hypothesis.** ⚠️ **Name collision, not a reuse.** This is
+**not** Audience Composition's existing *"Unresolved plurality"* state (**DL-34**): that state answers
+*who could perceive* a delivery; this answers *was this the same actor*. The two are never
+convertible, never compared, and never collapsed into one meaning. Structurally distinct from **DL-39**
+Identity confidence, **DL-58** Truth confidence, **DL-73** Behaviour Source confidence, **DL-40**
+Required Confirmation Strength, and **DL-34** Audience Composition — confirmed by a full repository
+vocabulary review before this term was accepted.
+
+**Criteria Satisfaction Record (DL-74)**
+The combination mechanism for a Primary Hypothesis Label. Each of **DL-35**'s six accepted correlation
+factors — adjacency, travel plausibility, evidence continuity, entry and exit, contradictions, and
+competing-actor evidence — is individually recorded as exactly one of **Supports Hypothesis**,
+**Contradicts Hypothesis**, **Unavailable**, or **Not Applicable**. **No weighting, ranking,
+averaging, scoring, or probability is applied.** A contradiction is surfaced directly as its own entry
+and is never averaged away; a material contradiction may force **Probably Multiple Actors** or
+**Unresolved Plurality** instead of **Probably One Actor**.
 
 **Evidence Package**
 A governed assembly of records for a stated scope, produced on demand, recording its own scope,

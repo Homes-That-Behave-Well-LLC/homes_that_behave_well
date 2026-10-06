@@ -318,6 +318,46 @@ ownership boundary changes, and no open decision is closed.**
 
 **Discharges item 16.** Feeds **explainability.md**'s resident-facing explanation requirement directly: any explanation surfacing a timestamp to a resident must state it in household-local time, derived from the verified `time_zone` configuration, never in raw UTC.
 
+### Issue #146 OD-64 reassessment evidence pass (2026-10-06)
+
+Evidence produced from the Tom's Office overhead light investigation (October 2026, OD-63 closure
+evidence base), re-examined specifically against **OD-64**'s own anchoring and evidence-class
+questions. **This section records verification outcomes only. No architecture decision is made here,
+no ownership boundary changes, and no open decision is closed.**
+
+#### `assist_satellite` entity state transitions share Context with the resulting service call (item 17) — VERIFIED_SUPPORTED
+
+| DL-30 element | Finding |
+|---|---|
+| Capability evaluated | Whether a durable, Recorder-native bridge exists between a voice interaction and its resulting device state change, independent of the ephemeral Assist Debug store item 15 already found has no such bridge |
+| Source | Direct Recorder `states`/`states_meta` query evidence from the Tom's Office investigation (October 2026): `assist_satellite.voice_assistant_voice_tom_s_office_assist_satellite` state rows (`listening` → `processing` → `responding`) and the resulting `light.tom_s_office_overhead` `call_service`/state-changed rows, for the same real interaction |
+| Verified | **The `assist_satellite` entity's own ordinary state transitions carry the identical `context_id` as the resulting service call and device state change.** This is an ordinary Recorder-tracked entity — not Assist Debug, not `.storage`, not any special store — so it is retained under Recorder's own standard retention, independent of Assist Debug's 10-run in-memory cap (item 14) and independent of the automation/script Trace component's 5-run cap (item 6) |
+| Remaining gap | Not independently re-verified against Home Assistant Core source this pass (the finding is empirical, from a real Production Recorder snapshot, not a source-code citation); the general mechanism (pipeline intent execution propagating its own `Context` to the service call it performs) is consistent with, and a plausible instance of, **item 15**'s already-sourced `PipelineRun.context` finding |
+| Why a lower layer cannot satisfy it | Not applicable — this is a positive native-capability finding, not a gap |
+
+**Narrows OD-38 and OD-64, does not close either.** This is a *different* bridge than item 15 examined (item 15: Recorder `context_id` ↔ Assist Debug `pipeline_run_id` — confirmed absent; this item: `assist_satellite` entity state ↔ resulting service call `context_id` — confirmed present). **Item 15's VERIFIED_NEGATIVE finding stands unchanged** and must not be read as foreclosing this separate, durable bridge.
+
+#### Recorder `events`/`event_data` are a durable, Context-correlatable attribution source, independent of the Trace component (item 18) — VERIFIED_SUPPORTED
+
+| DL-30 element | Finding |
+|---|---|
+| Capability evaluated | Whether `automation_triggered`, `call_service`, and `script_started` event rows persist in Recorder independently of, and beyond the retention of, the automation/script Trace component item 6 found has no public API and a 5-run cap |
+| Source | Direct Recorder `events`/`event_data`/`event_types` query evidence from the Tom's Office investigation: repeated successful resolution of sibling and parent events sharing a `context_id`/`context_parent_id`, each carrying its own `event_data` payload (for example `{"domain": "light", "service": "turn_on", "service_data": {"entity_id": [...]}}` or `{"name": ..., "entity_id": ..., "source": ...}` for `automation_triggered`) |
+| Verified | **`events`/`event_data` rows for `call_service`, `automation_triggered`, and `script_started` are stored independently of the Trace component**, under Recorder's own retention policy (`purge_keep_days`), not the Trace component's `stored_traces` cap (default 5) and not Assist Debug's 10-run cap. This is the evidence class that actually established **Known Source** (Occupancy Automation, and the Dashboard/App and Voice cases via Context-sharing) throughout the Tom's Office investigation — the Trace component's step-by-step condition/action detail was never consulted and was not needed |
+| Remaining gap | Whether a **documented, public, integration-facing Python API** exists for querying these raw `events`/`event_data` rows (as distinct from the documented `history.get_significant_states`/statistics path for `states`, and distinct from the already-confirmed-closed Trace WebSocket API) was **not independently verified this session against official developer documentation or Core source** — access this session was via an offline forensic SQLite snapshot of the Production database, which demonstrates the data's existence and content but not a documented integration-facing retrieval contract |
+| Why a lower layer cannot satisfy it | The remaining gap is a documentation/source verification task, not an architectural question — it must be discharged under **DL-30** before OD-64 relies on a specific retrieval mechanism |
+
+**Narrows OD-64 materially.** The evidence OD-64 needs was never actually gated behind the Trace component's closed API (item 6) — it was available the whole time in Recorder's own `events` table. **Does not close OD-64**: the public-API-contract question above remains a genuine, narrower residual, distinct from and not resolved by item 6's finding.
+
+#### Genuinely unresolved residual for OD-64 (item 19)
+
+Not a capability finding — a scoped statement of what remains open after items 17 and 18. **DL-30 forbids closing OD-64 on an assumption about this**:
+
+1. Whether Recorder's `events`/`event_data` tables have a documented, public, integration-facing Python retrieval API (distinct from `history.get_significant_states` for `states`, and distinct from the closed Trace WebSocket API).
+2. The formal anchoring schema a Decision Trace or Domain Event would reference (which exact fields — `context_id`, `event_id`, `state_id`, some composite — OD-64's own "anchoring" criterion).
+3. Retention-boundary wording connecting Recorder's `purge_keep_days` to HTBW's existing dangling-reference-reporting rule (**DL-27**) for this specific evidence class.
+4. Executor registration for a Stewardship obligation — OD-64's own stated open question, untouched by this pass.
+
 ---
 
 ## What Home Assistant may provide

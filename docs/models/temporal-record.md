@@ -419,10 +419,11 @@ An Unknown Actor Reference is **not**:
 - A source of permission
 
 It may reference an actor reference identifier, the reconstruction scope, start and end time, a
-confidence or quality band, correlation reason codes, supporting Domain Events, contradicting events,
-uncertain events, entry and exit hypotheses, Room-presence intervals, a movement sequence, dwell-time
-estimates, related unknown evidence sources, related known-Person assertions, related external video
-references, alternative actor hypotheses, later associations, and preservation status.
+**Primary Hypothesis Label**, a **Criteria Satisfaction Record**, correlation reason codes, supporting
+Domain Events, contradicting events, uncertain events, entry and exit hypotheses, Room-presence
+intervals, a movement sequence, dwell-time estimates, related unknown evidence sources, related
+known-Person assertions, related external video references, alternative actor hypotheses, later
+associations, and preservation status (**DL-74**).
 
 **Every one of those is a Governed Reference or a value derived from existing records** (**P30**).
 Nothing is copied, and no payload is duplicated into an actor object.
@@ -452,26 +453,33 @@ preserves native source references; identifies candidate observations involving 
 people; evaluates freshness and time ordering, Room adjacency or other accepted topology, plausible
 travel time without asserting certainty, continuity of eligible evidence sources, entry and exit
 events, external video references, contradictions, and evidence that more than one actor may exist;
-produces one or more actor hypotheses; assigns a confidence or quality band; **preserves the
-alternatives**; rewrites no original evidence; and yields an explainable result.
+produces one or more actor hypotheses; assigns a **Primary Hypothesis Label** derived from a
+**Criteria Satisfaction Record** over those same factors (**DL-74**); **preserves the alternatives**;
+rewrites no original evidence; and yields an explainable result.
 
 The same guard applies within a single moment: an unassociated proximity source and an unmatched
 voice are **not** joined into one actor because they were observed together.
 
 **No correlation mathematics is invented here.** How the evaluated factors combine into a hypothesis
-confidence, and how that confidence is calibrated, is **OD-72**.
+is **DL-74**: a Criteria Satisfaction Record, never a numeric score, probability, percentage, or
+weighted calculation.
 
 #### Plurality is a first-class outcome
 
 The reconstruction must be able to represent one possible actor, several possible actors, and
-**unknown plurality**. Multiple unassociated proximity sources, multiple unmatched voices, multiple
-occupancy transitions, and multiple external detections must not be collapsed into one actor — and
-must not be assumed to be several.
+**Unresolved Plurality** as three separate, non-ordered **Primary Hypothesis Label** values —
+**Probably One Actor**, **Probably Multiple Actors**, **Unresolved Plurality** (**DL-74**). Multiple
+unassociated proximity sources, multiple unmatched voices, multiple occupancy transitions, and
+multiple external detections must not be collapsed into one actor — and must not be assumed to be
+several. **Unresolved Plurality is never a synonym for low confidence in a one-actor hypothesis** —
+restating the lesson already recorded for speaker plurality (**OD-84**): two actors and low confidence
+in one actor produce the identical observable shape from opposite causes.
 
 A complete and correct answer may be:
 
 ```text
 At least one unknown person was supported between 08:12 and 09:32.
+Primary Hypothesis Label: Unresolved Plurality.
 The available evidence cannot reliably determine whether one or several actors were present.
 ```
 
@@ -488,7 +496,7 @@ labelled for what it is.**
 | Estimated dwell time | A duration estimate, carrying its uncertainty |
 | Unknown gap | A period with no eligible evidence |
 | Contradicting observation | Evidence inconsistent with the hypothesis, retained rather than discarded |
-| Confidence or quality band | How well the evidence supports the element |
+| Criteria Satisfaction Record entry | Supports Hypothesis / Contradicts Hypothesis / Unavailable / Not Applicable, per factor (**DL-74**) |
 
 **An estimate must never be presented as a direct observation**, and a reconstruction must never
 imply continuous surveillance where only intermittent sensor evidence exists.
