@@ -192,6 +192,86 @@ questions" and "Blocking Status" table is a stale cross-reference, not an open g
 finding, not corrected in the issue body by this document (that correction belongs in the issue
 comment, not in canonical architecture text).
 
+### Issue #146 remediation pass (2026-10-06, continued)
+
+Second evidence pass against the same backlog, same authority order (official documentation first,
+Core source pinned to commit
+[`c571d9d3a96e6fda0a23e754ca0f2906ae63ee84`](https://github.com/home-assistant/core/commit/c571d9d3a96e6fda0a23e754ca0f2906ae63ee84)
+only where documentation was insufficient). **No architecture decision is made here.**
+
+#### Storage helper — backup coverage and removability (item 1, continued) — VERIFIED_SUPPORTED / VERIFIED_NEGATIVE
+
+| DL-30 element | Finding |
+|---|---|
+| Capability evaluated | Whether `.storage/` (the `Store` helper's directory) is covered by Home Assistant's native Backup feature, and whether a Store-backed record is ever presented to a resident as independently removable configuration |
+| Source | [Common tasks — Backups](https://www.home-assistant.io/common-tasks/general/#backups) (official, current): *"A full backup includes the following directories: `config`, `share`, `addons`..., `ssl`, `media`"*; `Store.path` resolves to `hass.config.path(STORAGE_DIR, key)` i.e. `<config>/.storage/<key>` (`homeassistant/helpers/storage.py`) |
+| Verified | **Backup coverage: VERIFIED_SUPPORTED.** `.storage/` lives inside the `config` directory, which a full backup always includes and a partial backup may include by resident selection. **Removability: VERIFIED_NEGATIVE.** Official documentation describes removing an *integration instance* (device + entities) but documents no resident-facing action that independently deletes a Store-backed file; source confirms deletion only happens via `Store.async_remove()`, called by the owning integration's own code — never exposed as a resident UI action |
+| Remaining gap | None for either sub-question as literally asked |
+| Why a lower layer cannot satisfy it | Not applicable — both sub-questions are now discharged |
+
+**Fully discharges item 1's two named sub-questions.** OD-01 (#76) residual is now narrowed to the semantic-meaning question already recorded in the first pass (resident-vs-automation attribution, absent-value state, provenance/version identity, declared retention, policy governance) — none of which a lower layer (Store, or Backup) can supply, which is why HTBW's own governed-record layer remains justified for *that* residual specifically.
+
+#### Native Room/Area proximity for portable surfaces (item 3) — VERIFIED_NEGATIVE
+
+| DL-30 element | Finding |
+|---|---|
+| Capability evaluated | Whether a documented native capability resolves a portable interaction surface (phone, wearable, companion device) to **Area or Room granularity** |
+| Source | [Private BLE Device](https://www.home-assistant.io/integrations/private_ble_device/) (official, current): *"it can also tell you an estimated distance to the nearest Bluetooth dongle or proxy and its signal strength"*; [Bluetooth integration](https://www.home-assistant.io/integrations/bluetooth/) (official, current): each scanner (adapter or proxy) has its own assigned Area, visible under **Settings > Connectivity > Bluetooth > Adapters** |
+| Verified | **VERIFIED_NEGATIVE.** The only documented portable-device proximity capability is *home/away* plus *distance-to-nearest-scanner*. Home Assistant documents no capability that itself resolves this to a Room/Area value. A per-scanner Area assignment exists as a separate, independent fact; Home Assistant does not combine "nearest scanner" with "that scanner's Area" into a stated, supported device-location output |
+| Remaining gap | None — this is a clean documented negative, not an absence-of-documentation case |
+| Why a lower layer cannot satisfy it | Not applicable to this ruling; no replacement design is proposed here (none is authorized) |
+
+**Household-level presence, GPS zones, and home/not-home state were explicitly excluded from this finding**, per Issue #146's own instruction — they were not treated as Room-level evidence at any point in this evaluation. **Discharges item 3.** OD-73 (#134) remains blocked on this negative finding; a governance decision on whether HTBW may compute Room/Area granularity itself from the raw primitives (nearest-scanner distance + per-scanner Area) is for OD-73 to make, not this issue.
+
+#### Automation and script trace retrieval — public contract (item 6, continued) — VERIFIED_NEGATIVE
+
+| DL-30 element | Finding |
+|---|---|
+| Capability evaluated | Whether trace data has a documented, stable, **integration-facing** retrieval contract, as distinct from internal or frontend-only access |
+| Source | `homeassistant/components/trace/websocket_api.py` and `homeassistant/components/trace/__init__.py`, commit above |
+| Verified | **VERIFIED_NEGATIVE.** Every trace-retrieval command (`trace/get`, `trace/list`, `trace/contexts`, plus all debug/breakpoint commands) is registered exclusively via `@websocket_api.websocket_command` and `@websocket_api.require_admin` — an admin-only, frontend-facing WebSocket contract. The component's own public export list (`trace/__init__.py` `__all__`) is exactly `CONF_STORED_TRACES`, `TRACE_CONFIG_SCHEMA`, `ActionTrace`, `async_store_trace` — the retrieval functions (`async_get_trace`, `async_list_traces`, `async_list_contexts`, all in a private `.util` module) are **not** part of that export list |
+| Remaining gap | None for the public-contract question |
+| Why a lower layer cannot satisfy it | Not applicable — the negative finding is itself the discharge |
+
+**Retention, continued.** Traces are saved to the `Store` helper (`DATA_TRACE_STORE`, key `trace.saved_traces`) only at `EVENT_HOMEASSISTANT_STOP` — confirming the 2026-10-06 first-pass finding that traces survive a graceful restart, via the same mechanism as item 1. **Fully discharges item 6**: retention duration (5, configurable) and persistence mechanism were established in the first pass; this pass establishes that no stable public integration-facing retrieval API exists. A custom integration reading trace data today would be depending on an explicitly internal module, which this document records as **unsupported for that purpose**.
+
+#### Long-term statistics — missing-interval behaviour (item 12, continued) — VERIFIED_SUPPORTED
+
+| DL-30 element | Finding |
+|---|---|
+| Capability evaluated | Whether `statistics_during_period` (the native statistics retrieval function) explicitly reports missing intervals, returns absent buckets, silently omits intervals, interpolates, or leaves gap interpretation to the consumer |
+| Source | `homeassistant/components/recorder/statistics.py`, functions `statistics_during_period`, `_statistics_during_period_with_session`, `_sorted_statistics_to_dict`, commit above |
+| Verified | **VERIFIED_SUPPORTED, for the "silently omits / leaves gap interpretation to the consumer" outcome.** The result is built by querying only the rows that actually exist for the requested window; `_sorted_statistics_to_dict` pre-seeds each requested `statistic_id` with an empty list, then appends only the DB rows found — there is **no synthetic row, no null placeholder, and no interpolation** for a period with no compiled data. A caller must detect a gap itself by comparing each returned row's `start`/`end` against the expected cadence; Home Assistant performs no gap detection or reporting on the caller's behalf. Separately, `compile_missing_statistics` self-heals **compilation** gaps caused by a restart, up to the recorder's `keep_days` window — but a source entity that was itself unavailable during a period produces a genuine, permanently uncompiled gap that is never backfilled or flagged |
+| Remaining gap | None for the gap-reporting question itself |
+| Why a lower layer cannot satisfy it | Confirms the `temporal-record.md` concern directly: if HTBW uses native statistics as a historical-aggregate source (OD-35), **HTBW must perform its own gap detection and reporting on top of the raw rows** — native statistics provides none, so this is a genuine, documented residual for OD-35 to decide, not an assumption |
+
+**Fully discharges item 12.** No differences among statistic types were found that change this answer — `MEASUREMENT` (min/max/mean) and `TOTAL`/`TOTAL_INCREASING` (sum) rows are built through the same row-presence-only logic.
+
+#### Context and actor-attribution propagation (item 13, continued) — VERIFIED_NEGATIVE
+
+| DL-30 element | Finding |
+|---|---|
+| Capability evaluated | Which actor/origin fields on `Context`, `Event`, `State`, and `ServiceCall` are guaranteed, conditionally present, propagated, synthesized, lost, or internal-only |
+| Source | `homeassistant/core.py`, classes `Context`, `Event`, `State`, `ServiceCall`, `EventBus`, `ServiceRegistry`, commit above |
+| Verified | **VERIFIED_NEGATIVE for a hidden or undocumented resolved-actor field; exhaustive field classification otherwise VERIFIED_SUPPORTED.** `Context.__slots__` is exactly `(id, parent_id, user_id, origin_event)` — a complete, closed set, confirmed directly from the class definition. Every `Event`, `State`, and `ServiceCall` carries a `Context` (auto-created with a fresh id when none is supplied) |
+| Classification | **Guaranteed:** `context.id` (always a valid ULID, every Event/State/ServiceCall). **Conditionally present:** `context.user_id` (only non-`None` when an authenticated Home Assistant user initiated the action chain — e.g. a logged-in person's UI action; automation- and script-originated calls routinely carry `user_id=None`); `context.parent_id` (only set where the firing code explicitly constructs a child context — chaining behaviour itself lives in `helpers/script.py`/`components/automation`, consistent with, but not re-verified against, this document's existing `OD-38` correlation note). **Synthesized:** none — nothing in `core.py` computes or guesses an actor; `user_id` is passed through verbatim or absent. **Lost / internal-only:** `Context.origin_event` — present on the Python object but explicitly excluded from `_as_dict()`/`as_dict()`, so it is never serialized to WebSocket, REST, the recorder, or any consumer outside the exact same in-process Python object reference |
+| Remaining gap | Automation-side parent-context chaining was reasoned from the existing boundary note, not independently re-verified against `helpers/script.py` source this session |
+| Why a lower layer cannot satisfy it | Confirms, with an exhaustive source-level field list rather than a documentation-absence inference, that **no native mechanism maps `user_id` (an authenticated Home Assistant user) to an HTBW-resolvable Person**, and no undocumented fifth field exists to carry one |
+
+**Fully discharges item 13's core question** (whether an undocumented native actor-resolution field or extension point exists): it does not. **Still open:** whether `parent_id` chaining, independently re-verified at the automation/script layer, is sufficient evidence for OD-38's own correlation-strategy decision — that re-verification is a small residual, not a blocker to this item's own terminal status.
+
+#### Voice pipeline native capability — Step A (item 11) — VERIFIED_SUPPORTED
+
+| DL-30 element | Finding |
+|---|---|
+| Capability evaluated | Satellite/pipeline voice activity detection (VAD), wake-word engine configuration, per-Room media-player-state availability, and documented Assist pipeline extension points |
+| Source | [Assist pipelines](https://developers.home-assistant.io/docs/voice/pipelines/) (official developer docs, current); [The Home Assistant approach to wake words](https://www.home-assistant.io/voice_control/about_wake_word/) (official, current) |
+| Verified | **Wake word:** three engine families documented — openWakeWord (server-side default), microWakeWord (on-device, ESP32-S3 class and Android Companion App), Porcupine (29 words, alternative). Per-satellite wake word is user-selectable ("Users can pick per configured voice assistant what wake word to listen for"). **VAD:** two distinct, both documented — client-side VAD ("Clients should avoid unnecessary audio streaming by using a local voice activity detector") and Home Assistant's own internal VAD, which extends the wake-word timeout while speech continues; the pipeline additionally emits explicit `stt-vad-start`/`stt-vad-end` events with millisecond-relative timestamps marking a voice command's observed start and end. **Audio-enhancement configuration** (closest documented analogue to "sensitivity"): `noise_suppression_level` (0–4), `auto_gain_dbfs` (0–31), `volume_multiplier`, all documented `input` fields of the `wake_word` pipeline stage. **Pipeline extension points:** the four-stage sequence (`wake_word` → `stt` → `intent` → `tts`) is run via the documented `assist_pipeline/run` WebSocket command with a full documented event stream (`run-start`/`run-end`, per-stage start/end events) and a complete documented error-code taxonomy (`wake-engine-missing`, `wake-word-timeout`, `stt-no-text-recognized`, etc.) |
+| Remaining gap | Per-Room `media_player` state availability was not re-fetched this session; it is already established via this document's existing Area/entity-registry evidence (an entity's Area assignment makes its state queryable per-Room) and `truth.md`'s existing acceptance of *"the television is in use"* as a Fact |
+| Why a lower layer cannot satisfy it | Not applicable — Step A is a native-capability inventory, not a justification for building anything |
+
+**Discharges Step A of item 11's A–F sub-evaluation.** Steps B–F remain outstanding; Step B specifically requires real household measurement and is addressed by the Track B protocol delivered with this pass (see Issue #146 comment).
+
 ---
 
 ## What Home Assistant may provide
