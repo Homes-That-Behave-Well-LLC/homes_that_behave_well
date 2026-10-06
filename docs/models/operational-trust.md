@@ -132,7 +132,10 @@ decision it finds inconvenient.
 - Identity assertions (who is believed to be asking)
 - Truth facts (what is actually true now — room mode, time, occupancy, device state)
 - Foundation Person roles, Room definitions, and Relationships
-- Stewardship significance (to classify risk)
+- Stewardship significance — a **Significance Declaration** (**DL-75**), consumed as one input to risk
+  classification and confirmation requirements; **never itself the risk class or the confirmation
+  requirement**, and never converted to or from Identity Confidence (**DL-39**) or Truth Confidence
+  (**DL-58**)
 - Household-configured policy
 
 **Operational Trust does not determine who a person is.** It consumes an identity assertion, applies

@@ -148,7 +148,7 @@ is accountable.
 | **Where it is now** | **Truth**, as a Location Fact | Truth | Truth | Entity state where device-backed | **A** |
 | Bills of sale, insurance rider, photographs, attached documentation | Foundation asset model, anchored in **Connected Storage** | HTBW | Foundation (the Asset is the governing parent, **DL-45**) | None. Sensitive artifacts are **not** exposed as resident media (**DL-44**) | **A** |
 | Temperature, humidity, and light/UV limits **as properties of the thing** | Foundation asset model | HTBW | Foundation | None | **A** |
-| **Significance declaration** — that it matters, and how much | **Stewardship**, recorded with **provenance** naming the household as the declarer | HTBW | Stewardship | None | **A** — representation is **OD-21** |
+| **Significance declaration** — that it matters, and how much | **Stewardship**, recorded with **provenance** naming the household as the declarer | HTBW | Stewardship | None | **A** — representation is **DL-75** |
 | Cleaning and conservation schedule | **Stewardship** | HTBW | Stewardship | Calendar projection is **OD-23** | **A / U** |
 | Maintenance and conservation history | **Stewardship**, as Change Records (**DL-26**) | HTBW | Stewardship | Not Recorder. HTBW builds no second Recorder (**DL-42**) | **A** |
 | Relevant room sensors, windows, window direction, sun exposure | Room Configuration participation set | Foundation | Foundation | Area, Entity, and Sun integration references (**DL-31**) | **A** |
@@ -247,7 +247,7 @@ cleaned.**
 | Gap | Classification |
 |---|---|
 | **Loan, check-out, check-in, and custody transfer are resolved as DL-49.** A **Custody Period** is a time-bounded accountability record owned by **Stewardship**; `located-in` remains a declared relationship and is **not** a custody chain. **Physical return is evidence toward closure, never closure** — the period closes only on a recorded Check-In | **Resolved — DL-49** |
-| Significance representation — band, score, or household vocabulary | **OD-21** |
+| Significance representation — band, score, or household vocabulary | **Resolved — DL-75** |
 | Whether obligations project into calendars, `todo` entities, or connected storage | **OD-23** |
 | Which Asset-derived values are published as Entities, and with which state vocabulary. **HTBW defines no "asset health" state model** | **OD-69** |
 | Sun-exposure context as an input: no native Room-level or Area-level UV or direct-illumination capability has been verified, so the **DL-30** burden of proof is not discharged | **U / F** |
@@ -735,7 +735,7 @@ audience evaluation.
 | Grouping and prioritisation of simultaneous obligations | **OD-23** — **DL-48** records that grouping is a projection concern and not part of the obligation model |
 | Fact validity and expiration defaults per Fact class — *how stale is stale* | **Resolved — DL-59** |
 | Obligation projection surface | **OD-23** |
-| Significance representation for a low-significance maintenance obligation | **OD-21** |
+| Significance representation for a low-significance maintenance obligation | **Resolved — DL-75** |
 
 ---
 
@@ -965,7 +965,7 @@ condition and its use.
 | Tuner as a **Service** relationship | Foundation asset model | None | **A** |
 | Tuning schedule | **Stewardship** obligation | **OD-23** | **A / U** |
 | Acceptable environmental conditions, as properties of the instrument | Foundation asset model | None | **A** |
-| Significance declaration | **Stewardship**, with household provenance | None | **A** — **OD-21** |
+| Significance declaration | **Stewardship**, with household provenance | None | **A** — **DL-75** |
 | Maintenance history | **Stewardship** history | Not Recorder | **A** |
 
 ## Ownership map
@@ -1036,7 +1036,7 @@ calendar entry passing.
 |---|---|
 | Whether a caretaker assignment is Room-derived, Asset-derived, or both, when an Asset moves | **E — REMEDIATION REQUIRED, folded into OD-75** |
 | Obligation projection into calendars | **OD-23** |
-| Significance representation | **OD-21** |
+| Significance representation | **Resolved — DL-75** |
 | Governed-record persistence shape | **OD-01** |
 
 ---
@@ -1048,7 +1048,7 @@ Where a cell reads **none**, that is a deliberate architectural statement, not a
 
 | Use case | Household declaration | Truth inputs | Identity | Consent / authority | Operational Trust | Stewardship | Continuity | Executor | Explainability | Retention | Closure | Implementation status |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
-| **Artwork Preservation** | *This artwork matters; here are its limits, its cleaning cadence, and its caretaker* | Room temperature, humidity, illuminance, sun position; Asset Location Fact | **None** for assessment; required for person-directed delivery | Household declaration; no personal consent engaged | Autonomy for dehumidification; delivery entitlement; audience | Preservation + conservation obligations; significance with provenance | **None** | HA automation / service call, or a person | Fact, limit, declarer, policy, executor, outcome — by reference | Documents while the Asset lives; Change Records per Asset lifecycle; trace per External History Retention | Truth reports in-range, **or** completed care recorded | **A** for ownership; **U** for loan/custody (**OD-75**), projection (**OD-23**), significance form (**OD-21**) |
+| **Artwork Preservation** | *This artwork matters; here are its limits, its cleaning cadence, and its caretaker* | Room temperature, humidity, illuminance, sun position; Asset Location Fact | **None** for assessment; required for person-directed delivery | Household declaration; no personal consent engaged | Autonomy for dehumidification; delivery entitlement; audience | Preservation + conservation obligations; significance with provenance | **None** | HA automation / service call, or a person | Fact, limit, declarer, policy, executor, outcome — by reference | Documents while the Asset lives; Change Records per Asset lifecycle; trace per External History Retention | Truth reports in-range, **or** completed care recorded | **A** for ownership; **U** for loan/custody (**OD-75**), projection (**OD-23**), significance form (**DL-75**) |
 | **Pet Stewardship** | *Maisey matters; here is her care* | Pet Location Fact; activity Facts; caretaker presence | **None for the Pet** — Truth-only. Required for the human recipient | Household declaration; consent attaches to humans, not the Pet | Delivery, audience, disclosure, escalation authority | Medication, feeding, appointment, walk obligations | **None** — care history is Stewardship history | A **person** | Schedule, declaration, accountability, escalation reason | Care history per **DL-47**; wearable Facts as Historical Facts | Recorded administration or completed appointment | **A** for ownership; **U** for completion evidence (**OD-75**), recipients (**OD-52**) |
 | **Aging-Parent Support** | *Eleanor matters, and she agreed to this help* | Room environment; Contextual Person-Presence; consented wearable Facts | **Required** — purpose-specific, consent-gated | **Consent is mandatory. Delegated authority is a Delegated Access Grant (DL-57)** | Audience, disclosure, surface, urgency, confirmation | Explicitly configured care obligations only | **Preferred delivery and presentation** | A **person**, or an environmental executor | Configured rule, consent, audience evaluation, escalation, and **why nothing was said** | **DL-47** + consent-lifecycle floors | Recorded acknowledgement or administration | **A** for ownership, including delegated care authority (**DL-57**) |
 | **Washing-Machine Leak Protection** | *Water where it shouldn't be matters; stop it if you can* | Leak sensor Fact; valve state | **None** for assessment | Household autonomy ceiling for shutoff | Autonomous shutoff; urgency entitlement | Water-protection obligation; inspection follow-on | **None** | **HA automation or service call** | Sensor, policy, availability, action, and **non-action** | Trace + obligation history; sensor state stays in Recorder | Sensor dry **and** inspection discharged | **A** for ownership; **U** for executor evidence (**OD-64**), urgency (**OD-46**) |

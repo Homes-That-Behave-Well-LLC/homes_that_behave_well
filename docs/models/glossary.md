@@ -930,12 +930,51 @@ Model: [stewardship.md](stewardship.md)
 
 **Significance**
 A **Stewardship judgement about a household declaration** — why something matters, and how strongly —
-recorded with **provenance** naming its origin: household decision, manufacturer guidance, regulation,
-or learned suggestion. It is **not** a Truth fact and **not** an Operational Trust policy. **Price,
-appraisal, sensor count, Identity participation, residency, and registration confer no significance**,
-and **HTBW defines no ranking of people, animals, possessions, spaces, or households**. Representation
-is **OD-21**.
+represented as a **Significance Declaration** (**DL-75**). It is **not** a Truth fact and **not** an
+Operational Trust policy. **Price, appraisal, sensor count, Identity participation, residency, and
+registration confer no significance**, and **HTBW defines no ranking of people, animals, possessions,
+spaces, or households**.
 Model: [stewardship.md](stewardship.md)
+
+**Significance Declaration (DL-75)**
+The structured, machine-readable representation of Significance: **Derivation Source**, **Base
+Significance**, **Provenance**, and **Effective Version** — four independently addressable fields,
+never collapsed into one combined text value, a numeric score, or a probability. A household-facing
+explanation may use natural language; the canonical model retains the structured fields underneath it.
+
+**Derivation Source (DL-75)**
+Answers *why does this obligation matter?* — Safety, Health, Security, Preservation, Value, Routine
+Maintenance, Cost of Deferral, or Household Declaration. Mandatory for an accepted, declared
+Significance. Independent of **Base Significance**: the same Derivation Source may later coexist with
+a different Base Significance if the household's declaration changes.
+
+**Base Significance (DL-75)**
+Answers *how much does this matter, under its accepted declaration?* — exactly four canonical ordered
+levels: **Routine < Important < Significant < Critical**. Importance language only — **never**
+confidence, probability, truth, identity, accuracy, evidence quality, risk, urgency, issue severity, or
+confirmation strength. Structurally typed and owned by Stewardship; never represented as an unqualified
+`level`, `confidence`, `priority`, or `severity` field. **Comparable across every Stewardship subject in
+a household** (Person, Pet, Asset, Device, Room, Home, Care Definition, Obligation) as one ordinal
+meaning — but equal Base Significance never means equal action, equal risk, an erased Derivation
+Source, or a silently resolved conflict between obligations. Structurally distinct from **DL-39**
+Identity Confidence, **DL-58** Truth Confidence, **DL-73** Behaviour Source Confidence, **DL-74**
+Unknown Actor hypothesis vocabulary, Operational Trust risk classification, and **OD-22**'s escalation
+ladder — no conversion is ever made between Base Significance and any of these.
+
+**Research-Based Recommendation (DL-75)**
+A non-authoritative **Suggestion**-stage proposal (the existing **P26**/**DL-21** learning promotion
+ladder) informed by external knowledge — manufacturer guidance, veterinary or conservation guidance,
+professional standards, or cited LLM-assisted research — proposing a Derivation Source and/or Base
+Significance. Preserves source citations, research date, scope, subject applicability, limitations,
+and research provenance. **LLM output alone is not household authority** and never becomes policy
+automatically.
+
+**Observed-Household Recommendation (DL-75)**
+A non-authoritative **Suggestion**-stage proposal based on governed observations of household behaviour
+(the same **P26**/**DL-21** ladder), proposing a Derivation Source and/or Base Significance change.
+Preserves supporting observations, observation period or scope, provenance, limits, and consent/privacy
+constraints. **Observed behaviour alone is not household intent** and never becomes policy
+automatically.
 
 **Role**
 A named position a person holds in the Home or in a Room, used by Operational Trust to derive

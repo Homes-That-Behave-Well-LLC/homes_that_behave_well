@@ -591,6 +591,7 @@ This model *is* the explainability requirement. Every other canonical document r
 | ID | Question |
 |---|---|
 | OD-05 | Decision Trace retention floor and ceiling |
+| OD-21 | **Closed — DL-75.** An obligation's referenced Significance Declaration (Derivation Source, Base Significance, Provenance, Effective Version) is referenced by its **Effective Version at the time of the decision** (**P30**), never copied, so a past explanation reports the declaration that was in force then, even after the household later changes it |
 | OD-29 | Where Decision Traces are persisted — Home Assistant logbook, connected storage, or both, including purge exemption and Governed Reference resolvability |
 | OD-30 | Which surfaces expose Decision Traces, and to whom |
 | OD-35 | Historical query surface and access |

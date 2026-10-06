@@ -60,7 +60,9 @@ reminder, advisory, maintenance task, corrective action, or escalation is a late
 - A Custody Period lifecycle of `opened`, `updated`, `closed`, `corrected`, `adversely_resolved`
 - **`met` means satisfied to date, not completed.** A condition state describes the world now, not a
   completion; `met` is never asserted from absence
-- Significance judgements with provenance
+- A **Significance Declaration (DL-75)** — Derivation Source, Base Significance (`Routine` < `Important`
+  < `Significant` < `Critical`), Provenance, and Effective Version, each independently addressable, with
+  provenance
 - Accountability — who is responsible
 - **Caretaker assignment**, recorded through the Foundation caretaker-of relationship type. Foundation
   defines the relationship; Stewardship owns the assignment. **The relationship records
@@ -150,7 +152,7 @@ They are not collapsed.
 
 | Consumer | May rely upon |
 |---|---|
-| Operational Trust | Significance, to classify risk and set confirmation requirements |
+| Operational Trust | Significance, to classify risk and set confirmation requirements. **Significance is never itself the risk classification or the confirmation requirement (DL-75)** |
 | Concierge | Obligation state, significance, accountability, and escalation intent |
 | Continuity | Care experiences that may be resumed or deferred |
 
@@ -162,6 +164,11 @@ They are not collapsed.
 - That `unknown` obligation state means compliance
 - That significance is a Truth fact
 - That significance was assigned by the framework rather than declared by the household
+- That Base Significance converts to or implies Identity Confidence, Truth Confidence, Behaviour Source
+  Confidence, an Operational Trust risk class, a confirmation requirement, or an escalation rung
+  (**DL-75**)
+- That equal Base Significance across two obligations means equal action, equal risk, or a silently
+  resolved conflict (**DL-75**)
 - That Stewardship has established the current condition — Truth did
 - That a completed list item, a dismissed reminder, or a requested action is evidence that care occurred
 
@@ -222,7 +229,7 @@ and who is accountable.
 
 | ID | Question |
 |---|---|
-| OD-21 | How significance is expressed — ordinal band, score, or household vocabulary |
+| OD-21 | **Resolved as DL-75.** Significance is a structured Significance Declaration — Derivation Source, Base Significance, Provenance, Effective Version — structurally separate from DL-39, DL-58, DL-73, DL-74, Operational Trust risk classification, and OD-22's escalation ladder |
 | OD-22 | Escalation ladder semantics and defaults |
 | OD-23 | Whether obligations project into Home Assistant calendars, `todo` entities, or a connected store |
 | OD-75 | **Resolved as DL-48 and DL-49.** Condition and lifecycle are orthogonal; deferral and closure are lifecycle transitions carried by Change Records; the **Care Evidence Record** defines accepted completion evidence; custody is a Stewardship-owned **Custody Period**. Grouping remains a projection concern (**OD-23**) |

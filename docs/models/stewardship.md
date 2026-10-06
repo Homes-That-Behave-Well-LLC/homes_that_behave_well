@@ -456,15 +456,51 @@ and from *"a grant existed but did not cover this operation."*
 Significance is what makes Stewardship more than a task list. It expresses **why something matters**
 and how strongly, so that Concierge can prioritise and Operational Trust can classify risk.
 
-Significance may derive from:
+Significance is represented as a **Significance Declaration (DL-75)** — a structured combination of
+four independently addressable fields, never a single combined text value, a numeric score, or a
+probability:
 
-- Value (financial, irreplaceable, sentimental)
-- Safety consequence
-- Security consequence
-- Health consequence (person or pet)
-- Preservation consequence (an asset degraded by conditions)
-- Cost of deferral
-- Household-declared importance
+| Field | Answers | Statement |
+|---|---|---|
+| **Derivation Source** | *Why does this matter?* | Mandatory. Value, Safety, Health, Security, Preservation, Cost of Deferral, or Household Declaration |
+| **Base Significance** | *How much does this matter, under its accepted declaration?* | **Routine < Important < Significant < Critical** |
+| **Provenance** | *Who declared it, and from what origin?* | Household decision, manufacturer guidance, regulation, or an accepted recommendation |
+| **Effective Version** | *Which declaration was in force when?* | Versioned; prior declarations are never rewritten |
+
+A household-facing explanation may use natural language — *"the piano matters more than the shades"* —
+but the canonical model retains these four fields underneath it.
+
+### Derivation Source is independent of Base Significance
+
+The same Derivation Source may later coexist with a different Base Significance if the household
+changes its declaration, or if another governed, accepted declaration replaces it. A routine-maintenance
+obligation and a health obligation may each independently carry any Base Significance level; nothing
+pairs a Derivation Source with a fixed Base Significance.
+
+### Base Significance is importance language, never confidence language
+
+`Routine`, `Important`, `Significant`, and `Critical` express **household-declared importance only**.
+They never express confidence, probability, truth, identity, accuracy, evidence quality, risk, urgency,
+issue severity, or confirmation strength. **No conversion is ever made** between Base Significance and
+**DL-39** Identity Confidence, **DL-58** Truth Confidence, **DL-73** Behaviour Source Confidence,
+**DL-74**'s Unknown Actor hypothesis vocabulary, Operational Trust's risk classification or confirmation
+requirements, Home Assistant's `IssueSeverity`/Repairs severity, or **OD-22**'s escalation ladder.
+Critical Significance never implies High Risk or Very High Truth Confidence; Routine Significance never
+implies Low Urgency; Important Significance never auto-sets a confirmation requirement; High Identity
+Confidence never raises Significance.
+
+### Base Significance is comparable across every Stewardship subject
+
+A Critical pet-health obligation, a Critical piano-preservation obligation, and a Critical safety
+obligation all use the same household-wide Significance meaning — comparable across Person, Pet, Asset,
+Device, Room, Home, Care Definition, and Obligation, so Concierge and Operational Trust can consume one
+consistent ordered representation.
+
+**Equal Base Significance does not mean equal action, equal risk, or a silently resolved conflict.**
+Equal Base Significance never erases the Derivation Source, and never by itself authorises automatic
+prioritisation without the applicable governing policy. Where the rare-book collection and the piano
+want incompatible humidity, **both obligations are surfaced with their significance, and the conflict is
+never silently resolved** (`stewardship-obligations.md` Scenario 6).
 
 Significance is a Stewardship judgement **about a household declaration**, recorded with provenance.
 It is **not** a Truth fact and **not** an Operational Trust policy, and it is **not an independent
@@ -473,7 +509,28 @@ guidance, regulation, or a learned suggestion, that origin is recorded and remai
 origin never becomes an autonomous policy without acceptance by a person with authority (**P26**,
 **DL-21**).
 
-How significance is expressed — ordinal band, score, or household-defined vocabulary — is **OD-21**.
+### Recommendations never become policy automatically
+
+A **Research-Based Recommendation** is informed by external knowledge relevant to a specific subject or
+obligation — manufacturer guidance, veterinary or conservation guidance, professional standards, or
+LLM-assisted research grounded in cited sources. An **Observed-Household Recommendation** is based on
+governed observations of household behaviour. Both are non-authoritative **Suggestion**-stage proposals
+under the existing learning promotion ladder (**P26**, **DL-21**,
+[../architecture/behavioral-governance.md](../architecture/behavioral-governance.md)) — distinguished
+from each other by the evidence they carry, not by a separate acceptance mechanism. Each may propose a
+Derivation Source and/or a Base Significance. **LLM output alone is not household authority. Observed
+behaviour alone is not household intent.** Neither recommendation type ever becomes policy
+automatically.
+
+Both recommendation types require an explicit household disposition — **Accept**, **Accept with
+modification**, **Reject**, or **Defer** — recorded as a governed Change Record under the same
+promotion-ladder discipline (**OD-28**). Only Accept or Accept-with-modification creates or modifies the
+Significance Declaration. The acceptance record preserves the recommendation type, its provenance, the
+proposed and accepted Derivation Source and Base Significance, the household decision maker, the
+decision timestamp, and any modification rationale. **The research or reasoning provider is never
+recorded as having made the household declaration.**
+
+How significance is expressed was **OD-21**, resolved as **DL-75**.
 
 ---
 
@@ -980,7 +1037,7 @@ collection. This preserves a useful pattern proven in the reference implementati
 
 | ID | Question |
 |---|---|
-| OD-21 | How significance is expressed — ordinal band, score, or household-defined vocabulary |
+| OD-21 | **Resolved as DL-75.** Significance is a structured Significance Declaration — Derivation Source, Base Significance (Routine < Important < Significant < Critical), Provenance, Effective Version. Research-Based and Observed-Household Recommendations are separately defined, non-authoritative Suggestion-stage proposals under the existing P26/DL-21 promotion ladder |
 | OD-22 | Escalation ladder semantics and defaults |
 | OD-23 | Whether obligations project into Home Assistant calendars, `todo` entities, or a connected store |
 | OD-75 | **Resolved as DL-48 and DL-49.** Condition and lifecycle are orthogonal; deferral and closure are lifecycle transitions carried by Change Records; the **Care Evidence Record** defines accepted evidence that care occurred; custody is a Stewardship-owned **Custody Period**. Grouping remains a projection concern (**OD-23**) |

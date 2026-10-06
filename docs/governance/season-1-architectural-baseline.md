@@ -323,7 +323,7 @@ guessed at.**
 | The home recognises a voice | **C — Planned** | **DL-50**; #161–#167 |
 | The home reminds you at the shop | **E — Blocked** | C6; **OD-77** |
 | The home recommends charging the car tonight | **E — Blocked** | C7; **OD-77**, no travel governance |
-| The home suggests shedding load during an outage | **E — Blocked** | C8; **OD-21**, **OD-51**, **OD-67** |
+| The home suggests shedding load during an outage | **E — Blocked** | C8; **OD-51**, **OD-67** |
 | The home tells a guest about the artwork | **E — Blocked** | C10; **OD-52** |
 | A question becomes a task | **E — Blocked** | C11; **OD-77**, **OD-23** |
 | The home asks a guest whether to remember them | **E — Blocked** | C13; **OD-06** |

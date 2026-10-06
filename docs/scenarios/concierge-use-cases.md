@@ -116,7 +116,7 @@ accepted decision prevails.
 | **C5** | Home Assistant remote access education | **F — Research required** | Platform verification (**#146**) |
 | **C6** | Shopping-list opportunity recognition | **E — Blocked** | **OD-77** (#148) |
 | **C7** | EV readiness and preventive guidance | **E — Blocked** | **OD-77**; no travel-demand governance |
-| **C8** | Home battery backup and resource optimisation | **E — Blocked** | **OD-21**, **OD-51**, **OD-67** |
+| **C8** | Home battery backup and resource optimisation | **E — Blocked** | **OD-51**, **OD-67** |
 | **C9** | Guest capability discovery and vocabulary education | **B — Architecturally supported** | **OD-59**, **OD-13** |
 | **C10** | Guest-asset interpretation and household storytelling | **E — Blocked** | **OD-52** (#100) |
 | **C11** | Asset knowledge becomes household action | **E — Blocked** | **OD-77**, **OD-23** |
@@ -365,7 +365,7 @@ worth listening to.
 | **Retention and expiry** | Notification history and prior deferral are **Communication** records under **DL-47** |
 | **Failure and degradation** | No reliable travel estimate → say less, not more. **Degrade the claim, never the governance** |
 | **Maturity** | **E — Blocked** |
-| **Open decisions** | **OD-77** (person-to-calendar association), **OD-21** (significance representation), **OD-51** (interruption risk classes) |
+| **Open decisions** | **OD-77** (person-to-calendar association), **DL-75** (significance representation, resolved), **OD-51** (interruption risk classes) |
 
 ### Guardrails
 
@@ -398,7 +398,7 @@ keep the important things running longer — **and asks first**.
 | **Failure and degradation** | No circuit-level visibility → give **truthful degraded** advice. *"I can see total consumption but not which circuits"* is a complete answer |
 | **Privacy** | Medical-equipment dependency is among the most sensitive facts a household holds and is never disclosed to a shared surface |
 | **Maturity** | **E — Blocked** |
-| **Open decisions** | **OD-21** significance representation, **OD-51** risk classes, **OD-67** whether a provider may compute options |
+| **Open decisions** | **DL-75** significance representation (resolved), **OD-51** risk classes, **OD-67** whether a provider may compute options |
 
 ### Guardrails
 
@@ -768,7 +768,7 @@ judgement the home never made.
 | 3 | Transient conversation state expires | Context assembly | Truth, Continuity | **B** | **DL-59** values (household configuration) | Forgetting on purpose is a feature |
 | 4 | The shopping list becomes useful at the store | Opportunity recognition | Identity, Truth, Continuity | **E** | **OD-77** | Help arrives at the moment it is useful |
 | 5 | EV readiness considers charging and future need | Preventive guidance | Truth, Stewardship | **E** | **OD-77**; no travel governance | The home looks one day ahead |
-| 6 | Battery backup prompts resource preservation | Recommendation and confirmation | Truth, Stewardship | **E** | **OD-21**, **OD-51** | The home advises; the household decides |
+| 6 | Battery backup prompts resource preservation | Recommendation and confirmation | Truth, Stewardship | **E** | **OD-51**, **OD-67** | The home advises; the household decides |
 | 7 | A guest asks what can be done in the Den | Capability discovery | Foundation, Operational Trust | **B** | **OD-59** | Hospitality is orientation, not a manual |
 | 8 | A guest asks about the artwork | Experience storytelling | Stewardship, Foundation | **E** | **OD-52** | The house tells its own story, in the household's words |
 | 9 | Piano maintenance becomes a follow-up task | Knowledge-to-action continuation | Stewardship, Continuity | **E** | **OD-77**, **OD-23** | A question turns into a commitment without repeating yourself |
@@ -804,7 +804,7 @@ judgement the home never made.
 | 17 | Existing relationship use | **Blocked** — **OD-06**, **OD-15** |
 | 18 | Outcome interpretation | **Already accepted** — §3 *interpretation of intent*, *selection among permitted actions*, *conflict resolution* |
 | 19 | Knowledge-to-action continuation | **Blocked** — **OD-77**, **OD-23** |
-| 20 | Resource optimisation | **Blocked** — **OD-21**, **OD-51**, **OD-67** |
+| 20 | Resource optimisation | **Blocked** — **OD-51**, **OD-67** |
 | 21 | Preventive guidance | **Partially represented** — Stewardship obligations exist; the forward-looking estimate has no governance |
 | 22 | Opportunity recognition | **Partially represented** — *any responsibility may originate a Communication*; the opportunity trigger is per-originator |
 | 23 | Capability discovery | **Already accepted** — room-configuration-contract, **DL-41** |
