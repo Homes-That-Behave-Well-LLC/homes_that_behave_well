@@ -307,14 +307,17 @@ attribution or named presentation, and it must **never imply that identity autho
 that required none**. The flattering version of a decision is not permitted to displace the accurate
 one.
 
-### Explainability Evidence Record (architectural hypothesis, not accepted architecture)
+### Explainability Evidence Record (accepted as DL-73; OD-63 closed)
 
-> **Status: architectural hypothesis / open-decision input.** Not Accepted. Not Final. Not Canonical.
-> Not implemented. Not validated. It is recorded so a real line of evidence-based reasoning is not
-> lost before **OD-63**, **OD-38**, **OD-64**, **OD-72**, and **OD-29** take it up, and it is expected
-> to be refined — possibly materially — by further Production evidence, by Identity implementation
-> experience, by Voice Identity research, by Concierge implementation, by further Home Assistant
-> capability mapping, by runtime validation, and by household scenarios beyond voice.
+> **Status: accepted architecture.** OD-63 is closed as **DL-73**. The Source, Execution, Outcome, and
+> Explanation stages below are confirmed against real Production evidence (the Primary Bedroom Good
+> Morning voice incident, the Pantry Assist Debug retained pipeline example, and the Tom's Office
+> overhead light investigation), and **Decision Authority** — the concept this hypothesis originally
+> lacked — is accepted alongside them. **Person/Actor** as a stage name and the "Triggering
+> Occurrence" stage are reconciled, not separately adopted: Actor is Identity's existing
+> assertion-purpose model, and the triggering occurrence is folded into **Source** rather than kept as
+> a seventh position, because **Trigger**/**Domain Event** already name that concept. The canonical
+> chain is **Actor → Source → Decision Authority → Execution → Outcome → Explanation**.
 
 The October 2026 Voice Explainability investigation first named this as **Voice Interaction
 Evidence**. Working the same reasoning against a non-voice case (a wall switch, a kiosk selection, an
@@ -386,17 +389,27 @@ Room Presence evidence. It is not a new fusion mechanism and must not be read as
 > physically pressed the switch** — the assertion remains a purpose-specific, confidence-bearing
 > candidate, exactly as DL-38 already requires, capable of returning **Unknown** or **No Person**.
 
-#### Genuinely open residual
+#### Resolved residual (OD-63 closed as DL-73)
 
-**The one question this hypothesis raises that is not yet answered anywhere** is **OD-63**'s own
-stated residual: *"the enumeration of behaviour sources, the evidence required to assert each, the
-confidence representation, and how unattributed is represented."* Put concretely: voice evidence
-carries Pipeline ID, Pipeline Run ID, Conversation ID, and Satellite ID; a kiosk interaction would
-carry different native identifiers; a wall-switch press carries a device and entity identifier only.
-**Whether a single source-neutral evidence shape is required, or whether each Behaviour Source
-category simply states its own native evidence fields under OD-63's existing ownership, is not
-decided here** — this is explicitly reserved for OD-63, informed by this hypothesis, OD-38's
-correlation-identifier question, and OD-64's platform-evidence-capture question.
+**Evidence-per-source is resolved via a generative test, not an enumerated table.** The Known/
+Probable/Unknown Source tier applies uniformly to any Behaviour Source by the same same-context-
+evidence shape already demonstrated for Voice, Dashboard/App, Occupancy Automation, Native Automation,
+Script, Schedule, and Probable Physical Wall Switch/Dimmer; a native script, a scene activation, or an
+external non-autonomous integration is classified by the identical test, not by a bespoke per-item
+statement. **Whether a single source-neutral evidence shape is required, or whether each Behaviour
+Source category states its own native evidence fields, is immaterial under the generative test** —
+both produce the same Known/Probable/Unknown outcome from the same underlying evidence.
+
+**Alternative-explanation handling is resolved**: HTBW never presents competing candidate sources as
+parallel outputs; it returns the single best-supportable attribution, or Unknown Source where none
+reaches threshold, and a recurring Unknown Source is itself governance evidence.
+
+**Revision-additivity is resolved by inheritance**, not by a new mechanism: the existing Change Record
+immutability discipline (**DL-26**, **DL-27**) and **DL-35**'s identical rule for the Unknown Actor
+Reference already require that a later observation never rewrites an earlier attribution record.
+
+**No open residual remains under OD-63.** OD-38, OD-64, and OD-72 remain independently open on their
+own questions, narrowed but not decided by this closure.
 
 #### An existing tension this hypothesis must not silently resolve
 

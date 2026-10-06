@@ -958,10 +958,57 @@ What is currently happening, expressed as a Truth fact — for example "a conver
 > See [temporal-record.md](temporal-record.md).
 
 **Behaviour Source**
-What caused an observed change — a resident interaction, a native automation, a script, a scene, a
-manual physical interaction, an HTBW decision, an HTBW adaptive policy, an external integration, an
-external autonomous policy engine, a reasoning-provider recommendation, or **unknown**. Recorded as
-attribution on a Domain Event. **Never inferred from timing alone.**
+What initiated an observed change — direct resident interaction (voice or dashboard/app), a native
+Home Assistant automation, a native script, a scene activation, manual physical interaction with a
+device, an external non-autonomous integration, or **unknown**. Recorded as attribution on a Domain
+Event. **Never inferred from timing alone.** Carries a **Source Confidence** tier (**DL-73**):
+**Known Source** (direct evidence — a same-context sibling execution event, or a `context_user_id`
+match), **Probable Source** (evidence-supported inference — no competing source evidence, consistent
+with a per-integration-verified device pattern), or **Unknown Source** (insufficient evidence — a
+valid, sufficient, final answer, never a guess). **An HTBW-governed decision, an HTBW learned or
+adaptive policy, an external autonomous policy engine, and a reasoning-provider recommendation are
+not Behaviour Sources** — they are **Decision Authorities** (**DL-73**).
+
+**Alternative-explanation handling (DL-73)**: HTBW never presents competing candidate sources as
+parallel explainability outputs. It returns the single best-supportable attribution, or **Unknown
+Source** where no candidate reaches the Known or Probable threshold. A recurring Unknown Source is
+itself governance evidence — a signal of missing telemetry, missing integration support, or an
+uncovered category — never a defect to conceal.
+
+**Decision Authority**
+*Why was the decision made* — which responsibility, configured policy, or reasoning process
+determined an outcome. Representative examples: **Asset Intelligence** (a significance evaluation),
+**Stewardship** (an obligation determination), **Continuity** (a restored preference), **Concierge**
+(a household-decision evaluation), the **resident** (a direct request), an **Occupancy Automation**
+(its own configured rule), an **HTBW-governed decision**, an **HTBW learned or adaptive policy**, an
+**external autonomous policy engine**, or a **reasoning-provider recommendation**. Formally distinct
+from **Behaviour Source** (*what initiated this*) and from **Execution** (*what Home Assistant or
+another authorized environment actually did*) (**DL-73**). The explainability preference order is
+Decision Authority, else Source, else the originating integration, else **unknown** — applied only
+where the Decision Trace's own evidence supports the richer explanation; **unknown** remains fully
+valid and sufficient. **HTBW Attribution applies in both directions**: to activities HTBW merely
+observes within Home Assistant, and to activities HTBW itself decides and executes through Home
+Assistant — in the latter case the resulting Domain Event's Decision Authority attribution references
+the Decision Trace that produced it, without merging the two record kinds.
+
+**Canonical Explainability Chain (DL-73)**
+**Actor → Source → Decision Authority → Execution → Outcome → Explanation.** A sequencing
+clarification layered over already-accepted architecture, never a replacement: Actor is Identity's
+existing assertion-purpose model; Source is the Behaviour Source enumeration carrying its Source
+Confidence tier; the triggering occurrence is the existing **Trigger**/**Domain Event** concept,
+folded into Source rather than a separate stage; Execution, Outcome, and Explanation are the existing,
+already-owned concepts this chain names in sequence.
+
+**Person Attribution (DL-73)**
+The person-dimension of Behaviour Attribution, carrying exactly three states: **Known Person** (a
+`known` Identity Assertion exists), **Unknown Person** (a person may have been involved but Identity
+cannot determine who — the existing **Unknown Person** state above, unchanged), or **No Person** (no
+person participated in the decision at all — the attributed Decision Authority or Source is itself
+non-person, for example Asset Intelligence, Stewardship, Continuity, a schedule, or an automation).
+**No Person is not a fourth Identity state**; it is the attribution-layer statement that Identity was
+never invoked for this occurrence. **Guest remains a trust-and-permissions construct, never an
+attribution state**; an Unknown Person may receive Guest-equivalent permissions through Operational
+Trust without creating any Identity Assertion binding the two (**DL-33**, **DL-71**).
 
 **Learned Suggestion**
 An observed pattern offered for approval. It is not a preference and not a policy until a person with

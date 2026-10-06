@@ -1041,6 +1041,65 @@ acted. Identity earned the home the right to say *Tom* — nothing more.
 
 ---
 
+## Scenario 62 — "Why did the exhaust fan turn on?" (Source versus Decision Authority)
+
+### What the household experiences
+
+Tom asks why the piano-room exhaust fan turned on. The honest answer has two distinct parts, and the
+home does not collapse them into one.
+
+### The expected architectural result
+
+> "The humidity sensor crossed the healthy range for the piano, and Asset Intelligence turned the fan
+> on because of it."
+
+| Element | Supplied by |
+|---|---|
+| Source — *what initiated this* | The humidity sensor's state change (**Known Source** — a same-context-id sibling execution event) |
+| Decision Authority — *why the decision was made* | Asset Intelligence's own significance evaluation against the piano's declared environmental limit |
+| Execution | A Home Assistant automation calling `fan.turn_on` |
+
+**Source and Decision Authority are never collapsed.** "Humidity sensor triggered fan" is true but
+shallower; "Asset Intelligence turned on the fan because humidity exceeded the healthy range for the
+piano" is preferred **because the evidence supports it**, per the explainability hierarchy — Decision
+Authority, else Source, else the originating integration, else Unknown (**DL-73**). Where the Decision
+Authority's own reasoning is not evidenced, the home falls back to naming the Source rather than
+inventing a richer explanation it cannot support.
+
+---
+
+## Scenario 63 — A physical wall switch, and what the home does not say
+
+### What the household experiences
+
+Tom asks why the office overhead light turned on. No voice request, no dashboard action, and no
+automation_triggered sibling event exists for that exact context.
+
+### The expected architectural result
+
+> "It turned on, consistent with the wall switch — there's no automation, dashboard action, or voice
+> request tied to that change."
+
+| Element | Outcome |
+|---|---|
+| Classification | **Probable Source** — a root-context state change with no competing source evidence, consistent with a documented, per-integration-verified device pattern for this entity-backed device class (**DL-30**, **DL-73**) |
+| What the home does not say | It does not say "you turned on the light," because no Identity Assertion supports that, and it does not say "I don't know," because the device pattern does support a specific, named explanation |
+| Prohibited | Presenting this alongside other unproven candidates as a list of equally-weighted theories. **HTBW never returns parallel candidate explanations** — it returns this one, best-supportable attribution |
+
+### A variant: no pattern is verified
+
+Where the integration's physical-interaction behaviour has **not** been verified (**DL-30**'s burden of
+proof undischarged), the same occurrence is **Unknown Source**, not Probable Source — a documented
+pattern is required, never assumed from device type alone.
+
+> "It turned on. I can't tell you what caused it."
+
+**A recurring Unknown Source for the same device is itself governance evidence** — it may indicate a
+missing or unverified device pattern, missing integration telemetry, or an uncovered Behaviour Source
+category, surfaced for review rather than silently tolerated or quietly upgraded to a guess.
+
+---
+
 ## Explanation quality rules
 
 1. Use **household vocabulary**, never entity IDs or internal service names.

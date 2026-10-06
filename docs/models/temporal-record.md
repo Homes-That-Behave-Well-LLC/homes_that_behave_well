@@ -180,26 +180,95 @@ Distinguishable behaviour sources, where the evidence permits:
 | A native Home Assistant automation | Platform-supplied execution evidence |
 | A native script | Platform-supplied execution evidence |
 | A scene activation | Platform-supplied execution evidence |
-| Manual physical interaction with a device | Device or integration reporting |
-| An HTBW-governed decision | The Decision Trace |
-| An HTBW learned or adaptive policy | The approved policy version, and the Decision Trace |
-| An external integration | The source integration, where identifiable |
-| An external autonomous policy engine | A declared delegation boundary |
-| A reasoning-provider recommendation | The consultation record, and the decision that accepted it |
+| Manual physical interaction with a device | Device or integration reporting, where the integration documents it; otherwise graded **Probable Source** below |
+| An external, non-autonomous integration | The source integration, where identifiable |
 | **Unknown or unattributed** | Nothing — and this is recorded honestly |
 
 > **Do not force attribution where evidence is absent.** *Unattributed* is a valid, first-class
 > outcome. An invented cause is worse than an acknowledged gap.
 
-**Attributing an occurrence to a person is bounded by Identity.** It relies on Identity's assertion
-and confidence, and **never establishes an identification of its own**. Where confidence is
-insufficient, the occurrence is recorded without a person. A source classification also **does not
-mean HTBW owns that source**: naming an automation, an integration, or an external policy engine
-identifies a participant, not a possession.
+### Decision Authority (DL-73)
 
-Attribution **references** native objects; it does not copy them (**P30**). The enumeration and the
-evidence thresholds are **OD-63**; the platform-supplied evidence model is **OD-64**; correlation
-identifiers remain **OD-38**.
+**An HTBW-governed decision, an HTBW learned or adaptive policy, an external autonomous policy
+engine, and a reasoning-provider recommendation are Decision Authorities, not Behaviour Sources.**
+They answer *why* a decision was made, never *what initiated* the occurrence:
+
+| Decision Authority | Established by |
+|---|---|
+| An HTBW-governed decision | The Decision Trace |
+| An HTBW learned or adaptive policy | The approved policy version, and the Decision Trace |
+| Asset Intelligence | Its own significance evaluation (representative example, not an exhaustive list) |
+| Stewardship | Its own obligation determination |
+| Continuity | A restored preference it supplied |
+| Concierge | A household-decision evaluation it assembled |
+| An external autonomous policy engine | A declared delegation boundary (**OD-66**) |
+| A reasoning-provider recommendation | The consultation record, and the decision that accepted it |
+
+**HTBW Attribution applies in both directions**: to activities HTBW merely observes within Home
+Assistant, and to activities HTBW itself decides and executes through Home Assistant. In the second
+case, the resulting Domain Event's Decision Authority attribution **references** the Decision Trace
+that produced it — the two record kinds are never merged, and a Decision Trace still exists only
+where HTBW decided.
+
+### Source Confidence (DL-73)
+
+Each attributed Behaviour Source carries exactly one of three tiers, structurally distinct from
+**DL-39** Identity confidence and **DL-58** Truth confidence, and never reused by **OD-72**'s
+unknown-actor correlation work:
+
+| Tier | Established by |
+|---|---|
+| **Known Source** | Direct evidence — a same-context-id sibling execution event (a `call_service` or `automation_triggered` event sharing the occurrence's own context), or a `context_user_id` matching an authenticated platform user |
+| **Probable Source** | Evidence-supported inference — a root-context occurrence with no competing source evidence, consistent with a documented, **per-integration-verified** (**DL-30**) device behaviour pattern — for example a physical wall-switch or dimmer interaction on an entity-backed device under a Local-Push integration independently verified to emit no distinct interaction event for that device class |
+| **Unknown Source** | Insufficient evidence — the honest, sufficient, final answer wherever neither tier is met |
+
+**Alternative-explanation handling (DL-73)**: where no candidate source meets the Known Source or
+Probable Source threshold, the attribution is **Unknown Source**. HTBW **never presents competing
+source theories as parallel explainability outputs** — it does not return "Candidate A / Candidate B
+/ Candidate C" as alternatives; it returns the single best-supportable attribution, or Unknown Source
+where none reaches threshold. **A recurring Unknown Source pattern is itself governance evidence**:
+it may indicate missing telemetry, missing integration support, a new Behaviour Source category, a
+new Decision Authority category, or an unsupported attribution pattern. Unknown Source is therefore
+both a valid explainability result and a governance discovery mechanism.
+
+**Decision Authority is a separate, formally distinct concept** (**DL-73**): Source answers *"what
+initiated this"*; Decision Authority answers *"why was the decision made"* — which responsibility,
+configured policy, or reasoning process determined the outcome; Execution remains a third, already-
+distinct concept (what Home Assistant or another authorized environment actually did). **The three
+are never collapsed.**
+
+**Canonical Explainability Chain (DL-73)**: **Actor → Source → Decision Authority → Execution →
+Outcome → Explanation** — a sequencing clarification over already-accepted architecture. The
+preferred explainability hierarchy is **Decision Authority, else Source, else the originating
+integration, else Unknown**, applied only where the Decision Trace's own evidence supports the richer
+explanation; **Unknown remains fully valid wherever it does not.**
+
+### Person Attribution (DL-73)
+
+**Attributing an occurrence to a person is bounded by Identity.** It relies on Identity's assertion
+and confidence, and **never establishes an identification of its own**. Person Attribution carries
+exactly three states: **Known Person** (a `known` Identity Assertion exists); **Unknown Person** (a
+person may have been involved but Identity cannot determine who — **DL-33**'s existing `unknown`
+state, unchanged); **No Person** (no person participated in the decision at all — the attributed
+Decision Authority or Source is itself non-person: Asset Intelligence, Stewardship, Continuity, a
+schedule, or an automation may all result in No Person). **No Person is not a fourth Identity
+state** — it is the attribution-layer statement that Identity was never invoked for this occurrence.
+Where confidence is insufficient for a person, the occurrence is recorded without one. A source
+classification also **does not mean HTBW owns that source**: naming an automation, an integration, or
+an external policy engine identifies a participant, not a possession. **Guest remains a trust-and-
+permissions construct, never an attribution state**; an Unknown Person may receive Guest-equivalent
+permissions through Operational Trust without creating any Identity Assertion binding the two
+(**DL-33**, **DL-71**).
+
+**Revision is additive**: a later observation may improve an attribution's tier or supply a Decision
+Authority where none was previously known, but the original record is never rewritten — inherited
+from the existing Change Record immutability discipline (**DL-26**, **DL-27**) and **DL-35**'s
+identical rule for the structurally analogous Unknown Actor Reference. No new revision mechanism is
+created for attribution specifically.
+
+Attribution **references** native objects; it does not copy them (**P30**). The enumeration, the
+evidence thresholds, and the confidence representation are **resolved as OD-63 / DL-73**; the
+platform-supplied evidence model is **OD-64**; correlation identifiers remain **OD-38**.
 
 **A Domain Event is not a Decision Trace.** It records that something occurred. Only Concierge
 records why HTBW decided. **A Domain Event and a Decision Trace are not interchangeable.**
