@@ -653,10 +653,18 @@ settled by **DL-42**, **DL-44**, **DL-46**, and **DL-47**; **OD-34 is closed**. 
 Neither is resolved here. Communication object persistence is **OD-42**, and communication retention
 floors and ceilings are **OD-49**. Neither is resolved here.
 
-**Home Assistant Storage helper documentation could not be verified during the temporal-record
-review. OD-01's residual must not be closed based on assumed Storage helper behaviour.** OD-34 closed
-without relying on any such assumption, because the persistence *model* never depended on the
-mechanism.
+**Update (2026-10-06, Issue #146 verification pass).** The `Store` helper mechanism itself is now
+**partially verified against `home-assistant/core` source** — see
+[home-assistant-boundary.md, "Storage helper mechanism (item 1)"](home-assistant-boundary.md#storage-helper-mechanism-item-1-2026-10-06)
+for the full DL-30 record. **What is now established**: disk persistence under `.storage/<key>` as
+versioned JSON with migration support, debounced (`async_delay_save`) and immediate (`async_save`)
+write paths, optional atomic writes, and a documented corruption-recovery path (rename-and-continue,
+never silent data loss). **What remains unverified**: whether `.storage/` content is included in
+Home Assistant's native Backup feature, and whether Store-backed files are ever presented to a
+resident as removable configuration the way a config entry is. **OD-01's residual must not be closed**
+on the strength of this partial verification — the backup-coverage and removable-configuration
+questions are still open, and OD-34 closed without relying on any Storage helper assumption, because
+the persistence *model* never depended on the mechanism.
 
 **The artifact declarations above are a requirement, not a schema.** Requiring every artifact to
 state its class, owner, parent, lifecycle, interaction model, and cleanup behaviour decides nothing

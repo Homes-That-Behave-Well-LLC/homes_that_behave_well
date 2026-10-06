@@ -98,6 +98,100 @@ outcome, and a genuine Truth conflict's published outcome (reduced confidence, u
 `unknown`) exists only as a Truth Fact, never as a second copy of, or edit to, native state. See
 `truth.md`, *Genuine Truth Conflict (DL-63)*.
 
+### Issue #146 verification pass (2026-10-06)
+
+Evidence produced against the Issue #146 verification backlog. **This section records verification
+outcomes only. No architecture decision is made here, no ownership boundary changes, and no open
+decision is closed.** Home Assistant Core source was consulted under the Issue #146 authority order
+(official documentation first, source only where documentation was insufficient), pinned to
+`home-assistant/core` commit
+[`c571d9d3a96e6fda0a23e754ca0f2906ae63ee84`](https://github.com/home-assistant/core/commit/c571d9d3a96e6fda0a23e754ca0f2906ae63ee84)
+(`dev` branch, fetched 2026-10-06) — not a tagged release, so re-confirm against the deployed stable
+release before treating any version-sensitive detail as permanent.
+
+#### Storage helper mechanism (item 1, 2026-10-06)
+
+| DL-30 element | Finding |
+|---|---|
+| Capability evaluated | `homeassistant.helpers.storage.Store` |
+| Source | `homeassistant/helpers/storage.py`, class `Store` (`async_save`, `async_delay_save`, `async_load`, `_async_write_data`, `async_remove`), home-assistant/core commit `c571d9d3a96e6fda0a23e754ca0f2906ae63ee84` |
+| Constitutional requirement served | OD-01 (governed-record persistence shape) |
+| Verified | Persists versioned JSON under `.storage/<key>` inside the Home Assistant config directory; `async_save` writes immediately, `async_delay_save` debounces; `atomic_writes=True` uses `write_utf8_file_atomic`; schema migration via `_async_migrate_func` keyed on `version`/`minor_version`; on JSON corruption the file is renamed to `<path>.corrupt.<timestamp>`, a Repairs issue (`storage_corruption_<key>_<timestamp>`, `IssueSeverity.CRITICAL`) is raised, and load returns `None` — never a silent crash or silent data loss; `async_remove()` deletes the file outright, but is called only by the owning integration's own code, never by a documented resident-facing action |
+| Remaining gap | Not established whether `.storage/` content is covered by Home Assistant's native Backup feature; not established whether a Store-backed file is ever presented to a resident as removable configuration (a **config entry** is documented as user-removable — a *different* native object, and must not be conflated with a Store file) |
+| Why a lower layer cannot satisfy it | HTBW requires an explicit, documented durability and removability classification before treating any persistence mechanism as satisfying OD-01; an unverified assumption would violate this issue's own standing rule |
+
+**Does not discharge OD-01.** Narrows it: the mechanism's durability, versioning, and failure-handling behaviour are now evidenced; backup coverage and removable-configuration framing remain open. See `connected-storage.md` for the corresponding narrowing note.
+
+#### Floor registry (item 2, 2026-10-06) — VERIFIED_SUPPORTED
+
+| DL-30 element | Finding |
+|---|---|
+| Capability evaluated | `homeassistant.helpers.floor_registry.FloorRegistry` |
+| Source | `homeassistant/helpers/floor_registry.py` (`async_create`, `async_update`, `async_delete`, `async_reorder`, `async_get_floor`, `async_get_floor_by_name`, `async_get_floors_by_alias`, `async_list_floors`, `EVENT_FLOOR_REGISTRY_UPDATED`), commit `c571d9d3a96e6fda0a23e754ca0f2906ae63ee84`; `https://developers.home-assistant.io/docs/area_registry_index/` (official, current) |
+| Constitutional requirement served | OD-10 (scope hierarchy; whether Floors are first-class) |
+| Verified | Full read and CRUD API exists for integrations; every create/update/delete/reorder fires `EVENT_FLOOR_REGISTRY_UPDATED` with `{action, floor_id}` on the event bus, so an integration may observe Floor registry changes without polling; **a Floor does not hold a membership list** — each Area registry entry instead carries its own `floor_id`, so "which Areas belong to this Floor" is answered by querying Areas, not the Floor registry |
+| Remaining gap | None for the literal item-2 question (read, membership, change-notification) |
+| Why a lower layer cannot satisfy it | Not applicable — native capability fully discharges the burden |
+
+**Discharges item 2 of Issue #146.** Does not itself decide OD-10 (#135), which retains its own governance question (whether Floors should be first-class scope) independent of this capability finding.
+
+#### Label registry (item 4, 2026-10-06) — VERIFIED_SUPPORTED
+
+| DL-30 element | Finding |
+|---|---|
+| Capability evaluated | `homeassistant.helpers.label_registry.LabelRegistry` |
+| Source | `homeassistant/helpers/label_registry.py` (`async_create`, `async_update`, `async_delete`, `async_get_label`, `async_get_label_by_name`, `async_list_labels`, `EVENT_LABEL_REGISTRY_UPDATED`), commit `c571d9d3a96e6fda0a23e754ca0f2906ae63ee84` |
+| Constitutional requirement served | OD-68 (managed label projection mechanism) |
+| Verified | Full read/CRUD API mirroring the Floor registry pattern; every mutation fires `EVENT_LABEL_REGISTRY_UPDATED` with `{action, label_id}`; **assignment is held on the assignable object's own registry entry**, not on the label — confirmed for the Area registry (`labels: set[str]`, per the official Area registry page). Device and Entity registry assignment was reasoned by the same registry architecture but **not independently re-fetched this session** |
+| Remaining gap | Device-registry and Entity-registry `labels` fields were not independently re-verified this session (reasoned by pattern only) |
+| Why a lower layer cannot satisfy it | Not applicable for the Area case; the Device/Entity case is a small residual verification, not a burden-of-proof failure |
+
+**Discharges item 4 of Issue #146** for create/read/update/delete and for Area assignment. Does not decide OD-68's own naming/seeding/reconciliation question.
+
+#### Automation and script trace retention (item 6, 2026-10-06) — PARTIALLY_VERIFIED
+
+| DL-30 element | Finding |
+|---|---|
+| Capability evaluated | Automation/script execution traces (`trace` component) |
+| Source | `homeassistant/components/trace/const.py` (`DEFAULT_STORED_TRACES = 5`, `CONF_STORED_TRACES`, `DATA_TRACE_STORE: HassKey[Store[dict[str, list]]]`), commit `c571d9d3a96e6fda0a23e754ca0f2906ae63ee84`; `https://www.home-assistant.io/docs/automation/troubleshooting/` (official, current) |
+| Constitutional requirement served | OD-64 (native behaviour observation), and through it OD-63, OD-65 |
+| Verified | Home Assistant retains the **5 most recent traces per automation or script by default**, configurable per-automation via `stored_traces:`; traces are persisted through the **same `Store` helper mechanism as item 1** (`DATA_TRACE_STORE`), so **traces survive a restart** — this corrects the 2026-09-08 review comment's framing, which left retention-across-restart as unverified; official troubleshooting documentation confirms a trace records which condition/action step a run stopped at, the entities/devices/areas an action targeted, and that "View trace" is available only "while Home Assistant still keeps the trace of that run" |
+| Remaining gap | Whether trace data is exposed through a **documented, stable integration-facing API**, as distinct from the WebSocket commands the frontend itself uses, is still not established |
+| Why a lower layer cannot satisfy it | Retention count and persistence are now native-verified; the cross-integration retrieval contract question is a distinct, still-open sub-question |
+
+**Materially advances item 6.** The non-event case (no trigger → no trace, per the 2026-08-26 Episode 9 review) is unaffected and remains a confirmed negative finding.
+
+#### Long-term statistics as a historical-aggregate source (item 12, 2026-10-06) — PARTIALLY_VERIFIED
+
+| DL-30 element | Finding |
+|---|---|
+| Capability evaluated | Recorder long-term statistics for `sensor` entities |
+| Source | `https://developers.home-assistant.io/docs/core/entity/sensor/#long-term-statistics` (official, current) |
+| Constitutional requirement served | OD-35 (historical retrieval and access) |
+| Verified | For `state_class: MEASUREMENT`, Home Assistant compiles **hourly min/max/mean every 5 minutes**; for `TOTAL`/`TOTAL_INCREASING`, it compiles a **sum** on the same cadence. The mechanism and its hourly resolution for a "brightest today"-style query are documented and current |
+| Remaining gap | Whether the statistics **retrieval** function reports an unreported interval **coverage gap** explicitly, or silently omits/interpolates it, is **not established** by this citation — this is the constitutionally load-bearing half of item 12 under `temporal-record.md`'s "a reconstruction containing an unreported gap is a defect" |
+| Why a lower layer cannot satisfy it | The compilation mechanism is native-verified; the gap-reporting behaviour of the query surface requires a further, separate source check not performed this session |
+
+**Partially discharges item 12.** The gap-reporting question remains open and must not be assumed either way.
+
+#### Already-discharged items with stale cross-references in Issue #146
+
+Four items in Issue #146's own "Remaining questions" list cite an **already-closed** open decision as
+the thing they block, and the underlying DL-30 burden for each is **already recorded elsewhere in this
+document**:
+
+| Item | Issue #146 cites as blocked | Actual status | Where already recorded |
+|---|---|---|---|
+| 5 — Presentation attestation | #121 (OD-55) | **OD-55 closed as DL-54** (`decision-ledger.md`, "Notes on the presentation attestation decision") | Per-surface evidence (Sonos, Music Assistant, `assist_satellite`, Roku, Apple TV, LG webOS, UniFi Protect, Companion App, `persistent_notification`) already verified there |
+| 7 — Repairs ignore lifecycle | #140 (OD-60) | **OD-60 closed as DL-65** | *Repairs adoption scope (DL-65)*, above in this document — "Ignoring an issue does not delete or resolve it... until the integration deletes it or the resident completes its repair flow" |
+| 8 — Assist entity exposure | #103 (OD-59) | **OD-59 closed as DL-66** | *Exposure precedence (DL-66)*, above in this document, which explicitly states the specific read/observe mechanism "remains a per-implementation DL-30 verification... and does not block this architectural rule" |
+| 9 — Conversation custom intents / pre-answer filtering | #133 (OD-62) | **OD-62 closed as DL-69** | *Governed conversational retrieval and command resolution (DL-69)*, above — the documented `async_handle_message(user_input, chat_log)` extension point means a custom Conversation agent is, by construction, the sole author of its own response and therefore the native mechanism for applying any filtering before an answer is produced |
+
+**These four items no longer block anything.** Their continued presence in Issue #146's "Remaining
+questions" and "Blocking Status" table is a stale cross-reference, not an open gap — recorded as a
+finding, not corrected in the issue body by this document (that correction belongs in the issue
+comment, not in canonical architecture text).
+
 ---
 
 ## What Home Assistant may provide
@@ -1107,6 +1201,11 @@ Do not resolve them inside a contract, model, or scenario document.
   no per-condition record, so *"which condition failed"* remains natively unanswerable, and reading
   automation configuration to assert that a condition *would have* failed remains prohibited.
 - **No accepted decision is amended, and no open decision is closed, by this section.**
+- **Update (2026-10-06, Issue #146 item 6):** **R2's retention-duration gap is now resolved.** Source
+  inspection (`homeassistant/components/trace/const.py`) confirms `DEFAULT_STORED_TRACES = 5`,
+  configurable per automation/script via `stored_traces:`, persisted through the `Store` helper so
+  traces **survive a restart**. R2's **retrievability-by-integration** gap is unchanged and remains
+  unverified. See *Issue #146 verification pass (2026-10-06)*, above.
 
 ---
 
