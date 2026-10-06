@@ -256,7 +256,7 @@ trace must be able to carry:
 | System-Initiated or Person-Requested | Which origin classification applied |
 | Requestor, where Person-Requested | The identified Person, or that requester authority could not be established |
 | Audience Composition uncertainty state | Unresolved plurality, Audience unknown, Audience detection unavailable, or contradictory evidence (**DL-34**, **DL-63**) — never collapsed into one generic "uncertain" flag |
-| Content classification | As declared by the originating responsibility (enumeration is **OD-51**'s) |
+| Content classification | As declared by the originating responsibility (enumeration is **DL-76**'s Action-Risk Class set) |
 | Room or Merged Room, and Mode | Current values considered |
 | Global uncertainty policy version, and Person-specific preference, if applied | Distinguished from the ordinary delivery preference |
 | Ordinary delivery preference, for contrast | Recorded even where the uncertainty preference overrode it |
@@ -598,6 +598,7 @@ This model *is* the explainability requirement. Every other canonical document r
 | OD-38 | Version identity, correlation, and causation identifier strategy |
 | OD-39 | Preservation Hold authority, duration, review, release, and conflict with deletion |
 | OD-44 | Delivery outcome semantics across the two levels |
+| OD-51 | **Closed — DL-76.** Every authority decision's recorded action risk references **DL-76**'s Action-Risk Class (Convenience, Disclosure, Financial, Safety, Security, Governance), structurally separate from Operation Type and from Interruption Classification (OD-46); a trace records which class applied, the Required Identity Band and Confirmation Strength it carried, and whether any value was a household or object-specific override of the HTBW default |
 | OD-57 | Indication versus content separation |
 | OD-63 | **Closed — DL-73.** Behaviour attribution — which evidence a Domain Event's attribution may carry where no Decision Trace exists, because no HTBW decision was made. The Source Confidence tier (Known/Probable/Unknown Source), the Decision Authority / Source / Execution distinction, the narrowed Behaviour Source enumeration, Person Attribution (Known/Unknown/No Person), and alternative-explanation handling (no competing candidates presented) are all accepted. Where HTBW itself decided and executed through Home Assistant, the resulting Domain Event's Decision Authority attribution references the Decision Trace that produced it |
 | OD-64 | Native behaviour observation — which platform-supplied execution evidence is referenced and retained |

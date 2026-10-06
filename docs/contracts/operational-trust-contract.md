@@ -103,7 +103,7 @@ Action-risk class.
 | Sensitive | Read a calendar or message | Requires a resolved identity above threshold |
 | Safety-critical | Unlock a door, open a garage, control a heat source | Requires high confidence and may require confirmation regardless |
 
-Per-class defaults are configuration, resolved with **OD-51**.
+Per-class defaults are configuration, resolved as **DL-76** — see **Action-Risk Classes**, below.
 
 **Operational Trust owns the Required Identity Band.** Every protected capability and protected
 operation carries one of five requirement values — **`None`, Low, Moderate, High, Very High**.
@@ -113,6 +113,33 @@ required for this operation*. Identity produces four bands and never produces `N
 identity was not required* — **never** as a band "exceeding" `None`.
 
 **Operational Trust owns every threshold**, including **Address by Name**, the Identity Presentation
+
+---
+
+## Action-Risk Classes (DL-76)
+
+Six constitutional, consequence-based classes — **Convenience**, **Disclosure**, **Financial**,
+**Safety**, **Security**, **Governance** — structurally separate from **Operation Type** (Read, Write,
+Delete, Govern; **DL-36** unchanged). Risk Classification answers *"what happens if this is wrong?"*;
+Operation Type answers *"what kind of action is occurring?"*. No matrix is required.
+
+| Risk Class | Required Identity Band | Required Confirmation Strength | Address by Name | Presentation Threshold |
+|---|---|---|---|---|
+| Convenience | `None` | `None` | Low | `None` |
+| Disclosure | Moderate | Verbal | Moderate | Moderate |
+| Financial | High | Authenticated | High | High |
+| Safety | High | Authenticated | High | High |
+| Security | High | Authenticated | High | High |
+| Governance | Very High | Strong | Very High | Very High |
+
+**These are HTBW Default Configuration, never Fixed Configuration**, and are not a claim that a
+verified confirmation mechanism exists — Issue #146 item 10 remains `VERIFIED_NOT_SUPPORTED` for every
+mechanism above Verbal, and **DL-40**'s `Unavailable` outcome governs unchanged.
+
+**Override model:** Capability Default (the capability declares its Risk Class) → HTBW Default (the
+table above) → Household Override (governed configuration). **Object-specific overrides** are
+explicitly supported, restating **DL-36**: a Safe Lock and a Closet Lock may carry different
+requirements despite sharing one capability.
 Threshold, Capability Access Thresholds, personalization requirements, confirmation requirements and
 acceptable method strength, disclosure appropriateness, Unknown Person eligibility, and the required
 behaviour when identity is insufficient. **The configuration surface never changes ownership** — a
@@ -156,10 +183,10 @@ and never becomes an authorisation lifetime.
 different outcomes. A presentation threshold that is not met produces neutral wording; **it never
 denies the action**.
 
-**Interrupting is a governed action.** Interruption is treated as an **action-risk class** using the
-table above, not as a separate mechanism. A safety or critical classification is a granted,
-revocable, explainable entitlement and **never a bypass**. Enumeration and defaults are open decision
-**OD-51**.
+**Interrupting is a governed action, on its own axis.** Interruption is **not** a Risk Class;
+Risk and Interruption are formally separate, independent axes (**DL-76**). **OD-51/DL-76 owns Action
+Risk; OD-46 owns Interruption Classification.** A safety or critical classification is a granted,
+revocable, explainable entitlement and **never a bypass**.
 
 **Urgency is granted, not asserted.** An originator may propose an urgency; Operational Trust
 determines it. Urgency is orthogonal to Category and the two axes must never be merged. See
@@ -423,9 +450,9 @@ would change the outcome.
 | OD-39 | Preservation Hold authority, duration, review, release, and conflict with deletion |
 | OD-40 | Evidence Package assembly, transport, integrity representation, and audience |
 | OD-45 | Acknowledgement semantics, and whether unacknowledged delivery is a failure |
-| OD-46 | Urgency classification as an Operational Trust entitlement |
+| OD-46 | Urgency classification as an Operational Trust entitlement. **Resolved by DL-76 that this is formally independent of Action-Risk Classification** |
 | OD-49 | Communication retention floor and ceiling |
-| OD-51 | Interruption action-risk class enumeration and defaults |
+| OD-51 | **Resolved as DL-76.** Action-Risk Class enumeration and per-class defaults; household and object-specific override model; interruption confirmed as a separate axis (OD-46) |
 | OD-52 | Audience specification model |
 | OD-53 | Communication category enumeration |
 | OD-56 | Safety-category scope |

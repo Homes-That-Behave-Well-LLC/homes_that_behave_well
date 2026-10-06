@@ -837,6 +837,39 @@ mechanism the deployment has verified as meeting it, and where none is available
 `Unavailable` — **never a silent downgrade**.
 Model: [operational-trust.md](operational-trust.md)
 
+**Action-Risk Class (DL-76)**
+The six constitutional, consequence-based Operational Trust classifications: **Convenience**,
+**Disclosure**, **Financial**, **Safety**, **Security**, **Governance**. Answers *"what happens if
+this is wrong?"* — never *"what kind of action is occurring?"* (Operation Type, below). Each class
+carries an HTBW-default **Required Identity Band**, **Required Confirmation Strength**, **Address by
+Name** setting, and **Identity Presentation Threshold** — governed defaults, never fixed values, and
+always subject to household and object-specific override.
+Model: [operational-trust.md](operational-trust.md)
+
+**Operation Type (DL-36, restated DL-76)**
+Read, Write, Delete, or Govern. A separate concern from **Action-Risk Class**: the two axes are
+independent and are never collapsed into a matrix. Write+Convenience, Write+Security, and
+Delete+Governance may all exist simultaneously for different protected operations.
+Model: [operational-trust.md](operational-trust.md)
+
+**Interruption Classification (OD-46)**
+What a Communication is entitled to interrupt — a **formally separate, independent axis from Action-
+Risk Class** (**DL-76**). A Medication Reminder may carry low Action Risk and high Interruption; an
+Unlock Door Request may carry high Action Risk and low Interruption. Neither axis is derived from the
+other. Owned by **OD-46**, not by Action-Risk Classification.
+Model: [operational-trust.md](operational-trust.md)
+
+**Default Configuration Model (DL-76)**
+Every Action-Risk Class default is **HTBW Default Configuration, never HTBW Fixed Configuration**.
+Three-tier ownership: **Capability Default** (the capability or protected operation declares its
+Action-Risk Class) → **HTBW Default** (Operational Trust's default Required Identity Band and
+Confirmation Strength for that class) → **Household Override** (governed configuration). **Object-
+specific overrides** are explicitly supported and restate **DL-36** — two objects sharing one
+capability (a Safe Lock and a Closet Lock, both using the lock capability) may carry different
+requirements, because the requirement belongs to what is being protected, never to the capability
+alone.
+Model: [operational-trust.md](operational-trust.md)
+
 **Operation-Scoped Confirmation**
 A confirmation is **consumed by the protected operation for which it was requested**. It has no
 occupancy grace period, establishes no authenticated session, does not carry into the next operation
