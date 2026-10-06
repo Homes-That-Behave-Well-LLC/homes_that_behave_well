@@ -272,6 +272,52 @@ only where documentation was insufficient). **No architecture decision is made h
 
 **Discharges Step A of item 11's A–F sub-evaluation.** Steps B–F remain outstanding; Step B specifically requires real household measurement and is addressed by the Track B protocol delivered with this pass (see Issue #146 comment).
 
+### Issue #146 voice explainability evidence pass (2026-10-06)
+
+Evidence produced from a live Production incident investigation (October 2026 Voice Explainability
+investigation), conducted entirely as Production-read, Development-change discipline — no Production
+file, configuration, or data was modified to produce this evidence. Core source consulted under the
+same authority order, pinned to the same commit as the passes above,
+[`c571d9d3a96e6fda0a23e754ca0f2906ae63ee84`](https://github.com/home-assistant/core/commit/c571d9d3a96e6fda0a23e754ca0f2906ae63ee84).
+**This section records verification outcomes only. No architecture decision is made here, no
+ownership boundary changes, and no open decision is closed.**
+
+#### Assist Debug run storage, retention, and cross-system correlation (item 14) — VERIFIED_SUPPORTED / VERIFIED_NEGATIVE
+
+| DL-30 element | Finding |
+|---|---|
+| Capability evaluated | The Assist Debug run record shown under Settings → Voice assistants → Assistant → Debug, and the two WebSocket commands (`assist_pipeline/pipeline_debug/list`, `assist_pipeline/pipeline_debug/get`) that supply it |
+| Source | `homeassistant/components/assist_pipeline/run.py` (`PipelineRun.__post_init__`, `STORED_PIPELINE_RUNS = 10`, `LimitedSizeDict`), `homeassistant/components/assist_pipeline/websocket_api.py` (`websocket_list_runs`, `websocket_get_run`), commit above |
+| Verified | **Storage location: in-memory only, `hass.data`.** A Debug run is held in `pipeline_data.pipeline_debug[pipeline_id][run.id]`, a `LimitedSizeDict(size_limit=STORED_PIPELINE_RUNS)` keyed by a fresh ULID (`PipelineRun.id`) generated per run — **not `.storage`, not Recorder, not browser storage**. **Retention: `STORED_PIPELINE_RUNS = 10` per `pipeline_id`**, pure count-based FIFO eviction, no time-based rule. **Restart behaviour: VERIFIED_NEGATIVE for survival.** No `Store`/`.storage` write path exists anywhere in the run-debug code path (the component's only `Store` usage, `PipelineStorageCollection`/`PipelineStore`, persists Pipeline **configuration** — engines, languages, name — never run or event history), so a restart (or the process ending for any reason) destroys every held Debug run unconditionally. **Retrieval keys: only `pipeline_id` + `pipeline_run_id`.** `conversation_id` and `satellite_id` are recorded *inside* a retrieved run's own `RUN_START` event payload, never as an independent lookup key, and **no lookup by Recorder `context_id`, by timestamp, or by Home Assistant Context exists at all** |
+| Remaining gap | None for the literal storage/retention/retrieval question |
+| Why a lower layer cannot satisfy it | Confirms, from source rather than documentation absence, that Assist Debug is categorically **ephemeral operational evidence** — it directly evidences the problem framed by **OD-38** (no durable correlation identifier strategy) and **OD-64** (which platform-supplied execution evidence HTBW may reference, and its retention) rather than solving either |
+
+**Discharges item 14.** Does not itself decide OD-38 or OD-64; narrows both with a verified negative (no persistence, no cross-system key) that either decision must account for rather than assume.
+
+#### Recorder and Assist Debug use separate identity systems, with no native correlation (item 15) — VERIFIED_NEGATIVE
+
+| DL-30 element | Finding |
+|---|---|
+| Capability evaluated | Whether a documented or source-verified mechanism maps a Recorder `context_id` to an Assist Debug `pipeline_run_id`, `conversation_id`, or `satellite_id`, or the reverse |
+| Source | `homeassistant/components/assist_pipeline/run.py` (`PipelineRun.context: Context`, `PipelineRun.start()`), `homeassistant/core.py` (`Context.__slots__`), commit above; a real Production incident reconstruction correlating a Recorder `context_id` burst with an Assist satellite's `listening`/`processing`/`responding`/`idle` state sequence |
+| Verified | **VERIFIED_NEGATIVE for a native mapping.** `PipelineRun.context` is a real `homeassistant.core.Context`, created once per run and propagated to any service call the run's intent handling performs — this is *why* a Recorder-side `context_id` with no parent can be observed to originate from a voice interaction at all. But that `context.id` is **never written into the `RUN_START` event payload and never exposed by either Debug WebSocket command** — Recorder and Assist Debug can each independently evidence the same real-world interaction, and **the only practical bridge between them, demonstrated in the Production reconstruction, is timestamp and target-entity correlation**, not a shared identifier |
+| Remaining gap | None for the literal mapping question — the negative is itself the finding |
+| Why a lower layer cannot satisfy it | This is the concrete, source- and incident-verified version of **OD-38**'s own framing (*"Context does not establish semantic reasoning... does not prove causation beyond the documented relationship"*) applied specifically to the voice-evidence pair Issue #146 and OD-64 already anticipate |
+
+**Discharges item 15.** Directly narrows **OD-38**: a durable correlation strategy, if HTBW ever adopts one, cannot assume `context_id` and `pipeline_run_id` are the same identifier or are natively joinable — any join HTBW performs would itself be an HTBW-authored correlation, not an observed native fact, and would need to be represented honestly as such.
+
+#### UTC and household-local timestamp normalisation (item 16) — VERIFIED_SUPPORTED
+
+| DL-30 element | Finding |
+|---|---|
+| Capability evaluated | Whether Home Assistant's Recorder and `.storage` timestamps are UTC, and whether the configured household time zone is independently verifiable |
+| Source | `P:\.storage\core.config` (`"time_zone": "America/Chicago"`, Production, read-only); every Recorder and `.storage` timestamp inspected this session carries an explicit `+00:00` offset |
+| Verified | Recorder and `.storage` timestamps are **UTC**, confirmed directly from the data rather than assumed; the configured household time zone is independently stored and must be read, not inferred, before any resident-facing or investigative timestamp comparison is performed. A household-local timestamp supplied for an investigation (for example *"7:31 AM"*) requires explicit conversion against the configured time zone and its current UTC offset (which varies with Daylight Saving Time) before it can be compared against any native record |
+| Remaining gap | None |
+| Why a lower layer cannot satisfy it | Not applicable — this is a verified platform convention, not a gap. Recorded here because the October 2026 investigation itself was initially obscured by skipping this normalisation step, which is a recurring operational hazard worth naming rather than a new capability question |
+
+**Discharges item 16.** Feeds **explainability.md**'s resident-facing explanation requirement directly: any explanation surfacing a timestamp to a resident must state it in household-local time, derived from the verified `time_zone` configuration, never in raw UTC.
+
 ---
 
 ## What Home Assistant may provide

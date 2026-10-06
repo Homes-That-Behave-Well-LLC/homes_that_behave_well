@@ -307,9 +307,148 @@ attribution or named presentation, and it must **never imply that identity autho
 that required none**. The flattering version of a decision is not permitted to displace the accurate
 one.
 
----
+### Explainability Evidence Record (architectural hypothesis, not accepted architecture)
 
-## Privacy constraints on explanation
+> **Status: architectural hypothesis / open-decision input.** Not Accepted. Not Final. Not Canonical.
+> Not implemented. Not validated. It is recorded so a real line of evidence-based reasoning is not
+> lost before **OD-63**, **OD-38**, **OD-64**, **OD-72**, and **OD-29** take it up, and it is expected
+> to be refined — possibly materially — by further Production evidence, by Identity implementation
+> experience, by Voice Identity research, by Concierge implementation, by further Home Assistant
+> capability mapping, by runtime validation, and by household scenarios beyond voice.
+
+The October 2026 Voice Explainability investigation first named this as **Voice Interaction
+Evidence**. Working the same reasoning against a non-voice case (a wall switch, a kiosk selection, an
+occupancy sensor) showed voice is **one evidence source among several, not the governing shape**.
+**Voice Interaction Evidence is retained below as the voice-specific worked case of the broader
+hypothesis, not discarded.**
+
+#### The hypothesis
+
+A resident-facing explanation for *"why did this happen"* draws on evidence that, across every source
+type, separates into the same six questions, in this order:
+
+```text
+Person / Actor  →  Source  →  Triggering Occurrence  →  Execution  →  Outcome  →  Explanation
+```
+
+**This is not a new runtime sequence, a new store, or a new responsibility.** Read stage by stage,
+every position in this chain is already owned, and already accepted, by existing architecture — the
+hypothesis's only contribution is naming the chain and showing that the same six positions recur
+across every source type, not only voice:
+
+| Hypothesis stage | What it asks | Already owned by |
+|---|---|---|
+| **Person / Actor** | Who is most likely associated with this, if anyone? | **DL-38**'s Identity Fusion Function, evaluated for the applicable **Assertion Purpose** ([person-and-identity.md](../models/person-and-identity.md)) — **Speaker Attribution**, **Room Presence**, **Household Presence**, **Interaction Initiator**, **Authenticated Session Identity**, or **Endpoint Context**. **Unknown Person** (**DL-33**) and **No Person / autonomous** are both already first-class outcomes; no new actor state is introduced |
+| **Source** | Where did this originate — physically or logically — independently of who, if anyone, is attributed to it? | The existing **Behaviour Source** enumeration ([temporal-record.md](../models/temporal-record.md), [glossary.md](../models/glossary.md)) — direct resident interaction, a native automation, script, or scene, manual physical interaction, an HTBW decision or adaptive policy, an external integration, an external autonomous policy engine, a reasoning-provider recommendation, or **unknown/unattributed** |
+| **Triggering Occurrence** | What was the one initiating occurrence? | The existing **Trigger** ([glossary.md](../models/glossary.md): *"the event that begins a decision evaluation"*) and the existing **Domain Event** ([temporal-record.md](../models/temporal-record.md)) — **not** a new construct (see naming note below) |
+| **Execution** | What did Home Assistant, or another authorized environment, actually do? | Home Assistant **Context**, **Parent Context**, **User Context** ([home-assistant-boundary.md](home-assistant-boundary.md), *What Home Assistant context can and cannot establish*, **OD-38**), native automation/script/scene execution evidence (**OD-64**) |
+| **Outcome** | What was observed to actually result, as distinct from what was requested? | Recorder state history and the Domain Event's own resulting-state evidence; for a Communication, the existing **Presentation Outcome** (**DL-54**: Presented / Failed / Unknown / Attestation Unavailable) |
+| **Explanation** | How is this assembled into a truthful, resident-understandable account? | The existing record boundary above (*Facts* → Truth, *what occurred* → Domain Event, *why HTBW decided* → Decision Trace, *record version* → Temporal Record), assembled and presented by **Concierge**, which **owns none of the underlying evidence it assembles** |
+
+**A naming collision is recorded, not resolved by assertion.** The hypothesis's "initiating
+occurrence" stage cannot be named **Activity**: [glossary.md](../models/glossary.md) already states
+*"Activity is also the name of the Home Assistant integration... There is no HTBW Activity model, no
+Activity responsibility, and no Activity store,"* and
+[temporal-record.md](../models/temporal-record.md) independently states that behaviour attribution
+*"does not require, and must not become, a separate Activity model, Activity responsibility, or
+Activity store."* **This hypothesis reuses Trigger and Domain Event for that stage precisely because
+the term is already spoken for**, not as a stylistic preference.
+
+**Where no HTBW decision was made, there is no Decision Trace, and that is correct, not a gap.**
+[decision-trace.md](../models/decision-trace.md) is explicit: *"A Decision Trace exists only where
+HTBW decided... What occurred is recorded as a Domain Event with behaviour attribution instead."* The
+October 6 incident (below) produced no Decision Trace for exactly this reason — no HTBW decision
+occurred — and the hypothesis's Execution/Outcome/Explanation stages resolve to Domain Event evidence,
+not to a fabricated trace.
+
+#### Source, Endpoint, and Person are already kept apart — this hypothesis does not re-decide it
+
+[person-and-identity.md](../models/person-and-identity.md)'s **Endpoint Context** purpose already
+states plainly that a managed endpoint "identifies a **thing**, not a person," and
+[home-assistant-boundary.md](home-assistant-boundary.md)'s native-evidence review (**L8**) already
+verifies that Home Assistant has **no native kiosk concept** at all — *"HTBW must not treat a kiosk
+account as anything other than a Home Assistant user account."* **A kiosk, a wall switch, a voice
+satellite, and an occupancy sensor are each a Source/Endpoint. None of them is automatically a Person.**
+A kiosk, satellite, or device may carry a **proxy association** to a Person — evidence that
+contributes to the Fusion Function at its own configured reliability — but a proxy association is
+**evidence, never identity**, exactly as **DL-32** already requires of every evidence source. This
+hypothesis adds no exception.
+
+**The Identity Triangulation worked example below illustrates DL-38 already applied to Household and
+Room Presence evidence. It is not a new fusion mechanism and must not be read as one.**
+
+> **Worked example (illustrative only — not a claim about any specific event):** a wall switch is
+> pressed in the Primary Bedroom. The switch press is the **Source**; the Primary Bedroom is **Room
+> Context**; a Person's wearable and phone observed in that Room, with the Room occupied and no
+> competing candidate, are **Household/Room Presence evidence** fused under **DL-38**'s existing rules
+> into a candidate Identity Assertion with its own confidence band. **This demonstrates the existing
+> Fusion Function applied to a non-voice Source. It is never read as proof that a named person
+> physically pressed the switch** — the assertion remains a purpose-specific, confidence-bearing
+> candidate, exactly as DL-38 already requires, capable of returning **Unknown** or **No Person**.
+
+#### Genuinely open residual
+
+**The one question this hypothesis raises that is not yet answered anywhere** is **OD-63**'s own
+stated residual: *"the enumeration of behaviour sources, the evidence required to assert each, the
+confidence representation, and how unattributed is represented."* Put concretely: voice evidence
+carries Pipeline ID, Pipeline Run ID, Conversation ID, and Satellite ID; a kiosk interaction would
+carry different native identifiers; a wall-switch press carries a device and entity identifier only.
+**Whether a single source-neutral evidence shape is required, or whether each Behaviour Source
+category simply states its own native evidence fields under OD-63's existing ownership, is not
+decided here** — this is explicitly reserved for OD-63, informed by this hypothesis, OD-38's
+correlation-identifier question, and OD-64's platform-evidence-capture question.
+
+#### An existing tension this hypothesis must not silently resolve
+
+**DL-46** already states plainly that *"HTBW does not retain every state transition, Recorder row,
+automation trace, sensor payload, **voice interaction**, or provider response."* Any evidence capture
+this hypothesis eventually justifies is only defensible, if accepted at all, as the same kind of thing
+**DL-46** already permits — "what the platform does not naturally represent" — captured
+**contemporaneously, at the moment evidence is material to an HTBW decision or to a Domain Event's
+behaviour attribution**, never as a retroactive bulk copy of Assist Debug or Recorder history for its
+own sake. **This section names that tension. It does not resolve it.**
+
+#### Voice Interaction Evidence (retained as the voice-specific worked case)
+
+The October 2026 investigation verified, at the Home Assistant source level and against a real
+Production incident, that Assist Debug run data — STT output, intent input and output, successful and
+failed entities, TTS response, and precise stage timing — is **in-memory only, capped at the ten most
+recent runs per pipeline, and destroyed on every restart** (see
+[home-assistant-boundary.md](home-assistant-boundary.md), *Assist Debug run storage, retention, and
+cross-system correlation*). Recorder retains execution evidence (`context_id`, service calls, entity
+changes, automation chains) indefinitely by comparison, but **the two use separate identity systems
+with no native, durable correlation** between a Recorder `context_id` and a `pipeline_run_id` or
+`conversation_id`. This remains the clearest and most fully source-verified single-source case; it is
+not generalized beyond voice by this paragraph, only by the hypothesis above.
+
+##### October 6 reference case (principal example, not universal proof)
+
+The Primary Bedroom "Good Morning" incident, reconstructed entirely from native evidence:
+
+| Hypothesis stage | What the evidence actually supports |
+|---|---|
+| Person / Actor | **Unknown from runtime evidence.** Every examined `context.user_id` was `None`. **Household-reported actor: David** — recorded as a household report, never as a runtime-established identity |
+| Source | Voice — the Primary Bedroom voice satellite |
+| Endpoint | Primary Bedroom Voice PE (the satellite device) |
+| Triggering Occurrence | A voice interaction, timing-correlated to the satellite's `listening → processing → responding → idle` sequence |
+| Execution | A single root Home Assistant Context (no parent) issuing `homeassistant.turn_on`/`light.turn_on` for five Primary Bedroom-area lights, landing inside the `processing`→`responding` window |
+| Outcome | Five lights observed **on**; the governed Good Morning automation **did not trigger**; the governed Good Morning script **did not execute**; no automation or script caused the light change |
+| Explanation | No Decision Trace exists, correctly, because HTBW made no decision. The exact recognized text and selected intent were **not retained** — Assist Debug held at most the ten most recent runs for that pipeline, in process memory, and did not survive to the point of this investigation |
+
+**This is not retroactively claimed as the exact STT text or exact intent — that evidence no longer
+exists and is not reconstructed.**
+
+##### Pantry reference case (known-good shape, not generalized)
+
+A retained Assist Debug run for a Pantry voice interaction demonstrates what a **currently retained**
+run looks like: Source Voice, Endpoint the Pantry voice satellite, recognized text *"Close kitchen
+shade,"* processed locally, successful target Kitchen Shade, response *"Closing,"* with Pipeline ID,
+Pipeline Run ID, Conversation ID, and Satellite ID all present, and full STT, intent, targeting, and
+TTS stages available. **This demonstrates only what Home Assistant generates while a run remains
+retained — it is not evidence that any other interaction, including the October 6 incident, was ever
+in the same state.**
+
+
 
 An explanation must not disclose information the listener is not permitted to receive.
 

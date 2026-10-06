@@ -2708,6 +2708,124 @@ the fourteen scenarios were added to an existing file rather than a new one.
 
 ---
 
+### Notes on the October 2026 Voice Explainability investigation
+
+**The problem is retention, not evidence generation.** A real Production incident — a resident's
+voice command resolving to a broad light action instead of its governed routine — was reconstructed
+in full from native Home Assistant sources alone: a Recorder `context_id` burst with no parent,
+correlated by timing against an Assist satellite's own `listening → processing → responding → idle`
+sequence, against a background of two competing voice-entry automations (one live, one disabled)
+discovered only by reading the household's own configuration. **Home Assistant already produces
+enough evidence to explain many voice actions. It does not keep that evidence long enough, in a form
+that can be joined to itself.**
+
+**Assist Debug and Recorder are confirmed, at the source level, to be two separate evidence systems
+with no native bridge.** Assist Debug holds the richest single-interaction record available — STT
+output, intent input and output, successful and failed entities, TTS response, exact stage timing —
+but it lives only in `hass.data`, capped at ten runs per pipeline, and is gone on the next restart.
+Recorder holds durable execution evidence indefinitely, keyed by `context_id`, but **never** the
+pipeline-side identifiers. **Nothing in Home Assistant joins them.** This is the concrete, now
+source-verified shape of **OD-38**'s own question — whether and how Context IDs are adopted as HTBW's
+correlation strategy — and of **OD-64**'s question of which platform-supplied execution evidence HTBW
+references and retains. **Neither is closed by this finding.** The finding narrows both: any future
+correlation strategy must assume no native join exists and must say, honestly, when it is
+HTBW-authored correlation rather than an observed platform fact.
+
+**Identity in a voice-originated explanation is not one question but several, and the investigation
+needed all of them kept separate.** A household's report of *who* spoke is not the same thing as a
+`context.user_id` (which this investigation again confirmed is `None` for every automation- and
+voice-originated context examined), is not the same thing as the device or satellite a context can be
+timing-correlated against, and is not the same thing as an unresolved actor. **This is not a new
+decision.** **DL-35**'s Unknown Actor Reference, **OD-63**'s behaviour-attribution semantic model, and
+this document's own exhaustive `Context` field classification (`home-assistant-boundary.md`, item 13)
+already hold these distinctions; the investigation is recorded as a confirming exercise, not a
+discovery, and as a caution that **future voice evidence work must keep reporting which of these it
+means, every time, rather than collapsing them under one word.**
+
+**A UTC-versus-household-local defect obscured evidence before it illuminated anything.** Every
+Recorder and `.storage` timestamp is UTC; the configured household time zone is a separate, verified
+fact (`core.config`); and comparing a resident's reported local time against raw UTC evidence without
+that conversion produced a materially wrong investigative window before it was caught. This is recorded
+as an operational-discipline finding, not an architectural one: any resident-facing explanation
+carrying a timestamp must state it in household-local time, a requirement **explainability.md** now
+states directly.
+
+**Assist Debug is operational evidence; Recorder is execution evidence; a trustworthy explanation
+needs both, and neither is currently durable enough on its own to answer "why did it do that" after
+the fact.** A new candidate concept — named **Voice Interaction Evidence** at the time of this note,
+and subsequently broadened into the **Explainability Evidence Record** hypothesis (see the
+continuation note below) — is named in [explainability.md](../architecture/explainability.md) to hold
+the shape of what a durable record would need to carry, explicitly **not** as a storage design and
+explicitly in tension with **DL-46**'s existing "HTBW does not retain... a voice interaction" — a
+tension the new section names rather than resolves, leaving its resolution to **OD-29**, **OD-38**,
+and **OD-64**.
+
+**Voice Explainability belongs to HTBW governance, not to Home Assistant customization.** No change to
+Home Assistant's own configuration, behaviour, or retention was made or proposed by this
+investigation, and none is proposed here. Where HTBW eventually collects its own explainability
+record, it does so as an external, referencing observer — consistent with **DL-16** and **DL-46** —
+never by modifying native Assist Debug retention or Recorder behaviour to compensate.
+
+**No new open decision was created, and none was closed.** **OD-29**, **OD-38**, **OD-64**, and
+**OD-72** are each narrowed by verified evidence recorded in `home-assistant-boundary.md` and
+`explainability.md`; none is resolved, and this review decided nothing.
+
+---
+
+### Notes on the Explainability Evidence Record hypothesis (continuation, 2026-10-06)
+
+**Voice turned out to be one Source, not the governing shape.** Working the same reasoning that
+produced Voice Interaction Evidence against a non-voice case — a wall switch, a kiosk, an occupancy
+sensor — showed the same six questions recur regardless of source: who, if anyone; where this
+originated; what the initiating occurrence was; what Home Assistant actually executed; what was
+observed to result; and how that becomes a truthful account. **Voice Interaction Evidence is retained,
+unchanged in its own content, as the voice-specific worked case of a broader hypothesis —
+Explainability Evidence Record — rather than superseded by it.**
+
+**Almost the entire hypothesis turned out to already be owned, once it was stated stage by stage.**
+Person/Actor is **DL-38**'s Identity Fusion Function, evaluated against whichever of the six existing
+**Assertion Purposes** applies — nothing in the hypothesis required a seventh. Source is the existing
+**Behaviour Source** enumeration. Execution is the existing Context/Parent Context/User Context
+evidence already recorded under **OD-38**. Outcome is the existing Domain Event resulting-state
+evidence, and, for a Communication, **DL-54**'s already-accepted Presentation Outcome. Explanation is
+the existing record boundary — Facts to Truth, occurrences to Domain Events, HTBW decisions to the
+Decision Trace, record versions to Temporal Records — assembled by Concierge, which owns none of what
+it assembles. **Stating the hypothesis did not discover six new ownership questions. It found one.**
+
+**The one word in the hypothesis that could not be kept is "Activity."** `glossary.md` and
+`temporal-record.md` both already and independently foreclose it: Activity is reserved for the
+distinct Home Assistant integration of that name, and behaviour attribution "does not require, and
+must not become, a separate Activity model, Activity responsibility, or Activity store." The
+hypothesis's initiating-occurrence stage is recorded using the already-accepted **Trigger** and
+**Domain Event** instead. **This is reuse under an existing prohibition, not a style choice**, and it
+is recorded here so the collision is never rediscovered as if it were new.
+
+**The genuinely open residual is narrower than the hypothesis first appeared, and it already has an
+owner.** **OD-63** already asks for *"the enumeration of behaviour sources, the evidence required to
+assert each, the confidence representation, and how unattributed is represented."* A voice interaction
+carries Pipeline ID, Pipeline Run ID, Conversation ID, and Satellite ID; a kiosk interaction, a
+wall-switch press, and a schedule trigger each carry different native evidence. Whether one
+source-neutral evidence shape is required, or whether each Behaviour Source category simply states its
+own fields under OD-63's existing ownership, **is OD-63's question, informed by this hypothesis, and
+is not decided here.**
+
+**Source, Endpoint, and Person remain independently owned and were not collapsed.** The hypothesis's
+Kiosk, Guest, and Identity Triangulation worked examples are **DL-38 and DL-32 applied, not extended**
+— a kiosk or satellite may carry a proxy association to a Person, which contributes evidence at its
+configured reliability exactly as any other source does, and a kiosk is confirmed, by this
+repository's own native-evidence review (`home-assistant-boundary.md`, **L8**), to have **no native
+concept of its own** beyond an ordinary Home Assistant user account. **A kiosk, a switch, and a
+satellite are Sources. None of them is a Person, and none of this hypothesis's examples says
+otherwise.**
+
+**No new decision was created, and none was closed by this continuation.** **OD-63** gains the
+sharpest statement yet of its own residual; **OD-38**, **OD-64**, **OD-72**, and **OD-29** are narrowed
+exactly as the prior note recorded, and no further than that. **No eighth responsibility was created**
+— Concierge continues to assemble an explanation from evidence it does not own, exactly as
+`decision-trace.md` and `explainability.md` already required before this review began.
+
+---
+
 ## Part 3 — Recorded supersessions
 
 | Superseded | Replaced by |

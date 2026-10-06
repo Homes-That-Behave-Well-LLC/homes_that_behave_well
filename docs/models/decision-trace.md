@@ -598,11 +598,16 @@ This model *is* the explainability requirement. Every other canonical document r
 | OD-39 | Preservation Hold authority, duration, review, release, and conflict with deletion |
 | OD-44 | Delivery outcome semantics across the two levels |
 | OD-57 | Indication versus content separation |
+| OD-63 | Behaviour attribution — which evidence a Domain Event's attribution may carry where no Decision Trace exists, because no HTBW decision was made |
+| OD-64 | Native behaviour observation — which platform-supplied execution evidence is referenced and retained |
 | OD-73 | **Interaction-Surface Room Context Resolution**, which owns the `room_context.resolved_from` enumeration. **Until it closes, a non-room-bound surface yields `unresolved`** |
 
 ## Related documents
 
-- [../architecture/explainability.md](../architecture/explainability.md)
+- [../architecture/explainability.md](../architecture/explainability.md) — see also its *Explainability
+  Evidence Record* hypothesis, which bounds what this model's quality rule 7 already states: where no
+  HTBW decision was made, the evidence belongs to the Domain Event's behaviour attribution, never to a
+  fabricated trace
 - [temporal-record.md](temporal-record.md)
 - [communication.md](communication.md)
 - [../architecture/adr-temporal-record-model.md](../architecture/adr-temporal-record-model.md)
