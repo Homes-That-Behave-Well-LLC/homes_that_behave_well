@@ -1377,6 +1377,44 @@ Do not resolve them inside a contract, model, or scenario document.
 
 ---
 
+## Home Assistant 2026.10 re-verification
+
+> **This section is additive. It does not replace, amend, or invalidate the reviews above, and it
+> does not change their recorded documentation version.** This section records a **separate, later
+> re-verification** conducted 2026-10-07 under the monthly process in
+> [../governance/home-assistant-release-review-standard.md](../governance/home-assistant-release-review-standard.md),
+> against **Home Assistant Core 2026.10** (released 2026-10-07) and the **Home Assistant Cloud →
+> Home Assistant Link** announcement (2026-10-02, change planned for the **2026.12** release).
+> **Everything here is a finding or a recommendation. Nothing here is an accepted decision.**
+
+### Verification pins
+
+| Review | Documentation version | Status |
+|---|---|---|
+| Home Assistant Cloud → Home Assistant Link rename | Blog, 2026-10-02 | **Announced only; not yet shipped.** Nabu Casa states the rename "is planned for the December release" (2026.12). As of 2026.10 the product remains named Home Assistant Cloud in the actual release |
+| Native Model Context Protocol (MCP) server/client | Release notes 2026.10, *Connect your AI in one click* | Re-verified against **OD-67** and **DL-73** — **no row invalidated**, see **R10** |
+
+### Re-verification rows, in the DL-30 five-part form
+
+| # | Capability evaluated | Source documentation | HTBW requirement tested | Remaining gap | Why a lower layer cannot satisfy it |
+|---|---|---|---|---|---|
+| **R10** | **Home Assistant as an MCP server and client** — one-click setup exposes Home Assistant to external AI apps (Claude, ChatGPT, Cursor) through the Model Context Protocol, admin-accounts-only by default, scope configurable after setup; Home Assistant also discovers and connects to other apps' own MCP servers | Release notes 2026.10, *Connect your AI in one click*; existing `mcp_server`/`mcp` integration documentation | **OD-67** classification requirements; **DL-73** Behaviour Source / Decision Authority | **None.** MCP is a concrete instance of **DL-73**'s already-accepted "external autonomous policy engine" / "reasoning-provider recommendation" Decision Authority category, and of **OD-67**'s own required classification list (a conversation mechanism, a reasoning provider, an action-execution mechanism are explicitly different things that must not be merged). Home Assistant's own admin-only authorization boundary for MCP connections is native and is not an HTBW dependency | **Fully satisfied by existing governance.** **OD-67**'s standing invariants already bind this exactly: *"a provider's output never silently becomes a Fact," "a recommendation never silently becomes an authorised action," "Concierge orchestrates... a provider is a consulted component, never a decision owner."* No new category is created or required |
+
+### What follows from this re-verification
+
+- **The Home Assistant Cloud → Home Assistant Link rename changes no row in any capability review.**
+  It is a brand-name announcement for a future release, not an architectural event. **OD-07** and
+  **OD-67** are unaffected (neither changed, narrowed, nor resolved).
+- **The rename is independent corroboration, not new architecture.** Nabu Casa's own stated
+  distinctions — optional, no lock-in, private-by-default, non-shareholder-first — restate doctrine
+  already accepted as **DL-41**, **DL-42**, **P21**, **P25**, and the **DL-79** framework-wide
+  evidence chain. See `decision-ledger.md`, *Notes on the October 2026 Home Assistant Link review*.
+- **MCP strengthens, and does not narrow or close, OD-67.** It is new evidence to classify when
+  OD-67 is eventually decided, not a reason to decide it now.
+- **No accepted decision is amended, and no open decision is closed, by this section.**
+
+---
+
 ## Related documents
 
 - [principles.md](principles.md)

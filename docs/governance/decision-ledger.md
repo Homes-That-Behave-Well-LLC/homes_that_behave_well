@@ -3354,6 +3354,64 @@ rules (Unavailable, audience-uncertainty degradation, Preservation Hold, Evidenc
 adding new requirements to them. No framework-wide-evidence-chain issue exists to update or create;
 the doctrine is fully satisfied by already-accepted principles, named here for cross-reference only.
 
+### Notes on the October 2026 Home Assistant Link review
+
+**Review conducted 2026-10-07** under the monthly process in
+`docs/governance/home-assistant-release-review-standard.md`, covering **Home Assistant Core 2026.10**
+(released 2026-10-07) and the **Home Assistant Cloud → Home Assistant Link** rename announcement
+(2026-10-02). **This is a review memorialisation. It decides nothing, narrows nothing, and closes
+nothing.**
+
+**Finding: Home Assistant's announced transition from Cloud to Link is external validation of
+already-accepted HTBW doctrine, not a new architectural event.** The rename itself is **announced
+only** — Nabu Casa states it "is planned for the December release" (2026.12) — so as of this review
+there is nothing in the shipped product to reconcile against. The doctrine the name change gestures
+toward (optional, no lock-in, private by default, funds the project rather than shareholders) is
+already fully expressed, in vendor-neutral terms, by:
+
+- **DL-41** — every capability declares its dependencies (native Home Assistant capability,
+  integration, provider, Connected Storage, consent, configuration); a missing dependency makes the
+  capability **unavailable**, named, and never emulated, and is **never a trust, identity, or
+  permission failure**.
+- **DL-42** — Home Assistant owns Home Assistant data; Connected Storage is a capability dependency
+  and **transfers no ownership**.
+- **P21** (Home Assistant First) and **P25** (the framework is vendor-agnostic; Home Assistant is the
+  first implementation environment, not a constraint on the architecture).
+- **DL-79**'s framework-wide evidence chain (`authority-order.md` non-negotiable constraints), itself
+  "the union of already-accepted P15, P27, P28, DL-26, DL-27, DL-30, DL-38, DL-58... not a new
+  responsibility."
+
+**No new architectural principle is required.** A proposed doctrine, *"A capability may be linked.
+Responsibility may not,"* maps completely onto DL-41/DL-42/DL-79 above and would duplicate them under
+a new name — the same duplication pattern already identified and avoided in the 2026-09-15 DL-40/
+DL-37 review. It is not adopted.
+
+**No new responsibility is created. No terminology migration is required.** HTBW does not adopt Home
+Assistant's product brand name ("Link") as repository vocabulary: it is a vendor's commercial service
+name, mid-rename, and adopting it would itself conflict with **P25** vendor-agnosticism — the opposite
+of what the rename intends to teach the Home Assistant community. HTBW's existing vendor-neutral
+vocabulary (dependency, provider, integration, Connected Storage, declared execution host) already
+covers the same ground with more precision.
+
+**The native Model Context Protocol (MCP) server/client capability was reviewed against OD-67 and
+DL-73.** It is a concrete instance of DL-73's already-accepted "external autonomous policy engine" /
+"reasoning-provider recommendation" Decision Authority category, and is fully bound by OD-67's
+existing invariants (a provider's output never silently becomes a Fact; a recommendation never
+silently becomes an authorised action; Concierge orchestrates and a provider is a consulted
+component, never a decision owner). **MCP strengthens OD-67's evidentiary record; it does not narrow,
+resolve, or require closing OD-67**, and creates no new category.
+
+**Repository terminology audit.** Every existing occurrence of "cloud" in this repository (**OD-07**,
+**OD-67**'s own note, `privacy.md`'s "Local versus cloud processing," `home-assistant-boundary.md`'s
+R8, the Wyoming-runtime ADR's "cloud fingerprinting is not the default," and all Historical-status
+documents) was reviewed and found **correctly scoped already** — generic, vendor-neutral usage, or an
+explicit non-default/non-dependency disclaimer. **No occurrence required replacement, retirement, or
+clarification**, and none is touched by this review.
+
+**Dependency impact.** **OD-07** and **OD-67** are unaffected (neither changed, narrowed, nor
+resolved). No other open decision is touched. Epic **#147** gains one linked, non-decision review
+issue; no checklist item changes.
+
 ---
 
 ## Part 3 — Recorded supersessions
