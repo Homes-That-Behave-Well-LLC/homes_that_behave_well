@@ -406,7 +406,7 @@ is adopted for HTBW configuration defects and rejected as a communication mechan
 |---|---|
 | **A Repairs issue is not a Communication.** It has no audience, no Urgency entitlement, no delivery attempt, and no presentation outcome | Repairs cannot satisfy P31 or P32 |
 | **Ignoring a Repairs issue is not a person-attributed acknowledgement.** Ignoring identifies nobody | Repairs cannot satisfy **OD-45**. Recorded there |
-| **`IssueSeverity` is not resident-facing Urgency.** `CRITICAL`, `ERROR`, and `WARNING` are a developer-facing platform ladder, not a household entitlement governed by Operational Trust | Confirms **G9**. Recorded in **OD-46** |
+| **`IssueSeverity` is not resident-facing Urgency.** `CRITICAL`, `ERROR`, and `WARNING` are a developer-facing platform ladder, not a household entitlement governed by Operational Trust | Confirms **G9**. Resolved as **DL-77** |
 | **Repairs is not an obligation store.** A household obligation is Stewardship-owned, carries significance and accountability, and uses the single escalation ladder | Repairs must not become a fourth list surface |
 | **A broadcast targets surfaces, not an audience.** `HassBroadcast` and `assist_satellite.announce` address satellites; neither resolves who may perceive the announcement | Confirms **G1**. Recorded in **OD-52** |
 
@@ -577,7 +577,7 @@ light.
 | **OD-43** | **Resolved as DL-53** — Delivery Surface capability model, including perceptibility and presentation attestation |
 | **OD-44** | Delivery outcome semantics across the two levels |
 | **OD-45** | Acknowledgement semantics, acknowledger identification, and whether unacknowledged delivery is a failure |
-| **OD-46** | Urgency classification as an Operational Trust entitlement, and its mapping to non-portable platform ladders |
+| **OD-46** | **Resolved as DL-77.** Urgency is a fixed, cumulative four-level entitlement ladder, formally independent of Action-Risk Classification (**DL-76**) |
 | **OD-47** | Household Inbox projection scope and refresh semantics |
 | **OD-48** | Re-presentation preference and its relation to the Follow-Me preference family |
 | **OD-49** | Communication retention floor and ceiling, with content and metadata classified separately — the retention rule is settled by DL-47; the separate classification and the values remain |

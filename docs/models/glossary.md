@@ -852,11 +852,11 @@ independent and are never collapsed into a matrix. Write+Convenience, Write+Secu
 Delete+Governance may all exist simultaneously for different protected operations.
 Model: [operational-trust.md](operational-trust.md)
 
-**Interruption Classification (OD-46)**
+**Interruption Classification — see Urgency (DL-77)**
 What a Communication is entitled to interrupt — a **formally separate, independent axis from Action-
 Risk Class** (**DL-76**). A Medication Reminder may carry low Action Risk and high Interruption; an
 Unlock Door Request may carry high Action Risk and low Interruption. Neither axis is derived from the
-other. Owned by **OD-46**, not by Action-Risk Classification.
+other. The canonical term and ladder are **Urgency**, above (**DL-77**).
 Model: [operational-trust.md](operational-trust.md)
 
 **Default Configuration Model (DL-76)**
@@ -1246,11 +1246,9 @@ the primary target of **P32**.
 
 **Indication**
 A content-free Delivery asserting only that something is outstanding. It discloses nothing, and is
-the required degradation where content may not be delivered.
-
-**Urgency**
-What a Communication is entitled to interrupt. An **entitlement granted by Operational Trust**, never
-a category and never a property the originator asserts.
+the required degradation where content may not be delivered. **Also the accepted degradation path
+where a granted Urgency cannot be exercised without violating audience, privacy, consent, or
+disclosure governance** (**DL-77**).
 
 **Category**
 What a Communication is about. Proposed by the originator. Orthogonal to Urgency; the two axes must
@@ -1259,6 +1257,58 @@ never be merged.
 **Household Inbox**
 A **projection** over outstanding Communications, assembled on demand and filtered by the viewer's
 authority at read time. It is not a persisted object and no responsibility owns it.
+
+**Urgency (DL-77)**
+The **maximum interruption entitlement** Operational Trust grants to a Communication. Answers *"what
+may this interrupt now?"* — never Category, severity, a delivery surface or command, precedence,
+retry, escalation, audience, permission to disclose, an originator assertion, or a requirement that
+Concierge use the maximum permitted interruption. The originator may **propose**; Operational Trust
+**determines and grants**. Risk-informed but formally independent of **DL-76** Action-Risk
+Classification — no required mapping between the two.
+
+**The canonical Urgency ladder (DL-77)**
+Exactly four levels, fixed and **cumulative** — each a maximum permitted interruption, never a
+mandatory delivery behaviour:
+
+| Level | Entitlement adds |
+|---|---|
+| **No Interruption** | Retained; presented when context permits; may not interrupt a current activity, active Mode, protected time, or a sleeping person |
+| **Interrupt Current Activity** | May interrupt a current activity or active Mode when other governance permits; may not override protected time or wake/disturb merely by this level |
+| **Override Protected Time** | May override quiet hours or another governed protected-time condition when other governance permits; may not wake/disturb merely by this level |
+| **Wake or Disturb** | May wake or deliberately disturb the intended audience when all other governance permits |
+
+**Originator Proposal (DL-77)**
+The optional Urgency level an originating responsibility proposes. Advisory only — never the granted
+entitlement merely because proposed, never prescriptive of surface or timing, never able to bypass
+Operational Trust. Its absence is itself recorded.
+
+**Canonical HTBW Recommendation (DL-77)**
+The current baseline Urgency recommendation Operational Trust provides for a governed scenario or
+configuration scope. Remains permanently, separately identifiable from any Household Override or
+Learned Household Recommendation.
+
+**Learned Household Recommendation (DL-77)**
+A Suggestion-stage proposal (the existing **P26**/**DL-21** learning promotion ladder, governed by
+**OD-28**) whose subject is an Urgency default, derived from repeated accepted Household Overrides.
+Never silently applied; requires explicit acceptance by an authorized identity; rejection never alters
+current configuration. Reuses the same mechanism **DL-75** established for Significance — no new
+learning or recommendation responsibility is created.
+
+**Configured Value (DL-77)**
+The Urgency value currently accepted for an applicable configuration scope — a household default, an
+asset class, an individual asset, or another scope **DL-76**'s override model already supports.
+
+**Household Override State (DL-77)**
+Whether a Configured Value differs from the applicable Canonical HTBW Recommendation, with provenance.
+Extends **DL-76**'s three-tier override model (Capability Default → HTBW Default → Household
+Override); a governed **Reset** removes the override and any unaccepted Learned Household
+Recommendation, restoring the Canonical HTBW Recommendation, without rewriting history.
+
+**Granted Runtime Entitlement (DL-77)**
+The Urgency level Operational Trust actually grants to a specific Communication, after evaluating
+configured policy and current facts. Reevaluated — a new Operational Trust determination, never
+automatically retry or escalation — when material inputs change; a decrease immediately governs
+pending delivery and never rewrites completed, historical delivery.
 
 **Delivery retry**
 Repeating delivery to the **same** audience. A Concierge concern. It is never called escalation.

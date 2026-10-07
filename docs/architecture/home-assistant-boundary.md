@@ -448,7 +448,7 @@ These object kinds are **not** interchangeable. Treating them as the same object
 | Communication | Notification, persistent notification, or `alert` (none equivalent) | A notification is a **delivery outcome**. A Communication is a governed household interaction with identity, version, audience, category, urgency, lifecycle, and history that exists whether or not anything was ever sent. |
 | Delivery Attempt | A `notify` or `assist_satellite` action call | An action call is fire-and-forget. A Delivery Attempt is a recorded, bounded act to one surface with its own governed outcome. |
 | Audience | `target`, notify group, or entity list | A target is a device or entity. An Audience is a **specification of people** — a person, role, authority class, or *anyone present with authority*. Home Assistant has no equivalent. |
-| Urgency | iOS `interruption-level`, Android channel `importance` | Two different, non-portable per-platform ladders, neither governed by household policy. HTBW Urgency is an Operational Trust **entitlement** mapped downward, never adopted upward. |
+| Urgency | iOS `interruption-level`, Android channel `importance` | Two different, non-portable per-platform ladders, neither governed by household policy. HTBW Urgency is an Operational Trust **entitlement** (**DL-77**) mapped downward, never adopted upward. |
 | Acknowledgement | `alert` acknowledgement, `clear_notification`, `mobile_app_notification_cleared` | Dismissal identifies nobody. HTBW Acknowledgement is **person-attributed**. `context.user_id` on `mobile_app_notification_action` is the only native attribution path, and only for actionable notifications. |
 | HTBW **Alert** category | The `alert` integration | ⚠️ **Name collision.** The HTBW Alert category describes *what a Communication is about*. The `alert` integration is a **condition-driven retry mechanism** watching an entity state. They are not the same object and must never be conflated. |
 | Household Inbox | The notifications panel | The panel is a stored list of persistent notifications. The Household Inbox is a **projection**, filtered by the viewer's authority at read time, and is never persisted. |
@@ -595,7 +595,7 @@ vocabulary term whose target no longer exists, an unreachable connected-storage 
 | Repairs is not an obligation store | A household obligation is Stewardship-owned and never becomes a Repairs issue |
 | Repairs is not a Communication | A Repairs issue is not addressed to an audience and carries no Urgency entitlement |
 | Ignoring is not acknowledgement | **Ignoring a Repair identifies nobody.** It is not a person-attributed acknowledgement of a Communication |
-| Severity is not Urgency | `IssueSeverity` is a developer-facing platform ladder, not resident-facing Urgency |
+| Severity is not Urgency | `IssueSeverity` is a developer-facing platform ladder, not resident-facing Urgency. Resident-facing `Alert`/`Warning` severity (R5, below) is a second, distinct non-Urgency platform ladder — neither is adopted as an HTBW Urgency value (**DL-77**) |
 
 Adoption scope is resolved as **DL-65**, below.
 
@@ -671,7 +671,7 @@ could otherwise make through Room Setup or the native registries.
 
 **Severity is derived only from the owning responsibility's own already-accepted state** — never from
 Stewardship significance, Operational Trust Urgency, or resident-facing consequence (**DL-46**,
-OD-46) — preserving the existing boundary rather than creating a new one.
+**DL-77**) — preserving the existing boundary rather than creating a new one.
 
 #### Ignore lifecycle and re-raise
 

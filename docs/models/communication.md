@@ -112,16 +112,60 @@ Proposed by the originator. Representative categories:
 
 The exact enumeration is open decision **OD-53**.
 
-### Urgency — what it may interrupt
+### Urgency — what it may interrupt (DL-77)
 
-**Urgency is an entitlement granted by Operational Trust, never a property the originator asserts.**
-The originator may propose an urgency; Operational Trust determines it.
+**Urgency is the maximum interruption entitlement Operational Trust grants to a Communication, never a
+property the originator asserts.** The originator may propose an Urgency level; Operational Trust
+determines and grants it.
 
 > **A category must never function as a bypass.** If a category could grant interruption rights by
 > virtue of its name, an originator could authorise itself, and **P32** would be decorative.
 
-Urgency classification is open decision **OD-46**. Its relationship to action-risk classification is
-**OD-51**.
+#### The canonical ladder
+
+Exactly four levels, fixed and **cumulative**. Each is a **maximum permitted interruption, never a
+mandatory delivery behaviour** — Concierge may always choose less.
+
+| Level | Entitlement adds |
+|---|---|
+| **No Interruption** | Retained; presented when context permits; may not interrupt a current activity, active Mode, protected time, or a sleeping person |
+| **Interrupt Current Activity** | May interrupt a current activity or active Mode when other governance permits; may not override protected time or wake/disturb merely by this level |
+| **Override Protected Time** | May override quiet hours or another governed protected-time condition when other governance permits; may not wake/disturb merely by this level |
+| **Wake or Disturb** | May wake or deliberately disturb the intended audience when all other governance permits |
+
+#### Six distinct values, never collapsed into one field
+
+| Value | Meaning |
+|---|---|
+| **Originator Proposal** | The optional level the originator proposes. Advisory only; its absence is itself recorded |
+| **Canonical HTBW Recommendation** | The current baseline recommendation for the governed scenario or scope |
+| **Learned Household Recommendation** | A Suggestion-stage proposal (existing **P26**/**DL-21** ladder, **OD-28**) derived from repeated accepted overrides — never silently applied |
+| **Configured Value** | The value currently accepted for the applicable scope |
+| **Household Override State** | Whether the configured value differs from the recommendation, with provenance |
+| **Granted Runtime Entitlement** | What Operational Trust actually grants, after evaluating policy and current facts |
+
+#### Relationship to Action-Risk Classification (DL-76)
+
+Urgency and Action-Risk Classification are **independent models**. Operational Trust consumes the
+applicable Risk Class, thresholds, and configuration as one input among several — **there is no
+required one-to-one mapping**, and two circumstances sharing a Risk Class may receive different
+Urgency because current facts, context, audience, or configuration differ.
+
+#### Urgency may be reevaluated
+
+Operational Trust reevaluates the granted entitlement when material inputs change. **A reevaluation is
+a new Operational Trust determination — never automatically retry, and never automatically
+escalation.** Where the entitlement decreases, pending delivery immediately respects the new
+entitlement, completed delivery remains historical fact, and any queued delivery or retry requiring
+the former entitlement is cancelled or replanned.
+
+#### Precedence remains OD-04's
+
+Urgency grants interruption **eligibility**; it does not order Communications that are otherwise
+eligible. **OD-04 owns relative precedence**, including Communications that share one Urgency level.
+
+Urgency classification is resolved as **DL-77**. Its relationship to action-risk classification is
+**DL-76**.
 
 ### Why the axes are separate
 
@@ -773,7 +817,7 @@ The home must be able to answer *"why didn't you tell me?"*:
 | Step | Responsibility | Output |
 |---|---|---|
 | 1 | **Originator** | This must be conveyed, to this audience, about this subject |
-| 2 | **Operational Trust** | Who may receive it; urgency entitlement; interruption entitlement; visibility classification |
+| 2 | **Operational Trust** | Who may receive it; the granted Urgency (interruption) entitlement; visibility classification |
 | 3 | **Identity** | Candidate person assertions with confidence — never presence |
 | 4 | **Truth** | Contextual person-presence and occupancy — **who else can perceive the surface** |
 | 5 | **Continuity** | Re-presentation preference and personal surface defaults |
@@ -877,7 +921,7 @@ See [../scenarios/why-did-this-happen.md](../scenarios/why-did-this-happen.md).
 | OD-43 | **Closed — DL-53.** Delivery Surface capability model, including perceptibility and attestation; portable-surface Room Context mechanism remains **OD-73** |
 | OD-44 | Delivery outcome semantics across the two levels |
 | OD-45 | Acknowledgement semantics and acknowledger identification |
-| OD-46 | Urgency classification as an Operational Trust entitlement |
+| OD-46 | **Closed — DL-77.** Urgency is a fixed, cumulative four-level entitlement ladder, formally independent of Action-Risk Classification (**DL-76**), never overriding audience, privacy, consent, disclosure, identity, authority, or precedence (**OD-04**) |
 | OD-47 | Household Inbox projection scope and refresh semantics |
 | OD-48 | Re-presentation preference and its relation to the Follow-Me preference family |
 | OD-49 | Communication retention floor and ceiling |

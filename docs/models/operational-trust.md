@@ -754,7 +754,7 @@ and no provider's technical behaviour is specified or assumed here.
 
 **Interruption is not a Risk Class. Risk and Interruption are formally separate, independent axes**
 (**DL-76**, correcting this section's prior provisional text, which treated interruption as an
-action-risk class while **OD-51** remained open). **OD-51/DL-76 owns Action Risk; OD-46 owns
+action-risk class while **OD-51** remained open). **DL-76 owns Action Risk; DL-77 owns
 Interruption Classification.** A Medication Reminder may carry low Action Risk and high Interruption;
 an Unlock Door Request may carry high Action Risk and low Interruption — both remain representable,
 and neither axis is derived from the other. Operational Trust consumes both independently when
@@ -764,15 +764,158 @@ governing whether, and how, a Communication may interrupt.
 > Operational-Trust-granted **entitlement** — revocable, explainable, and traced. It is never a right
 > that an originator confers upon itself by naming its own category.
 
-Action-Risk Class enumeration and defaults are **DL-76**. Interruption/Urgency classification is
-**OD-46**.
+Action-Risk Class enumeration and defaults are **DL-76**. Urgency Entitlement is **DL-77**, below.
 
-### Urgency is granted, not asserted
+## Urgency Entitlement (DL-77)
 
-An originator may **propose** an urgency. **Operational Trust determines it.** Urgency is orthogonal
-to Category: Category describes what a Communication is about, Urgency describes what it may
-interrupt. The two axes must never be merged. See
-[communication.md](communication.md).
+Resolves **OD-46**. Urgency is the **maximum interruption entitlement** Operational Trust grants to a
+Communication. An originator may **propose**; **Operational Trust determines and grants.**
+
+### The canonical ladder
+
+Exactly four levels, fixed and **cumulative** — each a maximum permitted interruption, never a
+mandatory delivery behaviour:
+
+| Level | Entitlement adds |
+|---|---|
+| **No Interruption** | Retained; presented when context permits; may not interrupt a current activity, active Mode, protected time, or a sleeping person |
+| **Interrupt Current Activity** | May interrupt a current activity or active Mode when other governance permits; may not override protected time or wake/disturb merely by this level |
+| **Override Protected Time** | May override quiet hours or another governed protected-time condition when other governance permits; may not wake/disturb merely by this level |
+| **Wake or Disturb** | May wake or deliberately disturb the intended audience when all other governance permits |
+
+> **A category must never function as a bypass.** A safety or critical classification is an
+> Operational-Trust-granted **entitlement** — revocable, explainable, and traced. It is never a right
+> that an originator confers upon itself by naming its own category. Urgency is orthogonal to
+> Category: Category describes what a Communication is about, Urgency describes what it may
+> interrupt. The two axes must never be merged. See [communication.md](communication.md).
+
+### Relationship to Action-Risk Classification (DL-76)
+
+**Urgency and Action-Risk Classification are independent models.** Operational Trust consumes the
+applicable Risk Class, thresholds, asset-class and individual-asset configuration, and household
+policy as **one input among several** — current facts, context, audience, identity confidence,
+consent, privacy, disclosure policy, active Mode, protected-time status, presence, and escalation
+state all also apply. **There is no required one-to-one mapping**: two circumstances sharing a Risk
+Class may receive different Urgency, and Urgency determination is never a blind numeric calculation.
+Configuration may never bypass audience, privacy, consent, disclosure, identity, authority, or
+life-safety governance.
+
+### Six distinct values, never collapsed into one field
+
+| Value | Meaning |
+|---|---|
+| **Originator Proposal** | The optional level the originator proposes. Advisory only — never the granted entitlement merely because proposed, never prescriptive of surface or timing, never able to bypass Operational Trust. Its absence is itself recorded |
+| **Canonical HTBW Recommendation** | The current baseline recommendation for the governed scenario or configuration scope |
+| **Learned Household Recommendation** | A Suggestion-stage proposal under the existing **P26**/**DL-21** learning promotion ladder (**OD-28**), derived from repeated accepted Household Overrides — never silently applied, requires explicit acceptance, rejection never alters configuration |
+| **Configured Value** | The value currently accepted for the applicable scope |
+| **Household Override State** | Whether the configured value differs from the recommendation, with provenance |
+| **Granted Runtime Entitlement** | What Operational Trust actually grants, after evaluating configured policy and current facts |
+
+**Recommended-value and override pattern.** The household must be able to view every canonical level,
+see HTBW's recommendation, accept it, choose another, see override status, and understand the
+consequence. **Visibility and explicit choice are canonical; a specific UI control is not.**
+
+**Learned Household Recommendations and reset reuse existing mechanisms, inventing none.** A Learned
+Household Recommendation is simply a Suggestion whose subject is an Urgency default — the same ladder
+**DL-75** already applied to Significance. **Reset to the HTBW baseline extends DL-76's three-tier
+override model** (Capability Default → HTBW Default → Household Override) with an explicit Reset
+action: it shows the proposed changes, requires a sufficiently identified and authorized actor and
+explicit confirmation, removes the Household Override and any unaccepted Learned Household
+Recommendation within the selected scope, and restores the Configured Value to the Canonical HTBW
+Recommendation. **Reset never rewrites history** — prior values and the reset decision remain
+explainable through existing versioning, Change Records, and the Decision Trace.
+
+### Urgency may be reevaluated
+
+Operational Trust reevaluates the granted entitlement when material inputs change — facts, risk
+evaluation, threshold state, escalation state, configuration, audience, presence, active Mode,
+protected-time status, or other relevant context. **A reevaluation is a new Operational Trust
+determination. It is never automatically retry, and never automatically escalation.** Elapsed time
+alone is never sufficient to increase Urgency absent an accepted threshold, policy, risk change, or
+escalation rule that makes it materially relevant.
+
+**Effect of a decrease:** pending delivery must immediately respect the new, lower entitlement;
+completed delivery remains historical fact and is never rewritten; queued delivery or retry requiring
+the former entitlement is cancelled or replanned; the reevaluation, the prior entitlement, and the new
+entitlement remain explainable.
+
+### Precedence remains OD-04's
+
+Urgency grants interruption **eligibility**; it does not order Communications that are otherwise
+eligible. **OD-04 owns relative precedence**, including the ordering of Communications sharing one
+Urgency level. This decision creates no second precedence mechanism.
+
+### Audience, privacy, consent, and disclosure are never overridden
+
+Guest eligibility, and every other audience question, is governed by the Communication's own audience
+policy (**DL-34**), **never by an Urgency exception** — a Communication whose governed audience
+includes all current occupants (a smoke or carbon-monoxide condition) was never granted that audience
+**by** its Urgency. Audience determines who may receive it; disclosure governs what may be revealed;
+Urgency governs what may be interrupted; Concierge governs how to help within all three.
+
+**Permission to interrupt is not permission to disclose** (**DL-29**, **DL-34**, **P32**). Where the
+granted entitlement cannot be exercised without violating audience, privacy, consent, or disclosure
+governance, **delivery degrades** — surface change, content-free Indication where **OD-57**'s own rule
+permits it, or non-delivery — **the governance never does**, and both the granted entitlement and the
+degradation are recorded.
+
+### Concierge and surface separation
+
+Urgency sets the maximum. **Concierge decides whether, when, through which surface, and in what
+form**, operating only within the granted entitlement, the governed audience, privacy/consent/
+disclosure restrictions, and verified surface capability (**DL-53**). Concierge may choose less
+disruptive delivery than the maximum allowed, may never exceed the granted entitlement, and a material
+choice to use less than the maximum remains explainable.
+
+**Delivery Surface capability verification restates DL-53 directly, not reopened**: a surface
+exercises only capability it can verifiably honour, and HTBW never falsely claims an entitlement was
+fulfilled.
+
+### Platform mapping
+
+HTBW's canonical Urgency determination is mapped downward by the Delivery Surface adapter to a
+verified platform capability where one exists. The mapping never renames an HTBW level, never treats a
+platform ladder as the HTBW ladder, never lets a platform severity determine Operational Trust policy,
+and never lets a platform limitation rewrite the canonical model. **Two existing, unrelated platform
+severities are reaffirmed, not merged**: the developer-facing three-value `IssueSeverity`, and the Home
+Assistant 2026.9 Security-dashboard resident-facing, household-declared, two-valued `Alert`/`Warning`
+presentation severity (see
+[../architecture/home-assistant-boundary.md](../architecture/home-assistant-boundary.md)) — **neither
+is adopted as an HTBW Urgency value**; both carry no audience, no entitlement, and no interruption
+policy.
+
+### Deferral is distinct from Urgency, and is not redesigned here
+
+A deferral request ("remind me in 30 minutes") changes delivery eligibility or timing; **it does not
+itself change the granted Urgency.** Not every identified person may defer every Communication: a
+deferral requires an identified actor, sufficient identity confidence for the requested action, an
+Operational Trust authority determination, evaluation of whether the Communication type is deferrable
+and of the requested duration or condition, and an explainable allow-or-deny outcome. **This restates,
+and does not relocate, the existing ownership `stewardship.md` already records**: acknowledgement,
+snooze, suppression, and duplicate-prevention semantics remain **OD-45** and **OD-54**. A later
+Operational Trust reevaluation may terminate or supersede a deferral where changed facts justify a
+stronger entitlement.
+
+### Responsibility boundaries
+
+| Responsibility | Owns | Does not own |
+|---|---|---|
+| **Operational Trust** | Urgency recommendation, determination, grant, reevaluation; authority to accept, override, reset, or defer | The Communication itself |
+| **Originating responsibility** | The Communication, Category, and its optional proposed Urgency | The granted entitlement, surface, timing, form, or final audience |
+| **Identity** | Evidence and confidence | Authority |
+| **Concierge** | Whether, when, surface, and form within the entitlement | Urgency, audience policy, privacy policy, disclosure authority, or Risk Class |
+
+**No new Communication, Messaging, Delivery, Escalation, Urgency, Recommendation, or Deferral
+responsibility is created.**
+
+### Life-safety boundary
+
+Restates the existing non-negotiable constraint; does not reopen **OD-56**. HTBW is not a life-safety
+system and never describes a Communication as a certified alarm, a guaranteed emergency-warning
+system, or a substitute for a native smoke, carbon-monoxide, fire, security, or water-shutoff system.
+HTBW may communicate about native device state or supplement native behaviour, but **never suppresses,
+defers, delays, or replaces a native alarm**, and never claims responsibility for native alarm
+delivery.
 
 ---
 
@@ -1401,9 +1544,9 @@ effect.** See [../architecture/privacy.md](../architecture/privacy.md).
 | OD-39 | Preservation Hold authority, duration, review, release, and conflict with deletion |
 | OD-40 | Evidence Package assembly, transport, integrity representation, and audience |
 | OD-45 | Acknowledgement semantics, and whether unacknowledged delivery is a failure |
-| OD-46 | Urgency classification as an Operational Trust entitlement, and mapping to non-portable platform ladders. **Resolved by DL-76 that this is formally independent of Action-Risk Classification** |
+| OD-46 | **Resolved as DL-77.** Urgency is a fixed, cumulative four-level entitlement ladder, formally independent of Action-Risk Classification (**DL-76**), never overriding audience, privacy, consent, disclosure, identity, authority, or precedence (**OD-04**) |
 | OD-49 | Communication retention floor and ceiling, with content and metadata classified separately |
-| OD-51 | **Resolved as DL-76.** Action-Risk Class enumeration (Convenience, Disclosure, Financial, Safety, Security, Governance) and per-class Required Identity Band / Confirmation Strength / Address by Name / Presentation Threshold defaults; household and object-specific override model; interruption confirmed as a separate axis (OD-46) |
+| OD-51 | **Resolved as DL-76.** Action-Risk Class enumeration (Convenience, Disclosure, Financial, Safety, Security, Governance) and per-class Required Identity Band / Confirmation Strength / Address by Name / Presentation Threshold defaults; household and object-specific override model; interruption confirmed as a separate axis (**DL-77**) |
 | OD-52 | **Closed — DL-71.** Five Intended Audience Specification forms accepted; relationship-based resolution requires a **DL-57** Delegated Access Grant for actual authorization; Guest fallback and Copy Settings From Person are Person Setup conveniences, not new authority models |
 | OD-53 | Communication category enumeration, and confirmation of the Category × Urgency separation |
 | OD-56 | Safety-category scope, and whether HTBW may originate safety Communications at all |

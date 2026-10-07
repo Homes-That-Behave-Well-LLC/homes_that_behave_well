@@ -126,7 +126,7 @@ accepted decision prevails.
 | **C15** | Guest relationship learning | **E — Blocked** | **OD-06**, **OD-28**, **OD-65** |
 | **C16** | Multi-party relationship-aware disclosure | **E — Blocked** | **OD-84**, **OD-71** |
 | **C17** | Channel selection across the household experience | **E — Blocked** | **OD-43** (#113) |
-| **C18** | Importance, urgency, escalation, and follow-up | **E — Blocked** | **OD-46**, **OD-51**, **OD-53**, **OD-22** |
+| **C18** | Importance, urgency, escalation, and follow-up | **E — Blocked** | **OD-53**, **OD-22** |
 | **C19** | Explainability | **B — Architecturally supported** | **OD-30** for surfaces |
 | **C20** | Do nothing as a valid Concierge response | **B — Architecturally supported** | None |
 
@@ -700,7 +700,7 @@ noise.
 | **Retention and expiry** | Communication lifecycle states are accepted; **retention values are not** |
 | **Failure and degradation** | An acknowledgement that never arrives stays **unknown** and **never decays into *not acknowledged*** |
 | **Maturity** | **E — Blocked** |
-| **Open decisions** | **OD-46** (#98), **OD-51** (#99), **OD-53** (#119), **OD-22** (#108), **OD-45** (#115), **OD-48** (#117), **OD-49** (#118), **OD-54** (#120) |
+| **Open decisions** | **DL-77** urgency entitlement (resolved), **DL-76** action-risk classes (resolved), **OD-53** (#119), **OD-22** (#108), **OD-45** (#115), **OD-48** (#117), **OD-49** (#118), **OD-54** (#120) |
 
 **Repeating delivery to the same audience is retry and belongs to Concierge. Changing the audience is
 escalation and belongs to Stewardship's ladder and Operational Trust's authority.** These are already
@@ -826,7 +826,7 @@ architectural construct.**
 | 5 | Unfinished offers remembered and re-presented? | **Open — OD-48** |
 | 6 | Repeated notifications suppressed? | **Open — OD-54** |
 | 7 | Deadlines and expiry? | **Partially — OD-49**; lifecycle states accepted, values open |
-| 8 | Urgency and importance? | **Answered in ownership** — Stewardship significance, Operational Trust urgency. **Values open — OD-46**, **OD-53** |
+| 8 | Urgency and importance? | **Answered** — Stewardship significance (**DL-75**), Operational Trust Urgency (**DL-77**), both with accepted representations. **Values open — OD-53**'s Category enumeration |
 | 9 | Recommendations distinguished from commands? | **Answered** — **DL-21**, §7 |
 | 10 | Recommended actions authorised? | **Answered** — Operational Trust; §5 prohibition 4 |
 | 11 | Outcome-based requests decomposed? | **Answered** — §3, and conflicts by **OD-04** |

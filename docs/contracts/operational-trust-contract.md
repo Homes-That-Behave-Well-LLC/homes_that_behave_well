@@ -184,12 +184,37 @@ different outcomes. A presentation threshold that is not met produces neutral wo
 denies the action**.
 
 **Interrupting is a governed action, on its own axis.** Interruption is **not** a Risk Class;
-Risk and Interruption are formally separate, independent axes (**DL-76**). **OD-51/DL-76 owns Action
-Risk; OD-46 owns Interruption Classification.** A safety or critical classification is a granted,
+Risk and Interruption are formally separate, independent axes (**DL-76**). **DL-76 owns Action
+Risk; DL-77 owns Interruption Classification (Urgency).** A safety or critical classification is a granted,
 revocable, explainable entitlement and **never a bypass**.
 
-**Urgency is granted, not asserted.** An originator may propose an urgency; Operational Trust
-determines it. Urgency is orthogonal to Category and the two axes must never be merged. See
+## Urgency Entitlement (DL-77)
+
+Urgency is the **maximum interruption entitlement** Operational Trust grants to a Communication, on a
+fixed, cumulative four-level ladder:
+
+| Level | Entitlement adds |
+|---|---|
+| **No Interruption** | Retained; may not interrupt a current activity, active Mode, protected time, or a sleeping person |
+| **Interrupt Current Activity** | May interrupt a current activity or active Mode; may not override protected time or wake/disturb |
+| **Override Protected Time** | May override quiet hours or another protected-time condition; may not wake/disturb |
+| **Wake or Disturb** | May wake or deliberately disturb the intended audience when all other governance permits |
+
+An originator may **propose**; Operational Trust **determines and grants**. Urgency is **risk-informed
+but formally independent of DL-76** — no required mapping between the two. Six values are kept
+distinct: Originator Proposal, Canonical HTBW Recommendation, Learned Household Recommendation,
+Configured Value, Household Override State, and Granted Runtime Entitlement. Learned Household
+Recommendations and baseline reset reuse the existing **P26**/**DL-21** learning ladder (**OD-28**)
+and **DL-76**'s override model — no new mechanism is created.
+
+**Urgency may be reevaluated** when material facts change — a new Operational Trust determination,
+never automatically retry or escalation; a decrease immediately governs pending delivery without
+rewriting completed history. **OD-04 retains sole ownership of precedence**, including ordering
+Communications sharing one Urgency level. Urgency never overrides audience, privacy, consent,
+disclosure, identity, or authority; Concierge selects surface, moment, and form only within the
+granted entitlement and verified surface capability (**DL-53**). Identity-and-authority-governed
+deferral is distinct from Urgency and remains **OD-45**/**OD-54**'s own mechanics. Urgency is
+orthogonal to Category and the two axes must never be merged. See
 [../models/communication.md](../models/communication.md).
 
 ---
@@ -450,9 +475,9 @@ would change the outcome.
 | OD-39 | Preservation Hold authority, duration, review, release, and conflict with deletion |
 | OD-40 | Evidence Package assembly, transport, integrity representation, and audience |
 | OD-45 | Acknowledgement semantics, and whether unacknowledged delivery is a failure |
-| OD-46 | Urgency classification as an Operational Trust entitlement. **Resolved by DL-76 that this is formally independent of Action-Risk Classification** |
+| OD-46 | **Resolved as DL-77.** Urgency is a fixed, cumulative four-level entitlement ladder, formally independent of Action-Risk Classification (**DL-76**) |
 | OD-49 | Communication retention floor and ceiling |
-| OD-51 | **Resolved as DL-76.** Action-Risk Class enumeration and per-class defaults; household and object-specific override model; interruption confirmed as a separate axis (OD-46) |
+| OD-51 | **Resolved as DL-76.** Action-Risk Class enumeration and per-class defaults; household and object-specific override model; interruption confirmed as a separate axis (**DL-77**) |
 | OD-52 | Audience specification model |
 | OD-53 | Communication category enumeration |
 | OD-56 | Safety-category scope |
