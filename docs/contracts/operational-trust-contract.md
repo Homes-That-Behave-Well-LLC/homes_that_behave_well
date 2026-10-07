@@ -493,7 +493,7 @@ would change the outcome.
 | OD-51 | **Resolved as DL-76.** Action-Risk Class enumeration and per-class defaults; household and object-specific override model; interruption confirmed as a separate axis (**DL-77**) |
 | OD-52 | Audience specification model |
 | OD-53 | **Resolved as DL-78.** Communication Category is a closed, seven-value, content-domain enumeration, structurally separate from Urgency, Operation Type, and Action-Risk Classification; Operational Trust Category admissibility rejected |
-| OD-56 | **Narrowed by DL-78.** Safety accepted as the seventh Category; remaining safety-specific questions open |
+| OD-56 | **Resolved as DL-79.** Non-life-safety acknowledgement, certified-device deference, evidence-quality-proportionate conclusions, Investigation Needed; no Safety-specific audience, Urgency, or caretaker model |
 | OD-57 | Indication versus content separation |
 
 ## Related documents

@@ -135,7 +135,21 @@ These bind regardless of rank:
   inbox owner; and **no second escalation ladder**.
 - **HTBW is not a life-safety system.** No document may represent a safety-category Communication as
   smoke detection, carbon-monoxide detection, medical alerting, security monitoring, or emergency
-  notification, or as a substitute for certified alarms or emergency services.
+  notification, or as a substitute for certified alarms or emergency services. **This is not in
+  tension with Stewardship's accepted scope of safety-related care** (**DL-79**, resolving **OD-56**):
+  Stewardship may recognise, evaluate, and care for safety-related conditions and obligations, and
+  HTBW may originate truthful, governed Safety Communications — neither establishes life-safety
+  responsibility, guaranteed detection, warning, delivery, protection, mitigation, or outcome, and a
+  certified life-safety or protective device remains authoritative for its own domain throughout.
+  Safety capabilities require a one-time, authenticated-Administrator acknowledgement of this
+  boundary before they are enabled.
+- **Every framework responsibility expresses conclusions in proportion to the evidence quality
+  available to it, never inventing facts, overstating certainty, or hiding limitations** (**DL-79**,
+  the framework-wide evidence chain — Truth contributes facts; Identity contributes assertions and
+  confidence; Operational Trust evaluates appropriateness; Stewardship contributes obligations and
+  significance; Continuity contributes retained context; Concierge assembles delivery; Explainability
+  reconstructs what happened and why). This is the union of already-accepted **P15, P27, P28, DL-26,
+  DL-27, DL-30, DL-38, DL-58**, named here for cross-reference, not a new responsibility.
 
 ---
 

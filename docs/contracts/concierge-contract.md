@@ -110,6 +110,9 @@ Nothing depends on Concierge.
 17. **Concierge must not assign, approve, reject, or change a Communication's Category.** Category is
     assigned once, by the originating responsibility, from Foundation's closed seven-value enumeration
     (**DL-78**); Concierge consumes it for delivery decisions only.
+18. **Concierge must not strengthen a Safety claim, reinterpret a certified device's report, or
+    suppress, delay, or defer a native alarm** (**DL-79**). Concierge conveys the fact at its actual
+    scope and surfaces the observation time or elapsed age when delay materially affects relevance.
 
 ---
 

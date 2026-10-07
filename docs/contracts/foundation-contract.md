@@ -31,6 +31,11 @@ Foundation depends on no other responsibility.
   (Stewardship, Security, Care, Environment, Experience, System, Safety), its canonical definitions,
   and assignment guidance (**DL-78**) — never the Category selected for an individual Communication,
   which the originating responsibility assigns. See [../models/communication.md](../models/communication.md).
+- The canonical **non-life-safety acknowledgement record** — reusing **DL-56**'s consent-record shape
+  for a Home-level governance-boundary acceptance (**DL-79**). Foundation holds the record; Identity
+  owns the accepting actor's authentication; Operational Trust decides whether that actor holds
+  Administrator authority. Foundation does not own the onboarding/commissioning surface that captures
+  it, which remains **OD-85**'s own residual.
 
 ---
 

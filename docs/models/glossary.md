@@ -1368,6 +1368,39 @@ Full inclusion/exclusion boundaries and worked examples: [communication.md](comm
 of these names an HTBW responsibility, a platform classification (Home Assistant `EntityCategory`,
 Repairs `IssueSeverity`, a notification channel or priority), or a household-created label.
 
+**Non-Life-Safety Acknowledgement (DL-79)**
+A **one-time, authenticated-Administrator acceptance** required before Safety capabilities are
+enabled for a Home, stating that HTBW is not a life-safety system and guarantees no detection,
+observation, classification, monitoring, delivery, interruption, acknowledgement, response,
+mitigation, protection, or outcome. Reuses **DL-56**'s consent-record shape for a Home-level
+governance-boundary acceptance. An installer's technical setup is never household acceptance.
+Reviewable, exportable, and required to be re-accepted only for a material governance-boundary
+change. **The onboarding/commissioning surface that captures it is OD-85's own residual, not decided
+here.**
+Model: [operational-trust.md](operational-trust.md)
+
+**Certified-Device Deference (DL-79)**
+A certified life-safety or protective device remains authoritative for its own domain. HTBW may
+communicate that the device reported a condition; it must never reinterpret, restate as stronger,
+expand, certify, or replace that claim, and must never suppress, delay, or defer the native alarm.
+Model: [communication.md](communication.md)
+
+**Investigation Needed (DL-79)**
+A governed conclusion/handling outcome — **never a Category, an Urgency level, an alarm state, a
+native platform state, a guarantee, or a new responsibility** — applied where available evidence
+shows something deserves household attention but is insufficient to support a stronger conclusion and
+human observation is required. Never automatically authorises audible delivery, repeated delivery,
+protected-time override, waking a resident, a broader audience, or a disclosure bypass.
+Model: [communication.md](communication.md)
+
+**Material Uncertainty (DL-79)**
+Evidence quality that materially affects interpretation, significance, or action, which must be
+disclosed in resident-understandable language (*reported*, *likely*, *possible*, *uncertain*, *unable
+to determine*, *current state unavailable*, *evidence is conflicting*) — never only in Decision Trace
+metadata reachable solely through a later Explainability request. Maps to the existing **DL-58**/
+**DL-38** confidence models; no Safety-specific ladder is created.
+Model: [communication.md](communication.md)
+
 **Superseded terms**
 
 | Old term | Canonical mapping |

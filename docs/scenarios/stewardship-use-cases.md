@@ -619,6 +619,7 @@ thing.**
 | 4.5 | The sensor becomes dry | The obligation is re-evaluated, not auto-closed | Treat *dry* as *resolved* while an inspection obligation stands |
 | 4.6 | An existing household leak automation exists | It is referenced as the executor | Require the household to rewrite it |
 | 4.7 | Anywhere | Sensor history stays in Recorder | Create a second HTBW copy of the sensor state |
+| 4.8 | Conflicting or insufficient leak evidence | **Investigation Needed** may be recommended, stating what is known, what is not, and why (**DL-79**) | Fabricate a conclusion, or silently pick a side |
 
 ## Known implementation gaps
 
@@ -627,7 +628,7 @@ thing.**
 | Native automation, script, and scene **awareness** as governed executor evidence | **OD-64** |
 | Behaviour attribution — how *what changed the valve* is asserted | **OD-63** |
 | Urgency entitlement model | **Resolved — DL-77** |
-| Safety-category scope | **OD-56** |
+| Safety-category scope | **Resolved — DL-79** |
 | Obligation closure and the inspection follow-on | **Resolved — DL-48**. Closure requires a Care Evidence Record; a follow-on inspection is a **reopened** obligation retaining its identity |
 
 ---

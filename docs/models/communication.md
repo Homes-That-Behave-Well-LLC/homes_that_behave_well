@@ -942,8 +942,54 @@ Delivery is **best-effort** and may fail at the platform boundary. The remaining
 life-safety boundary — disclaimer content and its survival across delivery surfaces, the written
 reconciliation of this constraint against Stewardship's safety-related scope of care, safety-specific
 confirmation that audience governance is not bypassed, behaviour when a safety-shaped capability's
-dependency is missing, and deference to certified-device claims — remains open decision **OD-56**,
-narrowed but not closed by **DL-78**.
+dependency is missing, and deference to certified-device claims — is resolved as **DL-79**, below.
+
+### The non-life-safety acknowledgement and certified-device deference (DL-79)
+
+A **one-time, authenticated-Administrator acknowledgement** is required before Safety capabilities are
+enabled for a Home, stating the non-life-safety boundary in full, the capabilities that may become
+`Unavailable` (**DL-41**), and that Safety follows ordinary audience, privacy, consent, disclosure,
+Urgency, and delivery governance. Only an authenticated Administrator may accept — an installer's
+technical setup action is never household acceptance. The acceptance record is reviewable and
+exportable, reusing existing governed-record and retention mechanisms. **The onboarding or
+commissioning surface that captures this acknowledgement is not decided here** — the repository has no
+onboarding architecture today, a residual **OD-85** (#172) already owns. Runtime Safety Communications
+are not required to repeat the full acknowledgement; they remain truthful, scoped, and qualified.
+
+**A certified life-safety or protective device remains authoritative for its own domain.** HTBW may
+communicate that the device reported a condition; it must never reinterpret, restate as stronger,
+expand, certify, or replace that claim, and must never suppress, delay, or defer the native alarm.
+Permitted: *"The kitchen smoke alarm reported an alarm condition at 2:11 AM."* Forbidden without
+independent stronger evidence: *"There is a fire in the kitchen."*
+
+### Evidence-quality-proportionate conclusions and Investigation Needed (DL-79)
+
+Every conclusion — Safety or otherwise — is expressed in proportion to the evidence quality supporting
+it, reusing **DL-58** Truth Fact Confidence and **DL-38** Identity confidence; no Safety-specific
+confidence ladder exists. Material uncertainty is disclosed in resident-understandable language
+(*reported*, *likely*, *possible*, *uncertain*, *unable to determine*, *current state unavailable*,
+*evidence is conflicting*, *additional inspection recommended*) — never hidden in metadata reachable
+only through Explainability.
+
+**Investigation Needed** is a governed conclusion/handling outcome — **never a Category, an Urgency
+level, an alarm state, a native platform state, a guarantee, or a new responsibility.** It applies
+where available evidence shows something deserves household attention but cannot support a stronger
+conclusion, and human observation is required. The resulting Communication states what is known, when
+it was observed, what remains unknown and why, whether the condition may still be active, which
+dependency is unavailable or conflicting, and what the household should inspect. It never
+automatically authorises audible delivery, repeated delivery, protected-time override, waking a
+resident, a broader audience, or a disclosure bypass — the message-level recommended Urgency and the
+**DL-77** granted Urgency remain separately governed.
+
+### Temporal provenance and delay-relevance (DL-79)
+
+Safety (and every Category's) Communications preserve the existing temporal chain — observation time,
+authoritative-report time, source timestamp, Communication creation time, most recent reevaluation
+time, delivery-attempt and successful-delivery time, and cancellation/expiration/resolution time where
+applicable — reusing `temporal-record.md` and the Decision Trace (**P29**, **P30**); no new mechanism
+is created. Where delay materially affects relevance, resident-facing delivery states the observation
+time or elapsed age in understandable language, and an old observation is never presented as current
+without qualification.
 
 ---
 
@@ -1021,7 +1067,7 @@ See [../scenarios/why-did-this-happen.md](../scenarios/why-did-this-happen.md).
 | OD-53 | **Closed — DL-78.** Communication Category is a closed, seven-value, content-domain enumeration (Stewardship, Security, Care, Environment, Experience, System, Safety), structurally separate from Urgency, Operation Type, and Action-Risk Classification; exactly one Category per Communication; Operational Trust Category admissibility rejected |
 | OD-54 | Delivery retry policy |
 | OD-55 | **Closed — DL-54.** Presentation Outcome model (Presented / Failed / Unknown / Attestation Unavailable); per-surface enumeration evidence recorded in the ADR |
-| OD-56 | **Narrowed by DL-78.** Safety accepted as the seventh Category; disclaimer content/survival, written reconciliation, audience-bypass confirmation, dependency-missing behaviour, and certified-device deference remain open |
+| OD-56 | **Closed — DL-79.** Non-life-safety acknowledgement, certified-device deference, evidence-quality-proportionate conclusions, Investigation Needed, temporal provenance, and the framework-wide evidence chain are accepted; Safety creates no Safety-specific audience, Urgency, or caretaker model |
 | OD-57 | Indication versus content separation |
 | OD-58 | Terminology supersession scope for *Notification* and *Message* |
 

@@ -95,7 +95,10 @@ Stewardship covers:
 - Vehicles
 - Consumables
 - Services
-- Safety-related conditions
+- Safety-related conditions (**DL-79**: a care obligation and a truthful, governed Safety
+  Communication, never a life-safety responsibility, guaranteed detection, warning, delivery,
+  protection, mitigation, or outcome — see [communication.md](communication.md)'s *Non-life-safety
+  acknowledgement* section)
 
 ---
 
@@ -666,7 +669,11 @@ currently configured" is acceptable; a single green/amber/red health verdict tha
 subject or requirement produced it is not.
 
 **HTBW asserts no diagnosis, clinical advice, wellness score, medical claim, or life-safety guarantee at
-any point in this model.**
+any point in this model.** Stewardship may recognise, evaluate, and care for safety-related conditions
+and obligations without that recognition ever becoming a life-safety responsibility — reconciled in
+full as **DL-79**: Stewardship owns the obligation and its significance; **Operational Trust** grants
+Urgency (**DL-77**) and determines appropriateness; **Concierge** coordinates delivery; a certified
+life-safety or protective device remains authoritative for its own domain throughout.
 
 ---
 

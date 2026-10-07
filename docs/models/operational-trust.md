@@ -920,12 +920,40 @@ responsibility is created.**
 
 ### Life-safety boundary
 
-Restates the existing non-negotiable constraint; does not reopen **OD-56**. HTBW is not a life-safety
-system and never describes a Communication as a certified alarm, a guaranteed emergency-warning
-system, or a substitute for a native smoke, carbon-monoxide, fire, security, or water-shutoff system.
-HTBW may communicate about native device state or supplement native behaviour, but **never suppresses,
-defers, delays, or replaces a native alarm**, and never claims responsibility for native alarm
-delivery.
+Restates the existing non-negotiable constraint, now fully reconciled as **DL-79**. HTBW is not a
+life-safety system and never describes a Communication as a certified alarm, a guaranteed
+emergency-warning system, or a substitute for a native smoke, carbon-monoxide, fire, security, or
+water-shutoff system. HTBW may communicate about native device state or supplement native behaviour,
+but **never suppresses, defers, delays, or replaces a native alarm**, and never claims responsibility
+for native alarm delivery. **A certified life-safety or protective device remains authoritative for
+its own domain** — Operational Trust never reinterprets or restates its claim as stronger.
+
+### One-time Administrator acknowledgement (DL-79)
+
+Before Safety capabilities are enabled for a Home, an authenticated, logged-in **Administrator** must
+accept a one-time acknowledgement stating the non-life-safety boundary, that Safety-related
+capabilities may become `Unavailable` (**DL-41**), and that Safety follows ordinary audience, privacy,
+consent, disclosure, Urgency, and delivery governance. **Operational Trust determines whether the
+accepting identity holds Administrator authority**, reusing the existing authenticated-administrator
+pattern already accepted for other administrator-gated changes (**DL-37**, **DL-40**) — **a native
+administrator flag confers no care, guardianship, or proxy authority** (**DL-57**, unchanged). The
+acceptance record reuses **DL-56**'s consent-record shape (actor, scope, granted/effective time,
+version), extended here to a Home-level governance-boundary acceptance. An installer's technical setup
+action is never household acceptance. Reacceptance is required only for a material governance-boundary
+change, never for routine software changes. **The onboarding or commissioning surface that captures
+this acknowledgement is not decided here** — the repository has no onboarding architecture today, a
+residual **OD-85** (#172) already owns.
+
+### Evidence-quality-proportionate conclusions and Investigation Needed (DL-79)
+
+Every conclusion Operational Trust evaluates or consumes — Safety or otherwise — is expressed in
+proportion to the evidence quality supporting it, reusing **DL-58** Truth Confidence and **DL-38**
+Identity confidence; no Safety-specific confidence ladder exists. Where evidence is missing, stale, or
+conflicting, Operational Trust never forces a conclusion, restating **DL-41** unchanged. **Investigation
+Needed** is a governed conclusion/handling outcome — never a Category, an Urgency level, or a
+guarantee — applied where evidence supports household attention but not a stronger conclusion; it never
+automatically grants broader Urgency, audience, or disclosure. See
+[communication.md](communication.md).
 
 ---
 
@@ -1559,7 +1587,7 @@ effect.** See [../architecture/privacy.md](../architecture/privacy.md).
 | OD-51 | **Resolved as DL-76.** Action-Risk Class enumeration (Convenience, Disclosure, Financial, Safety, Security, Governance) and per-class Required Identity Band / Confirmation Strength / Address by Name / Presentation Threshold defaults; household and object-specific override model; interruption confirmed as a separate axis (**DL-77**) |
 | OD-52 | **Closed — DL-71.** Five Intended Audience Specification forms accepted; relationship-based resolution requires a **DL-57** Delegated Access Grant for actual authorization; Guest fallback and Copy Settings From Person are Person Setup conveniences, not new authority models |
 | OD-53 | **Resolved as DL-78.** Communication Category is a closed, seven-value, content-domain enumeration (Stewardship, Security, Care, Environment, Experience, System, Safety), structurally separate from Urgency, Operation Type, and Action-Risk Classification; Operational Trust Category admissibility rejected |
-| OD-56 | **Narrowed by DL-78.** Safety accepted as the seventh Category; disclaimer content/survival, written reconciliation, audience-bypass confirmation, dependency-missing behaviour, and certified-device deference remain open |
+| OD-56 | **Resolved as DL-79.** Non-life-safety acknowledgement (one-time, authenticated-Administrator), certified-device deference, evidence-quality-proportionate conclusions, Investigation Needed, temporal provenance, and the framework-wide evidence chain; no Safety-specific audience, Urgency, or caretaker model |
 | OD-57 | Indication versus content separation |
 
 ## Related documents

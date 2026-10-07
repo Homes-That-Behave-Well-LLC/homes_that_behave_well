@@ -79,7 +79,11 @@ reminder, advisory, maintenance task, corrective action, or escalation is a late
 - Maintenance and service history
 
 Scope of care: assets, the home, rooms and environmental conditions, people where consented, pets,
-vehicles, consumables, services, and safety-related conditions.
+vehicles, consumables, services, and safety-related conditions. **Recognising and caring for a
+safety-related condition never becomes a life-safety responsibility** — reconciled in full as
+**DL-79**: Stewardship owns the obligation and significance; Operational Trust grants Urgency
+(**DL-77**) and determines appropriateness; Concierge coordinates delivery; a certified device remains
+authoritative for its own domain.
 
 ---
 
