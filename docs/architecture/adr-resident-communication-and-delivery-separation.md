@@ -339,8 +339,9 @@ Delivery of a safety-category Communication is **best-effort**, is subject to th
 authority, and surface-availability constraints as any other Communication, and may fail silently at
 the platform boundary.
 
-Whether HTBW may originate safety-category Communications at all, or must defer entirely to native
-alarms and certified devices, is open decision **OD-56**.
+**Safety is accepted as the seventh canonical Communication Category (DL-78).** Whether HTBW must defer
+entirely to native alarms and certified devices for specific claims, and the disclaimer content and
+survival across surfaces, remain open decision **OD-56**, narrowed but not closed by **DL-78**.
 
 ---
 
@@ -584,10 +585,10 @@ light.
 | **OD-50** | Escalation ladder semantics for communications, resolved into OD-22 |
 | **OD-51** | Interruption action-risk class enumeration and defaults |
 | **OD-52** | Audience specification model, including resolution of *anyone present with authority* |
-| **OD-53** | Communication category enumeration |
+| **OD-53** | **Resolved as DL-78** — Communication Category is a closed, seven-value, content-domain enumeration (Stewardship, Security, Care, Environment, Experience, System, Safety), structurally separate from Urgency, Operation Type, and Action-Risk Classification |
 | **OD-54** | Delivery retry policy — attempts, intervals, surface progression, and give-up semantics |
 | **OD-55** | **Resolved as DL-54** — Presentation Outcome model (Presented / Failed / Unknown / Attestation Unavailable), and the representation of unknown |
-| **OD-56** | Safety-category scope, and whether HTBW may originate safety Communications at all |
+| **OD-56** | **Narrowed by DL-78** — Safety accepted as the seventh Category; disclaimer content/survival, written reconciliation, audience-bypass confirmation, dependency-missing behaviour, and certified-device deference remain open |
 | **OD-57** | Indication versus content separation, and when content-free indication becomes mandatory |
 | **OD-58** | Terminology supersession scope for *Notification* and *Message* |
 

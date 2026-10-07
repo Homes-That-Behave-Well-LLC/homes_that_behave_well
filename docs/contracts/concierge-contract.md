@@ -107,6 +107,9 @@ Nothing depends on Concierge.
     same audience is **retry**, and is Concierge's.
 16. **Concierge must not treat a category as an interruption entitlement.** Urgency is granted by
     Operational Trust.
+17. **Concierge must not assign, approve, reject, or change a Communication's Category.** Category is
+    assigned once, by the originating responsibility, from Foundation's closed seven-value enumeration
+    (**DL-78**); Concierge consumes it for delivery decisions only.
 
 ---
 

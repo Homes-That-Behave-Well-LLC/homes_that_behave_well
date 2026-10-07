@@ -68,7 +68,7 @@ Change Records**. It is never a growing document.
 | **Originator reference** | A **Governed Reference** to the responsibility and to the exact version of the record that caused it |
 | **Subject reference** | A **Governed Reference** to what it is about — an Asset, Room, Person, Obligation, or Fact version |
 | **Intended Audience** | An audience **specification** — never a device or surface list |
-| **Category** | What it is about. Proposed by the originator |
+| **Category** | What it is about. Selected by the originator from the closed seven-value enumeration (**DL-78**) |
 | **Urgency** | What it is entitled to interrupt. Determined by **Operational Trust** |
 | **Significance reference** | A reference to Stewardship's significance, never a copied value |
 | **Originating Context Reference** | A **Governed Reference** to the Fact versions that were true at origination |
@@ -96,21 +96,101 @@ Change Records**. It is never a growing document.
 
 **These are orthogonal axes and must never be merged.**
 
-### Category — what it is about
+### Category — what it is about (DL-78)
 
-Proposed by the originator. Representative categories:
+Category is Communication **metadata** identifying the Communication's immediate household purpose or
+content domain. It is selected by the **originating responsibility** at creation, drawn from a single
+**closed, canonical, seven-value enumeration** Foundation owns, and is stable for the Communication's
+life except under a controlled, originator-only correction.
 
-| Category | Representative subject |
-|---|---|
-| Informational | A package was delivered; a weather change |
-| Obligation | Medication due; collection day; filter replacement |
-| Stewardship | Humidity is outside the safe range for a sensitive asset; service is due |
-| Condition | A door is unlocked; the garage is open |
-| Safety | Water, smoke, or carbon monoxide detected |
-| Interaction | The home needs an answer before it can proceed |
-| Governance | An action was refused; consent is required; a limitation is being reported |
+**Category is never**: Urgency, severity, priority, interruption entitlement, delivery form, surface,
+outcome, deferral, retry, escalation, precedence, retention policy, disclosure policy, re-presentation
+policy, an architectural responsibility, a handling state, an importance label, a platform ladder, or a
+household-created label.
 
-The exact enumeration is open decision **OD-53**.
+#### The canonical enumeration is content-domain, not responsibility-aligned
+
+The taxonomy is organised around what households perceive a Communication to be about — never around
+which of the seven HTBW responsibilities originated, processed, retained, or delivered it. No Category
+value named Foundation, Identity, Operational Trust, Continuity, Concierge, Explainability, or
+Governance may exist for that reason.
+
+| Category | Immediate household purpose | Includes | Excludes (use instead) |
+|---|---|---|---|
+| **Stewardship** | Condition, care, maintenance, obligation, lifecycle, preservation, and readiness of assets, systems, or spaces | Replace a smoke-detector battery; annual smoke-detector inspection; HVAC filter replacement; low leak-sensor battery; service due | Never becomes **Safety** merely because neglect could eventually raise risk |
+| **Security** | Access, intrusion, unauthorised presence, credential compromise, protective controls | Exterior door left unlocked; unexpected access event; unknown person at a restricted entry; security credential compromise | Distinct from **Safety** even where a security system supplied the fact |
+| **Care** | Personal well-being, health-adjacent matters, medication, wellness, animal well-being | Medication reminder; personal wellness reminder; animal-care instruction focused on well-being | Never implies HTBW is a healthcare provider, medical device, or diagnostic system |
+| **Environment** | Weather, temperature, humidity, air or water quality as observed condition | Routine weather information; humidity outside a preferred range; air-quality observation | Use **Safety** where the immediate purpose is risk-reducing warning or guidance |
+| **Experience** | Comfort, convenience, hospitality, preference, routine, arrival/departure | Expected guest arriving soon; comfort preference; routine arrival/departure information | Never a synonym for low Urgency — may carry any justified Urgency |
+| **System** | Technical health, availability, configuration, integration, platform behaviour | Integration unavailable; platform update available; automation failed; reauthentication required | Distinguished from **Stewardship** by immediate technical-operation purpose, not by device |
+| **Safety** | Conditions, events, warnings, or guidance whose immediate purpose is reducing risk of injury or harm to people, animals, or occupants | Smoke detected; carbon monoxide detected; a cougar in the yard with guidance not to let a dog out alone; a dangerous-heat warning affecting whether a dog should remain outside | Establishes no life-safety claim — see *Life-safety non-claim*, below |
+
+**Classification follows immediate household purpose** — never device type alone, the responsibility
+involved, every possible downstream consequence, current Urgency, severity, delivery method, audience,
+or platform terminology.
+
+#### Exactly one Category per Communication
+
+No multiple, primary-and-secondary, array, tag, weighted, hierarchical, or compound Category (for
+example "Stewardship + Safety") is ever permitted. Where a situation touches several domains, the
+originator selects the **one** Category stating the Communication's immediate household purpose; every
+other relevant fact remains in content, metadata, source references, Decision Trace, or context — never
+an additional Category.
+
+#### Category is stable; correction is controlled and originator-only
+
+An increase in risk, consequence, threshold state, elapsed time, escalation state, or Urgency **never
+by itself changes Category**. A smoke-detector battery Communication that begins **Stewardship**
+remains **Stewardship** even as deferral raises its risk and its Urgency increases under **DL-77**.
+Category never progresses from Stewardship to Safety merely because a Communication became more
+important or risky.
+
+A **controlled correction** is permitted only where the originating responsibility determines the
+immediate subject was materially misidentified, or the underlying subject materially changed. Only the
+originator may correct; the prior Category remains historical fact; the new Category is versioned; the
+reason is explainable; the Decision Trace records the correction; downstream governance affected by
+Category is reevaluated; completed delivery history is never rewritten. **An ordinary risk or Urgency
+increase is never a Category correction.**
+
+#### Operational Trust Category admissibility is rejected
+
+Operational Trust never approves, rejects, reinterprets, replaces, repairs, or reclassifies a Category,
+and never determines what a Communication is about. It **consumes** Category as one input among
+several to disclosure, audience, privacy, consent, Urgency, and other governed-appropriateness
+decisions. **Operational Trust owns appropriateness, never semantic classification.** Every originator
+draws from the identical closed enumeration, so no per-Communication admissibility judgment exists; an
+invalid value is a data-integrity defect, never a governed rejection outcome.
+
+#### Category is a downstream-input only
+
+Category is the primary subject-classification input for disclosure, privacy, retention, and
+re-presentation defaults, but never itself owns or executes those behaviours: **OD-49** owns retention,
+**OD-48** owns re-presentation, **OD-57** owns indication-versus-content, Operational Trust owns
+disclosure/audience/privacy/consent/appropriateness, **OD-04** owns precedence, Concierge owns delivery
+surface/moment/form, and **DL-77** owns Urgency.
+
+#### The taxonomy is never household-configurable
+
+Households cannot create, delete, rename, merge, split, alias, reclassify, override as preference, or
+redefine a Category — Category is semantic classification, never household policy. A household **may**
+configure Category-**driven** downstream policy (disclosure, retention, re-presentation, indication)
+under the owning decision above, following the same Canonical-Recommendation/Household-Override pattern
+**DL-77** established, including **Learned Household Recommendations** that reuse the existing
+**P26**/**DL-21** learning ladder (**OD-28**) — HTBW never learns or alters Category definitions, the
+enumeration, an originator's semantic assignment, the single-Category rule, or the Category/Urgency
+separation.
+
+#### No Non-Action Category
+
+Non-Action, No Action, Alternate Action, Suppressed, Deferred, Canceled, Expired, and Undelivered are
+never Categories. A governed handling outcome (alternate delivery, private redirect, changed surface or
+audience, Indication without content, delay, deferral, cancellation, expiration, non-delivery,
+reevaluation, replanning) never changes Category, which is recorded through the existing delivery,
+Operational Trust, and Decision Trace mechanisms — never a Category value. For example, a Security
+Communication that cannot be spoken in a shared room because guests are present and is delivered
+privately to an authorized mobile surface instead **retains Category = Security**; the alternate
+handling is recorded by the delivery, Operational Trust, and Decision Trace mechanisms, not by a new
+Category.
 
 ### Urgency — what it may interrupt (DL-77)
 
@@ -848,12 +928,22 @@ before decision, trace always.* See
 
 **HTBW is not a life-safety system.**
 
+**Safety** is accepted as the seventh canonical Communication Category (**DL-78**), identifying a
+content domain only. Its existence establishes no duty to monitor or warn, no guaranteed observation,
+classification, delivery, interruption, acknowledgment, response, action, or prevention of harm, no
+responsibility for safety outcomes, and no certification, code-compliance, emergency-service, medical,
+or alarm-monitoring functionality.
+
 A safety-category Communication does not constitute smoke detection, carbon-monoxide detection,
 water-leak protection, medical alerting, security monitoring, or emergency notification, and must
 never be represented as a substitute for certified alarms, monitored services, or emergency services.
 
-Delivery is **best-effort** and may fail at the platform boundary. Whether HTBW may originate
-safety-category Communications at all is open decision **OD-56**.
+Delivery is **best-effort** and may fail at the platform boundary. The remaining non-negotiable
+life-safety boundary — disclaimer content and its survival across delivery surfaces, the written
+reconciliation of this constraint against Stewardship's safety-related scope of care, safety-specific
+confirmation that audience governance is not bypassed, behaviour when a safety-shaped capability's
+dependency is missing, and deference to certified-device claims — remains open decision **OD-56**,
+narrowed but not closed by **DL-78**.
 
 ---
 
@@ -926,12 +1016,12 @@ See [../scenarios/why-did-this-happen.md](../scenarios/why-did-this-happen.md).
 | OD-48 | Re-presentation preference and its relation to the Follow-Me preference family |
 | OD-49 | Communication retention floor and ceiling |
 | OD-50 | Escalation ladder semantics for communications, resolved into OD-22 |
-| OD-51 | Interruption action-risk class enumeration and defaults |
+| OD-51 | **Closed — DL-76.** Action-Risk Class enumeration (Convenience, Disclosure, Financial, Safety, Security, Governance) and per-class defaults; interruption confirmed as a separate axis (**DL-77**) |
 | OD-52 | **Closed — DL-71.** Five audience specification forms accepted; relationship-based resolution, re-resolution timing, resolved-to-nobody/too-broadly behaviour, and Notice/completion boundary are stated |
-| OD-53 | Communication category enumeration |
+| OD-53 | **Closed — DL-78.** Communication Category is a closed, seven-value, content-domain enumeration (Stewardship, Security, Care, Environment, Experience, System, Safety), structurally separate from Urgency, Operation Type, and Action-Risk Classification; exactly one Category per Communication; Operational Trust Category admissibility rejected |
 | OD-54 | Delivery retry policy |
 | OD-55 | **Closed — DL-54.** Presentation Outcome model (Presented / Failed / Unknown / Attestation Unavailable); per-surface enumeration evidence recorded in the ADR |
-| OD-56 | Safety-category scope |
+| OD-56 | **Narrowed by DL-78.** Safety accepted as the seventh Category; disclaimer content/survival, written reconciliation, audience-bypass confirmation, dependency-missing behaviour, and certified-device deference remain open |
 | OD-57 | Indication versus content separation |
 | OD-58 | Terminology supersession scope for *Notification* and *Message* |
 

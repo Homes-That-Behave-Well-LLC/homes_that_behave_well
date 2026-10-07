@@ -27,6 +27,10 @@ Foundation depends on no other responsibility.
   [contextual-vocabulary-contract.md](contextual-vocabulary-contract.md)
 - Descriptive asset knowledge with provenance
 - Relationships between objects, including caretaker-of, owner-of, serves-room, and located-in
+- The Communication **Category** axis: the closed, seven-value, content-domain enumeration
+  (Stewardship, Security, Care, Environment, Experience, System, Safety), its canonical definitions,
+  and assignment guidance (**DL-78**) — never the Category selected for an individual Communication,
+  which the originating responsibility assigns. See [../models/communication.md](../models/communication.md).
 
 ---
 

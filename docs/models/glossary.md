@@ -1250,9 +1250,31 @@ the required degradation where content may not be delivered. **Also the accepted
 where a granted Urgency cannot be exercised without violating audience, privacy, consent, or
 disclosure governance** (**DL-77**).
 
-**Category**
-What a Communication is about. Proposed by the originator. Orthogonal to Urgency; the two axes must
-never be merged.
+**Category (DL-78)**
+Communication **metadata** identifying its immediate household purpose or content domain — never
+Urgency, severity, priority, interruption entitlement, delivery form, surface, outcome, deferral,
+retry, escalation, precedence, retention policy, disclosure policy, re-presentation policy, an
+architectural responsibility, a handling state, an importance label, a platform ladder, or a
+household-created label. Selected by the **originating responsibility** at creation, drawn from a
+single **closed, canonical, seven-value enumeration** Foundation owns: **Stewardship**, **Security**,
+**Care**, **Environment**, **Experience**, **System**, **Safety**. Exactly **one** Category per
+Communication — never multiple, primary-and-secondary, tagged, weighted, or compound. Stable for the
+Communication's life except a controlled, **originator-only** correction. Orthogonal to Urgency; the
+two axes must never be merged.
+
+**Immediate Household Purpose (DL-78)**
+The classification test for Category: what the Communication is immediately about, from the
+household's perspective — never device type alone, the responsibility involved, every possible
+downstream consequence, current Urgency, severity, delivery method, audience, or platform
+terminology. A smoke-detector battery replacement is **Stewardship** even as its Urgency rises; smoke
+detected is **Safety**.
+
+**Category Correction (DL-78)**
+A controlled, **originator-only** revision of a Communication's Category, permitted only where the
+immediate subject was materially misidentified or the underlying subject materially changed — never
+for an ordinary risk or Urgency increase. The prior Category remains historical fact; the new Category
+is versioned; the reason is explainable through the Decision Trace; completed delivery history is
+never rewritten.
 
 **Household Inbox**
 A **projection** over outstanding Communications, assembled on demand and filtered by the viewer's
@@ -1322,7 +1344,29 @@ ladder.**
 A **Stewardship judgement** about what could be improved, distinct from an Alert, which indicates
 that something is wrong. See [../patterns/advisory-patterns.md](../patterns/advisory-patterns.md).
 Advisory is **not** a Communication category; a Communication conveying an advisory carries the
-**stewardship** category.
+**Stewardship** category.
+
+**Informational — not a Category (DL-78)**
+Explicitly rejected as a Communication Category. "Informational" names significance, priority,
+severity, delivery expectation, interruption intent, or presentation style — never a content domain.
+Every Category can carry information, so adopting it would recreate the superseded Info/Attention/
+Urgent conflation.
+
+**The seven canonical Communication Categories (DL-78)**
+
+| Category | Immediate household purpose |
+|---|---|
+| **Stewardship** | Condition, care, maintenance, obligation, lifecycle, preservation, readiness of assets, systems, or spaces |
+| **Security** | Access, intrusion, unauthorised presence, credential compromise, protective controls |
+| **Care** | Personal well-being, health-adjacent matters, medication, wellness, animal well-being |
+| **Environment** | Weather, temperature, humidity, air or water quality as observed condition |
+| **Experience** | Comfort, convenience, hospitality, preference, routine, arrival/departure |
+| **System** | Technical health, availability, configuration, integration, platform behaviour |
+| **Safety** | Conditions, events, warnings, or guidance whose immediate purpose is reducing risk of injury or harm |
+
+Full inclusion/exclusion boundaries and worked examples: [communication.md](communication.md). None
+of these names an HTBW responsibility, a platform classification (Home Assistant `EntityCategory`,
+Repairs `IssueSeverity`, a notification channel or priority), or a household-created label.
 
 **Superseded terms**
 

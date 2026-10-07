@@ -217,6 +217,19 @@ deferral is distinct from Urgency and remains **OD-45**/**OD-54**'s own mechanic
 orthogonal to Category and the two axes must never be merged. See
 [../models/communication.md](../models/communication.md).
 
+## Communication Category (DL-78)
+
+Category is a closed, seven-value, content-domain enumeration — **Stewardship**, **Security**,
+**Care**, **Environment**, **Experience**, **System**, **Safety** — identifying what a Communication is
+about. Foundation owns the enumeration and definitions; the originating responsibility selects exactly
+one Category at creation. **Operational Trust Category admissibility is rejected**: Operational Trust
+never approves, rejects, reinterprets, replaces, repairs, or reclassifies a Category, and never
+determines what a Communication is about — it **consumes** Category as one input to disclosure,
+audience, privacy, consent, Urgency, and other appropriateness decisions. **Operational Trust owns
+appropriateness, never semantic classification.** Category is stable for the Communication's life
+except a controlled, originator-only correction, and is never itself Urgency, severity, priority,
+interruption entitlement, or a household-configurable taxonomy.
+
 ---
 
 ## Consent, participation, and available evidence
@@ -479,8 +492,8 @@ would change the outcome.
 | OD-49 | Communication retention floor and ceiling |
 | OD-51 | **Resolved as DL-76.** Action-Risk Class enumeration and per-class defaults; household and object-specific override model; interruption confirmed as a separate axis (**DL-77**) |
 | OD-52 | Audience specification model |
-| OD-53 | Communication category enumeration |
-| OD-56 | Safety-category scope |
+| OD-53 | **Resolved as DL-78.** Communication Category is a closed, seven-value, content-domain enumeration, structurally separate from Urgency, Operation Type, and Action-Risk Classification; Operational Trust Category admissibility rejected |
+| OD-56 | **Narrowed by DL-78.** Safety accepted as the seventh Category; remaining safety-specific questions open |
 | OD-57 | Indication versus content separation |
 
 ## Related documents

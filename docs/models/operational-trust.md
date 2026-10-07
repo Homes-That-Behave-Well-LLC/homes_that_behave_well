@@ -789,6 +789,16 @@ mandatory delivery behaviour:
 > Category: Category describes what a Communication is about, Urgency describes what it may
 > interrupt. The two axes must never be merged. See [communication.md](communication.md).
 
+### Category is consumed, never owned (DL-78)
+
+**Operational Trust never approves, rejects, reinterprets, replaces, repairs, or reclassifies a
+Category, and never determines what a Communication is about.** It **consumes** Category — the closed,
+seven-value enumeration (Stewardship, Security, Care, Environment, Experience, System, Safety)
+Foundation owns — as one input among several to disclosure, audience, privacy, consent, Urgency, and
+other governed-appropriateness decisions. **Operational Trust owns appropriateness, never semantic
+classification.** Every originator draws from the identical closed enumeration, so no per-Communication
+admissibility judgment exists for Operational Trust to make.
+
 ### Relationship to Action-Risk Classification (DL-76)
 
 **Urgency and Action-Risk Classification are independent models.** Operational Trust consumes the
@@ -1548,8 +1558,8 @@ effect.** See [../architecture/privacy.md](../architecture/privacy.md).
 | OD-49 | Communication retention floor and ceiling, with content and metadata classified separately |
 | OD-51 | **Resolved as DL-76.** Action-Risk Class enumeration (Convenience, Disclosure, Financial, Safety, Security, Governance) and per-class Required Identity Band / Confirmation Strength / Address by Name / Presentation Threshold defaults; household and object-specific override model; interruption confirmed as a separate axis (**DL-77**) |
 | OD-52 | **Closed — DL-71.** Five Intended Audience Specification forms accepted; relationship-based resolution requires a **DL-57** Delegated Access Grant for actual authorization; Guest fallback and Copy Settings From Person are Person Setup conveniences, not new authority models |
-| OD-53 | Communication category enumeration, and confirmation of the Category × Urgency separation |
-| OD-56 | Safety-category scope, and whether HTBW may originate safety Communications at all |
+| OD-53 | **Resolved as DL-78.** Communication Category is a closed, seven-value, content-domain enumeration (Stewardship, Security, Care, Environment, Experience, System, Safety), structurally separate from Urgency, Operation Type, and Action-Risk Classification; Operational Trust Category admissibility rejected |
+| OD-56 | **Narrowed by DL-78.** Safety accepted as the seventh Category; disclaimer content/survival, written reconciliation, audience-bypass confirmation, dependency-missing behaviour, and certified-device deference remain open |
 | OD-57 | Indication versus content separation |
 
 ## Related documents
