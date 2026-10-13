@@ -160,6 +160,45 @@ defined in [../models/communication.md](../models/communication.md):
 The two levels are never flattened. A Communication has one current lifecycle state and may have many
 Delivery Attempts.
 
+### Compound and multi-item requests (DL-80)
+
+> **This subsection is additive and is recorded pending formal acceptance review at Issue #188. It is
+> drafted content, not yet an accepted part of this contract**, consistent with this repository's
+> practice of recording a decision before its separate formal acceptance review (see
+> [decision-ledger.md](../governance/decision-ledger.md), *Notes on the 2026-10 AI, Natural
+> Interaction, and Household Knowledge Architecture Review*). The remainder of this contract (§1–§14)
+> is unaffected and remains fully canonical.
+
+**Proposes to restore current-authority coverage for a gap identified by the 2026-10 AI, Natural
+Interaction, and Household Knowledge Architecture Review.** The historical Multi-Item Capture
+Interpretation Contract and the historical Household Productivity Experience ADR were retired by the
+refoundation without a direct replacement. This section would restate their still-valid decomposition
+doctrine under Concierge's current ownership, consistent with
+[contextual-vocabulary.md](../models/contextual-vocabulary.md)'s cardinality and command-resolution
+rules, and reuses no superseded document as authority.
+
+A single utterance may carry more than one requested outcome (a **compound intent** — *"lock the
+doors, turn off the downstairs lights, and play jazz in my bedroom"*) or more than one object for one
+outcome (a **compound parameter** — *"add milk, eggs, bananas, Diet Coke, and dog treats to the
+shopping list"*). Neither is a new responsibility. Concierge decomposes the utterance into item- or
+intent-level references, and every decomposed item is governed exactly as an equivalent single-item
+request would be — under the same Vocabulary, Identity, Operational Trust, and Explainability rules
+already stated in this contract.
+
+| Rule | Statement |
+|---|---|
+| Decomposition is reference-based | Concierge decomposes into item-level or intent-level references; it never becomes a second authority for an item's or intent's own truth, target, or execution |
+| Independent governance per item | Each decomposed intent or parameter is independently resolved, authorized, and executed under its own Vocabulary match, Identity requirement, and Operational Trust evaluation. One low-risk item in a compound request is never authorized by another item's higher trust, and one ambiguous or unauthorized item never blocks the others by default |
+| Partial success is explicit, never silent | Where some decomposed items succeed and others do not, Concierge reports **which** succeeded, **which** failed or were refused, and **why** — never a single pass/fail outcome that conceals a partial result |
+| Ambiguity is scoped to the item | An ambiguous decomposed item is clarified using only its own bounded, contextual, exposed candidates, under the existing no-silent-guess rule in [contextual-vocabulary.md](../models/contextual-vocabulary.md); clarification never broadens into re-confirming already-resolved items |
+| Execution ordering is not assumed by default | Unless the household's own phrasing, an existing accepted sequencing rule, or a declared dependency requires otherwise, decomposed items carry no implied ordering or rollback guarantee. The global priority and sequencing order across competing or dependent decomposed intents remains **open — OD-04** |
+| One parent trace, one child outcome per decomposed item | The originating utterance produces one parent Decision Trace entry identifying it as compound; each decomposed intent or parameter additionally produces its own child **Action taken / Action suppressed / Reason for suppression** record (see [decision-trace.md](../models/decision-trace.md)), so a resident asking *"why did only the lights happen?"* receives an answer scoped to that one item |
+
+**This section creates no new responsibility, no new store, and no new authority.** It is restated
+decomposition doctrine: the rules that already govern a single-item request govern every decomposed
+item identically. Global sequencing and dependency semantics beyond the rule above remain **OD-04**,
+unresolved here.
+
 ---
 
 ## 8. Conflict resolution

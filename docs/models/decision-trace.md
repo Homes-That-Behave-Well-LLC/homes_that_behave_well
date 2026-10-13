@@ -345,6 +345,53 @@ is open decision **OD-38**.
 
 ---
 
+## Source-class provenance for AI-assisted and document-grounded explanations (DL-82)
+
+> **This section is additive and is recorded pending formal acceptance review at Issue #188. It is
+> drafted content, not yet an accepted part of this model**, consistent with this repository's
+> practice of recording a decision before its separate formal acceptance review (see
+> [../governance/decision-ledger.md](../governance/decision-ledger.md), *Notes on the 2026-10 AI,
+> Natural Interaction, and Household Knowledge Architecture Review*). The rest of this model is
+> unaffected and remains fully canonical.
+
+**Proposes to extend the existing provenance architecture; it creates no second provenance
+ownership.** Truth already requires every Fact to carry Provenance ([truth.md](truth.md)). This
+section proposes the corresponding requirement where an explanation draws on evidence that is not
+itself a Truth Fact — a document, an invoice, a Home Assistant history record, or a Reasoning
+Provider output consulted under **OD-67** — closing the gap identified by the 2026-10 AI, Natural
+Interaction, and Household Knowledge Architecture Review.
+
+Every explanation that cites non-Fact evidence would identify which of the following source classes
+the evidence belongs to, and never blend classes without saying so:
+
+| Source class | What it may ground |
+|---|---|
+| Manufacturer or vendor documentation | A stated specification, instruction, or warranty term, attributed to the document and, where available, its section or page |
+| Service-provider or installer statement | A stated service record or professional representation, attributed to its source and date |
+| Household invoice or financial record | A stated transaction, payment, or purchase fact, gated by the same Identity and Operational Trust disclosure rules as any other sensitive content — never assumed disclosable merely because it is retrievable |
+| Asset Intelligence fact | An asset identity, relationship, or asset-to-document association, consumed by reference (**OD-20**), never copied into a competing record |
+| Home Assistant state or history | A Truth Fact, or a native Recorder/History/Activity/Trace record, already governed by [truth.md](truth.md) and [../architecture/home-assistant-boundary.md](../architecture/home-assistant-boundary.md) |
+| HTBW inference | A conclusion Concierge or another responsibility derived from governed records, attributed as HTBW's own reasoning and never presented as something a source document said |
+| Reasoning-provider suggestion | Wording, summarisation, or a candidate answer produced by a **Reasoning Provider** (**OD-67**) |
+| Insufficient evidence | The honest state where no governed source supports a confident answer. **This is always a valid, explainable outcome and is never papered over with a plausible-sounding guess** |
+
+**A reasoning-provider suggestion is never presented as household fact.** This restates, and does not
+relax, the existing **OD-67** invariant that *"a provider's output never silently becomes a Fact"* and
+that *"a recommendation never silently becomes an authorised action."* Where an explanation combines
+document-grounded evidence with reasoning-provider wording, the explanation discloses which parts are
+sourced and which parts are the provider's own phrasing.
+
+**Locator and freshness, where available, travel with the citation** — a document's identifier and
+section or page, an invoice's date, a history record's timestamp — under the **References, not
+copies** discipline above: the explanation references the source; it does not duplicate it. Where no
+locator or freshness is available, the explanation says so rather than inventing one.
+
+This section does not decide the Household Knowledge Provider's ingestion, indexing, or retrieval
+mechanics — see
+[../architecture/adr-household-knowledge-provider-governance.md](../architecture/adr-household-knowledge-provider-governance.md).
+
+---
+
 ## The Decision Trace across time
 
 A Decision Trace is an **immutable temporal record**. It is one of the five record kinds defined in
@@ -619,4 +666,7 @@ This model *is* the explainability requirement. Every other canonical document r
 - [../architecture/adr-temporal-record-model.md](../architecture/adr-temporal-record-model.md)
 - [../architecture/adr-resident-communication-and-delivery-separation.md](../architecture/adr-resident-communication-and-delivery-separation.md)
 - [operational-trust.md](operational-trust.md)
+- [truth.md](truth.md) — Fact-level Provenance; this model's *Source-class provenance* section extends it to non-Fact, document-grounded, and AI-assisted explanations
+- [../architecture/adr-household-knowledge-provider-governance.md](../architecture/adr-household-knowledge-provider-governance.md)
+- [../architecture/adr-generated-behavior-authoring-governance.md](../architecture/adr-generated-behavior-authoring-governance.md)
 - [../architecture/connected-storage.md](../architecture/connected-storage.md)

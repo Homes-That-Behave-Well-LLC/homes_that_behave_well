@@ -49,6 +49,8 @@ Dispositions: **New** · **Keep** · **Revise** · **Supersede** · **Merge** ·
 | `adr-resident-communication-and-delivery-separation.md` | Canonical ADR | New |
 | `adr-wyoming-compatible-voice-evidence-runtime.md` | Canonical ADR | **New** — Accepted 2026-08-25 as **DL-50** |
 | `adr-product-disposition-and-legacy-adoption.md` | Canonical ADR | **New** — Accepted 2026-08-26 as **DL-51** and **DL-52**. Closes **OD-82**, opens **OD-85**, and amends the non-negotiable constraint in `authority-order.md` |
+| `adr-household-knowledge-provider-governance.md` | Active — subordinate | **New** — Recorded 2026-10-13, pending formal acceptance review at **Issue #188**, as **DL-81**. Architecture-only; no V1 implementation authorized even if later accepted. Raised by the 2026-10 AI, Natural Interaction, and Household Knowledge Architecture Review (#188) |
+| `adr-generated-behavior-authoring-governance.md` | Active — subordinate | **New** — Recorded 2026-10-13, pending formal acceptance review at **Issue #188**, as **DL-83**. Governance lifecycle boundary only; no implementation authorized even if later accepted. Raised by the 2026-10 AI, Natural Interaction, and Household Knowledge Architecture Review (#188) |
 
 ---
 
@@ -111,7 +113,7 @@ Dispositions: **New** · **Keep** · **Revise** · **Supersede** · **Merge** ·
 | `continuity.md` | Canonical | New |
 | `experience-and-session.md` | Canonical | New |
 | `operational-trust.md` | Canonical | New |
-| `decision-trace.md` | Canonical | New |
+| `decision-trace.md` | Canonical | New — §"Source-class provenance..." (**DL-82**) added 2026-10-13, recorded pending formal acceptance review at **Issue #188**; remainder of document unaffected and remains canonical |
 | `temporal-record.md` | Canonical | New |
 | `communication.md` | Canonical | New |
 
@@ -164,7 +166,7 @@ Dispositions: **New** · **Keep** · **Revise** · **Supersede** · **Merge** ·
 | `stewardship-contract.md` | Canonical | New |
 | `continuity-contract.md` | Canonical | New |
 | `operational-trust-contract.md` | Canonical | New |
-| `concierge-contract.md` | Canonical + historical appendix | **Revise** — canonical sections 1–14 prepended; prior content retained as a marked appendix |
+| `concierge-contract.md` | Canonical + historical appendix | **Revise** — canonical sections 1–14 prepended; prior content retained as a marked appendix; §7 subsection *Compound and multi-item requests* (**DL-80**) added 2026-10-13, recorded pending formal acceptance review at **Issue #188**; §1–§14 otherwise unaffected and remain canonical |
 
 ---
 
@@ -321,20 +323,26 @@ Canonical scenarios: [../scenarios/README.md](../scenarios/README.md).
 
 ## Summary
 
-Verified against the working tree: **186 Markdown files, 0 unclassified.**
+Verified against the working tree: **186 Markdown files, 0 unclassified**, at the 2026-08 refoundation
+baseline. **Updated 2026-10-13**: two new documents were added by the 2026-10 AI, Natural Interaction,
+and Household Knowledge Architecture Review (#188), each banner-marked **Active — subordinate** (not
+Canonical) because each is recorded pending formal acceptance review at **Issue #188** and is not yet
+authoritative — see the rows above for `adr-household-knowledge-provider-governance.md` and
+`adr-generated-behavior-authoring-governance.md`. No file was deleted or reclassified; the counts
+below reflect that addition only and are not a full recount of the register.
 
 | Category | Count |
 |---|---|
 | New canonical documents | 56 |
 | Revised in place | 2 (`README.md`, `concierge-contract.md`) |
 | **Canonical total** (56 new + 2 revised) | **58** |
-| Marked Active — subordinate | 20 |
+| Marked Active — subordinate | 22 |
 | Marked Historical — superseded | 83 |
 | Marked Historical illustration (`examples/`) | 16 |
 | Marked Historical — planning/closure record | 2 |
 | **Historical total** | **101** |
 | Operational | 7 |
-| **Total classified** | **186** |
+| **Total classified** | **188** |
 | **Unclassified** | **0** |
 | **Deleted** | **0** |
 
