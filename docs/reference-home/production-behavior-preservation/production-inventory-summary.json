@@ -1,0 +1,117 @@
+{
+  "schema_version": "1.0",
+  "document_status": "Operational — discovery/evidence artifact. Not architecture-of-record. Creates no authority.",
+  "generated_date": "2026-10-13",
+  "repository": "tom-tagmdl/homes_that_behave_well",
+  "production_source": "P:\\ (live Home Assistant configuration directory, read-only access confirmed)",
+  "scope_note": "Scoped to the 'Concierge' automation category, the 'Concierge' script category, the 'Concierge Automation Helpers' helper category, and the 8 ungrouped (uncategorized) automations, per explicit direction narrowing the original full-environment prompt to automations.yaml/scripts.yaml filtered by these groups.",
+  "production_safety": {
+    "production_modified": false,
+    "methods_used": ["read-only file view", "read-only local scratch copies under %TEMP%", "PowerShell ConvertFrom-Json on .storage files (read-only)"],
+    "secrets_opened": false,
+    "database_opened": false
+  },
+  "exact_counts": {
+    "automations_total_in_production": 84,
+    "automations_in_scope_concierge_category": 18,
+    "automations_in_scope_ungrouped": 8,
+    "automations_in_scope_total": 26,
+    "scripts_total_in_production": 50,
+    "scripts_in_scope_concierge_category": 44,
+    "scripts_out_of_scope_ungrouped": 6,
+    "helpers_in_scope_concierge_automation_helpers_category": 116,
+    "helpers_by_domain": {
+      "input_number": 54,
+      "input_text": 26,
+      "counter": 19,
+      "input_boolean": 12,
+      "input_datetime": 3,
+      "input_select": 2
+    },
+    "scenes_native_ha": 0,
+    "scenes_powerview_vendor_referenced": 8,
+    "template_entities": 1,
+    "rest_command_collections": 2,
+    "rest_command_actions_total": 12,
+    "reconstructed_household_behaviors": 29,
+    "confirmed_broken_script_or_service_references": 6,
+    "total_entities_in_production_entity_registry": 8680,
+    "entity_registry_observation_date": "2026-10-13"
+  },
+  "scope_not_accessible_or_not_reviewed_this_pass": [
+    "58 of 84 total automations outside the Concierge/ungrouped scope",
+    "6 of 50 total scripts outside the Concierge scope (turn_on_daily, turn_off_daily, turn_on_home_tour, turn_off_home_tour, turn_on_dinner_party, turn_off_dinner_party)",
+    "3 other helper categories (Reclassification Helpers, Group Helper, Shade Helpers)",
+    "Full device registry (core.device_registry, 3.1MB) — not individually parsed",
+    "Full area/floor/label registries beyond what was needed to resolve category_ids",
+    "home-assistant_v2.db (Recorder/history database) — no approved read-only method exists in this repository",
+    "secrets.yaml, nexia_config_*.conf, trane_config_*.conf — existence recorded, contents not opened",
+    "All 9 lovelace dashboard storage files — not inspected for script/scene/automation invocation in this pass",
+    "68 individual GitHub child issues under Epic #147 (OD-01 through OD-76 minus resolved) — only Epic #147's summary body was read; a lightweight correspondence list, not an exhaustive per-issue review, is recorded in production-gaps-and-owner-review.md"
+  ],
+  "output_artifacts": [
+    "production-behavior-inventory.md",
+    "production-automation-inventory.csv",
+    "production-script-inventory.csv",
+    "production-helper-inventory.csv",
+    "production-scene-inventory.csv",
+    "production-template-and-group-inventory.csv",
+    "production-behavior-catalog.csv",
+    "production-dependency-graph.md",
+    "production-dynamic-room-assembly-analysis.md",
+    "production-to-htbw-reconciliation-matrix.csv",
+    "production-migration-protection-matrix.csv",
+    "production-experience-regression-catalog.md",
+    "production-gaps-and-owner-review.md",
+    "production-evidence-register.md",
+    "production-inventory-summary.json"
+  ],
+  "note_on_production_scene_inventory_csv": "Required artifact #5 (production-scene-inventory.csv) has no independent rows to report: scenes.yaml is a literal empty list. Its content is folded into production-template-and-group-inventory.csv (which documents the 8 PowerView-vendor scenes referenced by automations/scripts) and a stub file with this explanation is also provided at production-scene-inventory.csv for completeness against the required-artifact list.",
+  "classification_distribution": {
+    "PRESERVE_AS_IS": 2,
+    "PRESERVE_EXPERIENCE_REPLACE_IMPLEMENTATION": 17,
+    "HTBW_EQUIVALENT_EXISTS_VALIDATION_REQUIRED": 1,
+    "HTBW_REPLACEMENT_REQUIRED": 3,
+    "LEGACY_RETIREMENT_CANDIDATE": 1,
+    "UNKNOWN_PURPOSE_DO_NOT_REMOVE": 1,
+    "OWNER_REVIEW_REQUIRED": 4
+  },
+  "confirmed_broken_references": [
+    {"caller": "script.continue_playing_room", "calls": "script.room_speak_sonos", "exists": false, "likely_correct_target": "script.sonos_speak_with_ducking_room"},
+    {"caller": "script.what_s_playing_room", "calls": "script.room_speak_sonos", "exists": false, "likely_correct_target": "script.sonos_speak_with_ducking_room"},
+    {"caller": "script.why_did_you_play_this_room", "calls": "script.room_speak_sonos", "exists": false, "likely_correct_target": "script.sonos_speak_with_ducking_room"},
+    {"caller": "automation.voice_play_jazz", "calls": "script.whats_playing_room", "exists": false, "likely_correct_target": "script.what_s_playing_room"},
+    {"caller": "script.speak_room_air_quality", "calls": "script.speak_room_air_quality_assessment", "exists": false, "likely_correct_target": "script.speak_room_air_quality_ai_assessment"},
+    {"caller": "automation.primary_bedroom_alarm_started", "calls": "script.turn_on_lamps_usual", "exists": false, "likely_correct_target": "script.turn_on_lamps_usual_room"},
+    {"caller": "automation.primary_bedroom_alarm_escalation", "calls": "script.room_audio_duck_and_play", "exists": false, "likely_correct_target": null},
+    {"caller": "automation.primary_bedroom_alarm_stop", "calls": "script.room_audio_restore", "exists": false, "likely_correct_target": null},
+    {"caller": "automation.concierge_identity_self_query_ha_voice", "calls": "service concierge.execute", "exists": "unconfirmed (no concierge integration config_entry found in production)", "likely_correct_target": null}
+  ],
+  "unresolved_questions_for_owner_review": [
+    "Is there an external/legacy alarm mechanism that compensates for the Primary Bedroom alarm escalation ladder's 3 broken stages today?",
+    "What sets input_boolean.alarm_primary_bedroom_ringing to on? Writer not found in this pass's scope.",
+    "Do you recall renaming a 'speak via Sonos' script, leaving 4 call sites referencing the old name?",
+    "Has anyone ever actually heard the AI-generated air-quality assessment spoken aloud (it is currently unreachable)?",
+    "Is concierge.execute a real working service in this production instance via an integration this review did not identify?",
+    "Should the hardcoded plaintext Fully Kiosk password be moved to secrets.yaml as an independent hygiene fix?",
+    "What is the purpose of input_boolean.daily_lights, bedtime_toggle, good_morning_toggle, good_night_toggle (no in-scope reader/writer found)?",
+    "What is the purpose of input_number.dining_room_art_learned_brightness_2 (apparent duplicate) and input_number.laundry_room_lights (non-conforming name)?",
+    "Is automation.test_automation still needed, or safe to disable?",
+    "Does the current 3-room 'Main Living Area' zone still correctly reflect the household's intended Merged Room boundary?"
+  ],
+  "sibling_repository_findings": {
+    "concierge_custom_component_in_sibling_repo": true,
+    "concierge_custom_component_deployed_to_production": false,
+    "voice_identity_or_identity_integration_deployed_to_production": false,
+    "asset_intelligence_custom_component_deployed_to_production": true,
+    "asset_intelligence_version_confirmed_by_prior_pass": "1.0.12"
+  },
+  "security_findings": [
+    {
+      "finding": "Hardcoded plaintext Fully Kiosk Browser admin password",
+      "locations": ["script.living_room_fully_kiosk_provisioning", "script.bedroom_fully_kiosk_provisioning", "script.kiosk_set_overnight_mode", "script.kiosk_set_day_mode"],
+      "value_reproduced_in_this_document_set": false,
+      "severity_note": "Production hygiene issue; not an HTBW migration blocker. Transmitted as a plaintext HTTP GET query parameter to a LAN device."
+    }
+  ]
+}

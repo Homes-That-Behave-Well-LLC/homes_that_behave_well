@@ -295,7 +295,40 @@ architecture ownership. Where they assert ownership, canonical authority prevail
 
 ---
 
-## 14. `examples/`
+## 14. `docs/reference-home/`
+
+All files in this directory are **Operational — discovery/evidence artifacts**. They create no
+authority, are not architecture-of-record, and do not amend `decision-ledger.md`, `authority-order.md`,
+or any canonical model/contract.
+
+| File | Status | Disposition |
+|---|---|---|
+| `discovery/00-discovery-status.md` through `discovery/12-evidence-register.md` (13 files) + `discovery/*.csv` (4 files) + `discovery/reference-home-architecture.json` | Operational | New — 2026-10-07 full-environment Reference Home discovery pass (article-series/narrative-oriented) |
+| `production-behavior-preservation/production-behavior-inventory.md` | Operational | New — 2026-10-13 production behavior preservation inventory (Concierge-scoped) |
+| `production-behavior-preservation/production-automation-inventory.csv` | Operational | New — same pass |
+| `production-behavior-preservation/production-script-inventory.csv` | Operational | New — same pass |
+| `production-behavior-preservation/production-helper-inventory.csv` | Operational | New — same pass |
+| `production-behavior-preservation/production-scene-inventory.csv` | Operational | New — same pass |
+| `production-behavior-preservation/production-template-and-group-inventory.csv` | Operational | New — same pass |
+| `production-behavior-preservation/production-behavior-catalog.csv` | Operational | New — same pass |
+| `production-behavior-preservation/production-dependency-graph.md` | Operational | New — same pass |
+| `production-behavior-preservation/production-dynamic-room-assembly-analysis.md` | Operational | New — same pass |
+| `production-behavior-preservation/production-to-htbw-reconciliation-matrix.csv` | Operational | New — same pass |
+| `production-behavior-preservation/production-migration-protection-matrix.csv` | Operational | New — same pass |
+| `production-behavior-preservation/production-experience-regression-catalog.md` | Operational | New — same pass |
+| `production-behavior-preservation/production-gaps-and-owner-review.md` | Operational | New — same pass |
+| `production-behavior-preservation/production-evidence-register.md` | Operational | New — same pass |
+
+**Scope note:** the 2026-10-13 pass is narrower than the 2026-10-07 pass in automation/script coverage
+(26 of 84 automations; 44 of 50 scripts — scoped to the production "Concierge" and "Concierge Automation
+Helpers" categories plus ungrouped automations) but substantially deeper for the items it covers (full
+trigger/condition/action/dependency detail per item, a reconciliation matrix against accepted ADRs/
+contracts, and a migration protection matrix). Neither pass supersedes the other; both are retained as
+independent evidence per `document-lifecycle.md`'s "no file is deleted" rule.
+
+---
+
+## 15. `examples/`
 
 All example documents are **Historical illustrations**, retained as evidence and as household framing.
 Canonical scenarios: [../scenarios/README.md](../scenarios/README.md).
@@ -330,6 +363,12 @@ Canonical) because each is recorded pending formal acceptance review at **Issue 
 authoritative — see the rows above for `adr-household-knowledge-provider-governance.md` and
 `adr-generated-behavior-authoring-governance.md`. No file was deleted or reclassified; the counts
 below reflect that addition only and are not a full recount of the register.
+
+**Also updated 2026-10-13**: `docs/reference-home/` (previously untracked, 18 pre-existing discovery
+files plus 15 new production-behavior-preservation files, 33 total) is now registered under section 14
+above, all banner-marked **Operational — discovery/evidence artifact**. None are Canonical; none amend
+any accepted ADR, contract, model, or decision-ledger entry. This addition is not reflected in the
+186-file/56-canonical baseline counts below, consistent with the #188 precedent immediately above.
 
 | Category | Count |
 |---|---|

@@ -1,0 +1,48 @@
+# Production Evidence Register
+
+> **Document status: Operational — discovery/evidence artifact.** Not architecture-of-record.
+> Creates no authority.
+
+Evidence source, source type, production path/identifier, retrieval method, date observed, and
+limitations, for this inventory pass. Excludes all secrets and sensitive values per the governing
+instruction. See [00-discovery-status.md](../discovery/00-discovery-status.md) for the broader, earlier
+(2026-10-07) Reference Home discovery pass's own evidence register, which this pass reconciles against
+rather than duplicates in full.
+
+**Observation date for this pass:** 2026-10-13.
+
+| # | Evidence source | Source type | Path/identifier | Retrieval method | Limitations |
+|---|---|---|---|---|---|
+| 1 | Automations configuration | YAML | `P:\automations.yaml` | Read-only copy to local scratch (`%TEMP%\ha_automations.yaml`); line-ranged `view`/`grep` of the 26 in-scope entries by their `id:` field | Full file contains 84 automations; only the 26 in the Concierge category + ungrouped category (per this pass's directed scope) were read line-by-line. The remaining 58 were not individually inspected in this pass. |
+| 2 | Scripts configuration | YAML | `P:\scripts.yaml` | Read-only copy to local scratch (`%TEMP%\ha_scripts.yaml`); read in full (lines 49–3170, all 44 in-scope scripts) by both this session directly and an independent background analysis sub-pass | Full file contains 50 scripts; the 6 ungrouped scripts (`turn_on_daily`, `turn_off_daily`, `turn_on_home_tour`, `turn_off_home_tour`, `turn_on_dinner_party`, `turn_off_dinner_party`) were not read line-by-line in this pass (out of the directed scope). |
+| 3 | Scenes configuration | YAML | `P:\scenes.yaml` | Direct read | File is a literal empty list (3 bytes); no limitation — fully read. |
+| 4 | Templates configuration | YAML | `P:\templates.yaml` | Direct read | Fully read; contains exactly 1 template sensor. |
+| 5 | Core configuration | YAML | `P:\configuration.yaml` | Direct read | Fully read; top-level include structure plus the `input_text.music_genre_uri_map` inline helper declaration. |
+| 6 | REST command definitions | YAML | `P:\rest_commands\kiosk.yaml`, `P:\rest_commands\rest_command_music_assistant.yaml` | Direct read | Fully read; credential/token-bearing header values were not reproduced. |
+| 7 | Blueprint inventory | directory listing | `P:\blueprints\` | Directory listing only | Confirmed none of the 26 in-scope automations use `use_blueprint`; blueprint file contents were not opened (not needed — no in-scope automation references one). |
+| 8 | Entity registry | JSON (`.storage`) | `P:\.storage\core.entity_registry` | PowerShell `ConvertFrom-Json`, filtered by `categories.automation`/`categories.script`/`categories.helpers` matching the 3 relevant category_ids | File contains 8,680 total entities; only automation/script/helper-domain entities and their category assignments were extracted. Full entity-level detail (devices, areas, all other domains) was not extracted in this pass. |
+| 9 | Category registry | JSON (`.storage`) | `P:\.storage\core.category_registry` | Direct read | Fully read; used to identify the 3 category_ids ("Concierge" for automation, "Concierge" for script, "Concierge Automation Helpers" for helpers) that define this pass's scope, per the governing instruction. |
+| 10 | Config entries (integrations) | JSON (`.storage`) | `P:\.storage\core.config_entries` | PowerShell `ConvertFrom-Json`, filtered to domains relevant to findings (`music_assistant`, `sonos`, `cloud`, `esphome`, `openai_conversation`, `extended_openai_conversation`) and to confirm absence of a `concierge` domain | Full file contains 169+ config entries across all integrations; only the subset relevant to Concierge-scope findings was inspected. |
+| 11 | Custom component directory listing | directory listing | `P:\custom_components\` | Directory listing only | Confirmed `asset_intelligence` is present and `concierge`/`voice_identity` are absent; individual `manifest.json` files were not opened in this pass (the 2026-10-07 prior pass already confirmed `asset_intelligence` version 1.0.12 by this method). |
+| 12 | Watchman self-diagnostic report | text | `P:\watchman_report.txt` | `grep` for "concierge" only (no match) | Not read in full in this pass; the 2026-10-07 prior pass already summarized its contents (missing doorbell camera/event pair, 2 unavailable soil-moisture sensors, 1 unknown-state PowerView scene). |
+| 13 | Home Assistant log (rotated) | text | `P:\home-assistant.log.1` | `Select-String` for "concierge" only (no match) | Only a targeted keyword search was performed; this is a rotated/historical log segment, not live/current logs, and a no-match result here is not proof the service call never ran at any point. |
+| 14 | `secrets.yaml` | YAML | `P:\secrets.yaml` | **Not opened** | Existence recorded only, per the governing instruction and consistent with the 2026-10-07 prior pass's practice. |
+| 15 | `home-assistant_v2.db` (Recorder) | SQLite | `P:\home-assistant_v2.db` (+ `-shm`/`-wal`) | **Not opened** | No approved read-only discovery method exists in this repository for the Recorder database; consistent with the 2026-10-07 prior pass's stated limitation. |
+| 16 | `nexia_config_*.conf`, `trane_config_*.conf` | config files | `P:\nexia_config_Tom@tomgrounds.com.conf`, `P:\trane_config_*.conf` | **Not opened** | Filenames indicate thermostat-vendor cloud credentials; existence recorded only, not opened, per the governing instruction. |
+| 17 | HTBW repository governance | Markdown | `docs/governance/authority-order.md`, `document-lifecycle.md`, `document-register.md`, `decision-ledger.md` (partial — table sections read; full 3,498-line file not read end-to-end in this pass), `open-decision-issue-index.md` (not read in full in this pass) | `view` + `grep` | `decision-ledger.md` Part 2 (the 68 genuinely open decisions, OD-01–OD-76) was not individually cross-checked against every finding in this pass — see the lightweight Open-Issue Impact Review in [production-gaps-and-owner-review.md](production-gaps-and-owner-review.md) §7 for what was and was not covered. |
+| 18 | HTBW canonical architecture | Markdown | `docs/architecture/adr-room-configuration-ownership.md` (full), `concierge-contract.md` (sections 1–6 read in full; sections 7–14 and the Historical appendix not read in this pass), `concierge-runtime-architecture.md` (full) | `view` + `grep` | `concierge-contract.md` is 31.7KB; only the owning/consuming/hard-prohibition sections most relevant to this pass's findings were read. |
+| 19 | GitHub Epic #147 | GitHub issue (gh CLI) | `tom-tagmdl/homes_that_behave_well#147` | `gh issue view 147 --json title,body,state,labels,url` | Body text only; the 68 individual child issues (OD-01 through OD-76 minus resolved) were not individually fetched in this pass. |
+| 20 | Sibling repository: `concierge` | directory listing | `\\10.1.1.11\TAGMDL-Repo\HomesPlatformRepos\concierge\custom_components\` | Directory listing only | Confirmed a `concierge` custom_component exists in this sibling repository but is NOT present in production's `P:\custom_components\` listing (evidence source #11). File contents of that custom_component were not read in this pass. |
+| 21 | Prior Reference Home discovery pass (2026-10-07) | Markdown/CSV (untracked in git at time of this pass) | `docs/reference-home/discovery/` (14 files) | `view` | Used as prior evidence to reconcile against, per the governing instruction; not re-verified line-by-line in this pass except where directly cross-cited (automation/script counts, P: accessibility confirmation method). |
+| 22 | Independent script-analysis cross-check | background sub-agent analysis of `%TEMP%\ha_scripts.yaml` | n/a (session-internal) | A second, independently-prompted read of the same 44 in-scope scripts, used to corroborate this session's direct findings | Ran concurrently with this session's own direct read; both analyses converged on the same 6 broken script references plus several additional lower-severity findings (regex-grouping risk, debug-message Jinja bug, volume-clamp drift) that are recorded in [production-gaps-and-owner-review.md](production-gaps-and-owner-review.md) §3. |
+
+---
+
+## Redaction log
+
+| Value type | Where found | Treatment in this document set |
+|---|---|---|
+| Fully Kiosk Browser admin password (plaintext) | `script.living_room_fully_kiosk_provisioning`, `script.bedroom_fully_kiosk_provisioning`, `script.kiosk_set_overnight_mode`, `script.kiosk_set_day_mode` | Value never reproduced in any artifact; existence and pattern (plaintext script variable, not `!secret`) recorded in `production-gaps-and-owner-review.md` §4 |
+| Music Assistant bearer token source | `rest_commands/rest_command_music_assistant.yaml` (`Authorization` header template) | Value itself was auto-redacted by the file-viewing tool on retrieval and was never visible to this session; only the fact that it reads from `input_text.ma_access_token` is recorded |
+| Device IP addresses (LAN) | kiosk provisioning scripts | Recorded only as "hardcoded device IP" without reproducing the literal address, except where already present verbatim in prior committed repository artifacts (none were) |
+| Resident names | automation/script aliases referencing specific family members | Not redacted in this document set's CSVs/Markdown where they appear only as room-disambiguation context (e.g., "Tom's Office," "David's Office") already present in production entity naming and already used unredacted in the prior 2026-10-07 discovery pass; no additional personal information (message contents, calendar contents, financial details) was observed or included |
