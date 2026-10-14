@@ -26,6 +26,10 @@ answer. Where it proposed something the accepted architecture does not support, 
 architecture prevailed and the narration is remediated. See
 [../governance/decision-ledger.md](../governance/decision-ledger.md).
 
+**Use Case 16** has a different origin: the Experience Continuity and Remembered Preferences production
+experience outcome review, grounded in the production behavior-preservation inventory rather than the
+Episode 7 narrative. It is recorded under the same acceptance-scenario discipline as the first fifteen.
+
 ---
 
 ## The doctrine these use cases enforce
@@ -975,6 +979,101 @@ here.
 - **It does not move Stewardship history, Truth Fact history, or Concierge decision history into
   Continuity.**
 - **It asserts no implemented HTBW Core capability.**
+
+---
+
+# Use Case 16 — Room-Aware Music Continuity, Guest/Default Fallback, and Music Assistant Resolution
+
+## Human outcome
+
+Tom listens to jazz in the Den, walks to the Kitchen, and says *"Play what I was listening to."* The
+Kitchen plays Tom's jazz, at the Kitchen's own configured volume, through the Kitchen's configured
+media capability. Later, David plays different music in the Den. When Tom returns to the Den and says
+*"Resume the music,"* the Den's own current session resumes — not Tom's jazz from memory, and not
+David's session attributed to Tom. A guest with no configured preference, asking for music in the
+Kitchen, gets the household's configured default or the designated Guest fallback Person Extension's
+preference — never a fabricated "Kitchen taste."
+
+## Preconditions
+
+| Precondition | Owner | Status |
+|---|---|---|
+| Target Room or Merged Room is resolved (current Interaction Space, or an explicit cross-room target) | Room Configuration / Contextual Vocabulary | **A** — accepted disposition, [room-vocabulary.md](room-vocabulary.md) |
+| A Person-scoped Governed Reference to a resumable listening context exists | Continuity | **A** — the same abstraction as Use Case 4's audiobook position, applied to music |
+| The target Room has a configured media capability and Room-scoped audio values | Room Configuration | **A** |
+| Music Assistant is configured and available, where the household uses it | Home Assistant / Music Assistant | **A**, where configured — [home-assistant-boundary.md](../architecture/home-assistant-boundary.md), *Music Assistant capability review* |
+
+## Ownership map
+
+| # | Question | Owner | Statement |
+|---|---|---|---|
+| 1 | Target place | Room Configuration / Contextual Vocabulary (Experience Family 1) | Explicit cross-room naming and the current Interaction Space use the same resolution and the same execution model. The Den supplies interaction-origin context only; it does not supply the Kitchen's player, volume, or Room-scoped state |
+| 2 | What Continuity supplies | **Continuity** | Tom's Person-scoped last-genre / last-played Governed Reference, **or** the target Room's Room-scoped last song / current experience — never collapsed into one record |
+| 3 | Memory scope | **Person-scoped:** preferred artist, genre, album, playlist; current personal media session. **Room-scoped:** last song and last genre played in the room, music/duck/TTS volume, current room experience | **A** — [continuity.md](../models/continuity.md) Scope rules |
+| 4 | Guest/default experience | **Continuity** (the already-accepted **Guest fallback Person Extension**, **DL-71**) or **Room Configuration** (a configured default) | **A** — neither is a third Continuity scope, and neither is a fabricated Person invented to hold a Room's taste |
+| 5 | Precedence | Explicit request first; Person-scoped Continuity; Room/session Continuity; guest/default context; otherwise no fallback | Settled now: **an explicit request is never overridden by remembered state of any scope** — Continuity never supplies an instruction. Full ordering among the remembered scopes, and which remembered-value class applies, remains **OD-78** |
+| 6 | Music resolution | **Music Assistant**, where configured | **A** — [home-assistant-boundary.md](../architecture/home-assistant-boundary.md) |
+| 7 | Execution | The target Room's configured media capability — a native Music Assistant player provider, or a supported Home Assistant Media Player fallback | **A** |
+| 8 | Who decides | **Concierge** | Composes applicable state from 2–6 and executes through governed interfaces |
+| 9 | Multi-person conflict | **Operational Trust** / **Concierge** | The Den's current session (David's) is a Room-scoped record, distinct from Tom's Person-scoped reference. *"Resume the music"* in the Den resumes the Den's session; *"play what I was listening to"* uses the speaker's own Person-scoped reference. Session merge is **OD-24**; concurrency is **OD-27** |
+| 10 | Degradation | [home-assistant-boundary.md](../architecture/home-assistant-boundary.md) / [failure-and-degradation.md](../architecture/failure-and-degradation.md) | If Music Assistant is unavailable: basic player control (pause, stop, resume, volume) continues through the target Room's media capability where supported; a semantic request (search, artist, album, playlist, genre) degrades explicitly and is never silently reassigned to a different provider, a static mapping, or an unrelated favorite |
+| 11 | Explainability | **Decision Trace** | Requested intent; which Continuity scope (Person, Room/session, or guest/default) supplied the applied state; the resolved target Room; Music Assistant availability; the player/provider that executed; whether degradation occurred |
+
+## Acceptance scenarios
+
+| # | Given | Then | Must not |
+|---|---|---|---|
+| 16.1 | Kitchen's "Lights" vocabulary term resolves to several configured fixtures, each with its own resume value | Each fixture restores its own value | Collapse to one generic Room-level brightness |
+| 16.2 | A fixture has a resume value and the resident states an explicit level | The explicit level governs | Apply the resume value over an explicit instruction |
+| 16.3 | Standing in Den, the resident says *"Play music in the kitchen"* | Kitchen's configured player and Room-scoped volume are used | Use the Den's values merely because the interaction originated there |
+| 16.4 | Tom's last genre is Jazz and Tom says *"Play classical music"* | Classical governs | Apply Jazz because it is remembered |
+| 16.5 | Tom's Person-scoped reference exists; Tom says *"Play what I was listening to"* in a new Room | The target Room's player and Room-scoped volume execute Tom's Person-scoped reference | Assume the target Room supplies Tom's musical taste |
+| 16.6 | David played different music in the Den after Tom left; Tom returns and says *"Resume the music"* | The Den's own current/last Room-scoped session resumes | Resume Tom's Person-scoped reference instead of the Den's session, or attribute David's session to Tom |
+| 16.7 | No applicable identified-Person preference exists; a Guest fallback Person Extension or a Room Configuration default is configured | That configured default or Person Extension preference may supply the experience | Fabricate a resident preference, or invent a Person representing the Room's taste |
+| 16.8 | Music Assistant is configured and the resident asks for an artist, album, playlist, or genre | Music Assistant resolves it; the target Room's media capability plays it | Recreate catalog/search/resolution behaviour in Concierge |
+| 16.9 | Music Assistant is the configured resolver and is unavailable; the resident makes the same semantic request | Governed failure/degradation behaviour follows; basic player control remains available where supported | Silently substitute a Sonos Favorite, a static genre map, or an unrelated provider; claim success |
+| 16.10 | The configured player is reachable through a native Music Assistant player provider or a supported Home Assistant Media Player fallback | The configured, supported path is used; the HTBW responsibility boundary is unchanged | Treat the fallback path as a reason to change who resolves music or who executes playback |
+| 16.11 | A configured Merged Room owns a shared audio experience | One canonical Merged Room configuration supplies the applicable Room-scoped continuity | Duplicate physical-Room lists as architecture (see the Main Living Area prior art below) |
+| 16.12 | The target Room has Room-scoped TTS and duck volume while music plays | The target Room's values are used | Let Person music taste redefine the Room's interaction-volume behaviour |
+| 16.13 | A Person is identified but the requested Person-scoped value cannot be read | Accepted precedence and failure/degradation policy apply | Silently invent a preference |
+| 16.14 | Music selection used Person continuity, guest/default context, Room/session continuity, or a degradation path | Decision Trace captures enough to explain the choice (field 11 above) | — |
+
+## Production provenance
+
+Production is prior art for the **scope** of remembered state, not for its implementation mechanism.
+[production-behavior-inventory.md](../reference-home/production-behavior-preservation/production-behavior-inventory.md)
+and the per-row evidence in
+[production-automation-inventory.csv](../reference-home/production-behavior-preservation/production-automation-inventory.csv),
+[production-script-inventory.csv](../reference-home/production-behavior-preservation/production-script-inventory.csv), and
+[production-helper-inventory.csv](../reference-home/production-behavior-preservation/production-helper-inventory.csv)
+teach:
+
+| Production prior art | What it corroborates |
+|---|---|
+| 49 individual `input_number.<light>_learned_brightness` helpers (**BHV-11**, **BHV-12**) | Individual fixtures have different resume values — Room-scoped granularity is per fixture, not one room value |
+| Per-room `<room>_speaker_profile` (chat/music/duck) (**BHV-01**, **BHV-07**) | A Room has an appropriate playback volume independent of musical taste |
+| `sonos_speak_with_ducking_room`'s duck/chat volume handling (**BHV-01**, **BHV-13**) | Duck and TTS volume describe place-specific interaction behaviour |
+| `concierge_intentional_learning_ha_voice` ("remember this") (**BHV-12**) | Explicit preference-retention is a useful, distinct interaction from implicit learning |
+| `<room>_speaker_profile_last_media` structured audit line (**BHV-09**) | A resumable listening context needs more than a title — title, artist, album, source, type, id |
+| The Sonos-Favorites/static-genre-map split from Music-Assistant-backed playback (**BHV-09**, **BHV-10**) | HTBW needs one semantic music-resolution boundary, not a provider-specific split |
+| The hardcoded "Main Living Area" room list (**BHV-07**) | Canonical Merged Room continuity is needed in place of duplicated physical-Room lists |
+
+Production has **no person-scoped remembered media, volume, or brightness concept at all** — every
+helper and audit trail found is Room- or house-scoped. This is evidence that HTBW's Person-scoped
+preferences (preferred artist, genre, album, playlist) are a genuine improvement HTBW must capture,
+not something to preserve a production mechanism for.
+
+## Implementation status and unresolved decisions
+
+**F** — no HTBW Core implementation exists. Governed now: scope separation (Person/Room/Fixture
+granularity/guest-default), explicit-request precedence, the Music Assistant resolution boundary, and
+graceful degradation without semantic degradation. Deferred to existing open decisions: **OD-78**
+(remembered-value classes and restoration semantics — the primary owner of the detailed precedence and
+provenance questions above), **OD-24** (session merge), **OD-25** (resume eligibility window), **OD-26**
+(history retention scope), **OD-27** (concurrency), **OD-28**/**OD-65** (learned-preference promotion
+and evidence eligibility). None of these is resolved, reopened, or duplicated by this Use Case.
+
+---
 
 ## Related documents
 

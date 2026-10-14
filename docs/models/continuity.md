@@ -143,6 +143,40 @@ and a **Governed Reference** to provider-owned position.
 - Current room experience
 - Room-specific resume state
 
+### Room-scoped granularity follows Room Configuration's participating capabilities
+
+**A Room-scoped value is recorded per participating capability, not collapsed into one room-wide
+value, unless Room Configuration deliberately configures a single shared target.** Where a Room's
+vocabulary term resolves to several configured fixtures (for example, "Lamps" resolving to more than
+one lamp), "Room-specific resume state" means each participating fixture has its own remembered
+value. This mirrors the granularity Room Configuration already uses for Primary Authority per
+Environmental Purpose (**DL-60**, **DL-62**): the scope stays Room-scoped — ownership does not move to
+the fixture, the Person, or a new third tier — but the stored value is per capability, read back at
+the granularity Room Configuration declares.
+
+### Guest and default experience are not a third Continuity scope
+
+Continuity still has **exactly two scopes**. A household's guest or default experience — for example,
+an appropriate genre or playlist when no identified Person's preference applies — does not create a
+third scope and is never represented as a fabricated Person invented to hold a Room's taste. It is one
+of:
+
+- the already-accepted **Guest fallback Person Extension** (**DL-71**, see
+  [glossary.md](glossary.md)): exactly one existing, deliberately configured Person the household
+  designates as the default consulted under Unknown Person, consulted here as ordinary person-scoped
+  Continuity for that Person Extension, never a new Identity state; or
+- a **configured default** — Room Configuration's own baseline value for a capability, not a
+  remembered or learned preference at all. "Configured default" is already named as one of the
+  remembered-value classes **OD-78** must resolve; this model does not decide its provenance here.
+
+**Which of these applies, and the full precedence among explicit request, Person-scoped Continuity,
+Room/session Continuity, this guest/default context, and no fallback at all, remains OD-78.** What is
+settled now is narrower and does not wait on OD-78: an **explicit resident request is never overridden
+by remembered state of any scope.** Continuity supplies state Concierge may apply; a preference is
+never treated as an instruction (see
+[../contracts/concierge-contract.md](../contracts/concierge-contract.md) hard prohibitions). Remembered
+state fills in what the resident did not say; it does not contradict what the resident did say.
+
 ### The preserved scoping rule
 
 > **Preferred artist, genre, album, and playlist are person-scoped rather than person-plus-room

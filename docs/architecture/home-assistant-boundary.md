@@ -1083,6 +1083,11 @@ review. It records what was evaluated, what remains, and which decision each fin
 | Wyoming Protocol integration | `https://www.home-assistant.io/integrations/wyoming/` | Yes |
 | Wyoming Protocol specification | `https://github.com/OHF-Voice/wyoming` | Yes |
 | Wyoming app packaging reference | `https://github.com/rhasspy/wyoming-addons` | Yes |
+| Media player (building-block integration) | `https://www.home-assistant.io/integrations/media_player/` | Yes |
+| Music Assistant integration | `https://www.home-assistant.io/integrations/music_assistant/` | Yes |
+| Music Assistant player support and provider precedence | `https://www.music-assistant.io/player-support/` | Yes |
+| Music Assistant / Home Assistant integration relationship | `https://www.music-assistant.io/integration/` | Yes |
+| Music Assistant `search` action | `https://www.home-assistant.io/actions/music_assistant.search/` | Yes |
 
 > **Not verified during this review:** the Floor registry and Label registry developer pages, which
 > did not resolve. **No links are recorded for them, and none are fabricated.** **OD-10** must not be
@@ -1116,8 +1121,73 @@ review. It records what was evaluated, what remains, and which decision each fin
 |---|---|---|
 | Presence and identity evidence | Device trackers, companion-app signals, BLE presence projects, camera-based detection | **Consume as evidence.** HTBW does not build presence detection. A detection is never an Identity Assertion (**DL-06**) |
 | Media | Media players and established media-management projects | **Consume.** HTBW does not re-implement media routing or library management. A Session is not media-player state |
+| Music catalog, search, discovery, and semantic resolution | Music Assistant, where configured and available | **Consume as the preferred semantic music-resolution boundary.** See *Music Assistant capability review* below |
 | Autonomous lighting and comparable policy add-ons | Third-party engines that decide and act on their own | **Permitted, under an explicit delegation boundary.** See below |
 | Transport | Matter, Z-Wave, Zigbee, ESPHome | **Consume.** No governance implication |
+
+### Music Assistant capability review
+
+Reviewed under the same **P21** Home Assistant First burden of proof as the rest of this document,
+against `https://www.home-assistant.io/integrations/music_assistant/`,
+`https://www.music-assistant.io/player-support/`, `https://www.music-assistant.io/integration/`,
+`https://www.home-assistant.io/actions/music_assistant.search/`, and
+`https://www.home-assistant.io/integrations/media_player/`.
+
+**Verified official capability:**
+
+- The Music Assistant integration is an official Home Assistant integration (no custom component
+  required) that connects to a Music Assistant server and exposes MA players as Home Assistant
+  `media_player` entities.
+- Music Assistant provides semantic catalog and resolution actions — `music_assistant.search`
+  (library and all connected providers, by `media_type`: artist, album, audiobook, playlist, podcast,
+  track, or radio), `music_assistant.get_library`, `music_assistant.get_queue`,
+  `music_assistant.play_media`, `music_assistant.play_announcement`, and
+  `music_assistant.transfer_queue`.
+- `media_player.play_media` run through a Music Assistant player accepts a track/artist/album name, an
+  artist-and-track combination, or a streaming-provider URI/URL as `media_content_id` — not only a raw
+  provider identifier.
+- User attribution is supported: `media_player.play_media` runs as the Home Assistant user issuing the
+  call when that user matches a configured Music Assistant user; `music_assistant.play_media` and
+  `music_assistant.search` additionally accept an explicit `username` field to attribute or scope a
+  request to a specific Music Assistant user's library and provider filtering.
+- Player providers: **"if Music Assistant has a provider of its own for a device, use it. The Home
+  Assistant route is a fallback for devices with no native provider, not an alternative to one."**
+  (`music-assistant.io/player-support/`). A native Music Assistant player provider is preferred; a
+  Home Assistant Media Player is a supported fallback for a device with no native provider, through
+  the Music Assistant Home Assistant Plugin.
+- Basic playback control (play, pause, stop, volume, mute, and the other standard `media_player`
+  actions and states) is native `media_player` functionality, available through the configured target
+  Room media capability independent of Music Assistant's semantic layer.
+
+**HTBW position, consistent with the general Media row above:**
+
+Music Assistant, where configured and available, is the preferred specialized music catalog, search,
+discovery, and semantic content-resolution capability. Concierge expresses music intent; Music
+Assistant resolves supported music content; the configured target Room or Merged Room media capability
+(a native Music Assistant player provider, or a supported Home Assistant Media Player fallback)
+executes playback. **HTBW does not recreate Music Assistant catalog, search, or provider-resolution
+behavior in Concierge**, and does not preserve a provider-specific production workaround (a static
+genre-to-favorite map, direct provider-catalog search, or similar) as HTBW architecture merely because
+production used it before Music Assistant was available — see the *Production provenance* section in
+[continuity-use-cases.md](../scenarios/continuity-use-cases.md).
+
+**Graceful degradation without semantic degradation.** If Music Assistant is unavailable, basic
+`media_player` operations remain available through the configured target Room media capability where
+the platform still supports them. A Music Assistant-dependent semantic request (search, artist/album/
+playlist/genre resolution, library browse) follows
+[failure-and-degradation.md](failure-and-degradation.md)'s governed fallback and honest-response
+vocabulary (**Unavailable**, **Clarification required**, and the rest) — HTBW does not silently
+substitute a different provider, a static mapping, or an unrelated favorite, and does not claim a
+search or selection succeeded when Music Assistant could not perform it. This is a direct application
+of the already-accepted rule that **"a failed HTBW Vocabulary match must never silently authorize an
+unrelated or materially broader native action"** ([failure-and-degradation.md](failure-and-degradation.md),
+*Honest response vocabulary for conversational retrieval and command resolution*); the same rule
+governs a failed semantic music resolution.
+
+This review found no requirement for an HTBW-owned music catalog, library, or provider-resolution
+store. The finding resolves to *consume a native/ecosystem capability* under the existing Media row,
+named here because Music Assistant is the specific capability the desired household music experience
+depends on.
 
 ### New HTBW capability avoided
 
@@ -1422,9 +1492,12 @@ Do not resolve them inside a contract, model, or scenario document.
 - [greenfield-mandate.md](greenfield-mandate.md)
 - [behavioral-governance.md](behavioral-governance.md)
 - [explainability.md](explainability.md)
+- [failure-and-degradation.md](failure-and-degradation.md)
 - [../models/temporal-record.md](../models/temporal-record.md)
 - [../models/communication.md](../models/communication.md)
 - [../models/room-configuration.md](../models/room-configuration.md)
+- [../models/continuity.md](../models/continuity.md)
+- [../scenarios/continuity-use-cases.md](../scenarios/continuity-use-cases.md)
 - [adr-home-assistant-first-and-connected-storage.md](adr-home-assistant-first-and-connected-storage.md)
 - [adr-temporal-record-model.md](adr-temporal-record-model.md)
 - [adr-resident-communication-and-delivery-separation.md](adr-resident-communication-and-delivery-separation.md)

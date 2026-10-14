@@ -52,6 +52,21 @@ into Stewardship**. See [../models/continuity.md](../models/continuity.md).
 
 This rule is preserved deliberately.
 
+**Room-scoped granularity follows Room Configuration's participating capabilities.** Where a Room's
+vocabulary term resolves to several configured fixtures, "Room-specific resume state" is recorded and
+restored per participating fixture, not collapsed into one room-wide value — mirroring the Primary
+Authority granularity Room Configuration already uses per Environmental Purpose (**DL-60**, **DL-62**).
+
+**Guest and default experience are not a third scope.** A guest or default experience (for example, a
+default music genre when no identified Person's preference applies) is either the already-accepted
+**Guest fallback Person Extension** (**DL-71**) consulted as ordinary person-scoped Continuity, or a
+Room Configuration **configured default** — never a remembered preference and never a fabricated
+Person invented to hold a Room's taste. Which applies, and the complete precedence among explicit
+request, Person-scoped, Room/session-scoped, and guest/default context, remains **OD-78**. Settled now,
+independent of OD-78: an explicit resident request is never overridden by remembered state of any
+scope — see the Concierge Contract hard prohibition that a preference is never treated as an
+instruction.
+
 ### What is *not* in either column
 
 A record does not become Continuity's because it is personal, remembered, or emotionally significant.
