@@ -23,7 +23,7 @@ If a scenario cannot be walked through without ambiguity about ownership, the ar
 | [room-vocabulary.md](room-vocabulary.md) | Room Configuration, Contextual Vocabulary, Merged Rooms, deliberate exclusion, Room Help, knowledge assets, composite environment |
 | [follow-me-media.md](follow-me-media.md) | Continuity intent, transfer eligibility, Truth-driven blocking, Operational Trust authority |
 | [multi-person-conflict.md](multi-person-conflict.md) | Identity ambiguity, session conflict, authority to displace, confidence thresholds, confirmation, audience and disclosure |
-| [nighttime-suppression.md](nighttime-suppression.md) | Room mode, suppression as a deliberate outcome, explainable non-action |
+| [nighttime-suppression.md](nighttime-suppression.md) | Room mode, suppression as a deliberate outcome, explainable non-action, household automation integration boundary (Room Posture, Household Posture, automation/script explainability) |
 | [stewardship-obligations.md](stewardship-obligations.md) | Obligation state versus action, escalation intent, the garage-door separation |
 | [stewardship-use-cases.md](stewardship-use-cases.md) | **The eight canonical Stewardship use cases.** Household declaration of what matters, care definition before alert, the corrective-action lifecycle, the named executor, and obligation closure |
 | [continuity-use-cases.md](continuity-use-cases.md) | **Sixteen canonical Continuity use cases.** What Continuity holds and what it only references, the memory-versus-observation-versus-preference separations, restoration, resume, personal-resource associations, recommendation boundaries, correction and deletion, and room-aware music continuity with guest/default fallback and Music Assistant resolution |

@@ -131,9 +131,119 @@ fail closed.
 
 ---
 
+## Production provenance — Household Automation Integration and Room Posture
+
+**"Room Posture" is not a new concept.** It is the already-accepted **Room mode** demonstrated in every
+scenario above: a Truth fact, scoped to a Room or Merged Room, declared as a "relevant mode" by Room
+Configuration, set through a governed Concierge routine (Scenario 1), and interpreted — never
+implemented — by Operational Trust. "Normal," "Quiet," "Nap," "Bedtime," "Movie," and "Entertaining" are
+household vocabulary for Room mode values, exactly as "Nighttime" is in Scenario 1. None of them is a
+canonical enumeration; Room Configuration's "relevant Room modes" are household-configured, not a fixed
+HTBW list.
+
+[production-behavior-catalog.csv](../reference-home/production-behavior-preservation/production-behavior-catalog.csv)
+corroborates this independently: production's own Goodnight and Good Morning routines (**BHV-18**,
+**BHV-19**) set an explicit `posture=night` / `posture=awake` value, separately from the household-
+specific device actions (lights, shades, Sonos, AppleTV, kiosk dashboard) those routines also perform.
+This is prior art for the household's own vocabulary, not a reason to adopt production's mechanism —
+the device actions in BHV-17/18/19 remain exactly the kind of household-specific automation mechanics
+this scenario already keeps outside Truth and outside Operational Trust.
+
+### The Nursery Nap scenario, walked through existing authority
+
+A caregiver says "It's nap time" (or triggers the equivalent kiosk action). **Nothing new is required**:
+
+| Step | Responsibility | Action |
+|---|---|---|
+| 1 | Room Configuration / Contextual Vocabulary | Resolves Room Context → Nursery; resolves the household's "Nap" vocabulary to the governed mode-transition action, exactly as "Good night" resolves in Scenario 1 |
+| 2 | Operational Trust | Confirms the speaker may set Nursery mode |
+| 3 | Concierge | Executes the transition through governed interfaces |
+| 4 | Truth | Establishes the fact: **the Nursery is in Nap mode** |
+| 5 | *(household-owned, outside HTBW)* | The household's own Home Assistant automation, triggered by whatever representation of that fact the household's automation observes, closes shades, dims lights, and starts white noise |
+
+**HTBW does not own step 5.** [home-assistant-boundary.md](../architecture/home-assistant-boundary.md),
+*Native automations, scripts, and scenes*, already states this generally: *"HTBW does not own, absorb,
+replace, or require the rewriting of any native automation, script, scene, or blueprint"* — what HTBW
+observes of step 5 is a **Domain Event**, never a fabricated Decision Trace, because HTBW did not decide
+the shade, light, or white-noise actions.
+
+**Voice, kiosk, and a household automation's own request converge on the same governed transition** at
+step 3, regardless of which interaction surface or source supplied it — Concierge orchestrates the
+identical Room-mode-setting action, and **DL-73**'s Behaviour Source enumeration already classifies
+*direct resident interaction*, *native automation*, and *manual physical interaction* as distinct,
+equally legitimate sources without special-casing any of them.
+
+### Time is not mode
+
+Scenario 3 and Scenario 5 already establish this: quiet hours are a temporal, Home-scoped policy input;
+a Room's mode is a Truth fact the household (or a governed automation request) sets explicitly. A
+Nursery entering Nap mode in the afternoon, or a Den remaining in an Entertaining-equivalent mode late at
+night, follows without exception or special case — **time informs policy interpretation; it does not
+silently become the mode.**
+
+### Interruption/DND is not a second concept
+
+No standalone "Do Not Disturb" object is introduced, and none is required. Scenario 2 and Scenario 3
+already show the accepted mechanism: Operational Trust interprets a Room mode (Nighttime) as an
+interruption restriction, on the same **Risk-versus-Interruption** axis
+([operational-trust-contract.md](../contracts/operational-trust-contract.md), **DL-76**) that governs
+every other interruption decision. A household that configures a Nap mode to restrict interruption in
+the Nursery uses this identical mechanism — **a new mode value, not a new policy concept.** Experience
+Family 4's Communication and Delivery authority already consumes exactly this kind of governed context
+without modification; Room mode is additional contextual evidence to that existing pipeline, never a
+parallel notification path.
+
+### Household Posture is an ordinary Home-scoped Truth Fact
+
+**No distinct "Household Posture" model is required.** Scenario 5 already anticipates this: *"If the
+household wants a whole-home quiet period, that is a Home-scoped policy."* [truth.md](../models/truth.md)
+already establishes **Home** as a Fact Subject — *"the outermost governed scope"* — using the identical
+Fact model, lifecycle, and confidence/provenance rules as a Room-scoped Fact. A household concept such as
+Away, Vacation, or Guest is represented the same way a Room mode is: as a Home-scoped Truth Fact, set
+through a governed routine and interpreted by Operational Trust, not as a second model invented for
+symmetry with Room mode.
+
+### Household automation read/write integration remains OD-81, not decided here
+
+Whether, and how, Room mode (or any other HTBW-governed semantic state) is **published** as a native Home
+Assistant service, event, or entity a household automation may read, and whether a household automation
+may **request** a governed mode transition through a public surface, is the exact, already-identified,
+still-open question: **OD-81 — HTBW Capability Exposure and Self-Consumption** (#159). OD-81's own
+recorded reasoning already anticipates this case precisely: *"where an HTBW concept benefits from native
+visibility, state, targeting, or automation, a native representation is created or used in preference to
+a parallel hierarchy — and that representation is a projection, never a second authority"* (**DL-31**,
+quoted in OD-81). This review supplies Room mode as a concrete, evidenced case for OD-81 and does not
+pre-decide it: no service name, entity platform, or event schema is selected here, consistent with OD-81's
+own closure boundary.
+
+### Household-created automation and script explainability is already sufficient
+
+**No new Explainability, provenance, or automation-registration integration point is required.**
+[decision-trace.md](../models/decision-trace.md) already states the controlling rule: *"A Decision Trace
+exists only where HTBW decided. Where a resident, a native automation, a script, a scene, or an external
+integration caused a change, there is no HTBW decision and therefore no trace... What occurred is
+recorded as a Domain Event with behaviour attribution instead."* [home-assistant-boundary.md](../architecture/home-assistant-boundary.md),
+*Native automations, scripts, and scenes*, already specifies the available evidence in full: the
+automation/script/scene involved, the invoked action, the resulting state transition, the triggering
+event, Home Assistant's Context/Parent Context/User Context identifiers, and the related entity, device,
+Area, Room, or person — *"where the platform does not supply it, it is not inferred."*
+[why-did-this-happen.md](why-did-this-happen.md) Scenario 21 and Scenario 63 already demonstrate exactly
+the Nap-to-shade causal chain this review tested, including the non-event case: a sibling
+`automation_triggered` event either exists (and is cited) or does not (and the trace says so), never a
+fabricated cause. **OD-64** remains the narrow, already-identified residual — verifying the precise
+Recorder-events evidence surface — not a gap in the attribution architecture itself.
+
+---
+
 ## Related documents
 
 - [../models/truth.md](../models/truth.md)
 - [../models/operational-trust.md](../models/operational-trust.md)
 - [../architecture/failure-and-degradation.md](../architecture/failure-and-degradation.md)
 - [why-did-this-happen.md](why-did-this-happen.md)
+- [../architecture/home-assistant-boundary.md](../architecture/home-assistant-boundary.md)
+- [../models/decision-trace.md](../models/decision-trace.md)
+- [../contracts/operational-trust-contract.md](../contracts/operational-trust-contract.md)
+- [../governance/decision-ledger.md](../governance/decision-ledger.md) — **OD-81**, HTBW capability
+  exposure and self-consumption
+- [../reference-home/production-behavior-preservation/production-behavior-catalog.csv](../reference-home/production-behavior-preservation/production-behavior-catalog.csv)
