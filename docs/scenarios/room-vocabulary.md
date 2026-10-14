@@ -416,8 +416,10 @@ behavior executes," "duplicated independently across 6–12 scripts and automati
 **BHV-01**, **BHV-02**, **BHV-04**, **BHV-06**, **BHV-13**). This corroborates that the desired outcome
 is genuine, recurring household value — it is **not** a reason to carry the runtime-discovery mechanism
 forward, and it does **not** by itself accept, migrate, or retire any individual production behavior.
-**Each production behavior still requires its own disposition review** before its production mechanism
-may be considered superseded; the entries below record that review for behaviors already examined.
+**Remaining production behaviors are reviewed through outcome-oriented experience families, not one by
+one.** An individual production behavior requires separate architecture treatment only when it exposes
+an outcome, contradiction, or gap not already represented by an accepted experience-family requirement.
+The entry below records the family-level review and the BHV-01-specific review already completed.
 
 ---
 
