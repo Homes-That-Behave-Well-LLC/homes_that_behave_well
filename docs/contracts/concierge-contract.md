@@ -136,6 +136,33 @@ Concierge must honour the ordering rules in
 - Truth before decision
 - Trace always
 
+### Interaction Space, Execution Target, and Response Delivery Space
+
+Three distinct concepts, none of them new authority:
+
+- **Interaction Space** is Room Context — the Room or Merged Room where the conversation is
+  happening ("Interaction Space" is superseded terminology for **Room Context**:
+  [adr-room-configuration-ownership.md](../architecture/adr-room-configuration-ownership.md) §5).
+- **Execution Target** is the Room or Merged Room resolved for the requested action, which may differ
+  from the Interaction Space when the resident explicitly names another Room (Experience Family 1;
+  [../scenarios/room-vocabulary.md](../scenarios/room-vocabulary.md) Scenario 1).
+- **Response Delivery Space** is not a new object or model field — it names which Room's configured
+  surfaces ordinarily supply the candidate Delivery Target for Concierge's own conversational response
+  (an acknowledgement or spoken answer). **By default, the Response Delivery Space is the Interaction
+  Space.** The Execution Target does not become the response location merely because an action
+  executed there.
+
+A Communication's own **Intended Audience**, **Audience composition**, and **Delivery Surface**
+selection ([../models/communication.md](../models/communication.md)) remain controlling wherever they
+apply — for example, a Person-addressed Communication is routed to its own audience-determined Delivery
+Target, never defaulted to the Interaction Space merely because that is where a live conversation
+happens to be occurring.
+
+**Example:** standing in the Den and saying "Turn on the kitchen lights," Kitchen is the Execution
+Target; the Den remains the Interaction Space; the Den's configured surface delivers the spoken
+acknowledgement under ordinary Communication and Delivery policy. No separate cross-room response
+architecture exists.
+
 ---
 
 ## 7. Permitted outcomes
@@ -327,7 +354,7 @@ See [../models/decision-trace.md](../models/decision-trace.md) and
 
 ### Related documents
 
-- [../scenarios/concierge-use-cases.md](../scenarios/concierge-use-cases.md) — **the twenty canonical Concierge human-outcome use cases**, each with a maturity classification. Architecture and outcome guidance, **not proof of implementation**
+- [../scenarios/concierge-use-cases.md](../scenarios/concierge-use-cases.md) — **the twenty-one canonical Concierge human-outcome use cases**, each with a maturity classification. Architecture and outcome guidance, **not proof of implementation**
 - [../architecture/framework.md](../architecture/framework.md)
 - [../architecture/runtime-sequence.md](../architecture/runtime-sequence.md)
 - [../architecture/privacy.md](../architecture/privacy.md)

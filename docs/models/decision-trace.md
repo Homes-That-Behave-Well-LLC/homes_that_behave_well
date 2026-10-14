@@ -170,6 +170,19 @@ alternative_considered: ask_which_room
 **This trace is complete, and the outcome is correct.** A dependency was not missing, permission was not
 denied, and identity did not fail — **the Room was genuinely unknown, and the home said so.**
 
+### Interaction Space, Execution Target, and Response Delivery Space
+
+Field 5 (room context) and field 17 (action taken) together already carry enough to distinguish these
+three concepts without a new field: `room_context.room` records the **Interaction Space**; where the
+resolved action targets a different Room or Merged Room, field 17's action record names that
+**Execution Target** explicitly; and where Concierge's own conversational response used a Room's
+configured surface, that **Response Delivery Space** is recorded alongside the response action, not
+inferred from the Execution Target. See
+[../contracts/concierge-contract.md](../contracts/concierge-contract.md) §6, *Interaction Space,
+Execution Target, and Response Delivery Space*. **No new numbered field is introduced** — a trace that
+names only one Room when two or three of these differed is incomplete, exactly as a trace naming a Room
+without `resolved_from` is incomplete.
+
 ### Threshold, confirmation, and disclosure detail
 
 No new field group is introduced. Fields 3, 4, 12, 13, and 20 must be able to carry the following,

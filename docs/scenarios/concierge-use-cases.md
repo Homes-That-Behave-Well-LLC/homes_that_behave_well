@@ -13,7 +13,7 @@
 **The Concierge question is: given the governed context presently available to the home, what is the
 most helpful appropriate next response?**
 
-These twenty use cases record the **human outcomes** Concierge is expected to coordinate, and trace
+These twenty-one use cases record the **human outcomes** Concierge is expected to coordinate, and trace
 each one to the responsibilities, decisions, and open questions that govern it. They exist so that the
 architecture can be tested against what a household actually experiences.
 
@@ -105,7 +105,7 @@ accepted decision prevails.
 
 ---
 
-## The twenty use cases
+## The twenty-one use cases
 
 | # | Title | Maturity | Principal blocker |
 |---|---|---|---|
@@ -129,9 +129,10 @@ accepted decision prevails.
 | **C18** | Importance, urgency, escalation, and follow-up | **E — Blocked** | **OD-53**, **OD-22** |
 | **C19** | Explainability | **B — Architecturally supported** | **OD-30** for surfaces |
 | **C20** | Do nothing as a valid Concierge response | **B — Architecturally supported** | None |
+| **C21** | Context-aware message delivery and response location | **B — Architecturally supported** | **OD-57**, **OD-73** |
 
-**Six of twenty are architecturally supported today. One is North Star. One requires research. Twelve
-are blocked, and every blocker is an existing open decision.** No use case is implemented.
+**Seven of twenty-one are architecturally supported today. One is North Star. One requires research.
+Twelve are blocked, and every blocker is an existing open decision.** No use case is implemented.
 
 ---
 
@@ -756,6 +757,46 @@ decision, action, non-action, and suppression*.
 
 Reporting a **dependency outage as a trust decision** — which teaches the resident to distrust a
 judgement the home never made.
+
+---
+
+# C21 — Context-aware message delivery and response location
+
+## Human outcome
+
+Tom is in the Den with a guest. A Person-addressed message arrives for Tom that should not be spoken
+aloud in front of someone else. The home does not read it over the Den speakers merely because they are
+available; it reaches Tom through his authorized private surface instead. Later, Tom says *"Turn on the
+kitchen lights"* from the Den — the Kitchen's lights turn on, and the home's spoken acknowledgement
+comes from the Den, not the Kitchen.
+
+| Field | Statement |
+|---|---|
+| **Trigger** | A Communication is created for a specific Person while they are in a shared Room; **or** a resident issues a command whose Execution Target differs from the Interaction Space |
+| **Participants** | Tom, the Den, the Kitchen, the Communication's originator, any other audience present |
+| **Classification** | **Category** identifies what the Communication is about (**DL-78**); **Intended Audience** identifies Tom specifically — never the Den, and never the household — as a different question from who may currently perceive delivery ([communication.md](../models/communication.md), *The Communication object*, *Audience composition*) |
+| **Authoritative inputs** | Tom's Person-scoped authorized private delivery surface(s) ([communication.md](../models/communication.md), *Private delivery*; **DL-71**'s Authorized Private Delivery Surface criteria); the Den's configured kiosk and speakers as **room-bound** candidate surfaces ([room-configuration.md](../models/room-configuration.md), *participating kiosk*) |
+| **Operational Trust** | Whether the Den's speakers may carry this Category/Audience combination now, given known or unknown audience composition (**DL-34**); where composition cannot be established, the accepted degradation order governs: authorized private delivery → content-free Indication → neutral challenge → defer/refuse (**DL-72**) |
+| **Room Configuration** | Supplies the Den's configured kiosk and speakers as candidate surfaces; **does not** decide whether Tom's message may use them — a Room capability is not Person authority |
+| **Continuity** | The Den's Room-scoped duck/TTS volume governs delivery mechanics if a Room surface is ever selected; unrelated to, and never substituting for, the audience decision itself (Experience Family 2, unchanged) |
+| **Concierge** | Selects an authorized private surface for Tom's message under **DL-71**/**DL-72**. For the cross-room command, executes in the Kitchen (**Execution Target**) and delivers the spoken acknowledgement in the Den (**Response Delivery Space**), per [concierge-contract.md](../contracts/concierge-contract.md) §6 |
+| **Available channels** | Tom's authorized private surface; the Den's kiosk, only if classification and audience permit shared visual presentation; the Den's speakers, only if public verbal delivery is appropriate |
+| **Expected response** | Private message: delivered privately — **never** spoken over the Den speakers because another person is present. Cross-room command: the Kitchen's lights turn on; the Den's configured surface delivers the spoken acknowledgement |
+| **Confirmation required** | No, for either path, unless Operational Trust's granted entitlement requires it |
+| **Explainability** | *"I sent that to your phone because someone else was in the room."* **Never** *"because I heard you had a guest"* beyond what audience composition already records |
+| **Failure and degradation** | Private surface unavailable → the governed **DL-72** degradation order applies (content-free Indication, neutral challenge, or defer/refuse) — **never** a silent fallback to audible Den delivery. The Den's own configured surface unavailable → existing Family 2 audio-fallback policy applies — **never** runtime-discovered Area speakers |
+| **Privacy** | Person-addressed content never becomes Room-public merely because Room speakers are available ([communication.md](../models/communication.md), *Private delivery*) |
+| **Maturity** | **B — Architecturally supported** |
+| **Implementation evidence** | None |
+| **Related decisions** | **DL-34**, **DL-53**, **DL-71**, **DL-72**, **DL-77**, **DL-78**; concierge-contract §3, §6 (*Interaction Space, Execution Target, and Response Delivery Space*), §11; room-configuration.md (*participating kiosk*; room-bound versus person-bound surfaces) |
+| **Related issues** | None beyond the existing open decisions below |
+| **Open decisions** | **OD-57** (indication-versus-content mandatory threshold, #102); **OD-73** (interaction-surface Room Context resolution, for a surface not bound to a Room, #134) |
+
+### Required distinctions
+
+Intended Audience is not audience composition · a configured Room surface is not automatic authority
+to use it for a Person-addressed message · the Execution Target is not the Response Delivery Space ·
+degradation of a private channel is never promotion to a public one.
 
 ---
 
