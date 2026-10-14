@@ -76,6 +76,18 @@ revoked, that fact and its effect on the obligations it covered. **No new number
 introduced** — this is carried within the existing obligation and identity-determination fields, kept
 distinguishable so *"the subject agreed"* is never confused with *"a proxy configured this."*
 
+### Media and content resolution evidence
+
+Where the requested intent was media or content (music, video, or another supported type), fields 16
+and 17 carry the resolution evidence without a new numbered field, mirroring field 7's Provider-Derived
+Environmental Indicator extension: field 16 (resolution applied) additionally names the specialized
+resolver consulted, where one exists (Music Assistant is the accepted concrete instance for music —
+see [home-assistant-boundary.md](../architecture/home-assistant-boundary.md), *Music Assistant
+capability review* and *Video and general media/content resolution*), and the selected source or
+provider where more than one candidate existed; field 17 (action taken) additionally names the
+execution surface and, where degradation occurred, distinguishes resolution success from execution
+failure. **No new numbered field is introduced.**
+
 ### Room Context and how it was resolved
 
 Field 5 is **not satisfied by naming a Room**. Foundation already guarantees to supply *"Room Context
@@ -670,3 +682,5 @@ This model *is* the explainability requirement. Every other canonical document r
 - [../architecture/adr-household-knowledge-provider-governance.md](../architecture/adr-household-knowledge-provider-governance.md)
 - [../architecture/adr-generated-behavior-authoring-governance.md](../architecture/adr-generated-behavior-authoring-governance.md)
 - [../architecture/connected-storage.md](../architecture/connected-storage.md)
+- [../architecture/home-assistant-boundary.md](../architecture/home-assistant-boundary.md) — Music
+  Assistant and video/general media-content resolution capability reviews

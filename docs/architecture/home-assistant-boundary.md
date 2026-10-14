@@ -1122,6 +1122,7 @@ review. It records what was evaluated, what remains, and which decision each fin
 | Presence and identity evidence | Device trackers, companion-app signals, BLE presence projects, camera-based detection | **Consume as evidence.** HTBW does not build presence detection. A detection is never an Identity Assertion (**DL-06**) |
 | Media | Media players and established media-management projects | **Consume.** HTBW does not re-implement media routing or library management. A Session is not media-player state |
 | Music catalog, search, discovery, and semantic resolution | Music Assistant, where configured and available | **Consume as the preferred semantic music-resolution boundary.** See *Music Assistant capability review* below |
+| Video/general-content catalog, search, and semantic resolution | A configured specialized content resolver, where one exists; device/provider execution mechanisms below it | **Boundary established, no product mandated.** See *Video and general media/content resolution* below |
 | Autonomous lighting and comparable policy add-ons | Third-party engines that decide and act on their own | **Permitted, under an explicit delegation boundary.** See below |
 | Transport | Matter, Z-Wave, Zigbee, ESPHome | **Consume.** No governance implication |
 
@@ -1188,6 +1189,71 @@ This review found no requirement for an HTBW-owned music catalog, library, or pr
 store. The finding resolves to *consume a native/ecosystem capability* under the existing Media row,
 named here because Music Assistant is the specific capability the desired household music experience
 depends on.
+
+### Video and general media/content resolution
+
+**No official Home Assistant or HTBW-adjacent capability review was found that establishes a
+video/general-content equivalent of Music Assistant** — a specialized, provider-neutral catalog,
+search, and semantic content-resolution capability for video or other non-music media. This is a
+genuine, narrow gap, not a documentation omission: no accepted ADR, model, or contract names one.
+
+**The gap is closed at the smallest necessary scope: the responsibility boundary, not a product
+choice.** The pattern already accepted above for music generalizes directly, without redesigning
+Experience Family 1 (target-Room resolution) or Experience Family 2 (Continuity, the Music Assistant
+decision itself):
+
+```
+Resident content intent ("Play The Godfather")
+        -> Concierge (provider-neutral; Concierge Contract prohibition #19)
+        -> the configured specialized content resolver, where one exists
+           (content identity -> candidate source(s) -> selected source)
+        -> device/provider execution (below the resolution boundary)
+        -> the resolved target Room or Merged Room's configured media capability
+```
+
+**Four distinct stages, not three:** requested content identity; candidate source(s) capable of
+satisfying it (an owned/local source, a streaming/provider source, or another configured source — see
+[asset.md](../models/asset.md)'s **Service** object for an external provider relationship as a
+Foundation-governed candidate); the selected source, where more than one candidate exists; and the
+device/provider execution mechanism. **This review does not decide source-selection policy** (whether
+owned media, a particular provider, or any other preference is preferred) — that remains open, to be
+governed later, and is not invented here merely because the boundary now exists to hold it.
+
+**Device/provider execution reuses the existing decision-authority discipline, not a new construct.**
+A future Apple TV/tvOS deep-link, Universal Link, URL scheme, or other provider-specific execution
+mechanism sits **below** the resolution boundary, at the same place in the architecture as an
+**execution host** (**DL-50**, above): *"it decides nothing — it runs HTBW's own capability because
+the integration process cannot, and every decision remains with the responsibility that owns it."*
+Applied here: a device/provider execution mechanism carries out a resolution the content resolver (or
+Concierge, where no specialized resolver is configured) already made; it is never where content
+identity or source selection happens, and its syntax is never Concierge vocabulary. This review
+establishes the extension point and makes no implementation decision about any specific mechanism.
+
+**Basic transport remains provider-neutral today**, independent of this gap: `media_player`'s standard
+actions (`play`, `pause`, `stop`, volume, and current state —
+[integrations/media_player/](https://www.home-assistant.io/integrations/media_player/)) already
+operate against the active media experience on the target Room's configured capability without a
+resident needing to name the application or device, exactly as Experience Family 2 already established
+for music.
+
+**Ambiguity uses existing authority, not a new confidence model.** Where requested content has more
+than one materially plausible match (for example, a title matching several films or several versions),
+the already-accepted rule applies without modification: *"Clarification required | More than one
+authorized, contextual interpretation remains"* ([failure-and-degradation.md](failure-and-degradation.md));
+context may narrow the match where governed context is sufficient, and HTBW does not silently select a
+materially different title merely because some candidate is executable.
+
+**Acceptance pattern** (reusing Experience Family 1 target-Room resolution and Family 2 Continuity
+without modification):
+
+| Given | Then |
+|---|---|
+| Resident in the target Room says "Play The Godfather" | Target Room resolved per Family 1; content resolved; execution occurs through that Room's configured media capability — the resident never names the application, provider, or device |
+| Resident elsewhere names the target Room explicitly ("…in the Living Room") | Same resolution and execution path as above; the interaction-origin Room supplies no Living Room state (Family 1) |
+| Requested content exists only as owned/local media, only through a configured streaming source, or through both | Content identity is unchanged; candidate source(s) are represented without this review preferring one; source selection, where governed, happens below Concierge |
+| A future Apple TV/tvOS deep-link (or other provider mechanism) becomes the configured execution path | It executes below the resolution boundary under the DL-50 decision-authority discipline; Concierge vocabulary, Room Configuration, and Continuity are unaffected |
+| Requested content cannot be resolved by any configured resolver | Governed failure/degradation applies (**DL-41**-style capability-unavailable reporting); HTBW does not fabricate a match or claim playback succeeded |
+| Content resolves but device/provider execution fails | Resolution success and execution failure stay distinguishable in the Decision Trace (see [decision-trace.md](../models/decision-trace.md)) |
 
 ### New HTBW capability avoided
 

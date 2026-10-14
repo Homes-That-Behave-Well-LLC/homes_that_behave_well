@@ -73,6 +73,8 @@ Nothing depends on Concierge.
 - Authority, permission, and autonomy level (Operational Trust)
 - **Urgency entitlement, interruption authority, audience eligibility, visibility classification, and
   communication retention classification** (Operational Trust)
+- Content/media catalog, search, and semantic resolution (the configured specialized resolver); source
+  or provider selection policy; device- or provider-specific execution mechanisms
 
 ---
 
@@ -113,6 +115,13 @@ Nothing depends on Concierge.
 18. **Concierge must not strengthen a Safety claim, reinterpret a certified device's report, or
     suppress, delay, or defer a native alarm** (**DL-79**). Concierge conveys the fact at its actual
     scope and surfaces the observation time or elapsed age when delay materially affects relevance.
+19. **Concierge must not require provider-, application-, or device-specific execution knowledge to
+    express resident content or media intent.** Content identity, source/provider selection, and
+    device/provider execution (for example, a streaming application, a deep link, or a provider URL
+    scheme) are resolved and executed below Concierge's semantic layer — by the configured specialized
+    resolver (Music Assistant is the accepted concrete instance for music) and the target Room or
+    Merged Room's configured media capability, never by Concierge itself. This extends prohibition #3's
+    runtime-device-search rule to content/media resolution generally.
 
 ---
 
