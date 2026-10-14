@@ -393,7 +393,35 @@ command-resolution fields.
 
 ---
 
-## Production provenance — BHV-01 (Room-local lamp/light on-off control)
+## Production provenance
+
+The desired household outcome demonstrated throughout this document — residents use natural household
+vocabulary to address a Room or Merged Room's participating, exposed, authorized capabilities, without
+knowing device names, entity IDs, or Home Assistant domains, and without Concierge searching Home
+Assistant inventory at runtime — is already established architecture, not a new finding of this or any
+single production-behavior review:
+
+| Outcome element | Established by |
+|---|---|
+| Resident vocabulary addresses a Room/Merged Room without device names, entity IDs, or domains | [framework.md](../architecture/framework.md) §7 Concierge: *"runtime discovery of which assets a household meant when an explicit room mapping exists"* is listed under what Concierge **does not own** |
+| Setup declares participation, exclusion, exposure, vocabulary, vocabulary-to-target mapping | [room-configuration-contract.md](../contracts/room-configuration-contract.md), "What Room Configuration guarantees"; **DL-09**, **DL-10**, **DL-11** |
+| Setup declares applicable (room-scoped) authority | [room-configuration-contract.md](../contracts/room-configuration-contract.md): *"Room-scoped authority scoping inputs"*; authority itself is decided by Operational Trust, never Room Configuration or Concierge |
+| Setup declares authoritative sources for informational capabilities | [room-configuration-contract.md](../contracts/room-configuration-contract.md): Primary Authority declaration (**DL-60**, **DL-62**); Scenario 2 (piano), Scenario 6 (temperature) above |
+| No runtime device search to resolve vocabulary | [adr-room-configuration-ownership.md](../architecture/adr-room-configuration-ownership.md) §7; [concierge-contract.md](../contracts/concierge-contract.md) hard prohibition #3 |
+
+[production-behavior-inventory.md](../reference-home/production-behavior-preservation/production-behavior-inventory.md)
+records that the current production implementation derives this same class of outcome — lamp/light,
+shade, media-player, and room-capability-discovery membership alike — **"at runtime, every single time a
+behavior executes," "duplicated independently across 6–12 scripts and automations"** (for example
+**BHV-01**, **BHV-02**, **BHV-04**, **BHV-06**, **BHV-13**). This corroborates that the desired outcome
+is genuine, recurring household value — it is **not** a reason to carry the runtime-discovery mechanism
+forward, and it does **not** by itself accept, migrate, or retire any individual production behavior.
+**Each production behavior still requires its own disposition review** before its production mechanism
+may be considered superseded; the entries below record that review for behaviors already examined.
+
+---
+
+### BHV-01 — Room-local lamp/light on-off control
 
 [docs/reference-home/production-behavior-preservation/production-behavior-catalog.csv](../reference-home/production-behavior-preservation/production-behavior-catalog.csv)
 (**BHV-01**) and
@@ -456,6 +484,8 @@ are not reopened or duplicated by this note:
 - [../contracts/room-configuration-contract.md](../contracts/room-configuration-contract.md)
 - [../contracts/concierge-contract.md](../contracts/concierge-contract.md)
 - [../contracts/continuity-contract.md](../contracts/continuity-contract.md)
+- [../architecture/framework.md](../architecture/framework.md)
 - [../architecture/adr-room-configuration-ownership.md](../architecture/adr-room-configuration-ownership.md)
 - [../architecture/home-assistant-boundary.md](../architecture/home-assistant-boundary.md)
 - [../reference-home/production-behavior-preservation/production-behavior-catalog.csv](../reference-home/production-behavior-preservation/production-behavior-catalog.csv)
+- [../reference-home/production-behavior-preservation/production-behavior-inventory.md](../reference-home/production-behavior-preservation/production-behavior-inventory.md)
