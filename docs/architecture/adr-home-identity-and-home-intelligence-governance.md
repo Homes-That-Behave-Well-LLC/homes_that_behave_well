@@ -92,7 +92,9 @@ outermost governed scope," owning Home-scoped identity, configuration, and polic
 because the owner discussion and `home.md` itself use the word "identity" for the Home without stating
 how that relates to the **Identity** responsibility's Person-confidence model. **No change to `home.md`
 itself is required by this decision** beyond the cross-reference below; Foundation's ownership of Home
-identity and identification is unchanged.
+identity and identification is unchanged. **The precise construct, ownership, resolution, and
+Decision Trace treatment this implies are stated exhaustively in *Home identity semantics, resolved
+precisely*, below** — this is not merely asserted.
 
 ### Home, Individual, and Guest are three distinct concepts, only two of which are identity classes
 
@@ -109,6 +111,73 @@ An Individual carries a caretaker relationship to a Home, a Room, an Asset, a Pe
 Home never carries a caretaker relationship *to* an Individual in the reverse sense, and no new
 relationship type is created by this decision.
 
+### Home identity semantics, resolved precisely
+
+The owner discovery was that **Home is a first-class identity.** This section states exactly what that
+means, using only constructs this repository already has, so the placement is demonstrable rather than
+asserted.
+
+**Two Foundation terms are distinguished, neither of them new in substance — both previously implicit
+and now named:**
+
+| Term | Definition | Who currently qualifies |
+|---|---|---|
+| **Identity Subject** | Any Foundation object that carries a stable, canonical, governed identifier other records reference — Foundation's existing, general "Provides: Canonical identifiers for every household object" (`home.md`). Every Foundation object type is already an Identity Subject; this is not Home-specific | Home, Room, Person, Asset, Pet |
+| **Identity Participant** | The narrower subset of Identity Subjects additionally evaluated by the **Identity** responsibility's confidence/attribution/evidence-fusion model (**DL-32**, **DL-38**) | **Person only** |
+
+**Home is an Identity Subject. Home is never an Identity Participant.** This is the precise sense in
+which Home is "a first-class identity": it has its own stable, governed, Foundation-assigned identity
+— exactly as a Room or an Asset does — and that identity is never confidence-scored, never fused from
+evidence, and never the subject of an Identity Assertion. "Identity-adjacent" in this ADR's banner
+means exactly this: adjacent to the **Identity responsibility**, not absent from **Foundation's
+identity concept**. No new identity class, and no third category alongside Identity Subject and
+Identity Participant, is created.
+
+Answering the seven questions precisely:
+
+1. **What kind of construct is Home?** A Foundation object and Identity Subject (above) — not an
+   identity class, not a Person, and not an Identity Participant.
+2. **Which responsibility owns the authoritative Home record?** **Foundation**, unchanged. `home.md`
+   already states this ("Foundation... owns the canonical definitions of... Home"); this decision adds
+   no second owner and copies nothing out of Foundation.
+3. **Which responsibility resolves Home as the addressed conversational subject?** **Concierge**,
+   consuming a **Foundation**-owned resolution — exactly the existing division of labour in
+   [contextual-vocabulary-contract.md](../contracts/contextual-vocabulary-contract.md): *"Foundation —
+   Room Configuration owns the mapping. Concierge consumes the resolved target."* Addressing "Home" is
+   a **Home-scope vocabulary resolution**: the same deterministic term-to-target mechanism Contextual
+   Vocabulary already uses for a Room or an Asset, applied to a target at Home scope rather than
+   confined to a Room Context. This decision extends the **target type** the existing mechanism may
+   resolve to (adding the Home object itself); it creates no second resolution mechanism and does not
+   move vocabulary ownership from Foundation to Concierge.
+4. **How does Home own resources and participate in relationships and authorization without becoming a
+   Person?** It already does, unchanged by this decision: `home.md`'s "Owns" list (Rooms, People,
+   Pets, Assets, Services, Relationships) and Relationship scope ("Person has a Role in the Home")
+   already make the Home a first-class relationship participant, and Operational Trust already governs
+   authorization generically over Foundation objects and their roles/relationships — it does not
+   require its subject to be a Person. An Asset already owns relationships and is scoped by
+   participation/exposure/authority (**DL-11**) without being a Person; Home is simply the outermost
+   such Foundation object. No Person-specific mechanism is extended to Home, and no Home-specific
+   authorization mechanism is created.
+5. **What governed identifier is resolved when someone addresses "Home"?** The Home's own existing
+   Foundation-assigned canonical identifier — the same identifier `home.md`'s "Provides" section
+   already names ("Canonical identifiers for every household object") and the same one every other
+   Home-scoped record already references. No new identifier type is created.
+6. **How does the addressed Home appear in the Decision Trace?** As a **resolved vocabulary target**,
+   under Foundation's existing explainability contribution (`foundation-contract.md`: "Vocabulary
+   resolution and its mapping source; Authoritative object names used in the human-readable
+   explanation") — the same field that already records a resolved Room or Asset target. **It is not an
+   Actor and not a Person Attribution outcome** (**DL-73**'s Known Person / Unknown Person / No Person)
+   — the speaking resident remains the Actor; "Home" is the resolved *target* of the utterance, a
+   different, already-existing Decision Trace dimension. No new Decision Trace field is created.
+7. **How does this relate to the existing Home model and to installation-level identity?** The "Home
+   construct" named by this decision **is** `home.md`'s existing Home object — not a parallel or
+   second concept. This repository has no separate "installation identity" construct; the only
+   adjacent open question is **OD-01** ("Whether a Home is represented as a Home Assistant config
+   entry, subentry, or private record"), which concerns the Home's **platform-level backing
+   representation** and remains entirely unresolved and unaffected by this decision. DL-84 states what
+   the Home **is** architecturally; OD-01 states how it is **technically represented** in Home
+   Assistant — the two are complementary, not competing, questions.
+
 ### What this decision does not do
 
 - It does **not** create an eighth responsibility, an "Identity" participant status for the Home, or a
@@ -116,6 +185,11 @@ relationship type is created by this decision.
 - It does **not** reopen **DL-33**'s prohibition on a synthetic Guest Person, or `glossary.md`'s
   existing Role and Caretaker definitions.
 - It does **not** change how Person, Unknown Person, or Known Non-Resident Person are defined.
+- It does **not** create a third identity category alongside Identity Subject and Identity Participant.
+- It does **not** create a new identifier type, a new vocabulary-resolution mechanism, a new
+  authorization mechanism, or a new Decision Trace field.
+- It does **not** decide **OD-01** (Home's Home-Assistant-level backing representation), which remains
+  entirely open and unaffected.
 
 ---
 
@@ -136,10 +210,60 @@ responsibility, and not deciding their association-ownership mechanics — see *
   (defined precisely below)
 
 **Which responsibility owns the binding between the Home and the actual external mailbox/calendar
-account is not decided here.** It is routed to **OD-90** (#189), the Home-scoped sibling of the
-already-open **OD-77** (#148, Person-to-External-Resource Association Ownership). The two decisions
-are independent and may choose different owners, but must be evaluated together so the household is
-not left with two incompatible association mechanisms for structurally the same kind of binding.
+account is not decided here.** It is routed to **OD-90** (#189), reconciled with the already-open
+**OD-77** (#148, Person-to-External-Resource Association Ownership) precisely below — not merely
+"evaluated together," but governed by one shared relationship-type definition so the two cannot
+diverge.
+
+### Reconciling OD-90 with OD-77: one shared relationship type, two separate assignment decisions
+
+Four options were evaluated for how a Home-scoped and a Person-scoped external-resource association
+relate: (a) two specializations of one governed-subject-to-external-resource contract; (b) one fully
+merged decision with Home- and Individual-specific policy; (c) separate ownership decisions sharing a
+required common contract; (d) genuinely different architectures, reason documented. **The adopted
+resolution combines (a) and (c), and rejects (b) and pure (d), for a reason grounded in existing
+precedent:**
+
+- **Foundation already separates relationship-TYPE definition from relationship-ASSIGNMENT ownership**
+  for exactly this shape of problem: `foundation-contract.md` states "Foundation defines the
+  **caretaker-of relationship**; the **caretaker assignment** itself is owned by Stewardship." The same
+  split resolves this reconciliation without inventing a new pattern.
+- **A new Foundation relationship type, External-Resource Association, is named** (not newly invented
+  as a mechanism — formalizing what `person-and-identity.md`'s already-unassigned "Mailbox, calendar,
+  and other external-service references" row and `home.md`'s Home-scoped resources both need): a
+  **subject** (a Home or a Person — not limited to these two for the future, but **no other subject
+  type is in scope of OD-77 or OD-90**), an **external resource reference** (never its content or
+  credentials — **DL-46**), and a fixed minimal lifecycle shape: creation, disclosure, reassignment,
+  revocation, stale-detection, retention (**DL-47**), and Decision Trace citation (**P30**). **Both
+  OD-77 and OD-90 must adopt this shape as a floor on their own acceptance criteria.** This is where
+  option (a) applies: OD-77 (subject = Person) and OD-90 (subject = Home) are two specializations of
+  one relationship type, and cannot diverge in lifecycle, revocation, provenance, retention, or
+  Decision Trace behaviour even though they are decided separately.
+- **The assignment-owning responsibility is explicitly not forced to be the same for both subjects**,
+  and is **not decided here** for either: this is where option (c) applies, and why full merge (option
+  b) is rejected. A Person's external-resource assignment sits inside the Person Extension's
+  **distributed-ownership model** (**DL-71**: "each extension keeps its own owner" — Foundation,
+  Identity, Continuity, Operational Trust, and Stewardship each already own a different slice of a
+  Person's configuration), which is exactly why OD-77 itself carries five live alternatives (A–E) under
+  active discussion. The Home carries no equivalent distributed-ownership model — `home.md`'s "Owns"
+  list is a single flat Foundation list — so a Home-scoped assignment is structurally simpler and does
+  not inherit OD-77's distributed-ownership complexity. **Forcing one merged decision would either
+  prematurely import Person's distributed-ownership complexity onto the Home, or prematurely simplify
+  Person's genuinely harder question — both are rejected as outcomes, which is why option (b) is not
+  adopted.** Pure option (d) — treating them as genuinely unrelated — is also rejected, because it is
+  precisely what would permit the divergence in lifecycle/revocation/provenance/failure-behaviour this
+  reconciliation exists to prevent.
+- **Per Maintenance Rule 1** (`open-decision-issue-index.md`: "one open decision, one issue; never one
+  issue for two separately closeable decisions"), **OD-77 and OD-90 remain two separate, independently
+  closeable decisions.** Each may close with a different assignment-owning responsibility. Neither
+  closure is valid, however, unless the closing text names the shared External-Resource Association
+  relationship-type shape above and confirms conformance to it — this is added to both decisions'
+  acceptance criteria (see **#189** and the follow-up comment on **#148**).
+
+**This is not itself a final architectural decision**; it is this review's own drafted reconciliation
+of how OD-77 and OD-90 relate, recorded here pending the same **#191** formal acceptance review, and
+does not resolve either OD-77's or OD-90's own open question (which responsibility, for each subject,
+owns the assignment).
 
 ### The Home Calendar is a distinct capability from a personal or caretaker calendar
 
@@ -274,7 +398,8 @@ Concierge is not coupled to any particular wake word by this decision.
 
 | Open item | Relationship to this ADR |
 |---|---|
-| **OD-77** (#148) | Unaffected. This ADR's Home-scoped resource-association question is deliberately **not** merged into OD-77; it is raised as the new, parallel **OD-90** (#189) instead. |
+| **OD-77** (#148) | **Reconciled, not merged.** Not reopened, narrowed, or resolved. Shares one Foundation-defined External-Resource Association relationship-type shape with the new **OD-90** (#189); remains an independently closeable decision that may select a different assignment-owning responsibility than OD-90 (see *Reconciling OD-90 with OD-77* above). |
+| **OD-01** (`home.md`) | Unaffected. Home's platform-level backing representation (HA config entry, subentry, or private record) remains entirely open; DL-84 states what the Home is architecturally, never how it is technically represented. |
 | **OD-20** (#110) | Unaffected. Whether/how HTBW Core consumes the standalone Asset Intelligence product remains undecided and is not narrowed here. |
 | **OD-67** (#132) | Unaffected. No reasoning provider class, purpose, or disclosure rule is selected here. |
 | **OD-81** (#159), **OD-82** (#160) | Unaffected. Home Intelligence's product-boundary treatment is analogous to, not a resolution of, the capability-exposure and product-consolidation questions those decisions hold open. |
@@ -289,10 +414,16 @@ Concierge is not coupled to any particular wake word by this decision.
 
 - No new responsibility is created.
 - No eighth framework layer, no Identity-responsibility status for the Home, and no confidence/
-  attribution model for the Home.
+  attribution model for the Home. No third identity category alongside Identity Subject and Identity
+  Participant.
+- No new identifier type, vocabulary-resolution mechanism, authorization mechanism, or Decision Trace
+  field.
 - No email provider, calendar provider, discovery protocol, trust-establishment mechanism, hardware,
   operating system, model, vector database, or orchestration platform is selected, built, or required.
-- No existing Open Decision is reopened, narrowed, or resolved.
+- No existing Open Decision is reopened, narrowed, or resolved — including **OD-01** and **OD-77**,
+  each of which remains entirely open and independently closeable. The OD-77/OD-90 reconciliation
+  above fixes a **shared relationship-type shape** only; it does not select either decision's
+  assignment-owning responsibility.
 - No superseded document (`asset-intelligence-contract.md`, `calendar-email-experience-contract.md`,
   `identity-governance-reference.md`) is reinstated as authority.
 - **This entry is drafted content, not yet a closed decision; it must not be cited as equivalent to

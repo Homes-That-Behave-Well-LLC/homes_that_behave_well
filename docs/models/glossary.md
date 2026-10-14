@@ -518,16 +518,33 @@ responsibility, not a second asset catalog, and not a competing document reposit
 knowledge would be durable; the Reasoning Provider it consults would be replaceable.
 ADR: [../architecture/adr-household-knowledge-provider-governance.md](../architecture/adr-household-knowledge-provider-governance.md)
 
+**Identity Subject**
+**Drafted, pending formal acceptance review (Issue #191); not yet authoritative.** The proposed
+(**DL-84**) name for Foundation's existing, general concept — not new in substance — that **every**
+Foundation object type (Home, Room, Person, Asset, Pet) already carries a stable, canonical, governed
+identifier other records reference ([home.md](home.md)'s "Provides: Canonical identifiers for every
+household object"). Contrast **Identity Participant**, below.
+
+**Identity Participant**
+**Drafted, pending formal acceptance review (Issue #191); not yet authoritative.** The proposed
+(**DL-84**) name for the narrower subset of **Identity Subjects** additionally evaluated by the
+**Identity** responsibility's confidence/attribution/evidence-fusion model (**DL-32**, **DL-38**).
+**Person is currently the only Identity Participant.** Home is an Identity Subject and is **never** an
+Identity Participant — it is never confidence-scored and produces no Identity Assertion.
+
 **Home Identity**
 **Drafted, pending formal acceptance review (Issue #191); not yet authoritative.** The proposed
-formalization (**DL-84**) of the Home as a first-class, **identity-adjacent** Foundation object,
-distinct from Person (Individual) and from Guest. "Identity-adjacent" means the Home is a definitional
-Foundation subject — it already owns "Home identity and identification" per [home.md](home.md) — and
-is **never** an outcome of the **Identity** responsibility's confidence/attribution model: the Home is
-never confidence-scored and produces no Identity Assertion. **Does not create an eighth
-responsibility** and does not reopen **DL-33**'s or this glossary's existing **Role** and
-**Caretaker** entries, which already correctly treat Guest and caretaker as Roles/relationships, not a
-fourth identity class.
+formalization (**DL-84**) of the Home as a first-class **Identity Subject**, distinct from Person
+(Individual, an Identity Participant) and from Guest (a Role, never an identity class). Foundation
+owns the authoritative Home record unchanged; Concierge resolves "Home" as the addressed conversational
+subject by consuming a Foundation/Room-Configuration-owned Contextual Vocabulary resolution extended
+to Home scope; the resolved identifier is Foundation's existing canonical Home identifier; the
+addressed Home appears in the Decision Trace as a resolved vocabulary target, never as an Actor or
+**DL-73** Person Attribution outcome. Relates to, but does not decide, **OD-01** (the Home's
+Home-Assistant-level backing representation). **Does not create an eighth responsibility, a third
+identity category, or a confidence/attribution model for the Home**, and does not reopen **DL-33**'s
+or this glossary's existing **Role** and **Caretaker** entries, which already correctly treat Guest and
+caretaker as Roles/relationships, not a fourth identity class.
 ADR: [../architecture/adr-home-identity-and-home-intelligence-governance.md](../architecture/adr-home-identity-and-home-intelligence-governance.md)
 
 **Home-Owned Resource**
@@ -535,8 +552,8 @@ ADR: [../architecture/adr-home-identity-and-home-intelligence-governance.md](../
 (**DL-85**) category of resource or responsibility that belongs to the Home rather than to one
 individual's caretaking of it — for example a **Home Mailbox** or a **Home Calendar**, below.
 Consistent with [home.md](home.md)'s existing "Owns" list and Home-scoped state. **Which
-responsibility owns the binding between the Home and the actual external account is not decided**;
-see **Home-to-External-Resource Association Ownership (OD-90)** below.
+responsibility owns the binding (the assignment) between the Home and the actual external account is
+not decided**; see **Home-to-External-Resource Association Ownership (OD-90)** below.
 
 **Home Calendar**
 **Drafted, pending formal acceptance review (Issue #191); not yet authoritative.** The proposed
@@ -554,10 +571,26 @@ ownership, the "home maintenance calendar" already named in [home.md](home.md) a
 correspondence directed at the household rather than at one resident. See **Home-to-External-Resource
 Association Ownership (OD-90)** for the undecided account-binding question.
 
+**External-Resource Association**
+**Drafted, pending formal acceptance review (Issue #191); not yet authoritative.** The proposed
+(**DL-85**) Foundation relationship type — a **subject** (a Home or a Person), an **external resource
+reference** (never its content or credentials, **DL-46**), and a fixed minimal lifecycle (creation,
+disclosure, reassignment, revocation, stale-detection, retention under **DL-47**, Decision Trace
+citation under **P30**). Restates the existing Foundation-defines-the-relationship /
+responsibility-owns-the-assignment split already used for `caretaker-of`
+([foundation-contract.md](../contracts/foundation-contract.md)). **Person-to-External-Resource
+Association Ownership (OD-77)** and **Home-to-External-Resource Association Ownership (OD-90)** are
+two separate, independently closeable **assignment-ownership** decisions that both specialize this one
+relationship-type shape, so neither may diverge from it in lifecycle, revocation, provenance, or
+Decision Trace behaviour, even though each may select a different owning responsibility.
+
 **Home-to-External-Resource Association Ownership (OD-90)**
-An open decision: which responsibility owns the governed association between the Home and an external
-mailbox/calendar account. The Home-scoped sibling of the already-open **Person-to-External-Resource
-Association Ownership (OD-77)**. See [decision-ledger.md](../governance/decision-ledger.md).
+An open decision: which responsibility owns the Home-scoped **assignment** of the **External-Resource
+Association** relationship type, above, between the Home and an external mailbox/calendar account.
+**Reconciled with, not merged into,** the already-open **Person-to-External-Resource Association
+Ownership (OD-77)** — both share the same relationship-type shape but remain separately decided,
+because the Home carries no equivalent of the **DL-71** Person Extension's distributed-ownership model.
+See [decision-ledger.md](../governance/decision-ledger.md).
 
 **Share with Home Intelligence**
 **Drafted, pending formal acceptance review (Issue #191); not yet authoritative.** The proposed
