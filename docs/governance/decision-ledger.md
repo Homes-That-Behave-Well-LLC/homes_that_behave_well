@@ -1597,6 +1597,90 @@ closed, seventy-four open.
 
 ---
 
+### Notes on the post-acceptance voice-evidence enrollment UX and encoder-identity harvest
+
+**Recorded 2026-10-14, after DL-50 was accepted.** New evidence — a harvested third-party enrollment
+interaction pattern and a confirmed specific encoder identity — was tested against **DL-50** and
+[adr-wyoming-compatible-voice-evidence-runtime.md](../architecture/adr-wyoming-compatible-voice-evidence-runtime.md)
+(§33) to determine whether either reopens accepted architecture, resolves an open decision, or
+requires a new one. **None of the three.**
+
+**A MicroWakeWord-related voice-training product's enrollment interaction pattern — explain purpose
+and recording requirements, present a sentence, record, replay, discard-or-accept, show progress as
+"sentence N of 10," and finish — was found to be additive detail beneath the ADR's existing §12
+enrollment flowchart, not a competing one.** It instantiates the existing `CH`/`GATE` steps (capture,
+then "request further samples, naming what is missing") at the UX-interaction level the ADR had not
+previously recorded. **It is recorded as harvested evidence for a future Phase 3 (#163)
+implementation to evaluate, never as an HTBW-required interaction pattern.**
+
+**Ten enrollment reference sentences observed in that product are recorded as discovery evidence,
+with sentence 9 explicitly flagged.** Sentence 9 was not captured in the original discovery session
+notes; it was subsequently recovered from the original source evidence and confirmed directly by the
+repository owner during this review. **This phrase set is not adopted as HTBW's enrollment corpus**
+— **OD-16**, already resolved, states that sample counts are implementation mapping, not
+architecture, and the already-recorded *enrollment sufficiency* note above states there is **"no
+canonical threshold, sample count, duration, margin, or quality score."** A convergence is noted, not
+adopted: the harvested count of ten matches the reference Concierge implementation's own existing
+`TARGET = 10` constant (found by the #156 legacy capability harvest) — both remain calibration, not
+architecture.
+
+**The specific encoder targeted by the legacy and current implementation repositories was confirmed
+and is recorded as rank-5 implementation evidence, not as an architectural mandate**: **WeSpeaker
+ECAPA-TDNN** (`ECAPA512_LM` checkpoint, artifact `wespeaker_ecapa512_lm_voxceleb.onnx`, VoxCeleb-
+derived, Apache-2.0/CC BY 4.0), executed via **ONNX Runtime**, accepting raw 16-bit PCM audio at
+16 kHz mono and producing a 192-dimensional, L2-normalized embedding. **This ADR's provider contract
+remains encoder-agnostic** (§§1, 9, 11); recording the specific encoder does not narrow it. **Multi-
+sample aggregation into a voiceprint (averaged, centroid, individually retained, or another shape)
+was verified as not implemented anywhere currently accessible** — the Home Assistant integration's
+own fingerprint builder explicitly raises `NotImplementedError` — and **remains exactly as
+undecided as OD-83** (#168) already states; this harvest narrows neither the gallery-structure
+question nor its timeline.
+
+**One claim could not be independently re-verified and is recorded honestly as such, per the DL-30
+documentation-verifiability standard.** Issue **#164** describes a reference implementation already
+computing top-N and ambiguity internally through a `ComparisonResult` object with `known_matches`,
+`best_match`, `second_best_match`, and `is_ambiguous` fields. **A direct search of the currently
+accessible Concierge repository clone found no such symbol.** This is recorded as **unverified cited
+issue evidence**, not as confirmed fact, and must not be treated as validated until the actual source
+is located or the issue text is corrected.
+
+**Text independence is recorded as an architecturally expected property of the selected model class,
+not as an HTBW-specific empirical validation.** WeSpeaker's ECAPA-TDNN, trained on VoxCeleb, is by
+design a text-independent speaker-verification embedding; a runtime utterance's text is therefore not
+expected to need to match an enrollment phrase, and **no "live audio compared against synthetic
+text-to-speech audio of the same phrase" pattern is adopted or required** — the only comparison
+pattern this architecture carries is same-encoder, same-modality comparison of two recorded-speech
+samples (§§11, 13). This expectation remains unvalidated against the deployed artifact and must not be
+described as confirmed on the strength of this review alone.
+
+**The audio-access boundary and real-time validation status are unchanged by this harvest.** Sections
+2, 7–10, and 13 of the ADR already identify Wyoming as the seam at which raw audio remains available
+before the transcript boundary, already require speaker encoding to proceed in parallel with (never
+in place of) STT, and already route implementation to the still-open, still-blocked **Phase 5**
+(#165). **Real-time speaker comparison remains unvalidated**, exactly as the *enrollment sufficiency*
+note already recorded: no `known` attribution has been produced from a live utterance, and an accepted
+execution host (**DL-50**) remains a precondition for validation, never a substitute for it.
+
+**Terminology is clarified, not renamed.** "Voiceprint" remains governing terminology. **Voice
+Profile** (the Identity-owned, Person-associated governed container), **voiceprint** (the derived,
+retained comparison artifact it holds), and **Speaker Embedding** (the raw, momentary per-utterance
+encoder output, never itself retained as a profile) are distinguished in §33.6 of the ADR. "Speaker
+Identity Profile," raised in the owner discussion, is **not** adopted as a new term; it maps onto the
+existing **Voice Profile** concept.
+
+**No genuine responsibility or implementation gap was found that is not already owned.** The
+harvested evidence is routed as supplementary evidence to **Phase 3** (#163, enrollment) and **OD-83**
+(#168, gallery structure), both already open and already the correct owners, consistent with this
+repository's standing rule that a new issue is created only where no existing issue owns the work.
+**No new issue is created by this harvest.**
+
+**This note introduces no construct.** It creates **no responsibility**, **no record class**, **no
+encoder mandate**, **no enrollment corpus requirement**, **no threshold**, and **no confidence
+representation**. It **amends no accepted decision** and **reopens none**. The ledger is unchanged at
+eighty-four identifiers, ten closed, seventy-four open.
+
+---
+
 ### Notes on the custody and obligation-lifecycle decision
 
 **Recorded 2026-08-20. DL-48 and DL-49 were accepted, and OD-75 is closed by them. Formal acceptance

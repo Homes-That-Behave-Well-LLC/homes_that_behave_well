@@ -1194,6 +1194,150 @@ question is recorded as **OD-82** in
 
 ---
 
+## 33. Harvested enrollment UX and encoder-identity evidence (post-acceptance, 2026-10-14)
+
+**This section records new evidence tested against this already-accepted ADR. It amends no accepted
+decision, reopens none, resolves neither OD-83 nor OD-84, and creates no new responsibility.**
+Recorded in the same post-acceptance-harvest manner as §17's OD-84 finding and
+[decision-ledger.md](../governance/decision-ledger.md)'s *Notes on the post-acceptance voice-evidence
+architecture harvest*. See that Notes entry (added alongside this section) for the full governance
+record.
+
+### 33.1 Harvested enrollment interaction pattern
+
+A MicroWakeWord-related voice-training product was manually exercised and its enrollment interaction
+pattern is recorded here as **harvested UX evidence**, not as an architectural requirement:
+
+```
+Person elects to enroll
+  -> Explain voice identity purpose, privacy and recording requirements
+  -> Present enrollment sentence (progress shown: "Sentence N of 10";
+     count of previously validated recordings shown)
+  -> Record audio
+  -> Replay sample
+  -> Discard (retry) OR Accept (validated sample, advance to next sentence)
+  -> after the final sentence: Finish Recording
+  -> App derives the voiceprint from accepted samples
+```
+
+**This is additive detail beneath §12's existing enrollment flowchart, not a competing one.** It
+occupies the existing `CH` ("Capture channel") and `GATE` ("Quality and diversity gates met?") steps:
+Replay/Discard/Accept is one possible realization of "request further samples, naming what is
+missing," and "Sentence N of 10" / "previously validated recordings" is one possible realization of
+enrollment progress reporting. **§12 is unchanged**; this is cited as one harvested precedent for the
+per-sample interaction loop, not adopted as HTBW's own required UX. The explicit background-noise
+warning observed in the harvested product is consistent with, and does not add to, this ADR's existing
+**sample quality** channel-metadata field (§12) and **observation quality** qualification stage
+(**DL-38 F3**).
+
+**The continuous warning to record in a quiet location, and the requirement to explicitly Accept each
+sample before advancing, directly evidence the already-accepted principle that enrollment is
+consent**: a person "knowingly records samples," "can replay the captured recording," "can reject/
+discard a sample," and "explicitly accepts samples into enrollment" — all already implied by **DL-56**
+(consent) and **DL-43** (enrollment samples are temporary, Identity-owned, zero default retention) and
+not newly established by this harvest.
+
+### 33.2 Reference enrollment phrase set (discovery/reference evidence only)
+
+The ten sentences read aloud during the harvested enrollment session are recorded here **as discovery
+evidence**, not as a canonical or required phrase set:
+
+1. "The quick brown fox jumps over the lazy dog by the riverbank."
+2. "I usually have coffee around eight in the morning before work."
+3. "Yesterday we walked along the beach and watched the sunset."
+4. "Could you please pass me the salt and a clean glass of water?"
+5. "My favorite season is autumn because the trees turn bright orange."
+6. "She closed the book gently and placed it on the wooden shelf."
+7. "Tomorrow I will take the train to the city and meet a friend."
+8. "The cat sat on the windowsill watching small birds in the garden."
+9. "Learning a new language takes patience but it is very rewarding." — **recovered from the original
+   source evidence and confirmed by the repository owner during this review (2026-10-14).** It was
+   not independently captured in the original discovery session notes; it is recorded here on the
+   owner's direct confirmation, exactly as other owner-sourced discovery evidence in this repository
+   is recorded.
+10. "Please remember to turn off the lights when you leave the room."
+
+**This set is not adopted as HTBW's enrollment corpus.** Per the already-resolved **OD-16**, *"sample
+counts... are implementation mapping, not architecture"* and *"no duration is prescribed"*
+(**DL-38**), and per the already-recorded *enrollment sufficiency* note, *"quality is expressed as
+gates, not as a published score"* and there is **"no canonical threshold, sample count, duration,
+margin, or quality score."** This phrase set is useful reference material for a future Phase 3 (#163)
+implementation to evaluate — not a requirement it must satisfy. **A convergence worth noting, not
+adopting**: the harvested product's ten-sentence count matches the existing implementation-mapping
+constant already found in the reference Concierge implementation, `DEFAULT_ENROLLMENT_MIN_SAMPLE_COUNT
+= 8` / **`TARGET = 10`** / `ROBUST = 12` (per the #156 legacy capability harvest) — both remain
+Fusion Policy configuration, and neither is elevated to architecture by this note.
+
+**Harvested evidence, independently corroborated by the #156/#157 legacy harvests, already recorded in
+`decision-ledger.md`**: *"Phrase count should be selected from duration and diversity targets first.
+More phrases are not useful if they are acoustically redundant or noisy"*; *"command-only corpus is
+not preferred"*; *"retry only weakest 1 to 3 samples, prefer retries in missing acoustic condition
+buckets."* **No phrase-level optimization has been empirically validated against a running encoder**,
+and none is claimed to be by this note.
+
+### 33.3 Encoder identity (rank-5 implementation evidence, not an architectural mandate)
+
+**This ADR's contract remains encoder-agnostic** (§§1, 9, 11, 31 Phase 1–2): nothing here selects or
+requires a specific encoder, consistent with that contract. For traceability, the specific encoder
+targeted by the legacy and current implementation repositories is recorded as **rank-5 evidence**
+under [authority-order.md](../governance/authority-order.md):
+
+| Property | Verified value | Source |
+|---|---|---|
+| Model | **WeSpeaker ECAPA-TDNN, `ECAPA512_LM` checkpoint** (artifact `wespeaker_ecapa512_lm_voxceleb.onnx`) | `voice_identity` repo `README.md`; `addon/voice_identity_inference/app/embedder.py`; corroborated in issue **#153**/**#156** |
+| Training data / licence | VoxCeleb-derived; WeSpeaker toolkit Apache-2.0, weights CC BY 4.0 | Issue **#156** (verbatim) |
+| Inference runtime | **ONNX Runtime** (`onnxruntime`) | `voice_identity` repo `addon/voice_identity_inference/app/embedder.py`, `main.py` |
+| Audio input contract | Raw signed 16-bit PCM, 16 kHz, mono; minimum ~50 ms (1,600 bytes rejected below); 25 ms frames / 400 samples, 10 ms shift / 160 samples, Povey window, log-Mel filterbank features | `voice_identity` repo `addon/voice_identity_inference/app/embedder.py` |
+| Embedding output | 192-dimensional, L2-normalized `float32` vector | `voice_identity` repo `addon/voice_identity_inference/app/embedder.py` |
+| Enrollment aggregation (averaged / centroid / individual / gallery) | **Not verified as implemented anywhere.** `custom_components/voice_identity/fingerprint.py` explicitly raises `NotImplementedError("Speaker fingerprint generation is not implemented yet.")` | `voice_identity` repo, current state |
+| Runtime comparison / similarity / threshold | **Not verified as implemented** in the `voice_identity` repo's inference add-on (which only returns one embedding per request and explicitly persists nothing); a working call chain (`_produce_speaker_evidence` → `_compare_speaker` → `SpeakerComparisonService.compare` → `SpeakerEvidenceRecord`) is reported, with a citation, in issue **#156** as live-validated on a real Home Assistant host, returning `speaker_unknown_no_match` — **this specific code path could not be independently re-verified in the currently accessible Concierge repository clone during this review and is recorded as unverified-but-cited issue evidence, not independently confirmed** | Issue **#156**; `voice_identity` repo (inference boundary only) |
+
+**No encoder is selected or mandated by this record.** **Multiple candidate gallery structures (one
+person-global, per-channel, or hybrid) remain exactly as open as **OD-83** (#168) already states**;
+this table adds identity/traceability detail to an already-open question and decides nothing.
+
+### 33.4 Text independence (architecturally expected, not independently re-validated)
+
+WeSpeaker's ECAPA-TDNN, trained on VoxCeleb, is — by the well-documented design of that model class —
+a **text-independent** speaker-verification embedding: it is not designed or evaluated to require the
+enrollment and runtime utterance text to match. **This is recorded as an architecturally expected
+property of the selected model class, not as an HTBW-specific empirical validation.** Accordingly, a
+runtime utterance's text **must not** be assumed to need to match any enrollment phrase, and **this
+ADR does not adopt or require** a "live audio vs. synthetic text-to-speech audio of the same phrase"
+comparison pattern — the only comparison pattern this ADR records is **same encoder, same modality
+(recorded human speech on both sides)**, per §11 and §13. Before production reliance, this property
+should still be empirically confirmed against the deployed model artifact, consistent with this ADR's
+existing requirement that no threshold or calibration value may be described as validated on the
+strength of documentation review alone (*enrollment sufficiency* note, [decision-ledger.md](../governance/decision-ledger.md)).
+
+### 33.5 Audio boundary and real-time status (restated, unchanged)
+
+**No new finding.** §§2, 7–10, 13 already identify the Wyoming protocol as the seam at which raw audio
+remains available before the Home Assistant Assist pipeline reduces it to a transcript, already
+establish that speaker encoding occurs in parallel with (never in place of) STT, and already route
+implementation to **Phase 5** (#165), which remains open and blocked behind Phases 2–4. **Real-time
+speaker comparison remains unvalidated**: consistent with the *enrollment sufficiency* note's existing
+finding, no `known` attribution has been produced from a live utterance, the plumbing is live-proven
+only for a `speaker_unknown_no_match` outcome, and an accepted execution host (**DL-50**) is a
+precondition for validation, never a substitute for it. This harvest changes none of that.
+
+### 33.6 Terminology (clarified, not renamed)
+
+**"Voiceprint" remains governing terminology and is not renamed.** Three distinct terms, already used
+inconsistently across subordinate and historical documents, are distinguished here without creating a
+fourth:
+
+| Term | Meaning | Owner |
+|---|---|---|
+| **Voice Profile** | The Identity-owned, Person-associated governed reference/container — enabled state, enrollment state, consent linkage | Identity (`person-and-identity.md`: "voice-profile references") |
+| **Voiceprint** | The derived, retained biometric representation artifact a Voice Profile holds for comparison — an **Internal Runtime Artifact**, never resident-browsed | Identity; Connected Storage governs its artifact lifecycle (`glossary.md`: *Interaction Model*, *Governing Parent Object*) |
+| **Speaker Embedding** | The raw, momentary per-sample or per-utterance encoder output (here, a 192-dimensional vector) — not itself retained as a profile | The Voice Evidence Provider (§9), consumed, never stored, by the App boundary |
+
+**"Speaker Identity Profile," raised in the owner discussion, is not adopted as a new term.** It maps
+onto the existing **Voice Profile** concept above and is not introduced as a distinct construct.
+
+---
+
 ## Related documents
 
 - [home-assistant-boundary.md](home-assistant-boundary.md)
