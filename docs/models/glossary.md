@@ -518,6 +518,68 @@ responsibility, not a second asset catalog, and not a competing document reposit
 knowledge would be durable; the Reasoning Provider it consults would be replaceable.
 ADR: [../architecture/adr-household-knowledge-provider-governance.md](../architecture/adr-household-knowledge-provider-governance.md)
 
+**Home Identity**
+**Drafted, pending formal acceptance review (Issue #191); not yet authoritative.** The proposed
+formalization (**DL-84**) of the Home as a first-class, **identity-adjacent** Foundation object,
+distinct from Person (Individual) and from Guest. "Identity-adjacent" means the Home is a definitional
+Foundation subject — it already owns "Home identity and identification" per [home.md](home.md) — and
+is **never** an outcome of the **Identity** responsibility's confidence/attribution model: the Home is
+never confidence-scored and produces no Identity Assertion. **Does not create an eighth
+responsibility** and does not reopen **DL-33**'s or this glossary's existing **Role** and
+**Caretaker** entries, which already correctly treat Guest and caretaker as Roles/relationships, not a
+fourth identity class.
+ADR: [../architecture/adr-home-identity-and-home-intelligence-governance.md](../architecture/adr-home-identity-and-home-intelligence-governance.md)
+
+**Home-Owned Resource**
+**Drafted, pending formal acceptance review (Issue #191); not yet authoritative.** The proposed
+(**DL-85**) category of resource or responsibility that belongs to the Home rather than to one
+individual's caretaking of it — for example a **Home Mailbox** or a **Home Calendar**, below.
+Consistent with [home.md](home.md)'s existing "Owns" list and Home-scoped state. **Which
+responsibility owns the binding between the Home and the actual external account is not decided**;
+see **Home-to-External-Resource Association Ownership (OD-90)** below.
+
+**Home Calendar**
+**Drafted, pending formal acceptance review (Issue #191); not yet authoritative.** The proposed
+(**DL-85**) Home-owned, Stewardship-scheduled authoritative record of *what the Home is responsible
+for, and when* — service appointments, inspections, deliveries, housesitter periods — distinct from a
+person's own personal or caretaker calendar, which answers a different question and never marks a
+Home obligation scheduled or completed merely by holding a reminder. Formalizes, without creating new
+ownership, the "home maintenance calendar" already named in [home.md](home.md) and the
+"caretaker-calendar projections" already owned by Stewardship
+([stewardship-contract.md](../contracts/stewardship-contract.md)).
+
+**Home Mailbox**
+**Drafted, pending formal acceptance review (Issue #191); not yet authoritative.** The proposed
+(**DL-85**) Home-owned mailbox category for service, vendor, warranty, invoice, and appointment
+correspondence directed at the household rather than at one resident. See **Home-to-External-Resource
+Association Ownership (OD-90)** for the undecided account-binding question.
+
+**Home-to-External-Resource Association Ownership (OD-90)**
+An open decision: which responsibility owns the governed association between the Home and an external
+mailbox/calendar account. The Home-scoped sibling of the already-open **Person-to-External-Resource
+Association Ownership (OD-77)**. See [decision-ledger.md](../governance/decision-ledger.md).
+
+**Share with Home Intelligence**
+**Drafted, pending formal acceptance review (Issue #191); not yet authoritative.** The proposed
+(**DL-85**) governed, revocable, source-specific disclosure control exposed by the HTBW capability
+that already owns a source's meaning (a Home Mailbox, a Home Calendar, an Individual's permitted
+personal calendar, or Asset Intelligence under **DL-81**), making that source available to a Home
+Intelligence consumer. **It means governed availability, never automatic, permanent, bulk copying into
+an AI/vector datastore.** Reuses existing Operational Trust disclosure evaluation (**DL-34**,
+**DL-36**) and the **DL-56** consent-record shape; creates no second consent or provenance model.
+
+**Home Intelligence**
+**Drafted, pending formal acceptance review (Issue #191); not yet authoritative.** The proposed
+(**DL-86**) optional, separately deployable product/deployment boundary that may host the **Household
+Knowledge Provider** pipeline (**DL-81**) and a Reasoning Provider (**OD-67**). Analogous to the
+already-accepted standalone Asset Intelligence product boundary (**DL-08**, narrowed by **OD-20**): it
+may have its own repository, lifecycle, failure domain, installable package, and versioned API
+boundary, but **no HTBW Core capability may require it to be installed**, and its absence is a
+declared-dependency **unavailable** outcome (**DL-41**), never a Home Core failure. Discovery and
+trust-establishment mechanics are explicitly not decided (**#190**). **Home Core** is the paired term
+for Home Assistant, HTBW, and Concierge operating independently of Home Intelligence.
+ADR: [../architecture/adr-home-identity-and-home-intelligence-governance.md](../architecture/adr-home-identity-and-home-intelligence-governance.md)
+
 ---
 
 ## Time and history

@@ -51,6 +51,7 @@ Dispositions: **New** · **Keep** · **Revise** · **Supersede** · **Merge** ·
 | `adr-product-disposition-and-legacy-adoption.md` | Canonical ADR | **New** — Accepted 2026-08-26 as **DL-51** and **DL-52**. Closes **OD-82**, opens **OD-85**, and amends the non-negotiable constraint in `authority-order.md` |
 | `adr-household-knowledge-provider-governance.md` | Active — subordinate | **New** — Recorded 2026-10-13, pending formal acceptance review at **Issue #188**, as **DL-81**. Architecture-only; no V1 implementation authorized even if later accepted. Raised by the 2026-10 AI, Natural Interaction, and Household Knowledge Architecture Review (#188) |
 | `adr-generated-behavior-authoring-governance.md` | Active — subordinate | **New** — Recorded 2026-10-13, pending formal acceptance review at **Issue #188**, as **DL-83**. Governance lifecycle boundary only; no implementation authorized even if later accepted. Raised by the 2026-10 AI, Natural Interaction, and Household Knowledge Architecture Review (#188) |
+| `adr-home-identity-and-home-intelligence-governance.md` | Active — subordinate | **New** — Recorded 2026-10-14, pending formal acceptance review at **Issue #191**, as **DL-84**, **DL-85**, and **DL-86**. Governance-only; no implementation, discovery mechanism, or technology stack authorized even if later accepted. Opens **OD-90**. Raised by the 2026-10 Home Identity and Home Intelligence Architecture Review (#191) |
 | `htbw-framework-aligned-ux-and-information-architecture.md` | Active — subordinate | **New** — Documentation/UI-architecture direction only. Reconciles with the already-accepted Foundation/Truth/Stewardship/Continuity asset-responsibility split (`../models/asset.md`) and with **DL-51**/**DL-52**; corrects "migration"/"retirement" terminology to **Adoption**. Explicitly does not resolve **OD-85** (#172), **OD-81** (#159), or **OD-20** (#110); allocates no Decision Ledger entry |
 
 ---
@@ -371,18 +372,24 @@ above, all banner-marked **Operational — discovery/evidence artifact**. None a
 any accepted ADR, contract, model, or decision-ledger entry. This addition is not reflected in the
 186-file/56-canonical baseline counts below, consistent with the #188 precedent immediately above.
 
+**Updated 2026-10-14**: one new document was added by the 2026-10 Home Identity and Home Intelligence
+Architecture Review (#191), banner-marked **Active — subordinate** (not Canonical) because it is
+recorded pending formal acceptance review at **Issue #191** and is not yet authoritative — see the row
+above for `adr-home-identity-and-home-intelligence-governance.md`. No file was deleted or reclassified;
+the counts below reflect this addition only, consistent with the #188 precedent above.
+
 | Category | Count |
 |---|---|
 | New canonical documents | 56 |
 | Revised in place | 2 (`README.md`, `concierge-contract.md`) |
 | **Canonical total** (56 new + 2 revised) | **58** |
-| Marked Active — subordinate | 22 |
+| Marked Active — subordinate | 23 |
 | Marked Historical — superseded | 83 |
 | Marked Historical illustration (`examples/`) | 16 |
 | Marked Historical — planning/closure record | 2 |
 | **Historical total** | **101** |
 | Operational | 7 |
-| **Total classified** | **188** |
+| **Total classified** | **189** |
 | **Unclassified** | **0** |
 | **Deleted** | **0** |
 
