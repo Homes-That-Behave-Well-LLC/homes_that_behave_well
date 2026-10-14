@@ -135,8 +135,11 @@ fail closed.
 
 **"Room Posture" is not a new concept.** It is the already-accepted **Room mode** demonstrated in every
 scenario above: a Truth fact, scoped to a Room or Merged Room, declared as a "relevant mode" by Room
-Configuration, set through a governed Concierge routine (Scenario 1), and interpreted — never
-implemented — by Operational Trust. "Normal," "Quiet," "Nap," "Bedtime," "Movie," and "Entertaining" are
+Configuration, established by Truth once Concierge orchestrates an authorized transition through
+governed interfaces (Scenario 1), and interpreted — never implemented — by Operational Trust.
+**Concierge orchestrates the transition; it does not own the mode, which remains Truth's fact exactly as
+Scenario 1 states ("the mode is not a Concierge variable").** "Normal," "Quiet," "Nap," "Bedtime,"
+"Movie," and "Entertaining" are
 household vocabulary for Room mode values, exactly as "Nighttime" is in Scenario 1. None of them is a
 canonical enumeration; Room Configuration's "relevant Room modes" are household-configured, not a fixed
 HTBW list.
