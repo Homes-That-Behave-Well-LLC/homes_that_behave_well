@@ -393,6 +393,50 @@ command-resolution fields.
 
 ---
 
+## Production provenance — BHV-01 (Room-local lamp/light on-off control)
+
+[docs/reference-home/production-behavior-preservation/production-behavior-catalog.csv](../reference-home/production-behavior-preservation/production-behavior-catalog.csv)
+(**BHV-01**) and
+[production-to-htbw-reconciliation-matrix.csv](../reference-home/production-behavior-preservation/production-to-htbw-reconciliation-matrix.csv)
+record a live household behavior: a resident says "lamps on", "lights off", or "lights usual" in any
+Room without naming it, and only that Room's lamps (or only its overhead/architectural lights) respond,
+at a remembered brightness where applicable. This is preserved **household experience**, cited here as
+corroborating evidence for scenarios already accepted above — it creates no new architecture.
+
+| BHV-01 production fact | Already-accepted scenario/authority here |
+|---|---|
+| "Lamps" and "Lights" are distinct household terms though both are HA `light`-domain | Scenario 3 — *Lights are not Lamps* |
+| A fixture can participate in a Room yet be excluded from a vocabulary term | Scenario 4 — *Speakers are not TV audio* (deliberate exclusion) |
+| A Room with no configured lamps/lights must not search elsewhere or broaden the request | Scenario 7 — *A term that is not configured here*; Scenario 18 |
+| The same word ("Lamps") can resolve to different configured participants in different Rooms | Scenario 9 — *The same term in several Rooms* |
+| Room context is supplied by the speaking device without the resident naming the Room | Scenario 1 |
+
+**Production mechanism not carried forward.** Production resolves lamp-vs-light membership at every
+invocation via `label_devices('Lamps')`/`label_devices('Lights')` and `area_entities()`. This is the
+runtime device search [adr-room-configuration-ownership.md](../architecture/adr-room-configuration-ownership.md)
+§7 and [../contracts/concierge-contract.md](../contracts/concierge-contract.md)'s hard prohibition
+("Concierge must not runtime-search devices to satisfy a vocabulary term. Resolution is explicit and
+configured.") already prohibit. Home Assistant Labels carry no HTBW meaning
+([home-assistant-boundary.md](../architecture/home-assistant-boundary.md), native-concept consumer
+table: "Labels … Nothing … Labels are flat, global, and ungoverned"); they are, at most, setup-time
+candidate evidence under the same **DL-11**/**DL-60** "seeds a proposal, never automatic participation"
+pattern already established for Areas — never runtime vocabulary authority.
+
+**Deferred, not decided here.** Two genuinely open decisions already own the remaining questions and
+are not reopened or duplicated by this note:
+
+- **OD-73** — *Interaction-Surface Room Context Resolution* (Open — Research Required, issue **#134**)
+  owns exactly how room context physically reaches Concierge from the speaking device. BHV-01's
+  `area_id(trigger.device_id)` production pattern is additional evidence for that research, not a
+  resolution of it.
+- **OD-78** — *Remembered-Value Classes and Restoration Semantics* (Open — Blocked, issue **#149**)
+  owns the provenance of the brightness value "usual" restores. BHV-01 only requires that an already-
+  authorized value can be consumed; [continuity-contract.md](../contracts/continuity-contract.md)
+  already governs safe consumption ("Preferences unavailable | State that the preference could not be
+  read; never substitute a platform default silently").
+
+---
+
 ## Responsibilities exercised
 
 | Responsibility | Exercised by |
@@ -410,5 +454,8 @@ command-resolution fields.
 - [../models/room-configuration.md](../models/room-configuration.md)
 - [../models/contextual-vocabulary.md](../models/contextual-vocabulary.md)
 - [../contracts/room-configuration-contract.md](../contracts/room-configuration-contract.md)
+- [../contracts/concierge-contract.md](../contracts/concierge-contract.md)
+- [../contracts/continuity-contract.md](../contracts/continuity-contract.md)
 - [../architecture/adr-room-configuration-ownership.md](../architecture/adr-room-configuration-ownership.md)
 - [../architecture/home-assistant-boundary.md](../architecture/home-assistant-boundary.md)
+- [../reference-home/production-behavior-preservation/production-behavior-catalog.csv](../reference-home/production-behavior-preservation/production-behavior-catalog.csv)
