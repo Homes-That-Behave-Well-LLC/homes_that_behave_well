@@ -1052,6 +1052,7 @@ collection. This preserves a useful pattern proven in the reference implementati
 | OD-69 | **Resolved as DL-61.** Asset-derived Entity projection reuses existing owned vocabularies; Person Environmental Requirements reuse the Asset environmental-limit pattern; Environmental Coverage, Configuration Completeness, and Truth Confidence are kept separate; Room Environmental Status is a non-authoritative projection; Room Health, Room Confidence, and People Health are formally rejected |
 | OD-33 | **Closed — DL-43, DL-46, DL-47.** Retention is declared inside every governed record and artifact lifecycle |
 | OD-34 | **Closed — DL-42, DL-44, DL-46, DL-47.** The temporal-persistence model is complete; the representation mechanism is **OD-01** |
+| OD-92 | Configuration authority levels and a progressive commissioning-to-personalization lifecycle, including whether and how durable household-declared meaning (this model) migrates when hardware, rooms, or implementation mechanisms are replaced |
 
 ## Related documents
 

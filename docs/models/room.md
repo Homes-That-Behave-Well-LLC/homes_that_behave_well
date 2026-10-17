@@ -232,6 +232,7 @@ Physical Room supplied a fact.
 | OD-01 | Home Assistant representation strategy for a Room |
 | OD-10 | Whether Floors are a first-class HTBW scope |
 | OD-11 | Whether a Physical Room may belong to more than one Room, and how ambiguity is configured |
+| OD-91 | Whether and how HTBW orchestrates a resident's hand-off to Home Assistant's native Area/Floor creation surfaces when a Room is initiated from HTBW and no Physical Room/Area yet exists; native Area/Floor creation by HTBW itself is verified unsupported (see [../architecture/home-assistant-boundary.md](../architecture/home-assistant-boundary.md)) |
 
 ## Related documents
 

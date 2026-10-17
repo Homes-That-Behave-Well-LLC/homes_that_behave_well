@@ -45,6 +45,11 @@ record is never created.** Home Assistant remains authoritative for the native p
 its associated `device_tracker` entities, and its optional association with a user account. A rename
 or picture change therefore needs **no synchronisation**, because nothing was copied.
 
+Whether, and how, HTBW helps a resident create a native Person when none yet exists — as distinct from
+referencing one that already exists — is **OD-91**. Native Person creation by HTBW itself is verified
+unsupported by current Home Assistant developer documentation; see
+[../architecture/home-assistant-boundary.md](../architecture/home-assistant-boundary.md).
+
 HTBW retains only what the native object does not hold, and **each extension keeps its own owner**:
 
 | Extension | Owner |
@@ -1477,6 +1482,7 @@ implying the assertion never existed.
 | OD-16 | **Resolved.** The evidence architecture is **DL-32**; the Identity Fusion Function is **DL-38**. Remaining coefficients are Fusion Policy configuration, not architecture |
 | OD-33 | **Closed — DL-43, DL-46, DL-47.** A persisted Identity Assertion is retained with the Decision Trace or governed history it supports, never on a separate universal clock |
 | OD-36 | Reconciliation of deletion and export obligations with retention floors and Preservation Holds |
+| OD-91 | Whether and how HTBW orchestrates a resident's hand-off to Home Assistant's native Person creation surface when no native Person yet exists; native creation by HTBW itself is verified unsupported |
 
 ## Related documents
 

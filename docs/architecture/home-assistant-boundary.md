@@ -360,6 +360,66 @@ Not a capability finding — a scoped statement of what remains open after items
 
 ---
 
+### Issue #146 HTBW-first provisioning verification pass (2026-10-16)
+
+Evidence produced against the 2026-10 HTBW-first household provisioning, enrollment, and progressive
+configuration architecture-readiness review, raised as **OD-91**. **This section records verification
+outcomes only. No architecture decision is made here, no ownership boundary changes, and no open
+decision is closed.** Current official developer documentation was consulted at
+`contributors.home-assistant.io` (the resolved destination of `developers.home-assistant.io`'s
+integration-authoring pages as of 2026-10), supplemented by `home-assistant/core` source (`dev`
+branch) only where prose documentation does not reproduce implementation detail.
+
+#### Area registry creation by an integration (item 20a) — VERIFIED_UNSUPPORTED
+
+| DL-30 element | Finding |
+|---|---|
+| Capability evaluated | Whether a custom integration may programmatically create or change a resident's Area |
+| Source | `contributors.home-assistant.io/core/integrations/area-registry/` (official, current); `contributors.home-assistant.io/core/integrations/device-registry/`, "Register a device yourself" (`suggested_area` field); `homeassistant/helpers/area_registry.py` (`async_create`, `async_get_or_create`, `async_update`, `async_delete`), home-assistant/core, dev branch |
+| Verified | The official documentation states explicitly: **"Areas belong to the user. Your integration does not create or change them."** The only documented integration-facing action is `suggested_area` on `DeviceInfo` or the `async_get_or_create()` device-registry call — a one-time hint applied only if the resident has not already set an Area, never a direct creation or mutation. `area_registry.async_create`/`async_update`/`async_delete` exist as real, callable methods in platform source, but **existence of a private, callable method is not itself a supported integration mechanism** (**DL-30**); the prose guidance draws the line explicitly |
+| Remaining gap | None on the policy itself. Not established whether any sanctioned carve-out exists for a setup-wizard-style integration that asks the resident to confirm an Area as part of its own config flow (no such carve-out is named anywhere in current documentation) |
+| Why a lower layer cannot satisfy it | Not applicable — this is a verified restriction, not a capability gap |
+
+**Discharges the creation half of item 20 as VERIFIED_UNSUPPORTED.** Confirms Area remains Category 1,
+"Referenced and extended," in the representation-strategy table above, and that `suggested_area` is
+the only native-creation-adjacent mechanism available when HTBW orchestrates a new device's addition.
+
+#### Floor registry creation by an integration (item 20b) — UNVERIFIED, NEGATIVE BY ANALOGY
+
+| DL-30 element | Finding |
+|---|---|
+| Capability evaluated | Whether a custom integration may programmatically create a resident's Floor |
+| Source | `contributors.home-assistant.io/architecture/core/registries/` ("Areas and floors — how the user describes their home"); `contributors.home-assistant.io/glossary/floor/` (glossary only); `homeassistant/helpers/floor_registry.py` (`async_create`, `async_update`, `async_delete`, `async_reorder`), home-assistant/core, dev branch |
+| Verified | **No dedicated Floor-registry developer-documentation page exists** (`contributors.home-assistant.io/core/integrations/floor-registry/` 404s). The architecture overview groups Floors with Areas as resident-owned, by analogy with the explicit Area restriction above, but **no explicit prose statement restricts integration-created Floors the way the Area page does** |
+| Remaining gap | Whether any sanctioned Floor-creation or Floor-suggestion mechanism exists remains **officially undocumented**; this must not be closed on the Area analogy alone |
+| Why a lower layer cannot satisfy it | The gap is a documentation gap, not a decided restriction; treat as unsupported for planning purposes without claiming it is officially prohibited |
+
+**Narrows but does not fully discharge item 20 for Floors.** Consistent with **OD-10**'s own standing
+guard that Floor-registry behaviour must not be assumed.
+
+#### Person entity creation by an integration (item 20c) — VERIFIED_UNSUPPORTED FOR THIRD-PARTY USE
+
+| DL-30 element | Finding |
+|---|---|
+| Capability evaluated | Whether a custom integration may programmatically create or update a native `person` entity |
+| Source | `homeassistant/components/person/__init__.py` (`async_create_person`, `PersonStorageCollection`, `PersonStorageCollectionWebsocket`), home-assistant/core, dev branch; `homeassistant/components/onboarding/views.py` (sole caller of `async_create_person`), dev branch; `www.home-assistant.io/integrations/person/` (official, current) |
+| Verified | Person objects are managed through the generic `homeassistant.helpers.collection` storage-collection/websocket pattern. `async_create_person` exists, but its **only caller in platform source is Home Assistant's own `onboarding` component**, used once to create the account owner's Person during initial setup. The person integration's own end-user documentation names **only the UI and YAML** as management paths; no developer-documentation page invites a third-party integration to create or update a Person |
+| Remaining gap | No explicit official statement prohibits third-party Person creation the way the Area page does; the conclusion rests on the absence of a documented API, an internal-only caller, and end-user documentation naming no other path |
+| Why a lower layer cannot satisfy it | Not applicable — no supported mechanism is documented or exists for general integration use |
+
+**Discharges item 20 for Person as VERIFIED_UNSUPPORTED FOR THIRD-PARTY USE.** Confirms Person remains
+Category 1, "Referenced and extended," and that HTBW must reference an existing native Person (per
+[../models/person-and-identity.md](../models/person-and-identity.md), "Person extends the native
+Person; it never replaces it") rather than attempt creation.
+
+**Does not close OD-91.** The creation-mechanism question is now substantially discharged for Area and
+Person (unsupported), and narrowed for Floor (undocumented, treated as unsupported for planning). **The
+residual, genuinely open part of OD-91 is the resident-facing orchestration question** — how HTBW hands
+the resident off to Home Assistant's own Area/Floor/Person setup surfaces and resumes without becoming
+a second source of truth or a second onboarding flow — which this pass does not attempt to answer.
+
+---
+
 ## What Home Assistant may provide
 
 - Device Registry
@@ -1452,6 +1512,10 @@ That is a later technical design decision. It is recorded as an open decision:
 this residual alone. Related open decisions **OD-35**, **OD-38**, and **OD-42** are likewise not
 resolved here. The platform alignment review adds **OD-59** through **OD-67**, and none of them is
 resolved here either.
+
+Whether, and how, HTBW orchestrates a resident's hand-off to Home Assistant's own Area, Floor, and
+Person creation surfaces — as distinct from the now-verified creation-mechanism restriction recorded
+above — is **OD-91**. It is not resolved here either.
 
 Do not resolve them inside a contract, model, or scenario document.
 
