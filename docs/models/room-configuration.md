@@ -86,7 +86,7 @@ Worked examples:
 - Room identity
 - Constituent Physical Rooms or Areas
 - Participating voice assistants, or decoupled `voice_input`/`spoken_response_output` participating
-  capabilities (drafted, pending #198)
+  capabilities (**DL-90**, accepted)
 - Participating controllable assets
 - Participating knowledge assets
 - Participating music speakers
@@ -251,7 +251,7 @@ microphone/microphone-array endpoint — and the device that captured the uttera
 be the device that delivers the spoken response; the response destination is the Room's separately
 assigned `spoken_response_output`, which may be the same device or a different one. See
 [../architecture/adr-decoupled-voice-interaction-capability-architecture.md](../architecture/adr-decoupled-voice-interaction-capability-architecture.md)
-(drafted, pending #198). The resolution order below is unchanged by this clarification.
+(**DL-90**, accepted). The resolution order below is unchanged by this clarification.
 
 When a participating voice assistant receives a request, **its Room assignment provides the default
 Room Context.** The resident should not need to state the Room name.

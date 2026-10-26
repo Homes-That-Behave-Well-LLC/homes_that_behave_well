@@ -504,5 +504,5 @@ would change the outcome.
 - [../architecture/behavioral-governance.md](../architecture/behavioral-governance.md)
 - [../architecture/privacy.md](../architecture/privacy.md)
 - [identity-contract.md](identity-contract.md)
-- [../architecture/adr-decoupled-voice-interaction-capability-architecture.md](../architecture/adr-decoupled-voice-interaction-capability-architecture.md) — voice interaction creates no alternate execution path around Operational Trust (drafted, pending #198)
+- [../architecture/adr-decoupled-voice-interaction-capability-architecture.md](../architecture/adr-decoupled-voice-interaction-capability-architecture.md) — voice interaction creates no alternate execution path around Operational Trust (**DL-91**, accepted)
 - [concierge-contract.md](concierge-contract.md)

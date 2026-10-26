@@ -1,26 +1,26 @@
 # ADR: Decoupled Voice Interaction Capability Architecture
 
-> **Document status: Active — subordinate to the HTBW canonical architecture.**
+> **Document status: Canonical ADR.**
+> Status: **Accepted** 2026-10-26. Records **DL-90** and **DL-91** (issue **#198**, formal acceptance
+> review PASS).
 > Canonical authority: [framework.md](framework.md) and [../models/glossary.md](../models/glossary.md).
-> Where this document conflicts with canonical authority, canonical authority prevails.
-> Drafts decisions **DL-90** and **DL-91**, recorded pending formal acceptance review at
-> **Issue #198**.
-> **Not yet authoritative. Creates no new responsibility.**
 > Terminology: [../models/glossary.md](../models/glossary.md).
 
 ---
 
 ## Status
 
-**Recorded, pending formal acceptance review (Issue #198). Not yet authoritative.**
+**Accepted 2026-10-26.** Formal acceptance review on Issue #198 recorded **PASS**, with no remediation
+required.
 
 Drafted by the 2026-10 Decoupled Voice Interaction Capability Architecture Review, prompted by the
 Reference Home's intent to evaluate dedicated far-field microphone arrays as voice-input endpoints
 while continuing to use the existing Concierge-managed Sonos room-audio path for spoken responses.
 Consistent with this repository's established practice that a drafted decision is recorded first and
-separately undergoes formal acceptance review before being treated as binding (see the DL-80–83/#188,
-DL-84–86/#191, and DL-87–89/#195 precedents in
-[../governance/decision-ledger.md](../governance/decision-ledger.md)).
+separately undergoes formal acceptance review before being treated as binding (see the DL-80–83/#188 and
+DL-84–86/#191 precedents, and this ADR's own DL-90/DL-91/#198 precedent, in
+[../governance/decision-ledger.md](../governance/decision-ledger.md)). **DL-87–89 (Issue #195, the
+Stable Endpoint Identity ADR) remain separately pending and are unaffected by this acceptance.**
 
 **This ADR does not redesign Home Assistant Assist, replace native device management, prescribe a
 microphone vendor, prescribe Sonos, prescribe one STT or TTS engine, prescribe Ollama or one LLM,
@@ -378,8 +378,9 @@ degradation mechanics; routing/fallback investigation.
 - **DL-05/DL-06, DL-50, DL-67/DL-68, DL-86/DL-41, the no-wake-word finding, Room Configuration's voice
   assistant model, and Concierge's Response Delivery Space are each referenced above and are each
   unaffected** — none is narrowed, resolved, or reopened by this ADR.
-- **This entry is drafted content, not yet a closed decision; it must not be cited as equivalent to
-  DL-01–DL-89 until #198's formal acceptance review records a result.**
+- **DL-90 and DL-91 are accepted, binding decisions (Issue #198, PASS, 2026-10-26), equivalent in
+  standing to DL-01–DL-89.** They authorize no implementation; see the Foundation Room Interaction
+  Roles and Performance-Aware Voice Processing workstreams above for implementation-readiness work.
 
 ---
 

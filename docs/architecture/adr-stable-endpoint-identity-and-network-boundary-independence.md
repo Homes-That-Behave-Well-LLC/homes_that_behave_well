@@ -144,7 +144,7 @@ each independently configurable:
 - spoken_response_output or media-player endpoint (named `audio_output` in this ADR's original draft;
   refined to `spoken_response_output` by
   [adr-decoupled-voice-interaction-capability-architecture.md](adr-decoupled-voice-interaction-capability-architecture.md)
-  (drafted, pending #198) before this ADR's own acceptance review, to avoid colliding with
+  (**DL-90**, accepted) before this ADR's own acceptance review, to avoid colliding with
   music/media `audio_output` capability semantics);
 - interface or kiosk endpoint;
 - physical remote or other interaction surface, where applicable.
@@ -305,4 +305,4 @@ cold starts and network-state reconstruction, not only while pre-existing sessio
 - [../governance/open-decision-issue-index.md](../governance/open-decision-issue-index.md)
 - [../reference-home/discovery/07-network-and-infrastructure-inventory.md](../reference-home/discovery/07-network-and-infrastructure-inventory.md)
 - [../reference-home/production-behavior-preservation/production-gaps-and-owner-review.md](../reference-home/production-behavior-preservation/production-gaps-and-owner-review.md)
-- [adr-decoupled-voice-interaction-capability-architecture.md](adr-decoupled-voice-interaction-capability-architecture.md) — refines DL-88's generic `audio_output` term to `spoken_response_output` (drafted, pending #198)
+- [adr-decoupled-voice-interaction-capability-architecture.md](adr-decoupled-voice-interaction-capability-architecture.md) — refines DL-88's generic `audio_output` term to `spoken_response_output` (**DL-90**, accepted)

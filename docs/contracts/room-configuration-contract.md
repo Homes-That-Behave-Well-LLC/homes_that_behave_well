@@ -36,7 +36,7 @@ For each Room, an explicit and persisted definition of:
   **DL-62**)
 - Which experience endpoints exist (music, video, announcement, conversation) — **this category set
   is extensible household vocabulary, never a closed enumeration** (**DL-55**); `voice_input` and
-  `spoken_response_output` are further extensible members of this same set (drafted, pending #198)
+  `spoken_response_output` are further extensible members of this same set (**DL-90**, accepted)
 - Which voice assistants are assigned to the Room
 - Room-scoped authority scoping inputs
 - The exposed-term list used by Room Help
@@ -150,7 +150,7 @@ device is not the context. **"Voice assistant" denotes any participating capabil
 microphone/array; the device that captures an utterance is never assumed to be the device that
 delivers the spoken response** — see
 [../architecture/adr-decoupled-voice-interaction-capability-architecture.md](../architecture/adr-decoupled-voice-interaction-capability-architecture.md)
-(drafted, pending #198).
+(**DL-90**, accepted).
 
 Resolution order:
 
@@ -273,4 +273,4 @@ See [../models/temporal-record.md](../models/temporal-record.md).
 - [contextual-vocabulary-contract.md](contextual-vocabulary-contract.md)
 - [truth-contract.md](truth-contract.md)
 - [../architecture/adr-stable-endpoint-identity-and-network-boundary-independence.md](../architecture/adr-stable-endpoint-identity-and-network-boundary-independence.md) — stable endpoint identity and network-boundary independence (drafted, pending #195)
-- [../architecture/adr-decoupled-voice-interaction-capability-architecture.md](../architecture/adr-decoupled-voice-interaction-capability-architecture.md) — decoupled `voice_input`/`spoken_response_output` Interaction Function Assignments (drafted, pending #198)
+- [../architecture/adr-decoupled-voice-interaction-capability-architecture.md](../architecture/adr-decoupled-voice-interaction-capability-architecture.md) — decoupled `voice_input`/`spoken_response_output` Interaction Function Assignments (**DL-90**/**DL-91**, accepted)
