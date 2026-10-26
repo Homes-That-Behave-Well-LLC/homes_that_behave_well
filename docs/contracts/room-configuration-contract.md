@@ -266,3 +266,4 @@ See [../models/temporal-record.md](../models/temporal-record.md).
 - [../models/temporal-record.md](../models/temporal-record.md)
 - [contextual-vocabulary-contract.md](contextual-vocabulary-contract.md)
 - [truth-contract.md](truth-contract.md)
+- [../architecture/adr-stable-endpoint-identity-and-network-boundary-independence.md](../architecture/adr-stable-endpoint-identity-and-network-boundary-independence.md) — stable endpoint identity and network-boundary independence (drafted, pending #195)

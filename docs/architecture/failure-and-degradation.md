@@ -382,3 +382,4 @@ be able to learn why something did not happen.
 - [behavioral-governance.md](behavioral-governance.md)
 - [explainability.md](explainability.md)
 - [privacy.md](privacy.md)
+- [adr-stable-endpoint-identity-and-network-boundary-independence.md](adr-stable-endpoint-identity-and-network-boundary-independence.md) — restates "validation is not discovery" explicitly for the network layer (drafted, pending #195)

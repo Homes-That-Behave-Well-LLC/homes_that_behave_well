@@ -551,3 +551,4 @@ See [../governance/decision-ledger.md](../governance/decision-ledger.md).
 - [adr-historical-explainability-and-historical-truth.md](adr-historical-explainability-and-historical-truth.md)
 - [adr-temporal-record-model.md](adr-temporal-record-model.md)
 - [adr-resident-communication-and-delivery-separation.md](adr-resident-communication-and-delivery-separation.md)
+- [adr-stable-endpoint-identity-and-network-boundary-independence.md](adr-stable-endpoint-identity-and-network-boundary-independence.md) — sensitive-information and placeholder convention for repository network examples (drafted, pending #195)
