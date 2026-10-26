@@ -344,3 +344,4 @@ A resident must be able to hear *"I was not certain it was you"* as a valid expl
 - [truth-contract.md](truth-contract.md)
 - [operational-trust-contract.md](operational-trust-contract.md)
 - [../architecture/adr-identity-replaces-voice-identity-boundary.md](../architecture/adr-identity-replaces-voice-identity-boundary.md)
+- [../architecture/adr-decoupled-voice-interaction-capability-architecture.md](../architecture/adr-decoupled-voice-interaction-capability-architecture.md) — Voice Identity remains independently owned regardless of which STT engine or capture device is selected (drafted, pending #198)

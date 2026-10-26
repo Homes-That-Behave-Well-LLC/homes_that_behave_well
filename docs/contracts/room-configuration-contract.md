@@ -35,7 +35,8 @@ For each Room, an explicit and persisted definition of:
   path), **Secondary/Corroborating**, or **Explicit Exclusion** (**DL-60**, narrowed to three states by
   **DL-62**)
 - Which experience endpoints exist (music, video, announcement, conversation) — **this category set
-  is extensible household vocabulary, never a closed enumeration** (**DL-55**)
+  is extensible household vocabulary, never a closed enumeration** (**DL-55**); `voice_input` and
+  `spoken_response_output` are further extensible members of this same set (drafted, pending #198)
 - Which voice assistants are assigned to the Room
 - Room-scoped authority scoping inputs
 - The exposed-term list used by Room Help
@@ -144,7 +145,12 @@ One configuration, many surfaces: voice, panel, and Room Help all present the **
 ## Voice assistant context
 
 A voice assistant is a **participating capability assigned to a Room**. The Room is the context. The
-device is not the context.
+device is not the context. **"Voice assistant" denotes any participating capability assigned a
+`voice_input` Interaction Function Assignment, whether an integrated device or a dedicated
+microphone/array; the device that captures an utterance is never assumed to be the device that
+delivers the spoken response** — see
+[../architecture/adr-decoupled-voice-interaction-capability-architecture.md](../architecture/adr-decoupled-voice-interaction-capability-architecture.md)
+(drafted, pending #198).
 
 Resolution order:
 
@@ -267,3 +273,4 @@ See [../models/temporal-record.md](../models/temporal-record.md).
 - [contextual-vocabulary-contract.md](contextual-vocabulary-contract.md)
 - [truth-contract.md](truth-contract.md)
 - [../architecture/adr-stable-endpoint-identity-and-network-boundary-independence.md](../architecture/adr-stable-endpoint-identity-and-network-boundary-independence.md) — stable endpoint identity and network-boundary independence (drafted, pending #195)
+- [../architecture/adr-decoupled-voice-interaction-capability-architecture.md](../architecture/adr-decoupled-voice-interaction-capability-architecture.md) — decoupled `voice_input`/`spoken_response_output` Interaction Function Assignments (drafted, pending #198)

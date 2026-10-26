@@ -27,7 +27,7 @@ sequenceDiagram
     participant CO as Concierge
 
     R->>FN: Trigger arrives (utterance, state change, schedule, obligation due)
-    FN->>FN: Resolve Room Context from the participating voice assistant or surface
+    FN->>FN: Resolve Room Context from the participating voice-input capability or surface
     FN->>FN: Resolve Vocabulary Term to explicit persisted target set
     FN->>ID: Request identity assertion for the interaction
     ID-->>CO: Candidate person, confidence, evidence
@@ -103,7 +103,12 @@ not re-run identity fusion.** The four cycle-prevention properties are recorded 
 
 ### Room Context resolution at step 2
 
-Step 2 resolves Room Context from the **participating voice assistant or surface**. Where the surface is
+Step 2 resolves Room Context from the **participating voice-input capability or surface** — whether an
+integrated voice assistant or a dedicated microphone/array endpoint assigned a `voice_input`
+Interaction Function Assignment; the capturing device is never assumed to be the device that delivers
+any spoken response (see
+[adr-decoupled-voice-interaction-capability-architecture.md](adr-decoupled-voice-interaction-capability-architecture.md),
+drafted, pending #198). Where the surface is
 **not bound to a Room** — a phone, a wearable, a Companion App action, a browser session — **no governed
 resolution rule exists**, the outcome is `unresolved`, and the degraded path below applies. **Room Context
 is never inferred from device naming.** This is **open decision OD-73**, and the Decision Trace must
@@ -135,3 +140,4 @@ to [failure-and-degradation.md](failure-and-degradation.md).
 - [explainability.md](explainability.md)
 - [../models/decision-trace.md](../models/decision-trace.md)
 - [../scenarios/README.md](../scenarios/README.md)
+- [adr-decoupled-voice-interaction-capability-architecture.md](adr-decoupled-voice-interaction-capability-architecture.md) — generalizes step 2 to any participating voice-input capability (drafted, pending #198)

@@ -870,6 +870,28 @@ A person or automated process is permitted to use, change, query, or act on the 
 Something that can be done or asked in a Room, expressed in household terms rather than platform
 terms.
 
+**Interaction Function Assignment** *(drafted, pending #198)*
+Which specific experience-endpoint function a participating capability is assigned to fulfill in a
+Room — for example `voice_input`, `spoken_response_output`, `music`, `video`, `announcement`,
+`conversation`. **Deliberately not Role** — a device is never assigned a Role; **Role** below remains a
+person-authority class only. A device possessing a capability does not imply an assigned Interaction
+Function Assignment.
+Architecture: [../architecture/adr-decoupled-voice-interaction-capability-architecture.md](../architecture/adr-decoupled-voice-interaction-capability-architecture.md)
+
+**voice_input** *(drafted, pending #198)*
+An Interaction Function Assignment representing the configured device or devices used to hear voice
+interactions associated with a Room. Capturing an utterance does not by itself establish person
+identity, authority, intent, presence truth, or final Room context — it is evidence of interaction
+origin, consumed by Concierge alongside Foundation configuration and Truth facts.
+Architecture: [../architecture/adr-decoupled-voice-interaction-capability-architecture.md](../architecture/adr-decoupled-voice-interaction-capability-architecture.md)
+
+**spoken_response_output** *(drafted, pending #198)*
+An Interaction Function Assignment representing the Room's configured destination for Concierge's own
+spoken responses (acknowledgements, answers). Distinct from `music`/media-capability experience
+endpoints. May be the same device as `voice_input`, or a different one; consumed by, and does not
+alter, Concierge's existing Response Delivery Space.
+Architecture: [../architecture/adr-decoupled-voice-interaction-capability-architecture.md](../architecture/adr-decoupled-voice-interaction-capability-architecture.md)
+
 **Group**
 An explicitly configured set of targets addressed as one. Residents need not know its members.
 

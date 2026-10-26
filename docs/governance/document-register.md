@@ -53,6 +53,7 @@ Dispositions: **New** · **Keep** · **Revise** · **Supersede** · **Merge** ·
 | `adr-generated-behavior-authoring-governance.md` | Active — subordinate | **New** — Recorded 2026-10-13, pending formal acceptance review at **Issue #188**, as **DL-83**. Governance lifecycle boundary only; no implementation authorized even if later accepted. Raised by the 2026-10 AI, Natural Interaction, and Household Knowledge Architecture Review (#188) |
 | `adr-home-identity-and-home-intelligence-governance.md` | Active — subordinate | **New** — Recorded 2026-10-14, pending formal acceptance review at **Issue #191**, as **DL-84**, **DL-85**, and **DL-86**. Governance-only; no implementation, discovery mechanism, or technology stack authorized even if later accepted. Opens **OD-90**. Raised by the 2026-10 Home Identity and Home Intelligence Architecture Review (#191) |
 | `adr-stable-endpoint-identity-and-network-boundary-independence.md` | Active — subordinate | **New** — Recorded 2026-10, pending formal acceptance review at **Issue #195**, as **DL-87**, **DL-88**, and **DL-89**. Governance-only; no VLAN/firewall/DHCP/DNS/mDNS/wireless/switch/UniFi management or runtime endpoint-resolution implementation authorized even if later accepted. No OD identifier allocated. Raised by the 2026-10 Reference Home Network Segmentation and Stable Endpoint Identity Architecture Review (#195) |
+| `adr-decoupled-voice-interaction-capability-architecture.md` | Active — subordinate | **New** — Recorded 2026-10, pending formal acceptance review at **Issue #198**, as **DL-90** and **DL-91**. Governance-only; no implementation, vendor, STT/TTS engine, or technology stack authorized even if later accepted. No OD identifier allocated. Refines (does not reopen) the still-pending **DL-88**'s `audio_output` term to `spoken_response_output`. Raised by the 2026-10 Decoupled Voice Interaction Capability Architecture Review (#198) |
 | `htbw-framework-aligned-ux-and-information-architecture.md` | Active — subordinate | **New** — Documentation/UI-architecture direction only. Reconciles with the already-accepted Foundation/Truth/Stewardship/Continuity asset-responsibility split (`../models/asset.md`) and with **DL-51**/**DL-52**; corrects "migration"/"retirement" terminology to **Adoption**. Explicitly does not resolve **OD-85** (#172), **OD-81** (#159), or **OD-20** (#110); allocates no Decision Ledger entry |
 
 ---
@@ -387,18 +388,25 @@ authoritative — see the row above for
 reclassified; the counts below reflect this addition only, consistent with the #188/#191 precedent
 above.
 
+**Updated 2026-10**: one new document was added by the 2026-10 Decoupled Voice Interaction Capability
+Architecture Review (#198), banner-marked **Active — subordinate** (not Canonical) because it is
+recorded pending formal acceptance review at **Issue #198** and is not yet authoritative — see the row
+above for `adr-decoupled-voice-interaction-capability-architecture.md`. No file was deleted or
+reclassified; the counts below reflect this addition only, consistent with the #188/#191/#195
+precedent above.
+
 | Category | Count |
 |---|---|
 | New canonical documents | 56 |
 | Revised in place | 2 (`README.md`, `concierge-contract.md`) |
 | **Canonical total** (56 new + 2 revised) | **58** |
-| Marked Active — subordinate | 24 |
+| Marked Active — subordinate | 25 |
 | Marked Historical — superseded | 83 |
 | Marked Historical illustration (`examples/`) | 16 |
 | Marked Historical — planning/closure record | 2 |
 | **Historical total** | **101** |
 | Operational | 7 |
-| **Total classified** | **190** |
+| **Total classified** | **191** |
 | **Unclassified** | **0** |
 | **Deleted** | **0** |
 

@@ -245,3 +245,4 @@ A suppressed transfer must be explainable as a deliberate outcome, not as a fail
 - [operational-trust-contract.md](operational-trust-contract.md)
 - [../scenarios/continuity-use-cases.md](../scenarios/continuity-use-cases.md)
 - [../scenarios/follow-me-media.md](../scenarios/follow-me-media.md)
+- [../architecture/adr-decoupled-voice-interaction-capability-architecture.md](../architecture/adr-decoupled-voice-interaction-capability-architecture.md) — a context-dependent voice follow-up must not be routed to a fast path that loses required Continuity state (drafted, pending #198)

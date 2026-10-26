@@ -362,6 +362,7 @@ See [../models/decision-trace.md](../models/decision-trace.md) and
 - [operational-trust-contract.md](operational-trust-contract.md)
 - [../models/decision-trace.md](../models/decision-trace.md)
 - [../models/communication.md](../models/communication.md)
+- [../architecture/adr-decoupled-voice-interaction-capability-architecture.md](../architecture/adr-decoupled-voice-interaction-capability-architecture.md) — `spoken_response_output` is consumed by, and does not alter, the Response Delivery Space model in §6 above (drafted, pending #198)
 
 ---
 ---

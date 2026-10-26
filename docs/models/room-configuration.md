@@ -85,7 +85,8 @@ Worked examples:
 
 - Room identity
 - Constituent Physical Rooms or Areas
-- Participating voice assistants
+- Participating voice assistants, or decoupled `voice_input`/`spoken_response_output` participating
+  capabilities (drafted, pending #198)
 - Participating controllable assets
 - Participating knowledge assets
 - Participating music speakers
@@ -243,6 +244,14 @@ into a generic room-grouping model:
 ## Voice assistant context
 
 Participating voice assistants are explicitly assigned to a Room configuration.
+
+**"Voice assistant" here denotes any participating capability assigned a `voice_input` Interaction
+Function Assignment** — whether fulfilled by an integrated voice-assistant device or a dedicated
+microphone/microphone-array endpoint — and the device that captured the utterance is never assumed to
+be the device that delivers the spoken response; the response destination is the Room's separately
+assigned `spoken_response_output`, which may be the same device or a different one. See
+[../architecture/adr-decoupled-voice-interaction-capability-architecture.md](../architecture/adr-decoupled-voice-interaction-capability-architecture.md)
+(drafted, pending #198). The resolution order below is unchanged by this clarification.
 
 When a participating voice assistant receives a request, **its Room assignment provides the default
 Room Context.** The resident should not need to state the Room name.
