@@ -234,28 +234,37 @@ separately authorized implementation decides how to act on it.
 
 ## 9. Voice Identity interaction
 
-**The choice of recognition provider must not architecturally eliminate Identity/Voice Identity.**
+**Selection of a supported recognition provider or processing path SHALL NOT architecturally eliminate
+Identity/Voice Identity or prevent it from receiving the evidence required by its accepted contract.**
 Existing ownership for speaker attribution, confidence, identity evidence, no-match behavior, and
 privacy is unchanged (**DL-05**, **DL-06**; [identity-contract.md](../contracts/identity-contract.md)).
 
-**What Voice Identity requires, and at what stage (from accepted architecture, DL-50):** a voice
-evidence provider operates on the **audio stream itself**, at the capture/recognition stage, emitting an
-unbound Voice Evidence Record (ordered candidates, provider-reported scores, separation data, quality
-metadata, encoder identity) — **in parallel with recognition, never gated by it.** "Speaker evidence is
-enrichment and never a gate": a non-match, unknown speaker, unavailable host, or incompatible gallery
-never suppresses the transcript, and identity never travels inside transcript content (DL-50).
+**The mechanism by which required evidence is made available to Voice Identity is an implementation
+concern, unless a separately accepted decision already governs it.** This specification does not
+mandate, and must not be read as mandating, a parallel audio tap, an STT proxy, Wyoming interception,
+satellite interception, duplicated audio streams, or any other specific pipeline-interception topology.
 
-**This specification does not implement a new interception mechanism and does not assume every
-recognition path routes through a specific STT proxy.** Research evidence (§20) indicates Speech-to-Phrase
-and Whisper are each reachable as Home-Assistant-native `stt` entities through the same accepted Wyoming
-audio/voice-service boundary (**DL-50**) HTBW already treats as the preferred interoperability seam —
-suggesting, as **research evidence, not a proven guarantee**, that a Voice Identity evidence provider
-tapping the Wyoming-level audio stream is not inherently gated by which `stt` entity a pipeline selects,
-**provided the implementation taps audio at that boundary rather than after a specific STT engine's own
-output.** This is recorded as an open implementation question (§24), not asserted as fact.
+**What existing accepted architecture (DL-50) does establish, restated unchanged:**
 
-**If a future processing path cannot provide Voice Identity the evidence it requires, that is an
-implementation constraint to be documented, not a reason to bypass or redesign Identity.**
+- **Speaker evidence is enrichment and never a gate**: a non-match, unknown speaker, unavailable
+  provider, or incompatible gallery never suppresses the transcript, and identity never travels inside
+  transcript content (**D6**,
+  [adr-wyoming-compatible-voice-evidence-runtime.md](adr-wyoming-compatible-voice-evidence-runtime.md)
+  §4, §14). This is a binding **output guarantee** — it constrains what the transcript must never do,
+  not how (or where) audio reaches an evidence provider.
+- **Where HTBW requires runtime audio, Wyoming is the preferred, never mandatory, interoperability
+  boundary** (**D3**). The same ADR separately records, as accepted evidence rather than a topology
+  mandate, that speaker-evidence production "occurs in parallel with (never in place of) STT" (§33.5) —
+  read here as a **concurrency/non-blocking requirement** (evidence production and transcription proceed
+  without either one waiting for or gating the other), not as a prescription that a specific network or
+  stream topology (a tap, a fork, a proxy, or an in-line interceptor) is the only conformant mechanism.
+
+**If a proposed processing path cannot supply evidence required by the accepted Identity contract, that
+is an implementation constraint of that processing path; it is not authority to bypass or redesign
+Identity.** Whether a given recognition path (for example, Speech-to-Phrase or Whisper, both reachable
+through the same Wyoming boundary per **DL-50**) can in practice supply Voice Identity the evidence its
+contract requires — and by what mechanism — is not resolved by this specification and is recorded as an
+open implementation question (§24).
 
 ---
 
@@ -519,7 +528,8 @@ Not executable tests — no test framework, test file, or code is introduced by 
 ## 23. Deferred implementation work
 
 All executable work: the actual routing/escalation implementation; any pipeline-selection automation;
-the actual Voice Identity audio-tap integration; the actual Decision Trace fields for processing-path
+the actual mechanism by which a processing path makes evidence available to Voice Identity (a topology
+decision deferred to implementation, §9); the actual Decision Trace fields for processing-path
 recording; performance instrumentation; and any Home Intelligence integration. **Deferred pending an
 authorized HTBW Core implementation surface**, per the same finding recorded in the Foundation Room
 Interaction Roles specification (§1 there).
@@ -537,9 +547,11 @@ otherwise explicitly deferred, not guessed:
 - **Fast-path-to-open-ended-path escalation mechanics** — whether a failed closed-domain recognition can
   safely trigger a second, open-ended recognition attempt on the same captured audio, and the privacy
   and latency implications of doing so. Not resolved here.
-- **Voice Identity evidence availability across recognition paths** — whether tapping audio at the
-  Wyoming boundary (§9) is sufficient and safe in practice regardless of which `stt` entity is selected;
-  recorded as favorable research evidence, not a proven guarantee. Not resolved here.
+- **Voice Identity evidence availability across recognition paths** — whether a given recognition path
+  can in practice supply Voice Identity the evidence its accepted contract requires, and **by what
+  mechanism** (an implementation concern, §9, not decided here); the Wyoming boundary's shared
+  reachability across Speech-to-Phrase and Whisper is recorded as favorable evidence, not a proven
+  guarantee or a mandated mechanism. Not resolved here.
 - **How conversation continuity crosses processing-path changes** in practice (beyond the native
   `conversation_id` mechanism already verified, §10) — the precise mechanics of carrying Continuity
   state across a Class A→D escalation. Not resolved here.
