@@ -90,26 +90,37 @@ decision, unaffected by this specification).
 
 ### 4.1 `RoomInteractionFunctionAssignment` (conceptual record)
 
-| Field | Type | Cardinality | Required | Description |
+**Each `RoomInteractionFunctionAssignment` record is atomic: one Room, one interaction function, one
+participating capability.** Multiplicity (zero, one, or many endpoints fulfilling a function in a
+Room) is expressed as **zero, one, or many separate records**, never as a list-valued field inside one
+record.
+
+| Field | Type | Cardinality (within one record) | Required | Description |
 |---|---|---|---|---|
 | `room_id` | Foundation Room reference | 1 | Yes | The Room (or Merged Room) this assignment belongs to |
 | `function` | Enumeration | 1 | Yes | `voice_input` \| `spoken_response_output` \| other existing experience-endpoint category (extensible per **DL-55**) |
-| `participating_capability_reference` | Native Home Assistant reference (entity_id/device_id or equivalent native identifier) | **0..N** | No | The native capability assigned this function. **Never a literal IP, MAC, or vendor-specific identifier** — the native Home Assistant reference only, consistent with the Stable Endpoint Identity resolution order (**DL-87**, pending #195, cited as forward-compatible guidance, not a dependency of this specification) |
-| `participation_state` | Enumeration | 1 per reference | Yes | `participating` \| `not_selected` \| `deliberately_excluded` — reusing Room Configuration's existing three-state model unchanged |
+| `participating_capability_reference` | Native Home Assistant reference (entity_id/device_id or equivalent native identifier) | **1** | Yes | The single native capability this record assigns to this function. **Never a literal IP, MAC, or vendor-specific identifier** — the native Home Assistant reference only, consistent with the Stable Endpoint Identity resolution order (**DL-87**, pending #195, cited as forward-compatible guidance, not a dependency of this specification) |
+| `participation_state` | Enumeration | 1 | Yes | `participating` \| `not_selected` \| `deliberately_excluded` — reusing Room Configuration's existing three-state model unchanged |
 | `assigned_at` / `updated_at` | Timestamp | 1 | Yes | Reuses Room Configuration's existing Change Record / configuration-history mechanism; no new history mechanism is created |
 
-**Cardinality is explicitly list-valued (`0..N`), never a single scalar reference.** This satisfies the
-no-cardinality-assumption requirement (multiple microphones, output groups, future redundancy) without
-building multi-endpoint orchestration logic now — an empty, single-item, or multi-item list are all
-valid today; only the schema shape, not the runtime fan-out behavior, is specified here.
+**Room-and-function cardinality is explicitly record-level, not field-level: a Room may have zero, one,
+or many `RoomInteractionFunctionAssignment` records for a given interaction function.** This satisfies
+the no-cardinality-assumption requirement (multiple microphones, output groups, future redundancy)
+without building multi-endpoint orchestration logic now — zero, one, or many records for one
+Room+function pair are all valid today; only the schema shape, not the runtime fan-out behavior, is
+specified here. **No priority, preferred-endpoint, fallback, failover, or runtime endpoint-selection
+semantics are introduced by this cardinality** — selecting among multiple records for the same
+Room+function, where it ever matters, is runtime behavior left entirely to future, separately
+authorized implementation and governance work, not decided here.
 
 ### 4.2 Relationship to existing Room Configuration fields
 
 This record is a **new, additional row shape within Room Configuration's existing "which experience
 endpoints exist" and "which voice assistants are assigned" data**, not a parallel store. Where an
 implementation surface already represents "participating voice assistants" as a list, `voice_input` and
-`spoken_response_output` assignments are two further entries in that same list shape, distinguished by
-`function`, not two new unrelated structures.
+`spoken_response_output` assignments are two further entries in that same list shape — one atomic
+record per participating capability per function — distinguished by `function`, not two new unrelated
+structures.
 
 ### 4.3 What this schema does not do
 
@@ -158,10 +169,15 @@ configurations for one Room, with no configuration requiring a different data mo
 | E. Spoken response, no voice input | *(none)* | Speaker B |
 | F. No voice participation | *(none)* | *(none)* |
 
-A single physical device capable of both functions (Configuration A) is represented by **one capability
-participating in both Interaction Function Assignments** — two `RoomInteractionFunctionAssignment`
-records sharing the same `participating_capability_reference`, each with its own `function` value — not
-by a special-cased "dual-role" record type.
+A single physical device capable of both functions (Configuration A) is represented by **two atomic
+`RoomInteractionFunctionAssignment` records, one per function** — each referencing the native
+capability appropriate to its own function. Where Home Assistant represents the device's microphone and
+speaker as one combined native reference, both records reference that same `participating_capability_reference`;
+where Home Assistant instead exposes separate native entities for the device's microphone and speaker
+capabilities, each record references its own corresponding entity. **This specification does not assume
+or require Home Assistant to expose one combined reference** — it requires only that each record name
+the capability appropriate to its own function, never a special-cased "dual-role" record type, and
+never a fabricated capability identity where the native representation does not provide one.
 
 ---
 
@@ -285,11 +301,28 @@ response together), not existing persisted records.
 ### Migration semantics (for when an implementation surface exists)
 
 **A currently configured, integrated "participating voice assistant" (one device, both functions
-historically undifferentiated) must continue to behave as an integrated input/output device** — safe
+historically undifferentiated) must continue to behave as an integrated input/output device.** Safe
 default: a single existing "participating voice assistant" entry, on first migration to this model,
-expands to **two** `RoomInteractionFunctionAssignment` records (`voice_input` and
-`spoken_response_output`) **both referencing the same capability**, preserving Configuration A (§6)
-exactly, with no household-visible behavior change.
+expands to **two** atomic `RoomInteractionFunctionAssignment` records — one `voice_input` record and
+one `spoken_response_output` record — preserving Configuration A (§6) exactly, with no household-visible
+behavior change.
+
+- **Both assignments may belong to the same physical/native Home Assistant device.** Where that device
+  exposes its microphone and speaker capability through Home Assistant as a single combined native
+  reference, both migrated records reference that same `participating_capability_reference`.
+- **Each assignment references the native capability/entity appropriate to its own interaction
+  function, where Home Assistant exposes those capabilities independently.** Where the device's
+  microphone and speaker are instead separate native entities, the `voice_input` record references the
+  microphone entity and the `spoken_response_output` record references the speaker entity — both still
+  describing one integrated device, with no household-visible behavior change.
+- **The migration must not fabricate separate capability identities where the underlying Home Assistant
+  representation does not provide them.** If the existing data cannot distinguish the device's
+  microphone-capable reference from its speaker-capable reference, the same single native reference is
+  used for both migrated records rather than inventing a synthetic split.
+- **Any actual representational limitation discovered during executable implementation must be
+  documented rather than guessed around in this specification** — this document states the rule above
+  as the safe default; it does not anticipate every native Home Assistant device/entity shape in
+  advance.
 
 **This default applies only to data migration, never to new configuration.** A household configuring a
 Room for the first time under this specification answers the two Room Setup questions (§5) independently
@@ -312,42 +345,55 @@ Function Assignment, and the governed relationships in §4.
 
 ## 14. Acceptance scenarios (implementation-neutral)
 
-These restate the twelve testing requirements as scenarios a future implementation must satisfy. They
-are **not executable tests** — no test framework, test file, or code is introduced by this
-specification.
+These restate the twelve testing requirements as scenarios a future implementation must satisfy, plus
+one additional scenario (13) added by this specification's cardinality/capability remediation to
+demonstrate record-level multiplicity explicitly. They are **not executable tests** — no test
+framework, test file, or code is introduced by this specification.
 
-1. **Integrated device, both functions.** A Room configures one capability as both `voice_input` and
-   `spoken_response_output`. Both assignments resolve to the same `participating_capability_reference`.
+1. **Integrated device, both functions.** A Room configures one physical device as both `voice_input`
+   and `spoken_response_output`, via two atomic assignment records. Each record references the native
+   capability appropriate to its own function — the same combined reference where Home Assistant
+   exposes one, or the device's separate microphone/speaker entities where it exposes two — never a
+   fabricated capability identity.
 2. **Integrated device, input only; separate output device.** A Room configures Device A as
    `voice_input` only and Device B as `spoken_response_output`. Device A's speaker capability (if any)
    is never used for the response.
 3. **Dedicated input + separate output.** A Room configures a microphone-array capability as
    `voice_input` and an independent speaker/media capability as `spoken_response_output`, with no shared
    device.
-4. **Voice input, no spoken response.** A Room configures `voice_input` only; `spoken_response_output`
-   has zero participating records — a valid, non-error state.
-5. **Spoken response, no voice input.** A Room configures `spoken_response_output` only;
-   `voice_input` has zero participating records — a valid, non-error state.
+4. **Voice input, no spoken response.** A Room has zero `spoken_response_output` records and one or
+   more `voice_input` records — a valid, non-error state.
+5. **Spoken response, no voice input.** A Room has zero `voice_input` records and one or more
+   `spoken_response_output` records — a valid, non-error state.
 6. **Neither configured.** A Room has zero records for both functions — a valid, non-error state.
-7. **Assignment is not inferred from capability.** A capability exposing both microphone and speaker
-   capability, with only `voice_input` explicitly assigned, never resolves a `spoken_response_output`
-   assignment for that Room.
-8. **Configuration does not assert availability.** A configured `spoken_response_output` with its
+7. **Assignment is not inferred from capability, and each record is unambiguous.** A capability exposing
+   both microphone and speaker capability, with only a `voice_input` record created for it, never
+   resolves a `spoken_response_output` assignment for that Room. Each `RoomInteractionFunctionAssignment`
+   record names exactly one Room, one function, and one capability — never a list or a dual-function
+   record.
+8. **Configuration does not assert availability.** A configured `spoken_response_output` record with its
    underlying Home Assistant entity in an unavailable/unknown state still reads as "configured"; the
    availability question is answered by Truth/runtime mechanisms, not by the configuration record.
 9. **Merged Room validity.** A Merged Room (per **DL-67**/**DL-68**) carries `voice_input` and
-   `spoken_response_output` assignments exactly as a Physical Room does, with no second,
+   `spoken_response_output` records exactly as a Physical Room does, with no second,
    Merged-Room-specific schema.
 10. **Backward-compatible integrated configuration.** An existing "integrated voice assistant"
-    configuration, once represented under this model, continues to resolve both functions to the same
-    device with no household-visible behavior change (§13).
+    configuration, once represented under this model, continues to resolve both functions with no
+    household-visible behavior change (§13).
 11. **Concierge resolves without a hard-coded mapping.** Given a resolved Room Context, the configured
-    `spoken_response_output` is obtainable through the existing Room Configuration/experience-endpoint
-    lookup path, with no product-specific (for example, Sonos-specific) mapping logic inside Concierge.
+    `spoken_response_output` record(s) are obtainable through the existing Room Configuration/experience-
+    endpoint lookup path, with no product-specific (for example, Sonos-specific) mapping logic inside
+    Concierge.
 12. **No vendor or Reference Home identifiers in the core model.** The schema in §4, the Room Setup
     requirements in §5, and the Concierge consumption contract in §8 contain no room names, vendor
     names (reSpeaker, Seeed Studio, Sonos, ESPHome, Home Assistant Voice), entity IDs, device IDs, or
     network addresses.
+13. **Multiple assignments for one function are schema-valid.** A Room has two or more `voice_input`
+    records (for example, two microphones in a large room) or two or more `spoken_response_output`
+    records (for example, an output group). This is a valid, ordinary schema state. **No priority,
+    preferred-endpoint, fallback, or runtime fan-out behavior among the multiple records is specified,
+    implied, or required by this scenario** — only that the schema permits more than one record for the
+    same Room+function without alteration.
 
 ---
 
