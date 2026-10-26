@@ -54,7 +54,8 @@ Dispositions: **New** · **Keep** · **Revise** · **Supersede** · **Merge** ·
 | `adr-home-identity-and-home-intelligence-governance.md` | Active — subordinate | **New** — Recorded 2026-10-14, pending formal acceptance review at **Issue #191**, as **DL-84**, **DL-85**, and **DL-86**. Governance-only; no implementation, discovery mechanism, or technology stack authorized even if later accepted. Opens **OD-90**. Raised by the 2026-10 Home Identity and Home Intelligence Architecture Review (#191) |
 | `adr-stable-endpoint-identity-and-network-boundary-independence.md` | Active — subordinate | **New** — Recorded 2026-10, pending formal acceptance review at **Issue #195**, as **DL-87**, **DL-88**, and **DL-89**. Governance-only; no VLAN/firewall/DHCP/DNS/mDNS/wireless/switch/UniFi management or runtime endpoint-resolution implementation authorized even if later accepted. No OD identifier allocated. Raised by the 2026-10 Reference Home Network Segmentation and Stable Endpoint Identity Architecture Review (#195) |
 | `adr-decoupled-voice-interaction-capability-architecture.md` | Canonical ADR | **Accepted 2026-10-26** as **DL-90** and **DL-91** (Issue #198, formal acceptance review PASS). Governance-only; authorizes no implementation, vendor, STT/TTS engine, or technology stack. No OD identifier allocated. Refines (does not reopen) the still-pending **DL-88**'s `audio_output` term to `spoken_response_output`. Raised by the 2026-10 Decoupled Voice Interaction Capability Architecture Review (#198, closed) |
-| `foundation-room-interaction-roles-specification.md` | Active — subordinate | **New** — Implementation-readiness schema/contract specification operationalizing **DL-90**/**DL-91** for the Foundation Room Interaction Roles workstream. Specification only; authorizes no executable implementation, pending an authorized HTBW Core implementation surface per the greenfield mandate |
+| `foundation-room-interaction-roles-specification.md` | Active — subordinate | **New, Owner-Accepted** — Implementation-readiness schema/contract specification operationalizing **DL-90**/**DL-91** for the Foundation Room Interaction Roles workstream. Owner Acceptance Review PASS (2026-10-26, Issue #199, closed) after remediating one data-model cardinality issue (commit `7096a38`). Specification only; authorizes no executable implementation, pending an authorized HTBW Core implementation surface per the greenfield mandate |
+| `performance-aware-voice-processing-specification.md` | Active — subordinate | **New** — Implementation-readiness specification operationalizing **DL-91** for the Performance-Aware Voice Processing workstream (processing stages, processing classes, routing/escalation evidence contract, provider independence, Voice Identity/Continuity/Operational Trust/Truth/Concierge boundaries, privacy, degradation, performance metrics, observability, Home Intelligence escalation). **Pending owner acceptance review (Issue #200, open — AWAITING OWNER ACCEPTANCE REVIEW).** Specification only; authorizes no executable implementation, pending an authorized HTBW Core implementation surface per the greenfield mandate |
 | `htbw-framework-aligned-ux-and-information-architecture.md` | Active — subordinate | **New** — Documentation/UI-architecture direction only. Reconciles with the already-accepted Foundation/Truth/Stewardship/Continuity asset-responsibility split (`../models/asset.md`) and with **DL-51**/**DL-52**; corrects "migration"/"retirement" terminology to **Adoption**. Explicitly does not resolve **OD-85** (#172), **OD-81** (#159), or **OD-20** (#110); allocates no Decision Ledger entry |
 
 ---
@@ -396,23 +397,28 @@ formal acceptance review (2026-10-26)**, and `adr-decoupled-voice-interaction-ca
 is reclassified **Canonical ADR** accordingly — see the row above. **One further new document** was
 added by the resulting Foundation Room Interaction Roles implementation-readiness specification work,
 `foundation-room-interaction-roles-specification.md`, banner-marked **Active — subordinate** (a
-specification operationalizing accepted architecture, not itself constitutional). No file was deleted;
-the counts below reflect one reclassification (Active — subordinate → Canonical ADR, net zero to the
-Active — subordinate count) and one addition (the new specification document, +1 to both Active —
-subordinate and Total classified).
+specification operationalizing accepted architecture, not itself constitutional); **this document
+subsequently received its own Owner Acceptance Review PASS (2026-10-26, Issue #199, closed)** after one
+remediation, and remains classified **Active — subordinate** (a specification, not a constitutional
+document, regardless of its own acceptance). **One further new document** was added by the Performance-
+Aware Voice Processing implementation-readiness specification work, `performance-aware-voice-processing-specification.md`,
+also banner-marked **Active — subordinate**, **pending its own owner acceptance review (Issue #200,
+open)**. No file was deleted; the counts below reflect one reclassification (Active — subordinate →
+Canonical ADR, net zero to the Active — subordinate count) and two additions (the two new specification
+documents, +2 to both Active — subordinate and Total classified).
 
 | Category | Count |
 |---|---|
 | New canonical documents | 57 |
 | Revised in place | 2 (`README.md`, `concierge-contract.md`) |
 | **Canonical total** (57 new + 2 revised) | **59** |
-| Marked Active — subordinate | 25 |
+| Marked Active — subordinate | 26 |
 | Marked Historical — superseded | 83 |
 | Marked Historical illustration (`examples/`) | 16 |
 | Marked Historical — planning/closure record | 2 |
 | **Historical total** | **101** |
 | Operational | 7 |
-| **Total classified** | **192** |
+| **Total classified** | **193** |
 | **Unclassified** | **0** |
 | **Deleted** | **0** |
 

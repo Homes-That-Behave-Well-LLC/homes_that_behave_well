@@ -404,10 +404,11 @@ framework, test file, or code is introduced by this specification.
 
 ## 15. Deferred work
 
-**Deferred to the Performance-Aware Voice Processing workstream** (not opened as an issue, not
-implemented, per the governing execution instructions for this specification): STT-provider selection
-and routing, automatic pipeline fallback, Home Intelligence/Ollama escalation routing, latency-based
-processing-path selection, latency instrumentation, and the fast-deterministic-path mechanism.
+**Deferred to the Performance-Aware Voice Processing workstream** (now specified, not implemented, in
+[performance-aware-voice-processing-specification.md](performance-aware-voice-processing-specification.md),
+Issue #200, pending owner acceptance): STT-provider selection and routing, automatic pipeline fallback,
+Home Intelligence/Ollama escalation routing, latency-based processing-path selection, latency
+instrumentation, and the fast-deterministic-path mechanism.
 
 **Deferred pending an authorized HTBW Core implementation surface**: all executable code — the actual
 Foundation Room Setup UI/flow changes, the actual Room Configuration persistence changes, and the actual
@@ -460,3 +461,4 @@ but does not perform it.
 - [../models/room-configuration.md](../models/room-configuration.md)
 - [../models/glossary.md](../models/glossary.md)
 - [../governance/decision-ledger.md](../governance/decision-ledger.md)
+- [performance-aware-voice-processing-specification.md](performance-aware-voice-processing-specification.md) — the sibling Performance-Aware Voice Processing workstream (Issue #200, pending owner acceptance)

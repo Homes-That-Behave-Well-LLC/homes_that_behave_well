@@ -362,6 +362,8 @@ degradation mechanics; routing/fallback investigation.
 | **DL-88** (pending, #195 — room-interaction-capability relationships) | **Refined before acceptance**, not reopened after it. The generic "audio_output" bullet is replaced by this ADR's precise `spoken_response_output` term for the voice-interaction case; DL-88's other three relationships are unaffected. |
 | **#146** (Home Assistant native capability verification backlog) | **Unaffected.** No new item added by this ADR. |
 | **#198** (this governance review) | Tracks this ADR's formal acceptance. |
+| [foundation-room-interaction-roles-specification.md](foundation-room-interaction-roles-specification.md) (#199, accepted) | Operationalizes the Workstream A follow-on identified below. |
+| [performance-aware-voice-processing-specification.md](performance-aware-voice-processing-specification.md) (#200) | Operationalizes the Workstream B follow-on identified below. |
 
 ---
 
