@@ -3748,9 +3748,14 @@ DL-91 are accordingly accepted, binding decisions, equivalent in standing to DL-
 unaffected by this acceptance** — this acceptance covers DL-90/DL-91 only. The Foundation Room
 Interaction Roles workstream subsequently produced an implementation-ready schema/contract
 specification (not executable code), recorded in
-[../architecture/foundation-room-interaction-roles-specification.md](../architecture/foundation-room-interaction-roles-specification.md);
-executable implementation remains deferred until an authorized HTBW Core implementation surface
-exists, per that document's own status section.
+[../architecture/foundation-room-interaction-roles-specification.md](../architecture/foundation-room-interaction-roles-specification.md)
+and tracked at **Issue #199**. That specification's own first owner acceptance review identified one
+data-model issue (`RoomInteractionFunctionAssignment` cardinality/capability ambiguity), remediated in
+commit `7096a38` (atomic per-record cardinality; corrected device-vs-capability migration wording;
+acceptance scenarios 1, 7, 9, 10, 11 revised, scenario 13 added), after which a second owner acceptance
+review (2026-10-26) returned **PASS** and **#199 is closed**. Executable implementation remains
+deferred until an authorized HTBW Core implementation surface exists, per that specification's own
+status section — this specification-level acceptance does not authorize or begin implementation.
 
 ---
 
