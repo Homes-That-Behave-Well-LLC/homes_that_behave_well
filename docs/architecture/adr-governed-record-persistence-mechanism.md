@@ -1,18 +1,22 @@
 # ADR: Governed Record Persistence Mechanism
 
-> **Document status: Active — subordinate to the HTBW canonical architecture.**
+> **Document status: Canonical ADR.**
+> Status: **Accepted** 2026-10-27. Records **DL-92** (issue **#76**, formal acceptance review PASS,
+> following bounded reference and terminology corrections made during the review).
 > Canonical authority: [framework.md](framework.md), [adr-temporal-record-model.md](adr-temporal-record-model.md),
 > and [../models/glossary.md](../models/glossary.md).
-> Where this document conflicts with canonical authority, canonical authority prevails.
-> Drafts decision **DL-92**, recorded pending formal acceptance review at **Issue #76**.
-> **Not yet authoritative. Creates no new responsibility.**
 > Terminology: [../models/glossary.md](../models/glossary.md).
 
 ---
 
 ## Status
 
-**Recorded, pending formal acceptance review (Issue #76). Not yet authoritative.**
+**Accepted 2026-10-27.** Formal acceptance review on Issue #76 returned **PASS**. Bounded reference and
+terminology corrections were made both during the preceding reconciliation (commit `870d193`) and
+during the acceptance review itself (Snapshot-authority wording; a residual Decision-Trace-scope
+overreach in this ADR, the decision ledger's DL-92 row, and `connected-storage.md`; the config-entry
+reload/re-add claim hedged as a reasoned inference, not a tested platform guarantee) — the proposed
+mechanism itself is unchanged by any of these corrections.
 
 Resolves the persistence-mechanism residual of **OD-01**, left open by
 [adr-temporal-record-model.md](adr-temporal-record-model.md) ("Deliberately not decided... identifier
@@ -28,6 +32,12 @@ re-researched. This ADR makes only the **architectural choice** those facts leav
 
 This ADR creates **no new responsibility**. The seven responsibilities recorded in **DL-01** are
 unchanged, and no central History, Memory, Persistence, or Repository responsibility is created.
+
+**This acceptance closes OD-01's own persistence-mechanism scope. It does not complete the broader
+Explainability/Decision Trace persistence chain**: Decision Trace's own mechanism remains **OD-29**
+(#79); Snapshot triggers/cadence/scope remain **OD-37** (#83); communication persistence remains
+**OD-42** (#112); native behaviour observation remains **OD-64** (#129) — none of these is decided,
+narrowed, or reopened by this acceptance.
 
 ---
 
@@ -109,18 +119,28 @@ automatic consequence of this entry.
 
 ### Snapshot
 
-**Mechanism: the same mechanism currently holding the Change Records it summarizes, for the same owning
-responsibility.**
+**Mechanism: the Home Assistant Storage helper is the canonical, default persistence mechanism for
+every Snapshot — the same mechanism currently holding the Change Records it summarizes, for the same
+owning responsibility.** Connected Storage becomes a Snapshot's storage location **only** where that
+specific responsibility has explicitly configured External History Retention for its Change Records
+(**DL-42**); absent that explicit per-responsibility configuration, every Snapshot remains on the
+Storage helper, same as every other record class. **Configuring Connected Storage for Change Records
+does not, by itself, make Connected Storage canonical for Snapshots in general** — it co-locates one
+responsibility's own Snapshots with the specific Change Records they summarize, because a Snapshot
+"is retained no longer than the records it summarises" (**DL-47**) and must never outlive, nor be
+separated from, the history it accelerates. This is a *consequence* of DL-47's already-accepted
+retention rule, not an independent grant of canonical authority to Connected Storage.
 
-A Snapshot "is retained no longer than the records it summarises" (**DL-47**) and must never become an
-independent source of truth (`temporal-record.md`). A Snapshot's storage location is therefore not an
-independent choice: it must co-locate with, and share the lifecycle of, the history it accelerates. If a
-responsibility's Change Records move to Connected Storage under External History Retention, that
-responsibility's Snapshots move with them; Current Projections are never affected, because Snapshots
-never substitute for them. **The Storage helper (or Connected Storage, where configured) supplies only
-the persistence mechanics — a file, a write, a migration path.** Snapshot *semantics* — what triggers
-one, its cadence, and its scope — remain entirely HTBW's own and are **OD-37**'s question (#83), wholly
-independent of which mechanism this ADR selects.
+**The Storage helper (or Connected Storage, where that one responsibility's extension applies) supplies
+only the persistence mechanics — a file, a write, a migration path.** Everything else about a Snapshot
+is HTBW's own, never the mechanism's: **identity** (which exact record versions it identifies),
+**content** (what it includes), **its reconstruction role** (an accelerator, never an independent
+source of truth — `temporal-record.md`), **lifecycle** (created, retained, superseded), **retention
+metadata**, and **hold behavior**. **Snapshot semantics — what triggers one, its cadence, and its
+scope — remain entirely HTBW's own and are OD-37's question (#83)**, wholly independent of which
+mechanism this ADR selects or which responsibility has configured the DL-42 extension. Current
+Projections are never affected by a Change Record/Snapshot move to Connected Storage, because
+Snapshots never substitute for them.
 
 ---
 
@@ -251,13 +271,16 @@ explainability as a non-negotiable constraint independent of mechanism.
 Recorder purges by a configured, often short, retention window, and Assist Debug and automation/script
 traces are capped at a small number of recent runs (Issue #146, items 1, 6). The Storage helper, by
 contrast, has **no native TTL and no forced purge** — HTBW's own code governs its retention entirely.
-A Change Record, Decision Trace, or Snapshot held in a Storage-helper file therefore **outlives native
-Recorder/Assist-Debug/trace retention by construction**, which is exactly what
-[why-did-this-happen.md](../scenarios/why-did-this-happen.md) Scenario 60 ("a native event referenced
-by an old Decision Trace has expired") requires: the trace remains valid, and the accepted Fact it
-referenced — not a copy of the expired native row — carries what was material. This ADR's mechanism
-choice is what makes that scenario's "no longer retained, never never existed" rule implementable
-without a second Recorder.
+A Change Record or Snapshot held in a Storage-helper file under this ADR's decision — or a Decision
+Trace, if and when **#79/OD-29** separately adopts the same mechanism, which this ADR neither requires
+nor decides — therefore **outlives native Recorder/Assist-Debug/trace retention by construction**, which
+is exactly what [why-did-this-happen.md](../scenarios/why-did-this-happen.md) Scenario 60 ("a native
+event referenced by an old Decision Trace has expired") illustrates as the general principle: the trace
+remains valid, and the accepted Fact it referenced — not a copy of the expired native row — carries what
+was material. **This ADR supplies the persistence foundation this principle depends on for the three
+record classes it owns; it does not itself complete the Decision Trace persistence question, and
+historical Explainability is not fully implementation-ready merely because this ADR is accepted** — #79
+(OD-29), #83 (OD-37), #85 (OD-39), #82 (OD-36), #84 (OD-38), and #129 (OD-64) remain open.
 
 **Why Connected Storage is not required for this invariant to hold.** Scenario 22 ("No Connected
 Storage is configured") already establishes that explanations, Truth, and native history "all operate
@@ -286,7 +309,7 @@ settled by [decision-trace.md](../models/decision-trace.md) and
 | **DL-42**, **DL-44**, **DL-45**, **DL-47** (accepted, OD-02/OD-03/OD-34 closures) | Reused, not reopened. This ADR applies the already-accepted ownership, namespace, parent-removal, and retention-declaration rules to the mechanism chosen here; it narrows no prior closure |
 | **DL-46** (native activity vs. governed meaning) | Reused, restated explicitly as the no-second-Recorder rule above |
 | **Issue #146** (item 1, continued) | Platform-evidence input to this ADR; not re-researched or redecided here |
-| **OD-01** (#76) | Resolved by this ADR's **DL-92**, pending #76's own formal acceptance review |
+| **OD-01** (#76) | **Closed** by this ADR's **DL-92** (accepted 2026-10-27, formal acceptance review PASS) |
 | **OD-05** (#77), **OD-26** (#125), **OD-49** (#118) | Unaffected. Retention *values* remain theirs; this ADR confirms only that the mechanism can express whatever value they set |
 | **OD-36** (#82), **OD-39** (#85) | Unaffected. Deletion/preservation reconciliation and Preservation Hold authority/governance remain theirs; this ADR confirms only that the mechanism can honor whatever they decide |
 | **OD-38** (identifier/correlation strategy) | Unaffected and not decided here; see Migration principle above |
@@ -314,8 +337,8 @@ settled by [decision-trace.md](../models/decision-trace.md) and
 - Does not make Connected Storage a mandatory dependency for any record class.
 - Does not reopen **DL-26**, **DL-27**, **DL-30**, **DL-31**, **DL-41**, **DL-42**, **DL-44**, **DL-45**,
   **DL-46**, or **DL-47**.
-- **This entry is drafted content, not yet a closed decision; it must not be cited as equivalent to
-  DL-01–DL-91 until #76's formal acceptance review records a result.**
+- **Accepted 2026-10-27 (Issue #76, formal acceptance review PASS). DL-92 is a closed, binding decision,
+  equivalent in standing to DL-01–DL-91.**
 
 ---
 

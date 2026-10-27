@@ -57,7 +57,7 @@ Dispositions: **New** · **Keep** · **Revise** · **Supersede** · **Merge** ·
 | `foundation-room-interaction-roles-specification.md` | Active — subordinate | **Owner-Accepted** (original material) — Implementation-readiness schema/contract specification operationalizing **DL-90**/**DL-91** for the Foundation Room Interaction Roles workstream. Owner Acceptance Review PASS (2026-10-26, Issue #199, closed) after remediating one data-model cardinality issue (commit `7096a38`). **Extended 2026-10-27 by Issue #196** to generalize the model to DL-88's `interface`/`physical_remote` roles and to resolve DL-87's implementation mechanics for this workstream (§18); **the #196 extension's own Owner Acceptance Review PASS (2026-10-27, Issue #196, closed), no remediation required.** Neither acceptance reopens the other, nor DL-87, DL-88, DL-90, or DL-91. Specification only; authorizes no executable implementation, pending an authorized HTBW Core implementation surface per the greenfield mandate |
 | `performance-aware-voice-processing-specification.md` | Active — subordinate | **New** — Implementation-readiness specification operationalizing **DL-91** for the Performance-Aware Voice Processing workstream (processing stages, processing classes, routing/escalation evidence contract, provider independence, Voice Identity/Continuity/Operational Trust/Truth/Concierge boundaries, privacy, degradation, performance metrics, observability, Home Intelligence escalation). **Pending owner acceptance review (Issue #200, open — AWAITING OWNER ACCEPTANCE REVIEW).** Specification only; authorizes no executable implementation, pending an authorized HTBW Core implementation surface per the greenfield mandate |
 | `htbw-framework-aligned-ux-and-information-architecture.md` | Active — subordinate | **New** — Documentation/UI-architecture direction only. Reconciles with the already-accepted Foundation/Truth/Stewardship/Continuity asset-responsibility split (`../models/asset.md`) and with **DL-51**/**DL-52**; corrects "migration"/"retirement" terminology to **Adoption**. Explicitly does not resolve **OD-85** (#172), **OD-81** (#159), or **OD-20** (#110); allocates no Decision Ledger entry |
-| `adr-governed-record-persistence-mechanism.md` | Active — subordinate | **New** — Drafts **DL-92**, recorded pending formal acceptance review at **Issue #76**. Resolves **OD-01**'s persistence-mechanism residual: Storage helper is the default mechanism for Current Projection, Change Record, and Snapshot; Connected Storage participates only as the already-accepted **DL-42** External History Retention extension (Change Records only, never Current Projections); distinguishes config-entry removal from governed-record deletion authority; restates no-second-Recorder (**DL-46**); defers **OD-05**, **OD-26**, **OD-36**, **OD-38**, **OD-39**, **OD-49**. Not yet authoritative. Creates no new responsibility |
+| `adr-governed-record-persistence-mechanism.md` | Canonical ADR | **Accepted 2026-10-27** as **DL-92** (Issue #76, formal acceptance review PASS, following bounded reference/terminology corrections). Resolves **OD-01**'s persistence-mechanism residual, closing **OD-01** (DL-31, DL-92): Storage helper is the default mechanism for Current Projection, Change Record, and Snapshot; Connected Storage participates only as the already-accepted **DL-42** External History Retention extension (Change Records only, never Current Projections); distinguishes config-entry removal from governed-record deletion authority; restates no-second-Recorder (**DL-46**); defers **OD-05**, **OD-26**, **OD-29**, **OD-36**, **OD-37**, **OD-38**, **OD-39**, **OD-42**, **OD-49**, **OD-64**. Raised by the Issue #76 governed-record persistence review (#76, closed) |
 
 ---
 
@@ -420,12 +420,18 @@ drafting **DL-92** pending formal acceptance review at **Issue #76** (**OD-01**'
 residual). Banner-marked **Active — subordinate** (drafted, not yet constitutional). The counts below
 reflect this one addition (+1 to both Active — subordinate and Total classified).
 
+**Updated 2026-10-27 (continued), Issue #76 formal acceptance review PASS**:
+`adr-governed-record-persistence-mechanism.md` is reclassified **Canonical ADR**, accepted as **DL-92**,
+closing **OD-01** (DL-31, DL-92). The counts below reflect one reclassification (Active — subordinate
+→ Canonical ADR, net zero to Total classified; −1 to Active — subordinate, +1 to new canonical
+documents and Canonical total).
+
 | Category | Count |
 |---|---|
-| New canonical documents | 58 |
+| New canonical documents | 59 |
 | Revised in place | 2 (`README.md`, `concierge-contract.md`) |
-| **Canonical total** (58 new + 2 revised) | **60** |
-| Marked Active — subordinate | 26 |
+| **Canonical total** (59 new + 2 revised) | **61** |
+| Marked Active — subordinate | 25 |
 | Marked Historical — superseded | 83 |
 | Marked Historical illustration (`examples/`) | 16 |
 | Marked Historical — planning/closure record | 2 |

@@ -773,7 +773,7 @@ recorded the wrong thing.
 
 | ID | Question |
 |---|---|
-| OD-01 | Home Assistant representation strategy, including the persistence shape of Change Records, Snapshots, and Current Projections. **Persistence mechanism now drafted as DL-92** (Storage helper, per-responsibility; Connected Storage as the optional External History Retention extension only) — see [adr-governed-record-persistence-mechanism.md](../architecture/adr-governed-record-persistence-mechanism.md), pending formal acceptance review at **#76** |
+| OD-01 | **Closed — DL-31, DL-92.** Home Assistant representation strategy is **DL-31**; the persistence-mechanism residual (Current Projection, Change Record, Snapshot) is **DL-92** — Storage helper default, Connected Storage optional via the **DL-42** External History Retention extension for Change Records only. Accepted 2026-10-27, Issue #76, formal acceptance review PASS. See [adr-governed-record-persistence-mechanism.md](../architecture/adr-governed-record-persistence-mechanism.md). Decision Trace's own mechanism remains **OD-29**; Snapshot triggers/cadence/scope remain **OD-37** |
 | OD-35 | Historical query surface and access |
 | OD-36 | Reconciliation of deletion and export obligations with retention floors and Preservation Holds |
 | OD-37 | Snapshot triggers, cadence, and scope per responsibility |

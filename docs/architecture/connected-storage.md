@@ -649,9 +649,14 @@ deployment** unless HTBW records an explicit unmet requirement, which it current
 
 The persistence **model** for Change Records, Snapshots, Historical Facts, and Decision Traces is
 settled by **DL-42**, **DL-44**, **DL-46**, and **DL-47**; **OD-34 is closed**. The remaining
-**representation mechanism** is the residual of **OD-01**, and the identifier strategy is **OD-38**.
-Neither is resolved here. Communication object persistence is **OD-42**, and communication retention
-floors and ceilings are **OD-49**. Neither is resolved here.
+**representation mechanism** for Current Projections, Change Records, and Snapshots (including
+Historical Facts, which Truth expresses through those same three record kinds) was the residual of
+**OD-01**, resolved as **DL-92** (accepted 2026-10-27, Issue #76, formal acceptance review PASS; **OD-01
+is closed**). **Decision Trace's own representation mechanism is a separate residual, owned by OD-29
+(#79)**, whose stated options include the Home Assistant Logbook, Connected Storage, or both —
+OD-01/DL-92 did not decide it and does not foreclose it. The identifier strategy is **OD-38**. Neither
+OD-29 nor OD-38 is resolved here. Communication object persistence is **OD-42**, and communication
+retention floors and ceilings are **OD-49**. Neither is resolved here.
 
 **Update (2026-10-06, Issue #146 verification pass).** The `Store` helper mechanism itself is now
 **partially verified against `home-assistant/core` source** — see
@@ -679,9 +684,10 @@ and the evidence-linking comment on **#76**. **This fully discharges item 1's Ho
 sub-questions for OD-01.** The residual that remains is architectural judgment, not missing platform
 evidence — resident-versus-automation attribution, an absent-value state, provenance/version identity,
 declared retention, and policy governance, none of which the Store mechanism or native Backup supply.
-**That architectural residual is now drafted as DL-92**
-([adr-governed-record-persistence-mechanism.md](adr-governed-record-persistence-mechanism.md)), pending
-formal acceptance review at **#76** — not yet a closed decision.
+**That architectural residual was drafted as DL-92**
+([adr-governed-record-persistence-mechanism.md](adr-governed-record-persistence-mechanism.md)) and has
+since been **accepted 2026-10-27 (Issue #76, formal acceptance review PASS); OD-01 is closed as
+DL-31/DL-92.**
 
 **The artifact declarations above are a requirement, not a schema.** Requiring every artifact to
 state its class, owner, parent, lifecycle, interaction model, and cleanup behaviour decides nothing

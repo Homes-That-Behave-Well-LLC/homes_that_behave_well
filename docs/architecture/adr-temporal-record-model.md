@@ -341,11 +341,11 @@ established — see
 [home-assistant-boundary.md, "Storage helper mechanism (item 1)"](home-assistant-boundary.md#storage-helper-mechanism-item-1-2026-10-06)
 and
 ["...continued"](home-assistant-boundary.md#storage-helper--backup-coverage-and-removability-item-1-continued--verified_supported--verified_negative).
-**OD-01's persistence-mechanism residual is now drafted as DL-92**
-([adr-governed-record-persistence-mechanism.md](adr-governed-record-persistence-mechanism.md)), pending
-formal acceptance review at **#76** — this update does not itself close OD-01 or accept DL-92; it
-corrects this ADR's own 2026-08-20 "not verified" finding, which is retained above as the historical
-record of what was known when this ADR was written.
+**OD-01's persistence-mechanism residual was drafted as DL-92**
+([adr-governed-record-persistence-mechanism.md](adr-governed-record-persistence-mechanism.md)) and has
+since been **accepted 2026-10-27 (Issue #76, formal acceptance review PASS); OD-01 is closed as
+DL-31/DL-92** — this corrects this ADR's own 2026-08-20 "not verified" finding, which is retained above
+as the historical record of what was known when this ADR was written.
 
 ### Capabilities found
 
@@ -434,7 +434,7 @@ None is closed by this ADR.
 | **OD-34** | **Closed — DL-42, DL-44, DL-46, DL-47.** The temporal-persistence model is complete; the representation mechanism is the residual of **OD-01** |
 | **OD-35** | Historical query surface and access |
 | **OD-36** | Reconciliation of deletion and export obligations with retention floors and Preservation Holds |
-| **OD-01** *(amended)* | Now includes the persistence shape of Change Records, Snapshots, and Current Projections. **Mechanism drafted as DL-92, pending formal acceptance review at #76** — see [adr-governed-record-persistence-mechanism.md](adr-governed-record-persistence-mechanism.md) |
+| **OD-01** | **Closed — DL-31, DL-92** (accepted 2026-10-27, Issue #76, formal acceptance review PASS). Representation strategy is **DL-31**; the persistence-mechanism residual (Current Projection, Change Record, Snapshot) is **DL-92** — see [adr-governed-record-persistence-mechanism.md](adr-governed-record-persistence-mechanism.md). Decision Trace's own mechanism remains **OD-29**; Snapshot triggers/cadence/scope remain **OD-37** |
 | **OD-29** *(amended)* | Now includes purge exemption and Governed Reference resolvability |
 
 ### On OD-41
