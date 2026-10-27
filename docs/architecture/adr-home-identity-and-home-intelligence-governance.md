@@ -32,7 +32,7 @@ provisioned by this ADR.
 This ADR creates **no new responsibility**. The seven responsibilities recorded in **DL-01** —
 Foundation, Stewardship, Identity, Truth, Continuity, Operational Trust, Concierge — are unchanged.
 **OD-67** (Reasoning Provider Strategy) is unchanged; its own persistence/provider-strategy question is
-drafted separately as **DL-93** (pending #132). **OD-77** (Person-to-External-
+**accepted separately as DL-93** (Issue #132, formal acceptance review PASS, 2026-10-27). **OD-77** (Person-to-External-
 Resource Association Ownership), **OD-20** (Optional Asset Intelligence Product Integration), **OD-81**
 (HTBW Capability Exposure and Self-Consumption), **OD-82** (HTBW Product Consolidation and
 Retirement), **OD-85** (Adoption Scope, Artifact Custody, and Coexistence Behaviour), **OD-90**
@@ -337,7 +337,8 @@ Asset Intelligence" clause and decides nothing new about it.
 ## Decision 3 — Home Intelligence as an Optional Product/Deployment Boundary (DL-86)
 
 **Home Intelligence** is named as the optional, separately deployable product/deployment boundary that
-may host and implement the **DL-81** Household Knowledge Provider pipeline and a **OD-67** (#132)
+may host and implement the **DL-81** Household Knowledge Provider pipeline and an **accepted DL-93**
+(**OD-67**, closed, #132)
 Reasoning Provider. This decision is analogous to, and reuses the pattern of, the standalone Asset
 Intelligence product boundary already accepted in **DL-08** and narrowed in **OD-20** (#110): a
 responsibility or capability may be first-class or architecturally defined inside HTBW while the

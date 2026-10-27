@@ -604,8 +604,8 @@ an AI/vector datastore.** Reuses existing Operational Trust disclosure evaluatio
 **Home Intelligence**
 **Accepted 2026-10-14 (Issue #191, formal acceptance review PASS).** (**DL-86**) The optional,
 separately deployable product/deployment boundary that may host the **Household
-Knowledge Provider** pipeline (**DL-81**, still drafted pending #188) and a Reasoning Provider
-(**OD-67**, drafted **DL-93**, pending #132). Analogous to the
+Knowledge Provider** pipeline (**DL-81**, still drafted pending #188) and a **Reasoning Provider**
+(**accepted DL-93**, **OD-67** closed, Issue #132). Analogous to the
 already-accepted standalone Asset Intelligence product boundary (**DL-08**, narrowed by **OD-20**): it
 may have its own repository, lifecycle, failure domain, installable package, and versioned API
 boundary, but **no HTBW Core capability may require it to be installed**, and its absence is a
@@ -630,7 +630,7 @@ eventually be one capability a future Home Steward product consumes, an architec
 products use, or related in another future-governed way, once DL-81 itself is formally accepted and a
 separate product decision is made. **Issue #188 is a governance-review record, not architecture
 authority and not an Open Decision; it has no standing to assign Home Steward's product ownership, and
-this entry does not claim that it does.** **DL-93** (OD-67, drafted, pending #132) states only that
+this entry does not claim that it does.** **DL-93** (OD-67, accepted 2026-10-27, Issue #132) states only that
 General Reasoning and Home Steward are independent, Person-scoped-authorized capabilities, and that
 neither is a fallback for the other; it does not name, define, accept, or own the Home Steward
 product, and does not decide its relationship to the Household Knowledge Provider. **No existing issue
@@ -1632,16 +1632,21 @@ policies are satisfied.
 An external or local model consulted to improve wording, summarisation, or presentation. **A
 reasoning provider owns nothing**: not facts, not authority, not the reasoning of record. Its output
 never silently becomes a Fact, and its recommendation never silently becomes an authorised action.
-Strategy is **OD-67**, drafted as **DL-93** (pending **#132**); not yet authoritative.
+Strategy is **accepted DL-93** (**OD-67**, closed; Issue #132, formal acceptance review PASS).
 
 **General Reasoning**
-**Drafted, pending formal acceptance review (Issue #132); not yet authoritative.** The proposed
+**Accepted 2026-10-27 (Issue #132, formal acceptance review PASS).** The
 (**DL-93**) capability served by a configured **Reasoning Provider**: general knowledge questions,
 conversational wording, summarisation, natural-language interpretation, and reasoning over explicitly
-authorized supplied context. Configured at Integration, Room, and Person scope; a Person's own **Allow
-General Questions** authorization, where sufficiently resolved, prevails over the Room's. **Separate
-from Home Intelligence** — neither implies the other's availability, and Home Intelligence is never a
-General Reasoning fallback. ADR:
+authorized supplied context. **Configured at Integration and Person scope only — there is no Room
+scope for General Reasoning authorization or provider assignment.** Every evaluation resolves to exactly
+one effective Person (the resolved household Person, otherwise the household's designated Guest
+fallback Person Extension — **DL-71** — otherwise the **DL-33** unidentified-person policy); that
+Person's own **Allow General Questions** authorization is evaluated before provider resolution, with
+**no Room involvement and no Person-versus-Room precedence**. **Separate from Home Intelligence** —
+neither implies the other's availability, and Home Intelligence is never a General Reasoning fallback.
+**Separate from Home Steward** — a second, independent Person-scoped capability gate (Allow Home
+Steward); denial of one never affects the other. ADR:
 [../architecture/adr-reasoning-provider-strategy.md](../architecture/adr-reasoning-provider-strategy.md)
 
 ---

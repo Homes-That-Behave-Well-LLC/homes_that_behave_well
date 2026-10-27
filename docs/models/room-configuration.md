@@ -346,7 +346,7 @@ authorised to use or to know exists.
 **Room Help lists authoritative vocabulary terms only.** Derived recognition forms improve
 understanding; they are not separately advertised capabilities, and Room Help does not enumerate them.
 
-### General Reasoning and Home Steward authorization are not Room capabilities (drafted, DL-93, pending #132)
+### General Reasoning and Home Steward authorization are not Room capabilities (accepted, DL-93, Issue #132)
 
 **Allow General Questions** and **Allow Home Steward** are **Person-scoped authorization settings,
 never Room-scoped.** A Room is not an authorization owner for General Reasoning or Home Steward, and

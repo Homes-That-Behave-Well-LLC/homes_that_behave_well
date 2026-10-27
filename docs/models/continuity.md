@@ -67,9 +67,9 @@ restoration moves into Stewardship**, and no care obligation moves into Continui
   [person-profile-model.md](person-profile-model.md) and
   [../contracts/service-contracts.md](../contracts/service-contracts.md), **both Historical and
   superseded**, and neither is authority. **Whether a person-scoped preference may name or steer a
-  reasoning provider is resolved, drafted pending #132: it does not.** The explicit Person
+  reasoning provider is resolved: it does not.** The explicit Person
   Reasoning-provider assignment, the **Allow General Questions** authorization, and the **Allow Home
-  Steward** authorization (**OD-67**, drafted **DL-93**) are canonical for provider assignment and
+  Steward** authorization (**OD-67**, accepted **DL-93**, Issue #132) are canonical for provider assignment and
   capability authorization, made through Person Configuration, never through a Continuity preference;
   Continuity's preferred delivery/presentation preference governs wording and delivery form only, and
   is never a second configuration authority for either capability gate. **The scope at which a

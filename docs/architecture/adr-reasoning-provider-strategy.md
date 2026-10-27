@@ -1,17 +1,24 @@
 # ADR: Reasoning Provider Strategy
 
-> **Document status: Active — subordinate to the HTBW canonical architecture.**
+> **Document status: Canonical ADR.**
+> Status: **Accepted** 2026-10-27. Records **DL-93** (issue **#132**, formal acceptance review PASS,
+> following bounded stale-reference corrections made during the review).
 > Canonical authority: [framework.md](framework.md) and [../models/glossary.md](../models/glossary.md).
 > Where this document conflicts with canonical authority, canonical authority prevails.
-> Drafts decision **DL-93**, recorded pending formal acceptance review at **Issue #132**.
-> **Not yet authoritative. Creates no new responsibility.**
+> Resolves **OD-67**.
 > Terminology: [../models/glossary.md](../models/glossary.md).
 
 ---
 
 ## Status
 
-**Recorded, pending formal acceptance review (Issue #132). Not yet authoritative.**
+**Accepted 2026-10-27.** Formal acceptance review on Issue #132 returned **PASS**. Bounded
+stale-reference corrections were made during the acceptance review itself (an ambiguous "separately-owned"
+characterization of the proposed Home Steward product term in this ADR's own Status section; a stale
+"General Reasoning" glossary entry still describing the pre-remediation Room-scope/Person-versus-Room
+precedence model; two stale "drafted as DL-93, pending #132" references in
+`home-assistant-boundary.md`'s representation table) — the decision itself is unchanged by any of these
+corrections.
 
 Resolves **OD-67**: which classes of Reasoning provider HTBW may use, for which purposes, under which
 governance. No provider, vendor, model, or technology stack is selected here, and no provider
@@ -39,8 +46,8 @@ not yet been propagated into this repository's governance documents when the ori
 written; see *Notes on the 2026-10 Home Identity and Home Intelligence Architecture Review* in
 [decision-ledger.md](../governance/decision-ledger.md). This ADR does not decide, narrow, or redefine
 **DL-86** or any Home Intelligence boundary; it confirms only that General Reasoning, Home Intelligence
-(an optional deployment/hosting boundary — **DL-86**), and Home Steward (a tentative, separately-owned
-product name — see below) are three distinct concepts that must not be collapsed.
+(an optional deployment/hosting boundary — **DL-86**), and Home Steward (a tentative, proposed product
+name whose ownership is undecided — see below) are three distinct concepts that must not be collapsed.
 
 ---
 
@@ -512,8 +519,8 @@ abstraction, API, or transport is selected or designed by this ADR.
 - Does not create a new artifact/record class for Explainability provenance.
 - Does not reopen **DL-30**, **DL-33**, **DL-34**, **DL-39**, **DL-41**, **DL-43**, **DL-46**, **DL-56**,
   **DL-66**, **DL-71**, **DL-73**, or **DL-84**.
-- **This entry is drafted content, not yet a closed decision; it must not be cited as equivalent to
-  DL-01–DL-92 until #132's formal acceptance review records a result.**
+- **Accepted 2026-10-27 (Issue #132, formal acceptance review PASS). DL-93 is a closed, binding
+  decision, equivalent in standing to DL-01–DL-92.**
 
 ---
 

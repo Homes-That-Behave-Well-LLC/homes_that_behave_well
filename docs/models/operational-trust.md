@@ -1001,10 +1001,10 @@ the phrasing of the question:
 - A general answer must not expose resident-specific data
 - The provider owns no identity, permission, Truth, or household authority, and must never infer or create one
 
-The provider remains replaceable. Provider strategy is **OD-67**, drafted as **DL-93** (pending
-**#132**), summarized below; not yet authoritative.
+The provider remains replaceable. Provider strategy is **accepted DL-93** (**OD-67**, closed, Issue
+#132), summarized below.
 
-### Allow General Questions and Allow Home Steward (drafted, DL-93, pending #132)
+### Allow General Questions and Allow Home Steward (accepted, DL-93, Issue #132)
 
 **Allow General Questions** and **Allow Home Steward** are two **independent** Person-scoped
 authorization settings, owned by Operational Trust under **DL-39** wherever they are surfaced in
