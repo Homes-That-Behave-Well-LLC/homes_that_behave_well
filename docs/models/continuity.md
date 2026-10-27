@@ -66,9 +66,13 @@ restoration moves into Stewardship**, and no care obligation moves into Continui
   canonical document.** The only enumerations that exist are in
   [person-profile-model.md](person-profile-model.md) and
   [../contracts/service-contracts.md](../contracts/service-contracts.md), **both Historical and
-  superseded**, and neither is authority. Whether a person-scoped preference may name or steer a
-  reasoning provider is **OD-67**, and **the scope at which a presentation preference may exist, and
-  what takes precedence when a Room persona and a person preference disagree, is OD-79**
+  superseded**, and neither is authority. **Whether a person-scoped preference may name or steer a
+  reasoning provider is resolved, drafted pending #132: it does not.** The explicit Person
+  Reasoning-provider assignment (**OD-67**, drafted **DL-93**) is canonical for provider assignment,
+  made through Person Configuration, never through a Continuity preference; Continuity's preferred
+  delivery/presentation preference governs wording and delivery form only. **The scope at which a
+  presentation preference may exist, and what takes precedence when a Room persona and a person
+  preference disagree, is OD-79**
 - **Audience-Uncertainty Routing Preference (DL-72)** — distinct from the ordinary delivery
   preference above: where a Communication should route **when audience composition cannot be safely
   established** for that Person as intended recipient. Answers *"when HTBW cannot determine who else

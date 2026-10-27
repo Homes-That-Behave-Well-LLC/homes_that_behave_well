@@ -1001,8 +1001,38 @@ the phrasing of the question:
 - A general answer must not expose resident-specific data
 - The provider owns no identity, permission, Truth, or household authority, and must never infer or create one
 
-The provider remains replaceable. Provider strategy is **OD-67**, and is neither closed nor prejudged
-here.
+The provider remains replaceable. Provider strategy is **OD-67**, drafted as **DL-93** (pending
+**#132**), summarized below; not yet authoritative.
+
+### Allow General Questions (drafted, DL-93, pending #132)
+
+**Allow General Questions** is a Room-scoped and Person-scoped authorization setting, owned by
+Operational Trust under **DL-39** wherever it is surfaced in configuration (Foundation/Room
+Configuration and Person Configuration expose it; neither owns its semantics). **It is specifically
+authorization for General Reasoning — it is not a blanket "AI allowed" setting** and does not govern
+deterministic Home control, Concierge generally, Home Intelligence, Stewardship, Continuity, or any
+other capability that does not itself declare a Reasoning dependency.
+
+Authorization is evaluated **before** provider resolution, never after:
+
+- For a Person resolved with a **Required Identity Band sufficient for this purpose** (a threshold
+  Operational Trust owns under **DL-39**, not a new band or score): the Person's own setting is
+  authoritative. **NO is terminal** — resolution stops immediately, even where the Room allows it. **YES
+  authorizes resolution** even where the Room's own setting is NO.
+- For an unresolved or Unknown speaker (**DL-33**): Person authorization is not evaluated; Room
+  authorization governs instead. Room NO is terminal; Room YES authorizes Room/Integration-default
+  resolution, bounded by the existing household-neutral-context default.
+
+**Configured fallback, never discovery:** recognized Person → Person provider, then Room provider, then
+Integration-default provider, then unavailable; unresolved/Unknown speaker in an authorizing Room → Room
+provider, then Integration-default provider, then unavailable. A terminal authorization denial never
+enters this chain; provider unavailability (not configured, invalid, or unreachable) may advance to the
+next configured scope, but is never expressed as a trust or permission outcome (**DL-41**). No provider
+outside this configured chain is ever selected — HTBW performs no runtime discovery of a Reasoning
+provider.
+
+See [../architecture/adr-reasoning-provider-strategy.md](../architecture/adr-reasoning-provider-strategy.md)
+for the full drafted decision.
 
 ---
 

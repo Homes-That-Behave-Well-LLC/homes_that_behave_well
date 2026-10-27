@@ -346,6 +346,16 @@ authorised to use or to know exists.
 **Room Help lists authoritative vocabulary terms only.** Derived recognition forms improve
 understanding; they are not separately advertised capabilities, and Room Help does not enumerate them.
 
+### General Reasoning authorization is an exposed capability setting (drafted, DL-93, pending #132)
+
+**Allow General Questions** and a Room-scoped Reasoning-provider selection are, like any other
+capability a Room intentionally exposes, instances of the "what can I do here?" question Room
+Configuration already answers. Room Configuration exposes the setting; it does not own its
+authorization semantics, its resolution precedence against a Person's own setting, or the provider
+inventory it draws from — those remain **Operational Trust**'s (**DL-39**) and **OD-67**'s (drafted
+**DL-93**). See
+[../architecture/adr-reasoning-provider-strategy.md](../architecture/adr-reasoning-provider-strategy.md).
+
 ### One configuration, many surfaces
 
 The same canonical Room configuration must drive:
@@ -715,6 +725,7 @@ configuration today must never silently rewrite the explanation of a decision ma
 | OD-61 | **Resolved as DL-60.** Room Environment Standard (extensible Environmental Purpose set), native Area environmental slot proposal behaviour, Primary Authority/Secondary/Composite/Excluded disambiguation (later narrowed to three states by **DL-62**), Merged Room environmental candidates, and derived purposes are accepted |
 | OD-17 | **Resolved as DL-62.** Primary Authority is required and deterministic for every directly measured Environmental Purpose, identically for a Physical Room and a Merged Room; Composite Contributor is removed from the ordinary path; Formula-Derived Fact governance (input availability, provenance, versioning) is accepted, with Dew Point ready and Mold Index/Condensation Risk unresolved |
 | OD-19 | **Resolved as DL-63.** Same-purpose environmental sensor disagreement, native Area proposal divergence, and Provider-Derived Environmental Indicator differences are confirmed as not Truth conflicts; a genuine Truth conflict is qualified and resolved per DL-63's fixed procedure |
+| OD-67 | **Drafted as DL-93, pending #132.** Allow General Questions (Room-scoped authorization and Room-scoped Reasoning-provider selection) is exposed as a Room capability setting; its authorization semantics, precedence against a Person's own setting, and provider resolution remain Operational Trust's and OD-67's own |
 
 ## Related documents
 

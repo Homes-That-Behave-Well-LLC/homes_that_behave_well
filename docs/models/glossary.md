@@ -1607,7 +1607,17 @@ policies are satisfied.
 An external or local model consulted to improve wording, summarisation, or presentation. **A
 reasoning provider owns nothing**: not facts, not authority, not the reasoning of record. Its output
 never silently becomes a Fact, and its recommendation never silently becomes an authorised action.
-Strategy is **OD-67**.
+Strategy is **OD-67**, drafted as **DL-93** (pending **#132**); not yet authoritative.
+
+**General Reasoning**
+**Drafted, pending formal acceptance review (Issue #132); not yet authoritative.** The proposed
+(**DL-93**) capability served by a configured **Reasoning Provider**: general knowledge questions,
+conversational wording, summarisation, natural-language interpretation, and reasoning over explicitly
+authorized supplied context. Configured at Integration, Room, and Person scope; a Person's own **Allow
+General Questions** authorization, where sufficiently resolved, prevails over the Room's. **Separate
+from Home Intelligence** — neither implies the other's availability, and Home Intelligence is never a
+General Reasoning fallback. ADR:
+[../architecture/adr-reasoning-provider-strategy.md](../architecture/adr-reasoning-provider-strategy.md)
 
 ---
 
