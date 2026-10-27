@@ -43,7 +43,7 @@ Status values are those held on the issue. Where a decision is blocked, the bloc
 
 | ID | Title | Status | Issue | Depends on | Authority |
 |---|---|---|---|---|---|
-| **OD-01** | Governed-Record Persistence Shape | Open — Research Required | **#76** | #146 | DL-26, DL-31, DL-42, DL-44, DL-46, DL-47 |
+| **OD-01** | Governed-Record Persistence Shape | Research complete; mechanism drafted as **DL-92**, pending formal acceptance review | **#76** | #146 (evidence satisfied) | DL-26, DL-31, DL-42, DL-44, DL-46, DL-47; **DL-92 (drafted, pending #76)** |
 | **OD-04** | Policy Precedence Order | Open — Governance Required | **#97** | #135, #98 (**resolved as DL-77**, related not blocking), #99 (**resolved as DL-76**, related not blocking), #119 (**resolved as DL-78**, related not blocking) | DL-03, DL-14, DL-36; **DL-76 supplies the Action-Risk Class enumeration this decision's own scope list already references; DL-77 confirms Urgency creates no second precedence mechanism; DL-78 confirms Category creates no precedence mechanism either — OD-04 still owns the ordered scope list and competing-Communication ordering in full** |
 | **OD-05** | Decision Trace Retention Floor and Ceiling | Open — Partially Decided | **#77** | #99 (**resolved as DL-76**, related not blocking), #79, #76 | DL-24, DL-46, DL-47; **DL-76 supplies the Action-Risk Class enumeration Option B/C would consume — OD-05 still owns which option is chosen and the numeric values** |
 | **OD-07** | Voice Processing Locality | Open — Research Required | **#95** | #94 (**resolved as DL-56**) | DL-05, DL-19, DL-41 |

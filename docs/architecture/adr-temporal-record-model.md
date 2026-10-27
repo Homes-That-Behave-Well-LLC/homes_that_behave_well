@@ -323,15 +323,29 @@ Conducted under **P21** against official Home Assistant documentation, not remem
 | Config Entries — lifecycle, migration, update | `https://developers.home-assistant.io/docs/config_entries_index/` |
 | Assist pipeline events | `https://developers.home-assistant.io/docs/voice/pipelines/` |
 
-**Storage helper: not verified.** The official Home Assistant Storage helper developer documentation
-could not be retrieved during this review. **No Storage helper documentation link is recorded here,
-and none is fabricated.** Storage helper behaviour is therefore unattested by official documentation
-in this ADR.
+**Storage helper: not verified as of this ADR's own Home Assistant First review.** The official Home Assistant
+Storage helper developer documentation could not be retrieved during this review. **No Storage helper
+documentation link is recorded here, and none is fabricated.** Storage helper behaviour was therefore
+unattested by official documentation in this ADR at the time it was written.
 
 > **OD-01's residual — config entry, subentry, or private storage — must not be closed based on
 > assumed Storage helper behaviour.** The official documentation must be located and reviewed first.
 > **OD-34 has since closed on the persistence model, without relying on any Storage helper
 > assumption**, and the mechanism residual it duplicated is now held by OD-01 alone.
+
+**Update (2026-10-06, Issue #146, items 1 and 1-continued).** The Storage helper has since been
+verified against official Home Assistant documentation and, where documentation was insufficient,
+pinned Home Assistant Core source. Durability, versioned-JSON persistence, migration, corruption
+recovery, native Backup coverage, and non-removability (unlike a config entry or subentry) are now all
+established — see
+[home-assistant-boundary.md, "Storage helper mechanism (item 1)"](home-assistant-boundary.md#storage-helper-mechanism-item-1-2026-10-06)
+and
+["...continued"](home-assistant-boundary.md#storage-helper--backup-coverage-and-removability-item-1-continued--verified_supported--verified_negative).
+**OD-01's persistence-mechanism residual is now drafted as DL-92**
+([adr-governed-record-persistence-mechanism.md](adr-governed-record-persistence-mechanism.md)), pending
+formal acceptance review at **#76** — this update does not itself close OD-01 or accept DL-92; it
+corrects this ADR's own 2026-08-20 "not verified" finding, which is retained above as the historical
+record of what was known when this ADR was written.
 
 ### Capabilities found
 
@@ -420,7 +434,7 @@ None is closed by this ADR.
 | **OD-34** | **Closed — DL-42, DL-44, DL-46, DL-47.** The temporal-persistence model is complete; the representation mechanism is the residual of **OD-01** |
 | **OD-35** | Historical query surface and access |
 | **OD-36** | Reconciliation of deletion and export obligations with retention floors and Preservation Holds |
-| **OD-01** *(amended)* | Now includes the persistence shape of Change Records, Snapshots, and Current Projections |
+| **OD-01** *(amended)* | Now includes the persistence shape of Change Records, Snapshots, and Current Projections. **Mechanism drafted as DL-92, pending formal acceptance review at #76** — see [adr-governed-record-persistence-mechanism.md](adr-governed-record-persistence-mechanism.md) |
 | **OD-29** *(amended)* | Now includes purge exemption and Governed Reference resolvability |
 
 ### On OD-41

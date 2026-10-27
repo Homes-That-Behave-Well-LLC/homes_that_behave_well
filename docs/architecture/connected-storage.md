@@ -659,12 +659,29 @@ floors and ceilings are **OD-49**. Neither is resolved here.
 for the full DL-30 record. **What is now established**: disk persistence under `.storage/<key>` as
 versioned JSON with migration support, debounced (`async_delay_save`) and immediate (`async_save`)
 write paths, optional atomic writes, and a documented corruption-recovery path (rename-and-continue,
-never silent data loss). **What remains unverified**: whether `.storage/` content is included in
-Home Assistant's native Backup feature, and whether Store-backed files are ever presented to a
-resident as removable configuration the way a config entry is. **OD-01's residual must not be closed**
-on the strength of this partial verification — the backup-coverage and removable-configuration
-questions are still open, and OD-34 closed without relying on any Storage helper assumption, because
-the persistence *model* never depended on the mechanism.
+never silent data loss). **What remained unverified at this point in the same review session**:
+whether `.storage/` content is included in Home Assistant's native Backup feature, and whether
+Store-backed files are ever presented to a resident as removable configuration the way a config entry
+is. **OD-01's residual was not closed** on the strength of this partial verification alone — the
+backup-coverage and removable-configuration questions remained open at this point, and OD-34 closed
+without relying on any Storage helper assumption, because the persistence *model* never depended on
+the mechanism.
+
+**Update (2026-10-06, same session, Issue #146 remediation pass, continued).** The two remaining
+sub-questions were subsequently resolved: **backup coverage is VERIFIED_SUPPORTED** — `.storage/` lives
+inside the Home Assistant `config` directory, which a full backup always includes and a partial backup
+may include by resident selection — and **resident-facing removability is VERIFIED_NEGATIVE** — official
+documentation describes removing an integration instance, but documents no resident-facing action that
+independently deletes a Store-backed file; removal is source-level only (`Store.async_remove()`, called
+by the owning integration), never a documented UI action. See
+[home-assistant-boundary.md, "Storage helper — backup coverage and removability (item 1, continued)"](home-assistant-boundary.md#storage-helper--backup-coverage-and-removability-item-1-continued--verified_supported--verified_negative)
+and the evidence-linking comment on **#76**. **This fully discharges item 1's Home Assistant capability
+sub-questions for OD-01.** The residual that remains is architectural judgment, not missing platform
+evidence — resident-versus-automation attribution, an absent-value state, provenance/version identity,
+declared retention, and policy governance, none of which the Store mechanism or native Backup supply.
+**That architectural residual is now drafted as DL-92**
+([adr-governed-record-persistence-mechanism.md](adr-governed-record-persistence-mechanism.md)), pending
+formal acceptance review at **#76** — not yet a closed decision.
 
 **The artifact declarations above are a requirement, not a schema.** Requiring every artifact to
 state its class, owner, parent, lifecycle, interaction model, and cleanup behaviour decides nothing
