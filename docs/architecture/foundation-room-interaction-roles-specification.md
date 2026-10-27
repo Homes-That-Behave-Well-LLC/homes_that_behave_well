@@ -11,9 +11,10 @@
 > **PASS** (2026-10-26, Issue #199, closed), after remediating one data-model issue in commit
 > `7096a38`. **Extended by Issue #196** to generalize the Interaction Function Assignment model to the
 > remaining DL-88 room-interaction-capability roles (`interface`, `physical_remote`) and to resolve
-> DL-87's implementation mechanics for this workstream (§18). **The #196 extension (§18 and the marked
-> additions in §3–§17) is pending its own owner acceptance review; it does not reopen the #199 PASS
-> result for the original voice_input/spoken_response_output material.**
+> DL-87's implementation mechanics for this workstream (§18). **The #196 extension's own Owner
+> Acceptance Review: PASS (2026-10-27, Issue #196, closed), no remediation required. It does not
+> reopen the #199 PASS result for the original voice_input/spoken_response_output material, and does
+> not reopen DL-87 or DL-88.**
 
 ---
 
@@ -26,18 +27,19 @@ workstream only. It does not reopen, narrow, or redecide DL-90 or DL-91. **Owner
 recorded PASS on Issue #199 (2026-10-26)**, confirming this specification correctly preserves Foundation,
 Truth, Concierge, Operational Trust, Identity/Voice Identity, and Continuity boundaries.
 
-**Issue #196 extension (pending owner acceptance review).** Issue #195 accepted **DL-87** (Stable
-Identity Hierarchy and Network-Boundary Independence) and **DL-88** (Foundation and Concierge
-Responsibility Split for Endpoint and Room-Interaction-Capability Relationships), which require Room
-Configuration to represent `interface` (kiosk/visual-manual) and `physical_remote` as two further
-room-interaction-capability relationships alongside `voice_input` and `spoken_response_output`, and
-require the DL-87 resolution-order mechanics to be resolved for this workstream. This document is the
-existing specification that already owns the adjacent `voice_input`/`spoken_response_output` material
-(per repository governance precedent against creating a parallel document for closely related
-material); Issue #196 extends it rather than creating a new one. The extension is confined to: (1)
-generalizing §3/§4's Interaction Function Assignment model to the two additional DL-88 roles, and (2)
-the new §18, which resolves DL-87's implementation mechanics for this workstream. **It does not reopen
-DL-90, DL-91, or the #199 acceptance result for the original material.**
+**Issue #196 extension — Owner Acceptance Review PASS (2026-10-27, no remediation required).** Issue
+#195 accepted **DL-87** (Stable Identity Hierarchy and Network-Boundary Independence) and **DL-88**
+(Foundation and Concierge Responsibility Split for Endpoint and Room-Interaction-Capability
+Relationships), which require Room Configuration to represent `interface` (kiosk/visual-manual) and
+`physical_remote` as two further room-interaction-capability relationships alongside `voice_input` and
+`spoken_response_output`, and require the DL-87 resolution-order mechanics to be resolved for this
+workstream. This document is the existing specification that already owns the adjacent
+`voice_input`/`spoken_response_output` material (per repository governance precedent against creating
+a parallel document for closely related material); Issue #196 extended it rather than creating a new
+one. **Issue #196 is closed.** The extension is confined to: (1) generalizing §3/§4's Interaction
+Function Assignment model to the two additional DL-88 roles, and (2) §18, which resolves DL-87's
+implementation mechanics for this workstream. **It does not reopen DL-90, DL-91, or the #199 acceptance
+result for the original material, and does not reopen DL-87 or DL-88.**
 
 **This document authorizes no executable implementation.** Pre-implementation grounding found:
 
@@ -91,7 +93,7 @@ Room
   -> voice_input                  (Interaction Function Assignment)
   -> spoken_response_output       (Interaction Function Assignment)
   -> interface                    (Interaction Function Assignment — Issue #196 addition, DL-88)
-  -> physical_remote               (Interaction Function Assignment — Issue #196 addition, DL-88)
+  -> physical_remote              (Interaction Function Assignment — Issue #196 addition, DL-88)
 ```
 
 All four are **Interaction Function Assignments** under **DL-90**'s triad (restated here for

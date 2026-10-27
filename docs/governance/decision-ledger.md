@@ -3686,9 +3686,11 @@ found no genuinely new constitutional question requiring one, consistent with Ep
 and DL-89 are accordingly accepted, binding decisions, equivalent in standing to DL-01–DL-86, and
 Issue #195 is closed, extending the continuous accepted range through **DL-91** (**DL-90**/**DL-91**
 having already been accepted at **#198**). **#196** (Foundation and Concierge mechanics for durable
-endpoint identity and room-interaction-capability relationships) remains open, governed by its own
-scope and acceptance criteria; this acceptance supplies no implementation authorization beyond what
-#196 itself and accepted architecture already authorize. **#197** (Hard-Coded Topology Audit and
+endpoint identity and room-interaction-capability relationships) concluded with its own Owner
+Acceptance Review PASS (2026-10-27, no remediation required) and is closed; its resolved mechanics are
+recorded in [foundation-room-interaction-roles-specification.md](../architecture/foundation-room-interaction-roles-specification.md)
+§18. This acceptance supplied no implementation authorization beyond what #196 itself and accepted
+architecture already authorize. **#197** (Hard-Coded Topology Audit and
 Remediation) remains open and owns the complete hard-coded-topology audit; this acceptance supplies
 classification authority only and does not perform or complete the audit.
 
@@ -3763,6 +3765,11 @@ acceptance scenarios 1, 7, 9, 10, 11 revised, scenario 13 added), after which a 
 review (2026-10-26) returned **PASS** and **#199 is closed**. Executable implementation remains
 deferred until an authorized HTBW Core implementation surface exists, per that specification's own
 status section — this specification-level acceptance does not authorize or begin implementation.
+**That same specification was subsequently extended by Issue #196** (the DL-87/DL-88 implementation-
+mechanics residual from #195) to add `interface`/`physical_remote` Interaction Function Assignment
+roles and resolve DL-87's endpoint-resolution mechanics for this workstream; **#196's own Owner
+Acceptance Review returned PASS (2026-10-27, no remediation required) and #196 is closed.** This does
+not reopen DL-90, DL-91, or the #199 acceptance result.
 
 ---
 

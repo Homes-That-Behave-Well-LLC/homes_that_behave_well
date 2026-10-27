@@ -870,12 +870,12 @@ A person or automated process is permitted to use, change, query, or act on the 
 Something that can be done or asked in a Room, expressed in household terms rather than platform
 terms.
 
-**Interaction Function Assignment** *(DL-90, accepted)*
+**Interaction Function Assignment** *(DL-90, accepted; extended by DL-88, accepted)*
 Which specific experience-endpoint function a participating capability is assigned to fulfill in a
-Room — for example `voice_input`, `spoken_response_output`, `music`, `video`, `announcement`,
-`conversation`. **Deliberately not Role** — a device is never assigned a Role; **Role** below remains a
-person-authority class only. A device possessing a capability does not imply an assigned Interaction
-Function Assignment.
+Room — for example `voice_input`, `spoken_response_output`, `interface`, `physical_remote`, `music`,
+`video`, `announcement`, `conversation`. **Deliberately not Role** — a device is never assigned a Role;
+**Role** below remains a person-authority class only. A device possessing a capability does not imply
+an assigned Interaction Function Assignment.
 Architecture: [../architecture/adr-decoupled-voice-interaction-capability-architecture.md](../architecture/adr-decoupled-voice-interaction-capability-architecture.md)
 
 **voice_input** *(DL-90, accepted)*
@@ -891,6 +891,25 @@ spoken responses (acknowledgements, answers). Distinct from `music`/media-capabi
 endpoints. May be the same device as `voice_input`, or a different one; consumed by, and does not
 alter, Concierge's existing Response Delivery Space.
 Architecture: [../architecture/adr-decoupled-voice-interaction-capability-architecture.md](../architecture/adr-decoupled-voice-interaction-capability-architecture.md)
+
+**interface** *(DL-88, accepted; Issue #196)*
+An Interaction Function Assignment representing the Room's configured visual/manual interaction
+surface (for example, a wall kiosk). Independently configurable from `voice_input`,
+`spoken_response_output`, and `physical_remote`; a device does not acquire this assignment merely by
+possessing display capability. Requires a Home Assistant-native device/entity reference
+([foundation-room-interaction-roles-specification.md](../architecture/foundation-room-interaction-roles-specification.md)
+§18.1); an endpoint with no native Home Assistant representation is not yet eligible for this
+assignment, a recorded limitation rather than a fabricated identity.
+Architecture: [../architecture/adr-stable-endpoint-identity-and-network-boundary-independence.md](../architecture/adr-stable-endpoint-identity-and-network-boundary-independence.md)
+
+**physical_remote** *(DL-88, accepted; Issue #196)*
+An Interaction Function Assignment representing the Room's configured physical remote-control
+interaction surface. Independently configurable from `voice_input`, `spoken_response_output`, and
+`interface`; like `voice_input`, it is an interaction-input surface only and is never itself a
+response-delivery target. Requires a Home Assistant-native device/entity reference
+([foundation-room-interaction-roles-specification.md](../architecture/foundation-room-interaction-roles-specification.md)
+§18.1).
+Architecture: [../architecture/adr-stable-endpoint-identity-and-network-boundary-independence.md](../architecture/adr-stable-endpoint-identity-and-network-boundary-independence.md)
 
 **Group**
 An explicitly configured set of targets addressed as one. Residents need not know its members.
