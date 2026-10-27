@@ -381,7 +381,7 @@ degradation mechanics; routing/fallback investigation.
   assistant model, and Concierge's Response Delivery Space are each referenced above and are each
   unaffected** — none is narrowed, resolved, or reopened by this ADR.
 - **DL-90 and DL-91 are accepted, binding decisions (Issue #198, PASS, 2026-10-26), equivalent in
-  standing to DL-01–DL-89.** They authorize no implementation; see the Foundation Room Interaction
+  standing to DL-01–DL-86; DL-87–DL-89 remain pending formal acceptance review at #195.** They authorize no implementation; see the Foundation Room Interaction
   Roles and Performance-Aware Voice Processing workstreams above for implementation-readiness work.
 
 ---
