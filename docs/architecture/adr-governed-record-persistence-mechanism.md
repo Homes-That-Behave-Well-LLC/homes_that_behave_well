@@ -96,8 +96,16 @@ confirms that the already-accepted External History Retention concept is how Con
 participates in Change Record persistence, and that participation is **optional per responsibility**,
 never a universal requirement.
 
-**Domain Events and the Decision Trace (DL-46) follow the same mechanism as the Change Records of the
-responsibility that owns them** — no separate mechanism decision is required for them.
+**This ADR decides the mechanism for Current Projection, Change Record, and Snapshot only — the three
+record classes #76/OD-01 own.** Domain Event and Decision Trace are two further record kinds defined by
+[temporal-record.md](../models/temporal-record.md), and their own persistence surfaces remain separately
+owned: Domain Event's native-evidence reference mechanics are **OD-64** (#129), and Decision Trace's
+persistence surface is **OD-29** (#79), whose own stated options include the Home Assistant Logbook,
+Connected Storage, or both — not only the Storage helper. **This ADR does not decide OD-29 or OD-64, and
+does not foreclose either from selecting a mechanism different from the one decided here.** A
+responsibility is free to apply this ADR's Storage-helper-default pattern to its own Decision Trace or
+Domain Event records once #79/#129 make that choice, but that adoption is theirs to make, not an
+automatic consequence of this entry.
 
 ### Snapshot
 
@@ -109,7 +117,10 @@ independent source of truth (`temporal-record.md`). A Snapshot's storage locatio
 independent choice: it must co-locate with, and share the lifecycle of, the history it accelerates. If a
 responsibility's Change Records move to Connected Storage under External History Retention, that
 responsibility's Snapshots move with them; Current Projections are never affected, because Snapshots
-never substitute for them.
+never substitute for them. **The Storage helper (or Connected Storage, where configured) supplies only
+the persistence mechanics — a file, a write, a migration path.** Snapshot *semantics* — what triggers
+one, its cadence, and its scope — remain entirely HTBW's own and are **OD-37**'s question (#83), wholly
+independent of which mechanism this ADR selects.
 
 ---
 
@@ -149,8 +160,13 @@ authority. They are never equivalent.**
   Store-backed file is source-level only (verified: `Store.async_remove()`, called by owning-integration
   code, never a documented resident-facing action) — so unless HTBW's own code explicitly invokes it,
   removing the config entry leaves governed records exactly where they are.
-- Re-adding the HTBW integration after removal resumes reading the same Storage-helper files, because
-  they were never tied to the config entry's own lifecycle in the first place.
+- **This ADR concludes, as an architectural inference from the verified source-level mechanics above —
+  not as an independently tested reload/remove/re-add cycle — that** re-adding the HTBW integration
+  after removal would resume reading the same Storage-helper files, because the `Store`'s key and path
+  are never tied to the config entry's own lifecycle. **This specific sequence was not empirically
+  exercised by Issue #146** and must not be cited as a verified platform guarantee; it is presented here
+  as a reasoned conclusion from the verified `Store`/config-entry independence, open to correction if a
+  future verification pass finds otherwise.
 - A Home Assistant restart does not, by itself, affect Storage-helper-persisted data; `async_load`
   reads what `async_save`/`async_delay_save` last wrote.
 - **Governed record deletion requires an explicit governed authority** — DL-45 parent-removal cleanup,
@@ -220,6 +236,45 @@ Context IDs or any other specific scheme to be adopted.
 
 ---
 
+## Reconciliation with the Explainability architecture
+
+This ADR's mechanism choice is tested against, and does not alter, the already-accepted explainability
+invariant — that HTBW captures the governed meaning required for later explanation **when the decision
+or change occurs**, rather than reconstructing it later from transient native evidence. That invariant
+is constitutional, not newly asserted here: **DL-46** already states plainly that HTBW persists "what
+the platform does not naturally represent" and that "durable explanation after native expiry is already
+provided and requires no new construct"; **DL-26**/**DL-27** already require governed change and exact
+version references rather than copies; and [authority-order.md](../governance/authority-order.md) lists
+explainability as a non-negotiable constraint independent of mechanism.
+
+**Why the Storage helper satisfies this invariant without Connected Storage.** Home Assistant's native
+Recorder purges by a configured, often short, retention window, and Assist Debug and automation/script
+traces are capped at a small number of recent runs (Issue #146, items 1, 6). The Storage helper, by
+contrast, has **no native TTL and no forced purge** — HTBW's own code governs its retention entirely.
+A Change Record, Decision Trace, or Snapshot held in a Storage-helper file therefore **outlives native
+Recorder/Assist-Debug/trace retention by construction**, which is exactly what
+[why-did-this-happen.md](../scenarios/why-did-this-happen.md) Scenario 60 ("a native event referenced
+by an old Decision Trace has expired") requires: the trace remains valid, and the accepted Fact it
+referenced — not a copy of the expired native row — carries what was material. This ADR's mechanism
+choice is what makes that scenario's "no longer retained, never never existed" rule implementable
+without a second Recorder.
+
+**Why Connected Storage is not required for this invariant to hold.** Scenario 22 ("No Connected
+Storage is configured") already establishes that explanations, Truth, and native history "all operate
+normally" without it, and that the household is "a smaller home, not a broken one." Connected Storage
+only extends retention beyond the native floor (**DL-42**'s External History Retention); it does not
+supply the baseline capability to explain a decision at all. Treating it as mandatory for ordinary
+historical explainability (rejected Option B above) would contradict Scenario 22 and the **DL-41**
+declared-dependency rule.
+
+**What this ADR does not change.** The schema of what is captured at decision time (the Decision
+Trace's twenty required elements, a Change Record's constitutionally required fields) is already
+settled by [decision-trace.md](../models/decision-trace.md) and
+[temporal-record.md](../models/temporal-record.md) and is untouched by this ADR. This ADR answers only
+*where* that already-defined content is written, not *what* is written or *when* it is captured.
+
+---
+
 ## Relationship to existing decisions, issues, and reviews
 
 | Item | Relationship to this ADR |
@@ -236,6 +291,7 @@ Context IDs or any other specific scheme to be adopted.
 | **OD-36** (#82), **OD-39** (#85) | Unaffected. Deletion/preservation reconciliation and Preservation Hold authority/governance remain theirs; this ADR confirms only that the mechanism can honor whatever they decide |
 | **OD-38** (identifier/correlation strategy) | Unaffected and not decided here; see Migration principle above |
 | **OD-29** (#79), **OD-37** (#83), **OD-42** (#112) | Downstream; see Open-Issue Impact Review in the #76 execution comment for current disposition |
+| **OD-64** (native behaviour observation, #129) | Unaffected and not decided here; Domain Event's native-evidence reference mechanics remain theirs |
 | Asset Intelligence rank-4 evidence (cited in #76 comment 0) | Used as worked example and counterexample only, per `greenfield-mandate.md`; no implementation choice is carried forward as architecture merely because it already works that way |
 
 ---
@@ -251,6 +307,9 @@ Context IDs or any other specific scheme to be adopted.
 - Does not select database technology, serialization format, or physical file layout beyond "one
   Storage-helper file (or bounded set) per owning responsibility" — exact keys and schemas are
   implementation mapping.
+- Does not decide Decision Trace's own persistence surface (**OD-29**, #79) or Domain Event's native-
+  evidence reference mechanics (**OD-64**); both remain separately owned and may select a mechanism
+  other than the one decided here.
 - Does not create a History, Memory, Persistence, Repository, Storage, or Dependency responsibility.
 - Does not make Connected Storage a mandatory dependency for any record class.
 - Does not reopen **DL-26**, **DL-27**, **DL-30**, **DL-31**, **DL-41**, **DL-42**, **DL-44**, **DL-45**,
