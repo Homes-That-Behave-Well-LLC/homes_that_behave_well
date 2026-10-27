@@ -85,9 +85,15 @@ product name — see below) are three distinct concepts that must not be collaps
   provider interaction would be a new artifact class requiring its own declaration before introduction.
 - **DL-81, DL-82, DL-83** (drafted, pending #188) — each already restates "OD-67 unchanged" and
   consumes the Reasoning Provider concept by reference; none decides OD-67, and none is reopened or
-  narrowed by this ADR. **DL-81**'s Household Knowledge Provider pipeline is the architecture-level
-  capability "Home Steward," below, would name as a household-facing product — a naming question
-  owned by **#188**, not by this ADR.
+  narrowed by this ADR. **DL-81 describes an architecture-only Household Knowledge Provider pipeline**
+  — ingestion, retrieval, reasoning, and provenance for household documents/records; it does not name,
+  define, or constitute a commercial product, and it does not mention "Home Steward." **Issue #188 is
+  itself a governance-review record, not architecture authority, and is not an Open Decision** (#188's
+  own authority note); it has no standing to assign ownership of a product-naming decision. **Any
+  relationship between a prospective "Home Steward" product and DL-81's pipeline is undecided** — it
+  may eventually be one consumed capability, an architectural service used by multiple products, or
+  related some other governed way, once DL-81 itself is formally accepted and a separate product
+  decision is made. This ADR asserts none of those relationships.
 - **DL-86** (accepted, #191) — Home Intelligence is an optional deployment/hosting boundary that may
   host **both** DL-81's Household Knowledge Provider pipeline **and** a Reasoning Provider; it is a
   "where," not a "what," and is not itself a product name for either capability it may host.
@@ -138,23 +144,27 @@ serves is a configuration fact, not a property of the technology.
   **DL-81**, pending **#188**) and **may host** a Reasoning Provider, without becoming either one
   itself.
 - **Home Steward** is a tentative household-facing product name discussed during this ADR's owner
-  review for the separate commercial product providing governed information about the household
-  (documents, financial/banking information, Asset manuals, insurance, maintenance, administrative
-  information). **This ADR does not define, name, or own the Home Steward product.** Conceptually, Home
-  Steward names the household-facing capability DL-81's Household Knowledge Provider pipeline already
-  governs at the architecture level; formal adoption of "Home Steward" as that pipeline's canonical
-  product name is a naming decision for **Issue #188** (DL-81's own drafted decision) to make, not for
-  OD-67. This ADR states only the authorization-independence pattern below.
+  review for a prospective, separate commercial product providing governed information about the
+  household (documents, financial/banking information, Asset manuals, insurance, maintenance,
+  administrative information). **This is a proposed product term, not an accepted or canonical product
+  boundary. This ADR does not define, name, or own the Home Steward product**, and does not assert any
+  relationship between it and the drafted Household Knowledge Provider pipeline (**DL-81**, itself
+  non-binding, architecture-only, and pending #188). That pipeline may eventually be one capability
+  Home Steward consumes, an architectural service multiple products use, or related some other governed
+  way — **none of those relationships is decided here, and Home Steward is not stated to be equivalent
+  to the Household Knowledge Provider.** No existing issue has been identified as owning the Home
+  Steward product-naming/boundary decision; this ADR states only the authorization-independence pattern
+  below and leaves that product governance question explicitly open.
 
 **None implies another's availability.** If no applicable General Reasoning provider is configured,
 general questions are unavailable **while** a separately configured and authorised Home Intelligence
-capability — hosting either a Household Knowledge Provider (Home Steward) or something else — may still
-answer an eligible home-based question. **Home Intelligence and Home Steward are never inserted into
-the General Reasoning fallback chain, and General Reasoning is never used as an undeclared substitute
-for either.** This ADR does not allocate Home Intelligence's own configuration surface or discovery/
-trust-establishment mechanics (**#190**), and does not allocate Home Steward's product architecture,
-deployment, or information-category authorization taxonomy; it states only that the three capabilities,
-and their authorization paths, remain distinct.
+capability — hosting a Household Knowledge Provider, a future Home Steward product, or something else —
+may still answer an eligible home-based question. **Home Intelligence and Home Steward are never
+inserted into the General Reasoning fallback chain, and General Reasoning is never used as an
+undeclared substitute for either.** This ADR does not allocate Home Intelligence's own configuration
+surface or discovery/trust-establishment mechanics (**#190**), and does not allocate Home Steward's
+product architecture, deployment, or information-category authorization taxonomy; it states only that
+the three capabilities, and their authorization paths, remain distinct.
 
 ---
 
@@ -289,10 +299,11 @@ settings as any other Person.
   information. Later, finer-grained authorization — for example distinguishing maintenance/manual
   information, Asset records, financial/banking information, insurance/legal information, and
   administrative household information — remains required for a specific request and remains **outside
-  OD-67's scope**. This ADR preserves that seam; it does not design the taxonomy. The correct owner for
-  that finer-grained taxonomy is the combination of Home Steward's own product decision (naming/scope —
-  **#188**, see above) and Operational Trust's existing disclosure-evaluation authority (**DL-34**);
-  this ADR does not assign it elsewhere.
+  OD-67's scope**. This ADR preserves that seam; it does not design the taxonomy. **No existing issue
+  has been confirmed as the owner of that finer-grained taxonomy** — it belongs to whatever future
+  Home Steward product-governance decision is made, in combination with Operational Trust's existing
+  disclosure-evaluation authority (**DL-34**); this ADR does not assign it to #188 or to draft DL-81,
+  neither of which defines or accepts a Home Steward product.
 
 **Reasoning and Home Steward are independent capabilities, evaluated independently.** A Person may be
 denied General Reasoning but permitted Home Steward, or the reverse. An unavailable General Reasoning
@@ -468,7 +479,7 @@ Authorization is resolved against the effective Person, never a Room, per this r
 | **OD-04** (#97) | Wider Operational Trust policy precedence; effective-Person authorization gating here reuses, not reopens, OD-04's ordering |
 | **#185** | MCP transport-preference research — a transport question, not a provider-classification question |
 | **Home Intelligence** (accepted **DL-86**, #191) | Its own configuration, authorization, deployment, and discovery/trust-establishment mechanics (**#190**) |
-| **Home Steward** (naming/product boundary, **#188**) | Its own product definition, deployment, and finer-grained information-category authorization taxonomy; this ADR states only that it is independent of General Reasoning |
+| **Home Steward** (proposed product term, ownership unassigned) | Its own product definition, naming adoption, deployment, and finer-grained information-category authorization taxonomy — **not owned by #188 or draft DL-81**, neither of which names or defines it; this ADR states only that it is independent of General Reasoning |
 | **Truth** | Facts — never provider output without the governed promotion path |
 | **Concierge** | Orchestrates provider use as a consulted component; never becomes Truth or authorization authority |
 | **Continuity** | Preferred delivery/presentation wording; never a competing Reasoning-provider or Home Steward preference |
@@ -489,8 +500,11 @@ abstraction, API, or transport is selected or designed by this ADR.
 - Does not decide the external autonomous-policy-engine delegation boundary (**OD-66**, #131).
 - Does not decide wider Operational Trust policy precedence (**OD-04**, #97).
 - Does not accept, decide, or redefine Home Intelligence's own architecture (accepted **DL-86**, #191).
-- Does not define, name, or own the Home Steward product, its deployment, or its finer-grained
-  information-category authorization taxonomy (naming decision belongs to **#188**).
+- Does not define, name, or own the Home Steward product, its deployment, its finer-grained
+  information-category authorization taxonomy, or its relationship (if any) to the drafted Household
+  Knowledge Provider (**DL-81**, pending #188). **Does not assign Home Steward product ownership to
+  #188 or to draft DL-81**; #188 is a governance-review record, not architecture authority, and DL-81
+  does not name, define, or constitute Home Steward.
 - Does not make Room Configuration an authorization owner for General Reasoning or Home Steward, and
   does not create a Room-level provider assignment.
 - Does not invent a numeric identity-likelihood threshold for the effective-Person determination.
@@ -505,12 +519,42 @@ abstraction, API, or transport is selected or designed by this ADR.
 
 ## Test and acceptance scenarios
 
-See the companion acceptance-scenario record in the Issue #132 execution comment for the full
-scenario-by-scenario evaluation (Scenarios 1–18, plus preserved scenarios on factual-integrity,
-minimum-context, provider-recommendation-is-not-authority, sensitivity-classification prohibition, and
-DL-43 artifact retention). All scenarios are satisfied by the decision above
-without inventing additional architecture; none requires a new record class, a new responsibility, or a
-provider selection.
+See the companion acceptance-scenario record in the Issue #132 execution comments for the full
+General Reasoning/effective-Person scenario set (Scenarios 1–18 from the prior remediation, unchanged
+by this correction, plus preserved scenarios on factual-integrity, minimum-context, provider-
+recommendation-is-not-authority, sensitivity-classification prohibition, and DL-43 artifact retention).
+
+**Home Steward seam scenarios, revised to test only the authorization seam this ADR may legitimately
+establish — not Home Steward's product architecture:**
+
+- **Scenario A — General Reasoning allowed, Home Steward denied.** General Reasoning proceeds; Home
+  Steward use is prohibited; General Reasoning cannot bypass the prohibition.
+- **Scenario B — General Reasoning denied, Home Steward allowed.** General Reasoning is prohibited;
+  Home Steward may proceed only if separately configured and available; Home Steward remains subject
+  to finer-grained authorization.
+- **Scenario C — Home Steward top-level YES, sensitive category denied.** Top-level eligibility does
+  not grant the sensitive category; access remains denied; General Reasoning cannot bypass the
+  restriction.
+- **Scenario D — Home Steward product not configured.** Allow Home Steward YES does not manufacture
+  the product; the capability reports unavailable; nothing is discovered dynamically; General
+  Reasoning does not substitute.
+- **Scenario E — Draft Household Knowledge Provider (DL-81) later rejected at #188.** DL-93's General
+  Reasoning architecture remains fully coherent; the Home Steward seam remains proposed and
+  non-implementing; no binding dependency on draft DL-81 ever existed.
+- **Scenario F — Draft Household Knowledge Provider (DL-81) later accepted at #188.** Acceptance alone
+  does not automatically make that pipeline "Home Steward," and does not automatically make #188 or
+  DL-81 the Home Steward product's owner; a separate, future product-governance decision determines
+  whether and how Home Steward consumes it.
+- **Scenario G — Same underlying technology.** Use of the same model/runtime for more than one
+  capability never merges General Reasoning, Home Intelligence, Home Steward, or the Household
+  Knowledge Provider into one capability.
+- **Scenario H — Ask the source of a response.** Explainability distinguishes the General Reasoning
+  provider, a Home Intelligence-hosted capability, a Home Steward response, and a Household Knowledge
+  Provider pipeline where applicable; no concept is substituted for another.
+
+All scenarios are satisfied by the decision above without inventing additional architecture; none
+requires a new record class, a new responsibility, a provider selection, or a decision about Home
+Steward's product boundary.
 
 ---
 

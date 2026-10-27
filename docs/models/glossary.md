@@ -614,21 +614,29 @@ trust-establishment mechanics are explicitly not decided (**#190**). **Home Core
 for Home Assistant, HTBW, and Concierge operating independently of Home Intelligence. **Home
 Intelligence is the deployment/hosting boundary — it is not, by itself, the household-facing
 commercial product name for a specific capability it may host.** Contrast **Home Steward**, below,
-which names a narrower, separately-governed household-information product concept, not decided here.
+a separately-proposed, unaccepted product term — the relationship between the two, if any, is not
+decided here.
 ADR: [../architecture/adr-home-identity-and-home-intelligence-governance.md](../architecture/adr-home-identity-and-home-intelligence-governance.md)
 
 **Home Steward**
-**Not yet a governed term.** A working/tentative name discussed during the OD-67 Reasoning Provider
-Strategy review (Issue #132) for a prospective, separate commercial product delivering governed
-household information (documents, financial/banking records, Asset manuals, insurance, maintenance,
-and administrative information) to residents. **This is conceptually the household-facing product
-layer for the capability the drafted Household Knowledge Provider (DL-81, pending #188) already
-governs** — it is not Home Intelligence (DL-86, above), which is a deployment/hosting boundary, not a
-product name. **DL-93** (OD-67, pending #132) states only that General Reasoning and Home Steward are
-independent, Person-scoped-authorized capabilities, and that neither is a fallback for the other; it
-does not name, define, or own the Home Steward product. Formal adoption of "Home Steward" as DL-81's
-canonical household-facing product name, if the household wishes to pursue it, belongs to **Issue
-#188** (DL-81's own drafted decision), not to OD-67.
+**Proposed term; not yet a governed or canonical product.** A working/tentative name discussed during
+the OD-67 Reasoning Provider Strategy review (Issue #132) for a prospective, separate commercial
+product delivering governed household information (documents, financial/banking records, Asset
+manuals, insurance, maintenance, and administrative information) to residents. **Its relationship, if
+any, to the drafted Household Knowledge Provider (DL-81, itself non-binding, architecture-only, and
+pending formal acceptance review at #188) is not decided.** Home Steward is **not** stated to be
+identical to, or owned by, the Household Knowledge Provider's architecture — that pipeline may
+eventually be one capability a future Home Steward product consumes, an architectural service several
+products use, or related in another future-governed way, once DL-81 itself is formally accepted and a
+separate product decision is made. **Issue #188 is a governance-review record, not architecture
+authority and not an Open Decision; it has no standing to assign Home Steward's product ownership, and
+this entry does not claim that it does.** **DL-93** (OD-67, drafted, pending #132) states only that
+General Reasoning and Home Steward are independent, Person-scoped-authorized capabilities, and that
+neither is a fallback for the other; it does not name, define, accept, or own the Home Steward
+product, and does not decide its relationship to the Household Knowledge Provider. **No existing issue
+has been identified as the owner of Home Steward's product naming, commercial packaging, or
+information-category authorization taxonomy**; that governance remains explicitly unassigned pending a
+future decision.
 
 ---
 
