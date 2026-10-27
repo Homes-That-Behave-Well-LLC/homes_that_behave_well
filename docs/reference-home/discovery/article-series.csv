@@ -1,0 +1,22 @@
+sequence,working_title,primary_capability_category,evidence_basis
+1,Why Smart Homes Are Not Smart,Framing,OWNER INPUT REQUIRED
+2,The Home as an Operating System,Home Assistant Platform,DIRECTLY SUPPORTED
+3,Begin With the End in Mind: The HTBW Reference Home Architecture,All,DIRECTLY SUPPORTED
+4,The Network Is the Backbone,Network Foundation,GENERAL RECOMMENDATION REQUIRING REVIEW
+5,Why Home Assistant Became the Home Operating System,Home Assistant Platform,OWNER PROVIDED
+6,Lighting (Insteon and Beyond),Lighting,MIXED
+7,Shades and Natural Light,Shades and Natural-Light Management,DIRECTLY SUPPORTED
+8,"Access, Security, and Alarm",Security and Alarm,DIRECTLY SUPPORTED
+9,Cameras and Observation,Cameras and Observation,DIRECTLY SUPPORTED
+10,Climate and Environmental Comfort,Climate and Environmental Comfort,DIRECTLY SUPPORTED
+11,Irrigation and Outdoor Systems,Environmental Awareness,DIRECTLY SUPPORTED
+12,Voice Interaction and the Household's Own Concierge,Voice Interaction,DIRECTLY SUPPORTED
+13,Audio and Media,Audio and Media,DIRECTLY SUPPORTED
+14,Presence and Occupancy,Presence and Occupancy,DIRECTLY SUPPORTED
+15,Safety (Leak and Flood Protection),Safety,DIRECTLY SUPPORTED
+16,Energy and Utilities,Energy and Utilities,DIRECTLY SUPPORTED
+17,Asset Intelligence and Household Stewardship,Asset Intelligence and Stewardship,DIRECTLY SUPPORTED
+18,Dashboards and Household Interfaces,Dashboards and Household Interfaces,DIRECTLY SUPPORTED
+19,"Resilience, Backup, and Recovery","Resilience, Backup, and Recovery",DIRECTLY SUPPORTED
+20,If You Are Building or Renovating,Cross-cutting,MIXED
+final,The HTBW Integration for Home Assistant: Bringing the Framework Together,All,OWNER INPUT REQUIRED

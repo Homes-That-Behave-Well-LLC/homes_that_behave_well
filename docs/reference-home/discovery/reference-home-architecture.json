@@ -1,0 +1,1067 @@
+{
+  "metadata": {
+    "title": "HTBW Reference Home \u2014 Architecture Model",
+    "document_status": "Operational \u2014 discovery artifact. Not architecture-of-record.",
+    "generated": "2026-10-07",
+    "production_source": "P: (Home Assistant config root)",
+    "home_assistant_core_version": "2026.9.4",
+    "repository": "homes_that_behave_well",
+    "publication_safety_note": "All resident names redacted to Resident N; all coordinates/MAC/IP addresses excluded at source."
+  },
+  "layers": [
+    {
+      "id": 1,
+      "name": "People and Household Context",
+      "nodes": [
+        {
+          "id": "person_count",
+          "type": "aggregate",
+          "value": 7,
+          "evidence": "core.storage/person",
+          "publication_safety": "PUBLIC AFTER GENERALIZATION"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Household Experiences",
+      "nodes": [
+        {
+          "id": "Access",
+          "type": "capability_category"
+        },
+        {
+          "id": "Administration and Maintenance",
+          "type": "capability_category"
+        },
+        {
+          "id": "Asset Intelligence and Stewardship",
+          "type": "capability_category"
+        },
+        {
+          "id": "Audio and Media",
+          "type": "capability_category"
+        },
+        {
+          "id": "Cameras and Observation",
+          "type": "capability_category"
+        },
+        {
+          "id": "Climate and Environmental Comfort",
+          "type": "capability_category"
+        },
+        {
+          "id": "Dashboards and Household Interfaces",
+          "type": "capability_category"
+        },
+        {
+          "id": "Energy and Utilities",
+          "type": "capability_category"
+        },
+        {
+          "id": "Environmental Awareness",
+          "type": "capability_category"
+        },
+        {
+          "id": "External Services",
+          "type": "capability_category"
+        },
+        {
+          "id": "Governance and Explainability",
+          "type": "capability_category"
+        },
+        {
+          "id": "Historical or Transitional Technology",
+          "type": "capability_category"
+        },
+        {
+          "id": "Home Assistant Platform",
+          "type": "capability_category"
+        },
+        {
+          "id": "Identity and Authority",
+          "type": "capability_category"
+        },
+        {
+          "id": "Lighting",
+          "type": "capability_category"
+        },
+        {
+          "id": "Network Foundation",
+          "type": "capability_category"
+        },
+        {
+          "id": "Notifications and Household Communication",
+          "type": "capability_category"
+        },
+        {
+          "id": "Presence and Occupancy",
+          "type": "capability_category"
+        },
+        {
+          "id": "Privacy and Operational Trust",
+          "type": "capability_category"
+        },
+        {
+          "id": "Resilience, Backup, and Recovery",
+          "type": "capability_category"
+        },
+        {
+          "id": "Safety",
+          "type": "capability_category"
+        },
+        {
+          "id": "Security and Alarm",
+          "type": "capability_category"
+        },
+        {
+          "id": "Shades and Natural-Light Management",
+          "type": "capability_category"
+        },
+        {
+          "id": "Voice Interaction",
+          "type": "capability_category"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "HTBW Framework Responsibilities",
+      "nodes": [
+        {
+          "id": "Foundation",
+          "type": "htbw_responsibility",
+          "note": "comparison lens only; not implemented in this production home"
+        },
+        {
+          "id": "Stewardship",
+          "type": "htbw_responsibility",
+          "note": "comparison lens only; not implemented in this production home"
+        },
+        {
+          "id": "Identity",
+          "type": "htbw_responsibility",
+          "note": "comparison lens only; not implemented in this production home"
+        },
+        {
+          "id": "Truth",
+          "type": "htbw_responsibility",
+          "note": "comparison lens only; not implemented in this production home"
+        },
+        {
+          "id": "Continuity",
+          "type": "htbw_responsibility",
+          "note": "comparison lens only; not implemented in this production home"
+        },
+        {
+          "id": "Operational Trust",
+          "type": "htbw_responsibility",
+          "note": "comparison lens only; not implemented in this production home"
+        },
+        {
+          "id": "Concierge",
+          "type": "htbw_responsibility",
+          "note": "comparison lens only; not implemented in this production home"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "name": "Home Assistant Controller/Hub/Platform",
+      "nodes": [
+        {
+          "id": "home_assistant_core",
+          "version": "2026.9.4",
+          "role": "controller_hub_platform",
+          "evidence": "core.config"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "name": "Capability Domains",
+      "nodes": [
+        {
+          "id": "see_layer_2",
+          "note": "duplicate reference to layer 2 categories"
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "name": "Home Assistant Integrations",
+      "count": 78,
+      "nodes": [
+        {
+          "id": "esphome",
+          "config_entries": 22,
+          "entities": 235
+        },
+        {
+          "id": "group",
+          "config_entries": 15,
+          "entities": 15
+        },
+        {
+          "id": "bluetooth",
+          "config_entries": 10,
+          "entities": 0
+        },
+        {
+          "id": "switch_as_x",
+          "config_entries": 10,
+          "entities": 10
+        },
+        {
+          "id": "mobile_app",
+          "config_entries": 6,
+          "entities": 142
+        },
+        {
+          "id": "battery_notes",
+          "config_entries": 5,
+          "entities": 0
+        },
+        {
+          "id": "fully_kiosk",
+          "config_entries": 5,
+          "entities": 165
+        },
+        {
+          "id": "template",
+          "config_entries": 5,
+          "entities": 5
+        },
+        {
+          "id": "apple_tv",
+          "config_entries": 4,
+          "entities": 11
+        },
+        {
+          "id": "feedreader",
+          "config_entries": 4,
+          "entities": 4
+        },
+        {
+          "id": "homekit_controller",
+          "config_entries": 3,
+          "entities": 128
+        },
+        {
+          "id": "webostv",
+          "config_entries": 3,
+          "entities": 6
+        },
+        {
+          "id": "wyoming",
+          "config_entries": 3,
+          "entities": 3
+        },
+        {
+          "id": "mass",
+          "config_entries": 3,
+          "entities": 0
+        },
+        {
+          "id": "dlna_dmr",
+          "config_entries": 3,
+          "entities": 0
+        },
+        {
+          "id": "airq",
+          "config_entries": 3,
+          "entities": 60
+        },
+        {
+          "id": "ecowitt",
+          "config_entries": 2,
+          "entities": 282
+        },
+        {
+          "id": "ms365_calendar",
+          "config_entries": 2,
+          "entities": 3
+        },
+        {
+          "id": "unifiprotect",
+          "config_entries": 2,
+          "entities": 674
+        },
+        {
+          "id": "hassio",
+          "config_entries": 1,
+          "entities": 130
+        },
+        {
+          "id": "sun",
+          "config_entries": 1,
+          "entities": 9
+        },
+        {
+          "id": "sonos",
+          "config_entries": 1,
+          "entities": 248
+        },
+        {
+          "id": "google_translate",
+          "config_entries": 1,
+          "entities": 1
+        },
+        {
+          "id": "shopping_list",
+          "config_entries": 1,
+          "entities": 1
+        },
+        {
+          "id": "radio_browser",
+          "config_entries": 1,
+          "entities": 0
+        },
+        {
+          "id": "met",
+          "config_entries": 1,
+          "entities": 1
+        },
+        {
+          "id": "cloud",
+          "config_entries": 1,
+          "entities": 3
+        },
+        {
+          "id": "hacs",
+          "config_entries": 1,
+          "entities": 100
+        },
+        {
+          "id": "watchman",
+          "config_entries": 1,
+          "entities": 13
+        },
+        {
+          "id": "hunterdouglas_powerview",
+          "config_entries": 1,
+          "entities": 139
+        },
+        {
+          "id": "nexia",
+          "config_entries": 1,
+          "entities": 28
+        },
+        {
+          "id": "xbox",
+          "config_entries": 1,
+          "entities": 150
+        },
+        {
+          "id": "tesla_custom",
+          "config_entries": 1,
+          "entities": 57
+        },
+        {
+          "id": "mqtt",
+          "config_entries": 1,
+          "entities": 44
+        },
+        {
+          "id": "nodered",
+          "config_entries": 1,
+          "entities": 0
+        },
+        {
+          "id": "accuweather",
+          "config_entries": 1,
+          "entities": 132
+        },
+        {
+          "id": "oralb",
+          "config_entries": 1,
+          "entities": 9
+        },
+        {
+          "id": "github",
+          "config_entries": 1,
+          "entities": 17
+        },
+        {
+          "id": "time_date",
+          "config_entries": 1,
+          "entities": 1
+        },
+        {
+          "id": "meater",
+          "config_entries": 1,
+          "entities": 0
+        },
+        {
+          "id": "baf",
+          "config_entries": 1,
+          "entities": 14
+        },
+        {
+          "id": "insteon",
+          "config_entries": 1,
+          "entities": 81
+        },
+        {
+          "id": "thread",
+          "config_entries": 1,
+          "entities": 0
+        },
+        {
+          "id": "bhyve",
+          "config_entries": 1,
+          "entities": 75
+        },
+        {
+          "id": "go2rtc",
+          "config_entries": 1,
+          "entities": 0
+        },
+        {
+          "id": "cast",
+          "config_entries": 1,
+          "entities": 0
+        },
+        {
+          "id": "ms365_mail",
+          "config_entries": 1,
+          "entities": 2
+        },
+        {
+          "id": "samsungtv",
+          "config_entries": 1,
+          "entities": 0
+        },
+        {
+          "id": "ms365_todo",
+          "config_entries": 1,
+          "entities": 2
+        },
+        {
+          "id": "smart_meter_texas",
+          "config_entries": 1,
+          "entities": 1
+        },
+        {
+          "id": "backup",
+          "config_entries": 1,
+          "entities": 5
+        },
+        {
+          "id": "uptime",
+          "config_entries": 1,
+          "entities": 1
+        },
+        {
+          "id": "version",
+          "config_entries": 1,
+          "entities": 1
+        },
+        {
+          "id": "worldclock",
+          "config_entries": 1,
+          "entities": 1
+        },
+        {
+          "id": "ipp",
+          "config_entries": 1,
+          "entities": 6
+        },
+        {
+          "id": "miele",
+          "config_entries": 1,
+          "entities": 14
+        },
+        {
+          "id": "playstation_network",
+          "config_entries": 1,
+          "entities": 18
+        },
+        {
+          "id": "unifi",
+          "config_entries": 1,
+          "entities": 4861
+        },
+        {
+          "id": "unifi_access",
+          "config_entries": 1,
+          "entities": 44
+        },
+        {
+          "id": "upnp",
+          "config_entries": 1,
+          "entities": 17
+        },
+        {
+          "id": "matter",
+          "config_entries": 1,
+          "entities": 4
+        },
+        {
+          "id": "adtpulse",
+          "config_entries": 1,
+          "entities": 26
+        },
+        {
+          "id": "extended_openai_conversation",
+          "config_entries": 1,
+          "entities": 1
+        },
+        {
+          "id": "openai_conversation",
+          "config_entries": 1,
+          "entities": 5
+        },
+        {
+          "id": "nws",
+          "config_entries": 1,
+          "entities": 13
+        },
+        {
+          "id": "media_index",
+          "config_entries": 1,
+          "entities": 1
+        },
+        {
+          "id": "improv_ble",
+          "config_entries": 1,
+          "entities": 0
+        },
+        {
+          "id": "openai_tts",
+          "config_entries": 1,
+          "entities": 2
+        },
+        {
+          "id": "unifi_play",
+          "config_entries": 1,
+          "entities": 44
+        },
+        {
+          "id": "wakeword_installer",
+          "config_entries": 1,
+          "entities": 0
+        },
+        {
+          "id": "zwave_js",
+          "config_entries": 1,
+          "entities": 21
+        },
+        {
+          "id": "openclaw",
+          "config_entries": 1,
+          "entities": 15
+        },
+        {
+          "id": "analytics",
+          "config_entries": 1,
+          "entities": 0
+        },
+        {
+          "id": "ibeacon",
+          "config_entries": 1,
+          "entities": 10
+        },
+        {
+          "id": "asset_intelligence",
+          "config_entries": 1,
+          "entities": 23
+        },
+        {
+          "id": "music_assistant",
+          "config_entries": 1,
+          "entities": 44
+        },
+        {
+          "id": "bermuda",
+          "config_entries": 1,
+          "entities": 62
+        },
+        {
+          "id": "private_ble_device",
+          "config_entries": 1,
+          "entities": 5
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "name": "Protocols and Communication Methods",
+      "nodes": [
+        {
+          "id": "Zigbee (inferred)"
+        },
+        {
+          "id": "Z-Wave"
+        },
+        {
+          "id": "Matter"
+        },
+        {
+          "id": "Thread"
+        },
+        {
+          "id": "Bluetooth (passive+remote)"
+        },
+        {
+          "id": "MQTT"
+        },
+        {
+          "id": "Wyoming"
+        },
+        {
+          "id": "HTTP/REST"
+        },
+        {
+          "id": "Cloud vendor APIs"
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "name": "Controllers, Hubs, Gateways, Bridges",
+      "nodes": [
+        {
+          "id": "powerview_hub",
+          "evidence": "config_entries (zeroconf)"
+        },
+        {
+          "id": "insteon_hub_plm",
+          "evidence": "INFERRED from insteon config entry"
+        },
+        {
+          "id": "zwave_js_controller",
+          "evidence": "config_entries"
+        },
+        {
+          "id": "matter_controller",
+          "evidence": "config_entries"
+        },
+        {
+          "id": "thread_border_router",
+          "evidence": "config_entries"
+        },
+        {
+          "id": "mqtt_broker",
+          "evidence": "config_entries"
+        },
+        {
+          "id": "esphome_nodes",
+          "count": 22,
+          "evidence": "config_entries"
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "name": "Network and Compute Foundation",
+      "nodes": [
+        {
+          "id": "unifi_network",
+          "evidence": "INFERRED from unifi/unifi_access/unifiprotect config entries",
+          "topology": "UNKNOWN"
+        },
+        {
+          "id": "data_closet_area",
+          "evidence": "OBSERVED core.area_registry"
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "name": "Physical Devices and Equipment",
+      "manufacturer_device_counts": {
+        "UNKNOWN": 2063,
+        "SmartLabs, Inc": 67,
+        "Ubiquiti Networks": 27,
+        "Aqara": 26,
+        "esphome": 22,
+        "Sonos, Inc.": 21,
+        "Hunter Douglas": 20,
+        "Sonos": 17,
+        "Ubiquiti": 17,
+        "SONOS": 16,
+        "Apple": 14,
+        "Nabu Casa": 14,
+        "ADT": 12,
+        "Home Assistant": 10,
+        "Microsoft": 10,
+        "OpenAI": 8,
+        "Official apps": 7,
+        "Apple, Inc.": 7,
+        "Orbit BHyve": 7,
+        "Unifi": 5,
+        "samsung": 5,
+        "Trane": 4,
+        "ESPresense (esp32)": 4,
+        "Home Assistant Community Apps": 3,
+        "LG": 3,
+        "Ecowitt": 3,
+        "RogerSelwyn": 3,
+        "CorantGmbH": 3,
+        "Espressif Inc.": 3,
+        "CyberPower Systems, Inc.": 3,
+        "markaggar": 3,
+        "dummylabs": 2,
+        "kalkih": 2,
+        "punxaphil": 2,
+        "Sony Interactive Entertainment": 2,
+        "Microsoft Corporation": 2,
+        "Intel Corporate": 2,
+        "GitHub": 2,
+        "droans": 2,
+        "LG Electronics": 2,
+        "MediaTek Inc.": 1,
+        "Met.no": 1,
+        "hacs.xyz": 1,
+        "alandtse, keatontaylor": 1,
+        "sebr": 1,
+        "alandtse": 1,
+        "Tesla": 1,
+        "piitaya": 1,
+        "Clooos": 1,
+        "stokkie90, wilbiev": 1,
+        "custom-cards": 1,
+        "ESPHome": 1,
+        "Snapserver addon for HAssOS": 1,
+        "music-assistant": 1,
+        "zachowj": 1,
+        "AccuWeather, Inc.": 1,
+        "Oral-B": 1,
+        "adizanni": 1,
+        "xannor": 1,
+        "Reolink": 1
+      }
+    },
+    {
+      "id": 11,
+      "name": "External or Cloud Services",
+      "nodes": [
+        {
+          "id": "cloud"
+        },
+        {
+          "id": "nexia"
+        },
+        {
+          "id": "adtpulse"
+        },
+        {
+          "id": "tesla_custom"
+        },
+        {
+          "id": "ms365_calendar"
+        },
+        {
+          "id": "ms365_mail"
+        },
+        {
+          "id": "ms365_todo"
+        },
+        {
+          "id": "openai_conversation"
+        },
+        {
+          "id": "openai_tts"
+        },
+        {
+          "id": "xbox"
+        },
+        {
+          "id": "playstation_network"
+        },
+        {
+          "id": "accuweather"
+        },
+        {
+          "id": "nws"
+        },
+        {
+          "id": "smart_meter_texas"
+        },
+        {
+          "id": "bhyve"
+        },
+        {
+          "id": "miele"
+        },
+        {
+          "id": "oralb"
+        },
+        {
+          "id": "meater"
+        },
+        {
+          "id": "google_assistant"
+        },
+        {
+          "id": "feedreader"
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "name": "Resilience, Governance, and Explainability",
+      "nodes": [
+        {
+          "id": "backup",
+          "evidence": "config_entries"
+        },
+        {
+          "id": "watchman",
+          "evidence": "config_entries + watchman_report.txt"
+        },
+        {
+          "id": "ups",
+          "evidence": "custom_components + device_registry"
+        },
+        {
+          "id": "hacs",
+          "evidence": "config_entries"
+        }
+      ]
+    }
+  ],
+  "relationships": [
+    {
+      "source": "home_assistant_core",
+      "target": "insteon",
+      "type": "CONTROLS",
+      "direction": "forward",
+      "purpose": "Lighting control",
+      "capability_category": "Lighting",
+      "posture": "Local",
+      "criticality": "CRITICAL",
+      "evidence": "core.config_entries;core.device_registry",
+      "confidence": "HIGH",
+      "publication_safety": "PUBLIC"
+    },
+    {
+      "source": "home_assistant_core",
+      "target": "unifi",
+      "type": "INTEGRATES_WITH",
+      "direction": "forward",
+      "purpose": "Network foundation",
+      "capability_category": "Network Foundation",
+      "posture": "Local",
+      "criticality": "FOUNDATIONAL",
+      "evidence": "core.config_entries",
+      "confidence": "HIGH",
+      "publication_safety": "PUBLIC"
+    },
+    {
+      "source": "unifi",
+      "target": "device_tracker_entities",
+      "type": "PROVIDES",
+      "direction": "forward",
+      "purpose": "Presence detection",
+      "capability_category": "Presence and Occupancy",
+      "posture": "Local",
+      "criticality": "IMPORTANT",
+      "evidence": "core.entity_registry (4861 unifi-platform entities)",
+      "confidence": "HIGH",
+      "publication_safety": "PUBLIC AFTER GENERALIZATION"
+    },
+    {
+      "source": "wyoming",
+      "target": "voice_pipeline",
+      "type": "COMMUNICATES_USING",
+      "direction": "bidirectional",
+      "purpose": "Local STT/TTS/wake-word",
+      "capability_category": "Voice Interaction",
+      "posture": "Local",
+      "criticality": "CRITICAL",
+      "evidence": "core.config_entries",
+      "confidence": "HIGH",
+      "publication_safety": "PUBLIC"
+    },
+    {
+      "source": "concierge_voice_automations",
+      "target": "conversation_trigger",
+      "type": "DEPENDS_ON",
+      "direction": "forward",
+      "purpose": "Voice-intent-driven automation",
+      "capability_category": "Voice Interaction",
+      "posture": "Hybrid",
+      "criticality": "IMPORTANT",
+      "evidence": "automations.yaml",
+      "confidence": "HIGH",
+      "publication_safety": "PUBLIC AFTER GENERALIZATION"
+    },
+    {
+      "source": "openai_conversation",
+      "target": "concierge_voice_automations",
+      "type": "PROVIDES",
+      "direction": "forward",
+      "purpose": "Cloud reasoning for voice automations",
+      "capability_category": "Voice Interaction",
+      "posture": "Cloud",
+      "criticality": "IMPORTANT",
+      "evidence": "core.config_entries",
+      "confidence": "HIGH",
+      "publication_safety": "PUBLIC"
+    },
+    {
+      "source": "moisture_sensors",
+      "target": "leak_automations",
+      "type": "SENSES",
+      "direction": "forward",
+      "purpose": "Leak detection (6 locations)",
+      "capability_category": "Safety",
+      "posture": "Local",
+      "criticality": "CRITICAL",
+      "evidence": "automations.yaml",
+      "confidence": "HIGH",
+      "publication_safety": "PUBLIC"
+    },
+    {
+      "source": "leak_automations",
+      "target": "mobile_app_notify",
+      "type": "NOTIFIES",
+      "direction": "forward",
+      "purpose": "Household alerting",
+      "capability_category": "Safety",
+      "posture": "Hybrid",
+      "criticality": "CRITICAL",
+      "evidence": "INFERRED from automation naming",
+      "confidence": "MEDIUM",
+      "publication_safety": "PUBLIC AFTER GENERALIZATION"
+    },
+    {
+      "source": "primary_bedroom_alarm_started",
+      "target": "primary_bedroom_alarm_repeat_escalation_stop",
+      "type": "GOVERNS",
+      "direction": "forward",
+      "purpose": "Alarm escalation ladder",
+      "capability_category": "Security and Alarm",
+      "posture": "Local",
+      "criticality": "CRITICAL",
+      "evidence": "automations.yaml",
+      "confidence": "HIGH",
+      "publication_safety": "PUBLIC AFTER GENERALIZATION"
+    },
+    {
+      "source": "powerview_hub",
+      "target": "shade_devices",
+      "type": "ACTUATES",
+      "direction": "forward",
+      "purpose": "Motorized shade control",
+      "capability_category": "Shades and Natural-Light Management",
+      "posture": "Local",
+      "criticality": "CRITICAL",
+      "evidence": "core.device_registry (20 devices)",
+      "confidence": "HIGH",
+      "publication_safety": "PUBLIC"
+    },
+    {
+      "source": "nexia",
+      "target": "trane_thermostat",
+      "type": "REQUIRES_CLOUD",
+      "direction": "forward",
+      "purpose": "Thermostat control via cloud API",
+      "capability_category": "Climate and Environmental Comfort",
+      "posture": "Cloud",
+      "criticality": "CRITICAL",
+      "evidence": "core.config_entries;core.device_registry",
+      "confidence": "HIGH",
+      "publication_safety": "PUBLIC"
+    },
+    {
+      "source": "home_assistant_cloud",
+      "target": "remote_access_voice_convenience",
+      "type": "REQUIRES_CLOUD",
+      "direction": "forward",
+      "purpose": "Optional remote access/voice convenience",
+      "capability_category": "Home Assistant Platform",
+      "posture": "Cloud",
+      "criticality": "OPTIONAL",
+      "evidence": "core.config_entries",
+      "confidence": "HIGH",
+      "publication_safety": "PUBLIC"
+    },
+    {
+      "source": "insteon_switches",
+      "target": "physical_manual_control",
+      "type": "FALLS_BACK_TO",
+      "direction": "forward",
+      "purpose": "Manual override",
+      "capability_category": "Lighting",
+      "posture": "Local",
+      "criticality": "IMPORTANT",
+      "evidence": "INFERRED (general Insteon product behavior, not independently verified)",
+      "confidence": "MEDIUM",
+      "publication_safety": "PUBLIC AFTER GENERALIZATION"
+    },
+    {
+      "source": "cyberpower_ups",
+      "target": "home_assistant_host_power",
+      "type": "PROTECTS",
+      "direction": "forward",
+      "purpose": "Power resilience",
+      "capability_category": "Resilience, Backup, and Recovery",
+      "posture": "Local",
+      "criticality": "IMPORTANT",
+      "evidence": "core.device_registry",
+      "confidence": "HIGH",
+      "publication_safety": "PUBLIC"
+    },
+    {
+      "source": "watchman",
+      "target": "missing_unavailable_entities",
+      "type": "EXPLAINS",
+      "direction": "forward",
+      "purpose": "Self-diagnostic reporting",
+      "capability_category": "Administration and Maintenance",
+      "posture": "Local",
+      "criticality": "IMPORTANT",
+      "evidence": "watchman_report.txt",
+      "confidence": "HIGH",
+      "publication_safety": "PUBLIC"
+    },
+    {
+      "source": "backup",
+      "target": "configuration_snapshots",
+      "type": "STORES",
+      "direction": "forward",
+      "purpose": "Configuration resilience",
+      "capability_category": "Resilience, Backup, and Recovery",
+      "posture": "Hybrid",
+      "criticality": "CRITICAL",
+      "evidence": "core.config_entries (destination not read)",
+      "confidence": "MEDIUM",
+      "publication_safety": "PUBLIC AFTER GENERALIZATION"
+    },
+    {
+      "source": "asset_intelligence",
+      "target": "household_asset_records",
+      "type": "GOVERNS",
+      "direction": "forward",
+      "purpose": "Asset stewardship tracking",
+      "capability_category": "Asset Intelligence and Stewardship",
+      "posture": "Local",
+      "criticality": "IMPORTANT",
+      "evidence": "manifest.json",
+      "confidence": "HIGH",
+      "publication_safety": "PUBLIC"
+    }
+  ],
+  "counts": {
+    "config_entries_total": 169,
+    "config_entry_domains": 78,
+    "devices_total": 2528,
+    "devices_disabled": 8,
+    "device_manufacturers_distinct": 60,
+    "entities_total": 8548,
+    "entity_domains": 42,
+    "entity_platforms": 76,
+    "entities_disabled": 3329,
+    "entities_hidden": 13,
+    "areas": 23,
+    "floors": 3,
+    "labels": 39,
+    "persons": 7,
+    "zones": 40,
+    "automations": 84,
+    "scripts": 50
+  }
+}

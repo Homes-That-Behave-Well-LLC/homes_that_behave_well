@@ -309,7 +309,7 @@ or any canonical model/contract.
 
 | File | Status | Disposition |
 |---|---|---|
-| `discovery/00-discovery-status.md` through `discovery/12-evidence-register.md` (13 files) + `discovery/*.csv` (4 files) + `discovery/reference-home-architecture.json` | Operational | New — 2026-10-07 full-environment Reference Home discovery pass (article-series/narrative-oriented) |
+| `discovery/00-discovery-status.md` through `discovery/12-evidence-register.md` (13 files) + `discovery/*.csv` (5 files) + `discovery/reference-home-architecture.json` | Operational | New — 2026-10-07 full-environment Reference Home discovery pass (article-series/narrative-oriented) |
 | `production-behavior-preservation/production-behavior-inventory.md` | Operational | New — 2026-10-13 production behavior preservation inventory (Concierge-scoped) |
 | `production-behavior-preservation/production-automation-inventory.csv` | Operational | New — same pass |
 | `production-behavior-preservation/production-script-inventory.csv` | Operational | New — same pass |

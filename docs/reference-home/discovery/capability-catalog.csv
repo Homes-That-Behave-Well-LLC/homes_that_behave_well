@@ -1,0 +1,24 @@
+category,integration_domains,total_entities,local_cloud_posture,evidence_status
+Access,homekit_controller,128,Local,OBSERVED
+Administration and Maintenance,watchman,13,Local,OBSERVED
+Asset Intelligence and Stewardship,asset_intelligence;battery_notes,23,Local,OBSERVED
+Audio and Media,apple_tv;cast;dlna_dmr;mass;media_index;playstation_network;radio_browser;samsungtv;sonos;webostv;xbox,434,Hybrid,OBSERVED
+Cameras and Observation,go2rtc;llmvision;reolink_discovery;unifiprotect,674,Hybrid,OBSERVED
+Climate and Environmental Comfort,baf;nexia,42,Hybrid,OBSERVED
+Dashboards and Household Interfaces,fully_kiosk;ui_lovelace_minimalist,165,Local,OBSERVED
+Energy and Utilities,energy;smart_meter_texas;ups,4,Hybrid,OBSERVED
+Environmental Awareness,accuweather;airq;bhyve;ecowitt;met;nws;sun,572,Hybrid,OBSERVED
+External Services,feedreader;google_assistant;meater;miele;ms365_calendar;ms365_mail;ms365_todo;tesla_custom,82,Cloud,OBSERVED
+Governance and Explainability,ai_automation_suggester;github;nodered;openclaw,32,Hybrid,OBSERVED
+Historical or Transitional Technology,google_translate;oralb;shopping_list,11,Hybrid,OBSERVED
+Home Assistant Platform,analytics;cloud;hacs;hassio;rest_command;template;time_date;uptime;version;worldclock,242,Hybrid,OBSERVED
+Identity and Authority,person,7,Local,OBSERVED
+Lighting,group;insteon;switch_as_x,106,Local,OBSERVED
+Network Foundation,matter;mqtt;thread;unifi;unifi_access;unifi_play;upnp;zwave_js,5035,Local,OBSERVED
+Presence and Occupancy,bermuda;bluetooth;ibeacon;improv_ble;mobile_app;mqtt_room;private_ble_device;zone,262,Hybrid,OBSERVED
+Privacy and Operational Trust,(none directly mapped),0,Unknown,DOCUMENTED (no dedicated integration; see markdown)
+"Resilience, Backup, and Recovery",backup,5,Local,OBSERVED
+Safety,(none directly mapped),0,Unknown,DOCUMENTED (no dedicated integration; see markdown)
+Security and Alarm,adtpulse,26,Cloud,OBSERVED
+Shades and Natural-Light Management,hunterdouglas_powerview,139,Local,OBSERVED
+Voice Interaction,extended_openai_conversation;openai_conversation;openai_tts;wakeword_installer;wyoming,11,Hybrid,OBSERVED

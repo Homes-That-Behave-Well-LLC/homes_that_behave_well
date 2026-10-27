@@ -1,0 +1,79 @@
+domain,config_entry_count,entity_count,category,local_cloud_hybrid_unknown,production_importance,custom_or_standard,evidence_path,confidence
+unifi,1,4861,Network Foundation,Local,FOUNDATIONAL,standard,core.config_entries;core.entity_registry,HIGH
+unifiprotect,2,674,Cameras and Observation,Local,CRITICAL,standard,core.config_entries;core.entity_registry,HIGH
+ecowitt,2,282,Environmental Awareness,Local,IMPORTANT,standard,core.config_entries;core.entity_registry,HIGH
+sonos,1,248,Audio and Media,Local,CRITICAL,standard,core.config_entries;core.entity_registry,HIGH
+esphome,22,235,UNCATEGORIZED,Unknown,UNKNOWN,standard,core.config_entries;core.entity_registry,HIGH
+fully_kiosk,5,165,Dashboards and Household Interfaces,Local,IMPORTANT,standard,core.config_entries;core.entity_registry,HIGH
+xbox,1,150,Audio and Media,Cloud,OPTIONAL,standard,core.config_entries;core.entity_registry,HIGH
+mobile_app,6,142,Presence and Occupancy,Hybrid,CRITICAL,standard,core.config_entries;core.entity_registry,HIGH
+hunterdouglas_powerview,1,139,Shades and Natural-Light Management,Local,CRITICAL,standard,core.config_entries;core.entity_registry,HIGH
+accuweather,1,132,Environmental Awareness,Cloud,OPTIONAL,standard,core.config_entries;core.entity_registry,HIGH
+hassio,1,130,Home Assistant Platform,Local,FOUNDATIONAL,standard,core.config_entries;core.entity_registry,HIGH
+homekit_controller,3,128,Access,Local,OPTIONAL,standard,core.config_entries;core.entity_registry,HIGH
+hacs,1,100,Home Assistant Platform,Local,CRITICAL,custom,core.config_entries;core.entity_registry,HIGH
+insteon,1,81,Lighting,Local,FOUNDATIONAL,standard,core.config_entries;core.entity_registry,HIGH
+bhyve,1,75,Environmental Awareness,Cloud,CRITICAL,custom,core.config_entries;core.entity_registry,HIGH
+bermuda,1,62,Presence and Occupancy,Local,IMPORTANT,custom,core.config_entries;core.entity_registry,HIGH
+airq,3,60,Environmental Awareness,Local,IMPORTANT,standard,core.config_entries;core.entity_registry,HIGH
+tesla_custom,1,57,External Services,Cloud,IMPORTANT,custom,core.config_entries;core.entity_registry,HIGH
+mqtt,1,44,Network Foundation,Local,IMPORTANT,standard,core.config_entries;core.entity_registry,HIGH
+unifi_access,1,44,Network Foundation,Local,IMPORTANT,custom,core.config_entries;core.entity_registry,HIGH
+unifi_play,1,44,Network Foundation,Local,UNKNOWN,custom,core.config_entries;core.entity_registry,HIGH
+music_assistant,1,44,UNCATEGORIZED,Unknown,UNKNOWN,standard,core.config_entries;core.entity_registry,HIGH
+nexia,1,28,Climate and Environmental Comfort,Cloud,CRITICAL,standard,core.config_entries;core.entity_registry,HIGH
+adtpulse,1,26,Security and Alarm,Cloud,CRITICAL,custom,core.config_entries;core.entity_registry,HIGH
+asset_intelligence,1,23,Asset Intelligence and Stewardship,Local,IMPORTANT,custom,core.config_entries;core.entity_registry,HIGH
+zwave_js,1,21,Network Foundation,Local,IMPORTANT,standard,core.config_entries;core.entity_registry,HIGH
+playstation_network,1,18,Audio and Media,Cloud,OPTIONAL,standard,core.config_entries;core.entity_registry,HIGH
+github,1,17,Governance and Explainability,Cloud,OPTIONAL,standard,core.config_entries;core.entity_registry,HIGH
+upnp,1,17,Network Foundation,Local,OPTIONAL,standard,core.config_entries;core.entity_registry,HIGH
+group,15,15,Lighting,Local,IMPORTANT,standard,core.config_entries;core.entity_registry,HIGH
+openclaw,1,15,Governance and Explainability,Unknown,UNKNOWN,custom,core.config_entries;core.entity_registry,HIGH
+baf,1,14,Climate and Environmental Comfort,Local,IMPORTANT,standard,core.config_entries;core.entity_registry,HIGH
+miele,1,14,External Services,Cloud,OPTIONAL,standard,core.config_entries;core.entity_registry,HIGH
+watchman,1,13,Administration and Maintenance,Local,IMPORTANT,custom,core.config_entries;core.entity_registry,HIGH
+nws,1,13,Environmental Awareness,Cloud,OPTIONAL,standard,core.config_entries;core.entity_registry,HIGH
+apple_tv,4,11,Audio and Media,Local,OPTIONAL,standard,core.config_entries;core.entity_registry,HIGH
+switch_as_x,10,10,Lighting,Local,OPTIONAL,standard,core.config_entries;core.entity_registry,HIGH
+ibeacon,1,10,Presence and Occupancy,Local,OPTIONAL,standard,core.config_entries;core.entity_registry,HIGH
+sun,1,9,Environmental Awareness,Local,IMPORTANT,standard,core.config_entries;core.entity_registry,HIGH
+oralb,1,9,Historical or Transitional Technology,Cloud,HISTORICAL,standard,core.config_entries;core.entity_registry,HIGH
+webostv,3,6,Audio and Media,Local,OPTIONAL,standard,core.config_entries;core.entity_registry,HIGH
+ipp,1,6,UNCATEGORIZED,Unknown,UNKNOWN,standard,core.config_entries;core.entity_registry,HIGH
+template,5,5,Home Assistant Platform,Local,OPTIONAL,standard,core.config_entries;core.entity_registry,HIGH
+backup,1,5,"Resilience, Backup, and Recovery",Local,CRITICAL,standard,core.config_entries;core.entity_registry,HIGH
+openai_conversation,1,5,Voice Interaction,Cloud,IMPORTANT,standard,core.config_entries;core.entity_registry,HIGH
+private_ble_device,1,5,Presence and Occupancy,Local,IMPORTANT,standard,core.config_entries;core.entity_registry,HIGH
+feedreader,4,4,External Services,Cloud,OPTIONAL,standard,core.config_entries;core.entity_registry,HIGH
+matter,1,4,Network Foundation,Local,IMPORTANT,standard,core.config_entries;core.entity_registry,HIGH
+wyoming,3,3,Voice Interaction,Local,CRITICAL,standard,core.config_entries;core.entity_registry,HIGH
+ms365_calendar,2,3,External Services,Cloud,IMPORTANT,custom,core.config_entries;core.entity_registry,HIGH
+cloud,1,3,Home Assistant Platform,Cloud,IMPORTANT,standard,core.config_entries;core.entity_registry,HIGH
+ms365_mail,1,2,External Services,Cloud,IMPORTANT,custom,core.config_entries;core.entity_registry,HIGH
+ms365_todo,1,2,External Services,Cloud,IMPORTANT,custom,core.config_entries;core.entity_registry,HIGH
+openai_tts,1,2,Voice Interaction,Cloud,OPTIONAL,custom,core.config_entries;core.entity_registry,HIGH
+google_translate,1,1,Historical or Transitional Technology,Cloud,HISTORICAL,standard,core.config_entries;core.entity_registry,HIGH
+shopping_list,1,1,Historical or Transitional Technology,Local,HISTORICAL,standard,core.config_entries;core.entity_registry,HIGH
+met,1,1,Environmental Awareness,Cloud,HISTORICAL,standard,core.config_entries;core.entity_registry,HIGH
+time_date,1,1,Home Assistant Platform,Unknown,OPTIONAL,standard,core.config_entries;core.entity_registry,HIGH
+smart_meter_texas,1,1,Energy and Utilities,Cloud,IMPORTANT,standard,core.config_entries;core.entity_registry,HIGH
+uptime,1,1,Home Assistant Platform,Unknown,OPTIONAL,standard,core.config_entries;core.entity_registry,HIGH
+version,1,1,Home Assistant Platform,Unknown,OPTIONAL,standard,core.config_entries;core.entity_registry,HIGH
+worldclock,1,1,Home Assistant Platform,Unknown,OPTIONAL,standard,core.config_entries;core.entity_registry,HIGH
+extended_openai_conversation,1,1,Voice Interaction,Cloud,IMPORTANT,standard,core.config_entries;core.entity_registry,HIGH
+media_index,1,1,Audio and Media,Local,OPTIONAL,custom,core.config_entries;core.entity_registry,HIGH
+bluetooth,10,0,Presence and Occupancy,Local,OPTIONAL,standard,core.config_entries;core.entity_registry,HIGH
+battery_notes,5,0,Asset Intelligence and Stewardship,Local,OPTIONAL,custom,core.config_entries;core.entity_registry,HIGH
+mass,3,0,Audio and Media,Local,CRITICAL,custom,core.config_entries;core.entity_registry,HIGH
+dlna_dmr,3,0,Audio and Media,Local,OPTIONAL,standard,core.config_entries;core.entity_registry,HIGH
+radio_browser,1,0,Audio and Media,Cloud,OPTIONAL,standard,core.config_entries;core.entity_registry,HIGH
+nodered,1,0,Governance and Explainability,Local,UNKNOWN,custom,core.config_entries;core.entity_registry,HIGH
+meater,1,0,External Services,Cloud,OPTIONAL,standard,core.config_entries;core.entity_registry,HIGH
+thread,1,0,Network Foundation,Local,IMPORTANT,standard,core.config_entries;core.entity_registry,HIGH
+go2rtc,1,0,Cameras and Observation,Local,IMPORTANT,standard,core.config_entries;core.entity_registry,HIGH
+cast,1,0,Audio and Media,Local,OPTIONAL,standard,core.config_entries;core.entity_registry,HIGH
+samsungtv,1,0,Audio and Media,Local,OPTIONAL,standard,core.config_entries;core.entity_registry,HIGH
+improv_ble,1,0,Presence and Occupancy,Local,OPTIONAL,standard,core.config_entries;core.entity_registry,HIGH
+wakeword_installer,1,0,Voice Interaction,Local,OPTIONAL,custom,core.config_entries;core.entity_registry,HIGH
+analytics,1,0,Home Assistant Platform,Unknown,OPTIONAL,standard,core.config_entries;core.entity_registry,HIGH

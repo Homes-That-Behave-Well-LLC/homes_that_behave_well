@@ -1,0 +1,135 @@
+type,key_or_id,alias,mode
+automation,1705618627550,Backup Stale Automation,single
+automation,1705722088152,Turn On Daily 20 Minutes before Sunset,single
+automation,1705723022203,Turn-On Overnight Lights,single
+automation,1705723107052,Turn Off Overnight Lights,single
+automation,1705764739305,Turn Off Daily at 10PM,single
+automation,1706300708824,Close Guest Shade when Resident 2 enters the Guest Bedroom between 9PM and 6AM,single
+automation,1706460953738,Open Guest Shade at 6AM if it is closed,single
+automation,1710360184663,Resident 2 or Resident 1 Arrives Home after 10PM,single
+automation,1714141132253,Turn On Daily 40 Minutes before Sunset if it is Cloudy,single
+automation,1714159836506,Water Bamboo at 8:00 AM if Moisture below 20%,single
+automation,1714160751901,Send Notification when B-Hyve Battery Low,single
+automation,1714227776243,Water Front Door Bushes at 7 AM when moisture falls below 20%,single
+automation,1716913851427,Insteon Keep Alive Every 10 Minutes,single
+automation,1717261355127,VA - Close Den Shades,single
+automation,1717261460173,VA - Open Den Shades,single
+automation,1726861490905,Turn off den corner lamp at 8:00 AM,single
+automation,1733617457994,Turn on Christmas Tree / Sculpture,single
+automation,1733617558592,Turn Off Christmas Tree at 11PM,single
+automation,1735261166855,Turn on Home Tour,single
+automation,1735261309724,Turn Off Home Tour,single
+automation,1742603148876,Turn on Resident 2’s Lamp 39 minutes before sunset,single
+automation,1742655870314,Turn On Apple TV Den,single
+automation,1746125034345,Water Front Bed and Patio Grass at 5AM when Moisture is below 20%,single
+automation,1746125534286,Water Walkway Grass at 9AM when moisture falls below 20%,single
+automation,1746125921797,Water Front Bed Drip at 6AM when moisture is below 20%,single
+automation,1746644826911,AccuWeather Update every 5 Minutes,single
+automation,1746986617880,VA: Bedtime,single
+automation,1747243701467,Refresh Shade Battery Level,single
+automation,1749072179942,9AM 4PM 9PM - Yard Misters On (Mosquitos),single
+automation,1751032511851,Reminder to Charge the Tesla,single
+automation,1751032921248,Tesla below 100 Mile Range - Please Charge,single
+automation,1771366423355,Turn on Resident 1's Office when Occupied,single
+automation,1771366488585,Turn off Resident 1's Light when Office not occupied after 5PM and before 8AM,single
+automation,1771434634252,Turn on Den Lamps when Presence is detected and it's dark between 7AM and 11PM,single
+automation,1773970390221,VA: Good Morning,single
+automation,1774108503313,VA: Goodnight,single
+automation,1774111240279,Test Automation,single
+automation,1774115321081,VA: Weather Announcement,single
+automation,1774129589606,Lighting Profile – Learn on Use,restart
+automation,1774138520663,Concierge – Voice Entry (HA Voice),single
+automation,1774142415967,Concierge – Follow-Up Commands (HA Voice),single
+automation,1774152068669,Concierge — Intentional Learning (HA Voice),single
+automation,1774208448586,Music Genre – Observe Playback (All Sources),single
+automation,1774209344484,Music – Capture Last Media (Robust),single
+automation,1774398280700,Primary Bedroom – Alarm Started,single
+automation,1774398537133,Primary Bedroom – Alarm Repeat,restart
+automation,1774398643667,Primary Bedroom – Alarm Escalation,single
+automation,1774398693205,Primary Bedroom – Alarm Stop,single
+automation,1775158157032,Voice – Play Music,single
+automation,1775158260475,Voice – Continue Playing,single
+automation,1775158413041,Voice – Music Follow-Ups,single
+automation,1775162553276,Learn Music Volume – On Sonos Change,restart
+automation,1775345631804,Concierge – Shade Percentage Catcher (HA Voice),single
+automation,1775345825386,Concierge – Lighting Percentage Catcher (HA Voice),single
+automation,1775416656008,Bedtime (Concierge),single
+automation,1775417200314,Goodnight (Concierge),single
+automation,1775417756436,Good Morning (Concierge),single
+automation,1775424985757,Duck Sonos When Any Assist Satellite Is Listening,parallel
+automation,1777675124195,Turn off Den Lamps when there is No Occupancy and it has gotten brighter,single
+automation,1778002567467,Close Rolling Gate after 5 minutes of being open,single
+automation,1778352335972,Concierge – Room Monitoring Awareness (HA Voice),single
+automation,1778354982425,Concierge – Follow-Up Sensor Queries (HA Voice),single
+automation,1778434250618,Toilet Leak - Downstairs Bathroom,single
+automation,1778434773901,Toilet Leak - Primary Bathroom,single
+automation,1778434929973,Leak Detected - Laundry Room,single
+automation,1778435050498,Leak Detected - Kitchen Dishwasher,single
+automation,1778435246554,Toilet Leak - Guest Bathroom,single
+automation,1778435434187,Toilet Leak - Powder Room,single
+automation,1778441256607,Den - It gets bright and no longer need lamps on,single
+automation,1779224346184,SE Upstairs Shades - Close,single
+automation,1779224406119,SE Upstairs Shades - Open,single
+automation,1779225111910,SE Downstairs Shade - Close,single
+automation,1779225146157,SE Downstairs Shade - Open,single
+automation,1779225387294,NE Upstairs Shades - Close,single
+automation,1779225449599,NE Upstairs Shades - Open,single
+automation,1779225486944,NE Downstairs Shades - Close,single
+automation,1779225523815,NE Downstairs Shades - Open,single
+automation,1779225560874,SW Upstairs Shades - Close,single
+automation,1779225618709,SW Upstairs Shades - Open,single
+automation,1779225652364,SW Downstairs Shades - Close,single
+automation,1779225685387,SW Downstairs Shades - Open,single
+automation,1781752183877,All Kiosk Screen Off 11 PM,single
+automation,1781752263897,All Kiosk Screens On 7AM,single
+automation,1781865200001,Concierge - Identity Self Query (HA Voice),single
+script,turn_on_daily,Turn On Daily,
+script,turn_off_daily,Turn Off Daily,
+script,turn_on_home_tour,Turn On Home Tour,
+script,turn_off_home_tour,Turn Off Home Tour,
+script,turn_on_dinner_party,Turn On Dinner Party,
+script,turn_off_dinner_party,Turn Off Dinner Party,
+script,resolve_speaker_profile,Resolve Speaker Profile,
+script,room_audio_resolver_keystone,Room & Audio Resolver (Keystone),
+script,sonos_speak_with_ducking_room,Sonos Speak with Ducking (Room),
+script,room_capabilities_snapshot_debug,Room Capabilities — Snapshot (Debug),
+script,learn_lighting_usual_room,Learn Lighting — Usual (Room),
+script,learn_music_volume_room,Learn Music Volume — Room,
+script,resolve_music_player_room,Resolve Music Player – Room,
+script,update_last_media_room,Music – Update Last Media (Room),
+script,start_music_usual_room,Start Music – Usual (Room),
+script,determine_music_genre_audit,"Music – Determine Genre (Audit, Room)",
+script,play_genre_room,Play Genre – Room,
+script,play_artist_room,Play Artist – Room (MA),
+script,primary_bedroom_play_alarm_chime,Alarm – Play Chime (Room),
+script,alarm_sonos_snapshot,Alarm – Sonos Snapshot,
+script,living_room_fully_kiosk_provisioning,Common Room – Fully Kiosk Provisioning,
+script,bedroom_fully_kiosk_provisioning,Bedroom – Fully Kiosk Provisioning,
+script,play_album_room_ma,Play Album – Room (MA),
+script,surprise_me_room,Surprise Me – Room,
+script,continue_playing_room,Continue Playing – Room,
+script,what_s_playing_room,What’s Playing? – Room,
+script,why_did_you_play_this_room,Why Did You Play This? – Room,
+script,music_debug_snapshot_room,Music Debug Snapshot – Room,
+script,voice_assistant_speak_fallback,Voice Assistant Speak (Fallback),
+script,room_abilities_speak_unified,Room Abilities — Speak (Unified),
+script,ensure_main_living_area_sonos_group,Ensure Main Living Area Sonos Group,
+script,turn_on_lamps_usual_room,Turn On Lamps — Usual (Room),
+script,turn_on_lights_usual_room,Turn On Lights — Usual (Room),
+script,set_room_posture,Set Room Posture,
+script,resolve_bedroom_context,Resolve Bedroom Context,
+script,bedroom_context_not_valid_speak,Bedroom Context Not Valid Speak,
+script,kiosk_set_overnight_mode,Kiosk Set Overnight Mode,
+script,kiosk_set_day_mode,Kiosk Set Day Mode,
+script,concierge_bedtime,Concierge Bedtime,
+script,concierge_goodnight,Concierge Goodnight,
+script,concierge_good_morning,Concierge Good Morning,
+script,duck_sonos_while_assist_is_listening_room,Duck Sonos While Assist Is Listening (Room),
+script,room_monitoring_abilities_speak,Room Monitoring Abilities — Speak,
+script,speak_room_temperature,Speak Room Temperature,
+script,speak_room_humidity,Speak Room Humidity,
+script,speak_room_light_level,Speak Room Light Level,
+script,speak_room_air_quality,Speak Room Air Quality,
+script,speak_room_noise_level,Speak Room Noise Level,
+script,speak_capability_not_available,Speak Capability Not Available,
+script,speak_room_air_quality_ai_assessment,Speak Room Air Quality (AI Assessment),
