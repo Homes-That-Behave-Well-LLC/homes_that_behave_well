@@ -1,18 +1,17 @@
 # ADR: Stable Endpoint Identity and Network-Boundary Independence
 
-> **Document status: Active — subordinate to the HTBW canonical architecture.**
+> **Document status: Canonical ADR.**
+> Status: **Accepted** 2026-10-27. Records **DL-87**, **DL-88**, and **DL-89** (issue **#195**, formal
+> acceptance review PASS).
 > Canonical authority: [framework.md](framework.md) and [../models/glossary.md](../models/glossary.md).
-> Where this document conflicts with canonical authority, canonical authority prevails.
-> Drafts decisions **DL-87**, **DL-88**, and **DL-89**, recorded pending formal acceptance review at
-> **Issue #195**.
-> **Not yet authoritative. Creates no new responsibility.**
 > Terminology: [../models/glossary.md](../models/glossary.md).
 
 ---
 
 ## Status
 
-**Recorded, pending formal acceptance review (Issue #195). Not yet authoritative.**
+**Accepted 2026-10-27.** Formal acceptance review on Issue #195 recorded **PASS**, with no remediation
+required.
 
 Drafted by the 2026-10 Reference Home Network Segmentation and Stable Endpoint Identity Architecture
 Review, following completion of Reference Home's VLAN, firewall, mDNS, addressing, and cold-start
@@ -20,7 +19,8 @@ commissioning work. Consistent with this repository's established practice that 
 recorded first and separately undergoes formal acceptance review before being treated as binding (see
 *Notes on the 2026-10 AI, Natural Interaction, and Household Knowledge Architecture Review (DL-80–DL-83)*
 and *Notes on the 2026-10 Home Identity and Home Intelligence Architecture Review (DL-84–DL-86)* in
-[../governance/decision-ledger.md](../governance/decision-ledger.md)).
+[../governance/decision-ledger.md](../governance/decision-ledger.md)), and this ADR's own DL-87–89/#195
+precedent.
 
 **This ADR is not authorization to implement VLAN management, firewall management, DHCP, DNS
 infrastructure, mDNS proxying, wireless configuration, switch configuration, or UniFi administration
@@ -286,8 +286,10 @@ cold starts and network-state reconstruction, not only while pre-existing sessio
 - **DL-55**/**OD-88**, Concierge Contract Hard prohibition #3, Room Configuration's existing
   participation rule, and Issue **#181** are each referenced above and are each unaffected — none is
   narrowed, resolved, or reopened by this ADR.
-- **This entry is drafted content, not yet a closed decision; it must not be cited as equivalent to
-  DL-01–DL-86 until #195's formal acceptance review records a result.**
+- **DL-87, DL-88, and DL-89 are accepted, binding decisions (Issue #195, PASS, 2026-10-27), equivalent
+  in standing to DL-01–DL-86, extending the continuous accepted range through DL-91.** They authorize no
+  implementation; mechanics remain routed to **#196**, and the complete hard-coded-topology audit
+  remains owned by **#197**.
 
 ---
 

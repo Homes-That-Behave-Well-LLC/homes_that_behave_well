@@ -104,7 +104,7 @@ record.
 |---|---|---|---|---|
 | `room_id` | Foundation Room reference | 1 | Yes | The Room (or Merged Room) this assignment belongs to |
 | `function` | Enumeration | 1 | Yes | `voice_input` \| `spoken_response_output` \| other existing experience-endpoint category (extensible per **DL-55**) |
-| `participating_capability_reference` | Native Home Assistant reference (entity_id/device_id or equivalent native identifier) | **1** | Yes | The single native capability this record assigns to this function. **Never a literal IP, MAC, or vendor-specific identifier** — the native Home Assistant reference only, consistent with the Stable Endpoint Identity resolution order (**DL-87**, pending #195, cited as forward-compatible guidance, not a dependency of this specification) |
+| `participating_capability_reference` | Native Home Assistant reference (entity_id/device_id or equivalent native identifier) | **1** | Yes | The single native capability this record assigns to this function. **Never a literal IP, MAC, or vendor-specific identifier** — the native Home Assistant reference only, consistent with the Stable Endpoint Identity resolution order (**DL-87**, accepted at **#195**, cited as forward-compatible guidance, not a dependency of this specification) |
 | `participation_state` | Enumeration | 1 | Yes | `participating` \| `not_selected` \| `deliberately_excluded` — reusing Room Configuration's existing three-state model unchanged |
 | `assigned_at` / `updated_at` | Timestamp | 1 | Yes | Reuses Room Configuration's existing Change Record / configuration-history mechanism; no new history mechanism is created |
 
@@ -424,7 +424,7 @@ but does not perform it.
 | **DL-90**, **DL-91** (accepted, #198) | Operationalized by this specification; not reopened |
 | **DL-55** | Reused — experience-endpoint category set remains extensible household vocabulary |
 | **DL-67**, **DL-68** (Merged Room) | Reused, not reopened (§9) |
-| **DL-87** (pending, #195 — stable identity resolution order) | Cited as forward-compatible guidance for `participating_capability_reference` (§4.1); not a dependency of this specification, and not reopened |
+| **DL-87** (accepted, #195 — stable identity resolution order) | Cited as forward-compatible guidance for `participating_capability_reference` (§4.1); not a dependency of this specification, and not reopened |
 | Concierge Contract Hard Prohibition #3 | Reused, restated for `spoken_response_output` specifically (§8) |
 | [room-configuration-contract.md](../contracts/room-configuration-contract.md) "will never guarantee... currently available" | Reused unchanged (§7) |
 | **OD-01** (Room Configuration persistence shape) | Unaffected; this specification's field list is illustrative and must reconcile with whatever OD-01 eventually resolves |

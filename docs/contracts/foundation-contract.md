@@ -164,4 +164,4 @@ Foundation supplies to every Decision Trace:
 - [../architecture/framework.md](../architecture/framework.md)
 - [../architecture/home-assistant-boundary.md](../architecture/home-assistant-boundary.md)
 - [../models/glossary.md](../models/glossary.md)
-- [../architecture/adr-stable-endpoint-identity-and-network-boundary-independence.md](../architecture/adr-stable-endpoint-identity-and-network-boundary-independence.md) — endpoint-identity resolution order and room-interaction-capability relationships (drafted, pending #195)
+- [../architecture/adr-stable-endpoint-identity-and-network-boundary-independence.md](../architecture/adr-stable-endpoint-identity-and-network-boundary-independence.md) — endpoint-identity resolution order and room-interaction-capability relationships (**DL-87**/**DL-88**, accepted at **#195**)

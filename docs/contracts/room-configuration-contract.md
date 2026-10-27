@@ -272,5 +272,5 @@ See [../models/temporal-record.md](../models/temporal-record.md).
 - [../models/temporal-record.md](../models/temporal-record.md)
 - [contextual-vocabulary-contract.md](contextual-vocabulary-contract.md)
 - [truth-contract.md](truth-contract.md)
-- [../architecture/adr-stable-endpoint-identity-and-network-boundary-independence.md](../architecture/adr-stable-endpoint-identity-and-network-boundary-independence.md) — stable endpoint identity and network-boundary independence (drafted, pending #195)
+- [../architecture/adr-stable-endpoint-identity-and-network-boundary-independence.md](../architecture/adr-stable-endpoint-identity-and-network-boundary-independence.md) — stable endpoint identity and network-boundary independence (**DL-87**–**DL-89**, accepted at **#195**)
 - [../architecture/adr-decoupled-voice-interaction-capability-architecture.md](../architecture/adr-decoupled-voice-interaction-capability-architecture.md) — decoupled `voice_input`/`spoken_response_output` Interaction Function Assignments (**DL-90**/**DL-91**, accepted)

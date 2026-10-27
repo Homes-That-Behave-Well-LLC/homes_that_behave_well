@@ -724,4 +724,4 @@ configuration today must never silently rewrite the explanation of a decision ma
 - [temporal-record.md](temporal-record.md)
 - [../contracts/room-configuration-contract.md](../contracts/room-configuration-contract.md)
 - [../contracts/contextual-vocabulary-contract.md](../contracts/contextual-vocabulary-contract.md)
-- [../architecture/adr-stable-endpoint-identity-and-network-boundary-independence.md](../architecture/adr-stable-endpoint-identity-and-network-boundary-independence.md) — separately placeable room-interaction-capability relationships (drafted, pending #195)
+- [../architecture/adr-stable-endpoint-identity-and-network-boundary-independence.md](../architecture/adr-stable-endpoint-identity-and-network-boundary-independence.md) — separately placeable room-interaction-capability relationships (**DL-88**, accepted at **#195**)

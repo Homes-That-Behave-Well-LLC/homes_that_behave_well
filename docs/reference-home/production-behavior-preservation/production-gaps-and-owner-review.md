@@ -137,7 +137,7 @@ plaintext HTTP GET query parameter on the local network.
 **This question is tracked, not duplicated, in [Hard-Coded Topology Audit and Remediation (#197)](https://github.com/Homes-That-Behave-Well-LLC/homes_that_behave_well/issues/197)**, which applies the
 DL-89 technical-debt recording convention drafted by
 [adr-stable-endpoint-identity-and-network-boundary-independence.md](../../architecture/adr-stable-endpoint-identity-and-network-boundary-independence.md)
-(pending #195) to this and other hard-coded endpoint references.
+(**DL-89**, accepted at **#195**) to this and other hard-coded endpoint references.
 
 ---
 

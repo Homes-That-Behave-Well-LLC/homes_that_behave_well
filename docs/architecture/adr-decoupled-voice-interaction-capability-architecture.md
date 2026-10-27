@@ -20,7 +20,8 @@ Consistent with this repository's established practice that a drafted decision i
 separately undergoes formal acceptance review before being treated as binding (see the DL-80–83/#188 and
 DL-84–86/#191 precedents, and this ADR's own DL-90/DL-91/#198 precedent, in
 [../governance/decision-ledger.md](../governance/decision-ledger.md)). **DL-87–89 (Issue #195, the
-Stable Endpoint Identity ADR) remain separately pending and are unaffected by this acceptance.**
+Stable Endpoint Identity ADR) have since also been accepted (2026-10-27, PASS), unaffected by and
+unaffecting this acceptance.**
 
 **This ADR does not redesign Home Assistant Assist, replace native device management, prescribe a
 microphone vendor, prescribe Sonos, prescribe one STT or TTS engine, prescribe Ollama or one LLM,
@@ -137,9 +138,9 @@ spoken responses (acknowledgements, answers), consumed within the Room's existin
 Space exactly as [concierge-contract.md](../contracts/concierge-contract.md) §6 already defines it — this
 ADR adds no new Response Delivery Space mechanism, only the device-level assignment within one.
 
-**This refines, before formal acceptance, the still-pending DL-88 draft** (Issue #195), which named
-"audio_output or media-player endpoint" generically among four separately-placeable room-interaction
-relationships. Since DL-88 is not yet accepted, this ADR's more precise `spoken_response_output` term is
+**This refined, before DL-88's own formal acceptance, the then-still-pending DL-88 draft** (Issue #195,
+since accepted 2026-10-27), which named "audio_output or media-player endpoint" generically among four
+separately-placeable room-interaction relationships. This ADR's more precise `spoken_response_output` term is
 adopted in its place for the voice-interaction case; DL-88's remaining three relationships
 (`voice_input`, `interface`, physical remote) are unaffected. See the cross-reference edit recorded in
 `decision-ledger.md` and
@@ -359,7 +360,7 @@ degradation mechanics; routing/fallback investigation.
 | Concierge's Interaction Space / Execution Target / Response Delivery Space ([concierge-contract.md](../contracts/concierge-contract.md) §6) | **Reused, not reopened.** This ADR adds a device-level question inside an existing Room-level mechanism. |
 | **DL-67**, **DL-68** (Merged Room) | **Reused, not reopened.** Microphone evidence does not establish Interaction Space. |
 | **DL-86**, **DL-41** (Home Intelligence optionality, declared-dependency unavailability) | **Reused, not reopened.** Home Intelligence remains escalation-only here too. |
-| **DL-88** (pending, #195 — room-interaction-capability relationships) | **Refined before acceptance**, not reopened after it. The generic "audio_output" bullet is replaced by this ADR's precise `spoken_response_output` term for the voice-interaction case; DL-88's other three relationships are unaffected. |
+| **DL-88** (accepted, #195 — room-interaction-capability relationships) | **Refined before its own acceptance**, not reopened after it. The generic "audio_output" bullet is replaced by this ADR's precise `spoken_response_output` term for the voice-interaction case; DL-88's other three relationships are unaffected. |
 | **#146** (Home Assistant native capability verification backlog) | **Unaffected.** No new item added by this ADR. |
 | **#198** (this governance review) | Tracks this ADR's formal acceptance. |
 | [foundation-room-interaction-roles-specification.md](foundation-room-interaction-roles-specification.md) (#199, accepted) | Operationalizes the Workstream A follow-on identified below. |
@@ -381,7 +382,9 @@ degradation mechanics; routing/fallback investigation.
   assistant model, and Concierge's Response Delivery Space are each referenced above and are each
   unaffected** — none is narrowed, resolved, or reopened by this ADR.
 - **DL-90 and DL-91 are accepted, binding decisions (Issue #198, PASS, 2026-10-26), equivalent in
-  standing to DL-01–DL-86; DL-87–DL-89 remain pending formal acceptance review at #195.** They authorize no implementation; see the Foundation Room Interaction
+  standing to DL-01–DL-86; DL-87–DL-89 (Issue #195) have since also been accepted (2026-10-27, PASS),
+  forming a continuous accepted range through DL-91.** They authorize no implementation; see the
+  Foundation Room Interaction
   Roles and Performance-Aware Voice Processing workstreams above for implementation-readiness work.
 
 ---
