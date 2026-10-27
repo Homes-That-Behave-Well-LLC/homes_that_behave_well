@@ -246,6 +246,7 @@ Dispositions: **New** · **Keep** · **Revise** · **Supersede** · **Merge** ·
 | `decision-ledger.md` | Canonical | New |
 | `open-decision-issue-index.md` | Canonical | New — identifier-to-issue mapping for every open decision |
 | `document-register.md` | Canonical | New (this document) |
+| `architecture-backlog-execution-standard.md` | Operational | **New** — the repeatable backlog work-selection method (Priority → Dependency → Readiness → Dependency leverage) and greenfield-readiness assessment states, compiled 2026-10-27. **Creates no authority**, decides nothing, reprioritizes nothing, and closes nothing; no specific issue order or Priority label is encoded as permanent |
 | `season-1-architectural-baseline.md` | Operational | **New** — point-in-time Season 1 baseline snapshot, 2026-08-25. **Creates no authority**; the decision ledger and the open-decision issue index prevail on any conflict |
 | `home-assistant-release-review-standard.md` | Operational | **New** — the repeatable monthly Home Assistant release review process. **Creates no authority** and decides nothing; it makes the **P21** / **DL-30** verification obligation recurring rather than proposal-triggered |
 | `public-claim-register.md` | Operational | **New** — traceability from material public claims to repository authority, compiled 2026-09-08. **Creates no authority**, accepts no public claim as architecture, and amends no public material |
@@ -407,6 +408,12 @@ open)**. No file was deleted; the counts below reflect one reclassification (Act
 Canonical ADR, net zero to the Active — subordinate count) and two additions (the two new specification
 documents, +2 to both Active — subordinate and Total classified).
 
+**Updated 2026-10-27**: one new document, `architecture-backlog-execution-standard.md`, was added to
+record the durable backlog work-selection method established by the current architecture-backlog
+sequencing review (Epic #147). Banner-marked **Operational**; it creates no authority, decides nothing,
+and is not itself subject to owner acceptance review. The counts below reflect this one addition
+(+1 to both Operational and Total classified).
+
 | Category | Count |
 |---|---|
 | New canonical documents | 58 |
@@ -417,8 +424,8 @@ documents, +2 to both Active — subordinate and Total classified).
 | Marked Historical illustration (`examples/`) | 16 |
 | Marked Historical — planning/closure record | 2 |
 | **Historical total** | **101** |
-| Operational | 7 |
-| **Total classified** | **193** |
+| Operational | 8 |
+| **Total classified** | **194** |
 | **Unclassified** | **0** |
 | **Deleted** | **0** |
 
