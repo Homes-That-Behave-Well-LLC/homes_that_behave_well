@@ -1004,32 +1004,43 @@ the phrasing of the question:
 The provider remains replaceable. Provider strategy is **OD-67**, drafted as **DL-93** (pending
 **#132**), summarized below; not yet authoritative.
 
-### Allow General Questions (drafted, DL-93, pending #132)
+### Allow General Questions and Allow Home Steward (drafted, DL-93, pending #132)
 
-**Allow General Questions** is a Room-scoped and Person-scoped authorization setting, owned by
-Operational Trust under **DL-39** wherever it is surfaced in configuration (Foundation/Room
-Configuration and Person Configuration expose it; neither owns its semantics). **It is specifically
-authorization for General Reasoning — it is not a blanket "AI allowed" setting** and does not govern
-deterministic Home control, Concierge generally, Home Intelligence, Stewardship, Continuity, or any
-other capability that does not itself declare a Reasoning dependency.
+**Allow General Questions** and **Allow Home Steward** are two **independent** Person-scoped
+authorization settings, owned by Operational Trust under **DL-39** wherever they are surfaced in
+configuration (Person Configuration exposes them; it does not own their semantics). **Neither is a
+blanket "AI allowed" setting**, and neither governs deterministic Home control, Concierge generally,
+Home Intelligence, Stewardship, Continuity, or any other capability that does not itself declare the
+corresponding dependency. **There is no Room-scoped authorization or Room provider assignment for
+either capability.**
 
-Authorization is evaluated **before** provider resolution, never after:
+Every evaluation resolves to exactly one **effective Person** first: the resolved household Person when
+Identity/Operational Trust permit Person-scoped use; otherwise the household's designated **Guest
+fallback Person Extension** (**DL-71**) if one is configured — a real Person whose own settings are
+consulted, creating no Identity Assertion binding; otherwise the **DL-33** unidentified-person policy.
+**No Room is ever consulted in this resolution.**
 
-- For a Person resolved with a **Required Identity Band sufficient for this purpose** (a threshold
-  Operational Trust owns under **DL-39**, not a new band or score): the Person's own setting is
-  authoritative. **NO is terminal** — resolution stops immediately, even where the Room allows it. **YES
-  authorizes resolution** even where the Room's own setting is NO.
-- For an unresolved or Unknown speaker (**DL-33**): Person authorization is not evaluated; Room
-  authorization governs instead. Room NO is terminal; Room YES authorizes Room/Integration-default
-  resolution, bounded by the existing household-neutral-context default.
+Authorization is evaluated **before** provider resolution, never after, against the effective Person's
+own setting:
 
-**Configured fallback, never discovery:** recognized Person → Person provider, then Room provider, then
-Integration-default provider, then unavailable; unresolved/Unknown speaker in an authorizing Room → Room
-provider, then Integration-default provider, then unavailable. A terminal authorization denial never
-enters this chain; provider unavailability (not configured, invalid, or unreachable) may advance to the
-next configured scope, but is never expressed as a trust or permission outcome (**DL-41**). No provider
-outside this configured chain is ever selected — HTBW performs no runtime discovery of a Reasoning
-provider.
+- **NO is terminal** — resolution stops immediately; no provider is tried; the result is a
+  **prohibition**, never described as unavailability.
+- **YES authorizes** resolution to proceed.
+
+This ADR does not define "sufficiently resolved" as a band value or score; it references the existing
+**DL-39** Required Identity Band ownership exactly as every other Operational-Trust-owned threshold is
+referenced.
+
+**Configured fallback, never discovery:** effective Person's own provider, then the Integration-default
+provider, then unavailable. A terminal authorization denial never enters this chain; provider
+unavailability (not configured, invalid, or unreachable) may advance to the next configured scope, but
+is never expressed as a trust or permission outcome (**DL-41**). No provider outside this configured
+chain is ever selected — HTBW performs no runtime discovery of a Reasoning provider.
+
+**Allow Home Steward YES is a top-level eligibility gate only**, never universal information access;
+finer-grained category authorization (financial, maintenance, insurance, and similar) remains separately
+governed. Allow General Questions and Allow Home Steward are independent: denial of one never affects
+the other, and neither is a fallback for the other.
 
 See [../architecture/adr-reasoning-provider-strategy.md](../architecture/adr-reasoning-provider-strategy.md)
 for the full drafted decision.

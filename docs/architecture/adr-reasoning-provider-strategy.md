@@ -22,14 +22,25 @@ This ADR creates **no new responsibility**. The seven responsibilities recorded 
 unchanged. The **Reasoning Provider owns nothing** — this restates, and does not relax, the glossary's
 existing definition.
 
-**This ADR distinguishes Reasoning from Home Intelligence.** Home Intelligence's own governance
-(**DL-86**) is recorded pending formal acceptance review at **Issue #191** and is not yet authoritative.
-This ADR does not accept, decide, or redefine **DL-86** or any Home Intelligence boundary. It confirms
-only that General Reasoning and Home Intelligence are separate capabilities and configuration surfaces
-— a separation the glossary's drafted Home Intelligence entry already assumes (a deployment that "may
-host... a Reasoning Provider," never *is* one) — and that confirmation holds regardless of **DL-86**'s
-own eventual acceptance outcome, because it rests on the already-accepted Reasoning Provider definition
-alone.
+**Remediated 2026-10-27, prior to any formal acceptance review, in response to owner review.** The
+original draft (commit `62a2e0b`) included Room-level General Reasoning authorization and a Room
+provider fallback. **This was removed.** General Reasoning authorization belongs to the **effective
+Person context** (the resolved household Person, or the household's designated Guest fallback Person
+Extension where one exists, or the **DL-33** unidentified-person policy otherwise) — never to a Room. A
+Room retains only its already-accepted, genuinely spatial responsibilities (interaction location,
+input/output surface selection, delivery). This remediation also introduces **Home Steward** as a
+working name, bounded here only to the extent of stating it is independent of General Reasoning; the
+Home Steward product itself is not defined or owned by this ADR.
+
+**This ADR distinguishes Reasoning from Home Intelligence, and from Home Steward.** Home Intelligence's
+own governance (**DL-84**, **DL-85**, **DL-86**) was **accepted 2026-10-14 (Issue #191, formal
+acceptance review PASS)** — a status this ADR's original draft understated, because the acceptance had
+not yet been propagated into this repository's governance documents when the original draft was
+written; see *Notes on the 2026-10 Home Identity and Home Intelligence Architecture Review* in
+[decision-ledger.md](../governance/decision-ledger.md). This ADR does not decide, narrow, or redefine
+**DL-86** or any Home Intelligence boundary; it confirms only that General Reasoning, Home Intelligence
+(an optional deployment/hosting boundary — **DL-86**), and Home Steward (a tentative, separately-owned
+product name — see below) are three distinct concepts that must not be collapsed.
 
 ---
 
@@ -47,7 +58,18 @@ alone.
   audience composition, never against requestor identity.
 - **DL-33** — Unknown Person is a valid Identity Assertion outcome; an Unknown Person creates no
   profile, inherits nothing, and generates no person-scoped learning; what an Unknown Person may
-  request is the household-neutral **unidentified-person policy**, owned by Operational Trust.
+  request is the household-neutral **unidentified-person policy**, owned by Operational Trust as a
+  **policy subject**, never a profile.
+- **DL-71** — a household may designate **exactly one** existing, deliberately configured Person
+  (ordinarily a Known Non-Resident Person, commonly named "Guest") as the **Guest fallback Person
+  Extension** consulted when Identity yields Unknown Person. Consulting that Person's own configured
+  settings as interaction defaults **creates no Identity Assertion binding** Unknown Person to it —
+  Unknown Person remains exactly what DL-33 states. Where no fallback is designated, DL-33's
+  household-neutral treatment applies instead. The designated fallback Person Extension **may hold
+  permissions if the household deliberately configures them** — none of that is prohibited by default.
+- **DL-84** (accepted, #191) — Guest is **not a fourth identity class**: a Role, applied either to a
+  configured Known Non-Resident Person or to the Unidentified-Person Policy Operational Trust applies
+  when Identity yields Unknown Person. This ADR relies on this distinction and does not reopen it.
 - **DL-39** — Operational Trust owns every threshold, including a **Required Identity Band**, wherever
   it is surfaced in configuration; Identity, Concierge, Communication, and Continuity own none. Bands
   are ordered and carry no access meaning by themselves; **no new band, likelihood score, or numeric
@@ -63,15 +85,22 @@ alone.
   provider interaction would be a new artifact class requiring its own declaration before introduction.
 - **DL-81, DL-82, DL-83** (drafted, pending #188) — each already restates "OD-67 unchanged" and
   consumes the Reasoning Provider concept by reference; none decides OD-67, and none is reopened or
-  narrowed by this ADR.
+  narrowed by this ADR. **DL-81**'s Household Knowledge Provider pipeline is the architecture-level
+  capability "Home Steward," below, would name as a household-facing product — a naming question
+  owned by **#188**, not by this ADR.
+- **DL-86** (accepted, #191) — Home Intelligence is an optional deployment/hosting boundary that may
+  host **both** DL-81's Household Knowledge Provider pipeline **and** a Reasoning Provider; it is a
+  "where," not a "what," and is not itself a product name for either capability it may host.
 - **home-assistant-boundary.md** — HTBW **selects or references** an already-configured native
   capability (a conversation agent, an Assist pipeline) rather than copying its credentials, endpoints,
   or model configuration; this ADR confirms this is the representation mechanism for a configured
   Reasoning provider, closing the table's own "OD-67 — not preempted here" / "OD-67 stays open" markers.
 
 **What remains genuinely open after these facts:** which provider classes a household may configure,
-for which purposes, at which configuration scopes, resolved through which precedence and fallback, with
-which disclosure and Explainability obligations. This ADR decides those architectural questions.
+for which purposes, at which configuration scopes, resolved through which precedence and fallback for
+the effective Person, with which disclosure and Explainability obligations, and how General Reasoning
+authorization is independent of a separate Home Steward authorization. This ADR decides those
+architectural questions.
 
 ---
 
@@ -93,36 +122,47 @@ provenance attribute**, never a trust shortcut.
 
 ---
 
-## Decision — Reasoning versus Home Intelligence
+## Decision — Reasoning, Home Intelligence, and Home Steward
 
-**Reasoning** and **Home Intelligence** are separate capabilities and separate configuration/
-authorization surfaces. Provider *technology* does not define capability *ownership*: a local model
-such as Ollama is not inherently Home Intelligence and is not inherently General Reasoning: which
-capability a configured technology serves is a configuration fact, not a property of the technology.
+**Reasoning**, **Home Intelligence**, and **Home Steward** are three distinct concepts. Provider
+*technology* does not define capability *ownership*: a local model such as Ollama is not inherently
+Home Intelligence and is not inherently General Reasoning — which capability a configured technology
+serves is a configuration fact, not a property of the technology.
 
-- **General Reasoning** may support: general knowledge questions; conversational wording and
-  presentation; summarisation; natural-language interpretation; reasoning over context HTBW has
-  explicitly authorised and supplied; and other explicitly declared Reasoning-dependent HTBW functions.
-- **Home Intelligence** is a separate, optional product/deployment boundary (drafted **DL-86**, pending
-  **#191**) concerned with governed Home and household knowledge, which **may host** a Household
-  Knowledge Provider pipeline (drafted **DL-81**, pending **#188**) and **may host** a Reasoning
-  Provider, without becoming a Reasoning Provider itself.
+- **General Reasoning** (this ADR, DL-93) may support: general knowledge questions; conversational
+  wording and presentation; summarisation; natural-language interpretation; reasoning over context HTBW
+  has explicitly authorised and supplied; and other explicitly declared Reasoning-dependent HTBW
+  functions.
+- **Home Intelligence** (accepted **DL-86**, #191) is a separate, optional product/deployment boundary
+  — a "where," not a "what" — that **may host** a Household Knowledge Provider pipeline (drafted
+  **DL-81**, pending **#188**) and **may host** a Reasoning Provider, without becoming either one
+  itself.
+- **Home Steward** is a tentative household-facing product name discussed during this ADR's owner
+  review for the separate commercial product providing governed information about the household
+  (documents, financial/banking information, Asset manuals, insurance, maintenance, administrative
+  information). **This ADR does not define, name, or own the Home Steward product.** Conceptually, Home
+  Steward names the household-facing capability DL-81's Household Knowledge Provider pipeline already
+  governs at the architecture level; formal adoption of "Home Steward" as that pipeline's canonical
+  product name is a naming decision for **Issue #188** (DL-81's own drafted decision) to make, not for
+  OD-67. This ADR states only the authorization-independence pattern below.
 
-**Neither implies the other's availability.** If no applicable General Reasoning provider is
-configured, general questions are unavailable **while** a separately configured and authorised Home
-Intelligence capability may still answer an eligible home-based question. **Home Intelligence is never
-inserted into the General Reasoning fallback chain, and General Reasoning is never used as an
-undeclared substitute for Home Intelligence.** This ADR does not allocate Home Intelligence's own
-architecture, configuration surface, or discovery/trust-establishment mechanics (**#190**); it states
-only that the two capabilities, and their authorization paths, remain distinct, and that this
-distinction holds whether or not **DL-86**/**#191** is ultimately accepted in its current drafted form.
+**None implies another's availability.** If no applicable General Reasoning provider is configured,
+general questions are unavailable **while** a separately configured and authorised Home Intelligence
+capability — hosting either a Household Knowledge Provider (Home Steward) or something else — may still
+answer an eligible home-based question. **Home Intelligence and Home Steward are never inserted into
+the General Reasoning fallback chain, and General Reasoning is never used as an undeclared substitute
+for either.** This ADR does not allocate Home Intelligence's own configuration surface or discovery/
+trust-establishment mechanics (**#190**), and does not allocate Home Steward's product architecture,
+deployment, or information-category authorization taxonomy; it states only that the three capabilities,
+and their authorization paths, remain distinct.
 
 ---
 
 ## Decision — configuration model
 
-General Reasoning is configured at exactly three scopes, and **establishes nothing about its own
-availability beyond what each scope configures**:
+General Reasoning is configured at exactly **two** scopes, and **establishes nothing about its own
+availability beyond what each scope configures**. There is no Room scope for General Reasoning
+authorization or provider assignment.
 
 ### Integration scope
 
@@ -133,36 +173,26 @@ discovery**: it does not scan the network for a model, discover a local provider
 Home Assistant for an alternative conversation agent, select an unconfigured conversation agent, infer
 that a reachable endpoint may perform Reasoning, substitute another configured provider outside the
 governed resolution chain, or treat network reachability as configuration. If no Reasoning provider is
-configured at Integration scope: General Reasoning is not an available capability, Room setup does not
-offer Reasoning enablement or provider selection, Person setup does not offer a Person-level provider
-selection, and runtime attempts no discovery or manufacture of Reasoning.
+configured at Integration scope: General Reasoning is not an available capability, Person setup does
+not offer a Person-level provider selection, and runtime attempts no discovery or manufacture of
+Reasoning.
 
 A configured Reasoning provider is represented the way **home-assistant-boundary.md** already requires
 for *"referenced provider or integration configuration"*: HTBW **selects or references** the
 already-configured native capability (a conversation agent, an Assist pipeline, or an equivalent
 configured integration); it never copies credentials, endpoints, or model configuration, and it stores
-only its own governance (scope, purpose authorization, fallback role).
-
-### Room scope
-
-Room Configuration may, as an instance of the already-accepted "what can I do here?" capability-exposure
-question (`room-configuration.md`, *Room Help and capability exposure*):
-
-- allow or prohibit **General Questions** for that Room;
-- select a Room-scoped Reasoning provider, drawn only from the Integration-configured inventory.
-
-Room Configuration does not invent a new participation state, vocabulary mechanism, or exposure rule to
-carry this: **Allow General Questions** is a Room-scoped authorization setting, owned by Operational
-Trust under **DL-39** wherever it is surfaced in configuration, and Room Configuration exposes it the
-same way it exposes any other capability setting.
+only its own governance (purpose authorization, fallback role).
 
 ### Person scope
 
-Person Configuration may, within accepted Person boundaries:
+Person Configuration provides, for every Person, independently:
 
-- allow or prohibit **General Questions** for that Person;
-- select a Person-scoped Reasoning provider, drawn only from the Integration-configured inventory, when
-  General Questions are allowed for that Person.
+- **Allow General Questions: YES / NO** — General Reasoning authorization.
+- **Allow Home Steward: YES / NO** — a top-level capability gate for the separately-governed Home
+  Steward product (see *Home Steward authorization*, below). **These are independent settings, never
+  one combined "Allow AI" setting**; a Person may legitimately hold any of the four combinations.
+- An **optional Person-specific Reasoning provider**, drawn only from the Integration-configured
+  inventory, selectable only when Allow General Questions is YES.
 
 A Person-scoped provider is an explicit **override candidate**, never a requirement. **The
 Person-to-provider association's own storage and lifecycle mechanics remain OD-77's (#148)** — this ADR
@@ -170,85 +200,137 @@ defines only the permissible use and resolution semantics of a configured associ
 how that association record is kept. **A Reasoning-provider selection is never duplicated as a
 Continuity presentation preference**: the explicit Person Reasoning-provider assignment is canonical
 for provider assignment, and Continuity's existing preferred-delivery/preferred-presentation preference
-governs wording and delivery form, never which provider answers.
+governs wording and delivery form, never which provider answers, and never either capability-
+authorization gate.
+
+### Room's retained, genuinely spatial responsibilities
+
+A Room is never an authorization owner for General Reasoning or Home Steward, and never carries a
+Reasoning-provider assignment. A Room continues to supply, as already accepted:
+
+- the room-scoped interaction relationships already established for Foundation Room Interaction Roles
+  (`voice_input`, `spoken_response_output`, `interface`, physical remote, and other accepted
+  room-scoped capabilities);
+- **interaction location** — where the request originated;
+- **input/output surface selection** — which device captured the request and which device delivers the
+  response;
+- **authorized Room context** supplied to an authorized Reasoning invocation, where Operational Trust
+  permits it, as ordinary context — never as an authorization signal of its own;
+- any separately governed Room policy not owned by OD-67 (for example native Assist exposure, **DL-66**,
+  unaffected and unreopened here).
+
+**A Room providing interaction context and a delivery surface is not the same thing as a Room granting
+or denying General Reasoning or Home Steward** — the two were collapsed in this ADR's original draft
+and are separated here.
 
 ---
 
-## Decision — authorization precedes provider resolution
+## Decision — the effective Person
 
-**Allow General Questions** (Room-scoped, Person-scoped) is a specific authorization for General
-Reasoning. **It is not a blanket "AI allowed" setting** and does not govern deterministic Home control,
-Concierge generally, Home Intelligence, Stewardship, Continuity, or any other capability that does not
-itself declare a Reasoning dependency.
+Every General Reasoning (and Home Steward) authorization evaluation resolves to exactly one **effective
+Person** before any capability gate is read:
+
+1. **The resolved household Person**, when Identity and Operational Trust permit Person-scoped use
+   (ordinary Identity resolution, unchanged — **DL-38**, **DL-39**).
+2. Otherwise, **the household's designated Guest fallback Person Extension**, if the household has
+   deliberately configured one (**DL-71**) — a real, named Person whose own configured settings are
+   consulted as the interaction default. **This creates no Identity Assertion binding** Unknown Person
+   to that Person; Identity's own result remains exactly `unknown`, in every record including the
+   Decision Trace, unchanged from DL-33.
+3. Otherwise (no household Person resolved, and no Guest fallback designated), **the DL-33
+   unidentified-person policy** — a policy subject, not a Person — applies. Where no policy value is
+   recorded for General Questions or Home Steward specifically, the setting is **unresolved
+   configuration**, not a silent default; this ADR does not invent one.
+
+**No second anonymous-person type, pseudo-person, room-person, or runtime-only profile is created.**
+This ADR does not define a numeric identity-likelihood threshold: whether a household Person is
+"sufficiently resolved" to serve as the effective Person is answered entirely by existing Identity/
+Operational-Trust authority (**DL-39**'s Required Identity Band mechanism), never by a value this ADR
+invents.
+
+**There is no Room involvement in resolving the effective Person or in evaluating its capability
+gates.** A Room may supply interaction context (where the request was made, which surfaces are
+available) consumed *by* the effective-Person evaluation; it is never itself a party to that
+evaluation.
+
+---
+
+## Decision — General Reasoning authorization
+
+**Allow General Questions: YES / NO** is a Person-scoped (the effective Person's own) setting. **It is
+not a blanket "AI allowed" setting** and does not govern deterministic Home control, Concierge
+generally, Home Intelligence, Home Steward, Stewardship, Continuity, or any other capability that does
+not itself declare a Reasoning dependency.
 
 **Provider availability and provider selection do not grant authorization.** Authorization is evaluated
-**before** provider resolution is attempted, and a denied authorization never reaches provider
-resolution at all.
+**before** provider resolution is attempted, against the effective Person's own setting:
 
-### Recognized Person
+- **NO is terminal.** General Reasoning is prohibited for the effective Person; resolution stops
+  immediately; no Person-specific provider is tried; no Integration-default provider is tried; no
+  provider is discovered; Home Steward is never substituted as a workaround; the result is reported as
+  a **prohibition**, never described as provider unavailability.
+- **YES authorizes** General Reasoning for the effective Person, and provider resolution may proceed.
 
-When a Person is resolved with a **Required Identity Band sufficient for the General Reasoning
-authorization purpose** (an Operational-Trust-owned threshold under **DL-39**, not a value this ADR
-sets):
+---
 
-- The Person's **Allow General Questions** setting is authoritative.
-- **NO is terminal.** General Reasoning is prohibited for that Person; resolution stops immediately; the
-  Person provider, Room provider, and Integration-default provider are none of them tried. This holds
-  **even where the Room's own Allow General Questions is YES** — Person denial is never overridden by
-  Room permission.
-- **YES authorizes** General Reasoning for that Person, and provider resolution may proceed, **even
-  where the Room's own Allow General Questions is NO** — a recognized, authorized Person's own setting
-  prevails over the Room's.
+## Decision — Home Steward authorization
 
-This ADR does not define what "sufficient" means as a band value or a confidence mechanic; it
-references the existing Identity/Operational-Trust threshold ownership (**DL-39**) exactly as every
-other Operational-Trust-owned threshold is referenced.
+**Allow Home Steward: YES / NO** is a second, independent Person-scoped (effective Person's own)
+setting — **a top-level capability gate only**, established by Person Configuration alongside Allow
+General Questions. The two settings are never combined into one "Allow AI" setting; a Person may
+legitimately hold any of the four combinations (General Questions YES/Home Steward YES, YES/NO, NO/YES,
+NO/NO). The Guest fallback Person Extension, where designated, carries the same two independent
+settings as any other Person.
 
-### Unresolved or Unknown Person
+- **NO** prohibits the effective Person from invoking Home Steward. General Reasoning must never be
+  used to bypass this prohibition, and Home Steward must never answer through another interaction path
+  merely because a Reasoning provider happens to be available.
+- **YES establishes capability eligibility only.** It is **not** universal access to all Home Steward
+  information. Later, finer-grained authorization — for example distinguishing maintenance/manual
+  information, Asset records, financial/banking information, insurance/legal information, and
+  administrative household information — remains required for a specific request and remains **outside
+  OD-67's scope**. This ADR preserves that seam; it does not design the taxonomy. The correct owner for
+  that finer-grained taxonomy is the combination of Home Steward's own product decision (naming/scope —
+  **#188**, see above) and Operational Trust's existing disclosure-evaluation authority (**DL-34**);
+  this ADR does not assign it elsewhere.
 
-When no Person is resolved with sufficient confidence for this purpose: Person authorization is **not
-evaluated**, no Person-scoped provider is used, and **Room authorization governs**:
-
-- If Room Allow General Questions = **NO**: General Reasoning is prohibited in that Room for the
-  unresolved/Unknown speaker; resolution stops immediately; the Integration-default provider is **not**
-  tried.
-- If Room Allow General Questions = **YES**: General Reasoning is authorized at Room scope, and provider
-  resolution proceeds through the Room and Integration-default providers.
-
-An Unknown or unresolved speaker's access remains bounded by the already-accepted household-neutral
-context default (**DL-33**) and ordinary Operational Trust disclosure rules regardless of provider
-availability: **provider availability never authorizes household-private context.**
+**Reasoning and Home Steward are independent capabilities, evaluated independently.** A Person may be
+denied General Reasoning but permitted Home Steward, or the reverse. An unavailable General Reasoning
+provider does not make Home Steward unavailable, and an unavailable Home Steward product does not make
+General Reasoning unavailable. Home Steward is never inserted into the General Reasoning fallback
+chain; General Reasoning is never used as an undeclared substitute for Home Steward.
 
 ---
 
 ## Decision — provider resolution (configured fallback, never discovery)
 
-**For a recognized, authorized Person:**
+**For an effective Person authorized for General Questions (YES):**
 
-1. Try the **Person-configured** Reasoning provider, if one exists.
-2. If absent or unavailable, try the **Room-configured** Reasoning provider, if one exists. *Absence of
-   a Person provider means inheritance to the next configured scope, never denial.*
-3. If absent or unavailable, try the **Integration-default** Reasoning provider, if configured.
-4. If absent or unavailable, General Reasoning is **unavailable**, and the missing dependency is named
-   (**DL-41**).
+1. Try the **Person-specific** Reasoning provider, if one is configured and available.
+2. If absent or unavailable, try the **Integration-default** Reasoning provider, if configured and
+   available. *Absence of a Person-specific provider means inheritance from the Integration default,
+   never denial.*
+3. If absent or unavailable, General Reasoning is **unavailable**, and the missing dependency is named
+   (**DL-41**). No Home Steward substitution. No approximation.
 
-**For an unresolved/Unknown speaker in a Room that authorizes General Questions:**
-
-1. Try the **Room-configured** Reasoning provider, if one exists.
-2. If absent or unavailable, try the **Integration-default** Reasoning provider, if configured.
-3. If absent or unavailable, General Reasoning is **unavailable**, and the missing dependency is named.
+**There is no Room-configured provider and no Room fallback step.** Resolution is exactly Person →
+Integration default → unavailable.
 
 **Terminal authorization denial never enters the fallback chain.** A provider's own *unavailability*
 (not configured, configured but invalid, or configured but currently unreachable) may advance resolution
 to the next configured scope; an *authorization denial* never does — the two outcomes are evaluated
 independently and are never collapsed, consistent with **DL-41**'s existing "capability unavailable is a
 dependency outcome, never a trust failure... or permission failure" rule applied to this specific
-dependency. **No provider outside this configured chain is ever selected.**
+dependency. **No provider outside this configured chain is ever selected; there is no runtime
+discovery.**
 
-The **Integration-default Reasoning provider** is not merely a conversational fallback: it is the
-default Reasoning capability available to any explicitly provider-dependent HTBW function that declares
-Reasoning as a capability dependency, is permitted under this decision, has authorized context to
-supply, and has no more specific applicable configured provider. This ADR establishes the
+The **Integration-default Reasoning provider** has two governed roles: (1) fallback for an effective
+Person who is authorized for General Questions but has no available Person-specific provider; (2) the
+default provider for any other explicitly provider-dependent HTBW function that declares Reasoning as a
+capability dependency, is permitted under this decision, has authorized context to supply, and has
+Operational Trust permission to disclose that context. **The existence of an Integration-default
+provider grants no blanket authority to use it, no access to household information, and no
+authorization for an effective Person whose own setting is NO.** This ADR establishes the
 default-provider principle and its governance boundary; it does not enumerate speculative future HTBW
 functions that may declare this dependency.
 
@@ -270,8 +352,10 @@ A Reasoning provider must **never**:
 - grant access or permission, authorize an action, or determine an Operational Trust outcome;
 - silently create a Person preference, a Room policy, or a household policy;
 - fabricate a device, entity, service, capability, Person, Asset, or Home condition;
-- become the system of record, become Home Intelligence, replace deterministic Home-control logic, or
-  serve as the reasoning of record.
+- become the system of record, become Home Intelligence or Home Steward, replace deterministic
+  Home-control logic, or serve as the reasoning of record;
+- answer a Home Steward-eligible request as a workaround when the effective Person's Allow Home Steward
+  setting is NO, or when Home Steward itself is unavailable.
 
 A provider recommendation is **governed input**. It is never automatically an authorized action —
 restating, for this specific input class, the already-accepted rule that a recommendation is never
@@ -302,12 +386,13 @@ DL-30 step four, where the integration already satisfies the requirement).
 
 Configuring a Reasoning provider **does not grant blanket access** to household information. For each
 invocation, HTBW may supply only: the minimum context needed for the authorized task; context
-Operational Trust permits for that request, Person, Room, provider, and purpose; and explicitly governed
-supporting material. Provider configuration does **not** automatically authorize access to Person
-profiles, calendars, email, Decision Traces, Home Intelligence, household-private context, Asset
-records, Home history, current occupancy, or other sensitive information. **Operational Trust determines
-disclosure scope. The Reasoning provider never determines its own disclosure scope** — restating
-**DL-34** for this specific input class.
+Operational Trust permits for the effective Person, provider, and purpose; and explicitly governed
+supporting material (which may include authorized Room context, supplied as ordinary content, never as
+an authorization signal). Provider configuration does **not** automatically authorize access to Person
+profiles, calendars, email, Decision Traces, Home Intelligence, Home Steward, household-private
+context, Asset records, Home history, current occupancy, or other sensitive information. **Operational
+Trust determines disclosure scope. The Reasoning provider never determines its own disclosure scope** —
+restating **DL-34** for this specific input class.
 
 **Configuration-time disclosure** must clearly state, where applicable: local/self-hosted versus
 external/cloud residency; that authorized context may leave the Home for an external provider; the
@@ -326,12 +411,17 @@ duplicate them.
 records policies evaluated, restrictions applied, action taken, and result; Reasoning-specific
 provenance is ordinary content within that existing structure, not a new artifact:
 
-- provider identity/reference, and whether it was Person-, Room-, or Integration-default scope;
+- the **effective Person** used, and whether it was a resolved household Person or the Guest fallback
+  Person Extension;
+- the **capability requested** — General Reasoning or Home Steward;
+- the **capability-authorization result**, and, where denied, that it was a **prohibition**, distinct
+  from provider/product unavailability;
+- provider identity/reference, and whether it was Person-specific or Integration-default scope;
 - whether fallback occurred, and why;
-- whether the invocation was General Reasoning or Home Intelligence;
 - the purpose the provider served, and the authorized context class supplied;
 - provider residency (local/self-hosted or external/cloud), where governed and relevant;
-- the authorization outcome and, where denial occurred, that it was denial rather than unavailability.
+- which provider or product was responsible for a given response, for later "where did that answer come
+  from?" queries, answered from recorded provenance, never reconstructed.
 
 Where an explanation cites a Reasoning-provider suggestion as evidence, the source-class discipline
 already drafted at **DL-82** (pending #188) — never presenting a provider suggestion as household fact —
@@ -363,6 +453,7 @@ household-declared at Integration scope with mandatory configuration-time disclo
 Option C's purpose discipline** (Reasoning may reason, may never govern) **and explicitly including
 Option D's no-provider posture as first-class**, never a degraded fallback state. Option A is rejected
 as a universal mandate; nothing here prevents a household from choosing local-only for itself.
+Authorization is resolved against the effective Person, never a Room, per this remediation.
 
 ---
 
@@ -374,15 +465,17 @@ as a universal mandate; nothing here prevents a household from choosing local-on
 | **OD-07** (#95) | Voice processing locality — a different provider class; the "prefer local-first AI" setting is OD-07's own privacy-boundary question, not a Continuity preference |
 | **OD-65** (#130) | Learning eligibility — whether a provider-inferred value may enter the promotion ladder |
 | **OD-66** (#131) | Delegation boundary for an external **autonomous policy engine that decides** — a different thing from a Reasoning provider that is consulted and never decides |
-| **OD-04** (#97) | Wider Operational Trust policy precedence; person/Room authorization gating here reuses, not reopens, OD-04's ordering |
+| **OD-04** (#97) | Wider Operational Trust policy precedence; effective-Person authorization gating here reuses, not reopens, OD-04's ordering |
 | **#185** | MCP transport-preference research — a transport question, not a provider-classification question |
-| **Home Intelligence** (**DL-86**, pending #191) | Its own configuration, authorization, deployment, and discovery/trust-establishment mechanics (**#190**) |
+| **Home Intelligence** (accepted **DL-86**, #191) | Its own configuration, authorization, deployment, and discovery/trust-establishment mechanics (**#190**) |
+| **Home Steward** (naming/product boundary, **#188**) | Its own product definition, deployment, and finer-grained information-category authorization taxonomy; this ADR states only that it is independent of General Reasoning |
 | **Truth** | Facts — never provider output without the governed promotion path |
 | **Concierge** | Orchestrates provider use as a consulted component; never becomes Truth or authorization authority |
-| **Continuity** | Preferred delivery/presentation wording; never a competing Reasoning-provider preference |
+| **Continuity** | Preferred delivery/presentation wording; never a competing Reasoning-provider or Home Steward preference |
+| **Room Configuration** | Interaction location, input/output surface selection, authorized Room context supply, and its own already-accepted room-scoped interaction relationships — **never** General Reasoning or Home Steward authorization, and never a provider assignment |
 
-**No Provider or Reasoning responsibility is created.** No vendor, model, provider abstraction, API, or
-transport is selected or designed by this ADR.
+**No Provider, Reasoning, or Home Steward responsibility is created.** No vendor, model, provider
+abstraction, API, or transport is selected or designed by this ADR.
 
 ---
 
@@ -395,11 +488,16 @@ transport is selected or designed by this ADR.
 - Does not decide learning-evidence eligibility (**OD-65**, #130).
 - Does not decide the external autonomous-policy-engine delegation boundary (**OD-66**, #131).
 - Does not decide wider Operational Trust policy precedence (**OD-04**, #97).
-- Does not accept, decide, or redefine Home Intelligence's own architecture (**DL-86**, pending #191).
+- Does not accept, decide, or redefine Home Intelligence's own architecture (accepted **DL-86**, #191).
+- Does not define, name, or own the Home Steward product, its deployment, or its finer-grained
+  information-category authorization taxonomy (naming decision belongs to **#188**).
+- Does not make Room Configuration an authorization owner for General Reasoning or Home Steward, and
+  does not create a Room-level provider assignment.
+- Does not invent a numeric identity-likelihood threshold for the effective-Person determination.
 - Does not promote any provider response to an HTBW Fact or authorized action.
 - Does not create a new artifact/record class for Explainability provenance.
 - Does not reopen **DL-30**, **DL-33**, **DL-34**, **DL-39**, **DL-41**, **DL-43**, **DL-46**, **DL-56**,
-  **DL-66**, or **DL-73**.
+  **DL-66**, **DL-71**, **DL-73**, or **DL-84**.
 - **This entry is drafted content, not yet a closed decision; it must not be cited as equivalent to
   DL-01–DL-92 until #132's formal acceptance review records a result.**
 
@@ -408,7 +506,9 @@ transport is selected or designed by this ADR.
 ## Test and acceptance scenarios
 
 See the companion acceptance-scenario record in the Issue #132 execution comment for the full
-scenario-by-scenario evaluation (Scenarios 1–22). All scenarios are satisfied by the decision above
+scenario-by-scenario evaluation (Scenarios 1–18, plus preserved scenarios on factual-integrity,
+minimum-context, provider-recommendation-is-not-authority, sensitivity-classification prohibition, and
+DL-43 artifact retention). All scenarios are satisfied by the decision above
 without inventing additional architecture; none requires a new record class, a new responsibility, or a
 provider selection.
 
@@ -416,12 +516,15 @@ provider selection.
 
 ## Related documents
 
-- [../models/glossary.md](../models/glossary.md) — Reasoning Provider, Home Intelligence, Delegated
-  Adaptive Behaviour
-- [../models/operational-trust.md](../models/operational-trust.md) — General questions and reasoning
-  providers; Required Identity Band ownership
+- [../models/glossary.md](../models/glossary.md) — Reasoning Provider, General Reasoning, Home
+  Intelligence, Home Steward, Delegated Adaptive Behaviour
+- [../models/operational-trust.md](../models/operational-trust.md) — General Reasoning/Home Steward
+  authorization; Required Identity Band ownership
 - [../models/continuity.md](../models/continuity.md) — person-scoped preference boundary
-- [../models/room-configuration.md](../models/room-configuration.md) — Room Help and capability exposure
+- [../models/person-and-identity.md](../models/person-and-identity.md) — Guest fallback Person
+  Extension (**DL-71**), Unknown Person (**DL-33**)
+- [../models/room-configuration.md](../models/room-configuration.md) — Room's retained spatial
+  responsibilities
 - [../models/decision-trace.md](../models/decision-trace.md) — Explainability structure
 - [../architecture/home-assistant-boundary.md](../architecture/home-assistant-boundary.md) — referenced
   provider/integration configuration representation

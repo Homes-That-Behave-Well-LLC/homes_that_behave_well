@@ -1,18 +1,20 @@
 # ADR: Home Identity and Home Intelligence Governance
 
-> **Document status: Active — subordinate to the HTBW canonical architecture.**
+> **Document status: Canonical ADR.**
+> Status: **Accepted** 2026-10-14. Records **DL-84**, **DL-85**, and **DL-86** (issue **#191**, formal
+> acceptance review PASS). This acceptance was not propagated into this banner until 2026-10-27, during
+> the OD-67/#132 remediation — see *Notes on the 2026-10 Home Identity and Home Intelligence
+> Architecture Review* in [../governance/decision-ledger.md](../governance/decision-ledger.md).
 > Canonical authority: [framework.md](framework.md) and [../models/glossary.md](../models/glossary.md).
-> Where this document conflicts with canonical authority, canonical authority prevails.
-> Drafts decisions **DL-84**, **DL-85**, and **DL-86**, recorded pending formal acceptance review at
-> **Issue #191**.
-> **Not yet authoritative. Creates no new responsibility.**
 > Terminology: [../models/glossary.md](../models/glossary.md).
 
 ---
 
 ## Status
 
-**Recorded, pending formal acceptance review (Issue #191). Not yet authoritative.**
+**Accepted 2026-10-14.** Formal acceptance review on Issue #191 recorded **PASS**. (Propagation into
+this banner, the decision ledger, `document-register.md`, and `glossary.md` was delayed until
+2026-10-27; no re-review occurred — the delay is a bookkeeping gap, not a substantive change.)
 
 Drafted by the 2026-10 Home Identity and Home Intelligence Architecture Review, following an owner
 discussion concerning HTBW Identity (Home, Individual, Guest), Home-owned email and calendar,
@@ -23,18 +25,21 @@ undergoes formal acceptance review before being treated as binding (see *Notes o
 obligation-lifecycle decision* and *Notes on the 2026-10 AI, Natural Interaction, and Household
 Knowledge Architecture Review (DL-80–DL-83)* in
 [../governance/decision-ledger.md](../governance/decision-ledger.md)). **It does not authorize,
-schedule, or require any implementation**, whether or not it is later formally accepted. No discovery
-protocol, trust-establishment mechanism, email/calendar provider, hardware, operating system, or
-on-premises server is built, selected, or provisioned by this ADR.
+schedule, or require any implementation.** No discovery protocol, trust-establishment mechanism,
+email/calendar provider, hardware, operating system, or on-premises server is built, selected, or
+provisioned by this ADR.
 
 This ADR creates **no new responsibility**. The seven responsibilities recorded in **DL-01** —
 Foundation, Stewardship, Identity, Truth, Continuity, Operational Trust, Concierge — are unchanged.
-**OD-67** (Reasoning Provider Strategy) is unchanged and remains open. **OD-77** (Person-to-External-
+**OD-67** (Reasoning Provider Strategy) is unchanged; its own persistence/provider-strategy question is
+drafted separately as **DL-93** (pending #132). **OD-77** (Person-to-External-
 Resource Association Ownership), **OD-20** (Optional Asset Intelligence Product Integration), **OD-81**
 (HTBW Capability Exposure and Self-Consumption), **OD-82** (HTBW Product Consolidation and
-Retirement), **OD-85** (Adoption Scope, Artifact Custody, and Coexistence Behaviour), and the
-wake-word sub-question already carried by **OD-86** are each referenced below and are each
-**unaffected** — none is narrowed, resolved, or reopened by this ADR.
+Retirement), **OD-85** (Adoption Scope, Artifact Custody, and Coexistence Behaviour), **OD-90**
+(Home-to-External-Resource Association Ownership, #189), and the wake-word sub-question already
+carried by **OD-86** [the vocabulary-supersession decision, not to be confused with this ADR's own
+**DL-86**] are each referenced below and remain **open, unaffected** — none is narrowed, resolved, or
+reopened by this ADR.
 
 ---
 

@@ -51,14 +51,14 @@ Dispositions: **New** · **Keep** · **Revise** · **Supersede** · **Merge** ·
 | `adr-product-disposition-and-legacy-adoption.md` | Canonical ADR | **New** — Accepted 2026-08-26 as **DL-51** and **DL-52**. Closes **OD-82**, opens **OD-85**, and amends the non-negotiable constraint in `authority-order.md` |
 | `adr-household-knowledge-provider-governance.md` | Active — subordinate | **New** — Recorded 2026-10-13, pending formal acceptance review at **Issue #188**, as **DL-81**. Architecture-only; no V1 implementation authorized even if later accepted. Raised by the 2026-10 AI, Natural Interaction, and Household Knowledge Architecture Review (#188) |
 | `adr-generated-behavior-authoring-governance.md` | Active — subordinate | **New** — Recorded 2026-10-13, pending formal acceptance review at **Issue #188**, as **DL-83**. Governance lifecycle boundary only; no implementation authorized even if later accepted. Raised by the 2026-10 AI, Natural Interaction, and Household Knowledge Architecture Review (#188) |
-| `adr-home-identity-and-home-intelligence-governance.md` | Active — subordinate | **New** — Recorded 2026-10-14, pending formal acceptance review at **Issue #191**, as **DL-84**, **DL-85**, and **DL-86**. Governance-only; no implementation, discovery mechanism, or technology stack authorized even if later accepted. Opens **OD-90**. Raised by the 2026-10 Home Identity and Home Intelligence Architecture Review (#191) |
+| `adr-home-identity-and-home-intelligence-governance.md` | Canonical ADR | **Accepted 2026-10-14** as **DL-84**, **DL-85**, and **DL-86** (Issue #191, formal acceptance review PASS). Acceptance propagated to this register 2026-10-27 during the OD-67/#132 remediation (bookkeeping gap only, no re-review). Governance-only; no implementation, discovery mechanism, or technology stack authorized. Opens **OD-90**; **OD-77** and **OD-90** remain open per #191's own closing comment. Raised by the 2026-10 Home Identity and Home Intelligence Architecture Review (#191, closed) |
 | `adr-stable-endpoint-identity-and-network-boundary-independence.md` | Canonical ADR | **Accepted 2026-10-27** as **DL-87**, **DL-88**, and **DL-89** (Issue #195, formal acceptance review PASS). Governance-only; no VLAN/firewall/DHCP/DNS/mDNS/wireless/switch/UniFi management or runtime endpoint-resolution implementation authorized even if later accepted. No OD identifier allocated. Raised by the 2026-10 Reference Home Network Segmentation and Stable Endpoint Identity Architecture Review (#195, closed) |
 | `adr-decoupled-voice-interaction-capability-architecture.md` | Canonical ADR | **Accepted 2026-10-26** as **DL-90** and **DL-91** (Issue #198, formal acceptance review PASS). Governance-only; authorizes no implementation, vendor, STT/TTS engine, or technology stack. No OD identifier allocated. Refines (does not reopen) the still-pending **DL-88**'s `audio_output` term to `spoken_response_output`. Raised by the 2026-10 Decoupled Voice Interaction Capability Architecture Review (#198, closed) |
 | `foundation-room-interaction-roles-specification.md` | Active — subordinate | **Owner-Accepted** (original material) — Implementation-readiness schema/contract specification operationalizing **DL-90**/**DL-91** for the Foundation Room Interaction Roles workstream. Owner Acceptance Review PASS (2026-10-26, Issue #199, closed) after remediating one data-model cardinality issue (commit `7096a38`). **Extended 2026-10-27 by Issue #196** to generalize the model to DL-88's `interface`/`physical_remote` roles and to resolve DL-87's implementation mechanics for this workstream (§18); **the #196 extension's own Owner Acceptance Review PASS (2026-10-27, Issue #196, closed), no remediation required.** Neither acceptance reopens the other, nor DL-87, DL-88, DL-90, or DL-91. Specification only; authorizes no executable implementation, pending an authorized HTBW Core implementation surface per the greenfield mandate |
 | `performance-aware-voice-processing-specification.md` | Active — subordinate | **New** — Implementation-readiness specification operationalizing **DL-91** for the Performance-Aware Voice Processing workstream (processing stages, processing classes, routing/escalation evidence contract, provider independence, Voice Identity/Continuity/Operational Trust/Truth/Concierge boundaries, privacy, degradation, performance metrics, observability, Home Intelligence escalation). **Pending owner acceptance review (Issue #200, open — AWAITING OWNER ACCEPTANCE REVIEW).** Specification only; authorizes no executable implementation, pending an authorized HTBW Core implementation surface per the greenfield mandate |
 | `htbw-framework-aligned-ux-and-information-architecture.md` | Active — subordinate | **New** — Documentation/UI-architecture direction only. Reconciles with the already-accepted Foundation/Truth/Stewardship/Continuity asset-responsibility split (`../models/asset.md`) and with **DL-51**/**DL-52**; corrects "migration"/"retirement" terminology to **Adoption**. Explicitly does not resolve **OD-85** (#172), **OD-81** (#159), or **OD-20** (#110); allocates no Decision Ledger entry |
 | `adr-governed-record-persistence-mechanism.md` | Canonical ADR | **Accepted 2026-10-27** as **DL-92** (Issue #76, formal acceptance review PASS, following bounded reference/terminology corrections). Resolves **OD-01**'s persistence-mechanism residual, closing **OD-01** (DL-31, DL-92): Storage helper is the default mechanism for Current Projection, Change Record, and Snapshot; Connected Storage participates only as the already-accepted **DL-42** External History Retention extension (Change Records only, never Current Projections); distinguishes config-entry removal from governed-record deletion authority; restates no-second-Recorder (**DL-46**); defers **OD-05**, **OD-26**, **OD-29**, **OD-36**, **OD-37**, **OD-38**, **OD-39**, **OD-42**, **OD-49**, **OD-64**. Raised by the Issue #76 governed-record persistence review (#76, closed) |
-| `adr-reasoning-provider-strategy.md` | Active — subordinate | **New** — Drafts **DL-93**, recorded pending formal acceptance review at **Issue #132**. Resolves **OD-67**: permits local/self-hosted, household-approved cloud, or no Reasoning provider (none selected); separates Reasoning from Home Intelligence (drafted **DL-86**, pending #191); defines Integration/Room/Person configuration scopes with no runtime discovery; Person-over-Room authorization precedence under **DL-39**'s Required Identity Band ownership; configured provider fallback; permitted/prohibited purposes ("Reasoning may reason, never govern"); a factual-integrity response-quality profile; data minimization under Operational Trust; Explainability reusing the existing Decision Trace structure. Defers **OD-77**, **OD-07**, **OD-65**, **OD-66**, **OD-04**; does not decide Home Intelligence's own architecture. Not yet authoritative. Creates no new responsibility |
+| `adr-reasoning-provider-strategy.md` | Active — subordinate | **New, remediated 2026-10-27** — Drafts **DL-93**, recorded pending formal acceptance review at **Issue #132**. Resolves **OD-67**: permits local/self-hosted, household-approved cloud, or no Reasoning provider (none selected); distinguishes Reasoning, Home Intelligence (accepted **DL-86**, #191, an optional deployment/hosting boundary), and Home Steward (tentative product name, owned by **#188**/**DL-81**, not defined here); every evaluation resolves to an **effective Person** (resolved household Person, otherwise the designated Guest fallback Person Extension — **DL-71** — otherwise the **DL-33** unidentified-person policy; no Room involvement); defines Integration/Person configuration scopes only, with no runtime discovery; two independent Person capability gates (Allow General Questions, Allow Home Steward); configured provider fallback (Person → Integration-default → unavailable); permitted/prohibited purposes ("Reasoning may reason, never govern"); a factual-integrity response-quality profile; data minimization under Operational Trust; Explainability reusing the existing Decision Trace structure. Defers **OD-77**, **OD-07**, **OD-65**, **OD-66**, **OD-04**; does not decide Home Intelligence's or Home Steward's own architecture. Not yet authoritative. Creates no new responsibility |
 
 ---
 
@@ -385,6 +385,15 @@ recorded pending formal acceptance review at **Issue #191** and is not yet autho
 above for `adr-home-identity-and-home-intelligence-governance.md`. No file was deleted or reclassified;
 the counts below reflect this addition only, consistent with the #188 precedent above.
 
+**Correction recorded 2026-10-27 (during the OD-67/#132 remediation):** Issue #191 actually recorded a
+PASS formal acceptance review on **2026-10-14** — the same day the document above was added — but this
+was never propagated into this register, the decision ledger, or the ADR's own banner until now. **No
+new review occurred; this is a bookkeeping correction only.**
+`adr-home-identity-and-home-intelligence-governance.md` is reclassified **Canonical ADR**, accepted as
+**DL-84**, **DL-85**, and **DL-86**. The counts below reflect one reclassification (Active —
+subordinate → Canonical ADR, net zero to Total classified; −1 to Active — subordinate, +1 to new
+canonical documents and Canonical total).
+
 **Updated 2026-10**: one new document was added by the 2026-10 Reference Home Network Segmentation and
 Stable Endpoint Identity Architecture Review (#195), initially banner-marked **Active — subordinate**
 (not Canonical) while recorded pending formal acceptance review at **Issue #195**. **Issue #195
@@ -432,12 +441,18 @@ drafting **DL-93** pending formal acceptance review at **Issue #132** (**OD-67**
 strategy). Banner-marked **Active — subordinate** (drafted, not yet constitutional). The counts below
 reflect this one addition (+1 to both Active — subordinate and Total classified).
 
+**Updated 2026-10-27 (continued), bookkeeping correction**: `adr-home-identity-and-home-intelligence-governance.md`
+is reclassified **Canonical ADR**, as recorded above (Issue #191 formal acceptance review PASS,
+2026-10-14; propagation delayed, no re-review). The counts below reflect one reclassification (Active
+— subordinate → Canonical ADR, net zero to Total classified; −1 to Active — subordinate, +1 to new
+canonical documents and Canonical total).
+
 | Category | Count |
 |---|---|
-| New canonical documents | 59 |
+| New canonical documents | 60 |
 | Revised in place | 2 (`README.md`, `concierge-contract.md`) |
-| **Canonical total** (59 new + 2 revised) | **61** |
-| Marked Active — subordinate | 26 |
+| **Canonical total** (60 new + 2 revised) | **62** |
+| Marked Active — subordinate | 25 |
 | Marked Historical — superseded | 83 |
 | Marked Historical illustration (`examples/`) | 16 |
 | Marked Historical — planning/closure record | 2 |
