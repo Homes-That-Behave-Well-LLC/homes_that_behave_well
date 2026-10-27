@@ -108,7 +108,7 @@ is not an open decision.
 | Item | Kind | Status | Issue |
 |---|---|---|---|
 | Consolidate the Pet model | Documentation Remediation | Remediation Required | **#144** |
-| HTBW constitutional documentation set is not under version control | Documentation Remediation | Remediation Required | **#145** |
+| HTBW constitutional documentation set is not under version control | Documentation Remediation | Closed — Accepted 2026-10-27 (reconciliation merge `1a7073a`, verified current on `origin/main`) | **#145 (closed)** |
 | Home Assistant native capability verification backlog (**DL-30**) | Implementation Mapping | Open — Research Required | **#146** |
 | Monthly Home Assistant release architecture-governance review | Governance Process | Open — **standing obligation, non-terminating**; process defined in `home-assistant-release-review-standard.md` | **#178** |
 | Home Assistant 2026.9 architecture-impact review — September 2026 baseline | Governance Review | Open — first review under the monthly standard; **no decision made, no issue closed** | **#179** |
