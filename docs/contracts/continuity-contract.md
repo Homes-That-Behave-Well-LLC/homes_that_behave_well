@@ -24,9 +24,11 @@ into Stewardship**. See [../models/continuity.md](../models/continuity.md).
 ## What Continuity guarantees
 
 - Person-scoped preferences and room-scoped experience settings, explicitly distinguished
-- **Preferred delivery and preferred presentation**, and the re-presentation preference (**OD-48**).
-  **The preference dimensions are not enumerated in any canonical document**; the only enumerations
-  that exist are Historical and superseded, and neither is authority
+- **Preferred delivery and preferred presentation**, and the re-presentation preference (**DL-99**,
+  resolving **OD-48**) — opt-in, Person-scoped, optionally refined by Category/Urgency; no HTBW-wide
+  default repetition count or cooldown exists. **The general presentation-preference dimensions
+  (verbosity, explanation depth, spoken versus visual, etc.) are not enumerated in any canonical
+  document**; the only enumerations that exist are Historical and superseded, and neither is authority
 - Active session state: identity, experience class, owner, participants, origin Room, current Room,
   state, and lifecycle
 - Transfer intent: Follow-Me enabled or disabled, ask-before-transfer, never-transfer
@@ -155,7 +157,7 @@ Each block is a **reason** and must reach the Decision Trace.
 |---|---|
 | Operational Trust | Session ownership and participants, to evaluate displacement authority |
 | Concierge | Preferences, session state, intent, eligibility, and blocking attribution |
-| Concierge | The resident's **Communication re-presentation preference**, within the Follow-Me preference family |
+| Concierge | The resident's **Communication re-presentation preference** (**DL-99**) — a sibling within the informal Follow-Me preference family, its own object with its own default posture |
 
 ## What consumers must never assume
 
@@ -233,7 +235,7 @@ A suppressed transfer must be explainable as a deliberate outcome, not as a fail
 | OD-25 | Resume eligibility window defaults per experience class |
 | OD-26 | Whether experience history is retained per person, per room, or both, and for how long |
 | OD-27 | Whether concurrent same-class sessions in one Room are permitted by default |
-| OD-48 | Re-presentation preference for outstanding Communications, and its relation to the Follow-Me preference family |
+| OD-48 | **Closed — DL-99.** Re-presentation preference for outstanding Communications — opt-in, Person-scoped, optionally refined by Category/Urgency; no HTBW-wide default repetition count or cooldown; not coupled to Follow-Me media eligibility |
 | OD-77 | Ownership of the association between a Person and an external service, account, calendar, mailbox, or media profile |
 | OD-78 | Remembered-value classes and restoration semantics |
 | OD-79 | Presentation preference scope and precedence |

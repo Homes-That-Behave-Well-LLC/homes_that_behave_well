@@ -429,7 +429,7 @@ speak for herself.
 | 8 | Corrective-action path | Human, or environmental adjustment by an executor | — |
 | 9 | Execution owner | **Concierge** decides; an **executor or a person** performs | — |
 | 10 | Explainability | Decision Trace | Which configured rule, whose consent, which audience evaluation, which escalation, and **why nothing was said where nothing was said** |
-| 11 | Continuity interaction | **Continuity** | Preferred delivery, preferred presentation, and re-presentation preference (**OD-48**). **Continuity is not a child of Stewardship** |
+| 11 | Continuity interaction | **Continuity** | Preferred delivery, preferred presentation, and re-presentation preference (**DL-99**). **Continuity is not a child of Stewardship** |
 | 12 | Retention | **DL-47** + consent lifecycle | Consent-lifecycle records are a **structural retention floor** that survives any configured window |
 | 13 | Closure criteria | **Stewardship** | Recorded acknowledgement or recorded administration, per the accepted **Care Evidence Record** (**DL-48**) |
 | 14 | Failure / uncertainty | **Stewardship** and **Operational Trust** | Unknown facts produce `unknown` obligations; uncertain audience degrades the **delivery**, not the governance (**P32**, **OD-71**) |

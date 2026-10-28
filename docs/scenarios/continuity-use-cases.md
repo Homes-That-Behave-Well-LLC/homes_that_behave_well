@@ -246,7 +246,7 @@ moment that is actually useful, and does not announce it in front of guests.
 | 1 | Authoritative Truth inputs | **Truth** | Tom is present in the Den; who else is present; current time |
 | 2 | Identity requirements | **Identity** | A person-directed Communication requires an Identity Assertion meeting the configured band |
 | 3 | Consent and Operational Trust requirements | **Operational Trust** | Whether Tom's calendar content may be disclosed, on this surface, before this audience (**DL-34**, **P32**) |
-| 4 | What Continuity supplies | **Continuity** | **Preferred delivery and preferred presentation**, and the **re-presentation preference** if Tom moves (**OD-48**). **Not the appointment** |
+| 4 | What Continuity supplies | **Continuity** | **Preferred delivery and preferred presentation**, and the **re-presentation preference** if Tom moves (**DL-99**). **Not the appointment** |
 | 5 | Memory scope | **Person-scoped** for the delivery/presentation preference | **A** |
 | 6 | Source of record | **The calendar provider.** HTBW holds a reference; *the underlying configuration is never copied* ([../models/person-and-identity.md](../models/person-and-identity.md)) | **A** |
 | 7 | Who decides | **Concierge** | Whether, when, where, and how to say it |
@@ -281,7 +281,8 @@ moment that is actually useful, and does not announce it in front of guests.
 
 **F**. Held by **OD-77** (person-to-calendar association), **OD-51** (interruption risk classes),
 **OD-52** (audience specification), **OD-71** (audience uncertainty), **OD-44**/**OD-45** (delivery
-and acknowledgement semantics), **OD-54** (retry is never escalation), **OD-48** (re-presentation).
+and acknowledgement semantics), **OD-54** (retry is never escalation). Re-presentation is resolved
+(**DL-99**); implementation itself remains unbuilt regardless, per the greenfield status above.
 **Travel-time and routing computation are `N` — not governed, not claimed.**
 
 ---
@@ -640,7 +641,7 @@ Stewardship.**
 | 1 | Authoritative Truth inputs | **Truth** | Whether the household is present, and audience composition |
 | 2 | Identity requirements | **Identity** | Only for a person-directed Communication |
 | 3 | Consent and Operational Trust requirements | **Operational Trust** | Delivery entitlement and disclosure |
-| 4 | What Continuity supplies | **Continuity** | Delivery and presentation preference, and re-presentation (**OD-48**) — **nothing else** |
+| 4 | What Continuity supplies | **Continuity** | Delivery and presentation preference, and re-presentation (**DL-99**) — **nothing else** |
 | 5 | Memory scope | **Person-scoped** preference; the obligation is **Stewardship-scoped** | **A** |
 | 6 | Source of record | **Stewardship** for the obligation; a native Calendar, Schedule, or `todo` where the household uses one (**OD-23**) | **A / U** |
 | 7 | Who decides | **Concierge** | — |
@@ -663,7 +664,8 @@ Stewardship.**
 ## Implementation status and unresolved decisions
 
 **F**. **OD-75** obligation lifecycle and completion evidence, **OD-22** escalation, **OD-23**
-projection surface, **OD-48** re-presentation.
+projection surface. Re-presentation is resolved (**DL-99**); implementation itself remains unbuilt
+regardless, per the greenfield status above.
 
 ---
 

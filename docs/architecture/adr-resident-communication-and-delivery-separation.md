@@ -225,7 +225,8 @@ explainable. **It is never a bypass.**
 | **DL-29** | **Permission to act does not imply permission to announce** (P32) |
 | **DL-95** | **Communication lifecycle and Delivery Attempt outcome are two formally distinct levels, never flattened** — resolves **OD-44**. See *Delivery outcome model (DL-95)* above and **Part 1** of [decision-ledger.md](../governance/decision-ledger.md) for the full accepted text |
 | **DL-96** | **Acknowledgement is an explicit, Communication-specific responsive act by an identified, in-audience Person** — resolves **OD-45**. See *Acknowledgement Semantics (DL-96)* above and **Part 1** of [decision-ledger.md](../governance/decision-ledger.md) for the full accepted text |
-| **DL-98** | **Delivery Retry is household-configured, has no HTBW-wide numeric default, and is formally distinct from both DL-54's single-failure graceful fallback and OD-48's re-presentation** — resolves **OD-54**. See *Delivery Retry Policy (DL-98)* below and **Part 1** of [decision-ledger.md](../governance/decision-ledger.md) for the full accepted text |
+| **DL-98** | **Delivery Retry is household-configured, has no HTBW-wide numeric default, and is formally distinct from both DL-54's single-failure graceful fallback and DL-99's re-presentation** — resolves **OD-54**. See *Delivery Retry Policy (DL-98)* below and **Part 1** of [decision-ledger.md](../governance/decision-ledger.md) for the full accepted text |
+| **DL-99** | **Re-presentation is a new Delivery Attempt triggered by a Room transition Fact; the preference is opt-in, Person-scoped, optionally refined by Category/Urgency, with no HTBW-wide default repetition count or cooldown** — resolves **OD-48**. See *Re-Presentation Policy (DL-99)* below and **Part 1** of [decision-ledger.md](../governance/decision-ledger.md) for the full accepted text |
 
 ### Deliberately not decided
 
@@ -759,8 +760,8 @@ this section is the formal decision record.
 2. **Delivery Retry proper (this decision)** — a household-configured, scheduled/recurring policy
    (attempt count and interval) that Concierge consumes **in addition to**, never in place of, DL-54's
    fallback.
-3. **Re-presentation (OD-48, unchanged, still open)** — triggered by a Person's room transition, a
-   Continuity/Follow-Me-family preference, categorically unrelated to any delivery outcome.
+3. **Re-presentation (DL-99, resolved below)** — triggered by a Person's room transition, an opt-in
+   Continuity preference within the Follow-Me family, categorically unrelated to any delivery outcome.
 
 **No HTBW-wide default retry count or interval exists.** Retry count and interval are household
 choices, configured during Integration setup, and may be keyed by the Communication's already-governed
@@ -815,7 +816,7 @@ added here.
 point. Where a Failed outcome (retry-eligible) and a room transition (re-presentation-eligible) are
 simultaneously true, Concierge's single decision evaluates both inputs and produces **one** new
 Delivery Attempt satisfying both, never two independent attempts. Where only one condition holds, only
-that mechanism's own owner (Concierge for retry, Continuity/OD-48 for re-presentation) supplies the
+that mechanism's own owner (Concierge for retry, Continuity/DL-99 for re-presentation) supplies the
 next attempt; where neither holds, no new attempt occurs.
 
 **Indefinite repetition remains structurally impossible regardless of household configuration**,
@@ -838,7 +839,7 @@ consume, but Concierge never itself retitles exhausted retry as escalation or as
 **Each of the following is consumed unchanged and none is decided here**: Presentation Outcome
 semantics (**DL-54**); Acknowledgement semantics (**DL-96**); Urgency's own entitlement model
 (**DL-77**); Audience Specification re-resolution (**DL-71**); Room-Delivery Authorization (**DL-94**);
-escalation (**DL-97**); re-presentation's own preference values (**OD-48**).
+escalation (**DL-97**); re-presentation's own preference values (**DL-99**, below).
 
 ### Home Assistant First review (P21, DL-30)
 
@@ -849,10 +850,98 @@ research was required or performed.
 
 ### What this decision does not resolve
 
-- **OD-48** — the household's own re-presentation preference values and their relation to the
-  Follow-Me family; only the boundary with retry is stated here.
 - The exact household-facing configuration surface (UI/UX) through which retry count/interval are
   set — a presentation/implementation concern, not decided here.
+
+---
+
+## Re-Presentation Policy (DL-99)
+
+**Accepted 2026-10-28**, resolving **OD-48**, incorporating the Owner Policy Response recorded on
+Issue #117. Full matrix and worked detail are recorded in
+[../models/communication.md](../models/communication.md) and [../models/continuity.md](../models/continuity.md)
+under *Re-presentation (DL-99)*; this section is the formal decision record.
+
+### Decision
+
+**A Communication has no location** and is never transferred, moved, or duplicated; *Follow-Me
+Communication* remains superseded terminology (Part 3, [decision-ledger.md](../governance/decision-ledger.md)).
+Where a Person moves and a Communication remains outstanding, Concierge may make a **new Delivery
+Attempt** on a newly appropriate surface.
+
+**Ownership is a three-way split, inventing no new authority**, identical in shape to the existing
+Room-Delivery Audience Preference (**DL-94**) and Ordinary Delivery/Audience-Uncertainty Routing
+Preference (**DL-72**) pattern it sits beside: Continuity holds the preference; Operational Trust
+(**P32**) determines whether re-presentation is currently permitted; Concierge decides whether, where,
+and how to attempt it.
+
+**The trigger is a Room transition Fact** (Truth-owned), reused unchanged from Follow-Me media's own
+"unambiguous room transition — origin and destination both known and different" requirement; a missed
+or ambiguous transition is never retroactively invented. An explicit resident request ("read that
+here") is **Retrieval**, a separate, already-governed mechanism, never re-presentation.
+
+**The preference is Person-scoped and strictly opt-in** — reaffirming `continuity-contract.md`'s
+existing rule that a missing preference is never silently replaced by a platform default: absence of
+configuration is reported as an unmet precondition, never a fabricated enabled/disabled value. It may
+optionally be refined by Category (**DL-78**, which names OD-48 explicitly among its downstream
+consumers) and/or Urgency (**DL-77**), consumed unchanged — no new classification axis is created.
+
+**Owner Policy Response incorporated (Issue #117)**: re-presentation is opt-in and Person-scoped; where
+enabled, the household configures the permitted repetition behaviour — any repetition limit and/or
+cooldown — during Integration setup. **No HTBW-wide default numeric repetition count or cooldown
+exists.** Where re-presentation is enabled but no repetition policy is configured, this is **never**
+interpreted as license to re-present on every qualifying Room transition indefinitely — the
+Communication remains outstanding and eligible under its existing lifecycle, but repetition itself
+stays bounded by explicit household configuration, directly mirroring **DL-98**'s own "no retry loop
+begins absent configuration" shape; this is never a basis to fabricate `Undeliverable` or any other
+lifecycle state.
+
+**Stop conditions**: `Acknowledged` (**DL-96**), `Resolved by origin`/`Expired`/`Superseded`
+(**DL-95**), and `Undeliverable` each end further re-presentation — directly confirmed, for the
+acknowledged case, by [../scenarios/continuity-use-cases.md](../scenarios/continuity-use-cases.md) Use
+Case 2 Acceptance Scenario 2.3 ("Tom acknowledges → re-presentation stops; must not repeat on every
+surface Tom passes"), extended unremarkably to the remaining DL-95 terminal states, none of which still
+require telling anyone.
+
+**Audience re-evaluation is mandatory on every attempt** (**DL-71**, **P32**), exactly as DL-98 already
+requires; a prior surface's authorization is never reused for a later attempt. **DL-94 Room progression
+applies unchanged**: an Explicit No remains permanent for that Communication's Room path and is never
+re-asked under the guise of re-presentation; private delivery continues unaffected.
+
+**Formally distinct from Delivery Retry (DL-98) and DL-54's single-failure fallback — three mechanisms,
+never merged.** Non-compounding is structural, not merely asserted: Concierge "always produces exactly
+one governed outcome" (`concierge-contract.md` §7) — where a `Failed` outcome (retry-eligible) and a
+Room transition (re-presentation-eligible) are simultaneously true, Concierge's single decision
+produces **one** new Delivery Attempt satisfying both, never two independent attempts.
+
+**Relationship to the Follow-Me preference family**: a sibling preference within the same informal
+grouping (not itself a governed construct), with its **own** preference object and **own** default
+posture, explicitly **not coupled** to Follow-Me's media-transfer eligibility rules.
+
+### A genuine gap identified and resolved during this formal acceptance review
+
+Phase 1 Governed Execution (Issue #117) had concluded, by analogy to other Continuity preferences
+alone, that the Global default should be "disabled." Independent re-verification during the formal
+acceptance review found this directly conflicted with `continuity-contract.md`'s own already-accepted
+"a missing preference may [never] be replaced by a silent platform default" rule, and had over-read Use
+Case 2 Acceptance Scenario 2.3 (which governs only the post-acknowledgement case) as if it had already
+settled repeated-transition cadence while unacknowledged. This required exactly one genuine Owner
+Policy Question — asked and answered on Issue #117 — incorporated above; no policy was silently
+invented.
+
+### Home Assistant First review (P21, DL-30)
+
+No native Home Assistant re-presentation, "follow the person," or location-aware repeat-notification
+model exists; notify services and automations exist as delivery mechanisms only, consumed unchanged
+through Concierge's existing delivery architecture, triggered by presence/Area-change Facts Truth
+already supplies. No further Home Assistant research was required or performed.
+
+### What this decision does not resolve
+
+- The exact household-facing configuration surface (UI/UX) through which the repetition limit/cooldown
+  are set — a presentation/implementation concern, not decided here.
+- General presentation-preference scope and precedence across preference types — **OD-79**'s own
+  residual, not reopened or narrowed here.
 
 ---
 
@@ -866,13 +955,13 @@ research was required or performed.
 | **OD-45** | **Resolved as DL-96** — Acknowledgement is an explicit, Communication-specific responsive act by an identified, in-audience Person; attribution reuses DL-36/DL-39 unchanged; unacknowledged delivery remains `unknown`, never failure |
 | **OD-46** | **Resolved as DL-77.** Urgency is a fixed, cumulative four-level entitlement ladder, formally independent of Action-Risk Classification (**DL-76**) |
 | **OD-47** | Household Inbox projection scope and refresh semantics |
-| **OD-48** | Re-presentation preference and its relation to the Follow-Me preference family |
+| **OD-48** | **Resolved as DL-99** — Re-presentation is a new Delivery Attempt triggered by a Room transition Fact; the preference is opt-in, Person-scoped, optionally refined by Category/Urgency; no HTBW-wide default repetition count or cooldown exists, household-configured where enabled |
 | **OD-49** | Communication retention floor and ceiling, with content and metadata classified separately — the retention rule is settled by DL-47; the separate classification and the values remain |
 | **OD-50** | Escalation ladder semantics for communications, resolved into OD-22 |
 | **OD-51** | Interruption action-risk class enumeration and defaults |
 | **OD-52** | Audience specification model, including resolution of *anyone present with authority* |
 | **OD-53** | **Resolved as DL-78** — Communication Category is a closed, seven-value, content-domain enumeration (Stewardship, Security, Care, Environment, Experience, System, Safety), structurally separate from Urgency, Operation Type, and Action-Risk Classification |
-| **OD-54** | **Resolved as DL-98** — Delivery Retry is household-configured (no HTBW-wide default count or interval), formally distinct from DL-54's single-failure fallback and OD-48's re-presentation; stop conditions, give-up, and the indefinite-repetition safeguard are each stated |
+| **OD-54** | **Resolved as DL-98** — Delivery Retry is household-configured (no HTBW-wide default count or interval), formally distinct from DL-54's single-failure fallback and DL-99's re-presentation; stop conditions, give-up, and the indefinite-repetition safeguard are each stated |
 | **OD-55** | **Resolved as DL-54** — Presentation Outcome model (Presented / Failed / Unknown / Attestation Unavailable), and the representation of unknown |
 | **OD-56** | **Narrowed by DL-78** — Safety accepted as the seventh Category; disclaimer content/survival, written reconciliation, audience-bypass confirmation, dependency-missing behaviour, and certified-device deference remain open |
 | **OD-57** | **Resolved as DL-94** — Indication, the Room-Delivery Authorization Challenge, and message-scoped Room-Delivery Authorization are formally separated; the mandatory-threshold rule is settled; a new Room-Delivery Audience Preference governs Room-delivery eligibility by Urgency level and by Household/Individual/Guest audience permission |

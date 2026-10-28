@@ -1541,8 +1541,24 @@ Repeating delivery to the **same, already-resolved** audience under an unchanged
 Specification — same or different surface, same or changed intrusiveness. A Concierge concern,
 household-configured (**DL-98**, resolving **OD-54**); it is never called escalation. **No HTBW-wide
 default retry count or interval exists.** Formally distinct from **DL-54**'s single-failure graceful
-cross-surface fallback (never "one free retry") and from **Re-presentation** (**OD-48**), which is
+cross-surface fallback (never "one free retry") and from **Re-presentation** (**DL-99**), which is
 triggered by a Person's room transition, never a delivery outcome.
+
+**Re-presentation**
+A **new Delivery Attempt** on a newly appropriate surface, triggered by a Person's Room transition
+(Truth-owned Fact) while an outstanding Communication remains in a non-terminal lifecycle state — never
+a travelling Communication, never a duplication (**DL-99**, resolving **OD-48**). Continuity holds the
+preference, strictly **opt-in** and Person-scoped, optionally refined by Category (**DL-78**) and/or
+Urgency (**DL-77**); Operational Trust (**P32**) evaluates permission on the new surface; Concierge
+decides whether, where, and how to attempt it. **No HTBW-wide default repetition count or cooldown
+exists**; where enabled, the household configures the permitted repetition behaviour during Integration
+setup, and absence of that configuration is never license to re-present on every qualifying Room
+transition indefinitely. `Acknowledged`, `Resolved by origin`, `Expired`, `Superseded`, and
+`Undeliverable` each stop further re-presentation. A sibling within the informal Follow-Me preference
+family, its own object — **not coupled** to Follow-Me's media-transfer eligibility rules. Formally
+distinct from **Delivery retry** (**DL-98**); non-compounding is structural (Concierge's existing
+"exactly one governed outcome" rule).
+Model: [communication.md](communication.md), [continuity.md](continuity.md)
 
 **Escalation**
 A governed change of **who is accountable**, expressed as a **new recorded Intended Audience

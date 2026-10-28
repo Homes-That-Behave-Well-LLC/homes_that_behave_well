@@ -55,8 +55,11 @@ restoration moves into Stewardship**, and no care obligation moves into Continui
 - Transfer state
 - Follow-Me intent
 - Follow-Me enabled or disabled state
-- **Communication re-presentation preference** — whether an outstanding Communication should be
-  re-presented as the person moves
+- **Communication re-presentation preference (DL-99)** — a strictly opt-in, Person-scoped preference
+  for whether an outstanding Communication should be re-presented (a new Delivery Attempt) as the
+  person moves between Rooms, optionally refined by Category/Urgency; where enabled, the household
+  configures the permitted repetition behaviour during Integration setup — no HTBW-wide default
+  repetition count or cooldown exists
 - **Preferred delivery and preferred presentation** — how a resident wants to be told, and in what
   form. Ownership was already stated in
   [../scenarios/stewardship-use-cases.md](../scenarios/stewardship-use-cases.md) and
@@ -301,20 +304,37 @@ Representable blocks:
 
 Each block is a **reason**, and each reason must reach the Decision Trace.
 
-### Communication re-presentation is a preference, not a transfer
+### Communication re-presentation is a preference, not a transfer (DL-99)
 
 An outstanding **Communication** has no location and is never transferred, moved, or duplicated.
 Where a person moves and a Communication remains outstanding, Concierge may make a **new Delivery
-Attempt** on a newly appropriate surface.
+Attempt** on a newly appropriate surface. The trigger is a Room transition Fact (Truth-owned), reused
+unchanged from the Follow-Me eligibility rules above — an unambiguous transition; a missed or
+ambiguous one is never retroactively invented. An explicit resident request is **Retrieval**, a
+separate existing mechanism, never re-presentation.
 
 | Question | Owner |
 |---|---|
-| Does the resident want this? | **Continuity** — a preference in the Follow-Me family |
+| Does the resident want this? | **Continuity** — a sibling preference in the informal Follow-Me family, its own object |
 | Is it permitted on the new surface? | **Operational Trust** (**P32**) |
 | Is it attempted, and where? | **Concierge** |
 
 **This preference is not coupled to media transfer eligibility.** The Follow-Me eligibility rules
-above govern sessions, not Communications. Open decision **OD-48**. See
+above govern sessions, not Communications.
+
+**The preference is Person-scoped and strictly opt-in** — reaffirming this contract's own rule that a
+missing preference is never silently replaced by a platform default; absence of configuration is an
+unmet precondition, never a fabricated value. It may optionally be refined by Category (**DL-78**)
+and/or Urgency (**DL-77**), inventing no new classification axis. **Owner Policy Response (Issue
+#117)**: where enabled, the household configures the permitted repetition behaviour — any repetition
+limit and/or cooldown — during Integration setup; **no HTBW-wide default repetition count or cooldown
+exists**. Where enabled but no repetition policy is configured, this is never license to re-present on
+every qualifying Room transition indefinitely — the Communication remains outstanding under its
+existing lifecycle regardless. `Acknowledged`, `Resolved by origin`/`Expired`/`Superseded`, and
+`Undeliverable` each stop further re-presentation, directly confirmed for the acknowledged case by
+[../scenarios/continuity-use-cases.md](../scenarios/continuity-use-cases.md) Use Case 2 Acceptance
+Scenario 2.3. Formally distinct from Delivery Retry (**DL-98**); non-compounding is structural via
+Concierge's existing "exactly one governed outcome" rule. Resolved as **DL-99**, closing **OD-48**. See
 [communication.md](communication.md).
 
 ---
@@ -432,7 +452,7 @@ how long, remains open decision **OD-26**.
 | OD-25 | Resume eligibility window defaults per experience class |
 | OD-26 | Whether experience history is retained per person, per room, or both, and for how long |
 | OD-33 | **Closed — DL-43, DL-46, DL-47.** Retention is declared inside every governed record lifecycle; experience-history scope and duration remain **OD-26** |
-| OD-48 | Re-presentation preference for outstanding Communications, and its relation to the Follow-Me preference family |
+| OD-48 | **Closed — DL-99.** Re-presentation preference for outstanding Communications — opt-in, Person-scoped, optionally refined by Category/Urgency; no HTBW-wide default repetition count or cooldown; not coupled to Follow-Me media eligibility |
 | OD-77 | Ownership of the association between a Person and an external service, account, calendar, mailbox, or media profile |
 | OD-78 | Remembered-value classes and restoration semantics — reproduce a prior value, or compute a currently appropriate one |
 | OD-79 | Presentation preference scope and precedence — which scopes may hold one, who owns each, and what wins when they disagree |

@@ -213,7 +213,7 @@ evidence only, never sufficient alone. Acknowledgement never redefines Delivery,
 
 Delivery Retry repeats delivery under the same, already-resolved Intended Audience Specification —
 never requiring the same surface or modality — and is formally distinct from (1) DL-54's single-failure
-graceful cross-surface fallback (never "one free retry") and (2) OD-48's re-presentation (triggered by
+graceful cross-surface fallback (never "one free retry") and (2) DL-99's re-presentation (triggered by
 a room transition, not a delivery outcome). **No HTBW-wide default retry count or interval exists**;
 retry is household-configured during Integration setup, optionally keyed by Urgency (**DL-77**) without
 creating a new priority scale. Absent configuration, no timed retry loop begins, but the Communication
@@ -224,6 +224,19 @@ only their own path; `Unknown`/`Attestation Unavailable` and unacknowledged-but-
 triggers. Concierge's existing rule that it "always produces exactly one governed outcome" (§7, above)
 structurally prevents retry and re-presentation from compounding into duplicate attempts. Full
 semantics: [../models/communication.md](../models/communication.md), *Delivery Retry Policy (DL-98)*.
+
+### Re-Presentation (DL-99)
+
+A Person's Room transition (Truth-owned Fact) may make an outstanding Communication's **new Delivery
+Attempt** appropriate on the newly current surface — never a travelling Communication, never a second
+retry mechanism. Continuity holds the strictly opt-in, Person-scoped preference, optionally refined by
+Category (**DL-78**) and/or Urgency (**DL-77**); Operational Trust (**P32**) evaluates permission on
+the new surface, exactly as any other attempt; Concierge decides whether, where, and how to attempt it.
+**No HTBW-wide default repetition count or cooldown exists**; where enabled, the household configures
+the permitted repetition behaviour during Integration setup, and absence of that configuration is never
+license to re-present on every qualifying Room transition indefinitely. `Acknowledged`, `Resolved by
+origin`, `Expired`, `Superseded`, and `Undeliverable` each stop further re-presentation. Full semantics:
+[../models/communication.md](../models/communication.md), *Re-presentation (DL-99)*.
 
 ### Compound and multi-item requests (DL-80)
 
@@ -375,9 +388,9 @@ See [../models/decision-trace.md](../models/decision-trace.md) and
 | OD-44 | **Closed — DL-95.** Delivery outcome semantics across the two levels — Communication lifecycle and Delivery Attempt outcome, consuming DL-54 and DL-94 unchanged |
 | OD-45 | **Closed — DL-96.** Acknowledgement semantics and acknowledger identification — an explicit, Communication-specific responsive act by an identified, in-audience Person, consuming DL-36/DL-39 unchanged |
 | OD-47 | Household Inbox projection scope and refresh semantics |
-| OD-48 | Re-presentation preference and its relation to the Follow-Me preference family |
+| OD-48 | **Closed — DL-99.** Re-presentation preference — opt-in, Person-scoped, optionally refined by Category/Urgency; no HTBW-wide default repetition count or cooldown |
 | OD-52 | Audience specification model |
-| OD-54 | **Closed — DL-98.** Delivery retry policy — household-configured, no HTBW-wide default count or interval; formally distinct from DL-54's fallback and OD-48's re-presentation |
+| OD-54 | **Closed — DL-98.** Delivery retry policy — household-configured, no HTBW-wide default count or interval; formally distinct from DL-54's fallback and DL-99's re-presentation |
 | OD-55 | **Closed — DL-54.** Presentation attestation per surface class |
 | OD-57 | **Closed — DL-94.** Indication versus content separation |
 

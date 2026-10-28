@@ -165,7 +165,7 @@ invalid value is a data-integrity defect, never a governed rejection outcome.
 
 Category is the primary subject-classification input for disclosure, privacy, retention, and
 re-presentation defaults, but never itself owns or executes those behaviours: **OD-49** owns retention,
-**OD-48** owns re-presentation, **OD-57** owns indication-versus-content, Operational Trust owns
+**DL-99** owns re-presentation, **OD-57** owns indication-versus-content, Operational Trust owns
 disclosure/audience/privacy/consent/appropriateness, **OD-04** owns precedence, Concierge owns delivery
 surface/moment/form, and **DL-77** owns Urgency.
 
@@ -698,20 +698,39 @@ is therefore permissible where content is not.
 On a shared surface the indication is **aggregate and content-free**. A shared surface must never
 enumerate whose Communications are waiting. **Separation policy is resolved as DL-94 (OD-57).**
 
-### Re-presentation
+### Re-presentation (DL-99)
 
 **A Communication has no location.** It cannot move, follow, or remain location-bound.
-Location-boundness is a property of a Delivery Attempt.
+Location-boundness is a property of a Delivery Attempt. *Follow-Me Communication* is superseded
+terminology.
 
 Where a person moves and a Communication remains outstanding, Concierge may make a **new Delivery
 Attempt** on a newly appropriate surface, re-evaluating **P32** against the **new** audience. Each
-attempt is separately recorded.
+attempt is separately recorded. **The Communication is never duplicated.** One object, many attempts.
+The trigger is a Room transition Fact (Truth-owned), reused unchanged from Follow-Me media's own
+unambiguous-transition requirement; an explicit resident request ("read that here") is **Retrieval**, a
+separate existing mechanism, never re-presentation.
 
-**The Communication is never duplicated.** One object, many attempts.
+Whether a resident wants this is a **Continuity** preference, a sibling within the informal Follow-Me
+preference family but its own object, **not coupled** to Follow-Me's media-transfer eligibility rules.
+Whether it is permitted is **Operational Trust** (**P32**). Whether and where to attempt it is
+**Concierge**. Full decision text and the Owner Policy Response: [../governance/decision-ledger.md](../governance/decision-ledger.md)
+**DL-99**, resolving **OD-48**.
 
-Whether a resident wants this is a **Continuity** preference within the existing Follow-Me family.
-Whether it is permitted is **Operational Trust**. Whether and where to attempt it is **Concierge**.
-See **OD-48**.
+**The preference is Person-scoped and strictly opt-in** — a missing preference is never silently
+replaced by a platform default; it may optionally be refined by Category (**DL-78**) and/or Urgency
+(**DL-77**), inventing no new classification axis. **Where enabled, the household configures the
+permitted repetition behaviour** — any repetition limit and/or cooldown — during Integration setup;
+**no HTBW-wide default repetition count or cooldown exists**. Where enabled but no repetition policy is
+configured, this is **never** license to re-present on every qualifying Room transition indefinitely —
+the Communication remains outstanding under its existing lifecycle regardless, bounded by explicit
+configuration, mirroring DL-98's own "no retry loop begins absent configuration" shape.
+
+`Acknowledged` (**DL-96**), `Resolved by origin`/`Expired`/`Superseded` (**DL-95**), and
+`Undeliverable` each stop further re-presentation — directly confirmed, for the acknowledged case, by
+[../scenarios/continuity-use-cases.md](../scenarios/continuity-use-cases.md) Use Case 2 Acceptance
+Scenario 2.3. Audience re-evaluation is mandatory on every attempt (**DL-71**, **P32**); DL-94 Room
+progression applies unchanged — an Explicit No remains permanent for that Communication's Room path.
 
 ### Retry is not escalation (DL-97)
 
@@ -736,7 +755,7 @@ recorded on Issue #120.
 |---|---|---|---|
 | **DL-54 graceful cross-surface fallback** | A single `Failed` attempt | Concierge, within DL-54 | One governed degradation evaluation per failure — **never** "one free retry"; never a default retry mechanism |
 | **Delivery Retry (DL-98)** | A household-configured, scheduled/recurring policy | Concierge executes; household configures | Applied **in addition to**, never instead of, DL-54's fallback |
-| **Re-presentation (OD-48, still open)** | A Person's room transition | Continuity preference (Follow-Me family), Concierge attempts | Unrelated to any delivery outcome |
+| **Re-presentation (DL-99)** | A Person's room transition | Continuity preference (opt-in, Person-scoped), Concierge attempts | Unrelated to any delivery outcome; its own household-configured repetition policy, no HTBW-wide default |
 
 ### No HTBW-wide default
 
@@ -1286,13 +1305,13 @@ See [../scenarios/why-did-this-happen.md](../scenarios/why-did-this-happen.md).
 | OD-45 | **Closed — DL-96.** Acknowledgement is an explicit, Communication-specific responsive act by an identified, in-audience Person, attribution governed by DL-36/DL-39 unchanged; unacknowledged delivery remains `unknown`, never failure; Confirmation (DL-37), DL-94 authorization, and Stewardship Completion (DL-48, DL-71) remain distinct. Escalation (**OD-22**) and retry (**OD-54**) consume this truthfully, deciding nothing themselves |
 | OD-46 | **Closed — DL-77.** Urgency is a fixed, cumulative four-level entitlement ladder, formally independent of Action-Risk Classification (**DL-76**), never overriding audience, privacy, consent, disclosure, identity, authority, or precedence (**OD-04**) |
 | OD-47 | Household Inbox projection scope and refresh semantics |
-| OD-48 | Re-presentation preference and its relation to the Follow-Me preference family |
+| OD-48 | **Closed — DL-99.** Re-presentation is a new Delivery Attempt triggered by a Room transition Fact; the preference is opt-in, Person-scoped, and optionally refined by Category/Urgency; no HTBW-wide default repetition count or cooldown exists, household-configured where enabled; stop conditions reuse DL-95/DL-96 unchanged; formally distinct from Delivery Retry (**DL-98**), non-compounding structural |
 | OD-49 | Communication retention floor and ceiling |
 | OD-50 | Escalation ladder semantics for communications, resolved into **OD-22**, now **closed — DL-97** |
 | OD-51 | **Closed — DL-76.** Action-Risk Class enumeration (Convenience, Disclosure, Financial, Safety, Security, Governance) and per-class defaults; interruption confirmed as a separate axis (**DL-77**) |
 | OD-52 | **Closed — DL-71.** Five audience specification forms accepted; relationship-based resolution, re-resolution timing, resolved-to-nobody/too-broadly behaviour, and Notice/completion boundary are stated |
 | OD-53 | **Closed — DL-78.** Communication Category is a closed, seven-value, content-domain enumeration (Stewardship, Security, Care, Environment, Experience, System, Safety), structurally separate from Urgency, Operation Type, and Action-Risk Classification; exactly one Category per Communication; Operational Trust Category admissibility rejected |
-| OD-54 | **Closed — DL-98.** Delivery Retry is household-configured, no HTBW-wide default count or interval; formally distinct from DL-54's single-failure fallback and OD-48's re-presentation. Indefinite repetition remains structurally impossible; the Communication is never silently dropped |
+| OD-54 | **Closed — DL-98.** Delivery Retry is household-configured, no HTBW-wide default count or interval; formally distinct from DL-54's single-failure fallback and Re-presentation (**DL-99**). Indefinite repetition remains structurally impossible; the Communication is never silently dropped |
 | OD-55 | **Closed — DL-54.** Presentation Outcome model (Presented / Failed / Unknown / Attestation Unavailable); per-surface enumeration evidence recorded in the ADR |
 | OD-56 | **Closed — DL-79.** Non-life-safety acknowledgement, certified-device deference, evidence-quality-proportionate conclusions, Investigation Needed, temporal provenance, and the framework-wide evidence chain are accepted; Safety creates no Safety-specific audience, Urgency, or caretaker model |
 | OD-57 | Indication versus content separation |

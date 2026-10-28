@@ -701,7 +701,7 @@ noise.
 | **Retention and expiry** | Communication lifecycle states are accepted; **retention values are not** |
 | **Failure and degradation** | An acknowledgement that never arrives stays **unknown** and **never decays into *not acknowledged*** |
 | **Maturity** | **E — Blocked** |
-| **Open decisions** | **DL-77** urgency entitlement (resolved), **DL-76** action-risk classes (resolved), **OD-53** (#119), **OD-22** (#108), **OD-45** (#115), **OD-48** (#117), **OD-49** (#118), **OD-54** (#120) |
+| **Open decisions** | **DL-77** urgency entitlement (resolved), **DL-76** action-risk classes (resolved), **OD-53** (#119), **OD-22** (#108), **OD-45** (#115), **DL-99** re-presentation (resolved, #117), **OD-49** (#118), **OD-54** (#120) |
 
 **Repeating delivery to the same audience is retry and belongs to Concierge. Changing the audience is
 escalation and belongs to Stewardship's ladder and Operational Trust's authority.** These are already
@@ -835,7 +835,7 @@ degradation of a private channel is never promotion to a public one.
 | 7 | Confirmation | **Already accepted** — **DL-37**, **DL-40** |
 | 8 | Escalation | **Already accepted** — Stewardship's ladder; §5 prohibition 15 |
 | 9 | Deferral | **Already accepted** — §7 |
-| 10 | Re-presentation | **Blocked** — **OD-48** |
+| 10 | Re-presentation | **Resolved — DL-99** |
 | 11 | Delivery acknowledgement | **Blocked** — **OD-45** |
 | 12 | Recovery | **Already accepted** — §11 |
 | 13 | Explainability | **Already accepted** — §13, **DL-15** |
@@ -864,7 +864,7 @@ architectural construct.**
 | 2 | Which channels are private? | **Open — OD-43**, **OD-71** |
 | 3 | Room-specific vocabulary? | **Answered** — Contextual Vocabulary, **DL-10** |
 | 4 | Guest-appropriate capability descriptions? | **Answered** — Operational Trust filtering; **DL-11** Exposure |
-| 5 | Unfinished offers remembered and re-presented? | **Open — OD-48** |
+| 5 | Unfinished offers remembered and re-presented? | **Answered — DL-99** |
 | 6 | Repeated notifications suppressed? | **Open — OD-54** |
 | 7 | Deadlines and expiry? | **Partially — OD-49**; lifecycle states accepted, values open |
 | 8 | Urgency and importance? | **Answered** — Stewardship significance (**DL-75**), Operational Trust Urgency (**DL-77**), both with accepted representations. **Values open — OD-53**'s Category enumeration |
