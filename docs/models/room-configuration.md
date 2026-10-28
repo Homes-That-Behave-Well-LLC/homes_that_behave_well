@@ -353,6 +353,123 @@ this Room baseline under DL-100's precedence — never owned or overridden here.
 
 ---
 
+## Exclusion Metadata (DL-103)
+
+**Deliberate exclusion is not a fifth DL-11 state.** It is metadata explaining the existing
+**Deliberately Excluded** Participation value — never a new peer alongside Existence, Participation,
+Exposure, and Authority. A deliberately-excluded asset remains **known** (Existence unaffected),
+uninvolved in this Room's interaction model for the excluded scope (Participation), and its Exposure
+and Authority remain independently evaluated, exactly as for any other asset.
+
+**Scope is already inherent — no new field.** Participation is recorded per asset/capability, scoped
+to the Room or Merged Room and, where applicable, to a specific vocabulary term; the Sonos Beam
+excluded from the `Speakers` vocabulary term/`music` capability while remaining `participating` for
+TTS (`spoken_response_output`) is already representable through the existing Participation record's
+own granularity, with no separate exclusion-scope construct invented.
+
+### Structured reason (required)
+
+A **deliberately excluded** Participation value requires a structured reason: an exclusion recorded
+with no reason at all cannot be explained beyond *"it just is,"* which fails the Explainability bar a
+deliberate exclusion must meet. The accepted, closed taxonomy:
+
+| Code | Meaning | Valid use | Invalid use |
+|---|---|---|---|
+| `privacy` | Participation in this scope would conflict with a household privacy choice | A capability deliberately excluded because it would expose a private space or activity | Encoding the private detail itself in the code — detail belongs only in the optional note, independently disclosure-gated |
+| `designated_use` | The asset is technically capable, but the household has intentionally designated it for a different use or role instead | The Beam participates as TV audio and is deliberately excluded from music — a use-assignment judgment, not a capability fact | A capability the asset genuinely cannot perform at all — that is a Truth/capability fact; the asset was never an eligible candidate, so it is not an exclusion at all |
+| `other` | A deliberate exclusion whose rationale does not fit a governed structured class | Any household-specific rationale not covered above — **requires a mandatory explanatory note** | Used without an accompanying note, or used merely because a more specific code was inconvenient to apply |
+
+**Rejected candidates, and why:**
+
+- **`household_choice` / "household preference"** — rejected as **tautological**. The Participation
+  value itself (`deliberately_excluded`) already establishes that the household decided this; a reason
+  code restating *"the household chose this"* answers *who decided*, never *why*, and does no
+  explanatory work a plain exclusion does not already do.
+- **`not_suitable`** — rejected as **ambiguous**: it could mean either a capability-incompatibility
+  fact (not an exclusion at all) or an intentional use-assignment judgment (now `designated_use`).
+  Retaining it invites exactly the classification error `designated_use` exists to prevent.
+- **`broken`** — **never a valid exclusion reason.** Health/availability is Truth's own fact; recording
+  it as an exclusion reason would duplicate Truth's state into Room Configuration's own record, the
+  exact second-store problem **DL-46** prohibits. A household may still deliberately exclude a
+  known-faulty device pending repair — the reason for *that* decision is `other` with an explanatory
+  note (for example, *"while it's being repaired"*), with the underlying fault remaining Truth's own
+  fact, referenced, never copied.
+- **`temporary`** — **not a reason at all; it is temporality** (below), never conflated with rationale.
+- **`deliberately_quiet`** — **not a stable, independent reason code.** Where the intent is
+  contextual/temporal (quiet at certain times), the existing Quiet Hours/Room Mode mechanism is the
+  correct, already-governed tool and must not be duplicated by a static exclusion. Where the intent is
+  a persistent household decision, it is `designated_use` or `other` with an optional note, never its
+  own code.
+
+No unused speculative category is added. A new structured code requires its own future governance
+decision, grounded in repeated evidence of a stable semantic distinction; `other` with its mandatory
+note is the deliberately narrow release valve for everything else.
+
+### Optional note
+
+`privacy` and `designated_use` may carry an optional note adding authorized household-specific
+context; `other` **requires** one. In every case the note is **non-authoritative**: it never redefines
+the structured reason, scope, temporality, availability, or participation fact, and it is subject to
+ordinary disclosure governance exactly as the reason code itself is. A note that appears to contradict
+the structured reason (for example, `reason: privacy` with a note describing an availability fault)
+never licenses a causal claim the governed metadata does not itself support — the Home may never say
+*"excluded because it was broken"* on note content alone.
+
+### Exclusion versus availability
+
+**Deliberate exclusion and availability are never conflated; no field overwrites another.** A healthy,
+deliberately-excluded asset remains healthy; an offline asset that is not excluded remains not
+excluded; an asset may be simultaneously offline **and** deliberately excluded, with both facts
+independently true and independently recorded. Native Home Assistant `hidden`, `disabled`, and absent
+Assist exposure are **platform facts Home Assistant reports** — read, never copied into exclusion
+metadata, and never themselves proof of household rationale: **absent HTBW's own recorded exclusion,
+the Home may explain the native fact plainly but must never claim "you told me not to use this."**
+HTBW Exposure (**DL-11**) and native Assist exposure remain the distinct concepts **DL-66** already
+established; this decision adds no exception to that boundary.
+
+### Temporality
+
+**Temporary is not a reason; it is temporality, and no scheduler is invented.** A deliberate exclusion
+**remains in effect until explicitly changed and never silently expires** — the same pattern already
+accepted for Consent (**DL-56**). No expiry timer, recurrence, or automation is created. Where a
+household's rationale is itself time-bound (*"while it's being fixed"*), that context belongs in the
+optional note under `other`, never in a new structured temporary/indefinite field this decision does
+not add.
+
+### Versioning and Change Records
+
+**DL-27** applies unchanged: a past explanation of non-participation references the exact
+configuration version in effect at that time; later removing or changing an exclusion never rewrites
+that historical explanation. Exclusion added, exclusion removed, reason changed, scope/context changed
+(through the Participation record it is scoped by), and note changed are each an ordinary governed
+**Change Record** (see "Change Records" below) — naming the subject, the change type, the prior and
+new state, Effective Time, Recorded Time, the actor, the reason where supplied, and version
+references. No duplicate or parallel history mechanism is created.
+
+### Decision Trace and household-language rendering
+
+Where a deliberate exclusion contributes to a suppressed or non-selected action, Decision Trace
+(**decision-trace.md**) records the existing machine-readable reason-code field referencing the
+exclusion's own structured reason and exact configuration version — never storing rendered
+household-language prose as the authoritative semantic form, and never storing the optional note's raw
+content as reasoning prose. The structured reason code is **rendered**, never echoed verbatim: OD-12
+consumes existing household-vocabulary architecture (**room-vocabulary.md**) and does not own naming.
+Resident-facing explanation names "the Beam," never `media_player.beam`, and states intent in
+household language (*"the Beam is deliberately set up for TV audio, not music"*) rather than surfacing
+a raw code — preserving localization and keeping the reason code itself free of entity identifiers,
+vendor jargon, or raw sentences.
+
+### Disclosure and retention
+
+The reason code and any note are each independently governed content, subject to ordinary disclosure
+governance per audience (authorized resident, guest, unknown Person) — exactly as for any other
+governed content; no new disclosure mechanism is created. Permission to disclose *that* an exclusion
+influenced behavior is independent from permission to disclose the full rationale or note content.
+Change Records and Decision Trace entries carrying exclusion metadata follow their own existing
+**DL-47** retention classes unchanged; no new retention regime is created.
+
+---
+
 ## Room Help and capability exposure
 
 When a resident asks **"What can I do here?"**, the answer is generated from the deliberately
@@ -765,7 +882,7 @@ configuration today must never silently rewrite the explanation of a decision ma
 |---|---|
 | OD-01 | Home Assistant representation strategy for Room Configuration — the Area reference-and-extension rule is accepted as **DL-31**; the residual is the persistence shape of Change Records, Snapshots, and Current Projections |
 | OD-02 | **Closed — DL-43, DL-44, DL-45.** Vocabulary and participation definitions are located through a governed artifact reference; encoding remains capability-specific |
-| OD-12 | Whether exclusions carry a structured reason and whether reasons are resident-visible |
+| OD-12 | **Resolved as DL-103** (Issue #137). Exclusion is metadata explaining the Deliberately Excluded Participation value, never a fifth state; closed reason taxonomy `privacy` / `designated_use` / `other` (mandatory note), scope already inherent, temporality reuses DL-56's "in effect until changed," versioning and Change Records unchanged |
 | OD-37 | Snapshot triggers, cadence, and scope per responsibility |
 | OD-38 | Version identity, correlation, and causation identifier strategy |
 | OD-70 | Whether a Merged Room warrants a native Home Assistant projection |

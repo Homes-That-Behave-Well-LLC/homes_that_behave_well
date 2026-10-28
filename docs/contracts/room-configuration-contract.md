@@ -26,6 +26,11 @@ For each Room, an explicit and persisted definition of:
 - Which assets are **intentionally excluded**
 - The **participation state** of each asset: `participating`, `not_selected`, or
   `deliberately_excluded`
+- **Exclusion metadata (DL-103)** for every `deliberately_excluded` asset — a required structured
+  reason (`privacy`, `designated_use`, or `other` with a mandatory note), scope inherited from the
+  Participation record itself, and temporality following the same "in effect until changed" pattern as
+  Consent (**DL-56**). See [../models/room-configuration.md](../models/room-configuration.md),
+  *Exclusion Metadata (DL-103)*
 - Which capabilities are **exposed** to residents
 - Which vocabulary terms are available, and what they resolve to
 - Which sensors are **eligible contributors** to Room-scoped Composite Facts
@@ -90,7 +95,7 @@ Only `deliberately_excluded` supports the explanation *"the Beam is deliberately
 in this room."* A deliberate exclusion survives later re-configuration.
 
 Whether a deliberate exclusion carries a structured reason, and whether that reason is
-resident-visible, is open decision **OD-12**.
+resident-visible, is **resolved as DL-103** — see [../models/room-configuration.md](../models/room-configuration.md), *Exclusion Metadata (DL-103)*: a required structured reason (`privacy` / `designated_use` / `other` with a mandatory note), rendered into household language, never surfaced to residents as a raw code or entity ID.
 
 ---
 
@@ -121,6 +126,9 @@ resident-visible, is open decision **OD-12**.
 - That decorative presentation character (**DL-100**) grants disclosure authority, selects a
   Reasoning Provider, or overrides a Person-borne accessibility/accommodation or
   required-comprehension-language requirement — those remain Operational Trust's and Continuity's
+- That a deliberately-excluded asset is unavailable, broken, or native-hidden/disabled, or that a
+  native `hidden`/`disabled`/absent-Assist-exposure flag alone proves household exclusion intent —
+  exclusion and availability are never conflated (**DL-103**)
 
 ---
 
@@ -266,7 +274,6 @@ See [../models/temporal-record.md](../models/temporal-record.md).
 | OD-02 | **Closed — DL-43, DL-44, DL-45.** Participation and vocabulary definitions are located through a governed artifact reference; encoding remains capability-specific |
 | OD-10 | Whether Floors are a first-class scope |
 | OD-11 | **Closed — DL-67.** A Merged Room is a curated conversational interaction context; a Physical Room participates in at most one Merged Room at a time |
-| OD-12 | Whether exclusion reasons are structured or free text |
 | OD-37 | Snapshot triggers, cadence, and scope per responsibility |
 | OD-38 | Version identity, correlation, and causation identifier strategy |
 | OD-73 | **Interaction-Surface Room Context Resolution** — Room Context for a surface not bound to a Room, and the `room_context.resolved_from` enumeration |
@@ -274,6 +281,7 @@ See [../models/temporal-record.md](../models/temporal-record.md).
 | OD-17 | **Closed — DL-62.** Primary Authority is required and deterministic for every directly measured Environmental Purpose, identically for a Physical Room and a Merged Room; Composite Contributor is removed from the ordinary path; Formula-Derived Fact governance is accepted. Conflict resolution remains **OD-19** |
 | OD-70 | **Closed — DL-68.** Merged Room native representation: **accepted, no native representation.** No proven consumer requires a projection; Area/Floor/Group/Scene are rejected as representations; Label is not adopted; Assist/Conversation must never receive one |
 | OD-79 | **Closed — DL-100** (Issue #152). Room decorative presentation character (persona, configured TTS voice) is Room Configuration's, distinct from equipment/interaction-function relationships; precedence against Continuity's Person-scoped preferences and requirements is [../models/continuity.md](../models/continuity.md)'s own |
+| OD-12 | **Closed — DL-103** (Issue #137). Deliberate exclusion is metadata explaining the Deliberately Excluded Participation value, never a fifth **DL-11** state; closed reason taxonomy `privacy` / `designated_use` / `other` (mandatory note); scope already inherent in the Participation record; temporality reuses **DL-56**'s "in effect until changed"; native Home Assistant flags never copied or treated as proof of household rationale |
 
 ## Related documents
 

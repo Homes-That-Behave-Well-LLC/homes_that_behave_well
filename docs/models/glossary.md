@@ -874,6 +874,21 @@ The asset, device, entity, sensor, person, pet, service, or relationship is know
 The item has been explicitly selected to contribute to a Room capability, experience, composite
 fact, or interaction.
 
+**Deliberate Exclusion (DL-103)**
+Governed metadata explaining a **Deliberately Excluded** Participation value — never a fifth
+Existence/Participation/Exposure/Authority state. Requires a structured reason: `privacy`
+(participation would conflict with a household privacy choice), `designated_use` (the asset is
+technically capable but intentionally designated for a different use or role — for example, the Beam
+excluded from music while participating as TV audio), or `other` (does not fit a governed class;
+requires a mandatory explanatory note). `household_choice` is rejected as tautological — the
+Deliberately Excluded state already establishes household intent; `not_suitable` is rejected as
+ambiguous between a capability fact and `designated_use`; `broken` is never a valid reason (Truth's own
+fact, **DL-46**); `temporary` is temporality, not rationale. Scope is inherited from the Participation
+record itself; temporality follows Consent's (**DL-56**) "in effect until changed" pattern; native
+Home Assistant `hidden`/`disabled`/absent-Assist-exposure flags are never copied into this metadata and
+never proof of household intent on their own.
+Model: [room-configuration.md](room-configuration.md)
+
 **Exposure**
 The item or grouped capability is intentionally made available to residents through vocabulary, Room
 Help, UI, conversation, or another interaction surface.

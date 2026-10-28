@@ -213,6 +213,11 @@ Fields 3 and 4 must additionally be able to carry the **fusion explanation**:
 | Competing candidates, and whether separation was met | The basis for `known` versus `ambiguous` |
 | Reason codes | For every reduction, exclusion, ceiling, step, and outcome |
 
+**A deliberate Participation exclusion's contribution to a suppressed or non-selected action is
+recorded through this same reason-code field**, referencing the exclusion's own structured reason and
+exact configuration version (**DL-103**) — never duplicating Room Configuration's own exclusion
+metadata as separate trace content, and never storing the optional note's raw text as reasoning prose.
+
 A trace must be able to say plainly *"a highly reliable wearable corroborated the candidate"* and
 *"several phone-derived observations were treated as one"*. It must never expose voiceprint vectors,
 embeddings, raw biometric payloads, storage paths, provider secrets, or unnecessary device

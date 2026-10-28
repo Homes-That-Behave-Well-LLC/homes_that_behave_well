@@ -172,6 +172,11 @@ An asset may be:
 - exposed as part of a group (one of seven shades)
 - exposed as a knowledge asset (the piano)
 
+A deliberate exclusion (the Beam, above) carries its own governed metadata — a required structured
+reason, scope inherited from the Participation record itself, and temporality — never a fifth
+Existence/Participation/Exposure/Authority state. See
+[room-configuration.md](room-configuration.md), *Exclusion Metadata (DL-103)*.
+
 ---
 
 ## Native representation

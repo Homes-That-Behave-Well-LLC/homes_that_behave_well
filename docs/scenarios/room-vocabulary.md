@@ -125,6 +125,10 @@ different states, and the exclusion is configuration, not an error.
 > "The Beam is deliberately not part of *Speakers* in this room — it's set up for TV audio. Would you
 > like me to use it anyway?"
 
+This renders the Beam's structured exclusion reason — `designated_use` (**DL-103**): the Beam is
+technically capable of playing music but is intentionally designated for TV audio instead. The
+structured code itself is never surfaced; only its household-language rendering is.
+
 Home Assistant classifies the Sonos speakers, the Beam, the LG television, and the Apple TV all as
 `media_player`. HTBW distinguishes **Speakers**, **TV**, and **Media Player**. **This household
 distinction is preserved.**

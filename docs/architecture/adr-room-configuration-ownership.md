@@ -163,7 +163,7 @@ target**, and vocabulary never renames or replaces the authoritative asset.
 
 **OD-01** HA representation strategy; **OD-02** connected-storage format, **since closed as DL-43, DL-44, and DL-45**; **OD-10** Floors as a
 first-class scope; **OD-11** a Physical Room in more than one Room; **OD-12** structured exclusion
-reasons; **OD-13** vocabulary inheritance; **OD-14** HA aliases; **OD-86** the household consequence of
+reasons, **since closed as DL-103**; **OD-13** vocabulary inheritance; **OD-14** HA aliases; **OD-86** the household consequence of
 changing or withdrawing a vocabulary term — distinct from **OD-13**, which is inheritance across scopes.
 
 ---
