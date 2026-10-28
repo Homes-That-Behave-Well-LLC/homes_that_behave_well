@@ -535,13 +535,19 @@ keys every document folder by the Asset's stable `asset_id`, keys every file by 
 freshly generated identifier, and its own access layer "intentionally does NOT expose raw filesystem
 paths." This already matches `connected-storage.md`'s governed-namespace rule (stable identifier,
 never a display-name key, never an exposed raw path) — independently, not because HTBW requires it of
-the standalone product. **HTBW's own Asset-anchored storage must replicate this same keying
-principle** for Assets created natively in HTBW and for Assets carried in through Adoption alike, so
-that **Adoption of existing Asset Intelligence documents/images is a reference-based act** — HTBW
-takes governed ownership of files already present at their existing location using the Asset's own
-stable identifier, without requiring re-upload or physical relocation, directly satisfying Adoption's
-accepted "one-time, authoritative, no synchronization, no write-back" rule (**DL-52**). The
-household-visible taxonomy ("Asset Intelligence > A.B. Chase Piano > Documents & Images") remains a
+the standalone product.
+
+**Correction: Adoption copies once, with lineage — never reference-only.** `adr-product-disposition-
+and-legacy-adoption.md` already decided this, explicitly rejecting a reference-only alternative
+("Adoption by runtime reference, with no copy" — Alternative E — "fails outright... couples two
+independent release lifecycles"): *"Adoption therefore copies once, with lineage, and that is the
+correct outcome."* **HTBW's own Asset-anchored storage replicates the standalone product's keying
+principle** (stable identifier, never display name) **for its own governed copy**, created once during
+Adoption and thereafter independent of the standalone product's own private store — not a reference
+into it. The one-time copy requires no household re-upload (it is performed programmatically by the
+Adoption capability from the existing files to HTBW's own storage) and does not disturb the standalone
+product's own files, which remain wherever that separate, independently released product keeps them.
+The household-visible taxonomy ("Asset Intelligence > A.B. Chase Piano > Documents & Images") remains a
 presentation label only; renaming the Asset never touches the physical structure and never orphans a
 document, because resolution was never based on the display name in either product.
 
@@ -571,7 +577,7 @@ reasonably extended, and even then follows Home Assistant's design conventions, 
 conventions, and interaction patterns. **Detailed conformance criteria — the escalation order (use →
 configure/constrain → compose → extend → create custom), concrete native selector/control categories,
 and the UI Architecture Acceptance Gate — are added to [ui-patterns.md](../patterns/ui-patterns.md)
-(§24 cross-reference), which already owns concrete UI pattern detail; this document states the
+(§28 cross-reference), which already owns concrete UI pattern detail; this document states the
 governing principle only.**
 
 ## 24. Brand, visual system, and Framework iconography
@@ -590,7 +596,7 @@ signal/context/interaction icons) and extending it with a third, explicitly Fram
   interaction icons (edit, delete, settings, expand, navigation, device/entity concepts) are never
   redesigned for branding.
 - **Color is punctuation, not the primary information model.** The seven Framework layers are not
-  rendered as seven loud colors; `ui-patterns.md`'s existing status-color semantics (§25 cross-
+  rendered as seven loud colors; `ui-patterns.md`'s existing status-color semantics (§9 cross-
   reference: context/normal/warning/critical/unknown) are a **different dimension** from any Framework-
   layer signature treatment and must not be confused with it.
 - **Home Assistant theming is respected, never replaced** by an independent HTBW light/dark theme;

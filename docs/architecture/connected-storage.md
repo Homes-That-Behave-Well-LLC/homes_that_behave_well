@@ -252,14 +252,26 @@ key, never an exposed raw path — independently arrived at, not copied from HTB
 **HTBW's own Asset-anchored storage — for Assets created directly in HTBW and for Assets carried in
 through Adoption (DL-51, DL-52) alike — uses the identical keying principle**: a per-Asset structure
 keyed by the Asset's own stable **Subject ID** (Foundation's governed Asset identifier), with each
-document or image keyed by its own opaque, never-reused identifier. **This is a deliberate requirement,
-not a coincidence**: because HTBW's structure matches what the standalone integration already does,
-**Adoption of existing Asset Intelligence documents/images is a reference-based act** — HTBW takes
-governed ownership of the files already present at their existing location using the same Asset
-identifier, without requiring the household to re-upload, and without HTBW physically relocating or
-renaming anything merely to perform the import. This directly satisfies Adoption's own accepted
-"one-time, authoritative, and terminating... no synchronization and no write-back" rule (**DL-52**):
-the one-time act is taking governed reference ownership, never a bulk file copy.
+document or image keyed by its own opaque, never-reused identifier.
+
+**Correction: Adoption copies once, with lineage — it is never reference-only.** `adr-product-
+disposition-and-legacy-adoption.md` already and explicitly decided this, rejecting the alternative:
+*"A Governed Reference cannot survive removal of its referent: a household that adopted by reference
+and then uninstalled Asset Intelligence would be left with broken references where their data used to
+be. Adoption therefore copies once, with lineage, and that is the correct outcome."* **Adoption by
+runtime reference, with no copy, is a rejected alternative** (Alternative E), not an available option.
+HTBW's Foundation-owned Asset record is its own governed object, assigned Foundation's own Subject ID
+— **not** required or assumed to equal the standalone product's internal `asset_id` value, which is a
+separate product's own internal identifier. What transfers during Adoption is the **document content
+itself**, copied once into HTBW's own governed storage and keyed there by the identical
+stable-identifier principle (Foundation's Subject ID for the Asset, an opaque identifier per document)
+— never by display name, exactly mirroring the standalone product's own already-verified convention,
+but as HTBW's **own** governed copy, not a pointer into the standalone product's private store. **This
+still requires no household re-upload** — the one-time copy is performed programmatically by the
+Adoption capability, from the existing files at their existing location, into HTBW's own storage —
+but it **is** a physical copy with recorded lineage (**DL-52**), never a bare reference, and never a
+relocation of the standalone product's own files (which remain exactly where they are, undisturbed,
+for as long as that separate, independently released product continues to run).
 
 **The household-visible taxonomy remains a presentation label, never the physical key.** The UI may
 present "Asset Intelligence > A.B. Chase Piano > Documents & Images" as a human-readable path for
