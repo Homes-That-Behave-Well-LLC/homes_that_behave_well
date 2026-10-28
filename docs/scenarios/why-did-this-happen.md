@@ -331,7 +331,7 @@ action log, because **nothing was done**. It is answered from the governed Commu
 | Did you try? | Delivery Attempt Change Records | One attempt to a personal surface at 22:15 |
 | Did it arrive? | The attempt outcome | `Delivered`. `Presented` is **unknown** — that surface cannot attest presentation |
 | Did I acknowledge it? | Acknowledgement Domain Event | None recorded |
-| Is it still outstanding? | The Current Projection | Superseded at 06:02, when the door was closed and the originator resolved it |
+| Is it still outstanding? | The Current Projection | Resolved by origin at 06:02, when the door was closed and the originator withdrew it. `Superseded` is reserved for replacement by a later Communication, which did not occur here |
 | Do you still hold the record? | The record, or its Tombstone | The records are retained |
 
 > "I did know. I created a message about it at 10:14 last night, and I decided not to say it aloud in
