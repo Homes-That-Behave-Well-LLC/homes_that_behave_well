@@ -740,7 +740,7 @@ Stewardship significance, Operational Trust Urgency, or resident-facing conseque
 **Ignoring an issue never changes HTBW's own Defect State.** Per the verified platform behavior above,
 an ignored issue is merely suppressed from the dashboard; the owning responsibility continues to treat
 its underlying condition exactly as before, and **ignoring is not evidence that the defect was
-addressed** — consistent with **OD-45**'s existing rule that ignoring is not a person-attributed
+addressed** — consistent with **DL-96**'s existing rule that ignoring is not a person-attributed
 acknowledgement.
 
 **Re-raising invents no timer or second lifecycle.** Because Home Assistant persists an issue until

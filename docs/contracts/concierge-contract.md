@@ -196,6 +196,19 @@ defined in [../models/communication.md](../models/communication.md):
 The two levels are never flattened. A Communication has one current lifecycle state and may have many
 Delivery Attempts.
 
+### Acknowledgement (DL-96)
+
+Where a Person performs an explicit, Communication-specific responsive act — closing, dismissing,
+confirming, denying, or answering — and Identity resolves them to a `known` assertion meeting the
+Operational-Trust-configured Required Identity Band for this operation, and that Person is within the
+Communication's Intended Audience, Concierge records the acknowledgement as both a Domain Event and a
+Change Record, transitioning the Communication's lifecycle to `Acknowledged`. A bare interaction event
+that cannot be established as responsive to that specific Communication is acknowledgement-adjacent
+evidence only, never sufficient alone. Acknowledgement never redefines Delivery, Presentation
+(**DL-54**), Confirmation (**DL-37**), DL-94 Room-delivery authorization, or Stewardship Completion
+(**DL-48**, **DL-71**); unacknowledged delivery remains `unknown`, never failure. Full semantics:
+[../models/communication.md](../models/communication.md), *Acknowledgement semantics (DL-96)*.
+
 ### Compound and multi-item requests (DL-80)
 
 > **This subsection is additive and is recorded pending formal acceptance review at Issue #188. It is
@@ -344,7 +357,7 @@ See [../models/decision-trace.md](../models/decision-trace.md) and
 | OD-30 | Which surfaces expose Decision Traces, and to whom |
 | OD-43 | **Closed — DL-53.** Delivery Surface capability model, including perceptibility and attestation |
 | OD-44 | **Closed — DL-95.** Delivery outcome semantics across the two levels — Communication lifecycle and Delivery Attempt outcome, consuming DL-54 and DL-94 unchanged |
-| OD-45 | Acknowledgement semantics and acknowledger identification |
+| OD-45 | **Closed — DL-96.** Acknowledgement semantics and acknowledger identification — an explicit, Communication-specific responsive act by an identified, in-audience Person, consuming DL-36/DL-39 unchanged |
 | OD-47 | Household Inbox projection scope and refresh semantics |
 | OD-48 | Re-presentation preference and its relation to the Follow-Me preference family |
 | OD-52 | Audience specification model |

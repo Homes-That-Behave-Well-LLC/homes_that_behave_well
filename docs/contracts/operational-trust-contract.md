@@ -487,7 +487,7 @@ would change the outcome.
 | OD-36 | Reconciliation of deletion and export obligations with retention floors and Preservation Holds |
 | OD-39 | Preservation Hold authority, duration, review, release, and conflict with deletion |
 | OD-40 | Evidence Package assembly, transport, integrity representation, and audience |
-| OD-45 | Acknowledgement semantics, and whether unacknowledged delivery is a failure |
+| OD-45 | **Resolved as DL-96.** Acknowledgement is an explicit, Communication-specific responsive act by an identified, in-audience Person; unacknowledged delivery remains `unknown`, never failure |
 | OD-46 | **Resolved as DL-77.** Urgency is a fixed, cumulative four-level entitlement ladder, formally independent of Action-Risk Classification (**DL-76**) |
 | OD-49 | Communication retention floor and ceiling |
 | OD-51 | **Resolved as DL-76.** Action-Risk Class enumeration and per-class defaults; household and object-specific override model; interruption confirmed as a separate axis (**DL-77**) |

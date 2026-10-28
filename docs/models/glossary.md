@@ -1396,10 +1396,14 @@ spoken, played, or otherwise made available through the selected surface. Exactl
 asserts perception, acknowledgement, correctness, or that the household's request was satisfied.
 
 **Acknowledgement**
-An explicit responsive act by an **identified person** — closing, dismissing, confirming, denying, or
-answering. Distinct from **Presentation Outcome**: a surface attesting that content was technically
+An **explicit, Communication-specific responsive act** by an **identified person** — closing,
+dismissing, confirming, denying, or answering — never an incidental, bulk, or non-responsive
+clearing action. A bare interaction event (for example a notification-cleared event with no
+further context) is **acknowledgement-adjacent evidence**, not itself a sufficient Acknowledgement,
+unless it is independently established as a genuine responsive act directed at that Communication.
+Distinct from **Presentation Outcome**: a surface attesting that content was technically
 presented is never acknowledgement, and acknowledgement never rewrites a historical Presentation
-Outcome (**DL-54**, **OD-45**).
+Outcome (**DL-54**, **DL-96**).
 
 **Recipient Attribution Capability**
 A Delivery Surface's declared capacity to supply evidence about who received, perceived,

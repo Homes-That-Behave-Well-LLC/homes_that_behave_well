@@ -860,6 +860,84 @@ it. `Resolved by origin` covers the legitimate case.
 
 ---
 
+## Acknowledgement semantics (DL-96)
+
+**Acknowledgement is an explicit, Communication-specific responsive act by an identified person**,
+resolving **OD-45**. It is distinct from Delivery, Presentation, Confirmation, Authorization, and
+Stewardship Completion, none of which it is inferred from or substitutes for.
+
+### What constitutes acknowledgement
+
+| Candidate act | Status |
+|---|---|
+| An explicit spoken responsive act ("I got it," "okay," a specific reply) | **Valid acknowledgement**, where Identity resolves the speaker to a `known` assertion meeting the Operational-Trust-configured Required Identity Band for this operation (**DL-36**, **DL-39**) |
+| An explicit acknowledgement action on an attributable surface/session | **Valid acknowledgement**, under the same identity test |
+| `mobile_app_notification_action` (a chosen, labelled action) | **Valid acknowledgement evidence**, sufficient where attribution is adequate — the Person made a specific, deliberate choice |
+| `mobile_app_notification_cleared` (dismiss/clear) **as a genuine, Communication-specific responsive act** | **Valid acknowledgement**, on the same footing as the above |
+| `mobile_app_notification_cleared` or an equivalent dismissal **where responsiveness to this specific Communication cannot be established** (for example an incidental, bulk, or non-responsive clearing action) | **Acknowledgement-adjacent evidence only — never itself sufficient.** A bare interaction event is not elevated into certainty merely because an event of a qualifying type occurred; this restates the same evidence-versus-certainty discipline **DL-54** already applies to presentation |
+| Opening or viewing a surface (a dashboard, the Household Inbox, a notification) | **Not acknowledgement.** Visibility alone establishes nothing — restates `Presented` ≠ perceived ≠ acknowledged |
+| Passive presentation alone (spoken or shown, no response) | **Not acknowledgement** |
+| A **DL-37** Confirmation answer | **Not acknowledgement of an unrelated Communication.** Where the same responsive act legitimately answers a bounded confirmation question *and* independently qualifies as an explicit responsive act to a Communication, both are independently justified and separately recorded — neither is inferred from the other by convenience |
+| A **DL-94** Explicit Yes, Explicit No, or No Response | **Not acknowledgement** of the underlying protected Communication under any circumstance. Yes authorizes only the Room-delivery path for that Communication; No denies only that path; No Response is neither. A later, independent acknowledging act against delivered protected content is a separate event |
+| Ignoring a Home Assistant Repairs issue | **Not acknowledgement.** Repairs identifies nobody and is not a Communication, an obligation store, or an acknowledgement mechanism |
+
+### Identity and attribution
+
+Acknowledgement attribution is an ordinary protected operation under the existing **DL-36**/**DL-39**
+model: Identity supplies the Person assertion and its confidence band; **Operational Trust determines
+sufficiency** by configuring the Required Identity Band this operation requires, exactly as for any
+other operation; **no new identity confidence scale is created**. A shared, unauthenticated surface
+interaction with no further Identity evidence resolves at best to `unknown`/`ambiguous` (**DL-33**) —
+**never** a named Person's Acknowledgement. Voice acknowledgement reuses Identity's existing
+speaker-resolution pipeline (**DL-38**) unchanged; an unidentified or ambiguous speaker's response is
+evidence only.
+
+### Who may acknowledge
+
+The identified Person must also be within the Communication's resolved **Intended Audience**
+(**DL-71**'s five forms). No accepted delegation mechanism extends Communication acknowledgement to a
+Person outside that audience: **DL-57**'s Delegated Access Grant is explicitly scoped to Stewardship
+obligation operations (view, receive, declare, update, schedule, complete, manage) and does not reach
+Communication acknowledgement. A Person outside the resolved audience performing a responsive act is
+recorded as interaction evidence for Explainability, never fabricated into `Acknowledged`.
+
+**Where the Intended Audience itself names more than one Person** (Household, a Role, Anyone Present
+With Authority), a valid Acknowledgement by **any one** sufficiently identified in-audience Person
+transitions the Communication's single lifecycle state to `Acknowledged` — **DL-95** permits exactly
+one current lifecycle state, and no per-recipient acknowledgement sub-model is created. This reuses
+the same shape Stewardship already accepted for **One Completion Satisfies All** (`stewardship.md`,
+**DL-71**): one shared governed record, satisfied by any one of several accountable Persons, with the
+acknowledger's identity retained as attributed provenance (the Domain Event and Change Record) so
+Explainability never implies that every other intended recipient also acknowledged — only that the
+Communication reached `Acknowledged`, by whom, and when. A household requiring independent
+per-recipient acknowledgement tracking would need its own future decision, analogous to Stewardship's
+separately accepted **Each Recipient Must Complete** shape; none is invented here.
+
+### Unacknowledged delivery is not failure
+
+`Delivered` and `Presented` remain true and unchanged whether or not an Acknowledgement ever arrives.
+Absence of acknowledgement is never converted into Delivery or Presentation failure. Where no valid
+acknowledgement ever arrives, the state is **`unknown`** — see *Behaviour after Unknown*, above, and
+the Failure-behaviour table, below. A later acknowledgement never rewrites historical Delivery Attempt
+or Presentation Outcome records.
+
+### What acknowledgement does not establish
+
+Acknowledgement proves only that the Communication was validly acknowledged. It does **not** prove:
+the underlying action was taken; care was performed; a Stewardship obligation was completed; a Care
+Evidence Record exists (**DL-48**); or the originating condition resolved (`Resolved by origin` is a
+separate, originator-triggered state). **DL-71** independently confirms Acknowledgement and
+Stewardship Completion must never be collapsed, even where both occur in the same interaction.
+
+### Escalation and retry boundary
+
+Acknowledgement supplies truthful facts only — `Acknowledged` / not-yet (`unknown`) / the acknowledger's
+identity and confidence where permitted. **OD-22** owns whether, or under what policy, acknowledgement
+affects escalation; **OD-54** owns retry interval, cadence, and give-up policy. Neither is decided
+here.
+
+---
+
 ## Communication history
 
 Communication history uses the shared temporal model **unchanged**.
@@ -1111,7 +1189,7 @@ See [../scenarios/why-did-this-happen.md](../scenarios/why-did-this-happen.md).
 | OD-42 | Communication object persistence and Home Assistant representation |
 | OD-43 | **Closed — DL-53.** Delivery Surface capability model, including perceptibility and attestation; portable-surface Room Context mechanism remains **OD-73** |
 | OD-44 | **Closed — DL-95.** Communication lifecycle (Created, Suppressed, Acknowledged, Expired, Superseded, Resolved by origin, Undeliverable) and Delivery Attempt outcome (Attempted, Delivered, Presented, Failed) are formally distinct and never flattened; **DL-54** and **DL-94** consumed unchanged. Acknowledgement validity (**OD-45**), retry (**OD-54**), and escalation (**OD-22**) remain independently owned |
-| OD-45 | Acknowledgement semantics and acknowledger identification |
+| OD-45 | **Closed — DL-96.** Acknowledgement is an explicit, Communication-specific responsive act by an identified, in-audience Person, attribution governed by DL-36/DL-39 unchanged; unacknowledged delivery remains `unknown`, never failure; Confirmation (DL-37), DL-94 authorization, and Stewardship Completion (DL-48, DL-71) remain distinct. Escalation (**OD-22**) and retry (**OD-54**) consume this truthfully, deciding nothing themselves |
 | OD-46 | **Closed — DL-77.** Urgency is a fixed, cumulative four-level entitlement ladder, formally independent of Action-Risk Classification (**DL-76**), never overriding audience, privacy, consent, disclosure, identity, authority, or precedence (**OD-04**) |
 | OD-47 | Household Inbox projection scope and refresh semantics |
 | OD-48 | Re-presentation preference and its relation to the Follow-Me preference family |

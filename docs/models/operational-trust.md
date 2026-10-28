@@ -1622,7 +1622,7 @@ effect.** See [../architecture/privacy.md](../architecture/privacy.md).
 | OD-36 | Reconciliation of deletion and export obligations with retention floors and Preservation Holds |
 | OD-39 | Preservation Hold authority, duration, review, release, and conflict with deletion |
 | OD-40 | Evidence Package assembly, transport, integrity representation, and audience |
-| OD-45 | Acknowledgement semantics, and whether unacknowledged delivery is a failure |
+| OD-45 | **Resolved as DL-96.** Acknowledgement is an explicit, Communication-specific responsive act by an identified, in-audience Person; attribution reuses this document's existing Required Identity Band machinery (**DL-36**, **DL-39**) unchanged, no new scale; unacknowledged delivery remains `unknown`, never failure |
 | OD-46 | **Resolved as DL-77.** Urgency is a fixed, cumulative four-level entitlement ladder, formally independent of Action-Risk Classification (**DL-76**), never overriding audience, privacy, consent, disclosure, identity, authority, or precedence (**OD-04**) |
 | OD-49 | Communication retention floor and ceiling, with content and metadata classified separately |
 | OD-51 | **Resolved as DL-76.** Action-Risk Class enumeration (Convenience, Disclosure, Financial, Safety, Security, Governance) and per-class Required Identity Band / Confirmation Strength / Address by Name / Presentation Threshold defaults; household and object-specific override model; interruption confirmed as a separate axis (**DL-77**) |

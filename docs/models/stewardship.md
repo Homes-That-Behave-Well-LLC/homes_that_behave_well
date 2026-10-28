@@ -165,8 +165,8 @@ Two household patterns are both already expressible through the existing obligat
 | **Each Recipient Must Complete** | Multiple independent obligations exist, one per accountable Person, each closed by its own Care Evidence Record | Each Person's flight check-in |
 
 **"Completion Mode" is a label for which of these two shapes was configured — it is never a new stored
-state**, and it must never be confused with **Acknowledgement** (**OD-45**, an identified person's
-responsive act) or a Communication's own delivery lifecycle (**OD-44**). The existing
+state**, and it must never be confused with **Acknowledgement** (**DL-96**, an identified person's
+responsive act) or a Communication's own delivery lifecycle (**DL-95**). The existing
 **Caretaker-calendar projection** already keeps every caretaker's open list clean under either mode:
 it is a live, read-time projection over the governed obligation record(s), so a shared item's closure
 is reflected for every caretaker without ever creating a stored per-recipient duplicate that would
