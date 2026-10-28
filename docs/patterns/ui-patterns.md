@@ -4,6 +4,14 @@
 > Canonical authority: [../architecture/framework.md](../architecture/framework.md) and
 > [../models/glossary.md](../models/glossary.md).
 > Where this document conflicts with canonical authority, canonical authority prevails.
+> **Known stale terminology, not yet fully reconciled (tracked, not silently fixed):** this document
+> predates several since-accepted decisions. "Composite Room"/"composite tile" (§23) is superseded
+> terminology — the accepted term is **Merged Room** (**DL-67**, **DL-68**); "Global Context" (§18) and
+> "Alerts" predate the current seven-responsibility vocabulary and should be read against
+> [../architecture/htbw-framework-aligned-ux-and-information-architecture.md](../architecture/htbw-framework-aligned-ux-and-information-architecture.md)'s
+> Subject/Perspective/Scope/Filter/Surface vocabulary (§9 there) rather than taken as a competing model.
+> A full terminology pass is follow-on work (see that document's final report, item H), not performed
+> in this edit.
 
 ## Purpose
 
@@ -518,6 +526,150 @@ Rules:
 - if one room is removed, that room tile must reappear in the main screen while remaining members stay as a composite tile
 - if all rooms are removed, the composite must be dismantled and removed from the main screen
 - when dismantled, all individual room tiles must return
+
+---
+
+# 24. Native HA Component Conformance Order
+
+**"Native First. Native Extended."** HTBW is a Home Assistant integration; it uses current official
+Home Assistant developer documentation, object models, frontend components, selectors, forms,
+registries, and interaction conventions wherever they satisfy a requirement. Before any new HTBW UI
+element is created, apply this order:
+
+1. Use a native Home Assistant component directly (entity/device/area/floor/label/tag selectors,
+   native form controls, dialogs, conditional form behavior).
+2. Configure or constrain the native component.
+3. Compose native components into an HTBW experience.
+4. Extend an established Home Assistant pattern, documenting the HTBW-specific requirement driving
+   the extension.
+5. Create a custom HTBW component **only** when none of the above satisfies the requirement, and
+   document explicitly why no native pattern applies.
+
+A custom HTBW component, where genuinely necessary, still uses Home Assistant design conventions,
+reuses Home Assistant components where technically appropriate, and honors Home Assistant theming,
+accessibility conventions, responsive behavior, interaction patterns, and platform terminology. **Do
+not substitute a generic web control, and do not create a control that merely looks similar to a Home
+Assistant control** — the objective is a luxury Home Assistant experience, not a luxury application
+embedded inside one.
+
+# 25. Accessibility
+
+Follow Home Assistant frontend conventions and current applicable accessibility guidance for:
+keyboard navigation, focus visibility, screen-reader labeling, semantic controls (never a `<div>`
+masquerading as a control), contrast, touch targets, reduced motion where applicable, and
+communicating meaning without color alone — directly extending §9's existing color-semantics table,
+which must never be the sole channel for a status distinction.
+
+# 26. Responsive Design
+
+The commissioning experience accounts for desktop, tablet, phone, and the Home Assistant Companion
+App/WebView and other supported presentation contexts. Composition adapts by form factor; a desktop
+layout is never preserved where doing so makes the interface unusable on a smaller surface. This
+extends, and does not replace, §13's existing "Performance and Responsiveness" rule.
+
+# 27. Motion
+
+Use animation purposefully — expansion, drill-in, help panels, and meaningful state transitions —
+never decoratively merely to appear premium. This extends §15's existing Interaction Feedback
+patterns; motion communicates state change, not brand polish.
+
+# 28. Configuration Requirement Types
+
+Do not reduce every configuration item to a flat Required/Optional binary. Where accepted architecture
+supports the distinction (reusing **DL-41**'s own mandatory/optional dependency model, never a new
+one), present:
+
+| Type | Meaning |
+|---|---|
+| **Required** | HTBW cannot operate without it |
+| **Capability Requirement** | HTBW operates; a specific capability depends on it (**DL-41** mandatory dependency for that capability) |
+| **Enhancement** | The capability remains available; configuring this improves the experience (**DL-41** optional dependency) |
+
+# 29. Dependency States, Readiness, and Health
+
+Reusing **DL-41**'s already-distinguishable dependency states (not configured; configured but invalid;
+configured but currently unavailable; healthy; degraded but usable; removed), the UI distinguishes
+**Readiness** ("is this correctly commissioned?") from **Health** ("is this currently operating
+correctly?") — a correctly commissioned capability may be temporarily unavailable without implying
+improper commissioning. **No arbitrary completion percentage is shown** absent a future governed
+mathematical definition for one; use meaningful states (Ready, Needs Attention, Unavailable
+Dependency, Not Configured, Degraded) instead. Not every incomplete condition is an error — a Home can
+be intentionally and correctly commissioned without every optional capability enabled.
+
+# 30. Validation and Defaults
+
+Prefer preventing invalid configuration over accepting it and surfacing an error afterward; use
+Home Assistant-native selector filtering/validation where supported. Distinguish **invalid**,
+**incomplete**, **unusual but permitted**, **unavailable**, and **degraded** — these are never
+equivalent and never presented identically.
+
+Every default is a product decision, never invented for UI convenience. Where useful, classify a
+default's provenance as: Home Assistant/platform default; HTBW architectural default; discovered
+household value; or intentionally unset. **Privacy, authorization, autonomy, identity, communication,
+and trust-related defaults require explicit architectural grounding** — reusing, never bypassing, the
+owning responsibility's own accepted rule (for example **DL-97**'s "no HTBW-wide default grace-period
+value exists" pattern for escalation timing).
+
+# 31. Destructive or Consequential Actions
+
+Extends §6's existing Confirmation rule. Reserve explicit confirmation for genuinely consequential
+actions — deletion, removing a relationship with downstream effects, reset, disabling a capability,
+changing privacy/authority behavior, or an action that makes another capability unavailable — and
+**explain the specific consequence**, never a generic "Are you sure?" Trivial actions never show a
+confirmation dialog.
+
+# 32. Search, Filtering, and Scale
+
+Design People/Places/Assets collections so the architecture can support larger professional
+installations — search, filtering, sorting, and grouping, using Home Assistant-native interaction
+patterns, added when the collection genuinely needs them. Do not prematurely convert HTBW into an
+enterprise data-grid application.
+
+# 33. Empty States
+
+Extends §5's existing Empty State Handling rule. An empty state teaches: what belongs here, why it
+matters, and the next appropriate action — never a bare "No assets found." If the missing content must
+first be configured elsewhere, say where it comes from and what remains unavailable until it exists.
+
+# 34. Errors
+
+Extends §4's existing State Visibility and Explainability rule. An error explains what happened, why,
+what is affected, what the resident can do, and where to go — never a stack trace or low-level
+implementation text in the normal experience. Deeper diagnostic detail remains reachable for
+integrators through the same progressively-disclosed path (§3; the UX document's §25).
+
+# 35. Iconography — Framework Layer Added
+
+Extends §8's existing two-layer model (Layer 1: Native entity/sensor icons; Layer 2: System
+signal/context/interaction icons) with a third, explicitly separate layer:
+
+- **Layer 3: Framework** — the seven canonical responsibility icons (Foundation, Identity, Truth,
+  Operational Trust, Stewardship, Continuity, Concierge) and genuinely HTBW-specific semantic icons.
+  See [../architecture/htbw-framework-aligned-ux-and-information-architecture.md](../architecture/htbw-framework-aligned-ux-and-information-architecture.md)
+  §24 — **this iconography does not yet exist and is tracked as follow-on design work, not produced
+  by this edit.**
+
+Layers 1 and 2 are never redesigned for Framework branding; Layer 3 never redesigns a standard Home
+Assistant interaction icon merely for visual consistency.
+
+# 36. UI Architecture Acceptance Gate
+
+Every future HTBW UI experience, before it is considered architecturally conformant, demonstrates:
+
+| Dimension | Required demonstration |
+|---|---|
+| **Architecture** | Correct Framework responsibility and subject scope; no duplicate ownership; no competing Home Assistant registry/model; correct **DL-41** dependency semantics; correct configuration authority |
+| **Home Assistant conformance** | Native pattern investigated first (§24); native component used where appropriate; extension justified where used; no generic web control substituted for an appropriate native one; HA interaction conventions and theming followed |
+| **Experience** | Screen purpose is understandable; household vocabulary used appropriately (never altering architectural meaning, per the UX document §25); help available where judgment is required; provenance understandable; consequences explained (§31); progressive disclosure manages complexity; context preserved; breadcrumbs/orientation correct (UX document §19); cross-Framework discovery reaches the authoritative owner |
+| **Quality** | Responsive (§26); accessible (§25); theme-aware; empty (§33), loading, unavailable, and degraded states designed; errors actionable (§34); validation appropriate (§30) |
+| **Outcome** | A knowledgeable homeowner can make the decision without external documentation ("Luxury" acceptance test); a professional integrator can still reach needed technical detail; the experience feels HTBW-branded; controls feel natively Home Assistant |
+
+**"Luxury" acceptance test**: could an intelligent homeowner who understands their own household make
+this configuration decision correctly without consulting external documentation? If not, determine
+whether wording, discovery, contextual information, help, consequence clarity, provenance clarity, or
+unnecessary low-level exposure is the gap — then verify an experienced integrator can still reach the
+technical detail needed to commission and diagnose the system.
+
 
 Composite rename rules:
 

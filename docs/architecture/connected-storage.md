@@ -227,6 +227,48 @@ architectural**, in which case that requirement is stated explicitly rather than
 capability introduces an artifact class with a complete lifecycle declaration (**DL-43**). Folders
 are not reserved for capabilities that do not yet exist.
 
+### This document is the canonical External Storage Contract
+
+**Principle: "Users select storage. HTBW selects paths."** The household selects the externally
+connected storage resource through Home Assistant (**DL-30**, **P21**); HTBW owns everything beneath
+that selection — folder creation, taxonomy, naming, paths, and lifecycle — for every HTBW-managed
+externally persisted content class. The household is never asked where an individual document,
+image, or other HTBW-managed file should be physically placed. The governed artifact classes and
+their accepted lifecycles are the "Accepted artifact retention strategies" table below; this section
+and that table together **are** the External Storage Contract — no separate contract document is
+created.
+
+### Asset Intelligence / Adoption — verified against the existing standalone implementation
+
+**This is not a hypothetical reconciliation.** The standalone Asset Intelligence product's own
+`document_storage.py` was inspected directly: it already keys every physical document folder by the
+Asset's own stable `asset_id` (`os.path.join(root_path, asset_id)`), keys every individual file by a
+freshly generated opaque `document_id` (`uuid.uuid4()`) with the original filename appended only for
+human readability, and its own access layer documents that it **"intentionally does NOT expose raw
+filesystem paths."** The standalone product already follows the identical governed-namespace
+principle this document requires — collision-resistant stable-identifier keys, never a display-name
+key, never an exposed raw path — independently arrived at, not copied from HTBW.
+
+**HTBW's own Asset-anchored storage — for Assets created directly in HTBW and for Assets carried in
+through Adoption (DL-51, DL-52) alike — uses the identical keying principle**: a per-Asset structure
+keyed by the Asset's own stable **Subject ID** (Foundation's governed Asset identifier), with each
+document or image keyed by its own opaque, never-reused identifier. **This is a deliberate requirement,
+not a coincidence**: because HTBW's structure matches what the standalone integration already does,
+**Adoption of existing Asset Intelligence documents/images is a reference-based act** — HTBW takes
+governed ownership of the files already present at their existing location using the same Asset
+identifier, without requiring the household to re-upload, and without HTBW physically relocating or
+renaming anything merely to perform the import. This directly satisfies Adoption's own accepted
+"one-time, authoritative, and terminating... no synchronization and no write-back" rule (**DL-52**):
+the one-time act is taking governed reference ownership, never a bulk file copy.
+
+**The household-visible taxonomy remains a presentation label, never the physical key.** The UI may
+present "Asset Intelligence > A.B. Chase Piano > Documents & Images" as a human-readable path for
+navigation — consistent with the asset's current household-facing name — while the underlying
+physical folder and file keys remain the Asset's stable identifier and each document's own opaque
+identifier, exactly as today. **Renaming the Asset ("A.B. Chase Piano" → a new name) never touches the
+physical structure and never orphans a document**, because resolution was never based on the display
+name to begin with — in HTBW or in the standalone product it is adopted from.
+
 ---
 
 ## Artifact reference contract
@@ -511,7 +553,7 @@ storage owns nothing.**
 
 | Artifact | Owner | Retention | Deletion | Notes |
 |---|---|---|---|---|
-| **Asset documents** — manuals, invoices, warranties, photos, appraisals, service records | **Foundation**, which owns the Asset and its documentation anchor. **Stewardship owns significance and care, not the document artifact** | Retained while the anchor Asset exists | The Asset is removed, or the resident explicitly removes the document | **No ordinary age-based purge.** A document does not expire because it is old. Deletion respects applicable preservation and retention constraints. Anchored to the native Device representation and the governed Asset record. Unreachable documentation is reported as **unavailable**, never as absence. See [../models/asset.md](../models/asset.md) |
+| **Asset documents** — manuals, invoices, warranties, photos, appraisals, service records | **Foundation**, which owns the Asset and its documentation anchor. **Stewardship owns significance and care, not the document artifact** | Retained while the anchor Asset exists | The Asset is removed, or the resident explicitly removes the document | **No ordinary age-based purge.** A document does not expire because it is old. Deletion respects applicable preservation and retention constraints. Anchored to the native Device representation and the governed Asset record. Unreachable documentation is reported as **unavailable**, never as absence. **Applies identically whether the document was created natively in HTBW or carried in through Asset Intelligence Adoption (DL-51, DL-52)** — both are keyed by the Asset's own stable identifier, per the Asset Intelligence/Adoption reconciliation above. See [../models/asset.md](../models/asset.md) |
 | **Voice enrollment samples** | **Identity**, which owns the enrollment and consent lifecycle | **Temporary.** Retained only as long as required to complete voiceprint generation or an explicitly governed retry | Removed on success, and on cancellation, failure cleanup, consent withdrawal, or expiry under policy | Zero default retention. **Raw samples never become historical identity evidence merely because they existed.** Required only where samples cannot remain transient within an accepted processing boundary. See [../patterns/temporary-artifact-lifecycle-pattern.md](../patterns/temporary-artifact-lifecycle-pattern.md) |
 | **Voiceprints and derived identity profiles** | **Identity**, which owns the consent lifecycle; Foundation holds the consent record on the Person | Retained while the governed voice profile remains enabled **and consent remains valid** | Profile removal, or **consent withdrawal** | **Revocation removes the derived profile and its associations, not merely their use.** Biometric internals — vectors, embeddings, payloads, and **storage paths** — are never exposed. **Deleting a voiceprint never rewrites an earlier Identity Assertion**; identity history retains evidence classes and reason codes only. See [../models/person-and-identity.md](../models/person-and-identity.md) |
 | **Extended historical records** | The responsibility owning each record | The configured External History Retention period | Governed purge at the configured boundary | Preservation Holds and retention floors take precedence. See below |

@@ -52,9 +52,15 @@ Before drafting direction, the following authority surfaces were reviewed:
   [../contracts/capability-projection-contract.md](../contracts/capability-projection-contract.md),
   [concierge-runtime-architecture.md](concierge-runtime-architecture.md),
   [context-before-intent.md](context-before-intent.md).
-- UI: [../patterns/ui-patterns.md](../patterns/ui-patterns.md).
+- UI: [../patterns/ui-patterns.md](../patterns/ui-patterns.md) (full document, this pass), **DL-104**
+  (identifier/reference model), **DL-105** (Materialized Household Assessment artifact pattern).
+- External storage: [connected-storage.md](connected-storage.md) (full document, this pass), and the
+  standalone Asset Intelligence product's own `document_storage.py` source (inspected directly to
+  verify its existing per-Asset, stable-identifier-keyed folder/file convention — §21).
 - GitHub (authoritative for status of open decisions only, per authority-order.md rank 7): Epic **#147**,
-  **OD-85** (#172), **OD-81** (#159), **OD-20** (#110), **#171**, **#185**.
+  **OD-85** (#172), **OD-81** (#159), **OD-20** (#110), **#171**, **#185**. A full open-issue title
+  search for UI/frontend/navigation/UX/branding/commissioning-related work found none open beyond
+  these already-tracked items (§27 cross-reference, final report item G).
 
 ## 3. Architecture Decision Test (per item)
 
@@ -71,9 +77,19 @@ Before drafting direction, the following authority surfaces were reviewed:
 | 9 | UI must not own business logic | **A** — restates an existing ui-patterns.md principle |
 | 10 | Conversation as navigation | **A/C mixed** — Concierge routing concepts are reused as-is; native Home Assistant capability publishing is **OD-81**, open, and not decided here |
 | 11 | Multi-surface presentation | **A** — reuses the existing Delivery Surface abstraction (communication.md); no new surface catalogue is created |
+| 12 | Subject-first primary navigation (People/Places/Assets); Framework within subject | **A** — clarifies, does not reopen, §5's framework-order rule; People/Places/Assets are already-established object-type ownership, never a new object model (§18) |
+| 13 | Breadcrumbs; cross-Framework discoverability | **A** — restates `ui-patterns.md`'s existing, unchanged breadcrumb and cross-domain-navigation rules, extended to the subject-first model (§19) |
+| 14 | Framework as education; ownership/location/custody worked example | **A** — restates §6's already-canonical asset-perspective split as a teaching example; no new responsibility ownership (§20) |
+| 15 | External Storage Contract | **A** — `connected-storage.md` is confirmed, not newly created, as the canonical contract; the Asset Intelligence/Adoption keying principle is independently verified from the standalone product's own source, not invented (§21) |
+| 16 | HTBW Settings | **A** — restates `ui-patterns.md`'s existing Global-Configuration/main-UI boundary; no new category invented (§22) |
+| 17 | Native First, Native Extended | **A** — documentation principle; concrete conformance detail added to `ui-patterns.md`, which already owns that level of detail (§23) |
+| 18 | Brand, visual system, Framework iconography | **B** — a genuine, currently-unsatisfied requirement (no Framework iconography exists today); recorded as follow-on design work, not decided or produced here (§24) |
+| 19 | Household-aware language, progressive disclosure, readiness/health states | **A** — restates already-accepted `ui-patterns.md` and **DL-41** dependency-state rules; invents no new state model (§25, §26) |
 
 No topic in this document required category **D** (new Architecture Decision). Where category **C**
-applies, the open decision is named, not pre-empted (§7, §10).
+applies, the open decision is named, not pre-empted (§7, §10). **Item 18 is category B** — a
+genuinely missing deliverable, not a contradiction or an open decision — and is tracked as follow-on
+work (final report, item H), never silently produced by this document.
 
 ## 4. Corrected premise: product lifecycle vs. adoption path
 
@@ -372,25 +388,309 @@ requirement) to each reviewed observation:
 Josh.ai is not documented as a design authority for HTBW; only the durable principles above, already
 reconciled against existing architecture, are retained.
 
-## 18. Required documentation outcome — cross-reference
+## 18. Primary application navigation — subject-first, Framework within
+
+**This document's §5 "BWF as the primary HTBW navigation model" is clarified, not reversed, by this
+section.** Reconciling both: the HTBW landing page may present the seven responsibilities as a
+framework overview and explainer, per §5, as one legitimate entry point. **The persistent application
+navigation that the resident and integrator use for ordinary commissioning work is subject-first**:
+
+```
+[HTBW branding]
+Home
+People
+Places
+Assets
+Review & Readiness
+──────────
+Settings
+Help / About
+[path back to Home Assistant]
+```
+
+The conceptual model is **Subject → Framework responsibility → specific configuration** — for
+example `People > Tom > Identity > Voice Enrollment`, `Places > Den > Foundation > Voice Input`,
+`Assets > A.B. Chase Piano > Stewardship > Environmental Care`. **The Framework provides the
+architectural organization within a selected subject; it is not itself the primary navigation rail.**
+This does not reopen or contradict §5's framework-order rule (Foundation → Stewardship → Identity →
+Truth → Continuity → Operational Trust → Concierge must still never be reordered) — it states that
+*where* that order is applied is within a subject, not as the top-level navigation structure.
+
+**People, Places, and Assets are the three dominant commissioning subjects**, already grounded in
+existing object-type ownership (framework.md §1; [../models/asset.md](../models/asset.md);
+[room.md](../models/room.md)): People ("who does the Home serve?"), Places ("where does the Home
+understand and act?" — broader than traditional Rooms, consistent with the already-accepted Room/
+Merged Room/Physical Room model, [room-configuration.md](../models/room-configuration.md)), and Assets
+("what does the Home understand, protect, and care for?"). **Assets carry a dedicated top-level
+navigation entry even though an Asset also appears naturally within its Place** — `Places > Music Room
+> [Asset reference] > A.B. Chase Piano` and `Assets > A.B. Chase Piano` resolve to the **same**
+Foundation-owned Asset record (§6), never a duplicate or divergent representation. A Framework
+responsibility is presented for a subject only where accepted architecture actually establishes
+configuration or information at that scope (§6's own asset-perspective table is the worked
+precedent) — settings are never invented merely for visual symmetry across subjects.
+
+## 19. Breadcrumbs, context preservation, and cross-Framework discoverability
+
+Persistent breadcrumbs are a standard part of the HTBW experience, reusing and extending
+[ui-patterns.md](../patterns/ui-patterns.md)'s existing breadcrumb rule ("always visible, reflect the
+user's entry path, fully clickable, not force hierarchy") to the subject-first model above —
+`People > Tom > Identity > Voice Enrollment`, `Assets > A.B. Chase Piano > Truth > Environmental
+Conditions`. At any point the user can answer: what am I working on; where am I in the Framework; what
+responsibility am I configuring; how do I reach related configuration without losing this context.
+**Where practical, changing Framework responsibility preserves the selected subject** — matching
+`ui-patterns.md`'s already-accepted "Back navigation must restore selected tab, filters, scroll
+position."
+
+**One configuration element has one architectural owner, but may have multiple contextual paths by
+which it is discovered.** Framework rigor must never make settings hard to find: while working
+`People > Tom > Identity`, the UI makes the applicable Operational Trust elements discoverable through
+Framework navigation, contextual links, section summaries, or cross-references — reusing
+`ui-patterns.md`'s existing, unchanged "Cross-Domain Navigation... must remain independent... do not
+force hierarchy, preserve original context" rule. **Settings are never duplicated across Framework
+responsibilities for convenience**; cross-Framework navigation takes the user to the authoritative
+owner, preserving the subject wherever possible.
+
+## 20. Framework as education
+
+The UI teaches Framework responsibility through use, reusing §6's own existing asset-perspective table
+as the general pattern and extending it to People:
+
+| Responsibility | Question, for a Person | Question, for an Asset |
+|---|---|---|
+| Foundation | Who is this Person to the Home? | What is this Asset, and what are its durable relationships? |
+| Identity | How does the Home know who this Person is? | — |
+| Truth | What does the Home know to be true about this Person in current context? | What is currently true about this Asset, and what does current evidence mean for it? |
+| Operational Trust | What is the Home allowed to do for or with this Person? | What Asset-related actions/access are allowed, where architecture establishes Asset-scoped trust |
+| Stewardship | — (Person-scoped obligations are a future extension, not decided here) | What care and obligations apply to this Asset? |
+| Continuity | What should the Home remember for this Person? | — |
+| Concierge | How should the Home interact with this Person? | — |
+
+Other responsibilities appear only where architecturally applicable — a Framework layer with no
+established configuration at that scope is simply absent for that subject, never populated with
+invented settings for symmetry.
+
+### Sensors are evidence; Truth determines meaning; Stewardship determines consequence
+
+**This is already canonical** (§6; [truth-contract.md](../contracts/truth-contract.md);
+[stewardship-contract.md](../contracts/stewardship-contract.md)) and is restated here only as a UI
+teaching example, not a new decision. For the A.B. Chase Piano: Foundation identifies the Asset, its
+type, manufacturer/model/serial, owner (a durable relationship), its Home/assigned Place, associated
+Home Assistant entities/devices, and its documents; Truth evaluates environmental evidence against
+Foundation's declared acceptable ranges and reports current condition, current location, current
+custody, and current disposition/status; Stewardship answers what should happen as a result — care
+obligations, maintenance, caretaker responsibility, escalation. A sensor reporting `44%` humidity is
+evidence; Truth's contextual judgment ("44% is within the configured acceptable range for the piano")
+is what the UI presents as currently true. **A Place may legitimately carry a different environmental
+interpretation than an Asset within it** — the Music Room may be comfortable for residents while
+approaching the piano's own narrower acceptable range — because Truth evaluates each Subject against
+its own Foundation-declared criteria, never a single room-wide verdict silently applied to everything
+inside it.
+
+### Asset ownership, location, and custody — durable versus current
+
+**Already established by §6 and `asset.md`'s existing responsibility split; restated here as a worked
+example only.** Foundation owns durable relationships — owner, assigned/Home Place, durable Asset
+identity relationships. Truth owns current state — current location, current custody, current
+disposition/status. A temporary relocation never rewrites the Asset's durable Foundation-owned Home
+Place:
+
+```
+Foundation (durable):  Owner: Tom.  Home Place: Music Room.
+Truth (current):       Current Location: Museum.  Current Custodian: Museum.  Status: On Loan.
+```
+
+The UI presents both without conflating them: the Asset's home remains the Music Room even while
+Truth reports it is presently on loan elsewhere. Stewardship may separately govern obligations
+associated with the loan once/where that is architecturally established — not decided or assumed
+here.
+
+### Documents and images
+
+Asset documents/images are information associated with the one authoritative Foundation-owned Asset
+record (§6; `connected-storage.md`'s "Asset documents" artifact class) — presented at `Assets >
+[Asset] > Foundation > Documents & Images`. Other Framework responsibilities may **reference** these
+documents (Stewardship citing a service record when defining care; Operational Trust governing access
+where document-level authorization is established) without ever duplicating them. **One document
+remains one authoritative managed object**, never copied because multiple responsibilities use it —
+directly reusing the already-accepted Governed Reference discipline (**DL-104**).
+
+## 21. External Storage Contract
+
+**`connected-storage.md` is the canonical External Storage Contract** — already covering, per its own
+"Accepted artifact retention strategies" table and its "Governed namespace" section, every currently
+established externally-persisted HTBW class (Asset documents, voice enrollment samples, voiceprints,
+extended historical records, Evidence Package, Historical Reconstruction, and the Materialized
+Household Assessment, **DL-105**). This document does not duplicate that contract; it directs that
+future HTBW UI work consume it rather than inventing storage behavior independently.
+
+**Principle: "Users select storage. HTBW selects paths."** The household selects the connected storage
+resource through native Home Assistant mechanisms; HTBW owns taxonomy, naming, paths, and lifecycle
+beneath that selection. The Storage settings UI (§22) must discover configured storage through
+supported Home Assistant capabilities and present friendly, Home Assistant/household-recognizable
+names — never require a resident to type a path.
+
+**Asset Intelligence / Adoption file-structure continuity is now verified, not assumed.** The
+standalone Asset Intelligence product's own `document_storage.py` was inspected directly: it already
+keys every document folder by the Asset's stable `asset_id`, keys every file by its own opaque,
+freshly generated identifier, and its own access layer "intentionally does NOT expose raw filesystem
+paths." This already matches `connected-storage.md`'s governed-namespace rule (stable identifier,
+never a display-name key, never an exposed raw path) — independently, not because HTBW requires it of
+the standalone product. **HTBW's own Asset-anchored storage must replicate this same keying
+principle** for Assets created natively in HTBW and for Assets carried in through Adoption alike, so
+that **Adoption of existing Asset Intelligence documents/images is a reference-based act** — HTBW
+takes governed ownership of files already present at their existing location using the Asset's own
+stable identifier, without requiring re-upload or physical relocation, directly satisfying Adoption's
+accepted "one-time, authoritative, no synchronization, no write-back" rule (**DL-52**). The
+household-visible taxonomy ("Asset Intelligence > A.B. Chase Piano > Documents & Images") remains a
+presentation label only; renaming the Asset never touches the physical structure and never orphans a
+document, because resolution was never based on the display name in either product.
+
+## 22. HTBW Settings
+
+**"One configuration value, one authoritative source, multiple appropriate entry points."** Once HTBW
+exists, HTBW-specific configuration is reachable through the HTBW application UI without leaving the
+commissioning environment, reusing — never duplicating — `ui-patterns.md`'s existing System Boundary
+distinction between **Global Configuration** (archive/storage destination wiring, provider/integration
+credentials, authentication) and the main operational UI. Candidate Settings categories, derived from
+already-established dependencies rather than invented, include **Storage** (§21), **Capabilities &
+Providers** (reasoning providers, communication capabilities — each already a declared **DL-41**
+dependency), **Identity Services** where applicable, **Privacy & Data** where applicable, **Diagnostics**,
+and **About HTBW**. No category is added beyond what already-accepted architecture establishes a
+configuration surface for. Settings must not reimplement Home Assistant administration: where an
+underlying resource is Home-Assistant-owned, HTBW explains the relationship and links to the native HA
+administration experience rather than recreating it (§8).
+
+## 23. Native First, Native Extended; Home Assistant UI conformance
+
+**Governing principle, reusing and extending `ui-patterns.md`'s existing "feel native to Home
+Assistant" rule**: before any HTBW UI element is designed, the current Home Assistant-native
+component, selector, form pattern, dialog, or established frontend pattern that could satisfy the
+requirement is identified and used first. Where extension is required, the HTBW-specific requirement
+driving it is documented; a wholly custom control is created only where no native pattern can be
+reasonably extended, and even then follows Home Assistant's design conventions, theming, accessibility
+conventions, and interaction patterns. **Detailed conformance criteria — the escalation order (use →
+configure/constrain → compose → extend → create custom), concrete native selector/control categories,
+and the UI Architecture Acceptance Gate — are added to [ui-patterns.md](../patterns/ui-patterns.md)
+(§24 cross-reference), which already owns concrete UI pattern detail; this document states the
+governing principle only.**
+
+## 24. Brand, visual system, and Framework iconography
+
+**Genuinely new requirement — not yet satisfied by any existing repository artifact.** No canonical
+Framework iconography (one icon per responsibility: Foundation, Identity, Truth, Operational Trust,
+Stewardship, Continuity, Concierge) and no documented HTBW semantic-icon system were found anywhere in
+this repository. This is recorded as a **follow-on requirement** (§26, item H), not invented here —
+producing the actual iconography is a design deliverable, not an architecture decision, and is out of
+scope for this document. The governing principles, reusing `ui-patterns.md`'s existing Iconography
+section (which already separates "Layer 1: Native" entity/sensor icons from "Layer 2: System"
+signal/context/interaction icons) and extending it with a third, explicitly Framework-branded layer:
+
+- **"Brand the concepts. Keep platform interactions native."** Framework iconography is reserved for
+  the seven responsibility concepts and genuinely HTBW-specific semantics; standard Home Assistant
+  interaction icons (edit, delete, settings, expand, navigation, device/entity concepts) are never
+  redesigned for branding.
+- **Color is punctuation, not the primary information model.** The seven Framework layers are not
+  rendered as seven loud colors; `ui-patterns.md`'s existing status-color semantics (§25 cross-
+  reference: context/normal/warning/critical/unknown) are a **different dimension** from any Framework-
+  layer signature treatment and must not be confused with it.
+- **Home Assistant theming is respected, never replaced** by an independent HTBW light/dark theme;
+  official HTBW visual assets must work across supported HA themes.
+- Intended reuse beyond HTBW itself (BehavesWell website, Framework diagrams, workbooks, education
+  materials) is a brand-system property, not an architecture decision, and is not designed here.
+
+## 25. Household-aware language, progressive disclosure, and state-aware help
+
+**"Discover before asking. Explain before requiring. Show consequences before accepting."** HTBW never
+asks the household to manually supply information it can reliably discover through supported Home
+Assistant mechanisms. Household-facing language uses household terms ("Tom," "the Den," "A.B. Chase
+Piano") rather than low-level identifiers — but **canonical HTBW architectural vocabulary and governed
+architectural meaning are never personalized by household terminology**; help may personalize wording,
+never meaning. This extends, without altering, the already-accepted Contextual Vocabulary boundary
+([../models/contextual-vocabulary.md](../models/contextual-vocabulary.md)): household vocabulary
+governs what residents may *say*, never what the architecture *means*.
+
+Progressive disclosure — reusing `ui-patterns.md`'s existing, unchanged rule ("show high-level state
+first, allow drill-down, never overwhelm") — begins with the household decision and exposes
+implementation detail only when needed; a homeowner is never forced to understand platform
+terminology to commission the Home, while an integrator can still reach deeper technical diagnostics
+through the same progressively-disclosed path, never a separate application.
+
+Help should be state-aware where appropriate (reflecting current configuration — for example, Identity
+help explaining that detecting a BLE device alone does not establish that the device represents a
+Person, per **DL-33**/**DL-38**, already accepted) and should answer, where accepted architecture
+supports the answer: why am I seeing this; why can't I select this; where did this value come from
+(**configuration provenance** — defined by household/HTBW, discovered from Home Assistant, derived by
+HTBW, or supplied by a configured provider); what changes if I change this; what uses this setting.
+
+## 26. Readiness, health, and dependency states
+
+**Readiness** ("is this correctly commissioned?") and **Health** ("is this currently operating
+correctly?") are distinct and never conflated — a correctly commissioned Voice endpoint may be
+temporarily unavailable without that implying improper commissioning, directly reusing the existing
+**DL-41** dependency-availability model (not configured / configured but invalid / configured but
+unavailable / healthy / degraded-but-usable / removed are already distinguishable states). **No
+arbitrary completion percentage is presented** absent a future governed mathematical definition for
+one; meaningful states such as Ready, Needs Attention, Unavailable Dependency, Not Configured, and
+Degraded are used instead. A Home can be intentionally and correctly commissioned without enabling
+every optional HTBW capability — this is never presented as an error. Where architecture distinguishes
+**Required** (HTBW cannot operate without it) from **Capability Requirement** (a specific capability
+depends on it, per **DL-41**'s own mandatory/optional dependency distinction) from **Enhancement**
+(the capability remains available; configuring this improves it), the UI presents that distinction
+rather than a flat Required/Optional binary.
+
+## 27. Required documentation outcome — cross-reference
 
 | Required outcome item | Addressed in |
 |---|---|
-| 1. BWF as primary HTBW mental/navigation model | §5 |
-| 2. HA technical configuration vs. HTBW operational configuration | §8 |
-| 3. Asset Intelligence migration/Adoption | §4, §7 |
-| 4. One asset record, several perspectives | §6 |
-| 5. Foundation/Truth/Stewardship/Continuity asset responsibilities | §6 |
+| 1. BWF as primary HTBW mental/navigation model | §5, §18 |
+| 2. HA technical configuration vs. HTBW operational configuration | §8, §22 |
+| 3. Asset Intelligence migration/Adoption | §4, §7, §21 |
+| 4. One asset record, several perspectives | §6, §18, §20 |
+| 5. Foundation/Truth/Stewardship/Continuity asset responsibilities | §6, §20 |
 | 6. Continuity vs. raw telemetry | §6 |
 | 7. Subject + Perspective + Scope + Filter + Surface | §9 |
 | 8. Reusable parameterized views | §10 |
 | 9. Frontend as renderer, not business-logic engine | §11 |
 | 10. Conversation as navigation | §12 |
 | 11. Cross-surface presentation | §13 |
+| 12. Primary navigation (People/Places/Assets); breadcrumbs; cross-Framework discoverability | §18, §19 |
+| 13. Framework as education; ownership/location/custody; documents | §20 |
+| 14. External Storage Contract | §21 |
+| 15. HTBW Settings | §22 |
+| 16. Native First, Native Extended | §23 |
+| 17. Brand, visual system, Framework iconography | §24 |
+| 18. Household-aware language, progressive disclosure, state-aware help | §25 |
+| 19. Readiness, health, dependency states, no arbitrary percentages | §26 |
 
-## 19. Non-actions
+## 28. Governing summary principles
+
+> "HTBW should be as thoughtful to configure as the Home is thoughtful to live in."
+> "Discover before asking. Explain before requiring. Show consequences before accepting."
+> "Native First. Native Extended."
+> "Brand the concepts. Keep platform interactions native."
+> "One configuration value, one authoritative source, multiple appropriate entry points."
+> "One configuration element has one architectural owner, but may have multiple contextual paths by
+> which it can be discovered."
+> "Users select storage. HTBW selects paths."
+> "Sensors provide evidence. Truth determines what that evidence means in context."
+> "The subject remains stable while the Framework changes around it."
+> "People, Places, and Assets describe the Home. The Framework describes HTBW's responsibilities
+> toward them."
+
+The goal is not an independent high-end web application running inside Home Assistant. The goal is an
+exceptionally thoughtful, premium, first-class Home Assistant integration whose commissioning
+experience demonstrates the same calm, contextual, explainable, household-centered behavior HTBW is
+intended to create in the Home.
+
+## 29. Non-actions
 
 This document does not: modify runtime code; implement Adoption; remove or deprecate the standalone
 Asset Intelligence product or integration from any installation; close **OD-85**, **OD-81**, **OD-20**,
-or any other open decision; allocate a new Decision Ledger entry; or authorize any UI build. Register
-entry: [document-register.md](../governance/document-register.md).
+or any other open decision; allocate a new Decision Ledger entry; authorize any UI build; or design the
+Framework iconography/brand-asset deliverable itself (§24, flagged as follow-on work). Concrete UI
+pattern detail (native-component conformance order, accessibility, responsive design, motion,
+configuration defaults/validation classification, destructive-action confirmation, search/filtering at
+scale, and the formal UI Architecture Acceptance Gate) is added to
+[ui-patterns.md](../patterns/ui-patterns.md), which already owns that level of detail — not duplicated
+here. Register entry: [document-register.md](../governance/document-register.md).
+
