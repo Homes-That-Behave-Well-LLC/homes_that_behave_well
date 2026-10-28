@@ -319,7 +319,7 @@ he gets there — at a sensible volume, without duplicating in the Den.
 | 9 | Explainability | **Decision Trace** | *"I moved the jazz because you asked the music to follow you, I recognised you here, and the room was free"* |
 | 10 | Retention and lifecycle | **DL-47** | Session and transfer history are Continuity's; scope and duration of experience history are **OD-26** |
 | 11 | Guest and Unknown Person behaviour | **Operational Trust** | An Unknown Person owns no session and inherits no preference (**DL-33**) |
-| 12 | Multi-person conflict behaviour | **Operational Trust** / **Concierge** | *Another person's session would be displaced without authority* is a representable block. Merge policy is **OD-24**; concurrency is **OD-27** |
+| 12 | Multi-person conflict behaviour | **Operational Trust** / **Concierge** | *Another person's session would be displaced without authority* is a representable block. Concurrency is resolved as **DL-102** (endpoint-class contention; suppressed transfer, as in this use case); merge policy remains **OD-24** |
 | 13 | Failure behaviour | **Continuity** | Missed transition → treat the newly observed Room as current, record the gap, **do not retroactively transfer**. Partial speaker-group availability → configured policy, and say which members were unavailable |
 | 14 | What must never happen | — | **Motion-triggered movement.** Follow-Me is a policy-governed handoff |
 
@@ -353,10 +353,12 @@ enabled Follow-Me and the home moves it because the household said it may. The h
 
 ## Implementation status and unresolved decisions
 
-**F**. Governed: eligibility, blocking, scoping, suppression. Unresolved: **OD-24** merge, **OD-25**
-resume window, **OD-27** concurrency. **Not governed (`N`)**: provider session-state handoff, grouped
-playback and join semantics, duplicate-playback prevention as a named rule, and indirect-intent
-inference.
+**F**. Governed: eligibility, blocking, scoping, suppression, concurrency (**DL-102**, resolving
+**OD-27** — endpoint-class contention, not Session/Experience class; duplicate playback is a semantic
+`Current Room` guarantee only, never a provider-render guarantee). Unresolved: **OD-24** merge,
+**OD-25** resume window. **Not governed (`N`)**: provider session-state handoff, grouped/joined
+playback spanning separate non-merged Rooms (within one Merged Room this requires no new architecture
+— **DL-13**), and indirect-intent inference.
 
 ---
 

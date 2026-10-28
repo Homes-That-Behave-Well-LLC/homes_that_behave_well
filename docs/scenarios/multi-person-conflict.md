@@ -131,7 +131,9 @@ The home does not merge them, does not silently stop either, and does not play b
 > "David's podcast is playing in the Living Space, so I left your jazz in the Office. Would you like it
 > in the Den instead?"
 
-The session-merging algorithm for cases where merging *is* permitted is deliberately open — **OD-24**.
+**This is the worked example formalized as the Transfer-suppression outcome in Session Concurrency
+Policy (`experience-and-session.md`, DL-102, resolving OD-27).** The session-merging algorithm for
+cases where merging *is* permitted is deliberately open — **OD-24**.
 
 ---
 

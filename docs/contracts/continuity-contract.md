@@ -217,7 +217,7 @@ fact_reference:    primary_bedroom.mode = nighttime
 | A room transition is missed | Do not retroactively transfer; treat the newly observed Room as current and record the gap |
 | A configured speaker group is partially unavailable | Apply the configured partial-availability policy; record which members were unavailable |
 | Preferences unavailable | State that the preference could not be read; never substitute a platform default silently |
-| Two sessions claim one Room | Surface the conflict to Concierge; never merge or terminate unilaterally |
+| Two sessions claim one endpoint class | Surface the conflict to Concierge; never merge or terminate unilaterally. A suppressed transfer and a fresh request that cannot start are distinct outcomes — see **DL-102** |
 
 ---
 
@@ -244,7 +244,7 @@ A suppressed transfer must be explainable as a deliberate outcome, not as a fail
 | OD-24 | Session-merging algorithm when two people's sessions meet in one Room |
 | OD-25 | Resume eligibility window defaults per experience class |
 | OD-26 | Whether experience history is retained per person, per room, or both, and for how long |
-| OD-27 | Whether concurrent same-class sessions in one Room are permitted by default |
+| OD-27 | **Closed — DL-102.** Concurrency governed by endpoint-class contention, not Session/Experience class; suppressed-transfer vs. conflict-reported-not-started outcomes defined; duplicate playback is a semantic-only (`Current Room`) guarantee, never a provider-render guarantee |
 | OD-48 | **Closed — DL-99.** Re-presentation preference for outstanding Communications — opt-in, Person-scoped, optionally refined by Category/Urgency; no HTBW-wide default repetition count or cooldown; not coupled to Follow-Me media eligibility |
 | OD-77 | Ownership of the association between a Person and an external service, account, calendar, mailbox, or media profile |
 | OD-78 | Remembered-value classes and restoration semantics |

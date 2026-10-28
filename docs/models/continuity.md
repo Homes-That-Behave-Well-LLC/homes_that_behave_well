@@ -115,6 +115,10 @@ restoration moves into Stewardship**, and no care obligation moves into Continui
 - Resume eligibility
 - Blocking state supplied by other responsibilities
 - Experience lifecycle
+- **Session concurrency (DL-102)** — governed by endpoint-class contention, not Session/Experience
+  class; a second Person's mere co-presence never creates a participant, a competing owner, or a
+  concurrency conflict. Full policy: [experience-and-session.md](experience-and-session.md), *Session
+  Concurrency Policy (DL-102)*
 
 **Continuity owns person-scoped preferences. It does not decide when they may be applied.** Applying a
 Person's preferences, history, or resumed session to a live interaction is a **person-scoped
@@ -610,9 +614,10 @@ how long, remains open decision **OD-26**.
 
 | ID | Question |
 |---|---|
-| OD-24 | Session-merging algorithm when two people's sessions meet in one Room |
+| OD-24 | Session-merging algorithm when two people's sessions meet in one Room. **DL-102 confirms OD-27 is resolved and supplies the concurrency facts this decision consumes (endpoint-class contention, owners/participants, displacement-authorization state) — OD-24 still owns merge mechanics, resulting ownership, preference resolution, and separation in full** |
 | OD-25 | Resume eligibility window defaults per experience class |
 | OD-26 | Whether experience history is retained per person, per room, or both, and for how long |
+| OD-27 | **Closed — DL-102.** Session concurrency is governed by endpoint-class contention, not Session/Experience class; Personal-versus-Room remains meaningful for ownership/privacy only; suppressed-transfer and conflict-reported-not-started are distinct, both already-existing outcomes; participant join requires an explicit Operational-Trust-evaluated act, never mere co-presence; duplicate playback is a semantic `Current Room` guarantee only, never a provider-render guarantee |
 | OD-33 | **Closed — DL-43, DL-46, DL-47.** Retention is declared inside every governed record lifecycle; experience-history scope and duration remain **OD-26** |
 | OD-48 | **Closed — DL-99.** Re-presentation preference for outstanding Communications — opt-in, Person-scoped, optionally refined by Category/Urgency; no HTBW-wide default repetition count or cooldown; not coupled to Follow-Me media eligibility |
 | OD-77 | Ownership of the association between a Person and an external service, account, calendar, mailbox, or media profile |
