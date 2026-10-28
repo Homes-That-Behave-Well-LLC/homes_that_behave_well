@@ -725,9 +725,10 @@ See **OD-48**.
 
 ---
 
-## Delivery outcome model
+## Delivery outcome model (DL-95)
 
-**Two levels. They must never be flattened.**
+**Two levels. They must never be flattened.** Accepted as **DL-95**, resolving **OD-44** (Issue #114,
+formal acceptance review PASS, 2026-10-28).
 
 ### Communication lifecycle states
 
@@ -1109,7 +1110,7 @@ See [../scenarios/why-did-this-happen.md](../scenarios/why-did-this-happen.md).
 | OD-38 | Version identity, correlation, and causation identifier strategy |
 | OD-42 | Communication object persistence and Home Assistant representation |
 | OD-43 | **Closed — DL-53.** Delivery Surface capability model, including perceptibility and attestation; portable-surface Room Context mechanism remains **OD-73** |
-| OD-44 | Delivery outcome semantics across the two levels |
+| OD-44 | **Closed — DL-95.** Communication lifecycle (Created, Suppressed, Acknowledged, Expired, Superseded, Resolved by origin, Undeliverable) and Delivery Attempt outcome (Attempted, Delivered, Presented, Failed) are formally distinct and never flattened; **DL-54** and **DL-94** consumed unchanged. Acknowledgement validity (**OD-45**), retry (**OD-54**), and escalation (**OD-22**) remain independently owned |
 | OD-45 | Acknowledgement semantics and acknowledger identification |
 | OD-46 | **Closed — DL-77.** Urgency is a fixed, cumulative four-level entitlement ladder, formally independent of Action-Risk Classification (**DL-76**), never overriding audience, privacy, consent, disclosure, identity, authority, or precedence (**OD-04**) |
 | OD-47 | Household Inbox projection scope and refresh semantics |

@@ -183,7 +183,7 @@ Concierge always produces exactly one governed outcome, and always produces a De
 
 **Doing nothing is a decision and is traced.**
 
-### Delivery outcomes
+### Delivery outcomes (DL-95)
 
 Where the outcome is a Communication, Concierge additionally records the **two-level** outcome model
 defined in [../models/communication.md](../models/communication.md):
@@ -342,15 +342,15 @@ See [../models/decision-trace.md](../models/decision-trace.md) and
 | OD-04 | Exact global priority order across policy scopes |
 | OD-29 | Where Decision Traces are persisted |
 | OD-30 | Which surfaces expose Decision Traces, and to whom |
-| OD-43 | Delivery Surface capability model, including perceptibility and attestation |
-| OD-44 | Delivery outcome semantics across the two levels |
+| OD-43 | **Closed — DL-53.** Delivery Surface capability model, including perceptibility and attestation |
+| OD-44 | **Closed — DL-95.** Delivery outcome semantics across the two levels — Communication lifecycle and Delivery Attempt outcome, consuming DL-54 and DL-94 unchanged |
 | OD-45 | Acknowledgement semantics and acknowledger identification |
 | OD-47 | Household Inbox projection scope and refresh semantics |
 | OD-48 | Re-presentation preference and its relation to the Follow-Me preference family |
 | OD-52 | Audience specification model |
 | OD-54 | Delivery retry policy — attempts, intervals, surface progression, and give-up semantics |
-| OD-55 | Presentation attestation per surface class |
-| OD-57 | Indication versus content separation |
+| OD-55 | **Closed — DL-54.** Presentation attestation per surface class |
+| OD-57 | **Closed — DL-94.** Indication versus content separation |
 
 ### Related documents
 

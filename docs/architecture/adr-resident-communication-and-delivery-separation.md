@@ -159,7 +159,7 @@ Merging the two axes would make the taxonomy the permission model, allowing an o
 escalate its own interruption rights by choosing a category name. That is precisely what P32 exists
 to prevent.
 
-### The delivery outcome model is two-level
+### The delivery outcome model is two-level (DL-95)
 
 | Level | States |
 |---|---|
@@ -223,6 +223,7 @@ explainable. **It is never a bypass.**
 |---|---|
 | **DL-28** | **Communication is separate from delivery** (P31) |
 | **DL-29** | **Permission to act does not imply permission to announce** (P32) |
+| **DL-95** | **Communication lifecycle and Delivery Attempt outcome are two formally distinct levels, never flattened** — resolves **OD-44**. See *Delivery outcome model (DL-95)* above and **Part 1** of [decision-ledger.md](../governance/decision-ledger.md) for the full accepted text |
 
 ### Deliberately not decided
 
@@ -678,7 +679,7 @@ constitutional model — the abstraction used throughout is **private Delivery S
 |---|---|
 | **OD-42** | Communication object persistence and Home Assistant representation — subordinate to OD-01, which now owns the persistence-mechanism residual alone |
 | **OD-43** | **Resolved as DL-53** — Delivery Surface capability model, including perceptibility and presentation attestation |
-| **OD-44** | Delivery outcome semantics across the two levels |
+| **OD-44** | **Resolved as DL-95** — Communication lifecycle (Created, Suppressed, Acknowledged, Expired, Superseded, Resolved by origin, Undeliverable) and Delivery Attempt outcome (Attempted, Delivered, Presented, Failed) are formally distinct, mutually exclusive-per-level, and never flattened; **DL-54** and **DL-94** are consumed unchanged and not duplicated |
 | **OD-45** | Acknowledgement semantics, acknowledger identification, and whether unacknowledged delivery is a failure |
 | **OD-46** | **Resolved as DL-77.** Urgency is a fixed, cumulative four-level entitlement ladder, formally independent of Action-Risk Classification (**DL-76**) |
 | **OD-47** | Household Inbox projection scope and refresh semantics |
