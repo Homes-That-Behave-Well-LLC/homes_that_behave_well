@@ -105,8 +105,8 @@ Nothing depends on Concierge.
 14. **Concierge must not embed delivery history inside a Communication.** Delivery history is Change
     Records referencing the Communication by Version Identity.
 15. **Concierge must not escalate by changing the audience on its own authority.** Changing the
-    audience is Stewardship's ladder and Operational Trust's authority. Repeating delivery to the
-    same audience is **retry**, and is Concierge's.
+    audience is Stewardship's ladder and Operational Trust's authority (**DL-97**). Repeating delivery
+    to the same audience is **retry**, and is Concierge's.
 16. **Concierge must not treat a category as an interruption entitlement.** Urgency is granted by
     Operational Trust.
 17. **Concierge must not assign, approve, reject, or change a Communication's Category.** Category is

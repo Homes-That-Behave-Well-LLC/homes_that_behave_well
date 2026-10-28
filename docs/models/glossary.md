@@ -1540,9 +1540,13 @@ pending delivery and never rewrites completed, historical delivery.
 Repeating delivery to the **same** audience. A Concierge concern. It is never called escalation.
 
 **Escalation**
-Changing the **audience** to a more authoritative or accountable person. Stewardship owns the ladder
-(**OD-22**); Operational Trust owns the authority; Concierge executes. **There is one escalation
-ladder.**
+A governed change of **who is accountable**, expressed as a **new recorded Intended Audience
+Specification** (reusing the existing five accepted forms — never a sixth, separate rung vocabulary).
+Re-resolving an **unchanged** dynamic specification to its current eligible Person is not escalation.
+No trigger is self-authorizing; Stewardship's own accepted escalation intent, followed by Operational
+Trust's authorization, is required before Concierge executes. Stewardship owns the ladder
+(**DL-97**, resolving **OD-22**); Operational Trust owns the authority; Concierge executes. **There is
+one escalation ladder.**
 
 **Advisory**
 A **Stewardship judgement** about what could be improved, distinct from an Alert, which indicates

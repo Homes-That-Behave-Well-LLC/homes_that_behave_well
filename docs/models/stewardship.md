@@ -319,6 +319,92 @@ referenced by the Communication, never copied into it** (**P30**). See
 remains unmet (**OD-22**). Repeating a delivery to the *same* audience is **retry**, is Concierge's,
 and is never called escalation. **There is one escalation architecture.**
 
+### Escalation Ladder Semantics and Defaults (DL-97)
+
+**Escalation is a governed change of who is accountable, expressed as a new recorded Intended
+Audience Specification** (**DL-71**'s five forms — Named Person, Role/Authority Class,
+Relationship-based, Anyone Present With Authority, Household — reused, never a sixth form or a
+separate rung vocabulary). **A "rung" is simply whichever of these five forms the household
+configures as more authoritative/accountable than the current one** for a given obligation or
+Communication class; no universal fixed rung sequence exists, and "Household authority" and "external
+service provider" are not new constructs — they are the **Role / Authority Class** form, naming
+whatever Role (ordinarily an owner/administrator-equivalent Role, or `service provider` for a
+non-resident participant holding a **DL-57** minimal Person record) the household configures.
+
+**Re-resolution of an unchanged specification is not escalation.** A dynamic form (Relationship-based,
+Anyone Present With Authority) is already re-evaluated at each Delivery Attempt under **DL-71**; where
+that re-evaluation simply resolves the *same* specification to a different currently-eligible Person,
+nothing has escalated — the specification itself is unchanged, and Concierge's renewed attempt is
+ordinary delivery (or, to the same accountable party, retry), never escalation. **Escalation occurs
+only where Stewardship records a genuinely new specification.**
+
+**No trigger is self-authorizing.** Household-configured elapsed time, Truth-evidenced facts (such as
+confirmed absence), `Undeliverable`, unacknowledged delivery (**DL-96**), and a repeated-unmet pattern
+are each an available *input*; none produces an accountability change merely by occurring. Every
+accountability change requires Stewardship's own accepted escalation intent — composing whichever
+inputs the household has configured for that obligation or Communication class — followed by
+Operational Trust's independent disclosure/authority evaluation of the newly specified audience, and
+only then Concierge's execution. **Being part of a newly specified audience never itself transfers
+accountability**: Stewardship's own intent decision changes accountability; Communication delivery to
+the new party is merely the resulting mechanism, never the cause.
+
+**No HTBW-wide default grace-period or elapsed-time value exists.** Escalation timing is
+household-configured (Integration Configuration, consistent with the existing Integration-scoped
+configuration pattern) as part of each obligation's or Communication class's existing **Escalation
+intent** field (the Obligation structure, above). Absent such configuration, elapsed
+time alone never makes a rung eligible to advance — this is a deliberate Owner Policy decision,
+consistent with this architecture's uniform rule that disclosure/audience-widening never happens by
+default (**DL-71**, **DL-72**, **P32**). Independently configured evidence-based triggers (confirmed
+absence, `Undeliverable`) remain available under their own accepted rules regardless of whether a
+timing threshold is configured; they are likewise never self-authorizing without Stewardship's own
+accepted policy treating them as sufficient. **Base Significance** (**DL-75**) remains one available,
+optional input to whichever defaults a household configures — never itself the policy, never
+automatically scaling timing without configuration.
+
+**Stop conditions.** The underlying obligation's condition becoming `met` or `waived` (**DL-48**,
+Care Evidence Record) stops further escalation for that obligation. Acknowledgement (**DL-96**) of a
+Communication may stop *that Communication's* escalation per the household's own configured policy; it
+never by itself resolves the Stewardship obligation condition, which remains independently tracked
+(**DL-71**: Completion, Acknowledgement, and Delivery/Presentation Outcome remain three distinct,
+never-collapsed concepts). A deferred lifecycle state (**DL-48**) never erases the obligation's
+truthful condition; whether deferral pauses escalation timing is the household's own configured
+policy. Disclosure denial at a prospective next rung means that rung is never executed; the
+obligation or Communication remains at its current state, reported, never silently dropped.
+
+**Top-of-ladder and accountability gap.** No universal guaranteed terminal rung is invented or
+assumed — this architecture is not a life-safety system and no emergency-contact or external-authority
+behaviour is created by this decision. Where no further resolvable, authorized audience exists —
+including where a configured "household authority" Role itself resolves to nobody — the outcome is an
+**accountability gap** (**DL-71**): reported, never silently discarded, never redirected to a
+convenient Person, never broadened by default.
+
+**Pattern reporting is distinct from a rung advance.** A repeated-unmet pattern (Scenario 7) is a new,
+independently reportable governed concern about the pattern itself, Stewardship-originated,
+Concierge-delivered with a changed approach — never a repeated identical reminder — and is orthogonal
+to any accountability change: it may occur with or without a simultaneous rung advance.
+
+**One architecture serves obligations and Communications identically.** A Communication-only
+escalation (no underlying Stewardship obligation) re-resolves to a new Intended Audience Specification
+exactly as above; its available trigger inputs are limited to Communication-level facts (unacknowledged
+delivery, `Undeliverable`, elapsed time) because there is no obligation condition/lifecycle to track.
+No second ladder or Communication-specific escalation mechanism is created.
+
+### Home Assistant First review (P21, DL-30)
+
+No native Home Assistant escalation model exists; notify targets and automations exist as delivery
+mechanisms only, consumed unchanged through Concierge's existing delivery architecture. Repairs
+remains, as already accepted, never an escalation mechanism, obligation store, or Communication
+surface (**OD-60**).
+
+### What this decision does not resolve
+
+- **OD-04** — exact global precedence ordering among competing Communications, including those
+  sharing an escalation path.
+- **OD-54** — retry interval, cadence, and give-up policy; escalation and retry remain independently
+  owned and are never substituted for one another.
+- The exact household-facing configuration surface (UI/UX) through which Escalation intent and timing
+  are set — a presentation/implementation concern, not decided here.
+
 ---
 
 ## Delegated Stewardship Authority (DL-57)
@@ -1045,7 +1131,7 @@ collection. This preserves a useful pattern proven in the reference implementati
 | ID | Question |
 |---|---|
 | OD-21 | **Resolved as DL-75.** Significance is a structured Significance Declaration — Derivation Source, Base Significance (Routine < Important < Significant < Critical), Provenance, Effective Version. Research-Based and Observed-Household Recommendations are separately defined, non-authoritative Suggestion-stage proposals under the existing P26/DL-21 promotion ladder |
-| OD-22 | Escalation ladder semantics and defaults |
+| OD-22 | **Closed — DL-97.** Escalation ladder semantics and defaults — escalation reuses DL-71's five Intended Audience forms as rungs (never a sixth form); no trigger is self-authorizing; no HTBW-wide default grace period exists (household-configured via the existing Escalation intent field); accountability-vs-audience, stop conditions, top-of-ladder/accountability-gap, and pattern-reporting are each stated. Retry remains distinct (**OD-54**) |
 | OD-23 | Whether obligations project into Home Assistant calendars, `todo` entities, or a connected store |
 | OD-75 | **Resolved as DL-48 and DL-49.** Condition and lifecycle are orthogonal; deferral and closure are lifecycle transitions carried by Change Records; the **Care Evidence Record** defines accepted evidence that care occurred; custody is a Stewardship-owned **Custody Period**. Grouping remains a projection concern (**OD-23**) |
 | OD-76 | **Resolved as DL-57.** Delegated Stewardship authority — the Delegated Access Grant, self/proxy/capacity model, non-resident authorized participants, revocation, and the OD-22 escalation boundary are accepted |

@@ -713,15 +713,17 @@ Whether a resident wants this is a **Continuity** preference within the existing
 Whether it is permitted is **Operational Trust**. Whether and where to attempt it is **Concierge**.
 See **OD-48**.
 
-### Retry is not escalation
+### Retry is not escalation (DL-97)
 
 | Concept | Definition | Owner |
 |---|---|---|
-| **Delivery retry** | Repeating delivery **to the same audience**, on the same or another surface | **Concierge** |
-| **Escalation** | Changing **the audience** to a more authoritative or accountable person | **Stewardship** ladder (**OD-22**), **Operational Trust** authority |
+| **Delivery retry** | Repeating delivery **to the same audience**, on the same or another surface — including where a dynamic Intended Audience form (Relationship-based, Anyone Present With Authority) simply re-resolves to its current eligible Person under an unchanged specification | **Concierge** |
+| **Escalation** | A **new recorded Intended Audience Specification**, reusing the existing five accepted forms, changing who is accountable — never self-authorized by elapsed time or evidence alone; requires Stewardship's own accepted escalation intent and Operational Trust's authorization | **Stewardship** ladder (**DL-97**, resolving **OD-22**), **Operational Trust** authority |
 
 > **There is one escalation architecture, and it already exists.** Retry is a delivery concern and is
-> never called escalation. Retry policy is open decision **OD-54**.
+> never called escalation. Retry policy is open decision **OD-54**. Full escalation semantics:
+> [../models/stewardship.md](../models/stewardship.md), *Escalation Ladder Semantics and Defaults
+> (DL-97)*.
 
 ---
 
@@ -1182,7 +1184,7 @@ See [../scenarios/why-did-this-happen.md](../scenarios/why-did-this-happen.md).
 
 | ID | Question |
 |---|---|
-| OD-22 | Escalation ladder semantics and defaults — the single ladder, serving communications |
+| OD-22 | **Closed — DL-97.** Escalation ladder semantics and defaults — the single ladder, serving communications and obligations identically, reusing DL-71's five Intended Audience forms as rungs; no self-authorizing trigger; no HTBW-wide default grace period |
 | OD-33 | **Closed — DL-43, DL-46, DL-47.** Communication records follow the governed-record retention model; the content-versus-metadata classification remains **OD-49** |
 | OD-34 | **Closed — DL-42, DL-44, DL-46, DL-47.** The temporal-persistence model is complete; Communication object persistence remains **OD-42**, subordinate to **OD-01** |
 | OD-38 | Version identity, correlation, and causation identifier strategy |
@@ -1194,7 +1196,7 @@ See [../scenarios/why-did-this-happen.md](../scenarios/why-did-this-happen.md).
 | OD-47 | Household Inbox projection scope and refresh semantics |
 | OD-48 | Re-presentation preference and its relation to the Follow-Me preference family |
 | OD-49 | Communication retention floor and ceiling |
-| OD-50 | Escalation ladder semantics for communications, resolved into OD-22 |
+| OD-50 | Escalation ladder semantics for communications, resolved into **OD-22**, now **closed — DL-97** |
 | OD-51 | **Closed — DL-76.** Action-Risk Class enumeration (Convenience, Disclosure, Financial, Safety, Security, Governance) and per-class defaults; interruption confirmed as a separate axis (**DL-77**) |
 | OD-52 | **Closed — DL-71.** Five audience specification forms accepted; relationship-based resolution, re-resolution timing, resolved-to-nobody/too-broadly behaviour, and Notice/completion boundary are stated |
 | OD-53 | **Closed — DL-78.** Communication Category is a closed, seven-value, content-domain enumeration (Stewardship, Security, Care, Environment, Experience, System, Safety), structurally separate from Urgency, Operation Type, and Action-Risk Classification; exactly one Category per Communication; Operational Trust Category admissibility rejected |

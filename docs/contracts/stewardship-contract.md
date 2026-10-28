@@ -133,6 +133,18 @@ the Communication, never copied into it.** See [../models/communication.md](../m
 Repeating a delivery to the *same* audience is **retry**, is Concierge's, and is never called
 escalation.
 
+**Escalation (DL-97).** A rung is a re-resolution to a new Intended Audience Specification (reusing
+the existing five accepted forms — no new rung vocabulary); re-resolving an *unchanged* dynamic
+specification to its current eligible Person is not escalation. No trigger (elapsed time, Truth
+evidence, delivery/presentation/acknowledgement truth, or pattern) is self-authorizing — each requires
+Stewardship's own accepted escalation intent before Operational Trust authorizes and Concierge
+executes. No HTBW-wide default grace period exists; timing is household-configured per obligation or
+Communication class via the existing Escalation intent field. An unresolvable target, including a
+configured "household authority" Role resolving to nobody, is an accountability gap, reported, never
+fabricated or silently broadened. A repeated-unmet pattern is a distinct, reportable concern, never
+merely a further rung. Full semantics: [../models/stewardship.md](../models/stewardship.md),
+*Escalation Ladder Semantics and Defaults (DL-97)*.
+
 ---
 
 ## Cooperation with the asset model
@@ -234,7 +246,7 @@ and who is accountable.
 | ID | Question |
 |---|---|
 | OD-21 | **Resolved as DL-75.** Significance is a structured Significance Declaration — Derivation Source, Base Significance, Provenance, Effective Version — structurally separate from DL-39, DL-58, DL-73, DL-74, Operational Trust risk classification, and OD-22's escalation ladder |
-| OD-22 | Escalation ladder semantics and defaults |
+| OD-22 | **Closed — DL-97.** Escalation ladder semantics and defaults — rungs reuse DL-71's five Intended Audience forms; no self-authorizing triggers; no HTBW-wide default grace period (household-configured) |
 | OD-23 | Whether obligations project into Home Assistant calendars, `todo` entities, or a connected store |
 | OD-75 | **Resolved as DL-48 and DL-49.** Condition and lifecycle are orthogonal; deferral and closure are lifecycle transitions carried by Change Records; the **Care Evidence Record** defines accepted completion evidence; custody is a Stewardship-owned **Custody Period**. Grouping remains a projection concern (**OD-23**) |
 | OD-76 | **Resolved as DL-57.** Delegated Stewardship authority — one person may hold Stewardship access delegated by another, self/proxy/capacity model, the Delegated Access Grant construct, non-resident authorized participants, revocation, and the OD-22 escalation boundary are accepted |
