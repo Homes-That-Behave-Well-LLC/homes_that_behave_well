@@ -1659,14 +1659,18 @@ Model: [communication.md](communication.md)
 
 | Old term | Canonical mapping |
 |---|---|
-| Notification | **Communication**, where the household interaction is meant; **Delivery** or **Delivery Attempt**, where the act of conveying is meant. *Notification* is retained only as Home Assistant platform vocabulary and must not be used as an HTBW domain term. |
-| Message | **Communication**. *Message* is retained only for external provider content where the provider is the system of record. |
-| Push, Toast, Banner, Ring, Indicator | Not domain terms. They are Home Assistant or device presentation concerns. See [../architecture/home-assistant-boundary.md](../architecture/home-assistant-boundary.md). |
+| Notification | **Communication**, where the household interaction is meant; **Delivery** or **Delivery Attempt**, where the act of conveying is meant. *Notification* is retained only when faithfully naming Home Assistant platform vocabulary (`notify`, `persistent_notification`, `mobile_app_notification_action`, `mobile_app_notification_cleared`, and similar native identifiers) and must not be used as an HTBW domain term (**DL-101**) |
+| Message | **Communication**. *Message* is retained only when faithfully naming externally-owned provider content or fields where the provider is the system of record, and must not be used as an HTBW domain term (**DL-101**) |
+| Push, Toast, Banner, Ring, Indicator | Not domain terms. They are Home Assistant or device presentation concerns. See [../architecture/home-assistant-boundary.md](../architecture/home-assistant-boundary.md). **Bare "Indicator" is unrelated to the current, accepted "Provider-Derived Environmental Indicator"** (**DL-62**), which names a different, fully current concept and is never abbreviated to the bare word. |
 | Completed (as a Communication state) | Ambiguous. Use **Resolved by origin** where the underlying condition cleared, or **Acknowledged** where an identified person acknowledged it. |
 | Follow-Me Communication | Not a kind of Communication. A Communication has no location. Use a **new Delivery Attempt** on a newly appropriate surface. |
 
-Scope of the *Notification* and *Message* supersessions in the **DL-12** sense is open decision
-**OD-58**.
+**Notification and Message are formally superseded as HTBW domain terms (DL-101, resolving OD-58)** —
+a scope/interpretation ratification of the supersession DL-28 already states, not a new rule.
+Source-faithful quotation (explaining supersession, citing Historical evidence, or reproducing
+external documentation) is not semantic reuse and remains permitted. Historical documents are
+unaffected (`document-lifecycle.md`). No implementation, API, service, or storage identifier rename
+is required (**DL-19**).
 
 ---
 
