@@ -106,7 +106,7 @@ Nothing depends on Concierge.
     Records referencing the Communication by Version Identity.
 15. **Concierge must not escalate by changing the audience on its own authority.** Changing the
     audience is Stewardship's ladder and Operational Trust's authority (**DL-97**). Repeating delivery
-    to the same audience is **retry**, and is Concierge's.
+    to the same audience is **retry** (**DL-98**), and is Concierge's.
 16. **Concierge must not treat a category as an interruption entitlement.** Urgency is granted by
     Operational Trust.
 17. **Concierge must not assign, approve, reject, or change a Communication's Category.** Category is
@@ -208,6 +208,22 @@ evidence only, never sufficient alone. Acknowledgement never redefines Delivery,
 (**DL-54**), Confirmation (**DL-37**), DL-94 Room-delivery authorization, or Stewardship Completion
 (**DL-48**, **DL-71**); unacknowledged delivery remains `unknown`, never failure. Full semantics:
 [../models/communication.md](../models/communication.md), *Acknowledgement semantics (DL-96)*.
+
+### Delivery Retry (DL-98)
+
+Delivery Retry repeats delivery under the same, already-resolved Intended Audience Specification —
+never requiring the same surface or modality — and is formally distinct from (1) DL-54's single-failure
+graceful cross-surface fallback (never "one free retry") and (2) OD-48's re-presentation (triggered by
+a room transition, not a delivery outcome). **No HTBW-wide default retry count or interval exists**;
+retry is household-configured during Integration setup, optionally keyed by Urgency (**DL-77**) without
+creating a new priority scale. Absent configuration, no timed retry loop begins, but the Communication
+is never dropped, `Undeliverable`, or otherwise forced out of its truthful lifecycle state — it remains
+outstanding, explainable as "no retry currently scheduled." `Delivered`, `Acknowledged`, `Resolved by
+origin`, `Expired`, and `Superseded` each stop retry; `Suppressed` and a DL-94 Explicit No each stop
+only their own path; `Unknown`/`Attestation Unavailable` and unacknowledged-but-`Delivered` are never
+triggers. Concierge's existing rule that it "always produces exactly one governed outcome" (§7, above)
+structurally prevents retry and re-presentation from compounding into duplicate attempts. Full
+semantics: [../models/communication.md](../models/communication.md), *Delivery Retry Policy (DL-98)*.
 
 ### Compound and multi-item requests (DL-80)
 
@@ -361,7 +377,7 @@ See [../models/decision-trace.md](../models/decision-trace.md) and
 | OD-47 | Household Inbox projection scope and refresh semantics |
 | OD-48 | Re-presentation preference and its relation to the Follow-Me preference family |
 | OD-52 | Audience specification model |
-| OD-54 | Delivery retry policy — attempts, intervals, surface progression, and give-up semantics |
+| OD-54 | **Closed — DL-98.** Delivery retry policy — household-configured, no HTBW-wide default count or interval; formally distinct from DL-54's fallback and OD-48's re-presentation |
 | OD-55 | **Closed — DL-54.** Presentation attestation per surface class |
 | OD-57 | **Closed — DL-94.** Indication versus content separation |
 

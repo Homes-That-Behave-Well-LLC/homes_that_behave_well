@@ -1537,7 +1537,12 @@ automatically retry or escalation — when material inputs change; a decrease im
 pending delivery and never rewrites completed, historical delivery.
 
 **Delivery retry**
-Repeating delivery to the **same** audience. A Concierge concern. It is never called escalation.
+Repeating delivery to the **same, already-resolved** audience under an unchanged Intended Audience
+Specification — same or different surface, same or changed intrusiveness. A Concierge concern,
+household-configured (**DL-98**, resolving **OD-54**); it is never called escalation. **No HTBW-wide
+default retry count or interval exists.** Formally distinct from **DL-54**'s single-failure graceful
+cross-surface fallback (never "one free retry") and from **Re-presentation** (**OD-48**), which is
+triggered by a Person's room transition, never a delivery outcome.
 
 **Escalation**
 A governed change of **who is accountable**, expressed as a **new recorded Intended Audience

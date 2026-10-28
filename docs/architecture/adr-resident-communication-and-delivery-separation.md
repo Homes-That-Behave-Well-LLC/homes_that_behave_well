@@ -203,7 +203,7 @@ Communication is never duplicated.
 
 | Concept | Definition | Owner |
 |---|---|---|
-| **Delivery retry** | Repeating delivery **to the same audience** | **Concierge** |
+| **Delivery retry** | Repeating delivery **to the same audience** (**DL-98**) | **Concierge** |
 | **Escalation** | Changing **the audience** to a more authoritative or accountable person | **Stewardship** (ladder, **OD-22**) and **Operational Trust** (authority) |
 
 **There is one escalation architecture, and it already exists.** Retry is a delivery concern and is
@@ -225,6 +225,7 @@ explainable. **It is never a bypass.**
 | **DL-29** | **Permission to act does not imply permission to announce** (P32) |
 | **DL-95** | **Communication lifecycle and Delivery Attempt outcome are two formally distinct levels, never flattened** — resolves **OD-44**. See *Delivery outcome model (DL-95)* above and **Part 1** of [decision-ledger.md](../governance/decision-ledger.md) for the full accepted text |
 | **DL-96** | **Acknowledgement is an explicit, Communication-specific responsive act by an identified, in-audience Person** — resolves **OD-45**. See *Acknowledgement Semantics (DL-96)* above and **Part 1** of [decision-ledger.md](../governance/decision-ledger.md) for the full accepted text |
+| **DL-98** | **Delivery Retry is household-configured, has no HTBW-wide numeric default, and is formally distinct from both DL-54's single-failure graceful fallback and OD-48's re-presentation** — resolves **OD-54**. See *Delivery Retry Policy (DL-98)* below and **Part 1** of [decision-ledger.md](../governance/decision-ledger.md) for the full accepted text |
 
 ### Deliberately not decided
 
@@ -740,6 +741,121 @@ per-integration implementation verification, not a constitutional gap.
 
 ---
 
+## Delivery Retry Policy (DL-98)
+
+**Accepted 2026-10-28**, resolving **OD-54**, incorporating the Owner Policy Response recorded on
+Issue #120 (no HTBW-wide default retry count or interval). Full matrix and worked detail are recorded
+in [../models/communication.md](../models/communication.md) under *Delivery Retry Policy (DL-98)*;
+this section is the formal decision record.
+
+### Decision
+
+**Three mechanisms are formally distinct and never merged:**
+
+1. **DL-54 graceful cross-surface fallback** — a single `Failed` attempt's own governed degradation
+   behaviour (attempting another capable surface, endpoint, modality, or personal fallback where
+   permitted), evaluated once per failure, bounded entirely by DL-54's own existing rules. **This is
+   not "one free retry" and is never constitutionalized as a default retry mechanism.**
+2. **Delivery Retry proper (this decision)** — a household-configured, scheduled/recurring policy
+   (attempt count and interval) that Concierge consumes **in addition to**, never in place of, DL-54's
+   fallback.
+3. **Re-presentation (OD-48, unchanged, still open)** — triggered by a Person's room transition, a
+   Continuity/Follow-Me-family preference, categorically unrelated to any delivery outcome.
+
+**No HTBW-wide default retry count or interval exists.** Retry count and interval are household
+choices, configured during Integration setup, and may be keyed by the Communication's already-governed
+Urgency (**DL-77**) where the household chooses — **never a new priority, significance, or Urgency
+scale**, and never a basis for Operational Trust to reevaluate the granted entitlement. This is a
+deliberate departure from DL-76/DL-77's general Capability-Default → HTBW-Default → Household-Override
+pattern, consciously chosen for retry specifically (Owner Policy Response, #120).
+
+**Where no recurring retry policy is configured, no timed retry loop begins** — no arbitrary HTBW
+count or interval is substituted. This does **not** mean the Communication is dropped, marked
+`Undeliverable`, `Suppressed`, `Expired`, or forced into any other lifecycle state merely because no
+retry is currently scheduled. A Communication with no active, scheduled retry remains in its current,
+truthful lifecycle state (ordinarily `Created`/outstanding), its complete Delivery Attempt history
+intact, explainable as **"no retry is currently scheduled; the Communication remains outstanding"** —
+a distinct, non-fabricated condition, never collapsed into any of the other six lifecycle states.
+DL-54's own single-failure fallback and DL-97's Stewardship escalation/pattern-reporting each remain
+independently available regardless of whether recurring retry is configured.
+
+**Delivery Retry is repeating delivery under the same, already-resolved governing Intended Audience
+Specification** — same accountable party, whether on the same surface, a different capable surface, or
+with changed intrusiveness. It never requires the same physical surface or modality. A dynamic
+specification's own per-attempt re-resolution (**DL-71**) to a different currently-eligible Person is
+**distinct from retry** — it answers only "who is this for, right now," never itself a retry or
+escalation event; only a Stewardship-recorded **new** specification is escalation (**DL-97**,
+unchanged, not reopened). Surface progression, increased frequency, or increased intrusiveness **never
+by themselves** transfer accountability.
+
+**Every attempt — first, retried, or fallback-progressed — receives independent, current-context
+Operational Trust evaluation** (audience, disclosure, capability), exactly as DL-54 already requires;
+a prior private-surface authorization is never reused to authorize a later shared-surface attempt. A
+Room-level progression remains governed by DL-94 unchanged: an Explicit No is permanent for that
+Communication's Room path and is never re-asked under the guise of retry; private delivery continues
+unaffected; No Response remains neither authorization nor denial.
+
+**Stop conditions, precisely distinguished** (never conflated): `Delivered` and `Acknowledged` (DL-96)
+each stop further retry — retry's own purpose (achieving delivery) is satisfied, a logical consequence
+of retry's purpose, not a redefinition of DL-96. `Resolved by origin`, `Expired`, and `Superseded`
+(DL-95) stop retry because the Communication no longer requires delivery. `Suppressed` stops retry on
+that path only; other permitted paths remain eligible. A permanent DL-94 Explicit No stops the Room
+path only; private delivery continues. `Undeliverable` stops all retry, reserved strictly for genuine
+exhaustion of every *permitted* surface — **never** fabricated merely because a configured attempt
+budget or interval ended while other permitted surfaces remained untried. `Unknown` and `Attestation
+Unavailable` are never themselves retry triggers or stop conditions (DL-54); an unacknowledged but
+`Delivered` Communication is never, by itself, a reason to continue retrying (DL-96).
+
+**Category (DL-78) is not an accepted retry input** — DL-78's own closed list of Category's downstream
+consumers (OD-49, OD-48, OD-57, Operational Trust, OD-04, DL-77) does not include OD-54, and none is
+added here.
+
+**Non-compounding between retry and re-presentation is structural, not merely asserted**: Concierge
+"always produces exactly one governed outcome" (`concierge-contract.md` §7) for any given decision
+point. Where a Failed outcome (retry-eligible) and a room transition (re-presentation-eligible) are
+simultaneously true, Concierge's single decision evaluates both inputs and produces **one** new
+Delivery Attempt satisfying both, never two independent attempts. Where only one condition holds, only
+that mechanism's own owner (Concierge for retry, Continuity/OD-48 for re-presentation) supplies the
+next attempt; where neither holds, no new attempt occurs.
+
+**Indefinite repetition remains structurally impossible regardless of household configuration**,
+through the stop conditions above (none requiring a numeric count to apply) plus the explicit
+requirement that any household-configured retry policy must itself be bounded — a household may
+configure a finite count, a finite interval, or another explicit give-up condition, but may never
+configure unbounded recurring retry; where retry is configured, it must terminate in one of the above
+stop conditions or an explicit, recorded give-up.
+
+**Give-up** means Concierge stops attempting delivery via the currently exhausted path(s) — never
+deletion, never a fabricated `Undeliverable`. The give-up decision is recorded as an Intentional
+Non-Action with a Decision Trace; the Communication's Delivery Attempt history and current lifecycle
+state remain fully intact and explainable.
+
+**Pattern reporting (DL-97) remains Stewardship's own concern.** Retry's own bounded mechanics are
+what prevent Concierge from independently generating an unbounded identical attempt (for example, a
+"fifth identical reminder"); Concierge's retry history supplies evidence Stewardship's own policy may
+consume, but Concierge never itself retitles exhausted retry as escalation or as a pattern report.
+
+**Each of the following is consumed unchanged and none is decided here**: Presentation Outcome
+semantics (**DL-54**); Acknowledgement semantics (**DL-96**); Urgency's own entitlement model
+(**DL-77**); Audience Specification re-resolution (**DL-71**); Room-Delivery Authorization (**DL-94**);
+escalation (**DL-97**); re-presentation's own preference values (**OD-48**).
+
+### Home Assistant First review (P21, DL-30)
+
+Reuses capability evidence already verified under DL-53/DL-54: no native Home Assistant escalation or
+scheduled-retry model exists; notify services and automations exist as delivery mechanisms only,
+consumed unchanged through Concierge's existing delivery architecture. No further Home Assistant
+research was required or performed.
+
+### What this decision does not resolve
+
+- **OD-48** — the household's own re-presentation preference values and their relation to the
+  Follow-Me family; only the boundary with retry is stated here.
+- The exact household-facing configuration surface (UI/UX) through which retry count/interval are
+  set — a presentation/implementation concern, not decided here.
+
+---
+
 ## Open decisions
 
 | ID | Question |
@@ -756,7 +872,7 @@ per-integration implementation verification, not a constitutional gap.
 | **OD-51** | Interruption action-risk class enumeration and defaults |
 | **OD-52** | Audience specification model, including resolution of *anyone present with authority* |
 | **OD-53** | **Resolved as DL-78** — Communication Category is a closed, seven-value, content-domain enumeration (Stewardship, Security, Care, Environment, Experience, System, Safety), structurally separate from Urgency, Operation Type, and Action-Risk Classification |
-| **OD-54** | Delivery retry policy — attempts, intervals, surface progression, and give-up semantics |
+| **OD-54** | **Resolved as DL-98** — Delivery Retry is household-configured (no HTBW-wide default count or interval), formally distinct from DL-54's single-failure fallback and OD-48's re-presentation; stop conditions, give-up, and the indefinite-repetition safeguard are each stated |
 | **OD-55** | **Resolved as DL-54** — Presentation Outcome model (Presented / Failed / Unknown / Attestation Unavailable), and the representation of unknown |
 | **OD-56** | **Narrowed by DL-78** — Safety accepted as the seventh Category; disclaimer content/survival, written reconciliation, audience-bypass confirmation, dependency-missing behaviour, and certified-device deference remain open |
 | **OD-57** | **Resolved as DL-94** — Indication, the Room-Delivery Authorization Challenge, and message-scoped Room-Delivery Authorization are formally separated; the mandatory-threshold rule is settled; a new Room-Delivery Audience Preference governs Room-delivery eligibility by Urgency level and by Household/Individual/Guest audience permission |
