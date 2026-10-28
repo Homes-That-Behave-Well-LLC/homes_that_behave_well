@@ -84,6 +84,15 @@ restoration moves into Stewardship**, and no care obligation moves into Continui
   identify everyone in the Room. Continuity holds the preference; Operational Trust determines whether
   it is currently permitted and safe; Concierge selects the Delivery Target. See
   [communication.md](communication.md) and [operational-trust.md](operational-trust.md)
+- **Room-Delivery Audience Preference (DL-94, resolved OD-57)** — distinct from both preferences
+  above: where the audience **is known**, not uncertain, which Urgency levels and which co-present
+  audiences (Household, selected individual Household members, Guest — each independently permitted or
+  not) make a Communication eligible for Room delivery at all, and whether a **known** mixed audience
+  satisfies standing permission without a one-message Room-Delivery Authorization Challenge. **A
+  Person present with another Person is not thereby an unauthorized audience**; the Preference, not
+  mere co-presence, determines sufficiency. Continuity holds the preference; Operational Trust
+  determines whether it is currently permitted and safe, exactly as for the Audience-Uncertainty
+  Routing Preference; the Preference itself grants nothing. See [communication.md](communication.md)
 - Ask-before-transfer preference
 - Never-transfer preference
 - Active personal media sessions

@@ -430,8 +430,10 @@ accepted order — evaluated in sequence, not as a mandatory checklist of every 
 
 1. **Authorized private delivery** to each intended recipient's own configured destination, where
    available and qualified as private (above).
-2. **Content-free Indication**, where its own audience evaluation and **OD-57**'s eventual
-   mandatory-threshold rule permit it.
+2. **Content-free Indication**, where its own audience evaluation permits it — and, where the
+   Communication is Room-delivery-eligible under the intended Person's Room-Delivery Audience
+   Preference, a **Room-Delivery Authorization Challenge** (**DL-94**, resolved **OD-57**) in place of
+   silent non-delivery.
 3. **A neutral confirmation or clarification challenge** that names no candidate, subject,
    relationship, or sensitive content, where a genuinely neutral form exists (**DL-37**).
 4. **Deferral or refusal** of audible delivery, preserving the Communication for retry (**OD-54**) or
@@ -473,8 +475,59 @@ that a concealed Asset or Person-specific resource exists. *"There is a private 
 available"* illustrates a safe form; *"Tom, you have a medication reminder,"* *"someone has a medical
 notice,"* and *"the caretaker of Maisey has a reminder"* each illustrate an unsafe one — each discloses
 more than existence alone. The Indication itself remains a Communication and is audience-evaluated
-before it is delivered. **Whether Indication is mandatory rather than merely available at a given
-threshold remains OD-57's own question.**
+before it is delivered.
+
+### Room-Delivery Authorization Challenge (DL-94, resolved OD-57)
+
+**Indication, the Room-Delivery Authorization Challenge, and Content are three formally distinct
+delivery forms, never merged.** The Challenge is a bounded, named extension of **DL-37**'s neutral-
+challenge class, permitted to disclose exactly: that a private Communication exists; its canonical
+**Urgency** level (**DL-77** — no new Importance or Priority axis is created); that private delivery
+has not completed; that the current Room audience falls outside the intended Person's standing
+delivery permission; and a request for this-Communication-only Room-delivery authorization. It
+discloses nothing else — never subject, Category, originating responsibility, relationship, content,
+or other sensitive semantic information.
+
+**The mandatory-threshold rule.** Once a Communication is Room-delivery-eligible under the intended
+Person's **Room-Delivery Audience Preference** (below) and private delivery has not completed, the
+Challenge is the *required* next step whenever it would itself pass audience evaluation — never
+optional or skippable for eligible content, and its mandatory status never varies by Category, Room,
+or Mode beyond what the Preference itself already expresses. Where the Challenge itself would
+disclose, the existing further-degradation path (neutral challenge/defer/refuse) applies unchanged.
+**A Communication Person Configuration never made Room-delivery-eligible receives no Room-level
+interaction of any kind** — Indication and the Challenge are both Room-level forms and both require
+Room-eligibility first; private delivery continues regardless, unaffected by Room-eligibility.
+
+**Room-Delivery Audience Preference** is a Continuity-owned, Operational-Trust-evaluated, Person-scoped
+preference — see [continuity.md](continuity.md) — stating which Urgency levels make a Communication
+Room-delivery-eligible, and which known co-present audiences (Household, selected individual Household
+members, Guest — each independently permitted or not, reusing **DL-71**'s relationship-based-recipient
+model) satisfy standing permission without a one-message exception. **A Person present with another
+Person is not thereby an unauthorized audience**; the Preference, not mere co-presence, determines
+sufficiency.
+
+**Message-Scoped Room-Delivery Authorization.** When standing permission is insufficient and a
+Challenge is issued, the Communication carries exactly one authorization state — **Pending**,
+**Authorized**, or **Denied** — scoped to that Communication alone:
+
+| Response | Effect |
+|---|---|
+| **Explicit Yes** (from the sufficiently resolved intended Person alone, at the required Identity/evidence level) | Authorizes Room delivery of **this Communication only**. Changes no Person Configuration, Category, Urgency, or future Communication |
+| **Explicit No** | Denies the Room path for **this Communication only**; clears the Pending state; no repeat request for this Communication; never marks it delivered, refused, cancelled, or acknowledged. Private delivery continues unaffected |
+| **No Response** | None of authorization, denial, acknowledgement, delivery, or cancellation. The Communication remains outstanding under its existing Delivery-Attempt/retry lifecycle (**OD-54**); private delivery continues |
+
+No other Household member or Guest may authorize disclosure of another Person's Communication.
+Authorization terminates on delivery through any authorized path (private or Room) or on reaching
+another already-governed terminal state; it is never reused for a later Communication, however
+similar. **Address by Name** within any Room-level form reuses the named/neutral presentation table
+below unchanged, including its limited multiple-sufficiently-identified-person disambiguation
+exception.
+
+**Unassociated or unresolved presence evidence is not reclassified as Guest by this decision** — it
+remains **DL-34**'s own "Audience detection unavailable"/"Unresolved plurality" composition state,
+feeding the same ordered degradation unchanged; Guest (**DL-33**, **DL-71**) remains the distinct
+trust-and-permissions construct applied once a co-present participant is actually resolved as a
+non-resident.
 
 ### Named and neutral presentation
 
@@ -635,6 +688,7 @@ is therefore permissible where content is not.
 | Delivery | Discloses | Governed by |
 |---|---|---|
 | Indication | That something is outstanding | Permitted broadly; still subject to interruption authority |
+| Room-Delivery Authorization Challenge (**DL-94**) | Existence, Urgency level, that private delivery failed, and the Room-authorization request — nothing else | Mandatory once Room-delivery-eligible and private delivery has failed, where safe (**DL-94**) |
 | Content | What it says | Full **P32** evaluation against surface perceptibility |
 | Retrieval | What it says, on request | Resident-initiated; returns to the ordinary exposure chain with identity asserted at retrieval |
 
@@ -642,7 +696,7 @@ is therefore permissible where content is not.
 > choice between silence and disclosure.**
 
 On a shared surface the indication is **aggregate and content-free**. A shared surface must never
-enumerate whose Communications are waiting. Separation policy is open decision **OD-57**.
+enumerate whose Communications are waiting. **Separation policy is resolved as DL-94 (OD-57).**
 
 ### Re-presentation
 

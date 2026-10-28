@@ -865,9 +865,9 @@ Urgency governs what may be interrupted; Concierge governs how to help within al
 
 **Permission to interrupt is not permission to disclose** (**DL-29**, **DL-34**, **P32**). Where the
 granted entitlement cannot be exercised without violating audience, privacy, consent, or disclosure
-governance, **delivery degrades** — surface change, content-free Indication where **OD-57**'s own rule
-permits it, or non-delivery — **the governance never does**, and both the granted entitlement and the
-degradation are recorded.
+governance, **delivery degrades** — surface change, content-free Indication, a Room-Delivery
+Authorization Challenge where Room-eligible and safe (**DL-94**), or non-delivery — **the governance
+never does**, and both the granted entitlement and the degradation are recorded.
 
 ### Concierge and surface separation
 
@@ -1629,7 +1629,7 @@ effect.** See [../architecture/privacy.md](../architecture/privacy.md).
 | OD-52 | **Closed — DL-71.** Five Intended Audience Specification forms accepted; relationship-based resolution requires a **DL-57** Delegated Access Grant for actual authorization; Guest fallback and Copy Settings From Person are Person Setup conveniences, not new authority models |
 | OD-53 | **Resolved as DL-78.** Communication Category is a closed, seven-value, content-domain enumeration (Stewardship, Security, Care, Environment, Experience, System, Safety), structurally separate from Urgency, Operation Type, and Action-Risk Classification; Operational Trust Category admissibility rejected |
 | OD-56 | **Resolved as DL-79.** Non-life-safety acknowledgement (one-time, authenticated-Administrator), certified-device deference, evidence-quality-proportionate conclusions, Investigation Needed, temporal provenance, and the framework-wide evidence chain; no Safety-specific audience, Urgency, or caretaker model |
-| OD-57 | Indication versus content separation |
+| OD-57 | **Resolved as DL-94.** Indication, the Room-Delivery Authorization Challenge, and message-scoped Room-Delivery Authorization formally separated; a new Room-Delivery Audience Preference governs Room-delivery eligibility by Urgency level and Household/Individual/Guest audience permission |
 | OD-92 | Configuration authority levels (household / household-with-consent / administrator-integrator / governed-high-consequence) and a progressive commissioning-to-personalization lifecycle, composed with this model's existing consent, disclosure, and Action-Risk Class authority rather than duplicating it |
 
 ## Related documents

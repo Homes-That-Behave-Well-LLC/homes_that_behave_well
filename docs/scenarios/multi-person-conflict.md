@@ -574,6 +574,26 @@ a substitute. Tom confirms by an accepted method and the calendar operation proc
 
 ---
 
+## Scenario 39 — Room delivery, standing permission, and message-scoped authorization (DL-94)
+
+Tom has configured a Room-Delivery Audience Preference permitting Room delivery at **Interrupt
+Current Activity** Urgency or above, for a **Household** audience, but not for **Guest**.
+
+| # | Situation | Behaviour | Must not |
+|---|---|---|---|
+| a | Tom alone; a Critical, Room-eligible Communication | Normal Room delivery | Request authorization when standing permission already covers the audience |
+| b | Tom with David (Household); Room-eligible | Normal Room delivery under the Preference; no exception requested | Treat David's presence as requiring a one-message exception merely because Tom is not alone |
+| c | Tom with an unpermitted Guest; Room-eligible; private delivery has failed; the Challenge itself is safe | A Room-Delivery Authorization Challenge is issued, disclosing only existence, Urgency, that private delivery failed, and the request | Disclose subject, Category, relationship, or content before Explicit Yes |
+| d | Same as (c); Tom responds Explicit Yes | Room delivery of **this Communication only**; Tom's standing Preference is unchanged | Treat the Yes as a new standing permission for Guest audiences generally |
+| e | Same as (c); Tom responds Explicit No | No Room delivery for this Communication; no repeat request for it; private delivery continues | Mark the Communication delivered, refused, cancelled, or acknowledged |
+| f | Same as (c); no response | The Communication remains outstanding under the existing retry lifecycle (**OD-54**); private delivery continues | Infer denial or consent from silence |
+| g | A Communication Tom's Preference never made Room-eligible (e.g. below **Interrupt Current Activity**), Guest present | No Room interaction of any kind — not Indication, not a Challenge | Offer a Room-delivery exception for non-Room-eligible content |
+| h | The Challenge itself would disclose (for example, only one possible subject exists in context) | The existing further-degradation path applies (neutral challenge/defer/refuse) | Issue the Challenge anyway merely because standing permission was insufficient |
+| i | A second, later Communication of the same type arrives after Tom's earlier Explicit Yes | Evaluated fresh from the standing Preference; the earlier authorization does not apply | Reuse the previous message's authorization for a different Communication |
+| j | Private delivery succeeds while a Room-authorization request is still unresolved | The Communication completes; the pending authorization need expires with delivery | Continue prompting for Room authorization after delivery has completed |
+
+---
+
 ## Rules demonstrated
 
 1. Identity `ambiguous` and `unknown` are first-class, and are never silently resolved.
@@ -598,6 +618,9 @@ a substitute. Tom confirms by an accepted method and the calendar operation proc
 20. **Absence lowers the ceiling; it never applies a penalty.**
 21. **Qualification only ever reduces — provider match, quality, freshness, and reliability are never multiplied together.**
 22. **Every assertion names the Fusion Policy version that produced it.**
+23. **A Person's own co-presence with another Person is not thereby an unauthorized audience; a
+    message-scoped Room-delivery authorization never becomes standing permission, and standing
+    permission is evaluated independently of any single Communication's outcome (DL-94).**
 23. **`None` is a Trust requirement, not an Identity band. Identity produces four bands and never `None`.**
 24. **Access and presentation are decided independently; an unmet presentation threshold never denies an action.**
 25. **Continuous occupancy is not continuous identity, and a valid assertion is not the current-speaker assertion.**

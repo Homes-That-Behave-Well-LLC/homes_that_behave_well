@@ -262,6 +262,12 @@ and [../models/communication.md](../models/communication.md).
 
 - A **content-free indication** asserts only that something is outstanding. It discloses nothing and
   is permissible where content is not.
+- A **Room-Delivery Authorization Challenge** (**DL-94**, resolved **OD-57**) is a bounded, named
+  extension of the neutral-challenge class, permitted to disclose only existence, the Communication's
+  Urgency level, that private delivery failed, and the Room-authorization request itself — never
+  subject, Category, relationship, or content. It is mandatory once a Communication is Room-delivery-
+  eligible under the intended Person's Room-Delivery Audience Preference and private delivery has
+  failed, where the Challenge itself is safe.
 - **Content** requires full evaluation against surface perceptibility.
 - **Retrieval** is resident-initiated and returns to the ordinary exposure chain, with identity
   asserted at retrieval rather than at indication.
@@ -534,7 +540,7 @@ The following are recorded as open decisions and must **not** be resolved inside
 | OD-40 | Evidence Package assembly, transport, integrity representation, and audience |
 | OD-49 | Communication retention floor and ceiling, with content and metadata classified separately |
 | OD-52 | **Closed — DL-71.** Audience specification model, including resolution of *anyone present with authority* |
-| OD-57 | Indication versus content separation, and when content-free indication becomes mandatory |
+| OD-57 | **Closed — DL-94.** Indication, the Room-Delivery Authorization Challenge, and message-scoped Room-Delivery Authorization formally separated; the mandatory-threshold rule settled |
 
 See [../governance/decision-ledger.md](../governance/decision-ledger.md).
 

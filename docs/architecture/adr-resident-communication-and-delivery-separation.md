@@ -570,6 +570,108 @@ light.
 
 ---
 
+## Indication, Room-Delivery Audience Preference, and Message-Scoped Room-Delivery Authorization (DL-94)
+
+**Accepted 2026-10-27**, resolving **OD-57**. Full matrix, scenarios, and worked detail are recorded in
+[../models/communication.md](../models/communication.md) under *Indication and content are separate
+deliveries* and [../models/continuity.md](../models/continuity.md) under *Person-scoped preferences*;
+this section is the formal decision record.
+
+### Decision
+
+**Three delivery forms are formally distinct and never merged:**
+
+1. **Indication** — content-free, asserting only that something is outstanding. Discloses no
+   recipient identity, subject, content, private relationship, sensitive content class, or concealed-
+   resource existence (**DL-72**, unchanged).
+2. **Room-Delivery Authorization Challenge** — a bounded, named extension of **DL-37**'s neutral-
+   challenge class. Permitted to disclose exactly: that a private Communication exists; its canonical
+   **Urgency** level (**DL-77**, unchanged — no new Importance or Priority axis is created); that
+   private delivery has not completed; that the current Room audience falls outside the intended
+   Person's standing delivery permission; and a request for this-Communication-only Room-delivery
+   authorization. Nothing else.
+3. **Content** — full delivery, governed by **DL-29**/**DL-34** unchanged.
+
+**The mandatory-threshold rule (OD-57's residual left open by DL-72, DL-77, and DL-78):** once a
+Communication is Room-delivery-eligible under the intended Person's Room-Delivery Audience Preference
+(below) and private delivery has not completed, a Room-Delivery Authorization Challenge is the
+*required* next step whenever it would itself pass audience evaluation — it is never optional or
+skippable for eligible content, and its mandatory status never varies by Category, Room, or Mode
+beyond what the Audience Preference itself already expresses. Where the Challenge itself would
+disclose, the existing further-degradation path (neutral challenge/defer/refuse, **DL-72**) applies
+unchanged. **A Communication that Person Configuration never made Room-delivery-eligible receives no
+Room-level interaction of any kind** — Indication and the Authorization Challenge are both Room-level
+forms and both require Room-eligibility first; private delivery continues regardless, unaffected by
+Room-eligibility.
+
+**Room-Delivery Audience Preference** (new, Continuity-owned, Operational-Trust-evaluated, consuming
+existing authority, creating none): a Person-scoped preference held exactly like the existing Ordinary
+Delivery Preference and Audience-Uncertainty Routing Preference (**DL-72**) it sits beside, stating:
+
+- which already-accepted **Urgency** levels (**DL-77**'s four-level ladder, consumed unchanged) make a
+  Communication Room-delivery-eligible at all;
+- which known, co-present audiences — **Household**, specifically selected individual Household
+  members, and **Guest**, each independently permitted or not — satisfy standing permission without a
+  one-message exception, reusing **DL-71**'s relationship-based-recipient and multiple-recipient
+  evaluation model.
+
+**A Person present with another Person is not thereby an unauthorized audience**; the Preference, not
+mere co-presence, determines sufficiency. Operational Trust evaluates whether the Preference is
+currently permitted and safe exactly as it already does for the Audience-Uncertainty Routing
+Preference; the Preference itself grants nothing.
+
+**Message-Scoped Room-Delivery Authorization** (new, narrow, OD-57-owned record; never a second retry,
+escalation, or acknowledgement engine): when standing audience permission is insufficient and a
+Challenge is issued, the Communication carries exactly one authorization state — **Pending**,
+**Authorized**, or **Denied** — scoped to that Communication alone.
+
+- **Explicit Yes** (from the sufficiently resolved intended Person alone, at the existing required
+  Identity/evidence level; no other Household member or Guest may authorize another Person's
+  Communication) authorizes Room delivery of that Communication only and changes no Person
+  Configuration, Category, Urgency, or future Communication.
+- **Explicit No** denies the Room path for that Communication only, clears the Pending state, triggers
+  no repeat request for that Communication, and never marks the Communication delivered, refused,
+  cancelled, or acknowledged; private delivery continues unaffected.
+- **No Response** is none of authorization, denial, acknowledgement, delivery, or cancellation; the
+  Communication remains outstanding under its existing Delivery-Attempt/retry lifecycle (**OD-54**,
+  unchanged), and private delivery continues.
+
+**Authorization terminates on delivery through any authorized path** (private or Room) or on reaching
+another already-governed terminal state; it is never reused for a later Communication, however
+similar. **Address by Name** within any Room-level form (Indication, Challenge, or an authorized
+delivery) reuses `communication.md`'s existing named/neutral presentation table unchanged, including
+its limited multiple-sufficiently-identified-person disambiguation exception; it creates no new naming
+rule.
+
+**Each of the following is consumed unchanged and none is decided here**: a Delivery Surface's own
+capability (**DL-53**); Category's own ownership (**DL-78**); Urgency's own ladder and never-overrides-
+audience rule (**DL-77** §14); the Household Inbox's own presentation question (**OD-47**); retry
+timing (**OD-54**); escalation (**OD-22**); acknowledgement semantics (**OD-45**); and Identity
+sufficiency thresholds (unchanged). Unassociated or unresolved presence evidence is **not** reclassified
+as Guest by this decision — it remains **DL-34**'s own "Audience detection unavailable"/"Unresolved
+plurality" composition state, feeding the same ordered degradation (**DL-72**) unchanged; **Guest**
+(**DL-33**, **DL-71**) remains the distinct trust-and-permissions construct applied once a co-present
+participant is actually resolved as a non-resident.
+
+### Home Assistant First review (P21, DL-30)
+
+Reuses the capability evidence already verified above: notification badges, entity state, and `todo`
+counts (already identified in #102's own Home Assistant First review) remain the only verified
+Room/private indication-adjacent surfaces consulted. No further **#146** item is required to close this
+decision; no Home Assistant Companion App device type (phone, tablet, watch) is hard-coded into the
+constitutional model — the abstraction used throughout is **private Delivery Surface**.
+
+### What this decision does not resolve
+
+- **OD-47** — Household Inbox projection scope and refresh semantics; OD-57 supplies the Indication
+  rule as one input only.
+- **OD-44**, **OD-45**, **OD-54**, **OD-22** — delivery-outcome, acknowledgement, retry, and escalation
+  semantics generally, each retaining full, independent ownership.
+- The exact Identity evidence-sufficiency level required to resolve a Person as "present in the Room"
+  — Identity's own existing authority, unchanged and not duplicated here.
+
+---
+
 ## Open decisions
 
 | ID | Question |
@@ -589,7 +691,7 @@ light.
 | **OD-54** | Delivery retry policy — attempts, intervals, surface progression, and give-up semantics |
 | **OD-55** | **Resolved as DL-54** — Presentation Outcome model (Presented / Failed / Unknown / Attestation Unavailable), and the representation of unknown |
 | **OD-56** | **Narrowed by DL-78** — Safety accepted as the seventh Category; disclaimer content/survival, written reconciliation, audience-bypass confirmation, dependency-missing behaviour, and certified-device deference remain open |
-| **OD-57** | Indication versus content separation, and when content-free indication becomes mandatory |
+| **OD-57** | **Resolved as DL-94** — Indication, the Room-Delivery Authorization Challenge, and message-scoped Room-Delivery Authorization are formally separated; the mandatory-threshold rule is settled; a new Room-Delivery Audience Preference governs Room-delivery eligibility by Urgency level and by Household/Individual/Guest audience permission |
 | **OD-58** | Terminology supersession scope for *Notification* and *Message* |
 
 Existing open decisions amended by this ADR: **OD-04** (priority order now explicitly includes
