@@ -128,8 +128,11 @@ event model is not revived as a new owner.
 
 ### Version Identity, Bitemporality, Reconstruction
 
-- Every governed record carries a **version identity**; every Change Record names prior and new
-  versions; every dependent record references versions, not objects.
+- Every governed record carries an identity (**DL-104**): a record with a continuously-revised
+  Subject carries **Subject Type + Subject ID + opaque Version Identity**; a one-shot immutable
+  occurrence (Domain Event, Snapshot, Decision Trace) carries a single immutable **Record Identity**
+  instead, collapsing object and version identity into one value. Every Change Record names prior and
+  new versions; every dependent record references **versions, not objects**.
 - **Effective Time** and **Recorded Time** are both constitutional. A correction never overwrites; it
   is a new Change Record with its own Recorded Time and the corrected Effective Time.
 - **State at time T** is reconstructed from the nearest valid Snapshot at or before T plus subsequent
@@ -153,6 +156,7 @@ The full model is [../models/temporal-record.md](../models/temporal-record.md).
 |---|---|
 | **DL-26** | History is recorded as governed change, not as repeated full copies |
 | **DL-27** | Governed records reference exact versions and do not copy complete payloads |
+| **DL-104** | Identifier, Version Identity, Correlation, and Causation Strategy (resolves **OD-38**) — see [../models/temporal-record.md](../models/temporal-record.md), "Identifier, Version Identity, Correlation, and Causation (DL-104)" |
 
 ### Deliberately not decided
 
@@ -322,6 +326,7 @@ Conducted under **P21** against official Home Assistant documentation, not remem
 | Events (developer) | `https://developers.home-assistant.io/docs/dev_101_events/` |
 | Config Entries — lifecycle, migration, update | `https://developers.home-assistant.io/docs/config_entries_index/` |
 | Assist pipeline events | `https://developers.home-assistant.io/docs/voice/pipelines/` |
+| Context object (`id`, `user_id`, `parent_id`; automation parent-context chaining) — **DL-104** | `https://contributors.home-assistant.io/data/reference/data-model/`; `https://github.com/home-assistant/data.home-assistant/blob/master/docs/data_context.md`; `https://www.home-assistant.io/docs/configuration/state_object/` |
 
 **Storage helper: not verified as of this ADR's own Home Assistant First review.** The official Home Assistant
 Storage helper developer documentation could not be retrieved during this review. **No Storage helper
@@ -380,7 +385,8 @@ Under **P21**, each of the following must be evaluated before any HTBW equivalen
 - Assist pipeline event context
 
 Whether Home Assistant context identifiers are adopted as HTBW's correlation and causation
-identifiers is **OD-38**.
+identifiers is **resolved as DL-104** — referenced as supporting native evidence only, never adopted
+as HTBW's own identity (see [../models/temporal-record.md](../models/temporal-record.md)).
 
 ### Gaps requiring extension
 
@@ -426,7 +432,7 @@ None is closed by this ADR.
 | ID | Question |
 |---|---|
 | **OD-37** | Snapshot triggers, cadence, and scope per responsibility |
-| **OD-38** | Version identity, correlation, and causation identifier strategy, including evaluation of Home Assistant Context IDs |
+| **OD-38** | **Closed — DL-104** (accepted 2026-10-28, Issue #84, formal acceptance review PASS). Identifier, Version Identity, Correlation, and Causation Strategy — see [../models/temporal-record.md](../models/temporal-record.md) |
 | **OD-39** | Preservation Hold authority, duration, review, release, and conflict with deletion |
 | **OD-40** | Evidence Package assembly, transport, integrity representation, and audience |
 | **OD-41** | Incident and Case object model |

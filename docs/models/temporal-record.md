@@ -311,6 +311,8 @@ deferment, refusal, question, and suggestion alike.
 - It **references exact source versions** rather than copying complete source payloads (**P30**).
 - It may retain a **minimal immutable explanation projection** where durable human readability
   requires it.
+- It carries its own immutable **Trace ID** (**DL-104**) — a Decision Trace is never revised in place,
+  so its identity and its "version" are the same single value.
 
 The full structure is defined in [decision-trace.md](decision-trace.md).
 
@@ -336,17 +338,150 @@ explicit state such as *"no longer retained"* — never *"never existed."* See
 
 ---
 
-## Version Identity
+## Identifier, Version Identity, Correlation, and Causation (DL-104)
 
-Every governed record carries a **Version Identity**. Every Change Record names the prior version
-and the new version. Every dependent record references **versions, not objects**.
+Every governed record carries an identity. Every Change Record names the prior version and the new
+version. Every dependent record references **versions, not objects**. This is what makes historical
+explanation durable: without identity, a Decision Trace must copy its inputs into itself, which is
+full-payload history under another name. With it, the trace stays small **and** stays exact.
 
-This is what makes historical explanation durable. Without Version Identity, a Decision Trace must
-copy its inputs into itself, which is full-payload history under another name. With it, the trace
-stays small **and** stays exact.
+### Two identity shapes, never one forced pattern
 
-The identifier scheme — including whether Home Assistant context identifiers are adopted — is
-**OD-38**.
+**Governed Object Identity applies only to a record kind with a continuously-revised Subject.** A
+Change Record (and the Current Projection it updates) already requires, as constitutional fields,
+**Subject Type** + **Subject ID** — the logical object's identity, stable across every revision — and
+a **Prior Version Reference** / **New Version Reference** — the exact-version pointer to one specific
+revision of that Subject. These are **two distinct concepts, never one identifier serving both**: the
+same Subject ID persists across many versions; a Version Identity names exactly one of them.
+
+**Governed Object Identity does not apply to a record kind that is itself a one-shot, immutable
+occurrence.** A **Domain Event**, a **Snapshot**, and a **Decision Trace** are never revised in place
+and have no continuously-existing Subject behind them — each occurrence **is** the whole, terminal
+thing. For these, Object Identity and Version Identity **collapse into one immutable, opaque Record
+Identity**, scoped by record class. No Subject Type/Subject ID/Version triple is manufactured for a
+record kind this model already characterizes as immutable.
+
+| Record kind | Identity shape |
+|---|---|
+| Change Record (and the Subject's Current Projection) | **Subject Type + Subject ID + Version Identity** (compound) |
+| Domain Event | **One immutable, opaque Record Identity** |
+| Snapshot | **One immutable, opaque Record Identity** |
+| Decision Trace | **One immutable, opaque Record Identity ("Trace ID")** — see [decision-trace.md](decision-trace.md) |
+
+### Version Identity form
+
+**Version Identity is an opaque, per-version identifier** — collision-resistant within its accepted
+per-Subject scope; the exact generation algorithm is an implementation choice, not fixed here.
+**A monotonic counter is not adopted**: nothing in accepted architecture establishes that a revision
+sequence is never reused, or that restore/migration correctly reconstructs "the last number used" —
+properties a counter would require but does not get for free merely by being called a "version
+number." An opaque per-version token needs neither guarantee: each new version receives a fresh
+identifier regardless of what came before, eliminating the restore/migration correctness burden a
+counter would impose. **Ordering is not lost by this choice** — it already exists, independently,
+through the **explicit Prior Version Reference / New Version Reference chain** every Change Record
+already carries, and through the already-constitutional **Effective Time** / **Recorded Time**
+(below). No field is asked to do double duty as both an opaque identity and an ordering signal.
+
+**Content hash is not adopted** as Version Identity. Its stated motivation — avoiding full-payload
+comparison to discover what changed — is **already achieved a different way**, by the constitutionally
+required **Changed Fields** element on every Change Record (`temporal-record.md`, "Change Record").
+Adopting a hash besides would require inventing an undecided canonical-serialization standard for no
+further capability, and risks implying same-hash means same provenance or same authority, which it
+does not. **Timestamp is not adopted** as Version Identity either — clock skew and NTP correction can
+make a later-recorded version carry an earlier timestamp, which is unacceptable for an identity that
+must be exact; Effective Time and Recorded Time remain separately required for their own bitemporal
+purpose, unconflated with identity.
+
+### Complete exact-version reference (Governed Reference)
+
+For a revised Subject: `{Subject Type, Subject ID, Version Identity}`. For a one-shot immutable record:
+`{Record Class, Record Identity}` alone — Record Identity already resolves exactly and uniquely, with
+no further qualification needed. Both forms satisfy **Governed Reference**'s existing rules unchanged
+(points to a version, transfers no ownership, must resolve or say why not).
+
+### Correlation Identity
+
+**Correlation is a derived property of the reference graph, never a separately-generated, independently
+threaded token.** Every record cites the Governed Reference (or Record Identity) of whatever triggered
+it; *"what belongs to this governed evaluation"* is reconstructed by following that chain, never read
+off one shared value stamped onto otherwise-unrelated records. For the ordinary case — one trigger
+produces one governed evaluation and one Decision Trace — the trace's own Record Identity already
+serves as the practical correlation anchor for everything the trace itself cites; no separate
+Correlation ID field is created beside it. Where **one trigger produces several independent Decision
+Traces**, each trace references the shared triggering record's own Governed Reference or Record
+Identity; that shared upstream reference is what correlates them, not a flat identifier copied across
+every trace. **Correlation lifetime is bounded to one governed-evaluation chain**, reconstructed
+transitively through reference-following; a later retry, escalation, acknowledgement, or independent
+evaluation is its **own** new governed evaluation with its own new Record Identity, correlating back to
+what it responds to through the same reference mechanism — it never silently reuses or extends a prior
+evaluation's own identity, and no new session-like construct is created.
+
+### Causation
+
+**Causation is a stronger, explicit, directed relationship, never inferred from correlation, shared
+Context, or timing alone.** Within one Decision Trace, causation is already represented by the trace's
+own owned, ordered fields (trigger → Facts → Identity Assertion → capability availability →
+Operational Trust evaluation → decision → action/non-action → outcome). **Across traces** (this trace's
+outcome produced a Domain Event that triggered another, separate evaluation elsewhere), the same
+Governed Reference / Record Identity mechanism supplies the causal edge: the downstream record cites
+the exact upstream record it responded to. No generic causal-graph infrastructure is created.
+
+### Home Assistant Context — supporting native evidence, never HTBW identity
+
+Home Assistant Context (`context.id`, `context.parent_id`, `context.user_id`) is native, platform-owned
+evidence, consumed **by reference only** (**DL-31**). It is never adopted as HTBW's Version Identity,
+Object Identity, Record Identity, Correlation Identity, or Decision Trace, and it never proves
+causation beyond the documented relationship the platform itself supplies. **Not every governed
+trigger has a usable native Context** (official Home Assistant documentation confirms context is not
+created for every trigger), so Context cannot serve as *the* correlation mechanism — HTBW's own
+reference-graph model above applies uniformly, with or without a native Context present. Where a
+native `parent_id` is supplied, it may be cited as **supporting evidence** for an initiating-to-resulting
+relationship (official documentation's own words: an automation's context "points to the context of
+the trigger… the context that caused this one") — consistent with, and formalizing without redefining,
+**DL-73**'s existing "same-context sibling execution event" / "`context_user_id` match" Known Source
+evidence tier. A Home Assistant `user_id`, where supplied, identifies an **authenticated platform
+user**, never an HTBW Person directly, and never a durable identity for an Unknown Person across
+unrelated interactions (**DL-33**, **DL-35**, unchanged).
+
+### Persistence independence, backup, and restore
+
+Identity — whichever shape applies — is **explicit record data**, never a database row, file path,
+array index, storage key, backend-generated position, or transient runtime address (**DL-92**
+unchanged). It is preserved verbatim across backup, restore, import, and any future persistence
+mechanism change permitted under **OD-01**'s accepted result; no identity value is regenerated merely
+because the storage mechanism changed.
+
+### Dangling references
+
+Unchanged from **DL-27**: a reference that no longer resolves is reported as such — never silently
+substituted with the current value, never fabricated from an old payload, never silently omitted, and
+never regenerated as though the source record never existed.
+
+### Privacy
+
+No identifier — of either shape — encodes a Person name, email, Room name, household identity,
+capability, reason, state, or other sensitive meaning; semantic content belongs in the referenced
+record, governed by ordinary disclosure rules, never in the identifier string itself. A correlation
+chain bounded to one governed evaluation never becomes a durable, reusable pseudonymous identity for an
+Unknown Person across separate, otherwise-unrelated interactions (**DL-33**, **DL-35**).
+
+### Responsibility ownership
+
+**Foundation owns the shared identity model — the format and rule** (two identity shapes; opaque
+Version/Record Identity; reference-based correlation and causation) — **not a central identifier-
+issuing service.** Each responsibility allocates identity for the records it owns, independently,
+exactly as each already owns Version Identity for its own Change Records. No global identifier
+authority is created beyond the shared model.
+
+### Research sources (Home Assistant Context)
+
+Official Home Assistant documentation, consulted directly for this decision:
+[`contributors.home-assistant.io/data/reference/data-model/`](https://contributors.home-assistant.io/data/reference/data-model/)
+("Context"); [`data.home-assistant` GitHub documentation repository, `docs/data_context.md`](https://github.com/home-assistant/data.home-assistant/blob/master/docs/data_context.md);
+[`home-assistant.io/docs/configuration/state_object/`](https://www.home-assistant.io/docs/configuration/state_object/)
+("Context"). Source-level `Context.__slots__` verification (`homeassistant/core.py`) is recorded in
+[../architecture/home-assistant-boundary.md](../architecture/home-assistant-boundary.md), "Context and
+actor-attribution propagation."
 
 ---
 

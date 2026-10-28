@@ -501,8 +501,8 @@ These object kinds are **not** interchangeable. Treating them as the same object
 | Change Record | Recorder `states` row with `old_state_id` (partially) | Home Assistant links prior state per entity. A Change Record spans non-entity subjects, names an owning responsibility, carries privacy and retention classification, and survives purge policy independently. |
 | Domain Event | Bus event | A bus event is a platform occurrence. A Domain Event is a governed household occurrence with an owner and provenance. |
 | Snapshot | Long-term statistics (partially) | Statistics are numeric downsamples of entity measurements. A Snapshot is governed state across a bounded scope, identifying exact record versions. |
-| Version Identity | Config-entry `version` (not equivalent) | A config-entry version is a **schema** version used for migration. It does not identify an exact state of a record and produces no change record. |
-| Correlation and causation | Context ID, Parent Context ID, User Context ID | Home Assistant context is the closest native primitive and must be evaluated before any HTBW alternative is designed. Whether it is adopted is **OD-38**. |
+| Version Identity | Config-entry `version` (not equivalent) | A config-entry version is a **schema** version used for migration. It does not identify an exact state of a record and produces no change record. **HTBW's own opaque Version Identity (DL-104)** serves this role instead. |
+| Correlation and causation | Context ID, Parent Context ID, User Context ID | Home Assistant context is referenced as **supporting native evidence only** (**DL-104**) — never adopted as HTBW's own correlation identity, which is instead a derived property of the Governed Reference graph. |
 | Preservation Hold | None | Recorder purge is global or entity-scoped. **No per-record purge exemption exists.** |
 | Tombstone | None | Purge deletes rows, leaving nothing to distinguish *"the record was removed"* from *"nothing happened"*. |
 | Communication | Notification, persistent notification, or `alert` (none equivalent) | A notification is a **delivery outcome**. A Communication is a governed household interaction with identity, version, audience, category, urgency, lifecycle, and history that exists whether or not anything was ever sent. |
@@ -1381,7 +1381,8 @@ identifiable. **Where the platform does not supply it, it is not inferred.** The
 
 ## What Home Assistant context can and cannot establish
 
-Recorded under **OD-38**, which **remains open**.
+Recorded under **OD-38**, **resolved as DL-104** (accepted 2026-10-28, Issue #84, formal acceptance
+review PASS).
 
 | Context may support | Context does not establish |
 |---|---|
@@ -1389,10 +1390,18 @@ Recorded under **OD-38**, which **remains open**.
 | A relationship between an initiating operation and a resulting operation, **where Home Assistant supplies that relationship** through a parent context | Causation beyond what that documented relationship supports |
 | Resident attribution, **only where the platform actually supplies an attributable user** | A resident's identity where the platform supplies no user |
 
-Context is **not** HTBW Version Identity: a context identifier correlates occurrences and does not
-identify an exact state of a governed record. Context is **not** a Decision Trace: it links what
-happened and never records why. **OD-38 must not be closed until all of its acceptance criteria are
-satisfied.**
+Context is **not** HTBW Version Identity, Object Identity, Record Identity, Correlation Identity, or a
+Decision Trace: it correlates occurrences, as supporting native evidence only, and never identifies an
+exact state of a governed record or records why a decision was reached. **DL-104** adopts an HTBW-owned
+identity/reference model (opaque Version Identity for a revised Subject's exact state; a single
+immutable Record Identity for a one-shot occurrence such as a Domain Event or Decision Trace;
+correlation and causation expressed as references between these, never a separately-threaded token),
+with Home Assistant Context referenced as supporting evidence only — formalizing, not redefining,
+**DL-73**'s existing "same-context sibling execution event" / "`context_user_id` match" evidence tier.
+**Not every governed trigger has a usable native Context** (confirmed against official Home Assistant
+documentation), so Context was never adopted as the sole correlation mechanism. See
+[../models/temporal-record.md](../models/temporal-record.md), "Identifier, Version Identity,
+Correlation, and Causation (DL-104)" for the full model.
 
 ### Native evidence entering identity fusion
 

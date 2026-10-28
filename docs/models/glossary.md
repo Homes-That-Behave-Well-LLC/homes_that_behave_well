@@ -674,9 +674,45 @@ An immutable pointer to an **exact version** of a governed record. Transfers no 
 re-derivation, and must resolve or be explicitly reported as unavailable. A dangling reference is
 reported, never silently rendered as though the source record never existed.
 
-**Version Identity**
-The identity by which an exact state of a governed record is addressed, so that dependent records may
-reference versions rather than mutable objects. The identifier scheme is open decision **OD-38**.
+**Version Identity (DL-104)**
+The identity by which one exact revision of a continuously-revised Subject is addressed, so that
+dependent records may reference versions rather than mutable objects. **An opaque, per-version
+identifier** — never a monotonic counter (restore/migration cannot be relied upon to reconstruct "the
+last number used" without risking reuse), content hash (its only motivation is already met by the
+constitutionally required Changed Fields element), or a bare timestamp (clock skew makes it unsafe as
+an exact identity). Paired with **Governed Object Identity** (Subject Type + Subject ID) to form a
+complete exact-version reference. Ordering comes from the existing Prior/New Version Reference chain
+and Effective/Recorded Time, never from the identifier's own value.
+Model: [temporal-record.md](temporal-record.md), "Identifier, Version Identity, Correlation, and
+Causation (DL-104)"
+
+**Governed Object Identity (DL-104)**
+The stable identity of a logical governed object across every revision it undergoes — **Subject Type**
++ **Subject ID**, already required on every Change Record. Distinct from **Version Identity**, which
+names exactly one revision of that object. Applies only to a record kind with a continuously-revised
+Subject; a one-shot immutable occurrence (a Domain Event, a Snapshot, a Decision Trace) instead carries
+a single immutable **Record Identity**, collapsing object and version identity into one value.
+
+**Correlation Identity (DL-104)**
+Not a separately-generated or independently threaded field. Correlation is a **derived property of the
+Governed Reference graph**: every record cites the reference or Record Identity of whatever triggered
+it, and "what belongs to one governed evaluation" is reconstructed by following that chain. For the
+ordinary one-trigger/one-evaluation case, a Decision Trace's own Trace ID already serves as the
+practical anchor. Bounded to one governed-evaluation chain; never a durable cross-visit identity for an
+Unknown Person (**DL-33**, **DL-35**).
+
+**Causation Reference (DL-104)**
+A directed Governed Reference or Record Identity citation expressing that one specific record caused
+another, used only where accepted evidence actually establishes the relationship — never inferred from
+correlation, shared Home Assistant Context, or timing alone. Within one Decision Trace, causation is
+already carried by its own owned, ordered fields; across traces, the downstream record cites the exact
+upstream record that triggered it.
+
+**Trace ID (DL-104)**
+A Decision Trace's own immutable **Record Identity** — a trace is produced once, for one evaluation,
+and is never revised in place, so its object identity and version identity collapse into this one
+value. Not Correlation Identity: see **Correlation Identity (DL-104)**.
+Model: [decision-trace.md](decision-trace.md)
 
 **Effective Time**
 When a change took effect in the household.

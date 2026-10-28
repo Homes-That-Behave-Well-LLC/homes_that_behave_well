@@ -50,6 +50,23 @@ A trace is produced for **actions, non-actions, and suppressions alike**.
 
 ---
 
+## Trace identity (DL-104)
+
+Every Decision Trace carries its own immutable **Trace ID**, distinct from the 20 content fields
+above. A Decision Trace is never revised in place — it is produced once, for one evaluation — so its
+identity and its "version" collapse into this one opaque value; no separate Subject Type/Subject ID/
+Version Identity triple is created for it. The worked `decision_id` values shown in this document's
+examples are illustrative renderings only, never a prescribed encoding.
+
+**Trace ID is not Correlation Identity.** For the ordinary case — one trigger, one evaluation — a
+trace's own Trace ID already serves as the practical anchor for everything the trace itself cites.
+Where one trigger produces several independent traces, each cites the shared triggering record's own
+Governed Reference or Record Identity; that shared upstream reference, not a copied Trace ID, is what
+correlates them. See [temporal-record.md](temporal-record.md), "Identifier, Version Identity,
+Correlation, and Causation (DL-104)" for the full model.
+
+---
+
 ## Field ownership
 
 | Field group | Contributing responsibility |
