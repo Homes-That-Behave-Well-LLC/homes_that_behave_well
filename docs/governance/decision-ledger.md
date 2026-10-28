@@ -47,7 +47,7 @@ answer the household has not chosen.
 | **DL-05** | **Voice Identity is superseded as a platform-service boundary.** The responsibility is **Identity**; voice is one evidence source | `adr-voice-identity-platform-service.md` | [adr-identity-replaces-voice-identity-boundary.md](../architecture/adr-identity-replaces-voice-identity-boundary.md) |
 | **DL-06** | Identity Evidence, Identity Assertion, and Contextual Person-Presence Fact are **three distinct objects** with two distinct owners | Conflation of identity with presence | [adr-identity-replaces-voice-identity-boundary.md](../architecture/adr-identity-replaces-voice-identity-boundary.md) |
 | **DL-07** | **Stewardship** is a first-class responsibility for significance, care, obligations, and lifecycle accountability | Stewardship as inventory; Asset Intelligence as the "what matters" layer | [adr-htbw-core-refoundation.md](../architecture/adr-htbw-core-refoundation.md) |
-| **DL-08** | The **HTBW asset model is Foundation-owned descriptive knowledge**. The standalone Asset Intelligence product remains separate, with no compatibility requirement | Asset Intelligence as an HTBW Core layer | [adr-htbw-core-refoundation.md](../architecture/adr-htbw-core-refoundation.md) |
+| **DL-08** | The **HTBW asset model is Foundation-owned descriptive knowledge**. The standalone Asset Intelligence product remains separate, with no compatibility requirement. **DL-51 restates this product's disposition in full per-product detail and does not alter it** | Asset Intelligence as an HTBW Core layer | [adr-htbw-core-refoundation.md](../architecture/adr-htbw-core-refoundation.md) |
 | **DL-09** | **Room Configuration is owned by Foundation**, and is an interaction-definition model | Room Configuration implicitly inside Concierge | [adr-room-configuration-ownership.md](../architecture/adr-room-configuration-ownership.md) |
 | **DL-10** | **Contextual Vocabulary is part of Room Configuration.** Concierge consumes the resolved target | Vocabulary owned by Concierge | [adr-room-configuration-ownership.md](../architecture/adr-room-configuration-ownership.md) |
 | **DL-11** | **Existence, Participation, Exposure, and Authority are four distinct states** | Conflation of existence with availability | [adr-room-configuration-ownership.md](../architecture/adr-room-configuration-ownership.md) |
@@ -58,7 +58,7 @@ answer the household has not chosen.
 | **DL-16** | **Home Assistant First** — HA capability is used before HTBW builds its own (P21) | Parallel HTBW primitives by default | [adr-home-assistant-first-and-connected-storage.md](../architecture/adr-home-assistant-first-and-connected-storage.md) |
 | **DL-17** | **Connected Storage** — durable household knowledge lives in attached storage with explicit traceability (P22) | Implicit or hidden storage | [adr-home-assistant-first-and-connected-storage.md](../architecture/adr-home-assistant-first-and-connected-storage.md) |
 | **DL-18** | **Native Experience** — HTBW presents as a native part of Home Assistant; no invented UI standards (P23) | Custom UI conventions | [adr-home-assistant-first-and-connected-storage.md](../architecture/adr-home-assistant-first-and-connected-storage.md) |
-| **DL-19** | **HTBW Core is greenfield.** No compatibility requirement with Asset Intelligence, Voice Identity, or Concierge | Implicit migration obligations | [adr-htbw-core-refoundation.md](../architecture/adr-htbw-core-refoundation.md) |
+| **DL-19** | **HTBW Core is greenfield.** No compatibility requirement with Asset Intelligence, Voice Identity, or Concierge | Implicit migration obligations | [adr-htbw-core-refoundation.md](../architecture/adr-htbw-core-refoundation.md); **DL-52's adoption model remains outside this prohibition and does not weaken it — see *Notes on the product disposition and legacy adoption decisions* below** |
 | **DL-20** | **The framework is vendor-agnostic.** Home Assistant is the first implementation environment, not a constraint | Platform-shaped architecture | [adr-home-assistant-first-and-connected-storage.md](../architecture/adr-home-assistant-first-and-connected-storage.md) |
 | **DL-21** | **A learned suggestion is not an autonomous policy** (P26) | Silent promotion of learned patterns | [adr-htbw-core-refoundation.md](../architecture/adr-htbw-core-refoundation.md) |
 | **DL-22** | The **assessment-to-platform traceability model** is canonical | Untraced recommendations | [adr-htbw-core-refoundation.md](../architecture/adr-htbw-core-refoundation.md) |
@@ -1341,6 +1341,20 @@ artifact custody, coexistence, and surface. **OD-36** is extended rather than re
 artifact whose governing parent is removed by a different product than the one now depending on it.
 **OD-69** and **OD-81** continue to hold publishing conflicts, and **no third owner is created for
 them**.
+
+**Formal acceptance review completed 2026-10-27 (Issue #160), result PASS.** DL-51 and DL-52 were
+independently re-verified against current authority rather than trusted from the 2026-08-26 record:
+the per-product disposition table, the product/responsibility separation, Asset Intelligence's
+continued independence, the eight-property adoption model, identifier/namespace preservation, and the
+retirement-versus-parent-removal boundary all hold unchanged. One bounded documentation gap was found
+and corrected during the review: `adr-identity-replaces-voice-identity-boundary.md`'s own "Not
+changed" section still stated, unqualified, that *"the Voice Identity integration remains a separate
+released product with its own lifecycle,"* without the amendment annotation already applied to the
+equivalent sentence in `adr-htbw-core-refoundation.md`. That sentence now carries the same amendment
+annotation, preserving the original text as evidence. **No substantive change to DL-51 or DL-52
+results from this correction or from this review.** OD-20 (#110), OD-85 (#172), and the governance
+review on #171 each retain their own independent, unclosed scope, unchanged and unnarrowed by this
+acceptance.
 
 ---
 

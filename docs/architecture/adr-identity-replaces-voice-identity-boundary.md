@@ -133,6 +133,15 @@ the preserved discoveries above.
 The **Voice Identity integration remains a separate released product** with its own lifecycle. This ADR
 creates no compatibility requirement for it, and no runtime code was modified.
 
+> **Amended 2026-10-27 by DL-51, formal acceptance review of Issue #160 / OD-82.** This bullet recorded
+> the state of the standalone product at the time this ADR replaced the Voice Identity platform-service
+> boundary. **Disposition is now stated per product**: the standalone Voice Identity integration **will
+> sunset**, while **Identity** — the responsibility this ADR establishes — remains unchanged and
+> first-class. **The second half of the bullet is unchanged in force** — no compatibility requirement
+> was created then, and none is created by sunset or by adoption (**DL-19**). This annotation records
+> the amendment; **the original text is preserved as architectural evidence and is not rewritten.** See
+> [adr-product-disposition-and-legacy-adoption.md](adr-product-disposition-and-legacy-adoption.md).
+
 ---
 
 ## Alternatives considered
