@@ -159,11 +159,42 @@ the significance, and the accepted recommendation that produced the configuratio
 
 ---
 
+## Materialized Assessment Artifact (DL-105)
+
+**The canonical Assessment Record is the projection above — the live, cross-responsibility
+traceability view reconstructed from what Foundation, Truth, Stewardship, Identity, Continuity,
+Operational Trust, and Concierge already own.** It carries no independent payload; viewing it
+requires no Connected Storage.
+
+**On explicit household request only**, Concierge materializes the current projection into a durable
+**Materialized Household Assessment** artifact. This is never automatic, and performing or viewing the
+Assessment never depends on Connected Storage — only materializing and later retrieving a durable copy
+does (**DL-41**).
+
+The artifact is **Foundation-owned** (Foundation owns the Home, the artifact's anchor and Governing
+Parent — the same anchor-ownership rule **DL-43** already applies to Asset documents), **Managed
+Content**, anchored to and Governing-Parented by the **Home** (an Assessment is canonically
+whole-household in scope; no narrower per-Room or per-Asset Assessment construct exists). Each
+materialization produces its own immutable **Record Identity** (**DL-104**) — a new artifact, never a
+revision of a prior one — carrying **Governed References** to the exact versions of the Facts,
+obligations, and configuration consulted at that time, never a copy of the underlying payloads. A
+Stewardship obligation produced by a finding survives independently of any materialized artifact's
+existence, through the obligation's own required Provenance (`temporal-record.md`), never through
+artifact retention. See [../architecture/connected-storage.md](../architecture/connected-storage.md),
+"Accepted artifact retention strategies," for the full lifecycle declaration.
+
+**#177 firewall preserved**: this section states storage/lifecycle only, against the current,
+canonical 12-element traceability model above. It adds no element from #177's proposed
+household-impact content, assigns no retention/access semantics to it, and does not depend on its
+adoption.
+
+---
+
 ## Open decisions
 
 | ID | Question |
 |---|---|
-| OD-31 | Whether assessment records are stored in connected storage as first-class documents |
+| OD-31 | **Resolved as DL-105.** Materialized Assessment Artifact — projection canonical, materialized only on explicit household request |
 | OD-32 | The reassessment cadence, and whether it is per-item or per-home |
 
 ## Related documents
