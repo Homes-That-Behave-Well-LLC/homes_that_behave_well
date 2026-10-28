@@ -238,6 +238,24 @@ license to re-present on every qualifying Room transition indefinitely. `Acknowl
 origin`, `Expired`, `Superseded`, and `Undeliverable` each stop further re-presentation. Full semantics:
 [../models/communication.md](../models/communication.md), *Re-presentation (DL-99)*.
 
+### Presentation Rendering (DL-100)
+
+Concierge renders presentation according to a fixed precedence Concierge does not own: a Person-Borne
+Requirement (accessibility/accommodation, required-comprehension language) always applies when
+Identity meets the required Capability Access Threshold and is never overridden; an applicable
+ordinary Person-scoped preference (verbosity, explanation depth, citation style, locale, language
+choice, convenience modality) adapts the compatible aspects of the Room's decorative baseline next;
+the Room's decorative character (persona, configured TTS voice — **Foundation/Room Configuration's**,
+never Concierge's or Continuity's) supplies the remaining baseline; where a required accommodation,
+language, or modality cannot currently be rendered, Concierge states the capability gap plainly and
+never substitutes or approximates it (**DL-41**). For a response jointly addressed to more than one
+sufficiently resolved Person, conflicting Person-Borne Requirements are satisfied by the union where
+jointly renderable, else by separate per-recipient Delivery Attempts; conflicting ordinary preferences
+fall back to the Room baseline rather than favoring one resident. Concierge selects no Reasoning
+Provider through persona and never treats persona text as executable instruction. Full semantics:
+[../models/continuity.md](../models/continuity.md), *Presentation Preference Scope and Precedence
+(DL-100)*.
+
 ### Compound and multi-item requests (DL-80)
 
 > **This subsection is additive and is recorded pending formal acceptance review at Issue #188. It is

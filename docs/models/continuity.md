@@ -63,12 +63,14 @@ restoration moves into Stewardship**, and no care obligation moves into Continui
 - **Preferred delivery and preferred presentation** — how a resident wants to be told, and in what
   form. Ownership was already stated in
   [../scenarios/stewardship-use-cases.md](../scenarios/stewardship-use-cases.md) and
-  [communication.md](communication.md); it is named here so the list is complete. **The preference
-  dimensions themselves — verbosity, explanation depth, citation, spoken versus visual delivery,
-  accessibility, language and locale, and per-capability override — are not enumerated in any
-  canonical document.** The only enumerations that exist are in
+  [communication.md](communication.md); it is named here so the list is complete. **The ordinary
+  preference dimensions — verbosity, explanation depth, citation, convenience modality, locale, and
+  choice among supported languages — are now enumerated under *Presentation Preference Scope and
+  Precedence (DL-100)* below.** Accessibility/accommodation and required-comprehension language are
+  **Person-borne requirements, not ordinary preferences** (DL-100); per-capability override is
+  explicitly excluded (DL-100). The only prior enumerations, in
   [person-profile-model.md](person-profile-model.md) and
-  [../contracts/service-contracts.md](../contracts/service-contracts.md), **both Historical and
+  [../contracts/service-contracts.md](../contracts/service-contracts.md), remain **Historical and
   superseded**, and neither is authority. **Whether a person-scoped preference may name or steer a
   reasoning provider is resolved: it does not.** The explicit Person
   Reasoning-provider assignment, the **Allow General Questions** authorization, and the **Allow Home
@@ -77,7 +79,12 @@ restoration moves into Stewardship**, and no care obligation moves into Continui
   Continuity's preferred delivery/presentation preference governs wording and delivery form only, and
   is never a second configuration authority for either capability gate. **The scope at which a
   presentation preference may exist, and what takes precedence when a Room persona and a person
-  preference disagree, is OD-79**
+  preference disagree, is resolved as DL-100, closing OD-79** — Room decorative character (persona,
+  voice) belongs to Foundation/Room Configuration, never Continuity; see *Presentation Preference
+  Scope and Precedence (DL-100)* below
+- **Person-borne presentation requirements (DL-100)** — accessibility/accommodation and
+  required-comprehension language, held by Continuity as a distinct, non-overridable record class,
+  never an ordinary preference. See *Presentation Preference Scope and Precedence (DL-100)* below
 - **Audience-Uncertainty Routing Preference (DL-72)** — distinct from the ordinary delivery
   preference above: where a Communication should route **when audience composition cannot be safely
   established** for that Person as intended recipient. Answers *"when HTBW cannot determine who else
@@ -339,6 +346,161 @@ Concierge's existing "exactly one governed outcome" rule. Resolved as **DL-99**,
 
 ---
 
+## Presentation Preference Scope and Precedence (DL-100)
+
+**Resolves OD-79 in full.** "Presentation preference" was never one thing. This section is the
+canonical classification and precedence rule; [room-configuration.md](room-configuration.md) and
+[../contracts/room-configuration-contract.md](../contracts/room-configuration-contract.md) hold Room
+decorative character's own ownership statement and reference this rule rather than restating it.
+
+### Continuity still has exactly two scopes
+
+This decision adds **no third scope**. It clarifies that **Room-scoped does not imply one owner for
+every Room-scoped value** — the scope is the Room; ownership still depends on the dimension's
+architectural class. Room-scoped **remembered experience** (TTS volume, duck volume, current Room
+experience, Room-specific resume state) remains Continuity's, unchanged. Room-scoped **decorative
+presentation character** (persona, configured TTS voice) belongs to **Foundation / Room
+Configuration**, as part of the Room's durable interaction definition — a different kind of thing
+than a remembered value, and never moved into Continuity by this decision.
+
+### The complete dimension classification
+
+| Dimension | Class | Scope / owner | Precedence |
+|---|---|---|---|
+| Accessibility / accommodation need | **Person-borne requirement** | Person-scoped (Continuity holds the record; Operational Trust gates application) | Always applies when Identity is sufficient; no scope may override |
+| Required-comprehension language | **Person-borne requirement** | Person-scoped (Continuity holds the record; Operational Trust gates application) | Always applies when Identity is sufficient; no scope may override |
+| Required presentation modality (an accessibility need) | **Person-borne requirement** | Person-scoped (Continuity) | Always applies when Identity is sufficient; no scope may override |
+| Choice among multiple reliably understood languages | Ordinary preference | Person-scoped (Continuity) | Adapts the Room baseline |
+| Locale | Ordinary preference | Person-scoped (Continuity) | Adapts the Room baseline |
+| Verbosity | Ordinary preference | Person-scoped (Continuity) | Adapts the Room baseline |
+| Explanation depth | Ordinary preference | Person-scoped (Continuity) | Adapts the Room baseline |
+| Citation / evidence presentation style | Ordinary preference | Person-scoped (Continuity) | Adapts the Room baseline |
+| Modality as mere convenience (not an accessibility need) | Ordinary preference | Person-scoped (Continuity), bounded by Delivery Surface capability (**DL-53**) | Adapts the Room baseline |
+| Persona (title / description) | Room decorative character | Room-scoped (Foundation / Room Configuration) | **Baseline** |
+| Configured TTS voice | Room decorative character | Room-scoped (Foundation / Room Configuration) | **Baseline** |
+| TTS volume, duck volume, current Room experience | Remembered experience state — **unaffected by this decision** | Room-scoped (Continuity) | Composes independently of persona/voice |
+| Capability-specific override | **Explicitly excluded from this decision** — no accepted use case or model requires a generic per-capability override engine | — | Not governed here; a future capability may declare its own narrower presentation setting under this same precedence model if a genuine need is shown, without creating a new engine |
+| Re-presentation preference | **Already resolved — DL-99** | Person-scoped (Continuity) | Not reopened here |
+
+### Person-borne requirements: a distinct record class, not a new responsibility
+
+An accessibility/accommodation need and a required-comprehension language are **not ordinary
+Preferences** — a Preference is "a person-scoped or room-scoped statement of what is wanted"
+([glossary.md](glossary.md)); a Person-borne requirement states what is **needed** for the Person to
+reliably understand and use the Home, and is never weighed against a Room's decorative character.
+**Continuity still holds the record** — the same responsibility that already holds "preferred
+delivery and preferred presentation" — but as a distinct, non-overridable class, exactly as
+**Person Environmental Requirements** show "requirement" is already an accepted record shape distinct
+from an ordinary preference elsewhere in this repository (**DL-61**), without requiring a new
+responsibility here: Identity supplies the assertion (**DL-38**, unchanged); Operational Trust gates
+*whether* it may currently be applied, through the same **Capability Access Threshold** that already
+gates every Person-scoped preference (**DL-36**, **DL-39**, unchanged — not a new threshold model);
+Concierge applies and renders it. **No new responsibility, store, Identity model, or Operational
+Trust model is created.**
+
+### Precedence, in order
+
+1. **Person-borne requirements** (accessibility/accommodation, required-comprehension language,
+   required modality) apply whenever Identity meets the required Capability Access Threshold. **No
+   Room decorative character, and no ordinary preference, is ever a candidate to override one.**
+2. **Applicable ordinary Person-scoped preferences** (verbosity, explanation depth, citation style,
+   locale, language choice among supported languages, convenience modality) apply next, when Identity
+   is sufficient, **adapting the compatible aspects of the Room baseline** — composing with it on
+   unrelated axes rather than wholesale replacing it.
+3. **Room decorative character** (persona, voice) supplies the baseline within whatever compatible
+   presentation space remains after 1 and 2.
+4. **Plain failure/degradation** applies wherever a required accommodation, required-comprehension
+   language, or required modality cannot currently be satisfied — the capability gap is named
+   plainly; nothing is silently substituted or approximated (**DL-41**, reaffirmed by the Owner Policy
+   Response on Issue #152).
+
+**A configured Room baseline is not a fabricated Person preference.** It is an independently
+configured Room Configuration value, not a stand-in invented because a Person preference happened to
+be missing; `continuity-contract.md`'s existing rule that a missing preference is never silently
+replaced by a platform default is therefore **not violated** by the Room baseline applying on its own
+terms — the Room baseline was never a substitute for anything Person-specific in the first place.
+
+### Identity-sufficient and Identity-insufficient behaviour
+
+When a Person is sufficiently resolved for Person-scoped presentation (Capability Access Threshold
+met): retrieve and apply Person-borne requirements; retrieve and apply applicable ordinary
+preferences; compose both with the compatible Room baseline; record scope, owner, and exact version
+in the Decision Trace (**P30**).
+
+When Identity does not meet the required band: **no resident preference or requirement is applied**
+— being addressed by name (the lower **Identity Presentation Threshold**) authorises none of this
+(**DL-36**, **DL-39**). The configured Room decorative baseline may still apply, **inheriting no
+resident preference or history**, extending Use Case 5's existing "neutral presentation" finding into
+a concrete Room-context shape: neutral, here, **is** the Room's own unmodified decorative baseline. A
+suspected but unattributable accessibility/comprehension need is never invented for an unresolved
+Person; the safe failure behaviour above applies instead.
+
+### Multiple people present
+
+**Audience governs regardless of presentation** (**DL-34**, unchanged) — presentation never widens
+disclosure, and one present person's preference is never applied to content another present person
+may not receive (`continuity-use-cases.md` Use Case 5, Scenario 5.3).
+
+For a single response genuinely and jointly addressed to more than one sufficiently resolved Person:
+
+- **Conflicting Person-borne requirements** (for example, one person requires visual, another can use
+  speech) are each independently non-overridable — the response satisfies the **union** of applicable
+  requirements where jointly deliverable (for example, rendering both a visual and a spoken form
+  together satisfies both), reusing the existing independent-per-recipient evaluation model
+  (**DL-71**); where no single joint rendering can satisfy every present requirement, delivery falls
+  back to separate, independently evaluated Delivery Attempts per recipient (**DL-54**, **DL-71**),
+  never to silently satisfying only one person's requirement.
+- **Conflicting ordinary preferences** (for example, one person prefers concise, another prefers
+  detailed) are never arbitrarily resolved by selecting one resident over another. **Neither
+  individual preference is applied; the Room decorative baseline governs instead** — the same
+  already-established neutral fallback used when Identity is insufficient, extended here to the case
+  where Identity is sufficient for both but no single preference can govern a jointly addressed
+  response.
+- **Matching ordinary preferences** across every addressed Person apply normally — there is no
+  conflict to resolve.
+
+### Guest and Unknown Person
+
+An **Unknown Person** owns no preference, requirement, or history, and inherits nothing from any
+resident (**DL-33**, unchanged). **Guest is a trust/permissions Role, never an identity or preference
+class** ([glossary.md](glossary.md)) — a Guest does not inherit a resident's preferences or
+requirements merely by being present. The Room's configured decorative baseline may still apply to an
+Unknown Person or a Guest, because it carries no resident-specific content and implies no
+recognition. A deliberately configured **Known Non-Resident Person** (a real, intentionally enrolled
+Guest) may hold their own Person-scoped preferences and requirements exactly like any other
+sufficiently resolved Person — this is ordinary Person Extension behaviour (**DL-71**), not a
+Guest-specific exception. The **Guest fallback Person Extension** (**DL-71**) remains available,
+unchanged, as a deliberate household configuration choice distinct from the Room's own baseline.
+
+### Provider boundaries, reaffirmed
+
+A **Reasoning Provider** owns no presentation preference or requirement; its unavailability degrades
+phrasing only, never correctness, and is never silently approximated (**DL-41**, **DL-93**/**OD-67**,
+unchanged — not reopened here). The Room's configured **TTS voice** is a presentation/output-rendering
+capability, never a Reasoning Provider, and never implies one; where the configured voice or a
+required modality is unavailable, the capability is named as unavailable (**DL-41**), never silently
+substituted with another decorative choice. Room Mode remains **Foundation/Room Configuration's**
+existing governed appropriateness state ([glossary.md](glossary.md), *Mode*); this decision does not
+extend Mode into a presentation-precedence mechanism — whether Mode may someday select among
+configured decorative profiles is not decided here.
+
+### Trace, retention, and the never-changes-truth invariant
+
+Decision Trace already records the exact version of every Continuity preference consulted (**P30**);
+this decision extends the same citation discipline to Person-borne requirements and to the Room
+decorative-character version consulted, plus the precedence outcome, any discarded incompatible
+dimension, and any capability/provider failure — **no second trace mechanism is created**. Retention
+follows **DL-47** unchanged for every record class here: ordinary preferences, Person-borne
+requirements, and Room decorative character are each a **Current Projection** that lives while its
+object lives, with any change retained as a **Change Record** under that object's own lifecycle — no
+new store. **No presentation setting or requirement, of any class, ever alters a Fact, threshold,
+authority outcome, disclosure entitlement, conclusion, obligation state, Urgency, Category, or
+Identity confidence** — persona, voice, language, locale, verbosity, explanation depth, citation
+style, and modality alter rendering only. A translation must preserve semantic meaning; a plain
+language/accommodation rendering must preserve every required caveat and material fact.
+
+---
+
 ## Blocking state supplied by other responsibilities
 
 Continuity records that a transfer or resume was blocked, and by which responsibility, without
@@ -455,7 +617,7 @@ how long, remains open decision **OD-26**.
 | OD-48 | **Closed — DL-99.** Re-presentation preference for outstanding Communications — opt-in, Person-scoped, optionally refined by Category/Urgency; no HTBW-wide default repetition count or cooldown; not coupled to Follow-Me media eligibility |
 | OD-77 | Ownership of the association between a Person and an external service, account, calendar, mailbox, or media profile |
 | OD-78 | Remembered-value classes and restoration semantics — reproduce a prior value, or compute a currently appropriate one |
-| OD-79 | Presentation preference scope and precedence — which scopes may hold one, who owns each, and what wins when they disagree |
+| OD-79 | **Closed — DL-100.** Presentation preference scope and precedence: Continuity retains exactly two scopes; Room decorative character (persona, voice) belongs to Foundation/Room Configuration; accessibility/accommodation and required-comprehension language are non-overridable Person-borne requirements, not ordinary preferences; precedence is requirement → applicable preference → Room baseline → plain failure |
 
 ## Related documents
 

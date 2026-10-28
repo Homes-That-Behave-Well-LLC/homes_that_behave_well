@@ -311,6 +311,48 @@ action, or a browser session. Such a surface may carry very strong **person** bi
 
 ---
 
+## Room decorative presentation character (DL-100)
+
+**Resolves OD-79's Room-scope ownership question.** Full classification and precedence rule:
+[continuity.md](continuity.md), *Presentation Preference Scope and Precedence (DL-100)*. This section
+is Room Configuration's own ownership statement only; it does not restate the precedence rule.
+
+**Room Configuration owns the Room's decorative presentation character** — its **persona** (a
+household-authored title and description shaping tone and decorative phrasing) and its **configured
+TTS voice** — as part of the Room's durable interaction definition, the same kind of thing as which
+vocabulary terms the Room exposes or what Mode it is in.
+
+**This is a distinct concept from the equipment/interaction-function relationship above, never
+collapsed with it:**
+
+| | Equipment binding (above) | Decorative character (this section) |
+|---|---|---|
+| Question answered | Which device fulfils `voice_input`/`spoken_response_output` for this Room? | What does this Room sound and feel like? |
+| Changes when | Hardware is added, removed, or reassigned | A household deliberately edits persona/voice configuration |
+| Changing one | **Never** changes the other | **Never** changes the other |
+
+**Persona may shape**: tone, decorative phrasing, and (where a compatible capability exists) voice
+character. **Persona may never**: assert or change a Fact, a conclusion, disclosure, authority, a
+threshold, an obligation state, an Identity confidence, or a safety claim; grant disclosure authority;
+select a Reasoning Provider; or become executable instruction content. Persona text is **governed
+presentation configuration only** — never a backdoor Policy, and never itself capable of authorizing
+anything Operational Trust has not already authorized.
+
+**Room Mode** (an existing governed appropriateness state, [glossary.md](glossary.md)) remains
+distinct from decorative character. Room Configuration owning both Mode and decorative character does
+not make Mode a presentation-precedence mechanism; whether Mode may someday select among configured
+decorative-character profiles is not decided by this clarification.
+
+**Failure behaviour**: where the configured voice, persona, or a required rendering capability is
+unavailable, the capability is named as unavailable (**DL-41**) — never silently substituted with a
+different decorative choice, and never approximated.
+
+**Person-borne presentation requirements (accessibility/accommodation, required-comprehension
+language) and applicable Person-scoped ordinary preferences remain Continuity's, evaluated against
+this Room baseline under DL-100's precedence — never owned or overridden here.**
+
+---
+
 ## Room Help and capability exposure
 
 When a resident asks **"What can I do here?"**, the answer is generated from the deliberately
@@ -731,6 +773,7 @@ configuration today must never silently rewrite the explanation of a decision ma
 | OD-61 | **Resolved as DL-60.** Room Environment Standard (extensible Environmental Purpose set), native Area environmental slot proposal behaviour, Primary Authority/Secondary/Composite/Excluded disambiguation (later narrowed to three states by **DL-62**), Merged Room environmental candidates, and derived purposes are accepted |
 | OD-17 | **Resolved as DL-62.** Primary Authority is required and deterministic for every directly measured Environmental Purpose, identically for a Physical Room and a Merged Room; Composite Contributor is removed from the ordinary path; Formula-Derived Fact governance (input availability, provenance, versioning) is accepted, with Dew Point ready and Mold Index/Condensation Risk unresolved |
 | OD-19 | **Resolved as DL-63.** Same-purpose environmental sensor disagreement, native Area proposal divergence, and Provider-Derived Environmental Indicator differences are confirmed as not Truth conflicts; a genuine Truth conflict is qualified and resolved per DL-63's fixed procedure |
+| OD-79 | **Resolved as DL-100** (Issue #152). Room decorative presentation character (persona, configured TTS voice) is Room Configuration's, distinct from the equipment/interaction-function relationship above; full precedence rule against Continuity's Person-scoped preferences and requirements is [continuity.md](continuity.md)'s own |
 
 ## Related documents
 

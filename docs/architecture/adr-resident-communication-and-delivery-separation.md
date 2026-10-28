@@ -940,8 +940,8 @@ already supplies. No further Home Assistant research was required or performed.
 
 - The exact household-facing configuration surface (UI/UX) through which the repetition limit/cooldown
   are set — a presentation/implementation concern, not decided here.
-- General presentation-preference scope and precedence across preference types — **OD-79**'s own
-  residual, not reopened or narrowed here.
+- General presentation-preference scope and precedence across preference types — resolved
+  separately as **DL-100** (Issue #152); not reopened or narrowed by this decision.
 
 ---
 

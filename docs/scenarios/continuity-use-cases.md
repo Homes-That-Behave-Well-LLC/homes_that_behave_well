@@ -430,7 +430,7 @@ answer.
 |---|---|---|
 | Continuity holds preferred delivery and preferred presentation | **Continuity** | **A** — [stewardship-use-cases.md](stewardship-use-cases.md) ownership map row 11; [../models/communication.md](../models/communication.md) *Continuity — re-presentation preference and personal surface defaults* |
 | Identity resolves the person to a band sufficient for person-scoped preference application | **Identity** → **Operational Trust** | **A** — **DL-36**, **DL-39** |
-| **The preference dimensions themselves** — verbosity, depth, citation, modality, locale, accessibility, per-capability override | — | **N / U** — stated only in Historical documents; see below |
+| **The preference dimensions themselves** — verbosity, depth, citation, modality, locale, accessibility, per-capability override | — | **A — DL-100.** Accessibility/comprehension are Person-borne requirements, never overridden by Room character; the rest are ordinary Continuity preferences; Room persona/voice are Foundation/Room Configuration's |
 
 ## Ownership map
 
@@ -458,13 +458,13 @@ answer.
 | `verbosity: minimal / balanced / detailed` | [../models/person-profile-model.md](../models/person-profile-model.md) | **Historical — superseded.** Not authority |
 | *person context may tune verbosity and detail level only* | [../contracts/service-contracts.md](../contracts/service-contracts.md) | **Historical — superseded.** Not authority |
 | *presentation preferences* | [../architecture/adr-personalization-governance.md](../architecture/adr-personalization-governance.md) | **Historical — superseded.** Not authority |
-| *Preferred interaction patterns* | [../models/continuity.md](../models/continuity.md) | **Canonical**, but named only in the Stewardship-boundary table |
+| *Preferred interaction patterns* | [../models/continuity.md](../models/continuity.md) | **Canonical**, and now fully enumerated and classified by *Presentation Preference Scope and Precedence (DL-100)* |
 
-**The ownership is settled — Continuity. The enumeration is not written anywhere canonical.** That is
-documentation debt, now recorded as a clarification in the Continuity model and contract.
+**The ownership is settled — Continuity. The enumeration and Room-scope precedence are now settled —
+DL-100 (resolving OD-79).**
 
-**Whether a person-scoped preference may name or steer a reasoning provider is OD-67**, and nothing
-here presumes a provider abstraction.
+**Whether a person-scoped preference may name or steer a reasoning provider is resolved — it does not
+(OD-67, accepted DL-93)**, and nothing here presumes a provider abstraction.
 
 ## Acceptance scenarios
 
@@ -477,7 +477,7 @@ here presumes a provider abstraction.
 
 ## Implementation status and unresolved decisions
 
-**F**. Ownership **A**; enumeration `N`; provider preference **OD-67**; consent experience **OD-06**.
+**F**. Ownership **A**; enumeration **A — DL-100**; provider preference **resolved — DL-93 (OD-67)**; consent experience **OD-06**.
 
 ---
 

@@ -38,6 +38,12 @@ For each Room, an explicit and persisted definition of:
   is extensible household vocabulary, never a closed enumeration** (**DL-55**); `voice_input` and
   `spoken_response_output` are further extensible members of this same set (**DL-90**, accepted)
 - Which voice assistants are assigned to the Room
+- **The Room's decorative presentation character (DL-100)** — persona (title/description) and
+  configured TTS voice — a durable interaction-definition value distinct from, and never changed
+  merely by, which device fulfils the Room's `voice_input`/`spoken_response_output` assignment above.
+  See [../models/room-configuration.md](../models/room-configuration.md), *Room decorative
+  presentation character (DL-100)*, and [../models/continuity.md](../models/continuity.md) for the
+  full precedence rule against Continuity's Person-scoped preferences and requirements
 - Room-scoped authority scoping inputs
 - The exposed-term list used by Room Help
 
@@ -112,6 +118,9 @@ resident-visible, is open decision **OD-12**.
 - That a composite fact is currently true
 - That a resident is permitted to use an exposed capability
 - That an exposed term is currently actionable
+- That decorative presentation character (**DL-100**) grants disclosure authority, selects a
+  Reasoning Provider, or overrides a Person-borne accessibility/accommodation or
+  required-comprehension-language requirement — those remain Operational Trust's and Continuity's
 
 ---
 
@@ -264,6 +273,7 @@ See [../models/temporal-record.md](../models/temporal-record.md).
 | OD-61 | **Closed — DL-60.** Room Environment Standard, native Area environmental slot proposal behaviour (mirroring OD-14), Primary Authority/Secondary/Composite/Excluded disambiguation (later narrowed to three states by **DL-62**), Merged Room environmental candidates, and derived purposes accepted |
 | OD-17 | **Closed — DL-62.** Primary Authority is required and deterministic for every directly measured Environmental Purpose, identically for a Physical Room and a Merged Room; Composite Contributor is removed from the ordinary path; Formula-Derived Fact governance is accepted. Conflict resolution remains **OD-19** |
 | OD-70 | **Closed — DL-68.** Merged Room native representation: **accepted, no native representation.** No proven consumer requires a projection; Area/Floor/Group/Scene are rejected as representations; Label is not adopted; Assist/Conversation must never receive one |
+| OD-79 | **Closed — DL-100** (Issue #152). Room decorative presentation character (persona, configured TTS voice) is Room Configuration's, distinct from equipment/interaction-function relationships; precedence against Continuity's Person-scoped preferences and requirements is [../models/continuity.md](../models/continuity.md)'s own |
 
 ## Related documents
 

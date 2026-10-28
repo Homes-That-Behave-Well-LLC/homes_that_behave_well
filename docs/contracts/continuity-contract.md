@@ -26,9 +26,13 @@ into Stewardship**. See [../models/continuity.md](../models/continuity.md).
 - Person-scoped preferences and room-scoped experience settings, explicitly distinguished
 - **Preferred delivery and preferred presentation**, and the re-presentation preference (**DL-99**,
   resolving **OD-48**) — opt-in, Person-scoped, optionally refined by Category/Urgency; no HTBW-wide
-  default repetition count or cooldown exists. **The general presentation-preference dimensions
-  (verbosity, explanation depth, spoken versus visual, etc.) are not enumerated in any canonical
-  document**; the only enumerations that exist are Historical and superseded, and neither is authority
+  default repetition count or cooldown exists. **The ordinary presentation-preference dimensions**
+  (verbosity, explanation depth, citation, convenience modality, locale, choice among supported
+  languages) **and the Person-borne requirement class** (accessibility/accommodation,
+  required-comprehension language — never overridable by any Room setting) **are enumerated and their
+  precedence against Room decorative character settled by DL-100, resolving OD-79.** Room decorative
+  character (persona, configured TTS voice) is **not** Continuity's — it belongs to Foundation/Room
+  Configuration
 - Active session state: identity, experience class, owner, participants, origin Room, current Room,
   state, and lifecycle
 - Transfer intent: Follow-Me enabled or disabled, ask-before-transfer, never-transfer
@@ -169,6 +173,12 @@ Each block is a **reason** and must reach the Decision Trace.
 - That a re-presentation preference is permission to deliver — permission is Operational Trust's
   (**P32**)
 - That Follow-Me media eligibility governs Communication re-presentation — they are separate
+- That a Room's configured decorative baseline (**DL-100**) is a fabricated Person preference
+  substituted for a missing one — it is an independently configured Room Configuration value,
+  governed on its own terms, never a stand-in invented because a Person preference was absent
+- That accessibility/accommodation or required-comprehension language is an ordinary preference
+  subject to precedence — it is a **Person-borne requirement** (**DL-100**) that no Room setting may
+  override
 
 ---
 
@@ -238,7 +248,7 @@ A suppressed transfer must be explainable as a deliberate outcome, not as a fail
 | OD-48 | **Closed — DL-99.** Re-presentation preference for outstanding Communications — opt-in, Person-scoped, optionally refined by Category/Urgency; no HTBW-wide default repetition count or cooldown; not coupled to Follow-Me media eligibility |
 | OD-77 | Ownership of the association between a Person and an external service, account, calendar, mailbox, or media profile |
 | OD-78 | Remembered-value classes and restoration semantics |
-| OD-79 | Presentation preference scope and precedence |
+| OD-79 | **Closed — DL-100.** Presentation preference scope and precedence — Room decorative character belongs to Foundation/Room Configuration; accessibility/accommodation and required-comprehension language are non-overridable Person-borne requirements |
 
 ## Related documents
 

@@ -951,6 +951,31 @@ A person-scoped or room-scoped statement of what is wanted. A preference is not 
 policy.
 Model: [continuity.md](continuity.md)
 
+**Person-Borne Requirement (DL-100)**
+A statement of what a Person **needs** to reliably understand and use the Home — accessibility/
+accommodation need and required-comprehension language — distinct from an ordinary **Preference**
+(a statement of what is merely *wanted*). **Never overridable by Room decorative character, by an
+ordinary preference, or by any other presentation setting.** Held by **Continuity** as a distinct
+record class, not an ordinary preference and not a new responsibility; Identity supplies the
+assertion (**DL-38**); Operational Trust gates application through the existing **Capability Access
+Threshold** (**DL-36**, **DL-39**) — no new threshold model. Where it cannot currently be satisfied,
+the capability gap is named plainly and never silently substituted or approximated (**DL-41**). Choice
+among multiple reliably understood supported languages, and locale, remain ordinary Person-scoped
+**Preferences**, not requirements.
+Model: [continuity.md](continuity.md)
+
+**Room Decorative Character (DL-100)**
+A Room's persona (title/description) and configured TTS voice — the Room's durable, household-
+authored presentation identity. Owned by **Foundation / Room Configuration**, as part of the Room's
+interaction definition, distinct from and never changed merely by altering which device fulfils the
+Room's `voice_input`/`spoken_response_output` equipment assignment. Serves as the **presentation
+baseline**: always yields to a Person-Borne Requirement; yields to an applicable ordinary Person
+preference on the same axis; applies unmodified, inheriting no resident preference or history, when
+Identity is insufficient for Person-scoped presentation or for an Unknown Person/Guest. Grants no
+disclosure authority, selects no Reasoning Provider, and never alters a Fact, threshold, authority
+outcome, or conclusion.
+Model: [../models/room-configuration.md](room-configuration.md)
+
 **Policy**
 A governed rule stating what is permitted, required, prohibited, or prioritized. Owned by Operational
 Trust.
