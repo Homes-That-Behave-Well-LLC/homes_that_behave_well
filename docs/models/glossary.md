@@ -68,12 +68,16 @@ Model: [contextual-vocabulary.md](contextual-vocabulary.md)
 
 **Room Context**
 The Room that a request is evaluated against. Normally established by the participating voice
-assistant that received the request, or by an explicit resident statement, or by a UI surface.
+assistant that received the request, or by an explicit resident statement.
 
 > **Where the interaction arrives through a surface that is not bound to a Room** — a phone, a wearable, a
-> Companion App action, or a browser session — **how Room Context is resolved is open decision OD-73**, and
-> the governed interim outcome is `unresolved`: ask which Room, or refuse. **Room Context is never inferred
-> from device naming.** Every Decision Trace must record Room Context **and how it was resolved**.
+> Companion App action, or a browser session — **Room Context is resolved as DL-113 (OD-73)**: by a Room
+> explicitly supplied by the current interaction (an explicit statement, a Room-specific UI/dashboard
+> page, or a clarification response — each an ordinary request parameter, never a Truth Fact), then by a
+> household-declared default Room for the **surface** (never the Person — no accepted Foundation
+> relationship expresses a Person-to-Room default), then **`unresolved`**: ask which Room, or refuse.
+> **Room Context is never inferred from device naming, device location, zone, or BLE proximity.**
+> Every Decision Trace must record Room Context **and how it was resolved**.
 > Model: [room-configuration.md](room-configuration.md)
 
 **Superseded terms**

@@ -302,9 +302,22 @@ Do not collapse these separate responsibilities.
 The resolution order above is defined for a **room-bound** surface — a participating voice assistant, a
 participating kiosk, or another endpoint the household has assigned to a Room.
 
-**It is not defined for a surface that is not bound to a Room**: a phone, a wearable, a Companion App
-action, or a browser session. Such a surface may carry very strong **person** binding while carrying no
-**room** binding at all, and the two must not be confused.
+**It is not defined by the resolution order above for a surface that is not bound to a Room**: a phone, a
+wearable, a Companion App action, or a browser session. Such a surface may carry very strong **person**
+binding while carrying no **room** binding at all, and the two must not be confused.
+
+**Resolved — DL-113.** For such a surface, Room Context resolves through a composed order, never a second
+independent resolver: (1) a Room explicitly supplied by the current interaction — an explicit utterance,
+a Room-specific UI/dashboard page, or a clarification response, each an ordinary request parameter,
+never a Truth Fact; (2) a household-declared default Room for the **surface itself** — where the surface
+is a Home Assistant Device, its own native Area assignment (already within this model's accepted
+"Consumes" list); where modelled as a Foundation Asset, the existing `located-in` relationship,
+unextended; (3) `unresolved`. **A declared default Room for a Person is not authorized** — `located-in`
+and every other accepted Foundation relationship are scoped to Pet, Asset, and Device subjects only, and
+a Person's location pathway is structurally distinct (DL-06, Identity-Assertion-gated); this capability,
+if ever wanted, remains **OD-77**'s own future question, not invented here. Raw BLE/device-tracker/zone
+data and Identity Room Presence are **permanently excluded** from this resolution by type, independent of
+native-capability verification (**DL-30**, Issue #146 item 3, VERIFIED_NEGATIVE).
 
 | Rule | Statement |
 |---|---|
@@ -314,10 +327,9 @@ action, or a browser session. Such a surface may carry very strong **person** bi
 | A person binding is not a room binding | An authenticated surface may establish **Authenticated Session Identity** or **Interaction Initiator** — and establishes **no Room Context** |
 | The trace must say so | Every Decision Trace records Room Context **and how it was resolved**; where it was not resolved, it records `unresolved` and the reason. See [decision-trace.md](decision-trace.md) |
 
-> **How Room Context may be resolved for such a surface is open decision OD-73.** The obvious input — the
-> device's current location — is a **Truth** Fact, and [../architecture/dependency-view.md](../architecture/dependency-view.md)
-> rule 6 states that **Foundation consumes nothing**. That is an ownership and directional question, not an
-> implementation detail, and it is recorded rather than resolved here.
+**An explicit action target is distinct from the interaction's own Room Context.** *"Turn off the Den
+lights"* resolves its target through ordinary vocabulary/target resolution regardless of whether the
+interaction's own `room_context.room` resolves at all; neither is manufactured from the other.
 
 ---
 
@@ -790,7 +802,8 @@ HTBW terms remain rejected regardless of what any provider names its indicator.
 
 ## Provides
 
-- Resolved Room Context for a given voice assistant or surface
+- Resolved Room Context for a given voice assistant, fixed surface, or non-room-bound surface
+  (resolved, declared-default, or `unresolved` — **DL-113**)
 - Resolved target set for a given vocabulary term in a given Room
 - The exposure set used to answer Room Help
 - The eligible-evidence set used by Truth for composite facts
@@ -816,7 +829,7 @@ Room Configuration does **not**:
 | Condition | Behavior |
 |---|---|
 | Voice assistant not assigned to a Room | Ask which Room, or refuse. Surface as a configuration problem. Never infer from device naming. |
-| **The interaction surface is not bound to a Room** | **Room Context is `unresolved`.** Ask which Room, or refuse. **Never infer a Room from the surface, its name, or its owner.** Recorded in the trace with the reason. Resolution is **OD-73** |
+| **The interaction surface is not bound to a Room** | Resolve via interaction-supplied Room, then declared surface default, then **`unresolved`** (**DL-113**). Ask which Room, or refuse, where neither resolves. **Never infer a Room from the surface, its name, its owner, device location, zone, or BLE proximity.** Recorded in the trace with the reason |
 | Vocabulary term not configured in this Room | State that the term is not configured here. Do not fall back to runtime search. |
 | Vocabulary term maps ambiguously | Ask which target was meant, offering only exposed options. |
 | A participating target no longer exists | Report a broken participation reference; do not silently drop it. |
@@ -896,7 +909,7 @@ configuration today must never silently rewrite the explanation of a decision ma
 | OD-37 | Snapshot triggers, cadence, and scope per responsibility |
 | OD-38 | Version identity, correlation, and causation identifier strategy |
 | OD-70 | Whether a Merged Room warrants a native Home Assistant projection |
-| OD-73 | **Interaction-Surface Room Context Resolution** — how Room Context is resolved for a phone, wearable, Companion App, browser session, or other surface not bound to a Room, without Foundation consuming Truth and without introducing a cycle |
+| OD-73 | **Resolved as DL-113.** Room Context for a non-room-bound surface resolves via interaction-supplied Room, then declared surface default (Device Area assignment or `located-in`, never Person-scoped), then `unresolved`; Foundation consumes no Truth; no cycle |
 | OD-61 | **Resolved as DL-60.** Room Environment Standard (extensible Environmental Purpose set), native Area environmental slot proposal behaviour, Primary Authority/Secondary/Composite/Excluded disambiguation (later narrowed to three states by **DL-62**), Merged Room environmental candidates, and derived purposes are accepted |
 | OD-17 | **Resolved as DL-62.** Primary Authority is required and deterministic for every directly measured Environmental Purpose, identically for a Physical Room and a Merged Room; Composite Contributor is removed from the ordinary path; Formula-Derived Fact governance (input availability, provenance, versioning) is accepted, with Dew Point ready and Mold Index/Condensation Risk unresolved |
 | OD-19 | **Resolved as DL-63.** Same-purpose environmental sensor disagreement, native Area proposal divergence, and Provider-Derived Environmental Indicator differences are confirmed as not Truth conflicts; a genuine Truth conflict is qualified and resolved per DL-63's fixed procedure |

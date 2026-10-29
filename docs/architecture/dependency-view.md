@@ -134,10 +134,16 @@ Four statements follow, and each is binding:
 See [../models/truth.md](../models/truth.md) and
 [../models/person-and-identity.md](../models/person-and-identity.md).
 
-> **One directional question in this domain remains genuinely open.** Resolving **Room Context** for an
-> interaction arriving through a surface that is not bound to a Room would, on the obvious reading,
-> require **Foundation to consume a Truth Fact**, contradicting rule 6. That is **open decision OD-73**,
-> and it is recorded rather than resolved by introducing the dependency.
+> **One directional question in this domain was genuinely open and is now resolved.** Resolving **Room
+> Context** for an interaction arriving through a surface that is not bound to a Room would, on the
+> obvious reading, require **Foundation to consume a Truth Fact**, contradicting rule 6. **Resolved as
+> OD-73 / DL-113**: rule 6 remains unweakened. Every accepted Room Context input for such a surface is,
+> by type, either Foundation's own static configuration (a declared default) or an ordinary parameter of
+> the current request (an explicit statement, a UI selection, a clarification answer) — never a Truth
+> Fact (no Subject/Confidence/Provenance/Freshness tuple exists for either). Foundation accepting either
+> is not downstream consumption of another responsibility's output; it is the same pattern rule 6 has
+> always permitted for voice-assistant identity, extended to additional non-Fact input types. Raw
+> device-tracker, BLE-proximity, and Identity Room Presence data remain permanently excluded by type.
 
 ---
 

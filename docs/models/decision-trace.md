@@ -122,18 +122,21 @@ trace must carry both.
 > table below, a field that cannot be given is recorded as `unavailable` or `not_applicable` with its
 > reason — **never omitted, and never silently filled with a plausible Room.**
 
-**The enumeration of `resolved_from` is deliberately not fixed here.** Two of its values are already
+**The enumeration of `resolved_from` is deliberately not fully enumerated here.** Two values are already
 governed — resolution from a **participating voice assistant's Room assignment**, and resolution from an
-**explicit resident statement** ([room-configuration.md](room-configuration.md)). **A third case has no
-governed value at all**: an interaction arriving through a surface that is **not bound to a Room** — a
-phone, a wearable, a Companion App action, or a browser session. That case is **open decision OD-73**, and
-this model does not pre-empt it.
+**explicit resident statement** ([room-configuration.md](room-configuration.md)). **Resolved — OD-73 /
+DL-113**: a non-room-bound surface (a phone, a wearable, a Companion App action, a browser session)
+resolves through a Room explicitly supplied by the current interaction (an explicit statement, a
+Room-specific UI/dashboard page, or a clarification response — each an ordinary request parameter,
+never a Truth Fact), then a household-declared default Room for the **surface** (never the Person —
+no accepted Foundation relationship expresses a Person-to-Room default; see `room-configuration.md`),
+then `unresolved`.
 
-Until OD-73 closes:
+Until exact `resolved_from` token names are adopted through ordinary canonical alignment:
 
-- The governed outcome for a non-room-bound surface is **`unresolved`**, and the trace says so.
-- **Room Context is never inferred from device naming**, and a plausible Room is never substituted.
-- **Adding a `resolved_from` value that OD-73 has not accepted is a defect**, not an implementation detail.
+- The governed outcome for a non-room-bound surface with none of the above resolving is **`unresolved`**, and the trace says so.
+- **Room Context is never inferred from device naming**, device location, zone, or BLE proximity, and a plausible Room is never substituted.
+- **Adding a `resolved_from` value that OD-73/DL-113 has not accepted is a defect**, not an implementation detail.
 
 **Resolving Room Context never produces, alters, or substitutes for an Identity Assertion.** The two are
 recorded in different fields, by different owners, for different questions.
@@ -170,7 +173,6 @@ room_context:
   room: unresolved
   resolved_from: not_applicable
   reason: interaction_surface_not_room_bound
-  open_decision: OD-73
 vocabulary_resolution: not_attempted
 reason: room_context_unresolved
 capability_availability: available
@@ -184,7 +186,11 @@ alternative_considered: ask_which_room
 > "I did not turn on the lamps, because I could not tell which room you meant — you asked from your
 > phone, and it is not tied to a room. Which room did you mean?"
 
-**This trace is complete, and the outcome is correct.** A dependency was not missing, permission was not
+**This trace is complete, and the outcome is correct, even now that OD-73/DL-113 is accepted.** No
+interaction-supplied Room was present, no declared surface default was configured, so resolution fell
+through to `unresolved` exactly as this decision requires — the outcome is identical in shape to the
+pre-acceptance behaviour; what changed is that `unresolved` is now reached only after the full composed
+order is considered, not merely asserted by default. A dependency was not missing, permission was not
 denied, and identity did not fail — **the Room was genuinely unknown, and the home said so.**
 
 ### Interaction Space, Execution Target, and Response Delivery Space
@@ -700,7 +706,7 @@ This model *is* the explainability requirement. Every other canonical document r
 | OD-63 | **Closed — DL-73.** Behaviour attribution — which evidence a Domain Event's attribution may carry where no Decision Trace exists, because no HTBW decision was made. The Source Confidence tier (Known/Probable/Unknown Source), the Decision Authority / Source / Execution distinction, the narrowed Behaviour Source enumeration, Person Attribution (Known/Unknown/No Person), and alternative-explanation handling (no competing candidates presented) are all accepted. Where HTBW itself decided and executed through Home Assistant, the resulting Domain Event's Decision Authority attribution references the Decision Trace that produced it |
 | OD-64 | **Closed — DL-111.** Native behaviour observation — the anchor (resulting state change's `entity_id`, Context, Effective/Recorded Time) is cited as supporting native evidence, never a Decision Trace field of its own; a Decision Trace exists only where HTBW itself decided, so a native automation's own action that HTBW did not decide produces no Decision Trace, only an ordinary Fact/Domain Event carrying Known Source attribution (**DL-73**) where HTBW's own logic independently produced one |
 | OD-72 | **Closed — DL-74.** Unknown Actor correlation confidence — a Historical Reconstruction's Unknown Actor Reference carries a Primary Hypothesis Label, a Criteria Satisfaction Record, and Supporting/Contradicting Evidence, never a Decision Trace field — a reconstruction is a Concierge-assembled projection, not a decision HTBW made, and is never recorded as one |
-| OD-73 | **Interaction-Surface Room Context Resolution**, which owns the `room_context.resolved_from` enumeration. **Until it closes, a non-room-bound surface yields `unresolved`** |
+| OD-73 | **Closed — DL-113.** Interaction-Surface Room Context Resolution — owns the `room_context.resolved_from` enumeration. A non-room-bound surface resolves via interaction-supplied Room, then declared surface default, then `unresolved`; a declared Person default is never authorized (no accepted Foundation relationship expresses one); raw BLE/device-tracker/zone data and Identity Room Presence are permanently excluded by type |
 
 ## Related documents
 
