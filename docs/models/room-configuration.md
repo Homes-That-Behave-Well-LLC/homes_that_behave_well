@@ -79,6 +79,16 @@ Worked examples:
 | Seven shades exist and are exposed collectively as "Shades" | Exist, participate, exposed as a group |
 | A guest may see that lights are available but may not change security settings | Exposed, no authority |
 
+> **Authority here governs permission to *use* an already-exposed capability, never permission to
+> *edit the configuration itself*.** Whether a person may change a Room's Participation, Exposure, or
+> Authority settings is a separate, governed action — evaluated by Operational Trust's Action-Risk
+> Classification, not by this state (**DL-109**). **No general configuration-authority tier model
+> exists beyond this composition**; "commissioned and operational" and "ready to personalize" are
+> resident-facing presentations derived from existing capability-availability, acceptance, and
+> preference facts, never new persisted states (**DL-109**). See
+> [../models/operational-trust.md](../models/operational-trust.md), "Configuration Authority
+> Composition (DL-109)."
+
 ---
 
 ## What Room Configuration owns or establishes

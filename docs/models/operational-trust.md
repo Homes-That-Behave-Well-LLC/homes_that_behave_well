@@ -434,6 +434,49 @@ not a new mechanism. Two objects sharing one capability may carry different requ
 Both use the same lock capability. The requirement is governed configuration on the **protected
 object**, never on the capability itself.
 
+### Configuration Authority Composition (DL-109)
+
+Resolves **OD-92** in full. **No general cross-responsibility configuration-authority tier model
+exists.** A request to change a configuration record — adding a Room participant, changing Exposure,
+setting a Room Authority rule, adjusting a Person preference — is itself an ordinary protected
+operation, evaluated exactly like any other, through this model's own Action-Risk Classification
+above. **"What permission does this configuration change require?" already has a complete, dynamic
+answer, varying per requested mutation, not per configuration item as a whole.**
+
+**DL-11's "Authority" state is a different concept from configuration-change authority, and the two
+must never be conflated.** `room-configuration.md`'s Authority state governs whether a person or
+process may *use* an already-exposed capability. Whether a person may *edit the configuration itself*
+— who participates, what is exposed, what Authority rule applies — is a separate, governed action,
+evaluated by Operational Trust through this section, never through a second meaning of "Authority."
+Changing a Room Configuration Authority rule is itself typically a **Governance**-class mutation
+("a governance record, policy, identity, or evidentiary record is altered"), already fully gated by
+the table above.
+
+**A previously proposed four-tier model (household-configurable; household-configurable-with-consent;
+administrator/integrator-configurable; governed/high-consequence) is rejected as an independent
+authority mechanism:**
+
+| Proposed tier | Disposition |
+|---|---|
+| household-configurable | Redundant — already Convenience/Disclosure Risk Class with `None`/Low default |
+| household-configurable-with-consent | Conflates **DL-56** consent (genuinely engaged only where the mutation is itself a Person-association change — binding a device, voiceprint, or authenticated session, or person-scoped learning) with ordinary **DL-40** Confirmation Strength (every other elevated-confirmation case). The two are never presented under one label |
+| administrator/integrator-configurable | Depends on an "Integrator" authority role that does not exist anywhere in canonical architecture. "Administrator" exists only as the native, authenticated Home Assistant administrator flag already reused by **DL-37**, **DL-40**, and **DL-79**, conferring no care, guardianship, or proxy authority beyond that (**DL-57**). Where a household wants a more capable or trusted configuration role, the already-accepted mechanism is **DL-71**'s Role/Authority Class — a household-configured Role, the same "owner/administrator-equivalent Role" pattern **DL-97** already reuses — never a newly invented construct |
+| governed/high-consequence | Redundant — already the existing **Governance** (or, depending on the specific mutation, **Safety**/**Security**) Risk Class |
+
+**A non-binding, resident-facing composed descriptor vocabulary is permitted, never required.** A
+surface may render explanatory labels ("you can change this directly," "this needs additional
+confirmation," "this is a governed change") **entirely derived, at render time, from each item's own
+already-governed facts** — Action-Risk Class, Operation Type, genuine DL-56 consent-dependency where
+one exists, and Required Confirmation Strength. **The descriptor is never cached or stored as an
+independent authoritative field**, and can never override Operational Trust's actual evaluation; where
+the two disagree, the label was wrong and must be corrected, never the reverse. This creates no second
+authorization engine.
+
+**Configuration ownership and change authority are distinct.** Foundation, Room Configuration, and
+Continuity own the shape and scope of the configuration records they each already own; Operational
+Trust alone decides, per mutation, whether a requested change may proceed — exactly as it decides for
+any other protected operation.
+
 ### The Required Identity Band
 
 
@@ -1630,7 +1673,7 @@ effect.** See [../architecture/privacy.md](../architecture/privacy.md).
 | OD-53 | **Resolved as DL-78.** Communication Category is a closed, seven-value, content-domain enumeration (Stewardship, Security, Care, Environment, Experience, System, Safety), structurally separate from Urgency, Operation Type, and Action-Risk Classification; Operational Trust Category admissibility rejected |
 | OD-56 | **Resolved as DL-79.** Non-life-safety acknowledgement (one-time, authenticated-Administrator), certified-device deference, evidence-quality-proportionate conclusions, Investigation Needed, temporal provenance, and the framework-wide evidence chain; no Safety-specific audience, Urgency, or caretaker model |
 | OD-57 | **Resolved as DL-94.** Indication, the Room-Delivery Authorization Challenge, and message-scoped Room-Delivery Authorization formally separated; a new Room-Delivery Audience Preference governs Room-delivery eligibility by Urgency level and Household/Individual/Guest audience permission |
-| OD-92 | Configuration authority levels (household / household-with-consent / administrator-integrator / governed-high-consequence) and a progressive commissioning-to-personalization lifecycle, composed with this model's existing consent, disclosure, and Action-Risk Class authority rather than duplicating it |
+| OD-92 | **Resolved as DL-109.** No general configuration-authority tier model; the proposed four-tier model is rejected as redundant with, or conflating, this model's existing Action-Risk Classification, consent, and confirmation-strength architecture; a non-binding, derived resident-facing descriptor is permitted. See "Configuration Authority Composition (DL-109)," above |
 
 ## Related documents
 

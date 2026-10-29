@@ -1202,6 +1202,12 @@ commissioning surface that captures this acknowledgement is not decided here** â
 onboarding architecture today, a residual **OD-85** (#172) already owns. Runtime Safety Communications
 are not required to repeat the full acknowledgement; they remain truthful, scoped, and qualified.
 
+**This acceptance-record shape is generalized beyond Safety by DL-109**: any commissioning or
+governance-boundary acceptance, where one is genuinely required, reuses this identical shape â€” gated,
+per case, by whatever Action-Risk Class and Confirmation Strength the specific acceptance actually
+requires (**DL-76**), never a universal Administrator requirement invented for every case. The
+capture **surface** remains OD-85's own question, not decided here either.
+
 **A certified life-safety or protective device remains authoritative for its own domain.** HTBW may
 communicate that the device reported a condition; it must never reinterpret, restate as stronger,
 expand, certify, or replace that claim, and must never suppress, delay, or defer the native alarm.

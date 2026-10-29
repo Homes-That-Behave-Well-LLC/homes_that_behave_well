@@ -598,6 +598,30 @@ guidance, regulation, or a learned suggestion, that origin is recorded and remai
 origin never becomes an autonomous policy without acceptance by a person with authority (**P26**,
 **DL-21**).
 
+### Durable meaning survives replacement when declared at the right scope (DL-109)
+
+**What the household meant is distinct from how the current implementation realizes it.** Because
+Base Significance is already comparable across Room, Home, and Person as well as Asset and Device, a
+Care Definition declared at a durable scope — *"keep this Room calm in the evening"* against the
+**Room**, rather than against a specific bulb — already survives hardware or implementation-mechanism
+replacement automatically, because it was never bound to the replaced object's identity in the first
+place. This is a direct consequence of this section's own subject-scoping, not new architecture.
+
+**Where significance genuinely was declared against a specific Asset or Device that is later
+replaced**, the replacement is a **new governed object under its own DL-104 Record Identity** — never
+a silent continuation of the old one. Consistent with Delegated Access Grant revocation's existing
+rule that **"the runtime never infers a replacement authority,"** significance is likewise never
+automatically migrated from an old object to a new one: the household must explicitly re-declare or
+**supersede** the prior declaration, citing it by reference through this section's own Provenance
+field, which already supports "any superseded prior declaration reference required by existing record
+doctrine." **No migration engine is created.** Where new hardware cannot fully realize prior meaning,
+the unsupported sub-capability is reported **unavailable** (**DL-41**), never silently dropped or
+presented as fulfilled.
+
+**A provider or implementation-mechanism change that leaves the same governed subject in place**
+(the Room, or the same Asset, continuing to exist) requires no reassignment at all — the Significance
+Declaration was never tied to the specific backing mechanism, only to the Subject.
+
 ### Recommendations never become policy automatically
 
 A **Research-Based Recommendation** is informed by external knowledge relevant to a specific subject or
@@ -1138,7 +1162,7 @@ collection. This preserves a useful pattern proven in the reference implementati
 | OD-69 | **Resolved as DL-61.** Asset-derived Entity projection reuses existing owned vocabularies; Person Environmental Requirements reuse the Asset environmental-limit pattern; Environmental Coverage, Configuration Completeness, and Truth Confidence are kept separate; Room Environmental Status is a non-authoritative projection; Room Health, Room Confidence, and People Health are formally rejected |
 | OD-33 | **Closed — DL-43, DL-46, DL-47.** Retention is declared inside every governed record and artifact lifecycle |
 | OD-34 | **Closed — DL-42, DL-44, DL-46, DL-47.** The temporal-persistence model is complete; the representation mechanism is **OD-01** |
-| OD-92 | Configuration authority levels and a progressive commissioning-to-personalization lifecycle, including whether and how durable household-declared meaning (this model) migrates when hardware, rooms, or implementation mechanisms are replaced |
+| OD-92 | **Resolved as DL-109.** Durable household-declared meaning (Significance Declaration, this model) survives hardware/mechanism replacement where declared at a durable subject scope (Room, Home, Person); where object-scoped, the household must explicitly reassign or supersede the prior declaration, never automatically inferred. No general configuration-authority tier model or new configuration lifecycle is created; see [operational-trust.md](operational-trust.md), "Configuration Authority Composition (DL-109)" |
 
 ## Related documents
 
