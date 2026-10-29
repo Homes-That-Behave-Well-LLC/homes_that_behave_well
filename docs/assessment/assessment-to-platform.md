@@ -190,12 +190,133 @@ adoption.
 
 ---
 
+## Reassessment Cadence and Triggers (DL-107)
+
+**The Assessment item is the reassessment unit.** Reassessment operates at the granularity of the
+traceability record above — the same unit **rule 1** already requires ("every assessment item maps to
+exactly one owning responsibility"). No narrower or coarser unit is invented. **Continuous
+improvement** (`../architecture/north-star.md`, lifecycle stage 9) names the framework's terminal
+lifecycle stage; it states that the lifecycle does not stop at operational validation, but it does not
+itself mandate any numeric cadence or mechanism — the hybrid model below is one way architecture
+operationalises it, accepted by Owner Policy Response (#111), never derived from the stage name alone.
+
+### Hybrid model: two trigger paths, one reassessment mechanism
+
+Reassessment has exactly two trigger paths, both producing the identical outcome — an Assessment item
+re-evaluated through this document's own traceability record — never two separate reassessment models:
+
+1. **Event-driven targeted reassessment (primary).** A **material-change trigger class** — a Room
+   repurposed, a capability installed or removed, an Asset added or removed, an applicable requirement
+   or policy change, or residents changing (trigger semantics only; **no household-impact content is
+   added — #177 firewall**) — identifies the bounded set of Assessment items whose traceability is
+   materially affected. "Targeted" names that bounded set, never exactly one item: a single change may
+   affect several items, each still mapped to exactly one responsibility per **rule 1**. This is a
+   semantic trigger **class**, not a closed enum; **DL-41** capability-unavailable detection is one
+   already-accepted concrete source ("sensors fail" is event-driven-detectable there, not a gap this
+   decision must separately close).
+2. **Periodic whole-Home maturity-review backstop.** Required in addition to event-driven
+   reassessment (Owner Policy Response, #111), because some household drift — habits, usage, and
+   expectations changing without any capability failing, any Room being formally repurposed, or any
+   other material-change event occurring — produces no discrete governed event sufficient to select
+   affected items. The backstop exists so this category of drift is not structurally unreachable.
+
+### Whole-Home review is discovery, never a blind rerun
+
+A whole-Home maturity review is a **discovery pass**: for each Assessment item, it checks whether the
+item's own **ongoing maturity assessment** element (rule 6, above) still appears to hold. It does
+**not** mean every item is stale, every finding is invalid, or every recommendation is regenerated, and
+it does not require rerunning unrelated items. Where an item's ongoing maturity assessment still holds,
+the review reconfirms it — recorded as a non-action via the existing Decision Trace (**DL-15** requires
+one for every decision, action, non-action, and suppression); no finding is fabricated merely to prove
+the review ran. Where it no longer appears to hold, that item enters ordinary **event-driven targeted
+reassessment** above, exactly as if a material-change event had flagged it. No new "Assessment Cycle"
+Governing Parent is created (**DL-105** already forecloses one), and the review does not reset or
+duplicate a targeted reassessment that already covered the same item.
+
+### Household-configured interval; no HTBW-wide default
+
+The review interval is **Home-scoped configuration** — the same category of whole-household scheduling
+policy as the already-listed "Home maintenance calendar" in `../models/home.md`'s Home-scoped state and
+policy table, where it is now also listed. **No HTBW-wide numeric interval is defined** — this is the
+same "household configures; no invented default" pattern already accepted twice for other cadence
+questions (**DL-97** escalation timing, **DL-98** retry count/interval), applied here for a third
+cadence decision. Where no interval is configured, the backstop capability is **Configuration
+Incomplete** for that household — reported honestly, never silently defaulted and never silently
+disabled, under `home.md`'s own existing Failure behavior rule that an unconfigured state "must be
+reported as such." **Event-driven targeted reassessment is unaffected by a missing interval** and
+remains fully available regardless.
+
+**Review-due state**: "a periodic whole-Home maturity review became due" is a Domain Event, a direct
+instance of the shape `temporal-record.md` already lists ("an obligation became unmet"), owned by Truth
+as a current home-level fact — the same shape already declared for "the home is in Away state." A new
+Home-level tracking point, **last whole-Home maturity review performed**, is added to `home.md` so the
+comparison against the configured interval is honestly derivable; this is the one new piece of
+canonical content this decision adds, stated plainly rather than silently assumed. No new record class,
+Reassessment Trace, or second store is created.
+
+### Reassessment is never automatically a Stewardship obligation
+
+A review becoming due, or a material-change trigger identifying an affected item, is a **fact**, not an
+obligation. Where accountable completion work is independently warranted, the existing Stewardship
+obligation model (Subject, Statement, Significance, Schedule or condition, Condition state, Lifecycle
+state, Accountability, Escalation intent, Provenance — `../models/stewardship.md`) applies completely
+unchanged; its Provenance cites the triggering Domain Event or material-change trigger by Governed
+Reference, exactly as any other obligation's Provenance already works. No new obligation schema is
+created.
+
+**Accountability**: the whole-Home review capability itself has no accountable person — it is a
+Concierge-orchestrated architectural capability, consistent with Concierge's existing role
+materializing the **DL-105** artifact and composing every Decision Trace, not itself a care obligation.
+This is the explicit residual where no accountability rule applies, stated rather than assumed. Where a
+reassessment finding does become a Stewardship obligation, accountability resolves entirely through the
+existing many-to-many caretaker/Role model (**DL-71**, **DL-97**) unchanged — no "Assessment accountable
+role" is invented. **Nagging boundary**: review-due and any resulting obligation carry no communication
+frequency, modality, or escalation cadence of their own; **DL-97**'s escalation ladder and stop
+conditions govern any resulting notification entirely unchanged.
+
+### Unactioned findings and declined recommendations
+
+Every state in the Failure behavior table above, and every **DL-48** obligation condition/lifecycle
+state, already answers how reassessment treats an unactioned finding: a gap without a recommendation
+remains visible; a declined recommendation is recorded with its reason and the gap remains visible; an
+open or overdue obligation is unaffected by reassessment except through its own governed lifecycle
+(reassessment never deletes, duplicates, or resolves an obligation directly); where a condition
+genuinely changed, a new current finding is produced under **DL-27**/**DL-104**'s historical-correctness
+rule, which never rewrites the prior finding's historical truth.
+
+**A previously declined recommendation, encountered under materially unchanged conditions, is never
+re-raised as new** (Owner Policy Response, #111). "Materially unchanged" is established exclusively by
+**DL-104** exact-version Governed-Reference identity — the declined recommendation's own governed
+subject, scope, and version match the current one — never fuzzy text matching. Materially changed Room
+usage, policy, requirement, or safety state may justify a new finding and recommendation; a materially
+different recommendation is, by the same Governed-Reference identity, simply a different recommendation
+rather than a re-raise of the declined one. A safety-state change takes the same precedence over a
+prior decline that safety already holds over every other household preference elsewhere in accepted
+architecture (`../contracts/stewardship-contract.md`, `../architecture/privacy.md`). **The prior decline
+is retained as provenance in every case, never erased**, and remains explainable alongside any newly
+justified recommendation.
+
+### Boundaries preserved, nothing absorbed
+
+**DL-22** traceability is preserved in full; the Decision Trace (**DL-15**) is the sole explainability
+mechanism for every reassessment outcome, including a review's own non-action — no separate
+Reassessment Trace exists. **DL-105**'s artifact boundary is unchanged: reassessment updates the live
+projection only and never auto-materializes, deletes, or supersedes an existing Materialized Household
+Assessment artifact. **The #177 firewall is preserved in full**: no household-impact element is added,
+assigned retention/access semantics, or decided here; this decision governs cadence and triggering
+only. **The human-worth boundary is preserved**: maturity applies to the Home, a decision, a capability,
+or an implementation outcome — never to a person (`../contracts/stewardship-contract.md`). **OD-23 is
+unaffected**: no scheduler mechanism, calendar/`todo` projection, or storage technology is chosen for
+the interval or the review-due fact.
+
+---
+
 ## Open decisions
 
 | ID | Question |
 |---|---|
 | OD-31 | **Resolved as DL-105.** Materialized Assessment Artifact — projection canonical, materialized only on explicit household request |
-| OD-32 | The reassessment cadence, and whether it is per-item or per-home |
+| OD-32 | **Resolved as DL-107.** Assessment item is the reassessment unit; hybrid cadence — event-driven targeted reassessment (primary) plus a household-configured periodic whole-Home maturity-review backstop (no HTBW-wide default interval); review-due is never automatically a Stewardship obligation; declined recommendations are never re-raised under materially unchanged conditions (DL-104 exact-version matching) |
 
 ## Related documents
 

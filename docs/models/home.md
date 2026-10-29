@@ -37,13 +37,19 @@ Home-scope is where household-wide behavior is declared:
 - Emergency behavior
 - Quiet hours
 - Home maintenance calendar
+- Maturity review interval (**DL-107**) — household-configured; HTBW defines no default interval
 - Global autonomy ceiling
 - Global conflict policy
 - Default privacy policy
 
 Ownership of these items follows the responsibility model: Foundation defines the *shape*,
 Operational Trust owns *policy*, Stewardship owns the *maintenance calendar's obligations*, and Truth
-owns *current home-level facts* such as "the home is in Away state".
+owns *current home-level facts* such as "the home is in Away state" or "a whole-Home maturity review
+became due" — the latter compared against the Home-level **last whole-Home maturity review performed**
+tracking point (**DL-107**). Where no interval is configured, the maturity-review backstop is
+**Configuration Incomplete** and reported as such, never silently defaulted or disabled; see
+[../assessment/assessment-to-platform.md](../assessment/assessment-to-platform.md), "Reassessment
+Cadence and Triggers (DL-107)".
 
 ---
 
@@ -97,7 +103,7 @@ Declared in full in [../architecture/behavioral-governance.md](../architecture/b
 
 | Scope | Representative content |
 |---|---|
-| Home | Security posture, safety policy, emergency behavior, quiet hours, home maintenance calendar, global autonomy ceiling, global conflict policy, default privacy policy |
+| Home | Security posture, safety policy, emergency behavior, quiet hours, home maintenance calendar, maturity review interval (**DL-107**), global autonomy ceiling, global conflict policy, default privacy policy |
 | Room | See [room.md](room.md) and [room-configuration.md](room-configuration.md) |
 | Person | See [person-and-identity.md](person-and-identity.md) and [continuity.md](continuity.md) |
 | Asset | See [asset.md](asset.md) |
