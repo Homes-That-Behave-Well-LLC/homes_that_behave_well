@@ -232,10 +232,12 @@ in one room is room-scoped evidence; a musical taste is person-scoped evidence.
 
 | Rule | Statement |
 |---|---|
-| Not all observation is evidence | Which observations may contribute, and which are excluded, is **OD-65** |
-| **A resident adjustment and an automation-generated value are not the same evidence** | Correcting an automation's output is a signal about the resident. The automation's own output is not |
+| Not all observation is evidence | Which observations may contribute, and which are excluded, is **OD-65, resolved as DL-112**. **Eligibility, sufficiency, and acceptance are formally distinct**: eligible evidence may participate in analysis; sufficient evidence justifies a Pattern/Suggestion (a qualitative test — more than one independently corroborating, context-consistent observation; no numeric threshold is fixed); only acceptance creates a preference |
+| **A resident adjustment and an automation-generated value are not the same evidence** | Correcting an automation's output is a signal about the resident. The automation's own output is not. **Absence of automation evidence is never evidence of manual action** — it may mean expired evidence, an unsupported surface, another integration, or a genuinely unattributed source (**DL-73**, **DL-111**) |
 | Identity bounds attribution | An observation may be attributed to a person only where identity confidence meets the threshold. Below it, the evidence is room-scoped or discarded, never guessed |
-| Competing residents do not merge | Two residents' conflicting evidence is a conflict to resolve by policy, not an average to compute |
+| **Competing residents never merge, and the reason is structural, not a policy choice** (**DL-112**) | A person-scoped value never actually conflicts between residents — each Person's own preference is independently stored and read back only when that Person is identified. A room-scoped value is operational history, not a contested preference, so there is nothing to average. Real-time application precedence for two residents simultaneously present with conflicting already-accepted preferences is explicitly out of this scope (a future policy-precedence question, never invented here) |
+| **Dismissal is non-acceptance, never automatic negative evidence** (**DL-112**) | A bare dismissal is recorded through the applicable suggestion lifecycle; repeated dismissal may itself become a reportable Pattern about the proposal's own treatment ("this has been repeatedly dismissed"), **never** "the resident dislikes this outcome." Explicit rejection is a distinct, further lifecycle state (**OD-28**) |
+| **Evidence carries its context, and a Pattern must stay context-consistent** (**DL-112**) | An observation made under a household Mode remains eligible, carrying that Mode as ordinary provenance; a Pattern may only be built from observations of genuinely the same behaviour — mixing Mode-context and ordinary-context observations into one Pattern would misrepresent repetition. This is a direct consequence of existing Domain Event provenance fidelity, not a new scope or a categorical exclusion rule |
 | Feedback is new evidence | A correction adds evidence. **It does not rewrite the history that preceded it** |
 | Confidence is stated, not implied | A suggestion carries the strength of its evidence, in terms a resident can understand |
 | Staleness is a property | Evidence and approved preferences age. How they expire is **OD-28** |
@@ -257,6 +259,10 @@ in one room is room-scoped evidence; a musical taste is person-scoped evidence.
 - Attributing an observation to a person on insufficient identity confidence.
 - Treating a learned preference as a Fact. Facts are Truth's, and a preference is not a fact.
 - Creating a learning store, a learning history, or a learning responsibility.
+- Averaging, voting, or merging competing residents' evidence into one preference (**DL-112**).
+- Treating a bare dismissal as negative preference evidence, or silence as acceptance (**DL-112**).
+- Building a Pattern from observations that are not genuinely context-consistent (**DL-112**).
+- A Person-plus-Room preference scope, invented to retain a compound observation.
 
 ---
 

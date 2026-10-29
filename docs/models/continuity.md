@@ -220,7 +220,11 @@ is **not** a separate learned-preference store. Continuity holds the approved pr
 Trust holds the permission to act on it autonomously; the observation that produced the suggestion is
 a **Domain Event** owned by the responsibility that observed it. The governing rules are in
 [../architecture/behavioral-governance.md](../architecture/behavioral-governance.md) under **P26**;
-the lifecycle is **OD-28** and evidence eligibility is **OD-65**.
+the lifecycle is **OD-28** and evidence eligibility is **OD-65, resolved as DL-112** — eligibility,
+sufficiency, and acceptance are formally distinct; competing residents' evidence is never averaged or
+merged, since a person-scoped value never actually conflicts between residents and a room-scoped value
+is operational history, not a contested preference; see
+[../architecture/behavioral-governance.md](../architecture/behavioral-governance.md), "Evidence rules."
 
 ### Habit continuity and vocabulary continuity are not Continuity scopes
 

@@ -219,7 +219,7 @@ If the remembered value cannot be read, the home says so rather than silently ap
 |---|---|
 | Whether restoration reproduces a prior value or computes a currently appropriate one; the value classes (*last observed*, *last successful*, *last person-selected*, *configured default*, *preference*) | **OD-78** |
 | Prior/preferred **room temperature** as a Continuity-held value | **N** — no canonical document states it |
-| Learned-preference promotion | **OD-28**; evidence eligibility **OD-65** |
+| Learned-preference promotion | **OD-28**; evidence eligibility **OD-65 (resolved — DL-112)** |
 
 ---
 
@@ -577,9 +577,9 @@ but only because Tom said it could.
 | 8 | Who executes | **Concierge** | — |
 | 9 | Explainability | **Decision Trace** | *"You accepted this in March, so I offer it at this time. You can pause or remove it."* |
 | 10 | Retention and lifecycle | **OD-28** | Proposal, acceptance, rejection, correction, pause, forgetting, versioning, revocation — *every stage transition is a governed change with a Change Record* |
-| 11 | Guest and Unknown Person behaviour | **DL-33**, **OD-65** | An Unknown Person's interactions *are never eligible evidence for person-scoped learning* |
+| 11 | Guest and Unknown Person behaviour | **DL-33**, **OD-65 (resolved — DL-112)** | An Unknown Person's interactions *are never eligible evidence for person-scoped learning* |
 | 12 | Multi-person conflict behaviour | **Operational Trust** | An offer in a shared room is an audience-evaluated Communication |
-| 13 | Failure behaviour | **Concierge** | Dismissal is recorded; whether dismissal is eligible evidence is **OD-65** |
+| 13 | Failure behaviour | **Concierge** | Dismissal is recorded; **resolved — OD-65 / DL-112**: dismissal is non-acceptance, never automatic negative evidence; repeated dismissal is reportable as its own Pattern about the proposal's treatment, never as "the resident dislikes the outcome" |
 | 14 | What must never happen | — | **Silent promotion.** *An observed pattern must not silently become an autonomous policy* (**P26**, **DL-21**) |
 
 ## Is *"the home learned the routine"* valid public language?
@@ -605,8 +605,8 @@ Scenario 16 — *nothing changes automatically*; Scenario 18 — *a person with 
 
 ## Implementation status and unresolved decisions
 
-**F**. **OD-28** lifecycle, **OD-65** evidence eligibility, **OD-63** attribution, **OD-64** native
-observation, **OD-51** interruption.
+**F**. **OD-28** lifecycle; **OD-65** evidence eligibility, **resolved — DL-112**; **OD-63** attribution,
+**resolved — DL-73**; **OD-64** native observation, **resolved — DL-111**; **OD-51** interruption.
 
 ---
 
@@ -798,9 +798,9 @@ Suggestions that feel like they know the household, without the household feelin
 | Preferred artist, genre, album, playlist | **Continuity**, person-scoped | **A** |
 | Last song, last genre, music/duck/TTS volume | **Continuity**, room-scoped | **A** |
 | Completion, skip, abandonment, engagement observations | **Domain Events**, owned by the responsibility that observed them; native media activity stays with Home Assistant (**DL-46**) | **E** |
-| Correlating observations into candidates | A permitted intelligence, under **OD-28** / **OD-65** / **OD-67** | **U** |
+| Correlating observations into candidates | A permitted intelligence, under **OD-28** / **OD-65 (resolved — DL-112)** / **OD-67 (resolved — DL-93)** | **U, pending OD-28 only** |
 | Presenting the recommendation | **Concierge** | **A** |
-| Accidental playback, preference correction, feedback, expiry | **OD-28**, **OD-65** | **U** |
+| Accidental playback, preference correction, feedback, expiry | **OD-28**; eligibility itself resolved — **OD-65 / DL-112** (one-off/accidental activity is explicitly insufficient for a Pattern; a correction is new evidence, never a rewrite) | **Partially A — expiry/lifecycle pending OD-28** |
 
 ## Acceptance scenarios
 
@@ -1074,8 +1074,8 @@ granularity/guest-default), explicit-request precedence, the Music Assistant res
 graceful degradation without semantic degradation. Deferred to existing open decisions: **OD-78**
 (remembered-value classes and restoration semantics — the primary owner of the detailed precedence and
 provenance questions above), **OD-24** (session merge), **OD-25** (resume eligibility window), **OD-26**
-(history retention scope), **OD-27** (concurrency), **OD-28**/**OD-65** (learned-preference promotion
-and evidence eligibility). None of these is resolved, reopened, or duplicated by this Use Case.
+(history retention scope), **OD-27** (concurrency), **OD-28** (learned-preference promotion; evidence
+eligibility **OD-65**, resolved — **DL-112**). None of these is resolved, reopened, or duplicated by this Use Case.
 
 ---
 
