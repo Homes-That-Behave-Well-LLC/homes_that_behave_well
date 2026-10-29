@@ -268,7 +268,8 @@ created for attribution specifically.
 
 Attribution **references** native objects; it does not copy them (**P30**). The enumeration, the
 evidence thresholds, and the confidence representation are **resolved as OD-63 / DL-73**; the
-platform-supplied evidence model is **OD-64**; correlation identifiers remain **OD-38**.
+platform-supplied evidence model is **resolved as OD-64 / DL-111** (see "Native behaviour observation
+anchor (DL-111)" below); correlation identifiers are **resolved as OD-38 / DL-104**.
 
 **A Domain Event is not a Decision Trace.** It records that something occurred. Only Concierge
 records why HTBW decided. **A Domain Event and a Decision Trace are not interchangeable.**
@@ -566,6 +567,60 @@ the trigger… the context that caused this one") — consistent with, and forma
 evidence tier. A Home Assistant `user_id`, where supplied, identifies an **authenticated platform
 user**, never an HTBW Person directly, and never a durable identity for an Unknown Person across
 unrelated interactions (**DL-33**, **DL-35**, unchanged).
+
+### Native behaviour observation anchor (DL-111)
+
+Resolves **OD-64** in full. The anchor for a native automation, script, or scene occurrence is the
+resulting state change's own `entity_id`, its Context (`context_id`, `context_parent_id` where
+present, `context_user_id` where present), and its Effective/Recorded Time — retrieved through the
+documented `history` component's REST endpoint (`GET /api/history/period/<timestamp>`) or its
+WebSocket equivalent, which return the full `State` object including its `context` (querying without
+`minimal_response`, which the official documentation states strips everything but `state` and
+`last_changed`). **This is cited as supporting native evidence, exactly as the Context section above
+already provides — it is never packaged into a new Governed-Reference-shaped schema.** DL-104's
+`{Subject Type, Subject ID, Version Identity}` / `{Record Class, Record Identity}` shapes remain
+reserved for HTBW's own governed records; native supporting evidence is cited directly within an
+HTBW record's own fields instead.
+
+A native automation/script's own `entity_id` is itself supporting evidence only — never HTBW's Record
+Identity and never a DL-104 Version Identity, since its configuration may change while its `entity_id`
+remains stable, and HTBW does not track that configuration as a governed version.
+
+**Retention and expiry.** Two independent native mechanisms apply, never conflated: the automation/
+script Trace component's own 5-run/`stored_traces` cap governs only its own unreachable rich per-step
+detail (**VERIFIED_NEGATIVE** for any supported integration-facing retrieval contract — every
+retrieval command is admin-only and frontend-facing); Recorder's `purge_keep_days` (10 days default)
+governs the anchor actually used here. **DL-27**'s dangling-reference rule applies unchanged: within
+the retention window, the target entity's own state history remains independently checkable, and an
+honest "no state change occurred in this window" is a positive, checkable Truth-owned fact; once the
+window has aged past `purge_keep_days`, even that check is no longer possible, and native history is
+reported **unavailable** for that period — never conflated with "the automation did not run" and never
+with "a condition failed."
+
+**The non-event boundary.** Where a trigger never fired, no per-condition record was ever produced —
+not merely unavailable, genuinely never created. HTBW may report the automation entity's own current
+state and the target entities' native state history within retention; HTBW must never claim a
+specific condition failed, since no condition was ever evaluated, and reading current automation
+configuration to assert what a condition "would have" done is prohibited counterfactual simulation,
+doubly so where the automation was edited since the window in question (**DL-27** historical-
+correctness, reused).
+
+**Durable meaning.** No new OD-64 summary class is created: a Fact or Domain Event produced from this
+evidence already carries **Known Source** attribution (**DL-73**) and a Governed Reference for its own
+HTBW-owned content, citing the native evidence above as supporting Provenance — composing **DL-46**,
+**DL-73**, and this anchor model, never inventing a fourth construct. Copying the native trace, event,
+or state history into HTBW storage remains prohibited (**DL-46**); a verified-negative integration API
+finding creates no new governed gap.
+
+**Executor.** Observed executor is fully supplied by the model above, reusing Stewardship's existing
+Care Evidence Record **`performed`** kind (**DL-48**) with the native evidence as its Provenance.
+Declared executor — a household's configuration-time statement that a specific automation is expected
+to satisfy an obligation — has no dedicated field in the existing Stewardship obligation structure;
+this is an explicitly deferred, non-blocking residual for Stewardship's own future model, not invented
+here.
+
+See **DL-111** (`decision-ledger.md`) for the full accepted decision, including the Identity-firewall
+restatement (**DL-38**, unchanged) and the **OD-63**/**OD-65**/**OD-86** dependent-decision boundaries.
 
 ### Persistence independence, backup, and restore
 

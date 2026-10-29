@@ -1235,7 +1235,8 @@ confidence in the first place is **DL-38**, and **a confirmation outcome is neve
 
 Observations are recorded through the accepted **Domain Event** and shared temporal model. **No new
 generic event store, and no identity history store, is created.** Which platform-supplied execution
-evidence is captured remains **OD-64**.
+evidence is captured is **resolved as OD-64 / DL-111** — native evidence (resulting state, Context,
+`entity_id`) is cited as supporting evidence only, never admitted to Identity Fusion.
 
 ---
 

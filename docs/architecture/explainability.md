@@ -408,8 +408,9 @@ reaches threshold, and a recurring Unknown Source is itself governance evidence.
 immutability discipline (**DL-26**, **DL-27**) and **DL-35**'s identical rule for the Unknown Actor
 Reference already require that a later observation never rewrites an earlier attribution record.
 
-**No open residual remains under OD-63.** OD-38, OD-64, and OD-72 remain independently open on their
-own questions, narrowed but not decided by this closure.
+**No open residual remains under OD-63.** OD-38 (resolved as DL-104), OD-64 (resolved as DL-111), and
+OD-72 (resolved as DL-74) are each independently closed on their own questions, narrowed but not
+decided by this closure.
 
 #### An existing tension this hypothesis must not silently resolve
 

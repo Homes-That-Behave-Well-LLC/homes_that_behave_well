@@ -233,8 +233,9 @@ Area, Room, or person — *"where the platform does not supply it, it is not inf
 [why-did-this-happen.md](why-did-this-happen.md) Scenario 21 and Scenario 63 already demonstrate exactly
 the Nap-to-shade causal chain this review tested, including the non-event case: a sibling
 `automation_triggered` event either exists (and is cited) or does not (and the trace says so), never a
-fabricated cause. **OD-64** remains the narrow, already-identified residual — verifying the precise
-Recorder-events evidence surface — not a gap in the attribution architecture itself.
+fabricated cause. **OD-64 (resolved as DL-111)** formalizes exactly this evidence surface — the
+resulting state, Context, and `entity_id`, cited as supporting evidence — not a gap in the attribution
+architecture itself.
 
 ---
 

@@ -349,14 +349,16 @@ no ownership boundary changes, and no open decision is closed.**
 
 **Narrows OD-64 materially.** The evidence OD-64 needs was never actually gated behind the Trace component's closed API (item 6) — it was available the whole time in Recorder's own `events` table. **Does not close OD-64**: the public-API-contract question above remains a genuine, narrower residual, distinct from and not resolved by item 6's finding.
 
-#### Genuinely unresolved residual for OD-64 (item 19)
+#### Genuinely unresolved residual for OD-64 (item 19) — RESOLVED, OD-64 accepted as DL-111 (2026-10-29)
 
-Not a capability finding — a scoped statement of what remains open after items 17 and 18. **DL-30 forbids closing OD-64 on an assumption about this**:
+Scoped statement of what remained open after items 17 and 18, now resolved by OD-64's Formal Owner Acceptance Review:
 
-1. Whether Recorder's `events`/`event_data` tables have a documented, public, integration-facing Python retrieval API (distinct from `history.get_significant_states` for `states`, and distinct from the closed Trace WebSocket API).
-2. The formal anchoring schema a Decision Trace or Domain Event would reference (which exact fields — `context_id`, `event_id`, `state_id`, some composite — OD-64's own "anchoring" criterion).
-3. Retention-boundary wording connecting Recorder's `purge_keep_days` to HTBW's existing dangling-reference-reporting rule (**DL-27**) for this specific evidence class.
-4. Executor registration for a Stewardship obligation — OD-64's own stated open question, untouched by this pass.
+1. **Whether Recorder's `events`/`event_data` tables have a documented, public, integration-facing Python retrieval API** — **VERIFIED_NEGATIVE**, independently re-confirmed against `contributors.home-assistant.io/architecture/core/history/` (current): its own "Who reads it" table names exactly three consumers — `history`, `logbook`, `energy` — and no general-purpose public API for arbitrary raw `events`/`event_data` query exists. **This does not block OD-64**: the documented, public, integration-facing contract that actually supplies the anchor is the `history` component's own REST endpoint `GET /api/history/period/<timestamp>` (and its WebSocket equivalent), independently re-verified against current official REST API documentation to return the full `State` object including its `context` — provided the query omits `minimal_response` (documented to strip everything but `state`/`last_changed`). Raw `events`/`event_data` table access is never required.
+2. **Formal anchoring schema** — resolved: the anchor is the resulting state change's own `entity_id`, its Context (`context_id`, `context_parent_id` where present, `context_user_id` where present), and its Effective/Recorded Time, cited as **supporting native evidence** directly within an HTBW governed record's own fields — not packaged into a new Governed-Reference-shaped schema (**DL-104**'s `{Subject Type, Subject ID, Version Identity}` / `{Record Class, Record Identity}` shapes remain reserved for HTBW's own governed records). See **DL-111**, `temporal-record.md`.
+3. **Retention-boundary wording** — resolved: Recorder's `purge_keep_days` (10 days default) is the anchor's governing retention boundary, independent of the Trace component's own 5-run/`stored_traces` cap; **DL-27** dangling-reference reporting applies unchanged — within the window, absence of a state change is a positive checkable fact; beyond it, native history is reported unavailable, never conflated with "never ran" or "condition failed."
+4. **Executor registration for a Stewardship obligation** — resolved as an explicit, narrow, non-blocking deferral: observed executor is fully supplied via **DL-48**'s existing Care Evidence Record `performed` kind; a dedicated declared-executor field is deferred to Stewardship's own future model, not invented here.
+
+See **DL-111** (`decision-ledger.md`) for the full accepted decision.
 
 ---
 
