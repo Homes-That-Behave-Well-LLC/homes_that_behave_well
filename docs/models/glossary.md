@@ -736,7 +736,8 @@ A bounded, non-Person reference within a **single** Historical Reconstruction, g
 sufficiently supported as belonging to one actor. Part of the projection — **never a store, never an
 identity, never a role, and never proof that the observations share one human**. Temporal proximity
 alone never establishes one. Carries a **Primary Hypothesis Label**, a **Criteria Satisfaction
-Record**, **Supporting Evidence**, and **Contradicting Evidence** (**DL-74**).
+Record**, **Supporting Evidence**, and **Contradicting Evidence** (**DL-74**). **Never retrospectively
+convertible into a Person Association, for any evidence class, by any authority (DL-108).**
 Model: [temporal-record.md](temporal-record.md)
 
 **Primary Hypothesis Label (DL-74)**

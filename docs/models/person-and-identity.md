@@ -450,13 +450,84 @@ Identity consent was not granted."* / *"...because Voice Identity consent was wi
 access is denied by the configured access policy."* / *"Voice Identity is unavailable because the
 required integration is missing."*
 
-### Exceptional access is not decided here
+### Retrospective Person Association is prohibited (DL-108)
 
-Whether previously unassociated camera or device observations may ever be correlated for a legal
-request, an incident, or exceptional access is **not decided by OD-06**, has **no existing canonical
-owner** in this repository (verified: no accepted decision governs law-enforcement, warrant, emergency,
-or lawful-disclosure correlation; only the generic legal/regulatory non-claim exists), and is tracked
-separately as **OD-89**. OD-06's ordinary consent requirement is unaffected and creates no bypass.
+Resolves **OD-89** in full. **An observation that was unassociated when it occurred may never later
+be converted into a Person Association through retrospective correlation** — not through biometric
+evidence, not through non-biometric evidence (device, BLE, platform-user, or another lawfully existing
+identity signal), not through timing or location alone, and not through any future evidence class a
+later accepted decision might introduce. The prohibition is **evidence-class agnostic** and
+**permanent unless a future, separately accepted governance decision explicitly reopens it** — it is
+never relaxed by Operational Trust policy, a provider's new capability, or an interpretation of this
+section.
+
+**An unassociated observation is a legitimate governed state, not incomplete identity awaiting later
+resolution.** What the home knew at the time of observation remains what it knew at that time; later
+evidence never grants retroactive permission to rewrite that historical state (**DL-35**'s own "no
+retroactive permission" rule, applied here without qualification).
+
+**This does not prohibit, and does not change, any of the following:**
+
+- **Historical Reconstruction** of existing governed records under its own governance
+  (`temporal-record.md`).
+- **Bounded Unknown Actor Reference correlation** within one reconstruction (**DL-35**, **DL-74**) —
+  it still **identifies nobody**, and this decision makes that boundary durable against retrospective
+  fusion rather than narrowing it.
+- **Disclosure of an already-existing, lawful Person Association** — an observation that already
+  carried an association when it was recorded remains governed by its own existing rules; this
+  decision concerns only an observation that carried **no** association at the time.
+- An **Evidence Package** or other authorized export of records that already exist.
+
+**Existing lawful, non-biometric evidence may not be retrospectively fused onto a historical Unknown
+Actor Reference merely because it could be.** A resident's phone may already be lawfully associated
+with them, and Truth may already hold a Location Fact placing that device near an event — but HTBW
+must never assert that the device's owner was the actor in a separately recorded Unknown Actor
+Reference by fusing those two already-existing records after the fact. **Technical capability never
+creates retrospective authority** (restating **DL-56**'s "correlation capability is never itself
+authorization" for the retrospective case specifically).
+
+**A later voluntary statement is not an Identity Assertion, and must never be represented as one.**
+Tested directly against **DL-64**: Identity Assertion production is bound to current-evidence
+evaluation at the moment of production, and none of the six accepted Assertion Purposes (Speaker
+Attribution, Room Presence, Household Presence, Interaction Initiator, Authenticated Session Identity,
+Endpoint Context) contemplates a backdated result. Explicit Confirmation, as an evidence source, is
+"the confirmed claim, on the confirmed channel, **for a bounded time**" — a live, current-interaction
+mechanism, not one that can be invoked to retroactively date an assertion to a past moment. **No such
+mechanism is created by this decision.** Where a Person later, voluntarily states that they were
+involved in a past bounded event, the only accepted representation is an **ordinary Domain Event**
+(`temporal-record.md`) — dated at its own actual occurrence, attributed to the speaking Person through
+ordinary, current Identity/Behaviour Source Attribution evidence (**DL-73**) exactly as any other
+present-moment statement is, and carrying a Governed Reference to the historical Unknown Actor
+Reference it concerns. This Domain Event **never** associates the original observation, **never**
+feeds Identity Fusion as though it were evidence available at the original time, and **never**
+expands beyond what the statement actually claims — a confirmation of one bounded event never implies
+the same Person across every other observation in a wider Unknown Actor Reference, and a confirmation
+of device ownership never implies the Person was the actor in every observation involving that
+device. A later correction or retraction is its own further Domain Event, under the existing
+Change-Record correction discipline (**DL-26**, **DL-27**); conflicting statements from two different
+people are each recorded as what they are — competing, unresolved claims — never adjudicated by HTBW
+into a single winner.
+
+**No new collection, no backfill, no retroactive retention, no resurrection of deleted records.** OD-89
+authorizes no new retrospective observation and no prospective tracking; a request naming a deleted or
+never-retained record is answered **unavailable**, never reconstructed, inferred, or treated as an
+adverse inference; existing records follow their own governing retention class unchanged, and a
+Preservation Hold, where validly placed under **OD-39**'s own governance, may protect only records
+that still exist — it can never resurrect a deleted one or itself authorize retrospective Person
+Association. **OD-35, OD-36, and OD-39 remain open and are not decided or pre-empted by this section.**
+
+**Household incident review and an external legal request are both access/disclosure paths only, kept
+symmetric, never a derivation path.** Each may be separately authorized to access, preserve, or
+disclose records that already lawfully exist, exactly as each record's own governance already permits
+— neither authorizes retrospective Person Association, and neither implies the other. **HTBW does not
+determine legal sufficiency** and makes no claim of court admissibility, chain-of-custody sufficiency,
+forensic certification, or regulatory-compliance (`authority-order.md`'s existing non-claim, now this
+decision's own operative position, not merely an inherited disclaimer).
+
+**No Legal, Investigation, or Forensic responsibility is created.** Operational Trust continues to
+evaluate authority and disclosure appropriateness for operations it is permitted to evaluate; it has
+no authority to convert a prohibited operation into a permitted one, through an exception flag,
+elevated policy, or any other mechanism.
 
 ---
 

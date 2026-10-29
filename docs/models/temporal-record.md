@@ -801,6 +801,24 @@ It must **not**:
 **A reconstruction must remain able to show what was known at each point in time**, not only what is
 known now. This is the correction mechanism above, applied to actors.
 
+#### Retrospective Person Association is prohibited (DL-108)
+
+**An observation that was unassociated at the time it occurred may never later be converted into a
+Person Association.** This applies regardless of evidence class — biometric, non-biometric, device,
+BLE, platform-user, timing, location, or any future evidence class — and is **permanent unless a
+future, explicit governance decision reopens it**; no household authority, external legal request,
+Operational Trust policy, or provider capability may override it. See `person-and-identity.md`,
+"Retrospective Person Association is prohibited (DL-108)," for the full decision. **Bounded Unknown
+Actor Reference correlation above is unaffected and remains fully available** — it already identifies
+nobody, and this decision makes that boundary durable rather than narrowing it.
+
+A later voluntary statement about a past bounded event ("yes, that was me") is never recorded as an
+Identity Assertion applied to the original observation. It is, at most, its own separately-dated
+**Domain Event**, attributed to the speaking Person through ordinary current-evidence attribution,
+carrying a Governed Reference to the Unknown Actor Reference it concerns — never associating the
+original observation, never backdating evidence, and never expanding beyond what the statement itself
+claims.
+
 #### Role and intent are never inferred
 
 An Unknown Actor is described in neutral terms. HTBW must not describe anyone as a guest, cleaner,
