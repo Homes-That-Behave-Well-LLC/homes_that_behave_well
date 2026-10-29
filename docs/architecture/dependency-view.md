@@ -145,6 +145,22 @@ See [../models/truth.md](../models/truth.md) and
 > always permitted for voice-assistant identity, extended to additional non-Fact input types. Raw
 > device-tracker, BLE-proximity, and Identity Room Presence data remain permanently excluded by type.
 
+> **A second genuinely open question in this domain is now resolved: what "Execution through governed
+> interfaces" requires.** The flowchart's own terminal **EX** node, and
+> [concierge-contract.md](../contracts/concierge-contract.md)'s prohibition that "all state changes
+> occur through the owning responsibility's governed interface," never defined whether a *public*
+> Home Assistant caller and an *internal* HTBW caller must reach that interface through identical
+> transport. **Resolved as OD-81 / DL-114**: they must not. Every caller — public or internal —
+> converges on the identical owning-responsibility governed command path (same Operational Trust
+> evaluation, same Decision Trace composition, same effect semantics) before reaching the
+> system-of-record effect (**MUST**); identical Home Assistant service transport for an internal call
+> is not required and is actively disfavored by default (**SHOULD** converge, not **MUST** share
+> transport) — requiring it would make Home Assistant's own service registry an undeclared, universal,
+> load-bearing dependency of HTBW's own internal operation, contradicting **DL-41**, and would degrade
+> caller attribution for purely-internal calls, since automation/script-originated native calls
+> routinely carry `user_id=None` (**DL-104**). This does not change any directional rule above: it
+> clarifies only what convergence at the **EX** node itself requires.
+
 ---
 
 ## Related documents

@@ -209,6 +209,12 @@ Configuration, validated, limited to a term naming exactly one native object, ne
 context-dependent term, never a means of altering exposure, and clearly identified as changing native
 Home Assistant configuration. **The canonical behaviour remains no write-back.**
 
+**This rule extends unchanged to a governed public service parameter** (**DL-114**, resolving **OD-81**):
+a resident-authored vocabulary term may be supplied as a named Request-Parameter to a governed HTBW
+capability and resolved privately, at invocation time, under the current Room Context — exactly as a
+voice utterance already resolves under **DL-69** — but the term itself never becomes a native alias, a
+published object catalog, or a durable target list merely because it can be addressed through a service.
+
 ### Groups stay in HTBW
 
 A term resolving to a group is a Room Configuration mapping. **HTBW does not write the group term as

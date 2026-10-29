@@ -647,6 +647,84 @@ invariant, conversational retrieval classes, pre-answer filtering, and the hones
 are all recorded in** [contextual-vocabulary.md](../models/contextual-vocabulary.md) **and**
 [failure-and-degradation.md](failure-and-degradation.md) **rather than restated here.**
 
+### HTBW capability exposure and self-consumption (DL-114)
+
+Resolves **OD-81**. Full acceptance record is **DL-114** in
+[decision-ledger.md](../governance/decision-ledger.md); this section is the canonical model.
+
+> **Every decision above governs HTBW consuming Home Assistant. This section governs the inverse: HTBW
+> publishing governed capability into Home Assistant for a resident's own automations, scripts,
+> blueprints, and dashboards to call.** The two directions are not symmetrical merely because both
+> reference the same platform.
+
+A restricted general publishing posture is accepted — a **category** of publishing may be
+constitutionally available under the restrictions below. **This does not mean every eligible-looking
+value shall be published**; each child decision (**OD-23**, **OD-68**, and any future instance)
+retains full responsibility to independently prove semantic fit, disclosure safety, retention
+acceptability, interaction semantics, platform support, and projection lifecycle for its own specific
+case.
+
+**Authority invariant, for every surface type** (restating **DL-31** and `stewardship.md`'s "An
+obligation may be projected, but never surrendered" pattern, generalized, not invented): the
+determining owning responsibility retains the authoritative value or effect; the published
+representation is a projection or adapter, never a second authority; native Home Assistant state never
+supersedes HTBW's own constitutional state; a caller cannot acquire authority merely through access to
+a published service, entity, or event; every system-of-record mutation flows through the owning
+responsibility's own governed interface.
+
+| Category | Posture |
+|---|---|
+| **Services** | Accepted with restrictions — owning-responsibility authority retained, identical Operational Trust evaluation and Decision Trace for every invocation, caller claims never treated as Identity Assertions, parameters as Declarations/Request-Parameters only (**DL-113**), no raw system-of-record mutation, no Identity Fusion/confidence-threshold/policy bypass, no debug-only or private-orchestration exposure. Contract states owner, semantics, **DL-76** Action-Risk-derived authorization, result status (reusing Operational Trust's existing outcome vocabulary), trace reference, side effects, idempotency/retry, and a contract version (distinct from **DL-104**'s record-version identity) |
+| **Events** | Accepted with restrictions — a native bus event is a publication/transport representation of an HTBW Domain Event, never the canonical governed event itself and never an undocumented command channel. Eligible where stable, resident-useful, sourced from an already-governed Domain Event, and safely disclosure-gated. Retention: Recorder *may* retain configured event types (independently verified supported); HTBW builds no second Recorder, and the governed Domain Event follows its own **DL-47** retention independently, exactly as **DL-111** already established for the Trace component versus Recorder's `purge_keep_days` |
+| **Entities** | Accepted only under stronger, disclosure-classified restrictions — forced by **DL-34**'s audience-composition requirement colliding with entity state's structural lack of audience evaluation. Operational, non-person-bearing capability state (availability, Mode, aggregate values) is eligible, matching the already-accepted **DL-61** pattern. **MUST NOT**, as broadly-readable entity state: resolved Person, Identity state, confidence band, numeric confidence, care/health information, policy-sensitive state, or internal reasoning state (already absolutely prohibited at any surface, **DL-46**). A bare `known`/`unknown`/`ambiguous` Person-resolution state is itself identity-bearing disclosure and remains excluded even without naming who — distinct from **DL-41**'s freely-publishable capability-level `unavailable`. An entity is always a projection: restoration/reload derives from HTBW's own authoritative state, and resident interaction with a controllable entity is a governed request, never a direct system-of-record mutation. Publishing an entity never grants or requires native Assist exposure (**DL-66**, unaffected) |
+| **Household objects** | Accepted only as governed invocation-time Request-Parameters — a direct, narrow generalization of **DL-69**'s own "pre-resolve before native targeting" pattern, composed with **DL-113**'s Fact/Declaration/Request-Parameter distinction. A vocabulary term supplied as a named service parameter is resolved privately, at invocation time, under the current governed Room Context; it never becomes a native alias, a published catalog, or a durable target list — the only outcome consistent with [contextual-vocabulary.md](../models/contextual-vocabulary.md)'s existing no-write-back rule |
+
+**Self-consumption — two distinct strengths, not one.** Convergence on a common
+responsibility-owned governed core is **SHOULD**: both the public Home Assistant adapter and any
+internal HTBW call path converge on the identical owning-responsibility governed command path (same
+Operational Trust evaluation, same Decision Trace composition, same effect semantics) before reaching
+the system-of-record effect, without requiring identical Home Assistant transport for internal calls —
+forcing identical transport would make Home Assistant's own service registry an undeclared, universal,
+load-bearing dependency of HTBW's own internal operation (**DL-41**'s own prohibition), and would
+degrade caller attribution for purely-internal calls, since automation/script-originated native calls
+routinely carry `user_id=None` (**DL-104**). A future non-convergent exception requires its own
+documented governed gap, reusing the existing **DL-30**/**DL-42** discipline. **Never bypassing,
+weakening, or diverging from the governed core's own semantics is MUST** — already directly entailed
+by generalizing [concierge-contract.md](../contracts/concierge-contract.md) prohibition 10 ("state
+changes occur through the owning responsibility's governed interface") from Concierge specifically to
+every responsibility. This clarifies, rather than replaces, that prohibition's previously undefined
+"governed interface" language and [dependency-view.md](dependency-view.md)'s "Execution through
+governed interfaces" terminus.
+
+**Capability catalog — mandatory**, by explicit Owner policy. No capability may be considered
+formally published without its required catalog entry. The catalog is classified as **ordinary
+canonical documentation**, reusing Foundation's already-accepted ownership of capability descriptions
+([concierge-contract.md](../contracts/concierge-contract.md) §2, [dependency-view.md](dependency-view.md))
+— it is not a **DL-43**/**DL-47** governed record and creates no new Storage, Artifact, or Catalog
+responsibility. Catalog coverage for a governed household-object parameter documents only that a
+vocabulary-term parameter type is accepted and how it is conceptually resolved — **never a per-term or
+per-household catalog of actual vocabulary content**, which remains prohibited exactly as the
+no-write-back rule already requires.
+
+**Caller attribution must remain truthful.** Native `Context.user_id` retains its native meaning as an
+authenticated Home Assistant user identifier, independently re-verified terminal (see "Context and
+actor-attribution propagation" and **DL-104**, above) — no native resolved-HTBW-Person field or
+extension slot exists. Writing an HTBW-resolved Person into `Context.user_id` is false attribution,
+worse than missing attribution, and is prohibited outright. Native Activity may truthfully show HTBW as
+an integration, never the resolved household Person, unless independently established native
+authenticated-user evidence genuinely supports it; HTBW's own Decision Trace remains the authoritative
+place for governed requester/Person attribution. A caller-supplied Person reference parameter remains
+a claim, never an Identity Assertion merely because a public contract accepts it (**DL-32**/**DL-38**).
+
+**Child decisions — none preempted.** **OD-23** is constitutionally unblocked to proceed to its own
+surface-choice step, subject to its own disclosure-classification proof. **OD-68**'s label-mechanics
+residual is untouched. **OD-59** (**DL-66**), **OD-62** (**DL-69**), **OD-63**/**OD-64** (**DL-73**/
+**DL-111**), **OD-69** (**DL-61**), **OD-70** (**DL-68**), and **OD-73** (**DL-113**) are each
+independently re-verified closed and are not reopened. **OD-05** and **OD-30** retain their own
+narrower residuals (numeric trace retention values; trace visibility surfaces) and are not absorbed.
+**MCP/external-agent exposure (#185) remains entirely outside this decision** — native publication
+here never itself authorizes external-agent exposure of any kind.
+
 ### Repairs is a surface, not an owner
 
 **Repairs is the preferred Home Assistant surface for HTBW integration configuration defects and

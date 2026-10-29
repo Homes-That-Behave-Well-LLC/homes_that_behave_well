@@ -95,7 +95,10 @@ Nothing depends on Concierge.
 8. **Concierge must not promote a learned pattern into autonomous behavior.**
 9. **Concierge must not act silently when it cannot explain the action.**
 10. **Concierge must not write to another responsibility's system of record.** All state changes occur
-    through the owning responsibility's governed interface.
+    through the owning responsibility's governed interface. **A governed interface requires the same
+    owning-responsibility command path, authorization, and Decision Trace for every caller — public or
+    internal — never identical Home Assistant transport** (**DL-114**, resolving **OD-81**; this
+    prohibition is a general rule for every responsibility, not Concierge-specific).
 11. **Concierge must not announce merely because it was permitted to act.** Authority to act is not
     authority to announce (**P32**).
 12. **Concierge must not infer `Presented` from `Delivered`.** Where a surface cannot attest
