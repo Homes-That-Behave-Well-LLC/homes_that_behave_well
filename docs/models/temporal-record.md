@@ -292,14 +292,138 @@ A Snapshot represents governed state at a point in time, for a bounded scope.
 
 > **A Snapshot is an accelerator. A Snapshot is not an independent source of truth.**
 
-A Snapshot may be triggered by time interval, change threshold, lifecycle transition, Preservation
-Hold, incident boundary, export request, or implementation policy.
+Each responsibility snapshots its own scope. **There is no central snapshot owner.** Snapshot
+**retention** is settled by **DL-47**: a Snapshot is an accelerator and is retained no longer than the
+records it summarises. Format and encoding are implementation mapping.
 
-**Snapshot triggers, cadence, and scope remain open — OD-37.** Snapshot **retention** is settled by
-**DL-47**: a Snapshot is an accelerator and is retained no longer than the records it summarises.
-Format and encoding are implementation mapping.
+### Snapshot Triggers, Cadence, and Scope (DL-106)
 
-Each responsibility snapshots its own scope. **There is no central snapshot owner.**
+**Eligible source.** A Snapshot accelerates reconstruction of **Change-Record-backed governed
+Subjects only** — it never summarises Domain Events, and it is never a substitute for Current
+Projection, which already answers "what is true now" without requiring one. Snapshot's sole purpose
+is bounding the cost of **historical point-in-time reconstruction** (`adr-temporal-record-model.md`:
+*"state at time T is reconstructed from the nearest valid Snapshot at or before T plus subsequent
+Change Records"*) — never ordinary current-state reads, which Current Projection already serves
+directly.
+
+**Identity.** A Snapshot carries one immutable **Record Identity** (**DL-104**'s one-shot,
+never-revised-in-place shape, the same as a Domain Event or Decision Trace) — never a mutable
+Subject+Version pair. A later Snapshot is always a **new** Record Identity, never a revision of an
+earlier one; an earlier Snapshot that is superseded continues to exist independently under its own
+identity until its own retention bound requires its removal.
+
+**Scope.** **Object-scoped** (one governed Subject) and **responsibility-scoped** (several Subjects
+owned by one responsibility) Snapshots are both valid. **Household-scoped (cross-responsibility)
+Snapshot is excluded** — it would require a central Snapshot owner, which already-accepted
+architecture rejects ("there is no central snapshot owner; each responsibility snapshots its own
+scope"). **Multi-input retention is forced, not merely chosen**: because a Snapshot is one immutable
+Record under a single Record Identity, it cannot be partially retained and partially purged: once
+**any** Subject it summarises falls outside that Subject's own retention, the **entire** Snapshot must
+retire, never only the affected portion. A responsibility-scoped Snapshot is therefore bounded, as a
+whole, by whichever summarised Subject's retention is shortest — a direct, forced consequence of
+Snapshot's own single-identity immutability, not an independently chosen convenience. **This is a
+natural incentive toward narrower (often object-scoped) Snapshot design**: combining a short-retained
+Subject with long-retained ones in one Snapshot makes the whole Snapshot only as durable as the
+shortest-retained constituent.
+
+**Trigger taxonomy.** The following are accepted **trigger classes**, each a legitimate semantic
+reason a responsibility's own policy may create a Snapshot; the **exact numeric threshold, interval,
+or schedule for any of them is implementation mapping, never a constitutional value**:
+
+- **Change-count threshold** — bounds reconstruction cost for a frequently-changed Subject.
+- **Time-interval** — bounds reconstruction cost by elapsed time; a quiet, rarely-changed Subject may
+  simply never need one.
+- **Lifecycle-event boundary** — a Subject's own already-accepted lifecycle transition (for example a
+  commissioning or configuration-acceptance boundary), the one trigger class carrying inherent
+  semantic value beyond pure performance tuning, since it marks a point later explanation is
+  especially likely to need reconstructed state at.
+- **Preservation-Hold-linked boundary** — both a legitimate trigger (a responsibility may checkpoint
+  state before a Hold's evaluation) and a retention-deferral interaction (below); the two roles
+  coexist without contradiction.
+- **Incident boundary** — legitimate only insofar as it genuinely improves reconstruction/
+  explainability; it must never become a disguised **Evidence Package** or **Historical
+  Reconstruction**, both already-distinct projection constructs, never Snapshots.
+- **Implementation read-cost/performance policy** — the correctly-scoped constitutional invariant is
+  that reconstruction/read cost **must remain bounded**; the specific threshold (milliseconds, record
+  count, or any other implementation metric) is implementation mapping, never specified here.
+
+**"Export request" is retired as a trigger candidate**, superseded by the accepted artifact-governance
+pattern (**DL-43**, most recently **DL-105**'s Materialized Household Assessment): a deliberate
+export/materialization request now produces a governed, independently-declared **artifact**, never a
+Snapshot, which is never independently retained or handed to a resident as a deliverable in its own
+right.
+
+**Per-responsibility policy.** Each responsibility selects its own trigger class(es) from the
+taxonomy above, its own eligible Subjects, and its own implementation-selected cadence/thresholds —
+consistent with, not in tension with, "no central snapshot owner." No central Snapshot service is
+created.
+
+**Authority.** A Snapshot is never authoritative. Where a Snapshot's content and the Subject's current
+or retained historical record disagree, the governed record always prevails. **Staleness** is
+detected by comparing a Snapshot's own recorded boundary (its last-applied Change Record references)
+against the Subject's actual current Change Record chain: a Snapshot with Change Records beyond its
+recorded boundary is stale and must not be read alone as current state — but it remains a **valid
+historical checkpoint** for reconstruction as of its own boundary, provided the subsequent Change
+Records are applied on top of it. **Not latest is never equated with invalid.**
+
+**Source purge.** When a Snapshot's summarised sources no longer support honest representation of its
+declared boundary, the Snapshot **retires in its entirety** — never truncated in place, since Snapshot
+is immutable and `temporal-record.md`'s own field-level redaction mechanism is explicitly scoped to
+Change Records only, never extended to Snapshot. A **Tombstone** (already an accepted, general-purpose
+construct, scoped to "deleted, purged, or truncated" records generally) may mark the retirement,
+retaining only record identity, subject, record class, removal timestamp, removal authority, and
+removal reason classification — **never the summarised payload or source-derived content itself**,
+which would violate the same retention bound the retirement exists to honour. A later Snapshot, if the
+owning responsibility's policy still calls for one, is created fresh over whatever records remain
+retained, carrying its own new Record Identity — never a mutated revision of the retired one.
+
+**Preservation Hold.** A Hold defers a Snapshot's retirement exactly as long as it defers the purge of
+the summarised source records it protects — a direct, unexceptional application of the already-
+accepted Hold/retention interaction (**DL-45**, **DL-47**); releasing a Hold resumes ordinary
+retention and deletes nothing by itself.
+
+**Reproducibility.** A Snapshot must remain justifiable against retained source history within its
+own declared boundary. This is a structural consequence of the retirement rule above, not an
+independent requirement: because a Snapshot whose sources fall outside retention must itself retire,
+there is never a state where a retained Snapshot's sources are gone yet the Snapshot persists claiming
+to represent them. **This never requires indefinite replay of purged history**, and Current Projection
+never requires complete historical reconstruction to remain valid.
+
+**Native Home Assistant long-term statistics.** Recorder long-term statistics compile a native,
+entity-scoped, numeric-only downsample (hourly min/max/mean or sum) — never a governed,
+responsibility-owned, Subject-typed, exact-version-referenced record. It cannot carry attribution,
+confidence, Provenance, or a Governed Reference, and never substitutes for an HTBW Snapshot regardless
+of its own availability; see [../architecture/home-assistant-boundary.md](../architecture/home-assistant-boundary.md)
+for the verified native-capability evidence. An HTBW Snapshot is justified only for HTBW-governed,
+Change-Record-backed records where no native accelerator fulfils this contract — never as a
+convenience copy of native state, which remains independently authoritative.
+
+**Decision Trace.** Where a governed answer used a Snapshot as an accelerator, the Decision Trace cites
+the Snapshot's own Record Identity and declared boundary — never the Snapshot's payload copied into
+the trace — and states plainly whether subsequent Change Records were also applied on top of it. See
+[decision-trace.md](decision-trace.md).
+
+**Human-initiated bounded observation (resident-requested measurement).** A resident-initiated,
+explicitly bounded observation session (explicit start and stop, interval aggregates, honest-unknown
+confidence at low sample count) is **not a Snapshot** — it summarises no Change-Record-backed Subject,
+carries no Snapshot-shaped boundary, and its attribution is constitutive of its own existence, never
+true of an ordinary accelerator. It is a **Domain Event**, owned by the responsibility that observes
+the relevant condition (for example Truth, for an environmental observation — directly paralleling
+this model's own worked example, *"occupancy became established — observed by Truth"*), carrying
+Behaviour Source Attribution (**DL-73**) for the resident who initiated it. **Attribution must rest on
+one of DL-73's own accepted evidentiary paths — an attributable platform user, or an Identity Assertion
+meeting the required confidence threshold — never a bare username or label recorded by implementation
+evidence alone**, which is rank-4 evidence of a useful pattern, never itself attribution authority. The
+Domain Event's own free-form payload may carry the session's window and aggregate values as
+descriptive content; **this is distinct from, and never the same claim as, a Truth Confidence Band**
+(**DL-58**), which only an ordinary, separately and optionally produced Truth Fact carries, citing the
+observation session as its Provenance. **This already resolves the "must outlive raw observations"
+tension, without weakening DL-47 or inventing a new construct**: a Domain Event follows **External
+History Retention** (**DL-47**) — a retention class entirely independent of whatever raw per-entity-
+state retention the originating native evidence applies — the same already-accepted pattern Historical
+Facts and Change Records already enjoy. This is not unlimited retention; the Domain Event still purges
+at its own household-configured External History Retention ceiling, independently of the raw
+observations, never instead of a retention ceiling altogether.
 
 ---
 

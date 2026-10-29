@@ -157,6 +157,7 @@ The full model is [../models/temporal-record.md](../models/temporal-record.md).
 | **DL-26** | History is recorded as governed change, not as repeated full copies |
 | **DL-27** | Governed records reference exact versions and do not copy complete payloads |
 | **DL-104** | Identifier, Version Identity, Correlation, and Causation Strategy (resolves **OD-38**) — see [../models/temporal-record.md](../models/temporal-record.md), "Identifier, Version Identity, Correlation, and Causation (DL-104)" |
+| **DL-106** | Snapshot Triggers, Cadence, and Scope (resolves **OD-37**) — see [../models/temporal-record.md](../models/temporal-record.md), "Snapshot Triggers, Cadence, and Scope (DL-106)" |
 
 ### Deliberately not decided
 
@@ -431,7 +432,7 @@ None is closed by this ADR.
 
 | ID | Question |
 |---|---|
-| **OD-37** | Snapshot triggers, cadence, and scope per responsibility |
+| **OD-37** | **Closed — DL-106** (accepted 2026-10-29, Issue #83, formal acceptance review PASS). Snapshot Triggers, Cadence, and Scope — see [../models/temporal-record.md](../models/temporal-record.md), "Snapshot Triggers, Cadence, and Scope (DL-106)" |
 | **OD-38** | **Closed — DL-104** (accepted 2026-10-28, Issue #84, formal acceptance review PASS). Identifier, Version Identity, Correlation, and Causation Strategy — see [../models/temporal-record.md](../models/temporal-record.md) |
 | **OD-39** | Preservation Hold authority, duration, review, release, and conflict with deletion |
 | **OD-40** | Evidence Package assembly, transport, integrity representation, and audience |
