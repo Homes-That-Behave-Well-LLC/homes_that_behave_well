@@ -153,6 +153,12 @@ referent: a household that adopted by reference and then uninstalled Asset Intel
 with broken references where their data used to be. **Adoption therefore copies once, with lineage,
 and that is the correct outcome.**
 
+**The resulting artifact's identity, Governing Parent, and lifecycle are fully specified by DL-110**:
+a successfully adopted document becomes a new, independently HTBW-governed artifact — never a revision
+of the source's own file — anchored to the equivalent HTBW Asset and surviving the source product's
+own uninstall, retirement, or cleanup unchanged. See
+[../governance/decision-ledger.md](../governance/decision-ledger.md), **DL-110**.
+
 ---
 
 ## Accepted decisions established
@@ -255,7 +261,7 @@ a **capability**, not an owner.
 
 ## Open decisions
 
-**This ADR closes OD-82 and opens OD-85. It closes nothing else.**
+**This ADR closes OD-82. OD-85 was opened here and is now closed as DL-110 (Issue #172); DL-110 opened one follow-on, OD-93.**
 
 > **DL-52 governs the transfer of authority, not the whole household transition experience.**
 > Recorded 2026-08-27 by the Episode 10 governance narrative validation. What **DL-52** settles is that
@@ -263,21 +269,24 @@ a **capability**, not an owner.
 > Operational-Trust-authorised, traced, and idempotent, with `Skip` and partial adoption as first-class
 > outcomes. **What it does not settle is what the household lives through while the transition
 > happens** — where it is detected, offered, reviewed, and explained, and what the home says while both
-> products remain installed. **That residual is OD-85 (#172) question 4**, which records that **HTBW
-> has no onboarding or first-run experience architecture at all**, and it is also carried by the
-> transition review on **#171**. **No transition-governance responsibility, construct, or migration-debt
-> class is created by naming this** — the residual already has an owner, and this clarification adds no
-> decision.
+> products remain installed. **That residual was OD-85 (#172) question 4, now resolved by DL-110**:
+> OD-85 supplies the semantic requirements only, and routes the generic onboarding/acceptance-capture
+> surface itself to a new, narrowly-scoped follow-on, **OD-93**, shared with **DL-109**'s commissioning
+> acceptance and **OD-87**'s identity-artifact-invalidation acknowledgement. **No transition-governance
+> responsibility, construct, or migration-debt class is created by this** — the residual has a named
+> owner, and this clarification adds no decision beyond DL-110 and OD-93 themselves.
 
 | ID | Question |
 |---|---|
 | **OD-82** | **Closed — DL-51, DL-52** |
-| **OD-85** | **Adoption scope, artifact custody, and coexistence behaviour.** What is offered for adoption at what granularity; the **governing parent of an adopted connected-storage artifact** (**DL-45**); how the home behaves while both products remain installed; and the **surface** on which adoption is detected, offered, reviewed, and explained |
+| **OD-85** | **Closed — DL-110.** Adoption unit, artifact custody (a successfully adopted document becomes a new, independently HTBW-governed artifact under its own DL-104 Record Identity, anchored to the equivalent HTBW Asset, surviving source-product uninstall), coexistence (resolved directly from DL-52's own authority-transfer language), and surface requirements (capture surface routed to **OD-93**) |
+| **OD-93** | **HTBW Onboarding and Household Acceptance Interaction Surface.** Raised by DL-110. Interaction-surface placement only, for DL-109, DL-110, and OD-87's acceptance events |
 | **OD-20** | **Narrowed, not closed.** Runtime consumption of the standalone product remains open and is now bounded: whatever is decided, **HTBW must never require Asset Intelligence to be installed** |
-| **OD-36** | **Extended.** Reconciliation must cover an artifact whose governing parent is removed by a different product than the one now depending on it |
+| **OD-36** | **Extended, now informed.** DL-110 supplies the fact that an adopted artifact's governing parent is the HTBW Asset from the moment of adoption, never the source product's — the "artifact whose governing parent is removed by a different product" scenario this extension anticipated does not arise for an adopted artifact |
 | **OD-01** | Unaffected in question, newly consequential in scope — adopted records need somewhere to live |
-| **OD-69**, **OD-81** | Unaffected. Coexistence publishing conflicts remain theirs |
-| **OD-87** | **Adjacent, and deliberately separate.** Identity artifact invalidation is a second **bulk household act** of the same shape as adoption. It shares the missing-surface root recorded in **OD-85**, and whether it is absorbed there or stays separate is decided on **OD-87**, not here |
+| **OD-69** | **Closed — DL-61**, independently re-verified narrower in scope than assumed here: it governs only HTBW's own internal asset-derived Room/health-status projection, never a coexisting source product's own publishing. The coexistence case is resolved instead by DL-110 directly from DL-52 |
+| **OD-81** | **Unaffected, not expanded.** Its own broader public-capability-exposure question remains entirely its own; it was never required to resolve DL-110's narrower coexistence case |
+| **OD-87** | **Adjacent, and deliberately separate.** Identity artifact invalidation is a second **bulk household act** of the same shape as adoption. It shares the missing-surface root, now routed to **OD-93** alongside DL-109 and DL-110 — whether OD-87's own acceptance criterion treats this as resolved remains OD-87's own determination |
 
 ---
 

@@ -281,6 +281,11 @@ identifier, exactly as today. **Renaming the Asset ("A.B. Chase Piano" → a new
 physical structure and never orphans a document**, because resolution was never based on the display
 name to begin with — in HTBW or in the standalone product it is adopted from.
 
+**This section's conclusions are now formally accepted as DL-110**, which additionally settles the
+adopted artifact's Record Identity (**DL-104**), Governing Parent (the HTBW Asset), and survival of
+source-product uninstall, retirement, and retention-driven deletion as three distinct events. See
+[../governance/decision-ledger.md](../governance/decision-ledger.md), **DL-110**.
+
 ---
 
 ## Artifact reference contract

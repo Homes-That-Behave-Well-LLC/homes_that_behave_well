@@ -36,7 +36,10 @@ in the standalone product, HTBW offers a **one-time, authoritative, terminating 
 (**DL-52**) — never a runtime dependency, never continuous synchronisation, and never shared
 authority. **Relationships and limits are adopted as declarations; service history is adopted as
 Stewardship Care Evidence of kind `attested`; and observational history is never adopted as a Truth
-Fact.** Scope, artifact custody, coexistence, and surface remain open decision **OD-85**. See
+Fact.** **Scope, artifact custody, and coexistence are settled by DL-110**: an adopted document
+becomes a new, independently HTBW-governed artifact anchored to its HTBW Asset, surviving the source
+product's own uninstall; coexistence resolves directly from DL-52's own authority-transfer language.
+The generic acceptance-capture **surface** remains **OD-93**. See
 [../architecture/adr-product-disposition-and-legacy-adoption.md](../architecture/adr-product-disposition-and-legacy-adoption.md).
 
 ---
