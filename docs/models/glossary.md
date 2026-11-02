@@ -555,9 +555,9 @@ ADR: [../architecture/adr-home-identity-and-home-intelligence-governance.md](../
 **Accepted 2026-10-14 (Issue #191, formal acceptance review PASS).** The category (**DL-85**) of
 resource or responsibility that belongs to the Home rather than to one
 individual's caretaking of it — for example a **Home Mailbox** or a **Home Calendar**, below.
-Consistent with [home.md](home.md)'s existing "Owns" list and Home-scoped state. **Which
-responsibility owns the binding (the assignment) between the Home and the actual external account is
-not decided**; see **Home-to-External-Resource Association Ownership (OD-90)** below.
+Consistent with [home.md](home.md)'s existing "Owns" list and Home-scoped state. **Foundation owns the
+binding (the assignment) between the Home and the actual external account directly** (**DL-115**); see
+**Home-to-External-Resource Association Ownership (OD-90)** below.
 
 **Home Calendar**
 **Accepted 2026-10-14 (Issue #191, formal acceptance review PASS).** The (**DL-85**) Home-owned,
@@ -573,7 +573,7 @@ ownership, the "home maintenance calendar" already named in [home.md](home.md) a
 **Accepted 2026-10-14 (Issue #191, formal acceptance review PASS).** The (**DL-85**) Home-owned
 mailbox category for service, vendor, warranty, invoice, and appointment
 correspondence directed at the household rather than at one resident. See **Home-to-External-Resource
-Association Ownership (OD-90)** for the undecided account-binding question.
+Association Ownership (OD-90)** for the account-binding decision (**DL-115**: Foundation).
 
 **External-Resource Association**
 **Accepted 2026-10-14 (Issue #191, formal acceptance review PASS).** The (**DL-85**) Foundation
@@ -589,11 +589,14 @@ relationship-type shape, so neither may diverge from it in lifecycle, revocation
 Decision Trace behaviour, even though each may select a different owning responsibility.
 
 **Home-to-External-Resource Association Ownership (OD-90)**
-An open decision: which responsibility owns the Home-scoped **assignment** of the **External-Resource
-Association** relationship type, above, between the Home and an external mailbox/calendar account.
+**Resolved as DL-115 (accepted 2026-11-02, Issue #189, formal acceptance review PASS).** **Foundation
+owns** the Home-scoped **assignment** of the **External-Resource Association** relationship type,
+above, between the Home and an external mailbox/calendar account — directly on the Home object, by the
+same Foundation-held-declarative-binding pattern already used for `located-in`/`owner-of`.
 **Reconciled with, not merged into,** the already-open **Person-to-External-Resource Association
 Ownership (OD-77)** — both share the same relationship-type shape but remain separately decided,
-because the Home carries no equivalent of the **DL-71** Person Extension's distributed-ownership model.
+because the Home carries no equivalent of the **DL-71** Person Extension's distributed-ownership model;
+OD-77's own assignment-owning responsibility is unaffected and remains entirely open.
 See [decision-ledger.md](../governance/decision-ledger.md).
 
 **Share with Home Intelligence**

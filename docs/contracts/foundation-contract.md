@@ -26,7 +26,10 @@ Foundation depends on no other responsibility.
 - Deterministic vocabulary resolution via
   [contextual-vocabulary-contract.md](contextual-vocabulary-contract.md)
 - Descriptive asset knowledge with provenance
-- Relationships between objects, including caretaker-of, owner-of, serves-room, and located-in
+- Relationships between objects, including caretaker-of, owner-of, serves-room, located-in, and
+  External-Resource Association (subject: Home or Person, **DL-85**) — for the **Home-scoped**
+  assignment, Foundation also holds the assignment directly, by the same pattern as `located-in`/
+  `owner-of` (**DL-115**); the **Person-scoped** assignment remains **OD-77**'s own open question
 - The Communication **Category** axis: the closed, seven-value, content-domain enumeration
   (Stewardship, Security, Care, Environment, Experience, System, Safety), its canonical definitions,
   and assignment guidance (**DL-78**) — never the Category selected for an individual Communication,
