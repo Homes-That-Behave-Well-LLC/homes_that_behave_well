@@ -304,6 +304,7 @@ Experience class, and Action-risk class.
 | Relationship | Caretaker-of, owner-of elevation |
 | Experience class | Media may be suppressed while care escalations are not |
 | Action-risk class | Locks, garage doors, and heat sources require higher confidence |
+| External Decision Authority (delegation, **DL-118**) | A declared external policy engine; Type-2 (unmediated) action is capped at Convenience/Disclosure regardless of any other scope's permission |
 
 Precedence within a scope, and the exact global priority order across scopes, is recorded in
 [../architecture/behavioral-governance.md](../architecture/behavioral-governance.md) and remains open
@@ -808,6 +809,136 @@ governing whether, and how, a Communication may interrupt.
 > that an originator confers upon itself by naming its own category.
 
 Action-Risk Class enumeration and defaults are **DL-76**. Urgency Entitlement is **DL-77**, below.
+
+## Delegation Boundary (DL-118)
+
+Resolves **OD-66**. Governs how HTBW knowingly permits, bounds, observes, attributes, discloses, and
+explains **Delegated Adaptive Behaviour** — behaviour decided by an **external autonomous policy
+engine** rather than HTBW (`glossary.md`). An external policy engine is a **Decision Authority**, never
+a Behaviour Source (**DL-73**); this decision supplies the one piece DL-73 deliberately deferred: how
+such a Decision Authority is **declared**.
+
+### Executor versus delegate, restated
+
+**Where the decision is made, never implementation topology, is the discriminator.** An integration
+executing a decision HTBW already made is an **executor** under an ordinary HTBW Decision Trace
+(unaffected; also distinct from **OD-80**/**DL-50**'s Capability Execution Host, which decides
+nothing at all). An engine that decides on its own, within a declared boundary, is a **delegate**
+under this decision.
+
+### Declaration is explicit, never inferred
+
+**HTBW treats behaviour as authorized Delegated Adaptive Behaviour only following an explicit
+household declaration** — never detected, never inferred from timing or pattern (restating, not
+reopening, the existing "timing alone never establishes attribution" and "never silently learned"
+rules, **DL-73**, **P26**). Absent a declaration, an observed external-sourced action is recorded
+exactly as any other occurrence — a Domain Event carrying whatever Source/Decision-Authority
+attribution the evidence actually supports (**DL-73**) — and is never promoted to "authorized" merely
+because it was observed.
+
+### The Delegation Boundary is a new scope within the existing autonomy model, not a new policy type
+
+**Delegation reuses the existing ceiling-rule autonomy model** (above) by adding **External Decision
+Authority** as a recognised scope, alongside Home, Room, Person, Asset, Relationship, Experience
+class, and Action-risk class — the most restrictive applicable policy still sets the ceiling. **No new
+policy construct is created.** The declaration itself carries: the external engine's own stable
+reference (Foundation-typed, structurally analogous to the existing `located-in`/`owner-of`/
+External-Resource Association reference pattern — Foundation identifies *which* external system this
+is; it never owns the authorization); the bounded scope (capability, target/Room, temporal limits);
+the applicable Action-Risk Class ceiling; effective and revocation time; and provenance. **Foundation
+owns the reference; Operational Trust owns the bounded entitlement; the external engine owns only its
+own reasoning and whatever it is independently, externally authoritative for** — never any HTBW
+responsibility, capability, policy, identity, authorization, Truth, or Stewardship content.
+
+### Mediated (Type 1) versus unmediated (Type 2) action
+
+**Type 1 — mediated.** The delegate requests an effect through an HTBW-governed capability surface.
+The identical Operational Trust evaluation applies as to any other requester, **with no caller-origin
+exception** (restating **DL-114**'s existing "the contract already makes no caller-origin distinction"
+rule) — a declared delegation never substitutes for the Action-Risk Class's own required Confirmation
+Strength (**DL-76**); a request outside the declared boundary is denied exactly as any other
+unauthorized request.
+
+**Type 2 — unmediated.** The delegate acts directly on a device, integration, or other subsystem HTBW
+does not mediate; HTBW can only observe the resulting state afterward, per **DL-111**'s verified
+evidence model (the `history` REST/WebSocket contract, with Context as supporting evidence; rich
+automation/trace detail is **VERIFIED_NEGATIVE** for external retrieval). **HTBW cannot deny, confirm,
+or undo a Type-2 action before it occurs, and must never claim otherwise.**
+
+### Owner Policy Decision — Type-2 Risk-Class cap
+
+**A declared Type-2 delegation boundary is constitutionally capped at the Convenience and Disclosure
+Risk Classes.** Financial, Safety, Security, and Governance effects may be delegated only through a
+Type-1, HTBW-mediated path where Confirmation Strength can actually be enforced before execution.
+This is a structural floor, not an ordinary Household Override under **DL-76**'s three-tier model —
+the limiting fact is architectural (pre-execution enforcement is impossible for Type 2), not a risk
+preference a household could reasonably raise. **This does not claim HTBW can prevent a household
+from operating a higher-risk external system outside HTBW's own declaration**: if such a system acts,
+HTBW observes, attributes, and reports to the extent evidence supports, under **DL-73**, but never
+represents it as authorized Delegated Adaptive Behaviour, and never implies it was pre-authorized,
+confirmed, blocked, or preventable when it was not.
+
+### Observation, never inference
+
+HTBW may state only what evidence actually supports: that an action occurred, its target, requested/
+effected value, timestamp, Source/Decision-Authority attribution at whatever tier the evidence
+reaches (**DL-73**), and whether the observed effect falls inside or outside the declared boundary.
+**HTBW must never infer or fabricate** motive, rationale, optimisation goal, internal policy state,
+confidence, or model reasoning. Where the external engine itself supplies a reason, policy identifier,
+or confidence value, HTBW may retain and cite it **as the engine's own externally asserted evidence**
+— never reworded into HTBW's own reasoning, and never silently adopted as a Fact.
+
+### Decision Trace and Domain Event, correctly distinguished
+
+**The delegated action itself produces a Domain Event with Decision-Authority attribution (DL-73),
+never its own Decision Trace** — restating, not reopening, "HTBW never produces a Decision Trace for
+a decision HTBW did not make" (**DL-46**). A Decision Trace is produced only for HTBW's **own**
+subsequent evaluation: whether the observed action falls inside the declared boundary, and what, if
+anything, HTBW does next.
+
+### Honest reduced explainability
+
+Residents must be able to learn, in plain language and from governed records alone: who decided this
+(HTBW or a named external delegate); what action occurred and when; whether it fell inside the
+declared boundary; what evidence HTBW actually holds; and — stated plainly, never silently omitted —
+what reasoning HTBW does **not** hold. HTBW never manufactures a "why" it does not have.
+
+### Out-of-boundary behaviour
+
+**Type 1**: denied by ordinary Operational Trust evaluation — no new mechanism. **Type 2**: HTBW
+records the occurrence, attributes it per **DL-73**, compares it against the declared boundary, and
+**reports** the violation to the household through the existing Communication/disclosure path — it
+does **not** automatically reverse, suppress, or revoke the declaration; revocation remains a
+household action against the declaration's own lifecycle, consistent with "do not invent automatic
+revocation unless governed."
+
+### Data disclosure is independent of action delegation
+
+**Authorizing a delegate to act is never authorization to disclose household data to it.** Any
+household state, Room, Person, or care/health information the external engine would need to decide is
+independently governed by existing disclosure architecture (**DL-34**, audience-evaluated, never
+assumed from access) — delegation of an action never implies, and never silently grants, data
+disclosure; each is declared and evaluated separately.
+
+### Distinct from Reasoning Provider, DL-83, and DL-114
+
+A **Reasoning Provider** (**DL-93**) supplies reasoning to HTBW and owns no decision authority — the
+opposite shape from a delegate, which owns its own decision and no HTBW authority; both may use
+similar technology, which is irrelevant to responsibility ownership. **DL-83** (generated, persistent
+HTBW-authored behaviour) remains HTBW's own decision under HTBW's own lifecycle — never this
+decision's concern merely because generation involved a model. A third party invoking an **HTBW
+service published under DL-114** is a request surface, never automatically delegated authority — the
+identical Operational Trust evaluation already governs it, with no caller-origin exception, exactly as
+Type 1 above; DL-114's own MCP/external-agent exposure question remains independently open and is not
+decided here.
+
+### Lifecycle
+
+The declaration reuses existing governed-configuration mechanics: Record Identity and Version Identity
+(**DL-104**), Change Records carrying Effective/Recorded Time and provenance (**DL-26**, **DL-27**,
+**P30**) for creation, modification, suspension, and revocation; a stale or unresolvable external
+engine reference resolves to unavailable and is reported, never silently dropped (**P30**). No new
+lifecycle model is created.
 
 ## Urgency Entitlement (DL-77)
 
@@ -1667,6 +1798,7 @@ effect.** See [../architecture/privacy.md](../architecture/privacy.md).
 | OD-40 | Evidence Package assembly, transport, integrity representation, and audience |
 | OD-45 | **Resolved as DL-96.** Acknowledgement is an explicit, Communication-specific responsive act by an identified, in-audience Person; attribution reuses this document's existing Required Identity Band machinery (**DL-36**, **DL-39**) unchanged, no new scale; unacknowledged delivery remains `unknown`, never failure |
 | OD-46 | **Resolved as DL-77.** Urgency is a fixed, cumulative four-level entitlement ladder, formally independent of Action-Risk Classification (**DL-76**), never overriding audience, privacy, consent, disclosure, identity, authority, or precedence (**OD-04**) |
+| OD-66 | **Resolved as DL-118.** Delegation Boundary for External Adaptive Behaviour — External Decision Authority is a new autonomy-model scope, not a new policy type; declaration is explicit only, never inferred; Type-2 (unmediated) delegation is constitutionally capped at Convenience/Disclosure Risk Classes; the delegated act is a Domain Event (**DL-73**), never its own Decision Trace |
 | OD-49 | Communication retention floor and ceiling, with content and metadata classified separately |
 | OD-51 | **Resolved as DL-76.** Action-Risk Class enumeration (Convenience, Disclosure, Financial, Safety, Security, Governance) and per-class Required Identity Band / Confirmation Strength / Address by Name / Presentation Threshold defaults; household and object-specific override model; interruption confirmed as a separate axis (**DL-77**) |
 | OD-52 | **Closed — DL-71.** Five Intended Audience Specification forms accepted; relationship-based resolution requires a **DL-57** Delegated Access Grant for actual authorization; Guest fallback and Copy Settings From Person are Person Setup conveniences, not new authority models |

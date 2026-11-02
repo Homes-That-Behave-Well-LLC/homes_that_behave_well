@@ -1386,8 +1386,15 @@ An approved learned behaviour the home may act on within an authorised ceiling. 
 revocable, versioned, and explainable.
 
 **Delegated Adaptive Behaviour**
-Behaviour decided and executed by an external policy engine within a declared boundary. HTBW may
-observe it and must disclose that it does not hold the external engine's reasoning.
+**Resolved as DL-118 (Issue #131, formal acceptance review PASS).** Behaviour decided and executed by
+an external policy engine within a declared **Delegation Boundary** — a new scope within Operational
+Trust's existing autonomy-ceiling model (`operational-trust.md`), never a new policy type. HTBW
+observes it and discloses, honestly and in plain language, that it does not hold the external engine's
+reasoning. **Declaration is explicit only, never detected or inferred.** A mediated (**Type 1**)
+request through an HTBW-governed capability is evaluated identically to any other request, with no
+caller-origin exception; an unmediated (**Type 2**) direct action is observed only after the fact and
+is constitutionally capped at the **Convenience** and **Disclosure** Risk Classes — HTBW cannot
+pre-enforce Confirmation Strength for an action it never mediates, and never claims otherwise.
 
 **Mode**
 A governed Room or Home state that changes what is permitted or appropriate — for example Nighttime
