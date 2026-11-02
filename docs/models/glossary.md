@@ -1196,6 +1196,22 @@ an attestation confirms it; or `waived` — a household decision closing the obl
 asserting that care occurred**. Declares its own Retention Classification (**DL-47**).
 Model: [stewardship.md](stewardship.md)
 
+**Fulfilment Step (DL-116)**
+A governed, optional sub-record of an obligation's progression toward completion, modelled on the
+**Custody Period** (**DL-49**) precedent — never a new top-level "Occurrence" object, and never a full,
+independent Obligation. A recurring obligation remains **one continuously-identified record** cycling
+through its existing Lifecycle States (**DL-48**'s "reopened retains identity," restated); a Fulfilment
+Step scopes to the obligation's **current cycle**. The simple, single-activity case needs none. Where a
+household's fulfilment definition decomposes a cycle into more than one activity, each Fulfilment Step
+declares its own accepted completion-evidence kind(s) (reusing **DL-48**'s four kinds unchanged) and may
+always be completed by a governed human `attested` fallback — **never configurable as absolutely
+non-overridable** — authorized and confirmation-gated by the existing **DL-57**/**DL-76** model
+unchanged. Predecessor timing is calendar-day-only, relative to the next step, with cumulative offsets
+and planned dates derived and materialized at cycle start, never recomputed from a later-edited
+definition. Recurrence anchors to the **Effective Time** of actual, successful completion — never the
+prior target, never the Recorded Time, and never advanced by a waived or incomplete cycle.
+Model: [stewardship.md](stewardship.md)
+
 **Completion Mode**
 Explanatory vocabulary describing which of two already-accepted obligation configurations applies —
 never a new stored state (**DL-71**). **One Completion Satisfies All**: one obligation names multiple

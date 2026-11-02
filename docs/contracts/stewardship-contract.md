@@ -55,6 +55,13 @@ reminder, advisory, maintenance task, corrective action, or escalation is a late
 - A **Care Evidence Record** is what closes an obligation, carrying exactly one evidence kind —
   `observed`, `attested`, `performed`, or `waived` — and declaring its own Retention Classification
   (**DL-47**)
+- **Fulfilment Step** — a governed, optional sub-record of an obligation's progression toward
+  completion within its current cycle (never a new top-level Occurrence object; the simple
+  single-activity case needs none); reuses the same four Care Evidence kinds; a governed human
+  `attested` fallback always remains available and may never be locked out, under the unchanged
+  **DL-57**/**DL-76** authorization and confirmation-strength model; recurrence anchors only to the
+  **Effective Time** of actual completion, never broken by a waived or never-completed cycle
+  (**DL-116**)
 - **Custody Periods** — who is accountable for a subject, for a bounded time, under what agreement,
   with whose insurance responsibility (**DL-49**)
 - A Custody Period lifecycle of `opened`, `updated`, `closed`, `corrected`, `adversely_resolved`
@@ -247,7 +254,8 @@ and who is accountable.
 |---|---|
 | OD-21 | **Resolved as DL-75.** Significance is a structured Significance Declaration — Derivation Source, Base Significance, Provenance, Effective Version — structurally separate from DL-39, DL-58, DL-73, DL-74, Operational Trust risk classification, and OD-22's escalation ladder |
 | OD-22 | **Closed — DL-97.** Escalation ladder semantics and defaults — rungs reuse DL-71's five Intended Audience forms; no self-authorizing triggers; no HTBW-wide default grace period (household-configured) |
-| OD-23 | Whether obligations project into Home Assistant calendars, `todo` entities, or a connected store |
+| OD-23 | Whether obligations project into Home Assistant calendars, `todo` entities, or a connected store. Surface mechanics only — the unit projected is **OD-94** |
+| OD-94 | **Resolved as DL-116.** Fulfilment Step — a governed sub-record of an obligation's current cycle, completion-evidence policy with an always-available governed human attestation fallback, step skip distinct from whole-cycle `waived`, failure/recovery, and completion-anchored recurrence never broken by waiver or non-completion |
 | OD-75 | **Resolved as DL-48 and DL-49.** Condition and lifecycle are orthogonal; deferral and closure are lifecycle transitions carried by Change Records; the **Care Evidence Record** defines accepted completion evidence; custody is a Stewardship-owned **Custody Period**. Grouping remains a projection concern (**OD-23**) |
 | OD-76 | **Resolved as DL-57.** Delegated Stewardship authority — one person may hold Stewardship access delegated by another, self/proxy/capacity model, the Delegated Access Grant construct, non-resident authorized participants, revocation, and the OD-22 escalation boundary are accepted |
 | OD-69 | **Resolved as DL-61.** Asset-derived Entity projection reuses existing owned vocabularies, never an invented health scale; Person Environmental Requirements reuse the Asset environmental-limit pattern through Person Setup; Environmental Coverage, Configuration Completeness, and Truth Confidence remain three separate measures; Room Environmental Status is a non-authoritative projection; Room Health, Room Confidence, and People Health are formally rejected as authoritative terms |

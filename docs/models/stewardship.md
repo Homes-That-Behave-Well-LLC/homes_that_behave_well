@@ -252,6 +252,135 @@ distinguishable, and the difference is explainable years later.
 **An executor reporting success is not closure** — nor is a dismissed reminder, a ticked projection,
 or a requested action. **`unknown` is never `met`**, and **absence of evidence is never compliance**.
 
+### Fulfilment Step — governed progression toward completion (DL-116)
+
+Resolves **OD-94**. An obligation's path to its own completion may optionally be represented as a
+governed progression of **Fulfilment Steps** — never a second authority, and never a new top-level
+"Occurrence" object.
+
+**No new object class for recurrence.** A recurring obligation is **one continuously-identified
+record** whose Lifecycle State already cycles through `raised` → `active` → … → `closed` →
+`reopened` → … (**DL-48**'s existing "a reopened obligation retains its identity" rule, restated, not
+reopened). What a household calls "this year's service" or "last year's filter replacement" is one
+**cycle** of that same record — informal language for the span between one `raised`/`reopened`
+transition and the next `closed` — never a separately governed object. Fulfilment Steps scope to the
+obligation's **current cycle**, identified by ordinary Change-Record time-ordering from its most
+recent `raised`/`reopened` transition.
+
+**The simple case needs no Fulfilment Step at all.** An obligation whose fulfilment is a single
+activity is already fully expressed by its own existing Condition State, Lifecycle State, and one
+Care Evidence Record (**DL-48**) — zero added records. Fulfilment Steps exist only once a household's
+declared fulfilment definition decomposes a cycle into more than one activity.
+
+**Minimum structure, by precedent.** Where decomposition exists, each Fulfilment Step is a **governed
+sub-record**, modelled on **DL-49**'s Custody Period precedent: Stewardship-owned, carrying its own
+Record Identity (**DL-104**), its lifecycle expressed as ordinary Change Records (**DL-26**, **DL-27**,
+**P30**) — never a full, independent Stewardship Obligation (which would wrongly duplicate
+Significance, Accountability, and Escalation intent per step), and never an anonymous, unversioned
+value (which could not support version-correct Decision Trace citation of a skip, failure, or
+evidence).
+
+**Reusable definition versus cycle execution.** The household's fulfilment definition — the set of
+Fulfilment Steps, their predecessor relationships, relative calendar-day offsets, each step's accepted
+completion-evidence kind(s), and the recurrence policy — is a versioned, Stewardship-owned
+configuration. Each cycle **pins to the definition version in force when that cycle began** (the same
+version-pinning discipline already applied to a Significance Declaration's Effective Version, **DL-75**,
+and to a Governed Reference generally, **DL-104**): editing the reusable definition mid-cycle never
+migrates the active cycle, and never rewrites a completed cycle's history; only the **next** cycle
+uses the edited definition.
+
+**Relative timing.** Predecessor Fulfilment Steps are authored with a **calendar-day-only** offset
+relative to the next step toward the terminal completion step, which itself carries the cycle's
+target date. Cumulative offsets and each step's planned date are **derived**, never independently
+maintained authorities — restating the repository's existing single-authority-with-derived-projections
+discipline (**DL-26**; **DL-49**'s "the current custodian is the open Custody Period"). Once a cycle
+begins, its derived planned dates are **materialized as that cycle's own historical fact**, never
+silently recomputed from a since-edited definition. No business-day, weekday, or holiday calendar is
+introduced; calendar days only.
+
+**Step activation and early completion.** Completing, or validly skipping, a predecessor Fulfilment
+Step makes the next step immediately actionable, retaining its own calculated target date. An
+actionable step may be completed before its target; doing so never rewrites that target.
+
+**Completion evidence.** Each Fulfilment Step declares its own accepted completion-evidence kind(s),
+reusing **DL-48**'s four Care Evidence kinds unchanged (`observed`, `attested`, `performed`, `waived`)
+— no new kind is created. **A governed human `attested` path always remains available as the
+ultimate fallback, regardless of a step's preferred or normally-required kind; a step may never be
+configured as absolutely non-overridable by authorized human attestation.** Authorization and required
+confirmation strength for supplying that attestation are governed entirely by the existing **DL-57**
+Delegated Access Grant `complete`/`close` operation and **DL-76**'s Risk-Class-derived Required
+Identity Band/Confirmation Strength model — unchanged, with no second authorization framework created.
+A higher-consequence step may therefore require stronger identity and confirmation before accepting
+attestation, but may never be rendered unresolvable merely because its preferred evidence source is
+unavailable. **Accepting attestation never fabricates the preferred evidence**: where a step's
+preferred kind was `observed` and the observation was unavailable or unsatisfied, the resulting Care
+Evidence Record states plainly that the expected observation was unavailable or unsatisfied and that
+`attested` evidence was used instead — it never states that the observation succeeded.
+
+**Step skip, distinct from whole-cycle waiver.** A predecessor Fulfilment Step may be skipped where
+the household's progression does not require it for this cycle (for example, ordering a replacement
+already on hand). Skipped is never completed and never failed; progression continues to the next step;
+a reason is optional for an ordinary step unless an applicable significance or care-sensitivity rule
+already requires one. Step skip is a narrower, distinct concept from the obligation's own existing
+`waived` condition (**DL-48**), which ends the **entire current cycle** without asserting that care
+occurred — skipping one predecessor step must never be recorded as, or mistaken for, waiving the
+obligation itself.
+
+**Failure and recovery.** A required Fulfilment Step may fail to produce its expected outcome (a
+shipment never arrives; a scheduled technician does not appear). A failed step is never represented as
+completed. Recovery returns progression to the appropriate prerequisite action implied by the
+predecessor structure — the step whose outcome the failed step actually depended on, not
+unconditionally "the first step." The failed attempt's own history is retained unchanged; a
+subsequent, successful attempt remains distinguishably its own Fulfilment Step instance.
+
+**Completion-anchored recurrence.** Following the obligation's successful completion — a non-`waived`
+Care Evidence Record closing the current cycle — the next cycle's recurrence is anchored to the
+**Effective Time of that completion**, never to the cycle's prior target date, and never to the
+Recorded Time at which HTBW learned of it. This applies identically whether completion was on time,
+early, late, or learned of only after the fact, and whether it followed one or several failed/recovered
+attempts. **Non-success paths never advance the recurrence anchor**: a `waived` cycle closes without
+asserting completion and therefore supplies no completion event to anchor from; because the obligation
+is one continuously-identified record whose own standing recurrence policy is never deleted or
+exhausted by a waived cycle, the policy simply continues to govern from whatever anchor was already in
+force — a waived cycle neither destroys the recurring obligation nor fabricates a false completion
+date. An obligation that is never completed remains `overdue`/`active` under existing **DL-48**/**DL-97**
+behaviour and never spawns a second, parallel cycle merely because a nominal interval has elapsed.
+Deferment remains the existing, separate lifecycle transition (**DL-48**) — the same cycle continuing
+under changed timing — never conflated with recurrence.
+
+**Explainability, captured at execution, not reconstructed later.** Every Fulfilment Step transition
+is an ordinary Change Record and therefore already carries, unchanged, the constitutionally required
+bitemporal pair (`temporal-record.md`): **Effective Timestamp** — when the step's outcome actually
+took effect, to the precision the evidence genuinely supports, never invented — and **Recorded
+Timestamp** — when HTBW learned or recorded it. Where effective time cannot be determined, it is
+recorded as unknown; Recorded Time is never silently substituted for it (`temporal-record.md`,
+Failure behavior, unchanged). "Planned" is the step's own materialized target, evaluated against the
+version-pinned fulfilment definition in force for the cycle. No third temporal field, and no new
+explainability subsystem, is introduced. **Home Steward** may later consume this governed history
+under its own applicable authorization and disclosure architecture; it never becomes Stewardship's
+authority, never reconstructs missing history from current entity, `todo`, Calendar, or Recorder
+state, and never becomes a second Recorder.
+
+**Boundary with OD-23.** This decision owns the Fulfilment Step, its kind, its timing, and its
+completion-evidence semantics — the **current actionable unit** of a cycle's progression. It does not
+choose or authorize any native projection of that unit. **OD-23** (#109) continues to own whether and
+how that unit is projected: actionable household work may become eligible for `todo`; an actual
+scheduled occurrence created during progression (never a due date alone) may become eligible for
+Calendar; disclosure classification, **DL-41** projection dependency, Recorder consequence, and the
+capability catalog remain entirely OD-23's.
+
+#### Worked progressions
+
+| Case | Progression | Outcome |
+|---|---|---|
+| **Simple** | Replace Filter, single step, household attestation accepted | No Fulfilment Step record created; the obligation's own Care Evidence Record (`attested`) closes the cycle; recurrence anchors to its Effective Time |
+| **Procurement** | Order Filter (−14) → Receive Filter (−7) → Replace Filter (target) | Three Fulfilment Steps, offsets calendar-day-only; completing Order activates Receive immediately at its own calculated target; early completion of any step never rewrites a later step's target |
+| **Already available** | Order Filter skipped ("already have one") → Receive Filter skipped → Replace Filter performed | Both predecessors recorded `skipped`, optional reason, never `completed` and never `waived`; Replace Filter's own completion still closes the cycle normally |
+| **Delivery failure** | Order Filter completed → Receive Filter fails (shipment lost) → recovery | Receive Filter recorded `failed`; progression returns to Order Filter (its actual prerequisite, not unconditionally "step one"); a later successful Order/Receive pair remains its own distinguishable Fulfilment Step instance |
+| **HVAC scheduling** | Schedule Service (`todo`-eligible under OD-23) → appointment scheduled (Calendar-eligible occurrence under OD-23) → service confirmation | Scheduling step closes once an actual appointment exists; the appointment's passing is never itself evidence of completion; Stewardship still requires its own configured completion evidence |
+| **HVAC no-show** | Scheduled appointment → technician does not appear → recovery | The appointment step is recorded `failed`, never `completed`; progression returns to Schedule Service; a second, successful appointment anchors recurrence, never the failed one |
+| **Waived cycle** | "Skip this year's service" | The obligation's existing `waived`+`closed` ends the current cycle without asserting care occurred; the standing recurrence policy is untouched and continues to govern the next cycle from its existing anchor — the recurring obligation is never lost |
+
 ---
 
 ## The boundary that must not be crossed
@@ -1157,7 +1286,7 @@ collection. This preserves a useful pattern proven in the reference implementati
 | OD-21 | **Resolved as DL-75.** Significance is a structured Significance Declaration — Derivation Source, Base Significance (Routine < Important < Significant < Critical), Provenance, Effective Version. Research-Based and Observed-Household Recommendations are separately defined, non-authoritative Suggestion-stage proposals under the existing P26/DL-21 promotion ladder |
 | OD-22 | **Closed — DL-97.** Escalation ladder semantics and defaults — escalation reuses DL-71's five Intended Audience forms as rungs (never a sixth form); no trigger is self-authorizing; no HTBW-wide default grace period exists (household-configured via the existing Escalation intent field); accountability-vs-audience, stop conditions, top-of-ladder/accountability-gap, and pattern-reporting are each stated. Retry remains distinct (**OD-54**) |
 | OD-23 | Whether obligations project into Home Assistant calendars, `todo` entities, or a connected store. **Surface mechanics only** — the unit being projected (whole obligation, or a narrower in-progress unit) is **OD-94** |
-| OD-94 | Whether, and how, an obligation occurrence decomposes into a governed sequence of steps toward completion, each with its own completion-evidence method, optional predecessor timing, skip/failure/recovery behaviour, and how recurrence anchors to completion. Sibling to **OD-23**, not blocking either direction |
+| OD-94 | **Resolved as DL-116.** Fulfilment Step — governed progression toward completion, reusable fulfilment definition versus cycle execution, completion-evidence policy with a governed human attestation fallback that may never be locked out, step skip distinct from whole-cycle `waived`, failure/recovery, and completion-anchored recurrence that is never broken by a waived or never-completed cycle. Sibling to **OD-23**, not blocking either direction |
 | OD-75 | **Resolved as DL-48 and DL-49.** Condition and lifecycle are orthogonal; deferral and closure are lifecycle transitions carried by Change Records; the **Care Evidence Record** defines accepted evidence that care occurred; custody is a Stewardship-owned **Custody Period**. Grouping remains a projection concern (**OD-23**) |
 | OD-76 | **Resolved as DL-57.** Delegated Stewardship authority — the Delegated Access Grant, self/proxy/capacity model, non-resident authorized participants, revocation, and the OD-22 escalation boundary are accepted |
 | OD-69 | **Resolved as DL-61.** Asset-derived Entity projection reuses existing owned vocabularies; Person Environmental Requirements reuse the Asset environmental-limit pattern; Environmental Coverage, Configuration Completeness, and Truth Confidence are kept separate; Room Environmental Status is a non-authoritative projection; Room Health, Room Confidence, and People Health are formally rejected |
