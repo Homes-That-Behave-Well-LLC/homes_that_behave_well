@@ -381,6 +381,93 @@ capability catalog remain entirely OD-23's.
 | **HVAC no-show** | Scheduled appointment → technician does not appear → recovery | The appointment step is recorded `failed`, never `completed`; progression returns to Schedule Service; a second, successful appointment anchors recurrence, never the failed one |
 | **Waived cycle** | "Skip this year's service" | The obligation's existing `waived`+`closed` ends the current cycle without asserting care occurred; the standing recurrence policy is untouched and continues to govern the next cycle from its existing anchor — the recurring obligation is never lost |
 
+### Projection — native interaction surfaces (DL-117)
+
+Resolves **OD-94**'s sibling, **OD-23**. Restates and supersedes the prior "`todo` vs. Calendar vs.
+both" framing with the Owner's stage-sensitive progression: `todo` and Calendar are never simultaneous
+peer projections of one obligation; each surface eligibility follows the **current actionable unit**
+(**DL-116**) — the obligation itself where undecomposed, or its current Fulfilment Step where
+decomposed — never the obligation indiscriminately.
+
+**`todo` role.** A `todo` entity is the preferred native interaction surface for currently actionable
+household work (Order Filter, Receive Filter, Replace Filter, Schedule HVAC Service), where disclosure
+classification and native capability both permit it. Verified against current official Home Assistant
+developer documentation (`contributors.home-assistant.io/core/entities/todo/`): a `TodoItem` carries
+`uid`, `summary`, `status` (`NEEDS_ACTION`/`COMPLETED`), optional `due` (date or datetime), and optional
+`description`; entity state is the count of incomplete items. **No per-item audience field exists** —
+exposure is at the whole-entity level only.
+
+**Calendar role.** Calendar represents an **actual scheduled occurrence** produced during fulfilment
+progression — never a due-by date alone. Verified against official documentation
+(`contributors.home-assistant.io/core/entities/calendar/`): a `CalendarEvent` requires `start`/`end`
+and carries `summary`, `description`, `location`, `uid`; its `status` field is `CONFIRMED`/`TENTATIVE`
+(meeting confirmation) and **a Calendar event has no completion concept at all** — entity state is only
+`on`/`off` (an event is occurring now, or not). A due-by date with no actual scheduled appointment
+yet established must never be fabricated into a Calendar event.
+
+**Stage handoff.** Scheduling a real appointment satisfies the "Schedule Service" Fulfilment Step
+(via its own governed completion evidence, not via Calendar's mere existence); the scheduling
+projection is then withdrawn as no longer the current actionable unit, and the actual appointment
+becomes Calendar-eligible. The appointment time passing is never evidence that the underlying activity
+occurred — Stewardship still requires its own configured completion evidence (**DL-116**) before
+progressing or closing.
+
+**Native interaction mapping, honest and bounded:**
+
+| Native interaction | Treatment |
+|---|---|
+| **Complete/tick** | A governed input event. Where the current unit's declared completion policy accepts `attested` evidence (always true per **DL-116**) and the interaction's own identity/authorization context satisfies the unit's required Confirmation Strength (**DL-76**), it may supply `attested` evidence; Stewardship alone determines completion. **A bare native interaction carrying only a Home Assistant `Context.user_id` is ordinary evidence, never an Identity Assertion** (restating **DL-114**'s existing caller-claim rule) — a higher-Confirmation-Strength unit may therefore require a stronger-identity interaction path (for example, Concierge) before accepting the tick as sufficient attestation, rather than accepting it outright |
+| **Delete** | Projection withdrawal only. The obligation/Fulfilment Step is unaffected; native deletion never deletes authoritative Stewardship state |
+| **Resident-created item** | No Stewardship authority merely by existing on the same list. At most a candidate under the existing **P26**/**DL-21** Suggestion-stage promotion ladder — never auto-adopted, never a revived intake workflow |
+| **Edit title/description** | Presentation-only; never rewrites the Statement |
+| **Edit due date** | A governed input event — a candidate rescheduling signal Stewardship evaluates — never a silent rewrite of a Fulfilment Step's own materialized, pinned planned target (**DL-116**) |
+| **Skip** | Where no honest native disposition exists for "skipped" (verified: `todo` has no such status), skip is recorded through a governed Stewardship/Concierge interaction, never silently mapped to native `COMPLETED` |
+| **Failure** | Never represented as native completion; the current actionable projection is withdrawn and replaced as progression recovers (**DL-116**) |
+
+**Disclosure classification.** Applying **DL-34** (disclosure is audience-evaluated, never assumed
+from access) to each potentially-projected element: generic action title/description/target date —
+broadly projectable where the obligation itself is non-sensitive; Room/Asset reference — projectable as
+ordinary context; Person/accountability, care, health/medication, and Significance/escalation detail —
+**never projected onto a broadly-shared native surface**, because neither `todo` nor Calendar carries
+any per-item audience control (verified above) — a **verified negative**, not a policy choice. Where an
+obligation's class requires audience restriction a shared surface cannot enforce, **no native
+projection exists for it**; the household's existing governed conversational path (Concierge, **DL-69**)
+remains available, audience-filtered pre-answer. **Projection scope is never one universal
+per-household/per-caretaker/per-Room rule** — it is whatever disclosure eligibility and configured
+surface jointly permit, keeping Obligation Subject, Accountability, Disclosure Audience, Projection
+Target, and Room Context the five distinct concepts they already are, never collapsed into one.
+
+**DL-41.** A selected native entity that is unconfigured or unavailable makes the *projection*
+unavailable, named as the missing dependency; the Fulfilment Step/obligation remains entirely
+authoritative and intact, and a separately configured interaction path (where one exists) remains
+available on its own terms.
+
+**Recorder/retention (DL-42, DL-47, DL-114).** Publishing a native entity causes Home Assistant's own
+Recorder to retain that entity's history as an ordinary, accepted publication consequence — never a
+second Recorder, and never copied back into Stewardship's own governed history, which remains the
+sole source for historical explainability (**DL-116**).
+
+**Decision Trace.** Reuses existing mechanism (**DL-15**, **DL-104**) to record, where applicable: why a
+unit was or was not projected, the surface selected, disclosure filtering applied, how a native
+interaction was interpreted, why native completion did or did not affect Stewardship, why a projection
+was withdrawn, and why a scheduled occurrence became Calendar-eligible. No new trace subsystem.
+
+**Capability catalog (DL-114).** The projection capability's own catalog entry is Stewardship-owned
+documentation (this contract's *What Stewardship guarantees*), never a central registry: capability
+identity (Stewardship Obligation/Fulfilment Step projection), owner (Stewardship; the projection is
+never a second authority, **DL-31**), supported unit (the current actionable unit, **DL-116**), native
+surface (`todo`/Calendar, stage-sensitive), disclosure classification (above), interaction mapping
+(above), failure behaviour (**DL-41**), retention consequence (above), and Decision Trace obligations
+(above).
+
+**Connected Store and an HTBW panel, re-tested and rejected as primary surfaces.** Connected Storage
+remains persistence infrastructure, never a resident interaction surface (**DL-44**, unchanged) — not a
+projection option. A dedicated HTBW panel is not justified under **DL-30**/**P21**: native `todo`/Calendar
+capability, verified above, together with the already-governed Concierge conversational path (**DL-69**),
+are sufficient for every honestly-representable class; a panel is not built merely because
+significance, accountability, and escalation remain lossy on native surfaces — that lossiness is
+honestly accepted, per **P18**, rather than solved by a new surface residents must learn.
+
 ---
 
 ## The boundary that must not be crossed
@@ -1285,7 +1372,7 @@ collection. This preserves a useful pattern proven in the reference implementati
 |---|---|
 | OD-21 | **Resolved as DL-75.** Significance is a structured Significance Declaration — Derivation Source, Base Significance (Routine < Important < Significant < Critical), Provenance, Effective Version. Research-Based and Observed-Household Recommendations are separately defined, non-authoritative Suggestion-stage proposals under the existing P26/DL-21 promotion ladder |
 | OD-22 | **Closed — DL-97.** Escalation ladder semantics and defaults — escalation reuses DL-71's five Intended Audience forms as rungs (never a sixth form); no trigger is self-authorizing; no HTBW-wide default grace period exists (household-configured via the existing Escalation intent field); accountability-vs-audience, stop conditions, top-of-ladder/accountability-gap, and pattern-reporting are each stated. Retry remains distinct (**OD-54**) |
-| OD-23 | Whether obligations project into Home Assistant calendars, `todo` entities, or a connected store. **Surface mechanics only** — the unit being projected (whole obligation, or a narrower in-progress unit) is **OD-94** |
+| OD-23 | **Resolved as DL-117.** `todo`/Calendar are stage-sensitive, never simultaneous peer projections; `todo` for the current actionable unit (**DL-116**), Calendar only for an actual scheduled occurrence, never a due date alone; disclosure classification excludes Person/accountability/care/health/Significance content from broadly-shared native surfaces (verified negative, no per-item audience control exists); Connected Store and an HTBW panel are rejected as primary surfaces |
 | OD-94 | **Resolved as DL-116.** Fulfilment Step — governed progression toward completion, reusable fulfilment definition versus cycle execution, completion-evidence policy with a governed human attestation fallback that may never be locked out, step skip distinct from whole-cycle `waived`, failure/recovery, and completion-anchored recurrence that is never broken by a waived or never-completed cycle. Sibling to **OD-23**, not blocking either direction |
 | OD-75 | **Resolved as DL-48 and DL-49.** Condition and lifecycle are orthogonal; deferral and closure are lifecycle transitions carried by Change Records; the **Care Evidence Record** defines accepted evidence that care occurred; custody is a Stewardship-owned **Custody Period**. Grouping remains a projection concern (**OD-23**) |
 | OD-76 | **Resolved as DL-57.** Delegated Stewardship authority — the Delegated Access Grant, self/proxy/capacity model, non-resident authorized participants, revocation, and the OD-22 escalation boundary are accepted |

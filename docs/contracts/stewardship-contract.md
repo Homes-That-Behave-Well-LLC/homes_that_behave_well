@@ -62,6 +62,11 @@ reminder, advisory, maintenance task, corrective action, or escalation is a late
   **DL-57**/**DL-76** authorization and confirmation-strength model; recurrence anchors only to the
   **Effective Time** of actual completion, never broken by a waived or never-completed cycle
   (**DL-116**)
+- **Projection** — `todo`/Calendar native interaction surfaces for the current actionable unit,
+  stage-sensitive and never simultaneous peer authorities; a native surface is a projection, never a
+  second authority (**DL-31**, **DL-117**); disclosure excludes Person/accountability/care/health/
+  Significance content from any surface lacking per-item audience control (verified negative, no
+  such control exists on `todo` or Calendar)
 - **Custody Periods** — who is accountable for a subject, for a bounded time, under what agreement,
   with whose insurance responsibility (**DL-49**)
 - A Custody Period lifecycle of `opened`, `updated`, `closed`, `corrected`, `adversely_resolved`
@@ -254,7 +259,7 @@ and who is accountable.
 |---|---|
 | OD-21 | **Resolved as DL-75.** Significance is a structured Significance Declaration — Derivation Source, Base Significance, Provenance, Effective Version — structurally separate from DL-39, DL-58, DL-73, DL-74, Operational Trust risk classification, and OD-22's escalation ladder |
 | OD-22 | **Closed — DL-97.** Escalation ladder semantics and defaults — rungs reuse DL-71's five Intended Audience forms; no self-authorizing triggers; no HTBW-wide default grace period (household-configured) |
-| OD-23 | Whether obligations project into Home Assistant calendars, `todo` entities, or a connected store. Surface mechanics only — the unit projected is **OD-94** |
+| OD-23 | **Resolved as DL-117.** `todo` for the current actionable unit, Calendar only for an actual scheduled occurrence; stage-sensitive, never simultaneous peer projections; disclosure excludes Person/accountability/care/health/Significance content from broadly-shared native surfaces (verified negative) |
 | OD-94 | **Resolved as DL-116.** Fulfilment Step — a governed sub-record of an obligation's current cycle, completion-evidence policy with an always-available governed human attestation fallback, step skip distinct from whole-cycle `waived`, failure/recovery, and completion-anchored recurrence never broken by waiver or non-completion |
 | OD-75 | **Resolved as DL-48 and DL-49.** Condition and lifecycle are orthogonal; deferral and closure are lifecycle transitions carried by Change Records; the **Care Evidence Record** defines accepted completion evidence; custody is a Stewardship-owned **Custody Period**. Grouping remains a projection concern (**OD-23**) |
 | OD-76 | **Resolved as DL-57.** Delegated Stewardship authority — one person may hold Stewardship access delegated by another, self/proxy/capacity model, the Delegated Access Grant construct, non-resident authorized participants, revocation, and the OD-22 escalation boundary are accepted |

@@ -495,7 +495,7 @@ These object kinds are **not** interchangeable. Treating them as the same object
 | Pet | None | No native primitive exists. |
 | Service (provider) | None | No native primitive exists. |
 | Fact | State | A state is evidence. A Fact is governed, provenance-bearing, and confidence-bearing. **No native Fact-confidence construct exists**; the Truth Confidence Band representation is an HTBW judgement about the state, never a replacement for it (**DL-58**). **No native current-vs-historical validity construct exists either**; Fact Validity is a separate HTBW judgement layered over native state, availability, and timestamps (**DL-59**). |
-| Obligation | Calendar event or `todo` item (partially) | An obligation has accountability, lifecycle, and escalation semantics beyond a calendar entry. |
+| Obligation | Calendar event or `todo` item (partially), stage-sensitive per **DL-117** | An obligation has accountability, lifecycle, and escalation semantics beyond a calendar entry; `todo` projects the current actionable unit, Calendar only an actual scheduled occurrence, never a due date alone. |
 | Session | None | Media player state is evidence about a session, not the session. |
 | Policy | None | Automations encode behavior; they do not express governed authority. |
 | Decision Trace | Logbook (partially) | The logbook records what changed, not why a decision was reached or refused. |

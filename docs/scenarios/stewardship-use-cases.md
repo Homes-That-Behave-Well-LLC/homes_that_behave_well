@@ -248,7 +248,7 @@ cleaned.**
 |---|---|
 | **Loan, check-out, check-in, and custody transfer are resolved as DL-49.** A **Custody Period** is a time-bounded accountability record owned by **Stewardship**; `located-in` remains a declared relationship and is **not** a custody chain. **Physical return is evidence toward closure, never closure** — the period closes only on a recorded Check-In | **Resolved — DL-49** |
 | Significance representation — band, score, or household vocabulary | **Resolved — DL-75** |
-| Whether obligations project into calendars, `todo` entities, or connected storage | **OD-23** |
+| Whether obligations project into calendars, `todo` entities, or connected storage | **Resolved — DL-117** |
 | Which Asset-derived values are published as Entities, and with which state vocabulary. **HTBW defines no "asset health" state model** | **OD-69** |
 | Sun-exposure context as an input: no native Room-level or Area-level UV or direct-illumination capability has been verified, so the **DL-30** burden of proof is not discharged | **U / F** |
 
@@ -733,9 +733,9 @@ audience evaluation.
 
 | Gap | Classification |
 |---|---|
-| Grouping and prioritisation of simultaneous obligations | **OD-23** — **DL-48** records that grouping is a projection concern and not part of the obligation model |
+| Grouping and prioritisation of simultaneous obligations | **Resolved — DL-117** — **DL-48** records that grouping is a projection concern and not part of the obligation model |
 | Fact validity and expiration defaults per Fact class — *how stale is stale* | **Resolved — DL-59** |
-| Obligation projection surface | **OD-23** |
+| Obligation projection surface | **Resolved — DL-117** |
 | Significance representation for a low-significance maintenance obligation | **Resolved — DL-75** |
 
 ---
@@ -836,7 +836,7 @@ yet provide this state.**
 | **`deferred` and `closed` are resolved as DL-48.** They are **lifecycle** transitions, not condition states. The condition states remain `met`, `due`, `unmet`, `overdue`, `waived`, `unknown`; the lifecycle states are `raised`, `active`, `deferred`, `closed`, `reopened` | **Resolved — DL-48** |
 | Accepted completion evidence | **Resolved — DL-48**, as a **Care Evidence Record** |
 | Escalation ladder semantics for a repeatedly unmet obligation | **OD-22** |
-| Obligation projection surface | **OD-23** |
+| Obligation projection surface | **Resolved — DL-117** |
 
 ---
 
@@ -1036,7 +1036,7 @@ calendar entry passing.
 | Gap | Classification |
 |---|---|
 | Whether a caretaker assignment is Room-derived, Asset-derived, or both, when an Asset moves | **E — REMEDIATION REQUIRED, folded into OD-75** |
-| Obligation projection into calendars | **OD-23** |
+| Obligation projection into calendars | **Resolved — DL-117** |
 | Significance representation | **Resolved — DL-75** |
 | Governed-record persistence shape | **OD-01** |
 
