@@ -243,7 +243,7 @@ A suppressed transfer must be explainable as a deliberate outcome, not as a fail
 |---|---|
 | OD-24 | Session-merging algorithm when two people's sessions meet in one Room |
 | OD-25 | Resume eligibility window defaults per experience class |
-| OD-26 | Whether experience history is retained per person, per room, or both, and for how long |
+| OD-26 | **Resolved as DL-122.** Experience History is one governed record class, Room context + optional Identity-exclusive Person attribution; retention follows attribution, never duplicated; duration is household-configured per DL-47 |
 | OD-27 | **Closed — DL-102.** Concurrency governed by endpoint-class contention, not Session/Experience class; suppressed-transfer vs. conflict-reported-not-started outcomes defined; duplicate playback is a semantic-only (`Current Room`) guarantee, never a provider-render guarantee |
 | OD-48 | **Closed — DL-99.** Re-presentation preference for outstanding Communications — opt-in, Person-scoped, optionally refined by Category/Urgency; no HTBW-wide default repetition count or cooldown; not coupled to Follow-Me media eligibility |
 | OD-77 | Ownership of the association between a Person and an external service, account, calendar, mailbox, or media profile |

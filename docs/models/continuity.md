@@ -601,8 +601,11 @@ A Decision Trace references the **exact version** of the preference or session i
 a past explanation remains accurate after the preference has since changed.
 
 Experience history is a governed record class under **DL-47**, following External History Retention
-with its own Retention Classification. Whether it is retained per person, per room, or both, and for
-how long, remains open decision **OD-26**.
+with its own Retention Classification. **Whether it is retained per person, per room, or both, and
+for how long, is resolved as DL-122**: one governed record class, Room always as context, Person
+attribution only where Identity's accepted architecture sufficiently and legitimately resolves it;
+retention follows whichever attribution currently governs the record, never duplicated; duration
+remains a household-configured value under **DL-47**, not a hard-coded constant.
 
 ---
 
@@ -619,10 +622,10 @@ how long, remains open decision **OD-26**.
 | ID | Question |
 |---|---|
 | OD-24 | Session-merging algorithm when two people's sessions meet in one Room. **DL-102 confirms OD-27 is resolved and supplies the concurrency facts this decision consumes (endpoint-class contention, owners/participants, displacement-authorization state) — OD-24 still owns merge mechanics, resulting ownership, preference resolution, and separation in full** |
-| OD-25 | Resume eligibility window defaults per experience class |
-| OD-26 | Whether experience history is retained per person, per room, or both, and for how long |
+| OD-25 | Resume eligibility window defaults per experience class. **DL-122 resolves its own OD-26 dependency — expired Experience History is reported unavailable, never silently re-rendered** |
+| OD-26 | **Resolved as DL-122.** Experience History is one governed record class, Room context + optional Identity-exclusive Person attribution; retention follows attribution, never duplicated; duration is household-configured per DL-47 |
 | OD-27 | **Closed — DL-102.** Session concurrency is governed by endpoint-class contention, not Session/Experience class; Personal-versus-Room remains meaningful for ownership/privacy only; suppressed-transfer and conflict-reported-not-started are distinct, both already-existing outcomes; participant join requires an explicit Operational-Trust-evaluated act, never mere co-presence; duplicate playback is a semantic `Current Room` guarantee only, never a provider-render guarantee |
-| OD-33 | **Closed — DL-43, DL-46, DL-47.** Retention is declared inside every governed record lifecycle; experience-history scope and duration remain **OD-26** |
+| OD-33 | **Closed — DL-43, DL-46, DL-47.** Retention is declared inside every governed record lifecycle; experience-history scope and duration are **resolved as DL-122** |
 | OD-48 | **Closed — DL-99.** Re-presentation preference for outstanding Communications — opt-in, Person-scoped, optionally refined by Category/Urgency; no HTBW-wide default repetition count or cooldown; not coupled to Follow-Me media eligibility |
 | OD-77 | Ownership of the association between a Person and an external service, account, calendar, mailbox, or media profile |
 | OD-78 | Remembered-value classes and restoration semantics — reproduce a prior value, or compute a currently appropriate one |

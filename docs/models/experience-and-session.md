@@ -236,7 +236,9 @@ a suppression or displacement refusal — to carry its Decision Trace reference;
 the same discipline to concurrency outcomes (which endpoint class was contended, which Session held
 it, participants, displacement-authorization result, and whether facts were handed to OD-24) — no new
 trace mechanism. Retention of this history follows the existing Continuity/**DL-47** pattern; floor,
-ceiling, and duration remain **OD-26**'s own, not decided here.
+ceiling, and duration are **resolved as DL-122** (Experience History Retention) — the Session/
+Experience record, Room context plus optional Identity-exclusive Person attribution, retains per the
+attribution-following rule there, with duration remaining household-configured, not a hard-coded value.
 
 ---
 
