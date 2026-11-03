@@ -71,12 +71,13 @@ See [nighttime-suppression.md](nighttime-suppression.md).
 
 ---
 
-## Scenario 3 — Assisted resume
+## Scenario 3 — Assisted settlement of a pending Follow-Me intent
 
 ### What the household experiences
 
-Tom left a documentary paused in the Primary Bedroom this morning. This evening he walks into the Den.
-The home asks: "You left a documentary in the Primary Bedroom. Would you like it here?"
+Tom said "follow me with the documentary" this morning in the Primary Bedroom, without naming a
+destination. This evening he walks into the Den and says, "Resume it here." The home asks: "Move your
+documentary here?"
 
 ### What each responsibility does
 
@@ -84,12 +85,14 @@ The home asks: "You left a documentary in the Primary Bedroom. Would you like it
 |---|---|---|
 | 1 | Identity | Asserts Tom, identity_confidence_band: High |
 | 2 | Truth | Tom is present in the Den; the Den has no active session |
-| 3 | Continuity | A resume candidate exists and is within its eligibility window |
+| 3 | Continuity | A Pending Follow-Me intent exists for Tom's documentary (resolved — **DL-128**); Tom's explicit "resume it here" supplies the destination |
 | 4 | Operational Trust | Media in the Den is permitted at **Assisted** level for this class |
 | 5 | Concierge | Proposes; acts only on confirmation |
 
 The mode was Assisted, not Autonomous. **Which mode applies is determined by Operational Trust, not by
-Continuity.**
+Continuity.** **Concierge never proposes this unprompted — the Pending intent existed only because Tom
+explicitly established it this morning (resolved — DL-128, OD-25); mere elapsed time since he left the
+Primary Bedroom is never, by itself, a reason to offer anything.**
 
 ---
 

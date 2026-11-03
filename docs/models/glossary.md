@@ -1369,6 +1369,17 @@ Model: [experience-and-session.md](experience-and-session.md)
 A specific running instance of an Experience, with an owner, participants, an origin Room, a current
 Room, and a lifecycle.
 
+**Pending Follow-Me Intent (DL-128)**
+The lifecycle state of an explicit "follow me" request for a currently active, eligible Experience,
+carried on the Session's own Resume-eligibility field. Lifecycle-bound, never time-bound: **Current**
+(an eligible active experience exists) → **Pending** (the explicit request established intent) →
+**Settled** (successfully continued somewhere) | **Cancelled** (explicitly withdrawn) | **Superseded**
+(a newer Follow-Me request for a different active experience replaced it) | **Blocked** (a governed
+condition currently prevents settlement; remains Pending). There is no "Expired" state — elapsed time
+alone is never a reason to drop a Pending intent. Exactly one Pending Follow-Me intent exists per
+Person at a time.
+Model: [experience-and-session.md](experience-and-session.md), [continuity.md](continuity.md)
+
 **Last Stable Observed Value (DL-124)**
 A remembered-value class: a native Home-Assistant-held operational value (lamp/lighting level, media
 volume, room temperature, or a similar channel) captured only once it has remained unchanged for a

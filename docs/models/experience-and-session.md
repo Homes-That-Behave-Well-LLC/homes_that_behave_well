@@ -55,7 +55,7 @@ A Session is a specific running instance of an Experience.
 | Started at | Lifecycle timestamp |
 | State | Starting, active, paused, transferring, suspended, ended |
 | Transfer intent | Follow-Me, ask-before-transfer, never-transfer |
-| Resume eligibility | Whether and until when it may be resumed |
+| Resume eligibility | Lifecycle state of a pending Follow-Me intent or a resumable ended Session — **Current, Pending, Settled, Cancelled, Superseded, Blocked** (resolved — DL-128); never a time-window value |
 | Blocking state | Why a transfer or resume is currently not eligible, with attribution |
 
 A Room may host at most one *primary* experience per endpoint class at a time; additional sessions
@@ -82,6 +82,42 @@ exactly as any other Change Record history is. An **explicit Room-targeted reque
 my Office") establishes a Session with Transfer intent never-transfer by default, because Follow-Me
 was never invoked; the Person subsequently leaving that Room is never, by itself, reason to transfer,
 follow, or end the Session — occupancy alone is not a termination mechanism; intent provenance governs.
+
+### Pending Follow-Me intent is lifecycle-bound, never time-bound (resolved — DL-128)
+
+An explicit "follow me" sets Transfer intent to Follow-Me **and** establishes a pending Follow-Me
+intent, carried in the Resume-eligibility field's lifecycle state: **Current** (an active, eligible
+experience exists) → **Pending** (the explicit request established intent) → **Settled** (successfully
+continued somewhere) | **Cancelled** (explicitly withdrawn) | **Superseded** (a newer Follow-Me request
+for a different active experience replaced it) | **Blocked** (a governed condition currently prevents
+settlement, attribution preserved via the existing Blocking-state field, remains Pending). Elapsed
+time alone is never a reason to drop a Pending intent — there is no "Expired" state for Follow-Me.
+
+**One pending Follow-Me intent exists per Person**, by direct analogy to this model's own one-owner-
+per-Session rule (**DL-102**): establishing a new Follow-Me request for a different active experience
+**supersedes** any still-Pending prior intent for that Person, reusing the Governed-Reference
+Supersedes/Superseded-by pattern already used elsewhere (for example, Communications) rather than
+inventing a new one. A superseded intent is retained only as ordinary history — never queued, never
+re-offered, never surfaced as a backlog of unfinished experiences.
+
+**Disambiguation.** An unqualified "follow me" resolves without asking where exactly one current,
+active, eligible experience exists; Concierge asks which rather than guessing where more than one
+exists; where none exists, Follow-Me establishes nothing, and Continuity never searches Experience
+History or provider history to manufacture a candidate.
+
+**Destination may be unresolved or explicit at initiation — one representation, not two.** "Follow me
+with the music" leaves the destination to resolve later (through Identity evidence, or an explicit
+later interaction such as "resume here"). "Follow me with the music to the Den" supplies the
+destination immediately as current-intent/target-context evidence, resolved through the ordinary Room
+Context mechanism — never requiring a later "resume here" merely to (re)identify a destination already
+named. **An explicit destination is evidence of where the Person wants the experience to continue,
+never evidence of where the Person currently is** — never an Identity-derived presence assertion, and
+never a bypass of Operational Trust, capability, availability, provider, or privacy governance.
+
+**Resuming an ended Session is a separate, explicit, on-demand request — never a proactive offer.**
+Its availability is already fully governed by **DL-122**'s Experience History retention (Room
+Setup/Person Setup configured) plus **DL-46**'s provider-owned content/position availability; no
+additional, HTBW-side, per-experience-class duration exists or is required.
 
 ---
 
@@ -354,7 +390,7 @@ to displace — carries the Decision Trace reference that caused it.
 | ID | Question |
 |---|---|
 | OD-24 | **Closed — DL-127.** No Session Merge construct exists; competing-session scenarios resolve via participant join, displacement, transfer suppression, grouped playback within one Merged Room, and multi-Room target expansion (N independent per-Room Sessions, never a Floor/House-owned tier). Person-following versus Room-anchored intent is a Change Record mutating the existing Session's own Transfer-intent field, never a successor Session |
-| OD-25 | Resume eligibility window defaults per experience class |
+| OD-25 | **Closed — DL-128.** Superseded/reframed: time-based per-class resume windows retired; explicit Follow-Me is a lifecycle-bound pending intent (Current → Pending → Settled/Cancelled/Superseded/Blocked), one per Person; resuming an ended Session by explicit request is already governed by DL-122 + DL-46, no new duration |
 | OD-27 | **Closed — DL-102.** Concurrency is governed by endpoint-class contention, not Session/Experience class; second-session/incoming-request outcomes (suppressed transfer vs. conflict-reported-not-started), participant join, grouped playback within/across Merged Rooms, and the duplicate-playback semantic-only guarantee are each stated; OD-24 retains merge policy |
 
 ## Related documents

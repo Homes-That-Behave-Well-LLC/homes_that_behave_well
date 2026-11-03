@@ -147,8 +147,12 @@ as standalone classes. Restoration **reproduces** the stored value, gated by the
 set; derivation is not authorised by DL-124.
 
 **There is no Journey, checkpoint, or progress-marker object.** The glossary defines **Experience** and
-**Session**; resuming a book is a Session with a resume candidate, an eligibility window (**OD-25**),
-and a **Governed Reference** to provider-owned position.
+**Session**; resuming a book is a Session with a resume candidate and a **Governed Reference** to
+provider-owned position. **An explicit Follow-Me is a lifecycle-bound pending intent — Current →
+Pending → Settled/Cancelled/Superseded/Blocked — never a time-windowed candidate (resolved — DL-128,
+OD-25)**; resuming an **ended** Session by fresh explicit request is already governed by **DL-122**'s
+Experience History retention plus **DL-46**'s provider-owned availability, requiring no separate,
+additional duration.
 
 ---
 
@@ -270,7 +274,7 @@ Continuity must support all three:
 | Mode | Example |
 |---|---|
 | **Explicit** | "Have the music follow me." |
-| **Assisted** | "You left a documentary in the Primary Bedroom. Move it here?" |
+| **Assisted** | Tom's pending Follow-Me intent (destination unresolved at request time) reaches the Den; Concierge confirms before continuing it there — *"Move your jazz here?"* **(resolved — DL-128, OD-25): Assisted mode confirms an already-pending explicit Follow-Me intent; it never proposes a resume unprompted from mere historical activity** |
 | **Autonomous** | The Jazz session moves with Tom without asking, because policy permits it |
 
 Which mode applies is determined by Operational Trust, not by Continuity.
@@ -284,8 +288,10 @@ Which mode applies is determined by Operational Trust, not by Continuity.
 - The active Jazz session **may** be transferred if policy and destination state permit.
 - Tom moves to a room in Nighttime mode.
 - The transfer **may be intentionally suppressed**.
-- Tom leaves a documentary in the Primary Bedroom and moves to the Den.
-- The system **may ask** whether to move or resume the documentary depending on policy.
+- Tom explicitly says "follow me with my audiobook," then never settles it elsewhere.
+- The pending Follow-Me intent remains pending, governed by its own lifecycle (**resolved — DL-128**)
+  — Continuity never proactively offers it merely because time has passed, and never offers it merely
+  because Tom later enters a different Room with no corresponding Follow-Me request.
 - David enters a room where Tom's active experience already exists.
 - The active experiences **may conflict** and require Concierge resolution.
 
@@ -300,8 +306,8 @@ action.**
 |---|---|---|
 | Precondition | The session is active | The session is not active |
 | Effect | Moves a running session between Rooms | Re-establishes a previous session |
-| Typical trigger | A room transition with Follow-Me intent | A request, or an assisted offer on arrival |
-| Blocked by | Destination mode, existing experience, authority, availability | Eligibility window, authority, availability |
+| Typical trigger | A room transition with Follow-Me intent | An explicit request — never an unprompted offer (resolved — DL-128) |
+| Blocked by | Destination mode, existing experience, authority, availability | DL-122 Experience History retention/availability, authority, availability |
 
 **Movement between constituent Physical Rooms inside the same Merged Room is neither a transfer nor a
 resume.** No Room Context changed. See [room.md](room.md).
@@ -316,7 +322,8 @@ All of the following must hold before a transfer is eligible:
 
 - Follow-Me is enabled for the person or session
 - Identity is resolved with sufficient confidence
-- The room transition is unambiguous — origin and destination both known and different
+- The room transition is unambiguous — origin and destination both known and different, **or the
+  destination was explicitly supplied as part of the Follow-Me request itself (below, DL-128)**
 - Manual-stop protection is not active
 - Manual-stop cooldown is not active
 - The destination Room has configured, valid, available playback targets
@@ -332,6 +339,39 @@ Representable blocks:
 - Another person's session would be displaced without authority
 
 Each block is a **reason**, and each reason must reach the Decision Trace.
+
+### Pending Follow-Me intent is lifecycle-bound, not time-bound (resolved — DL-128)
+
+An explicit "follow me" establishes a **pending Follow-Me intent** for the Person's current, active,
+eligible experience: **Current → Pending → Settled | Cancelled | Superseded | Blocked.** There is no
+"expired" state and no elapsed-time default — a pending intent remains pending until one of those four
+events occurs. **One pending Follow-Me intent exists per Person at a time**, by direct analogy to the
+Session model's one-owner rule (**DL-102**): a new Follow-Me request for a different active experience
+**supersedes** any still-pending prior intent for that Person, reusing the existing Governed-Reference
+Supersedes/Superseded-by pattern; the superseded intent is retained only as ordinary history, never
+queued, never re-offered.
+
+**Disambiguation.** An unqualified "follow me" resolves without asking where exactly one current,
+active, eligible experience exists; where more than one exists, Concierge asks which rather than
+guessing; where none exists, Follow-Me establishes nothing and Continuity never searches Experience
+History or provider history to manufacture a candidate.
+
+**Destination may be unresolved or explicit at initiation, using one representation.** "Follow me with
+the music" leaves the destination to resolve later, through Identity evidence or an explicit later
+interaction (for example, "resume here"). "Follow me with the music to the Den" supplies the
+destination immediately as current-intent/target-context evidence, resolved through the ordinary Room
+Context mechanism — it is never required to be re-confirmed through a later "resume here." **An
+explicit destination is evidence of where the Person wants the experience to continue, never evidence
+of where the Person currently is**; it is never treated as an Identity-derived presence assertion, and
+it never bypasses any applicable Operational Trust, capability, availability, provider, or privacy
+governance. Decision Trace distinguishes explicit-destination provenance from Identity-derived
+destination/location provenance.
+
+**Resuming an ended Session is a separate, explicit, on-demand request — never a proactive offer.**
+Its availability is already fully governed by **DL-122**'s Experience History retention (Room
+Setup/Person Setup configured) plus **DL-46**'s provider-owned content/position availability; no
+additional HTBW-side duration exists. The Home never says "you were watching X — continue it here?"
+merely because historical or provider evidence exists and no Follow-Me/resume request was made.
 
 ### Communication re-presentation is a preference, not a transfer (DL-99)
 
@@ -637,7 +677,7 @@ plus a custom numeric override.
 | ID | Question |
 |---|---|
 | OD-24 | **Closed — DL-127.** No Session Merge construct exists; competing-session scenarios resolve via participant join, displacement, transfer suppression, grouped playback within one Merged Room, and multi-Room target expansion. Person-following versus Room-anchored intent ("leave it here"/"take it with me") is a Change Record mutating the Session's own Transfer-intent field, never a successor Session |
-| OD-25 | Resume eligibility window defaults per experience class. Informed by **DL-122**: expired Experience History is reported unavailable, never silently re-rendered |
+| OD-25 | **Closed — DL-128.** Superseded/reframed: time-based per-class resume windows retired. Explicit Follow-Me intent is lifecycle-bound (Current → Pending → Settled/Cancelled/Superseded/Blocked), one pending intent per Person; resuming an ended Session by explicit request is already governed by **DL-122** + **DL-46**, no new duration; no unsolicited historical resume offer exists |
 | OD-26 | **Resolved as DL-122.** Experience History is one governed record class, Room context + optional Identity-exclusive Person attribution; retention follows attribution, never duplicated; duration configured in Room Setup/Person Setup, never globally, as a hybrid of enumerated presets plus a custom numeric override |
 | OD-27 | **Closed — DL-102.** Session concurrency is governed by endpoint-class contention, not Session/Experience class; Personal-versus-Room remains meaningful for ownership/privacy only; suppressed-transfer and conflict-reported-not-started are distinct, both already-existing outcomes; participant join requires an explicit Operational-Trust-evaluated act, never mere co-presence; duplicate playback is a semantic `Current Room` guarantee only, never a provider-render guarantee |
 | OD-28 | **Closed — DL-123.** Learned-Policy Promotion Lifecycle. Once accepted, a learned preference is an ordinary, versioned, revocable Continuity preference at Person or Room scope — never a separate learned-preference store. Continuity's own role is unchanged: it holds the approved preference only, never the permission to act on it (Operational Trust) and never the proposal's own formulation or presentation (Concierge) |

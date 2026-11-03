@@ -374,7 +374,8 @@ enabled Follow-Me and the home moves it because the household said it may. The h
 `Current Room` guarantee only, never a provider-render guarantee); **session contention and
 Person-following/Room-anchored intent (DL-127, resolving OD-24 — no Session Merge construct exists;
 "leave it here"/"take it with me" is a Transfer-intent Change Record on the same Session, never a
-successor Session)**. Unresolved: **OD-25** resume window. **Not governed (`N`)**: provider
+successor Session)**; **the pending Follow-Me intent lifecycle (DL-128, resolving OD-25 — superseded/
+reframed; no time-based resume window exists or is needed)**. **Not governed (`N`)**: provider
 session-state handoff, grouped/joined playback spanning separate non-merged Rooms (within one Merged
 Room this requires no new architecture — **DL-13**), indirect-intent inference, and a Room
 post-occupancy manual-override grace period (a genuine gap identified but not decided by **DL-127**,
@@ -386,15 +387,18 @@ tracked via Epic #147).
 
 ## Human outcome
 
-David picks up his book in the Primary Bedroom where he left it in the Den yesterday.
+David explicitly says, "Resume my audiobook," in the Primary Bedroom. His audiobook — left off in the
+Den yesterday — continues here. **HTBW never proactively offers this merely because David entered a
+room; the request is explicit (resolved — DL-128, OD-25).**
 
 ## Preconditions
 
 | Precondition | Owner | Status |
 |---|---|---|
-| A resume candidate exists within its eligibility window | **Continuity** | **A** — window defaults are **OD-25** |
+| An explicit resume/Follow-Me request identifies the experience | **Concierge** (interpretation), **Continuity** (candidate resolution) | **A** — lifecycle-bound, not time-windowed (**resolved — DL-128**) |
+| David's Experience History record for that experience has not expired under its configured retention | **DL-122** (Room Setup/Person Setup configured) | **A** |
 | The playback position | **The audiobook provider** | **A** — **DL-46**, **P21** |
-| **The association between David and that audiobook account** | — | **U — OD-77** |
+| **The association between David and that audiobook account** | — | **U — OD-77** (narrowed, not resolved — this decision's core lifecycle does not require it; see row 12) |
 
 ## Ownership map
 
@@ -403,38 +407,47 @@ David picks up his book in the Primary Bedroom where he left it in the Den yeste
 | 1 | Authoritative Truth inputs | **Truth** | David is present; the destination Room has no conflicting active session |
 | 2 | Identity requirements | **Identity** | Person-scoped resume requires a sufficient Identity Assertion |
 | 3 | Consent and Operational Trust requirements | **Operational Trust** | Whether resume is Explicit, Assisted, or Autonomous for this class |
-| 4 | What Continuity supplies | **Continuity** | Resume state, resume eligibility, session ownership, and a **Governed Reference** to the provider's position |
+| 4 | What Continuity supplies | **Continuity** | Resume state (now a lifecycle state, not a time window — **DL-128**), session ownership, and a **Governed Reference** to the provider's position |
 | 5 | Memory scope | **Person-scoped** session ownership; **room-scoped** resume state where the household configured it that way | **A** |
 | 6 | Source of record | **The provider.** HTBW *persists no second copy merely to explain later* (**DL-46**) | **A** |
-| 7 | Who decides | **Concierge** | Offer, resume, or stay silent |
+| 7 | Who decides | **Concierge** | Offer only in response to explicit request, resume, or stay silent — **never an unprompted offer (DL-128)** |
 | 8 | Who executes | An executor, through governed interfaces | — |
-| 9 | Explainability | **Decision Trace** | *"You left this in the Den yesterday evening"* |
-| 10 | Retention and lifecycle | **OD-25**, **OD-26**, **DL-47** | When a resume candidate expires, and whether experience history is per person, per room, or both |
+| 9 | Explainability | **Decision Trace** | *"Continuing your audiobook, left off in the Den yesterday evening"* — spoken **in response to David's explicit request**, never unprompted |
+| 10 | Retention and lifecycle | **DL-122**, **DL-47** | Availability for an explicit resume request follows Experience History retention (Room Setup/Person Setup); there is no separate resume-eligibility window (**resolved — DL-128**, superseding the prior **OD-25** framing) |
 | 11 | Guest and Unknown Person behaviour | **DL-33** | An Unknown Person has no resume candidate and inherits none |
-| 12 | Multi-person conflict behaviour | **Continuity** → **Operational Trust** | Household-shared progress and person-specific progress are different records; the distinction depends on **OD-77** |
+| 12 | Multi-person conflict behaviour | **Continuity** → **Operational Trust** | Household-shared progress and person-specific progress are different records; the distinction depends on **OD-77**. **This decision's own lifecycle (pending/settled/cancelled/superseded/blocked) does not require OD-77** — Session ownership is already Identity/Operational-Trust-governed; only the narrower shared-account attribution question remains OD-77's own (**DL-128** cl.12) |
 | 13 | Failure behaviour | **DL-41** | Provider unavailable → capability unavailable, dependency named. **A remembered position is never re-derived** |
-| 14 | What must never happen | — | **Duplicating the provider's playback position into HTBW as a second source of record** |
+| 14 | What must never happen | — | Duplicating the provider's playback position into HTBW as a second source of record; **offering a resume unprompted from historical or provider activity (DL-128)** |
 
 ## On the words *journey*, *checkpoint*, and *progress marker*
 
 **None of these is a first-class HTBW model.** The glossary defines **Experience** and **Session**;
 there is no Journey object, no checkpoint object, and no progress-marker object. They are acceptable
 as **narrative groupings** and must not be presented as architecture. What is real is: an Experience,
-a Session with a lifecycle, a resume candidate, an eligibility window, and a **Governed Reference** to
-provider-owned state.
+a Session with a lifecycle, a resume candidate, and a **Governed Reference** to provider-owned state.
+**There is no eligibility window** — resume/Follow-Me state is lifecycle-bound (resolved — DL-128).
 
 ## Acceptance scenarios
 
 | # | Given | Then | Must not |
 |---|---|---|---|
-| 4.1 | A resume candidate is within its window | Concierge may offer or resume, per policy | Resume autonomously where the mode is Assisted |
-| 4.2 | The window has expired | No offer | Offer a months-old candidate as though it were current |
+| 4.1 | David explicitly asks to resume the audiobook | Concierge may offer or resume, per Operational Trust mode | Resume autonomously where the mode is Assisted |
+| 4.2 | David never explicitly asks; he simply enters a Room where he once listened | **No offer** — HTBW does not proactively surface it (**resolved — DL-128**) | Offer a resume unprompted, at any elapsed time, however short |
 | 4.3 | Provider position and remembered reference disagree | **The provider is authoritative** | Present the HTBW reference as the position |
-| 4.4 | Two people share one household account | **Unresolved — OD-77** | Attribute one person's progress to another |
+| 4.4 | Two people share one household account | **Unresolved — OD-77** (narrowed, not blocking this decision's own lifecycle — **DL-128** cl.12) | Attribute one person's progress to another |
+| 4.5 | David's Experience History record for this audiobook has expired under **DL-122**'s configured retention | The explicit request is answered as unavailable | Silently re-render or reconstruct the expired record |
+| 4.6 | David says "follow me with my audiobook" (destination unresolved); later "follow me with the music" before the audiobook intent settles | The audiobook intent is **Superseded** by the new music intent; never retained in a resume queue | Keep the audiobook as a second pending item |
+| 4.7 | David says "follow me with the music to the Den" | Music is the explicit experience; Den is the explicit destination; no later "resume here" is required | Require Identity to independently confirm David is in the Den before acting |
+| 4.8 | David has two currently active eligible experiences and says "follow me" | Concierge asks which one | Guess, or silently pick the most recent |
+| 4.9 | David says "follow me" with no current active eligible experience | Follow-Me establishes nothing | Search Experience History or provider history to manufacture a candidate |
 
 ## Implementation status and unresolved decisions
 
-**F**. Held by **OD-25**, **OD-26**, **OD-77**. Conflict resolution between provider state and
+**F.** Resume/Follow-Me lifecycle governed as **DL-128** (resolving **OD-25** — superseded/reframed;
+no time-based window exists or is needed). Retention/availability governed as **DL-122** (resolving
+**OD-26**). **Held by OD-77**: per-person attribution where a household shares one provider account —
+narrowed by **DL-128** to no longer block this use case's own lifecycle. Conflict resolution between
+provider state and
 remembered reference is `E` — it follows from **DL-46** but is not written into a canonical model.
 
 ---
@@ -1093,12 +1106,14 @@ not something to preserve a production mechanism for.
 
 **F** — no HTBW Core implementation exists. Governed now: scope separation (Person/Room/Fixture
 granularity/guest-default), explicit-request precedence, the Music Assistant resolution boundary, and
-graceful degradation without semantic degradation. Deferred to existing open decisions: **OD-78**
-(remembered-value classes and restoration semantics — the primary owner of the detailed precedence and
-provenance questions above), **OD-24** (session merge), **OD-25** (resume eligibility window), **OD-26**
-(history retention scope, **resolved — DL-122**), **OD-27** (concurrency), **OD-28** (learned-preference
-promotion, **resolved — DL-123**; evidence eligibility **OD-65**, resolved — **DL-112**). None of these
-is reopened or duplicated by this Use Case.
+graceful degradation without semantic degradation. Resolved: **OD-78** (remembered-value classes and
+restoration semantics — **resolved, DL-124** — the primary owner of the detailed precedence and
+provenance questions above), **OD-24** (session merge — **resolved, DL-127** — no Session Merge
+construct exists), **OD-25** (resume eligibility window — **resolved, DL-128** — superseded/reframed as
+a lifecycle-bound pending Follow-Me intent), **OD-26** (history retention scope, **resolved — DL-122**),
+**OD-27** (concurrency, **resolved — DL-102**), **OD-28** (learned-preference promotion, **resolved —
+DL-123**; evidence eligibility **OD-65**, resolved — **DL-112**). None of these is reopened or
+duplicated by this Use Case.
 
 ---
 
