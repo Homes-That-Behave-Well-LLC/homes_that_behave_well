@@ -972,6 +972,11 @@ resource decides nothing on its own — it is a trust/residency classification, 
 authority, and never conflated with a declared execution host, which answers a different, orthogonal
 question (*where may this run*, not *is this inside the boundary*).
 
+**First consumer: DL-120.** Speaker-biometric Identity processing's hard local-only ceiling
+(voiceprint/embedding generation and runtime comparison) is the first capability-level rule built
+directly on this admission test — no new residency concept, Foundation/Operational-Trust split, or
+enforcement model was created for it.
+
 ## Urgency Entitlement (DL-77)
 
 

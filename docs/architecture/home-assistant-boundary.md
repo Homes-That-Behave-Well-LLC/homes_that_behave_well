@@ -1431,7 +1431,9 @@ voice-pipeline interoperability boundary** wherever HTBW requires runtime audio,
 **DL-30** burden at step 2 — and Wyoming is a protocol, never an HTBW component, with no third-party
 voice project becoming a mandatory dependency.
 
-**Three boundaries are unaffected by it.** Data residency remains **OD-07**. Third-party
+**Three boundaries are unaffected by it.** Data residency is now **DL-120** (speaker-biometric
+Identity processing, Home Production-local only) and **DL-119**'s general trust-boundary test,
+consuming this section's execution-host concept without altering it. Third-party
 engines that decide and act remain **OD-66**. **HTBW acquires no host operating-system
 administration**, consistent with the storage boundary — HTBW's ownership begins only once a valid
 host has been made available, and covers what HTBW runs there and how it governs it.

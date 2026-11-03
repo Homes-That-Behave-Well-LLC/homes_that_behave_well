@@ -120,6 +120,7 @@ topology that produces this evidence is accepted as **DL-50** and recorded in
 | **A provider that evaluated and found nothing yields `unknown`** | Never `unavailable` (**DL-33**) |
 | **A non-match never suppresses transcription** | Voice comparison is enrichment. It never gates speech-to-text, and identity never travels inside transcript content |
 | **Compatibility is enforced before comparison** | Encoder family, encoder version, and audio-contract version must match. A mismatch produces an explicit **DL-41** outcome — *configured but invalid* — and never a comparison made on assumption |
+| **Speaker-biometric processing is HA-Prod-local only** | Enrollment audio, embedding/voiceprint generation, retained voiceprints, runtime comparison audio/embeddings, and the matching operation itself must use a currently HA-Prod-admitted resource (**DL-119**, **DL-120**); never an external/cloud provider, regardless of process, host, or network placement. The resulting assertion carries no biometric payload and is unaffected |
 
 ### What Identity guarantees about evidence
 
@@ -330,7 +331,7 @@ A resident must be able to hear *"I was not certain it was you"* as a valid expl
 
 | ID | Question |
 |---|---|
-| OD-07 | Local versus cloud voice implementation |
+| OD-07 | **Resolved as DL-120.** Speaker-biometric Identity processing (voiceprint/embedding generation, runtime comparison) is Home Production (HA-Prod)-local only (**DL-119**); STT/TTS follow their own general residency framework, reusing **DL-93**'s precedent; Reasoning remains **DL-93**'s own |
 | OD-08 | **Resolved** as **DL-39** and **DL-40**. Four Identity bands — Low, Moderate, High, Very High; `None` is an Operational Trust requirement; Operational Trust owns every threshold and every Required Confirmation Strength |
 | OD-15 | **Closed — DL-64.** "Assertion lifetime" was a conflation of Assertion Validity (permanent), Current-Interaction Applicability (re-evaluated per interaction via fresh fusion, no fixed window), and Retention (DL-47's). Cross-purpose assertion eligibility is accepted, bounded by Room occupancy and the Person's configured primary evidence source |
 | OD-16 | **Resolved** as **DL-32** and **DL-38**. Remaining coefficients are Fusion Policy configuration |

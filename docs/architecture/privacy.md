@@ -101,6 +101,13 @@ reaches back to authorise collection**: usefulness is not a consent substitute. 
 - Local-first is preferred.
 - A capability that requires remote processing must state what leaves the home, and consent must be
   obtainable per capability.
+- **A hard, architecturally-mandated local-only ceiling is a legitimate, stronger instance of this
+  principle where accepted architecture or an Owner decision requires it** — not every capability is
+  limited to "preferred," and a hard ceiling is never weakened to a soft preference merely because
+  this is the general rule. Speaker-biometric Identity processing is accepted as exactly this case
+  (**DL-120**): Home Production (HA-Prod)-local only (**DL-119**), with no disclosure-based override
+  and no cloud fallback, distinguished from speech-to-text and text-to-speech, which remain governed
+  by the ordinary declare/disclose/consent rule above.
 
 ### Minimum necessary data
 
@@ -531,7 +538,7 @@ The following are recorded as open decisions and must **not** be resolved inside
 |---|---|
 | OD-05 | Decision Trace retention floor and ceiling |
 | OD-06 | **Resolved as DL-56.** Consent user experience and its Home Assistant-native surface |
-| OD-07 | Local versus cloud voice implementation |
+| OD-07 | **Resolved as DL-120.** Speaker-biometric Identity processing is HA-Prod-local only (**DL-119**); speech-to-text/text-to-speech follow the ordinary declare/disclose/consent rule above |
 | OD-08 | **Resolved** as **DL-39** and **DL-40** |
 | OD-09 | Export and deletion mechanics across connected storage |
 | OD-33 | **Closed — DL-43, DL-46, DL-47.** Retention is declared inside every governed record and artifact lifecycle; the remaining values are **OD-05**, **OD-26**, **OD-49** |

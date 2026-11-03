@@ -1529,6 +1529,14 @@ evidence class with a reason code and a confidence band is sufficient to do so.
 Raw voice samples remain at **zero retention** by default. No Preservation Hold can preserve them,
 because they were never stored.
 
+**Speaker-biometric processing is Home Production (HA-Prod)-local only (DL-120).** Enrollment audio,
+voiceprint/speaker-embedding generation, the retained voiceprint, runtime comparison audio, the
+runtime embedding, and the matching operation itself must use only a resource currently admitted as
+an HA-Prod member (**DL-119**) — never an external/cloud provider, regardless of process, host, VLAN,
+or address. The resulting match/assertion carries no biometric payload and is unaffected by this
+ceiling, following the retention rule above unchanged. See
+[home-assistant-boundary.md, "Home Production (HA-Prod) trust boundary"](../architecture/home-assistant-boundary.md#home-production-ha-prod-trust-boundary-dl-119).
+
 ### Explaining past identity decisions
 
 A Decision Trace references the **exact version** of the Identity Assertion it used (**P30**), so an
@@ -1548,7 +1556,7 @@ implying the assertion never existed.
 
 | ID | Question |
 |---|---|
-| OD-07 | Local versus cloud voice implementation |
+| OD-07 | **Resolved as DL-120.** Speaker-biometric Identity processing is Home Production (HA-Prod)-local only (**DL-119**); speech-to-text and text-to-speech follow their own general declare/disclose/consent residency framework, reusing **DL-93**'s precedent; Reasoning remains **DL-93**'s own, unaffected |
 | OD-08 | **Resolved as DL-39 and DL-40.** Four bands — Low, Moderate, High, Very High; `None` is an Operational Trust requirement, not an Identity output; Operational Trust owns every threshold |
 | OD-15 | **Resolved as DL-64.** "Assertion lifetime" was a conflation of Assertion Validity (a permanent historical record), Current-Interaction Applicability (re-evaluated per interaction via fresh DL-38 fusion, no fixed window), and Retention (DL-47's, unaffected). Cross-purpose assertion eligibility is accepted, bounded by Room occupancy and the Person's configured primary evidence source |
 | OD-16 | **Resolved.** The evidence architecture is **DL-32**; the Identity Fusion Function is **DL-38**. Remaining coefficients are Fusion Policy configuration, not architecture |

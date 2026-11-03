@@ -1842,6 +1842,15 @@ A household-controlled, non-production environment explicitly outside the Home P
 boundary, regardless of physical co-location, private addressing, or running Home Assistant itself
 (**DL-119**).
 
+**Speaker-biometric Identity processing**
+Enrollment audio used to produce speaker evidence, voiceprint/speaker-embedding generation, the
+retained voiceprint, runtime comparison audio and embedding, and the matching/comparison operation
+itself — mandated **Home Production (HA-Prod)-local only**, with no disclosure-based override and no
+cloud fallback (**DL-120**). Distinct from the resulting speaker-evidence assertion, which carries no
+biometric payload and is not subject to this ceiling, and from speech-to-text, text-to-speech, and
+Reasoning, each a separate flow with its own, lighter residency policy.
+Model: [person-and-identity.md](person-and-identity.md), [identity-contract.md](../contracts/identity-contract.md#what-a-voice-evidence-provider-may-and-may-not-return).
+
 ---
 
 ## Products versus responsibilities
