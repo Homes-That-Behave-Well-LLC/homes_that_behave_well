@@ -1819,6 +1819,29 @@ The responsibility that answers *what is actually true now?*
 **Foundation**
 The responsibility that answers *what exists, and how do we describe it?*
 
+**Home Production (HA-Prod)**
+The governed trust/residency boundary within which a household's live production processing and
+storage is treated as "inside the Home." Membership is an explicit, Operational-Trust-owned
+admission record citing a Foundation-typed stable resource reference — never inferred from network
+location, VLAN, subnet, IP address, physical co-location, process or host placement, or Home
+Assistant discovery/configuration alone (**DL-119**).
+Model: [operational-trust.md](operational-trust.md), [home-assistant-boundary.md](../architecture/home-assistant-boundary.md#home-production-ha-prod-trust-boundary-dl-119).
+
+**HA-Prod member**
+A specific, narrowly-scoped resource (a service, App instance, execution host, or storage
+connection/namespace — never a whole physical machine by default) currently named by a valid HA-Prod
+admission record (**DL-119**).
+
+**Governed external dependency**
+A provider or service an HA-Prod capability is configured to use whose own compute or storage occurs
+outside the Home Production trust boundary — "configured by Prod" never means "inside Prod"
+(**DL-119**).
+
+**HA-Dev (Home Development)**
+A household-controlled, non-production environment explicitly outside the Home Production trust
+boundary, regardless of physical co-location, private addressing, or running Home Assistant itself
+(**DL-119**).
+
 ---
 
 ## Products versus responsibilities

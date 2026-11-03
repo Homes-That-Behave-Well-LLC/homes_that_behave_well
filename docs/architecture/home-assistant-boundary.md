@@ -1436,6 +1436,87 @@ engines that decide and act remain **OD-66**. **HTBW acquires no host operating-
 administration**, consistent with the storage boundary — HTBW's ownership begins only once a valid
 host has been made available, and covers what HTBW runs there and how it governs it.
 
+### Home Production (HA-Prod) trust boundary (DL-119)
+
+**Data residency, deferred above, is answered here.** A **Home Production (HA-Prod) member** is an
+explicitly governed resource — a service, App instance, execution host, or storage connection/
+namespace, **never a whole physical machine by default** — currently named by a valid,
+**Operational-Trust-owned admission record**, which cites a stable **Foundation-typed resource
+reference** (`{Subject Type, Subject ID, Version Identity}`, the existing **DL-104** Governed
+Reference shape) and carries its own Effective/Recorded Time. **Absent such a record, a resource is
+not a member** — regardless of network reachability or address, VLAN or subnet, physical household
+co-location, or whether it is configured in, invoked by, or discovered through Home Assistant.
+
+**Ownership is split, not unified.** Foundation types and holds the stable resource reference
+(identity only — *what is this thing* — no trust judgment, reusing **DL-104** unchanged).
+**Operational Trust** owns a separate, versioned **admission record** (the trust/policy decision —
+*is this referenced resource trusted as HA-Prod, as of when, within what scope*) that **cites**,
+never embeds inside, Foundation's reference — the identical "consumes rather than owns" pattern
+Operational Trust already applies to Stewardship's Significance Declaration
+([operational-trust.md](../models/operational-trust.md) §Consumes). This preserves **"Foundation
+feeds everything and consumes nothing"** precisely: Foundation never authors or consumes an
+admission judgment.
+
+**Four classes, never collapsed:**
+
+| Class | Meaning | Example |
+|---|---|---|
+| **HA-Prod member** | Admitted under the test above | A governed App explicitly commissioned as production infrastructure; one declared NAS storage connection |
+| **Governed external dependency** | Configured/authorized/invoked by HA-Prod, but its own compute/storage occurs outside the boundary | OpenAI STT/TTS, Nabu Casa cloud — "configured by Prod" never means "inside Prod" |
+| **HA-Dev / non-production** | Explicitly classified outside HA-Prod | Outside regardless of co-location, private addressing, or running Home Assistant itself |
+| **Unclassified / unadmitted resource** | Reachable or discoverable, but no admission record exists | An unknown local server is treated exactly as an external provider for a capability requiring HA-Prod locality — absence of admission, not absence of reachability, controls |
+
+**HA-Dev.** A transfer from an HA-Prod member to HA-Dev is a boundary crossing for any capability
+whose policy requires HA-Prod locality (**OD-07**'s rule, specifically) — a narrow, Owner-stated
+exclusion, never widened into a general production/development data-transfer policy, which remains
+deliberately undecided.
+
+**Connected Storage is not overstated.** Home Assistant's storage-connection abstraction and the
+declared share/namespace HTBW's own governed namespace lives within are the membership subject.
+**The backing NAS host is never itself assessed or admitted** (**DL-42**, **DL-44**, reused, not
+reopened), and an unrelated share or service the same physical NAS happens to run is not a member
+merely by co-location.
+
+**Granularity** is the narrowest unit Home Assistant or HTBW already naturally configures — never an
+invented finer atom, never an entire host by default. A single logical member may be implemented
+across multiple physical hosts without multiplying membership records, extending **DL-87**'s
+"network location is not identity" to hardware-implementation independence.
+
+**Execution Host (DL-50) and HA-Prod membership remain orthogonal, not reopened.** A declared
+execution host may independently be a member, a non-member, missing, HA-Dev, or external — DL-50's
+own deferral ("data residency remains OD-07") is what this decision supplies.
+
+**DL-87 is extended by analogy, not reopened.** A renumbered, re-VLANed, or re-subnetted admitted
+resource retains membership automatically provided its admission record remains current, because
+membership is keyed to the stable reference, never to a network coordinate. Transit infrastructure
+(switches, routers, VLAN fabric) carrying traffic between two already-admitted endpoints is never
+itself a membership subject.
+
+**Membership is not universal disclosure and not a security certification.** An admitted resource
+gains no access beyond its own authorized scope merely by being admitted — existing disclosure
+architecture ([privacy.md](privacy.md), **DL-34**) is unweakened and unchanged. The accepted meaning
+is precisely: *an explicitly governed participant approved to satisfy HA-Prod locality/residency
+requirements within its authorized scope* — never zero-compromise-risk, verified-secure software, or
+blanket access.
+
+**No new lifecycle, no new Decision Trace field.** Admission, suspension, removal, and Prod/Dev
+reclassification are ordinary versioned revisions to the Operational Trust admission record, reusing
+**DL-104**'s identity/versioning and [temporal-record.md](../models/temporal-record.md)'s Effective/
+Recorded Time unchanged; a reclassification is a new, dated record version, never a rewrite of prior
+history, and capability eligibility changes prospectively only. A Decision Trace cites the existing
+Governed Reference and the admission record's effective version/time (**DL-46**, **P30**) — no
+packet-capture or network-telemetry subsystem is created or implied. Architecture may truthfully
+record that a configured destination held a current admission record at the time; it may never claim
+packet-level proof that no data could possibly have reached elsewhere.
+
+**Operational Trust enforcement is precisely bounded.** For a mediated capability request, current
+admission validity is checked before a resource is treated as HA-Prod-local; invalid or absent
+resolves to **DL-41** unchanged. For unmediated external traffic, HTBW claims no routing control.
+
+**No generic, extensible Environment Classification taxonomy is created.** Exactly three classes
+exist because exactly three are decided — HA-Prod member, governed external dependency,
+non-production — and a fourth remains its own future decision if one is ever needed.
+
 ---
 
 ## Native automations, scripts, and scenes

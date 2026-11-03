@@ -119,6 +119,18 @@ Assistant OS 10.2 or later**. On other installation types the mount is provided 
 instead. This changes **who provides** the dependency; it does not change HTBW's position, which is
 that **HTBW is a consumer of a provided storage dependency in every case** (**DL-41**).
 
+**This proves a governed storage abstraction, not Home Production (HA-Prod) trust membership of the
+backing host (DL-119).** Five things are distinct and must not collapse: the backing NAS/storage
+host; Home Assistant's storage-connection abstraction (the declared NFS/CIFS mount); the specific
+share/namespace HTBW's own governed namespace lives within; the Home Assistant storage subsystem
+HTBW consumes through; and the HTBW capability that uses an artifact reference inside it. **HA-Prod
+membership, where a capability requires it, attaches to the declared share/namespace — never
+automatically to the backing host**, which this section's precedent never assesses or admits. A
+second, unrelated share, or an unrelated service, the same physical NAS happens to run is not
+thereby trusted. See
+[home-assistant-boundary.md, "Home Production (HA-Prod) trust boundary"](home-assistant-boundary.md#home-production-ha-prod-trust-boundary-dl-119)
+for the general test.
+
 ---
 
 ## Persistence, not an access surface

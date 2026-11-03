@@ -119,6 +119,7 @@ decision it finds inconvenient.
 - Interruption policy
 - Privacy visibility policy
 - Policy provenance and precedence
+- **Home Production (HA-Prod) trust-boundary admission** — whether a specific, Foundation-referenced resource (service, App instance, execution host, or storage connection) is an admitted HA-Prod member, and the policy consequences of that membership (**DL-119**)
 - **Communication Urgency entitlement** — what a Communication is entitled to interrupt
 - **Audience eligibility** — who may receive a Communication, and who may hear it
 - **Communication visibility classification**, re-evaluated at each Delivery Attempt
@@ -940,7 +941,39 @@ The declaration reuses existing governed-configuration mechanics: Record Identit
 engine reference resolves to unavailable and is reported, never silently dropped (**P30**). No new
 lifecycle model is created.
 
+## Home Production (HA-Prod) Trust-Boundary Admission (DL-119)
+
+Full definition: [home-assistant-boundary.md, "Home Production (HA-Prod) trust boundary"](../architecture/home-assistant-boundary.md#home-production-ha-prod-trust-boundary-dl-119).
+
+**Operational Trust owns the admission decision, never the resource's identity.** Foundation types and
+holds a stable resource reference (`{Subject Type, Subject ID, Version Identity}`, **DL-104**) for any
+service, App instance, execution host, or storage connection a household may consider for Home
+Production. Operational Trust owns a separate, versioned **admission record** — the trust/policy
+decision that a referenced resource is, or is not, currently an HA-Prod member, within what scope, and
+as of when — citing Foundation's reference exactly as Operational Trust already **consumes** Stewardship's
+Significance Declaration (above): never embedded inside Foundation's own record, never invented without
+one. **This is the identical "Foundation feeds everything and consumes nothing" discipline applied to a
+new question, not a new policy type.**
+
+**Membership is not a disclosure grant and not a security certification.** An admitted resource gains no
+access to Home data beyond its own already-authorized scope merely by being admitted; existing disclosure
+evaluation (above, **DL-34**) is unweakened. Membership means *an explicitly governed participant
+approved to satisfy HA-Prod locality/residency requirements within its authorized scope* — nothing more.
+
+**Enforcement is bounded to mediated requests.** For a capability requiring HA-Prod-local processing,
+Operational Trust checks current admission validity before permitting a resource to be treated as
+local; absent or invalid, **DL-41** governs unchanged (`unavailable`, dependency named, no substitution
+outside the required boundary). For genuinely unmediated external traffic, Operational Trust claims no
+routing control, consistent with the honesty standard **DL-118** already established for unmediated
+delegated action.
+
+**Distinct from the Delegation Boundary above and from Execution Host (DL-50).** An admitted HA-Prod
+resource decides nothing on its own — it is a trust/residency classification, never a decision
+authority, and never conflated with a declared execution host, which answers a different, orthogonal
+question (*where may this run*, not *is this inside the boundary*).
+
 ## Urgency Entitlement (DL-77)
+
 
 Resolves **OD-46**. Urgency is the **maximum interruption entitlement** Operational Trust grants to a
 Communication. An originator may **propose**; **Operational Trust determines and grants.**
@@ -1806,6 +1839,7 @@ effect.** See [../architecture/privacy.md](../architecture/privacy.md).
 | OD-56 | **Resolved as DL-79.** Non-life-safety acknowledgement (one-time, authenticated-Administrator), certified-device deference, evidence-quality-proportionate conclusions, Investigation Needed, temporal provenance, and the framework-wide evidence chain; no Safety-specific audience, Urgency, or caretaker model |
 | OD-57 | **Resolved as DL-94.** Indication, the Room-Delivery Authorization Challenge, and message-scoped Room-Delivery Authorization formally separated; a new Room-Delivery Audience Preference governs Room-delivery eligibility by Urgency level and Household/Individual/Guest audience permission |
 | OD-92 | **Resolved as DL-109.** No general configuration-authority tier model; the proposed four-tier model is rejected as redundant with, or conflating, this model's existing Action-Risk Classification, consent, and confirmation-strength architecture; a non-binding, derived resident-facing descriptor is permitted. See "Configuration Authority Composition (DL-109)," above |
+| OD-95 | **Resolved as DL-119.** Home Production (HA-Prod) Trust Boundary Definition — Operational Trust owns the admission decision, Foundation types/holds the resource reference; membership is network/host/process-independent and requires an explicit, Foundation-referenced, Operational-Trust-owned admission record. See "Home Production (HA-Prod) Trust-Boundary Admission (DL-119)," above |
 
 ## Related documents
 
