@@ -235,10 +235,11 @@ Decision Trace already requires every session-state transition resulting from a 
 a suppression or displacement refusal — to carry its Decision Trace reference; this decision extends
 the same discipline to concurrency outcomes (which endpoint class was contended, which Session held
 it, participants, displacement-authorization result, and whether facts were handed to OD-24) — no new
-trace mechanism. Retention of this history follows the existing Continuity/**DL-47** pattern; floor,
-ceiling, and duration are **resolved as DL-122** (Experience History Retention) — the Session/
-Experience record, Room context plus optional Identity-exclusive Person attribution, retains per the
-attribution-following rule there, with duration remaining household-configured, not a hard-coded value.
+trace mechanism. Retention of this history follows the existing Continuity/**DL-47** pattern; **OD-26
+(#125)** has reconciled the Session/Experience record's own scoping (Room context plus optional
+Identity-exclusive Person attribution, attribution-following retention, configured in Room Setup/
+Person Setup rather than globally) but has **one narrow Owner Policy Question remaining** (allowable
+duration values) and is not yet closed.
 
 ---
 
