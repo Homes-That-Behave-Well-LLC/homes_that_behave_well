@@ -132,8 +132,9 @@ The home does not merge them, does not silently stop either, and does not play b
 > in the Den instead?"
 
 **This is the worked example formalized as the Transfer-suppression outcome in Session Concurrency
-Policy (`experience-and-session.md`, DL-102, resolving OD-27).** The session-merging algorithm for
-cases where merging *is* permitted is deliberately open — **OD-24**.
+Policy (`experience-and-session.md`, DL-102, resolving OD-27).** **No Session Merge construct exists
+(resolved — DL-127, OD-24)** — Scenario 5's suppression-and-offer outcome, not a merge, is the
+governing pattern for every case where two Sessions contend for the Living Space.
 
 ---
 
