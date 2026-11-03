@@ -113,6 +113,20 @@ Those belong to **Home Assistant or the deployment**. HTBW's ownership begins **
 Assistant has made a valid storage dependency available, and covers only what HTBW puts there and
 how it governs it.
 
+**Issue #146 conformance finding (2026-08-20), closed as CONSUMED/SATISFIED (2026-11-03).** A
+conformance review found predecessor-product implementations (Asset Intelligence writing to
+`/media/Media/asset_documents`, Concierge writing to `/media/NAS/concierge_log`) placing sensitive
+internal artifacts under a Media-usage path, contrary to the visibility-boundary rule already
+established above and in `privacy.md`. **The architecture itself was already correct and required no
+change** — this is a predecessor-product conformance defect, not an HTBW Core architecture gap, and
+remediation (moving those paths to a Share-usage target) belongs to the affected product repositories
+under existing migration/adoption governance (**DL-51**, **DL-52**), never to this document or to
+Issue #146. Voice Identity's own voiceprint storage was separately found, on correction, to already be
+conformant (`/config/voice_identity`, not media-browsable). **Home Assistant 2026.11 does not change
+the documented Media-versus-Share visibility semantics above** (verified during the Issue #146
+2026.11 revalidation sweep — the release adds a new local-disk storage *location* type, not a new
+visibility rule).
+
 **Two platform assumptions are recorded rather than assumed away.** The network storage feature
 documented above is a **Home Assistant Operating System** capability, and it requires **Home
 Assistant OS 10.2 or later**. On other installation types the mount is provided by the deployment

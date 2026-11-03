@@ -148,6 +148,8 @@ release before treating any version-sensitive detail as permanent.
 
 **Discharges item 4 of Issue #146** for create/read/update/delete and for Area assignment. Does not decide OD-68's own naming/seeding/reconciliation question.
 
+**Addendum (2026-11-03):** Device-registry `labels` independently confirmed via current official documentation (`contributors.home-assistant.io/core/integrations/device-registry/`, Device properties table: *"`labels` — The labels of the device"*). **Discharges the Device-registry residual.** Entity-registry `labels` remains reasoned by the same registry architecture pattern but was not independently re-fetched this pass — a small, non-blocking residual, since OD-68's own naming/seeding question is unaffected either way.
+
 #### Automation and script trace retention (item 6, 2026-10-06) — PARTIALLY_VERIFIED
 
 | DL-30 element | Finding |
@@ -271,6 +273,99 @@ only where documentation was insufficient). **No architecture decision is made h
 | Why a lower layer cannot satisfy it | Not applicable — Step A is a native-capability inventory, not a justification for building anything |
 
 **Discharges Step A of item 11's A–F sub-evaluation.** Steps B–F remain outstanding; Step B specifically requires real household measurement and is addressed by the Track B protocol delivered with this pass (see Issue #146 comment).
+
+### Issue #146 Item 11 Steps B–F — production evidence pass (2026-11-03)
+
+Evidence produced against the attached Reference Home production workspace (`P:\`, Home Assistant
+**2026.10.4**, independently confirmed from `.HA_VERSION`), conducted entirely as **Production-read,
+no Production write** discipline: a local, temporary, read-only copy of the Recorder database was
+made solely to avoid holding a live SQLite connection open over the SMB share, was queried for entity
+**state values and timestamps only** (never transcript, audio, or biometric content), and was deleted
+immediately after this analysis. No Production file, pipeline, automation, helper, wake word, or
+sensitivity setting was modified. **This section records verification outcomes only. No architecture
+decision is made here, no ownership boundary changes, and no open decision is closed.**
+
+#### Governed protocol search (prerequisite to Step B)
+
+The 2026-10-06 remediation comment on Issue #146 states that *"a complete, bounded, Tom-executable
+validation protocol... has been produced and is available in the session record"* for Step B. A
+repository-wide search for a durable, committed protocol document (as distinct from a chat-session
+description) found **none** — `performance-aware-voice-processing-specification.md` names
+*"false activation rate"* only as a future measurable metric concept, never a protocol. **The
+previously referenced protocol was not durably available in the repository.** Per this issue's own
+governance standard, the minimum validation procedure directly supported by Issue #146's own
+already-stated requirements is reconstructed below, rather than invented: observation unit —
+one `assist_satellite` entity, deduplicated state transition (`idle`/`unavailable` → `listening` →
+...); window boundary — a `listening`-initiated run, bounded by the next `idle`/`unavailable`
+transition; native evidence fields captured — satellite entity, Room (via Area registry), state
+sequence reached, timestamp, and the same-Room `media_player`/occupancy state at run start; fields
+explicitly **not** captured — audio, transcript text, or biometric content, none of which Recorder
+holds for this evidence class in any case (Assist Debug, the only component holding transcript-
+adjacent detail, is in-memory-only per item 14 and was not queried).
+
+#### Step B — production false-activation baseline (item 11, Primary Bedroom / Kitchen / Den)
+
+| DL-30 element | Finding |
+|---|---|
+| Capability evaluated | `assist_satellite` entity state history for the Primary Bedroom, Kitchen, and Den voice satellites (Home Assistant Voice / ESPHome), cross-referenced with same-Room `media_player` and occupancy `binary_sensor` state |
+| Source | Reference Home production Recorder database (`P:\home-assistant_v2.db`), read-only, local temporary copy, deleted after analysis; `P:\.storage\core.area_registry`, `core.entity_registry`, `core.device_registry` for Room/entity resolution |
+| Evidence coverage | **Exactly the Recorder's own retention window, evidenced directly, not assumed**: state rows for all three satellites span **2026-10-24 to 2026-11-03** (≈10.1 days), consistent with Recorder's documented default `purge_keep_days` (10). No evidence exists, and none is claimed, outside this window. Wake-word-only and completed-pipeline activations are directly distinguishable from the entity's own documented state values (`listening`, `processing`, `responding`, `idle`, `unavailable`) — no inference was required. Media-player state at activation is fully recoverable per Room for every event. Raw audio, transcript text, and biometric content are not present in this evidence source at all |
+| Measured result | **Den**: 25 `listening`-initiated runs — 16 reached `responding` (completed), 1 reached `processing` only, 8 never progressed past `listening` (incomplete). **Kitchen**: 8 runs — 5 completed, 0 processing-only, 3 incomplete. **Primary Bedroom**: 32 runs — 19 completed, 0 processing-only, 13 incomplete. **Cross-referencing the 24 incomplete (`listening`-only) runs against same-Room media-player and occupancy state at the run's own start**: Den 6/8 coincided with active (`playing`) media and detected occupancy; Kitchen 1/3; Primary Bedroom 5/13 (plus 2 further Primary Bedroom runs with media `playing` but occupancy `off`, most plausibly a scheduled/remote playback with the occupancy sensor's own detection boundary not engaged). The remainder of the no-media incomplete runs (Den 1, Kitchen 2, Primary Bedroom 6) occurred with occupancy **detected** (a person present, no media active) — **these are not false activations by any definition in this issue's own taxonomy; they are incomplete genuine interactions** (wake word recognized, pipeline not completed — indistinguishable, from this evidence alone, among VAD timeout, the person stopping mid-utterance, or declining to continue). Exactly **3 runs** (Den 1, Primary Bedroom 2) coincided with **neither** active media **nor** detected occupancy, and remain genuinely unclassifiable from available native evidence |
+| Completeness limitations | Ten-day window only (Recorder's own retention ceiling — a longer baseline would require either a longer-retained export or repeated future sampling); only `media_player` and occupancy `binary_sensor` Facts were cross-referenced — other contradicting-evidence sources (for example a concurrent spoken-conversation Fact, if one existed) were not queried this pass; wake-word-engine-internal confidence scoring, if any exists as a per-event value, was not queried (Step A already establishes the engine families only, not a per-event score) |
+| Why a lower layer cannot satisfy it | Not applicable — this is a measurement, not a capability gap |
+
+**No false-activation rate is calculated or reported as a rate.** Issue #146's own denominator is "a `listening`-initiated run" (now operationally defined above for the first time, in the absence of the originally referenced protocol); the **numerator** for "false activation" specifically (wake triggered by non-human/media audio, as distinct from a genuine but incomplete human interaction) **cannot be established from this evidence alone** for any of the 24 incomplete runs, because media presence and occupancy are each independently *consistent with*, never *proof of*, cause. What is reported instead, honestly, is the exact distribution above.
+
+#### Step C — native-first contradiction hypothesis (item 11)
+
+| DL-30 element | Finding |
+|---|---|
+| Capability evaluated | Whether active media playback in the applicable Room, evaluated as Truth's already-accepted *"the television is in use"*-class Fact, correlates with incomplete (`listening`-only) activations more than with completed ones — the `media playback as contradicting evidence` hypothesis under **DL-38 F6** |
+| Source | Same Recorder evidence as Step B, read-only, retrospective |
+| Verified | **A measured association, not a causal claim.** Completed (full `listening→processing→responding`) runs coincided with active media playback in **3/16 (Den), 0/5 (Kitchen), 3/19 (Primary Bedroom)** cases. Incomplete (`listening`-only) runs coincided with active media playback in **6/8 (Den), 1/3 (Kitchen), 5/13 (Primary Bedroom)** cases — a markedly higher rate in every Room that had any incomplete runs at all. **This is retrospective, read-only reclassification of already-recorded native evidence, never a live native-capability intervention** — the Reference Home's existing configuration does not itself gate or suppress a voice interaction on concurrent media state, so this finding characterizes what the evidence shows, not what the deployed pipeline currently does with it |
+| Remaining gap | Whether Home Assistant 2026.11 supplies any new native capability materially affecting this hypothesis or its future measurement: **none found.** The 2026.11 beta's voice-adjacent and explainability-adjacent additions (the Activity panel's **Triggered by** filter, **Action history**, and trace cross-linking — see the revalidation sweep below) are UI presentations of already-existing `Context` fields and do not add a new wake-word, VAD, or media-correlation capability |
+| Why a lower layer cannot satisfy it | Not applicable — this is a measurement of an already-available, already-governed Fact (media playback), not a gap |
+
+**The hypothesis is supported as an association for this household's 10-day window, and is not overstated as causation.** Where DL-38 F6 / OD-19 contradicting-evidence treatment is applied to a voice interaction evaluated while Room media is active, it would already explain the majority of this Room's incomplete activations without any new HTBW capability.
+
+#### Step D — measured residual (item 11)
+
+After applying only native capability (media-playback and occupancy Facts, both already-accepted Truth evidence, requiring no new HTBW mechanism) to the Step B evidence: of **65** total `listening`-initiated runs across the three Rooms over the ten-day window, **12** incomplete runs are already explainable as coinciding with active media (Step C), a further **9** incomplete runs coincide with detected occupancy and no media (ordinary incomplete human interactions, not a false-activation concern at all), and **3** runs remain genuinely unexplained by any native evidence queried this pass. **The residual is small (3 of 65 total interactions, ≈4.6%, over a single ten-day window at one household) and is reported exactly as measured — it is not rounded into a rate, extrapolated to a longer period, or treated as representative beyond the evidenced window.** A longer observation window, were one ever required, would need either repeated future sampling before each purge cycle or a separately accepted longer Connected-Storage retention for this specific evidence class — neither is proposed here.
+
+#### Step E — audio-source provenance discriminator justification (item 11)
+
+| DL-30 element | Finding |
+|---|---|
+| Capability evaluated | Whether a measured governed gap justifies an HTBW-built audio-source provenance discriminator, applying **DL-30** against both current/stable capability and the 2026.11 prerelease evidence reviewed in this pass |
+| Verified | **Not justified.** The measured residual (3 of 65 runs, within one short household window) does not demonstrate a governed gap that native capability and already-accepted evidence (media-playback Facts, occupancy Facts, DL-38 F6 contradicting-evidence treatment) cannot practically satisfy for the great majority of cases. Building a discriminator for a 4.6%, single-window, unreplicated residual would be building for an unmeasured problem in substance, precisely what this item's own Step B requirement exists to prevent. Home Assistant 2026.11 (beta, stable tomorrow) introduces no new wake-word, VAD, or media-correlation capability that would change this conclusion either direction |
+| Remaining gap | None that justifies new HTBW capability. If the household's own experience later indicates the residual is larger or more disruptive than this ten-day sample suggests, a fresh Step B measurement over a longer or repeated window is the correct next step — never a discriminator built ahead of that evidence |
+| Why a lower layer cannot satisfy it | Not applicable — no capability is being built |
+
+#### Step F — result (item 11)
+
+**PASS — HTBW builds nothing.** This is recorded as a successful, complete outcome under **P21**, not an incomplete result. Item 11's non-relaxable constraints are confirmed unaffected: guest access, enrolment, transcription behaviour, Identity assertion states, confidence architecture, and responsibility boundaries were not touched by this measurement, which consumed only entity state metadata already native to the platform.
+
+**Discharges Steps B through F of item 11's A–F sub-evaluation in full.** Item 11 is now completely discharged. The one admissible residual already identified (OD-86 / #174's deferred wake-word-vocabulary sub-question) may now proceed, because item 11 has reported: no HTBW audio-source discriminator is being built, so OD-86 inherits nothing further from it beyond the household-vocabulary-change aspect it was always scoped to.
+
+### Issue #146 Home Assistant 2026.11 revalidation sweep (2026-11-03)
+
+Performed immediately before the expected Home Assistant 2026.11 stable release (official beta
+published 2026-10-28, stable expected 2026-11-04 per the official `home-assistant.io` blog). HA-Prod
+runs **2026.10.4** (evidenced, not assumed); 2026.11 remains **prerelease (beta)** as of this review
+and is evaluated as such throughout — no finding below treats a 2026.11-only capability as currently
+available in HA-Prod, and no finding ignores it merely because HA-Prod has not upgraded.
+
+| Item previously VERIFIED_NEGATIVE / VERIFIED_UNSUPPORTED | 2026.11 prerelease effect |
+|---|---|
+| 6 — trace retrieval public-API contract | **NO CHANGE.** The beta's *"Follow a trace into the script it called"* feature adds a **frontend-only** `View trace of` link between related runs; the underlying retrieval commands remain the same admin-only, frontend-facing WebSocket contract already found closed. No new public, integration-facing retrieval API is documented |
+| 13 — hidden resolved-actor field/extension point | **NO CHANGE.** The beta's *"See what triggered it"* **Triggered by** filter (Activity panel) and the new **Action history** tool both classify and display entries using exactly the already-verified `Context` fields (`id`, `parent_id`, `user_id`) — person, automation/script, or integration (including non-person accounts, explicitly named as "integrations"). Neither feature is described as adding a new field, API, or extension point; both are UI presentations layered on already-existing data, exactly the distinction this issue's own governing standard requires not to conflate with a new programmatic capability |
+| 20b — Floor registry creation/documentation | **NO CHANGE.** No dedicated Floor-registry developer-documentation page exists in the 2026.11 prerelease material reviewed; the 2026.11 **Exclude items from a target** feature treats Floors as an existing resident-owned targeting concept, consistent with, and not expanding, the existing finding |
+| 20a / 20c — Area / Person creation | **NO CHANGE.** No 2026.11 material reviewed proposes an integration-facing Area or Person creation API |
+| 11 (Step A) — voice pipeline native capability | **NO CHANGE.** The official Assist pipelines developer documentation was last updated 2026-10-16, before the 2026.11 beta; no 2026.11 release-note or blog material reviewed describes a wake-word, VAD, or pipeline-extension-point change |
+| 10 — confirmation mechanisms | **NO CHANGE.** No 2026.11 material reviewed introduces, documents, or verifies a new Authenticated/Strong-capable confirmation mechanism; **DL-40**'s `Unavailable` outcome continues to apply where none is verified |
+| G — Media/Share storage visibility boundary | **NO CHANGE.** 2026.11 adds a new **local-disk** storage *location* (Settings → System → Storage) for backups, media, or shared files; it does not alter the documented Media-versus-Share visibility semantics this document already records |
+
+**No prior VERIFIED_NEGATIVE/VERIFIED_UNSUPPORTED finding is reopened, weakened, or reclassified by this sweep.** Every 2026.11 capability reviewed that touches a previously-closed item is a **resident-facing frontend presentation** of data already classified in this document, never a new integration-facing contract — exactly the distinction this issue's governing instructions required not to conflate.
 
 ### Issue #146 voice explainability evidence pass (2026-10-06)
 
@@ -419,6 +514,74 @@ Person (unsupported), and narrowed for Floor (undocumented, treated as unsupport
 residual, genuinely open part of OD-91 is the resident-facing orchestration question** — how HTBW hands
 the resident off to Home Assistant's own Area/Floor/Person setup surfaces and resumes without becoming
 a second source of truth or a second onboarding flow — which this pass does not attempt to answer.
+
+### Issue #146 — #149/OD-78 native state restoration verification pass (2026-11-03)
+
+Discharges the DL-30 burden first raised by the Episode 7 Continuity governance review (**#151**) and
+recorded as item D of this issue's current task scope: *"Does Home Assistant natively represent 'the
+level this room normally uses,' and if so, through which capability?"* The 2026-08-20 household-operator
+report (helper entities + automations) was evidentially sound but explicitly undischarged pending
+official documentation citations. Those citations are supplied here. **This section records
+verification outcomes only. No architecture decision is made here, no ownership boundary changes, and
+no open decision is closed.**
+
+#### Helper entities as the durable, documented restoration mechanism — VERIFIED_SUPPORTED
+
+| DL-30 element | Finding |
+|---|---|
+| Capability evaluated | `input_number`/`input_text` Helper entities as a durable, resident-independent store for a remembered operational value |
+| Source | [Input number](https://www.home-assistant.io/integrations/input_number/) (official, current): `initial` configuration variable, documented default **"The value at shutdown"** |
+| Verified | A Helper entity's value is **restored automatically across a restart by default** — this is documented platform behaviour, not an assumption. Combined with item 1's already-established `Store`/`.storage` durability (versioned JSON, atomic writes, Backup-covered), Helper entities are a fully native, fully documented, durable value store requiring no custom integration |
+| Remaining gap | None for the storage/restore mechanism itself |
+| Why a lower layer cannot satisfy it | Not applicable — native capability fully satisfies the storage/restore mechanism |
+
+#### Scenes / `scene.create` with `snapshot_entities` — VERIFIED_SUPPORTED, but VERIFIED_NEGATIVE for durability
+
+| DL-30 element | Finding |
+|---|---|
+| Capability evaluated | Whether a runtime-captured Scene (`scene.create`, `snapshot_entities`) is a viable alternative durable store for the same requirement |
+| Source | [Create scene](https://www.home-assistant.io/actions/scene.create/) (official, current): *"A scene created this way is temporary. It disappears when you reload the scenes or restart Home Assistant."* |
+| Verified | `scene.create` with `snapshot_entities` is native, documented, and does capture current entity states at runtime — but a scene created this way is **explicitly documented as non-durable across a restart**, which disqualifies it from representing a value that must survive one. A YAML-authored Scene (`scenes.yaml`) is durable but is household-authored configuration, not a runtime-captured "value this Room normally uses" |
+| Remaining gap | None — this is a clean documented negative for the durability requirement specifically, not an absence-of-documentation case |
+| Why a lower layer cannot satisfy it | Not applicable to this ruling; Scenes remain the correct native mechanism for a different requirement (a named, household-authored preset), never for this one |
+
+#### `homeassistant.turn_on` light restore-state behaviour — NOT ESTABLISHED AS A SINGLE DOCUMENTED CONTRACT
+
+| DL-30 element | Finding |
+|---|---|
+| Capability evaluated | Whether calling `light.turn_on` without a brightness parameter is documented to restore the light's own last brightness, as a single cross-integration Core contract |
+| Source | Official `light` integration and entity documentation reviewed; no single documented Core-wide contract found specifying this behaviour uniformly across light platforms |
+| Verified | **NOT_VERIFIED as a uniform native contract.** Restore-on-turn-on behaviour is observed to vary by light platform/integration rather than being guaranteed by Home Assistant Core itself; it is not treated here as either a verified-present or verified-absent capability, only as insufficiently documented to rely upon |
+| Remaining gap | Whether any specific light platform's own documentation guarantees this for that platform specifically was not exhaustively surveyed |
+| Why a lower layer cannot satisfy it | This is exactly why the Reference Home's own already-used pattern (an explicit Helper value + an explicit automation applying it) is architecturally preferable to relying on an unguaranteed, per-integration restore behaviour |
+
+#### Recorder/`history` as a restoration source — explicitly excluded, confirmed
+
+Restated, not reopened: `execution-patterns.md` forbids reconstructing runtime state from history, and
+**DL-42**/**DL-46** forbid a second Recorder. Recorder is not evaluated as a candidate restoration
+source for this reason, consistent with the original 2026-08-20 finding.
+
+#### Conclusion — DL-30 burden now discharged
+
+**Home Assistant natively represents "the level this room normally uses," through Helper entities
+(`input_number`/`input_text`), documented and durable by default, requiring no custom integration.**
+Scenes are a documented but non-durable alternative, correctly excluded for this specific requirement.
+The five residuals the original 2026-08-20 finding identified as **genuinely HTBW's** — resident-versus-
+automation attribution, an absent-value state, provenance/version identity, declared retention, and
+policy governance — are unaffected by this discharge and remain correctly scoped as what Home
+Assistant does not represent, consistent with **DL-46**. The existing Reference Home helpers,
+automations, and scripts are referenced as executors and value sources, never replaced, wrapped, or
+migrated (`why-did-this-happen.md` Scenario 17, restated).
+
+### Issue #146 — #149/OD-78 capture-semantics prerequisite reconciliation (2026-11-03)
+
+#149's own body previously named **#128 (OD-63)** and **#129 (OD-64)** as blockers for its
+capture-semantics half. Both are independently re-verified **CLOSED**: OD-63 accepted as **DL-73**
+(2026-10-29), OD-64 accepted as **DL-111** (2026-10-29). **This blocker is discharged.** #149 may now
+proceed on its capture-semantics question using DL-73's Known/Probable/Unknown Source tiers and
+DL-111's evidence-eligibility rules directly, without further dependency on either issue. This does not
+decide #149's own remaining substantive questions (value-class taxonomy, restoration-versus-computation
+semantics), which remain #149's own open governance question.
 
 ---
 
