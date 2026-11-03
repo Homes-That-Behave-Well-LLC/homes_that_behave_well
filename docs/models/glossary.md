@@ -1861,7 +1861,7 @@ responsibilities. The distinction matters, because the same word appears in both
 | Name | As a product/repository | As an HTBW Core boundary |
 |---|---|---|
 | **Voice Identity** | A real, separately released Home Assistant integration. It remains a valid repository, deployment unit, and governance subject for cross-repo work. | **Superseded.** There is no "Voice Identity" layer in HTBW Core. The responsibility is **Identity**, and voice is one evidence source among many. |
-| **Asset Intelligence** | A real, separately released Home Assistant integration. | **Not a layer.** Foundation owns the descriptive asset model; Stewardship owns obligations. Asset Intelligence may act as an optional evidence source (OD-20). |
+| **Asset Intelligence** | A real, separately released Home Assistant integration; a **predecessor product**, not an earlier version of the same product. | **Not a layer, and not a runtime evidence source or dependency, mandatory or optional (DL-121).** Foundation owns the descriptive asset model; Stewardship owns obligations. Asset Intelligence is solely an **optional predecessor-product migration source**, adopted once under **DL-52**/**DL-110**. |
 | **Concierge** | A real, separately released Home Assistant integration. | Also a genuine HTBW Core responsibility — *what should happen now?* |
 
 Where an operational, cross-repo, or release-governance document names Voice Identity or Asset

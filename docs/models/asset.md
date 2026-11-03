@@ -24,7 +24,9 @@ lifecycle, and **it is not retired**. This refoundation does not merge, modify, 
 compatibility requirements for it.
 
 HTBW Core may learn from its concepts, contracts, and household outcomes. HTBW Core is **not** required
-to depend on it or copy its implementation. See
+to depend on it or copy its implementation. **HTBW Core does not consume it as an ongoing runtime
+evidence source, enhancement dependency, or capability dependency — mandatory or optional (DL-121)**;
+Asset Intelligence is solely an **optional predecessor-product migration source**. See
 [../architecture/greenfield-mandate.md](../architecture/greenfield-mandate.md).
 
 > **HTBW must never require Asset Intelligence to be installed** (**DL-51**). It is never a
@@ -317,7 +319,7 @@ that fact and its source in the Decision Trace.
 | OD-02 | **Closed — DL-43, DL-44, DL-45.** Documentation, manuals, photos, and records are located through a governed artifact reference; file formats remain capability-specific |
 | OD-68 | Reserved Asset Type label taxonomy and its projection mechanism |
 | OD-69 | Which Asset-related values are projected as Entities, on which platform, and with which state vocabulary |
-| OD-20 | Whether HTBW Core consumes the standalone Asset Intelligence product as an optional evidence source, and through what interface |
+| OD-20 | **Resolved as DL-121.** No runtime consumption of the standalone Asset Intelligence product, mandatory or optional; it is solely an optional predecessor-product migration source (**DL-52**/**DL-110**) |
 
 ## Related documents
 
