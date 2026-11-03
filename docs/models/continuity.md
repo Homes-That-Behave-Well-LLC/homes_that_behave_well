@@ -220,7 +220,7 @@ is **not** a separate learned-preference store. Continuity holds the approved pr
 Trust holds the permission to act on it autonomously; the observation that produced the suggestion is
 a **Domain Event** owned by the responsibility that observed it. The governing rules are in
 [../architecture/behavioral-governance.md](../architecture/behavioral-governance.md) under **P26**;
-the lifecycle is **OD-28** and evidence eligibility is **OD-65, resolved as DL-112** — eligibility,
+the lifecycle is **resolved as OD-28/DL-123** and evidence eligibility is **OD-65, resolved as DL-112** — eligibility,
 sufficiency, and acceptance are formally distinct; competing residents' evidence is never averaged or
 merged, since a person-scoped value never actually conflicts between residents and a room-scoped value
 is operational history, not a contested preference; see
@@ -626,6 +626,7 @@ plus a custom numeric override.
 | OD-25 | Resume eligibility window defaults per experience class. Informed by **DL-122**: expired Experience History is reported unavailable, never silently re-rendered |
 | OD-26 | **Resolved as DL-122.** Experience History is one governed record class, Room context + optional Identity-exclusive Person attribution; retention follows attribution, never duplicated; duration configured in Room Setup/Person Setup, never globally, as a hybrid of enumerated presets plus a custom numeric override |
 | OD-27 | **Closed — DL-102.** Session concurrency is governed by endpoint-class contention, not Session/Experience class; Personal-versus-Room remains meaningful for ownership/privacy only; suppressed-transfer and conflict-reported-not-started are distinct, both already-existing outcomes; participant join requires an explicit Operational-Trust-evaluated act, never mere co-presence; duplicate playback is a semantic `Current Room` guarantee only, never a provider-render guarantee |
+| OD-28 | **Closed — DL-123.** Learned-Policy Promotion Lifecycle. Once accepted, a learned preference is an ordinary, versioned, revocable Continuity preference at Person or Room scope — never a separate learned-preference store. Continuity's own role is unchanged: it holds the approved preference only, never the permission to act on it (Operational Trust) and never the proposal's own formulation or presentation (Concierge) |
 | OD-33 | **Closed — DL-43, DL-46, DL-47.** Retention is declared inside every governed record lifecycle; experience-history scope and duration are **resolved as DL-122** |
 | OD-48 | **Closed — DL-99.** Re-presentation preference for outstanding Communications — opt-in, Person-scoped, optionally refined by Category/Urgency; no HTBW-wide default repetition count or cooldown; not coupled to Follow-Me media eligibility |
 | OD-77 | Ownership of the association between a Person and an external service, account, calendar, mailbox, or media profile |

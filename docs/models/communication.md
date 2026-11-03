@@ -121,7 +121,7 @@ Governance may exist for that reason.
 | **Security** | Access, intrusion, unauthorised presence, credential compromise, protective controls | Exterior door left unlocked; unexpected access event; unknown person at a restricted entry; security credential compromise | Distinct from **Safety** even where a security system supplied the fact |
 | **Care** | Personal well-being, health-adjacent matters, medication, wellness, animal well-being | Medication reminder; personal wellness reminder; animal-care instruction focused on well-being | Never implies HTBW is a healthcare provider, medical device, or diagnostic system |
 | **Environment** | Weather, temperature, humidity, air or water quality as observed condition | Routine weather information; humidity outside a preferred range; air-quality observation | Use **Safety** where the immediate purpose is risk-reducing warning or guidance |
-| **Experience** | Comfort, convenience, hospitality, preference, routine, arrival/departure | Expected guest arriving soon; comfort preference; routine arrival/departure information | Never a synonym for low Urgency — may carry any justified Urgency |
+| **Experience** | Comfort, convenience, hospitality, preference, routine, arrival/departure | Expected guest arriving soon; comfort preference; routine arrival/departure information; a learned-policy Suggestion offered for acceptance (**resolved — OD-28/DL-123**, ordinarily Experience unless its actual subject carries another Category) | Never a synonym for low Urgency — may carry any justified Urgency |
 | **System** | Technical health, availability, configuration, integration, platform behaviour | Integration unavailable; platform update available; automation failed; reauthentication required | Distinguished from **Stewardship** by immediate technical-operation purpose, not by device |
 | **Safety** | Conditions, events, warnings, or guidance whose immediate purpose is reducing risk of injury or harm to people, animals, or occupants | Smoke detected; carbon monoxide detected; a cougar in the yard with guidance not to let a dog out alone; a dangerous-heat warning affecting whether a dog should remain outside | Establishes no life-safety claim — see *Life-safety non-claim*, below |
 
@@ -176,7 +176,7 @@ redefine a Category — Category is semantic classification, never household pol
 configure Category-**driven** downstream policy (disclosure, retention, re-presentation, indication)
 under the owning decision above, following the same Canonical-Recommendation/Household-Override pattern
 **DL-77** established, including **Learned Household Recommendations** that reuse the existing
-**P26**/**DL-21** learning ladder (**OD-28**) — HTBW never learns or alters Category definitions, the
+**P26**/**DL-21** learning ladder (**resolved — OD-28/DL-123**) — HTBW never learns or alters Category definitions, the
 enumeration, an originator's semantic assignment, the single-Category rule, or the Category/Urgency
 separation.
 
@@ -219,7 +219,7 @@ mandatory delivery behaviour** — Concierge may always choose less.
 |---|---|
 | **Originator Proposal** | The optional level the originator proposes. Advisory only; its absence is itself recorded |
 | **Canonical HTBW Recommendation** | The current baseline recommendation for the governed scenario or scope |
-| **Learned Household Recommendation** | A Suggestion-stage proposal (existing **P26**/**DL-21** ladder, **OD-28**) derived from repeated accepted overrides — never silently applied |
+| **Learned Household Recommendation** | A Suggestion-stage proposal (existing **P26**/**DL-21** ladder, **resolved — OD-28/DL-123**) derived from repeated accepted overrides — never silently applied |
 | **Configured Value** | The value currently accepted for the applicable scope |
 | **Household Override State** | Whether the configured value differs from the recommendation, with provenance |
 | **Granted Runtime Entitlement** | What Operational Trust actually grants, after evaluating policy and current facts |
@@ -1302,6 +1302,7 @@ See [../scenarios/why-did-this-happen.md](../scenarios/why-did-this-happen.md).
 | ID | Question |
 |---|---|
 | OD-22 | **Closed — DL-97.** Escalation ladder semantics and defaults — the single ladder, serving communications and obligations identically, reusing DL-71's five Intended Audience forms as rungs; no self-authorizing trigger; no HTBW-wide default grace period |
+| OD-28 | **Closed — DL-123.** A learned-policy Suggestion is an ordinary Communication: Category assigned by its actual subject (ordinarily **Experience**), Urgency per **DL-77**, Audience per **DL-71** resolved by what the Suggestion concerns, and lifecycle per **DL-95**; its response reuses **DL-96**'s existing confirming/denying/dismissing acknowledgement types as Accept/Reject/Dismiss, never a new mechanism |
 | OD-33 | **Closed — DL-43, DL-46, DL-47.** Communication records follow the governed-record retention model; the content-versus-metadata classification remains **OD-49** |
 | OD-34 | **Closed — DL-42, DL-44, DL-46, DL-47.** The temporal-persistence model is complete; Communication object persistence remains **OD-42**, subordinate to **OD-01** |
 | OD-38 | Version identity, correlation, and causation identifier strategy |

@@ -853,7 +853,7 @@ automatically.
 
 Both recommendation types require an explicit household disposition — **Accept**, **Accept with
 modification**, **Reject**, or **Defer** — recorded as a governed Change Record under the same
-promotion-ladder discipline (**OD-28**). Only Accept or Accept-with-modification creates or modifies the
+promotion-ladder discipline (**resolved — OD-28/DL-123**). Only Accept or Accept-with-modification creates or modifies the
 Significance Declaration. The acceptance record preserves the recommendation type, its provenance, the
 proposed and accepted Derivation Source and Base Significance, the household decision maker, the
 decision timestamp, and any modification rationale. **The research or reasoning provider is never

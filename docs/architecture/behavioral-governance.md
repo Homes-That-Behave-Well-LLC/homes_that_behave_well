@@ -186,21 +186,25 @@ model.**
 | Concern | Owner |
 |---|---|
 | The observation that a pattern exists | The responsibility that observed it, as a **Domain Event** |
+| **Formulating the proposal from the Pattern/evidence (resolved OD-28, DL-123)** | **Concierge** — the same synthesis role it already performs for every other governed decision (Historical Reconstruction assembly, the Originator Proposal/Recommendation framework); never Continuity, never a Reasoning Provider, never a new Learning responsibility |
 | The preference, once approved | **Continuity** — person-scoped or room-scoped, per [../contracts/continuity-contract.md](../contracts/continuity-contract.md) |
 | Whether a learned behaviour may be promoted, and to what autonomy ceiling | **Operational Trust** |
 | Whether to act on it now, and the record of why | **Concierge**, through the Decision Trace |
 | Who the observation is attributed to | **Identity**, subject to confidence thresholds |
 
 **No responsibility is added.** Learning is a *source of proposals*. It is never a source of truth,
-never a source of authority, and never an owner.
+never a source of authority, and never an owner. **Formulating a proposal is not an exception**:
+Concierge assembles it from the observing responsibility's evidence exactly as it assembles every
+other governed output, and never thereby becomes the owner of the resulting preference or permission
+(**DL-123**).
 
 ### The promotion ladder
 
 | Stage | What exists | What the home may do |
 |---|---|---|
 | Observation | A Domain Event | Nothing behavioural |
-| Pattern | A repeated observation | Nothing behavioural |
-| Suggestion | A proposal, attributed and evidenced | **Ask** |
+| Pattern | A repeated observation; never itself a persisted record or a store (**DL-123**) | Nothing behavioural |
+| Suggestion | A proposal, attributed, evidenced, formulated by **Concierge**, and presented as an ordinary Communication (**DL-123**) | **Ask** |
 | Approved preference | A Continuity preference, versioned | Apply as a preference |
 | Adaptive policy | An approved behaviour with an autonomy ceiling | Act within the ceiling, and record why |
 
@@ -217,8 +221,11 @@ accepted change applies to **new** assertions only — **earlier assertions are 
 (**DL-38**).
 
 **Every stage transition is a governed change with a Change Record.** Acceptance, rejection,
-correction, pause, forgetting, and revocation are all recorded, so that a past adaptive action stays
-reconstructable after the preference has changed (**P30**). The lifecycle is **OD-28**.
+correction, pause, and revocation are each recorded — **"forgetting" is not a canonical lifecycle
+state**; it is replaced by three separate, never-conflated operations (revocation, preference
+deletion, source-evidence expiration) — so that a past adaptive action stays reconstructable after the
+preference has changed (**P30**). **The full lifecycle, formulation ownership, presentation,
+acceptance authority, and retention are resolved as OD-28 / DL-123.**
 
 ### Scoping follows the existing rule
 
@@ -236,11 +243,11 @@ in one room is room-scoped evidence; a musical taste is person-scoped evidence.
 | **A resident adjustment and an automation-generated value are not the same evidence** | Correcting an automation's output is a signal about the resident. The automation's own output is not. **Absence of automation evidence is never evidence of manual action** — it may mean expired evidence, an unsupported surface, another integration, or a genuinely unattributed source (**DL-73**, **DL-111**) |
 | Identity bounds attribution | An observation may be attributed to a person only where identity confidence meets the threshold. Below it, the evidence is room-scoped or discarded, never guessed |
 | **Competing residents never merge, and the reason is structural, not a policy choice** (**DL-112**) | A person-scoped value never actually conflicts between residents — each Person's own preference is independently stored and read back only when that Person is identified. A room-scoped value is operational history, not a contested preference, so there is nothing to average. Real-time application precedence for two residents simultaneously present with conflicting already-accepted preferences is explicitly out of this scope (a future policy-precedence question, never invented here) |
-| **Dismissal is non-acceptance, never automatic negative evidence** (**DL-112**) | A bare dismissal is recorded through the applicable suggestion lifecycle; repeated dismissal may itself become a reportable Pattern about the proposal's own treatment ("this has been repeatedly dismissed"), **never** "the resident dislikes this outcome." Explicit rejection is a distinct, further lifecycle state (**OD-28**) |
+| **Dismissal is non-acceptance, never automatic negative evidence** (**DL-112**) | A bare dismissal is recorded through the applicable suggestion lifecycle; repeated dismissal may itself become a reportable Pattern about the proposal's own treatment ("this has been repeatedly dismissed"), **never** "the resident dislikes this outcome." Explicit rejection is a distinct, further lifecycle state (**resolved — DL-123**) |
 | **Evidence carries its context, and a Pattern must stay context-consistent** (**DL-112**) | An observation made under a household Mode remains eligible, carrying that Mode as ordinary provenance; a Pattern may only be built from observations of genuinely the same behaviour — mixing Mode-context and ordinary-context observations into one Pattern would misrepresent repetition. This is a direct consequence of existing Domain Event provenance fidelity, not a new scope or a categorical exclusion rule |
 | Feedback is new evidence | A correction adds evidence. **It does not rewrite the history that preceded it** |
 | Confidence is stated, not implied | A suggestion carries the strength of its evidence, in terms a resident can understand |
-| Staleness is a property | Evidence and approved preferences age. How they expire is **OD-28** |
+| Staleness is a property | Evidence ages under its own retention (Domain Events, Experience History — **DL-122**/**DL-47**). An approved preference does not silently expire; it changes only through correction, pause, or revocation (**resolved — DL-123**) |
 
 ### Requirements that always hold
 

@@ -1365,8 +1365,8 @@ Continuity does not own it merely because habits influence it.
 | Explicit configuration wins | Household configuration outranks an unaccepted learned proposal |
 | Reversible | A resident may revoke, reset, or disable an association, subject to preservation requirements |
 
-**This adds no responsibility and no learning store.** Evidence eligibility remains **OD-65**, and the
-proposal lifecycle remains **OD-28**.
+**This adds no responsibility and no learning store.** Evidence eligibility remains **OD-65 (resolved
+— DL-112)**, and the proposal lifecycle is **resolved as OD-28/DL-123**.
 
 ---
 

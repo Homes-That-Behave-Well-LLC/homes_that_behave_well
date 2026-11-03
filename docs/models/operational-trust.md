@@ -1028,7 +1028,7 @@ life-safety governance.
 |---|---|
 | **Originator Proposal** | The optional level the originator proposes. Advisory only — never the granted entitlement merely because proposed, never prescriptive of surface or timing, never able to bypass Operational Trust. Its absence is itself recorded |
 | **Canonical HTBW Recommendation** | The current baseline recommendation for the governed scenario or configuration scope |
-| **Learned Household Recommendation** | A Suggestion-stage proposal under the existing **P26**/**DL-21** learning promotion ladder (**OD-28**), derived from repeated accepted Household Overrides — never silently applied, requires explicit acceptance, rejection never alters configuration |
+| **Learned Household Recommendation** | A Suggestion-stage proposal under the existing **P26**/**DL-21** learning promotion ladder (**resolved — OD-28 / DL-123**), derived from repeated accepted Household Overrides — never silently applied, requires explicit acceptance, rejection never alters configuration |
 | **Configured Value** | The value currently accepted for the applicable scope |
 | **Household Override State** | Whether the configured value differs from the recommendation, with provenance |
 | **Granted Runtime Entitlement** | What Operational Trust actually grants, after evaluating configured policy and current facts |
@@ -1696,6 +1696,17 @@ Observed patterns may be proposed to the household. They become policy only thro
 household acceptance, recorded with provenance. Silent promotion of a learned pattern into autonomous
 behavior is prohibited.
 
+**The full lifecycle is resolved as OD-28 / DL-123.** Operational Trust's own role is unchanged and
+restated precisely: it holds the autonomy permission (never the preference, which is Continuity's)
+and evaluates acceptance authority exactly as any other protected mutation — the Confirmation
+Strength floor is this document's own existing "permission changes" category (at least
+**Authenticated**), because accepting a Suggestion always grants an autonomy permission, regardless of
+the resulting Adaptive Policy's own Action-Risk Class. Pause is a resumable Operational Trust Change
+Record suspending only the permission's active state; revocation is a terminal Operational Trust
+Change Record that stops future autonomous authority immediately without rewriting the Decision Traces
+that explain actions already taken while the permission was active. Neither pause nor revocation
+touches the Continuity preference itself.
+
 ---
 
 ## Failure behavior
@@ -1828,7 +1839,7 @@ effect.** See [../architecture/privacy.md](../architecture/privacy.md).
 | OD-04 | Exact global priority order across policy scopes |
 | OD-06 | Consent user experience |
 | OD-08 | **Resolved** as **DL-39** and **DL-40**. Four Identity bands, `None` as a Trust requirement, threshold ownership, Address by Name, operation-scoped confirmation, and the **Required Confirmation Strength** class set. Per-class defaults are configuration, resolved as **DL-76** |
-| OD-28 | How household policy acceptance of learned suggestions is captured and revoked |
+| OD-28 | **Closed — DL-123.** Learned-Policy Promotion Lifecycle: Concierge formulates and presents the Suggestion (an ordinary Communication); acceptance requires at minimum Authenticated Confirmation Strength (this document's "permission changes" floor) and resolves eligibility through the Suggestion's own DL-71 Audience Specification; pause suspends, revocation terminates, the autonomy permission alone; "forgotten" is replaced by Revocation/Preference deletion/source-evidence expiration |
 | OD-33 | **Closed — DL-43, DL-46, DL-47.** Retention is declared inside every governed record and artifact lifecycle; remaining values are **OD-05**, **OD-26**, **OD-49** |
 | OD-35 | Historical query surface and access |
 | OD-36 | Reconciliation of deletion and export obligations with retention floors and Preservation Holds |

@@ -1378,12 +1378,29 @@ attribution state**; an Unknown Person may receive Guest-equivalent permissions 
 Trust without creating any Identity Assertion binding the two (**DL-33**, **DL-71**).
 
 **Learned Suggestion**
-An observed pattern offered for approval. It is not a preference and not a policy until a person with
-authority accepts it (**P26**).
+An observed Pattern offered for approval. It is not a preference and not a policy until a person with
+authority accepts it (**P26**). **Formulated and presented by Concierge as an ordinary Communication
+(resolved OD-28, DL-123)**; a Pattern itself is never a persisted record or a store.
 
 **Adaptive Policy**
 An approved learned behaviour the home may act on within an authorised ceiling. It is governed,
-revocable, versioned, and explainable.
+revocable, versioned, and explainable. **Lifecycle resolved as OD-28/DL-123**: acceptance writes two
+separate Change Records (Continuity's preference, Operational Trust's permission); correction is a
+further Change Record on the same preference; **pause** suspends only the permission's active state,
+resumably, leaving the preference untouched; **revocation** terminates the permission and stops future
+autonomous authority immediately, without rewriting the Decision Traces that explain past actions
+taken while it was active.
+
+**"Forgotten" (superseded as a learned-policy lifecycle term, DL-123)**
+Not adopted as a canonical state. As used in the prior OD-28 issue text it collapsed at least three
+genuinely distinct governed operations, replaced by already-existing vocabulary: **Revocation**
+(Operational Trust stops future autonomous authority; the Decision Traces that explain past actions
+survive unchanged); **Preference deletion** (a resident-directed removal of the Continuity preference
+record, governed like any other deletion under **DL-47**'s structural floors and **DL-56**'s "remains
+effective until explicitly withdrawn" discipline); and **source-evidence expiration** (the underlying
+Domain Events/Experience History expiring under their own retention, **DL-122**/**DL-47**, entirely
+independent of whether the preference or permission still exists). Using "forgotten" for any one of
+these, or indiscriminately for more than one, is prohibited.
 
 **Delegated Adaptive Behaviour**
 **Resolved as DL-118 (Issue #131, formal acceptance review PASS).** Behaviour decided and executed by
@@ -1621,8 +1638,8 @@ configuration scope. Remains permanently, separately identifiable from any House
 Learned Household Recommendation.
 
 **Learned Household Recommendation (DL-77)**
-A Suggestion-stage proposal (the existing **P26**/**DL-21** learning promotion ladder, governed by
-**OD-28**) whose subject is an Urgency default, derived from repeated accepted Household Overrides.
+A Suggestion-stage proposal (the existing **P26**/**DL-21** learning promotion ladder, **resolved as
+OD-28/DL-123**) whose subject is an Urgency default, derived from repeated accepted Household Overrides.
 Never silently applied; requires explicit acceptance by an authorized identity; rejection never alters
 current configuration. Reuses the same mechanism **DL-75** established for Significance — no new
 learning or recommendation responsibility is created.

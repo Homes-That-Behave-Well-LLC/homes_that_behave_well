@@ -204,8 +204,8 @@ An originator may **propose**; Operational Trust **determines and grants**. Urge
 but formally independent of DL-76** — no required mapping between the two. Six values are kept
 distinct: Originator Proposal, Canonical HTBW Recommendation, Learned Household Recommendation,
 Configured Value, Household Override State, and Granted Runtime Entitlement. Learned Household
-Recommendations and baseline reset reuse the existing **P26**/**DL-21** learning ladder (**OD-28**)
-and **DL-76**'s override model — no new mechanism is created.
+Recommendations and baseline reset reuse the existing **P26**/**DL-21** learning ladder (**resolved —
+OD-28/DL-123**) and **DL-76**'s override model — no new mechanism is created.
 
 **Urgency may be reevaluated** when material facts change — a new Operational Trust determination,
 never automatically retry or escalation; a decrease immediately governs pending delivery without
@@ -481,7 +481,7 @@ would change the outcome.
 | OD-04 | Exact global priority order across policy scopes |
 | OD-06 | Consent user experience |
 | OD-08 | **Resolved** as **DL-39** and **DL-40** |
-| OD-28 | How household acceptance of learned suggestions is captured and revoked |
+| OD-28 | **Closed — DL-123.** Learned-Policy Promotion Lifecycle — Concierge formulates and presents the Suggestion as an ordinary Communication; acceptance requires at minimum Authenticated Confirmation Strength; pause suspends and revocation terminates the autonomy permission alone; "forgotten" is replaced by Revocation/Preference deletion/source-evidence expiration |
 | OD-33 | **Closed — DL-43, DL-46, DL-47.** Retention is declared inside every governed record and artifact lifecycle; the remaining values are **OD-05**, **OD-26**, **OD-49** |
 | OD-35 | Historical query surface and access |
 | OD-36 | Reconciliation of deletion and export obligations with retention floors and Preservation Holds |

@@ -123,7 +123,7 @@ accepted decision prevails.
 | **C12** | Outcome-based room comfort | **B — Architecturally supported** | **OD-04**, **OD-78** |
 | **C13** | First-visit guest consent and introduction | **E — Blocked** | **OD-06** (#94) |
 | **C14** | Returning-guest hospitality | **E — Blocked** | **OD-06**, **OD-15** |
-| **C15** | Guest relationship learning | **E — Blocked** | **OD-06**, **OD-28**, **OD-65** |
+| **C15** | Guest relationship learning | **E — Blocked** | **OD-06** (still open); **OD-28 resolved — DL-123**, **OD-65 resolved — DL-112** |
 | **C16** | Multi-party relationship-aware disclosure | **E — Blocked** | **OD-84**, **OD-71** |
 | **C17** | Channel selection across the household experience | **E — Blocked** | **OD-43** (#113) |
 | **C18** | Importance, urgency, escalation, and follow-up | **E — Blocked** | **OD-53**, **OD-22** |
@@ -615,7 +615,7 @@ mind.
 | **Retention and expiry** | **Unresolved.** When relationship memory expires is not decided |
 | **Privacy** | The guest inspects, corrects, revokes, and deletes |
 | **Maturity** | **E — Blocked** |
-| **Open decisions** | **OD-06** (#94), **OD-28** (#127) learned-policy promotion lifecycle, **OD-65** (#130) learning evidence eligibility, **OD-26** (#125) history retention |
+| **Open decisions** | **OD-06** (#94, still open), **OD-28** (#127, **resolved — DL-123**) learned-policy promotion lifecycle, **OD-65** (#130, **resolved — DL-112**) learning evidence eligibility, **OD-26** (#125, **resolved — DL-122**) history retention |
 
 ### The architectural questions, and where they land
 
@@ -624,7 +624,7 @@ mind.
 | Which responsibility owns the guest relationship? | The guest is a **Person**; Foundation holds the record, Continuity holds person-scoped preference, Operational Trust holds authority. **No relationship object is created** |
 | Does Stewardship establish that the relationship matters? | **No.** Stewardship owns care and obligation, not social significance |
 | What may Continuity preserve? | Consented person-scoped preferences only |
-| Inferred versus explicit preference? | **DL-21** — *a learned suggestion is not an autonomous policy*, and **OD-28** owns the lifecycle |
+| Inferred versus explicit preference? | **DL-21** — *a learned suggestion is not an autonomous policy*, and **DL-123 (resolving OD-28)** owns the lifecycle |
 | When does relationship memory expire? | **Undecided.** **OD-26** |
 
 **The home does not infer personal importance from visit frequency.** *Frequency is not significance.*
