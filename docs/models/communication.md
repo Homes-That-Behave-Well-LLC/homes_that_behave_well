@@ -239,10 +239,39 @@ escalation.** Where the entitlement decreases, pending delivery immediately resp
 entitlement, completed delivery remains historical fact, and any queued delivery or retry requiring
 the former entitlement is cancelled or replanned.
 
-#### Precedence remains OD-04's
+#### Competing-Communication ordering (resolved — DL-126, OD-04)
 
-Urgency grants interruption **eligibility**; it does not order Communications that are otherwise
-eligible. **OD-04 owns relative precedence**, including Communications that share one Urgency level.
+Urgency grants interruption **eligibility**; it does not by itself order Communications that are
+otherwise eligible. The deterministic ordering algorithm:
+
+1. **Eligibility gate.** Only Communications whose Operational Trust authority outcome is not
+   `prohibited`/`undecidable`, and whose granted Urgency currently permits the interruption, compete at
+   all.
+2. **Primary discriminator: Urgency.** The higher-ranked level on DL-77's fixed ladder (No Interruption
+   < Interrupt Current Activity < Override Protected Time < Wake or Disturb) is presented first where
+   both are competing for the same interruption opportunity.
+3. **Secondary discriminator: Significance.** Where Urgency ties, the Communication's existing
+   Significance reference to Stewardship's Base Significance (**DL-75**: Routine < Important <
+   Significant < Critical) is consulted, reused unmodified; higher Base Significance is presented
+   first.
+4. **Tie-break: household-configured Equal-priority policy.** Where Urgency and Significance both tie,
+   this is the already-recognised "Equal-priority policies" conflict class
+   (`../architecture/behavioral-governance.md`'s own Conflict-resolution table): the household
+   configures the deterministic tie-break. **No HTBW-wide default order is invented**; completing that
+   configuration surface is a distinct follow-on question tracked under **OD-47** (Household Inbox
+   projection scope), not an Owner Policy Question.
+5. **Category plays no role in ordering.** Restates DL-78 unchanged — Category is content-domain
+   classification only, never a severity rank.
+6. **Defer/Redirect remain Concierge's expression of Operational Trust's underlying constraint**
+   (`../models/operational-trust.md`'s six-outcome table, unchanged). Ordering never upgrades a
+   Deferred/Redirected Communication into presented, and Defer/Redirect are never relocated into
+   Operational Trust.
+7. **Unresolvable ordering context withholds, never defaults.** Where required ordering context cannot
+   be resolved, `undecidable` withholds the Communication rather than defaulting it into presentation
+   or an arbitrary position.
+
+**OD-04 owned, and now resolves, relative precedence**, including Communications that share one Urgency
+level — this section is that resolution, formally **DL-126**.
 
 Urgency classification is resolved as **DL-77**. Its relationship to action-risk classification is
 **DL-76**.

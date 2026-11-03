@@ -961,7 +961,8 @@ A person or automated process is permitted to use, change, query, or act on the 
 
 **Capability**
 Something that can be done or asked in a Room, expressed in household terms rather than platform
-terms.
+terms. **Not a first-class precedence scope** — declares the Action-Risk Class that governs it
+(**DL-76**'s Capability Default tier); an applicability/condition dimension, never a scope (**DL-126**).
 
 **Interaction Function Assignment** *(DL-90, accepted; extended by DL-88, accepted)*
 Which specific experience-endpoint function a participating capability is assigned to fulfill in a
@@ -1049,6 +1050,48 @@ A governed rule stating what is permitted, required, prohibited, or prioritized.
 Trust.
 Model: [operational-trust.md](operational-trust.md)
 
+**Scope and Precedence (DL-126)**
+The ordered set of policy-authorship units across which Operational Trust's ceiling rule is evaluated:
+**Home, Room (including Merged Room, behaving identically — DL-13), Person, Asset, Relationship,
+Experience class, Action-Risk Class, External Decision Authority**. Floor is excluded (**DL-125**); Mode,
+capability, and operation are applicability/condition dimensions that select which scope's policy
+applies, never independent scopes; a Person-scoped statement is either a Policy (ceiling-relevant) or a
+Preference (candidate-value-relevant only), never both at once.
+Model: [operational-trust.md](operational-trust.md)
+
+**Ceiling Rule**
+*"The most restrictive applicable policy sets the ceiling."* A broader autonomy or permission setting
+is a maximum; a more specific policy may be more restrictive but never silently more permissive than a
+governing ceiling. **Most-restrictive combination across applicable scopes (DL-126)** is precise: any
+applicable `prohibited` makes the final outcome `prohibited`; absent that, any applicable `undecidable`
+makes the final outcome `undecidable`; absent both, every applicable `permitted_with_confirmation` and
+`permitted_with_escalation` requirement combines cumulatively, each independently discharged; only if
+every applicable scope yields `permitted` does the final outcome become `permitted`.
+Model: [operational-trust.md](operational-trust.md)
+
+**Policy Precedence Order (DL-126)**
+The four-operation decomposition resolving how a policy, preference, explicit request, and competing
+Communication are evaluated: **(A)** Candidate Value/Preference Resolution (Continuity); **(B)**
+Authority/Policy Ceiling Evaluation (Operational Trust, the Ceiling Rule above); **(C)** Current
+Explicit Request (an input to A — outranks a stored preference as evidence of present intent, never a
+ceiling bypass); **(D)** Competing-Communication Ordering (Concierge, applying only to Communications
+whose authority outcome already cleared B). Same-scope conflict resolution distinguishes policy-version
+evolution (temporal, never precedence) from an independent-policy conflict (combined under the Ceiling
+Rule) from two competing preferences (resolved by specificity/current-intent, never granting
+permission).
+Model: [../architecture/behavioral-governance.md](../architecture/behavioral-governance.md),
+[operational-trust.md](operational-trust.md)
+
+**Competing-Communication Ordering (DL-126)**
+The deterministic algorithm ordering simultaneously eligible Communications: an eligibility gate
+(authority outcome not `prohibited`/`undecidable`, and Urgency currently permits the interruption);
+Urgency (**DL-77**) as primary discriminator; Significance (**DL-75**) as secondary discriminator where
+Urgency ties; a household-configured Equal-priority policy as final tie-break where both tie — no
+HTBW-wide default order is invented. Category (**DL-78**) plays no role in ordering. Defer and Redirect
+remain Concierge's expression of Operational Trust's underlying constraint, never relocated into
+Operational Trust.
+Model: [../models/communication.md](../models/communication.md)
+
 **Identity Confidence Band**
 One of **exactly four** ordered levels — **Low < Moderate < High < Very High** — carried by a `known`
 Identity Assertion to express **the strength of identity support for its assertion purpose**. Produced
@@ -1114,7 +1157,9 @@ Model: [operational-trust.md](operational-trust.md)
 **Operation Type (DL-36, restated DL-76)**
 Read, Write, Delete, or Govern. A separate concern from **Action-Risk Class**: the two axes are
 independent and are never collapsed into a matrix. Write+Convenience, Write+Security, and
-Delete+Governance may all exist simultaneously for different protected operations.
+Delete+Governance may all exist simultaneously for different protected operations. **Not a first-class
+precedence scope** — an applicability/condition dimension selecting which threshold within a Risk
+Class applies (**DL-126**).
 Model: [operational-trust.md](operational-trust.md)
 
 **Interruption Classification — see Urgency (DL-77)**
@@ -1451,7 +1496,8 @@ pre-enforce Confirmation Strength for an action it never mediates, and never cla
 
 **Mode**
 A governed Room or Home state that changes what is permitted or appropriate — for example Nighttime
-mode, Privacy mode, Quiet hours.
+mode, Privacy mode, Quiet hours. **Not a first-class precedence scope** — an applicability/condition
+dimension that selects which Room/Home policy applies (**DL-126**).
 
 **Trigger**
 The event that begins a decision evaluation: an utterance, a state change, a schedule, an obligation

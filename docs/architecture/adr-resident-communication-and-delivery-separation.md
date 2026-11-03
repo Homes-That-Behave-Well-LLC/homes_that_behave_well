@@ -967,8 +967,9 @@ already supplies. No further Home Assistant research was required or performed.
 | **OD-57** | **Resolved as DL-94** — Indication, the Room-Delivery Authorization Challenge, and message-scoped Room-Delivery Authorization are formally separated; the mandatory-threshold rule is settled; a new Room-Delivery Audience Preference governs Room-delivery eligibility by Urgency level and by Household/Individual/Guest audience permission |
 | **OD-58** | Terminology supersession scope for *Notification* and *Message* |
 
-Existing open decisions amended by this ADR: **OD-04** (priority order now explicitly includes
-delivery ordering) and **OD-22** (the single escalation ladder now explicitly serves communications).
+Existing open decisions amended by this ADR: **OD-04** (priority order was later resolved as **DL-126**,
+which explicitly includes delivery ordering — Urgency then Significance then a household-configured
+tie-break) and **OD-22** (the single escalation ladder now explicitly serves communications).
 
 ---
 

@@ -129,6 +129,26 @@ fail closed.
 6. Room-scoped policy does not leak into other Rooms.
 7. Unknown fails closed everywhere.
 
+### Reconciliation with DL-126 (OD-04 — Policy Precedence Order)
+
+Every scenario above reproduces unchanged under DL-126's most-restrictive combination and
+competing-Communication ordering rules — no scenario's documented outcome changes.
+
+- **Scenario 1–2**: Room mode is the applicability/condition dimension DL-126 classifies it as (never
+  an independent precedence scope); Operational Trust's ceiling evaluation at Room scope (DL-126 clause
+  7) yields `prohibited` for incoming media and for interruption, which is why Concierge neither
+  transfers nor asks.
+- **Scenario 3–4**: the Experience-class scope distinguishes "media" from "care escalation"
+  independently — DL-126 clause 10 restates this exactly as HTBW's accepted placement for safety, with
+  no new Safety responsibility created. A Communication reporting the leak is evaluated under DL-126's
+  competing-Communication ordering: its Urgency (**DL-77**) is granted independently of the routine
+  reminder's, so the two were never "tied" candidates needing a tie-break in the first place.
+- **Scenario 5**: confirms DL-126 clause 2's scope list — Room policy is Room-scoped, full stop; no
+  Home-scope ceiling applies unless the household configured one.
+- **Scenario 6**: `unknown` Truth yields `undecidable` for incoming media precisely as DL-126 clause 11
+  requires — never silently rendered `permitted`, and named as the specific unresolved input (Room
+  mode) rather than dropped.
+
 ---
 
 ## Production provenance — Household Automation Integration and Room Posture

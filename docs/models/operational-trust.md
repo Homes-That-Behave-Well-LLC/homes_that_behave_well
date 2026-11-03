@@ -299,7 +299,7 @@ Experience class, and Action-risk class.
 | Scope | Examples |
 |---|---|
 | Home | Quiet hours, away mode, global autonomy ceiling |
-| Room | Nighttime restrictions, child-safe rooms, no-media rooms |
+| Room (including Merged Room, behaving identically — **DL-13**) | Nighttime restrictions, child-safe rooms, no-media rooms |
 | Person | Child safety, guest limitation, caretaker elevation |
 | Asset | Safety-critical devices, irreplaceable assets |
 | Relationship | Caretaker-of, owner-of elevation |
@@ -311,16 +311,37 @@ Experience class, and Action-risk class.
 targeting only; it is never a policy-authorship unit, and a Floor-targeted action's fan-out is
 evaluated at each entity's own already-accepted scope (ordinarily Room) independently.
 
-Precedence within a scope, and the exact global priority order across scopes, is recorded in
-[../architecture/behavioral-governance.md](../architecture/behavioral-governance.md) and remains open
-decision **OD-04**.
+**Mode, capability, and operation are applicability/condition dimensions, never scopes (resolved —
+DL-126).** Mode is a governed Room- or Home-scoped Truth fact that *selects* which Room/Home policy
+applies (`../scenarios/nighttime-suppression.md` Scenario 1); a capability declares the Action-Risk
+Class that governs it; Operation Type (Read/Write/Delete/Govern, **DL-36**/**DL-76**) is the
+independent axis selecting which threshold within a Risk Class applies. None of the three is added to
+the scope table above. **Person is dual in kind, never dual in precedence**: a Person-scoped statement
+is either a Policy (ceiling-relevant, authored under Operational Trust) or a Preference
+(candidate-value-relevant only, authored under Continuity) — **a Person preference never becomes a
+ceiling and never becomes permission**.
+
+**Most-restrictive combination across scopes is precise (resolved — DL-126).** Each applicable scope
+yields one of the five accepted outcomes below. (i) Any applicable `prohibited` makes the final outcome
+`prohibited`. (ii) Absent (i), any applicable `undecidable` makes the final outcome `undecidable` —
+never rendered as `permitted`. (iii) Absent (i) and (ii), every applicable
+`permitted_with_confirmation` and `permitted_with_escalation` requirement combines cumulatively — each
+is independently discharged, and satisfying one never substitutes for another. (iv) Only if every
+applicable scope yields `permitted` does the final outcome become `permitted`, at the most restrictive
+applicable autonomy level. A narrower scope's `permitted` never cancels a broader or otherwise-
+applicable scope's more restrictive outcome.
+
+Precedence within a scope, same-scope conflict resolution, and the competing-Communication ordering
+algorithm are recorded in
+[../architecture/behavioral-governance.md](../architecture/behavioral-governance.md) and
+[../models/communication.md](../models/communication.md), **resolved as DL-126 (OD-04)**.
 
 **Threshold resolution introduces no new precedence order.** A presentation threshold, a capability
 requirement, and a confirmation requirement are ordinary policy statements evaluated in the scopes
 above, under the ceiling rule. A constitutional prohibition is never overridden by any of them; a
 narrower scope may restrict but never silently relax a governing ceiling; and whether a Person may
-relax a household setting is itself a policy. **A Person preference is never a permission.** **OD-04
-is unchanged.**
+relax a household setting is itself a policy. **A Person preference is never a permission.** **Resolved
+as DL-126.**
 
 ---
 
@@ -1840,7 +1861,7 @@ effect.** See [../architecture/privacy.md](../architecture/privacy.md).
 
 | ID | Question |
 |---|---|
-| OD-04 | Exact global priority order across policy scopes |
+| OD-04 | **Closed — DL-126.** Policy precedence is four operations (Candidate Value/Preference Resolution, Authority/Policy Ceiling Evaluation, Current Explicit Request, Competing-Communication Ordering), never one undifferentiated ladder. Most-restrictive combination across scopes is precise: `prohibited` > `undecidable` > cumulative confirmation/escalation (never substituted for one another) > `permitted`. Mode, capability, and operation are applicability/condition dimensions, never scopes; Person is dual in kind (Policy vs. Preference), never dual in precedence; a Person preference never becomes permission |
 | OD-06 | Consent user experience |
 | OD-08 | **Resolved** as **DL-39** and **DL-40**. Four Identity bands, `None` as a Trust requirement, threshold ownership, Address by Name, operation-scoped confirmation, and the **Required Confirmation Strength** class set. Per-class defaults are configuration, resolved as **DL-76** |
 | OD-28 | **Closed — DL-123.** Learned-Policy Promotion Lifecycle: Concierge formulates and presents the Suggestion (an ordinary Communication); acceptance requires at minimum Authenticated Confirmation Strength (this document's "permission changes" floor) and resolves eligibility through the Suggestion's own DL-71 Audience Specification; pause suspends, revocation terminates, the autonomy permission alone; "forgotten" is replaced by Revocation/Preference deletion/source-evidence expiration |

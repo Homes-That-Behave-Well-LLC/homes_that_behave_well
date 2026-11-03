@@ -120,7 +120,7 @@ accepted decision prevails.
 | **C9** | Guest capability discovery and vocabulary education | **B — Architecturally supported** | **OD-59**, **OD-13** |
 | **C10** | Guest-asset interpretation and household storytelling | **E — Blocked** | **OD-52** (#100) |
 | **C11** | Asset knowledge becomes household action | **E — Blocked** | **OD-77**, **OD-23** |
-| **C12** | Outcome-based room comfort | **B — Architecturally supported** | **OD-04**, **OD-78** |
+| **C12** | Outcome-based room comfort | **B — Architecturally supported** | **OD-04 resolved — DL-126**, **OD-78 resolved — DL-124** |
 | **C13** | First-visit guest consent and introduction | **E — Blocked** | **OD-06** (#94) |
 | **C14** | Returning-guest hospitality | **E — Blocked** | **OD-06**, **OD-15** |
 | **C15** | Guest relationship learning | **E — Blocked** | **OD-06** (still open); **OD-28 resolved — DL-123**, **OD-65 resolved — DL-112** |
@@ -529,7 +529,7 @@ in it, without a debate about degrees.
 | **Failure and degradation** | A partial outcome is **reported precisely**; never claim success |
 | **Privacy** | One occupant's preference is never disclosed while satisfying another's |
 | **Maturity** | **B — Architecturally supported** |
-| **Open decisions** | **OD-04** (#97) policy precedence, **OD-78** (#149) remembered-value classes and restoration semantics |
+| **Open decisions** | **OD-04 resolved — DL-126** (#97) policy precedence, **OD-78 resolved — DL-124** (#149) remembered-value classes and restoration semantics |
 
 ### Guardrails
 
@@ -813,7 +813,7 @@ degradation of a private channel is never promotion to a public one.
 | 7 | A guest asks what can be done in the Den | Capability discovery | Foundation, Operational Trust | **B** | **OD-59** | Hospitality is orientation, not a manual |
 | 8 | A guest asks about the artwork | Experience storytelling | Stewardship, Foundation | **E** | **OD-52** | The house tells its own story, in the household's words |
 | 9 | Piano maintenance becomes a follow-up task | Knowledge-to-action continuation | Stewardship, Continuity | **E** | **OD-77**, **OD-23** | A question turns into a commitment without repeating yourself |
-| 10 | *Make the room comfortable* | Outcome interpretation | Truth, Identity, Continuity | **B** | **OD-04** | You ask for an outcome, not a device list |
+| 10 | *Make the room comfortable* | Outcome interpretation | Truth, Identity, Continuity | **B** | **OD-04 resolved — DL-126** | You ask for an outcome, not a device list |
 | 11 | A guest chooses whether to introduce themselves | Consent capture | Identity, Operational Trust | **E** | **OD-06** | The guest is asked, not enrolled |
 | 12 | A returning guest receives consented hospitality | Existing relationship use | Identity, Continuity | **E** | **OD-06** | Being remembered is a choice that can be unmade |
 | 13 | Connected cloud information, local judgment | Context assembly | Truth, Operational Trust | **B** | **OD-07**, **OD-67** | Where facts come from is not where decisions are made |
@@ -870,8 +870,8 @@ architectural construct.**
 | 8 | Urgency and importance? | **Answered** — Stewardship significance (**DL-75**), Operational Trust Urgency (**DL-77**), both with accepted representations. **Values open — OD-53**'s Category enumeration |
 | 9 | Recommendations distinguished from commands? | **Answered** — **DL-21**, §7 |
 | 10 | Recommended actions authorised? | **Answered** — Operational Trust; §5 prohibition 4 |
-| 11 | Outcome-based requests decomposed? | **Answered** — §3, and conflicts by **OD-04** |
-| 12 | Conflicts among occupants? | **Answered** — [multi-person-conflict.md](multi-person-conflict.md); precedence **OD-04** |
+| 11 | Outcome-based requests decomposed? | **Answered** — §3, and conflicts by **DL-126** (resolved OD-04) |
+| 12 | Conflicts among occupants? | **Answered** — [multi-person-conflict.md](multi-person-conflict.md); precedence **DL-126** (resolved OD-04) |
 | 13 | Guest consent scopes? | **Open — OD-06** |
 | 14 | Consent revoked? | **Answered in principle** — revocation removes the derived profile, not merely its use. **Experience open — OD-06** |
 | 15 | Known and unknown audience members? | **Answered** — composition states in [../models/communication.md](../models/communication.md) |

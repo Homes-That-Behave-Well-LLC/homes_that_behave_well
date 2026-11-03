@@ -209,8 +209,10 @@ OD-28/DL-123**) and **DL-76**'s override model — no new mechanism is created.
 
 **Urgency may be reevaluated** when material facts change — a new Operational Trust determination,
 never automatically retry or escalation; a decrease immediately governs pending delivery without
-rewriting completed history. **OD-04 retains sole ownership of precedence**, including ordering
-Communications sharing one Urgency level. Urgency never overrides audience, privacy, consent,
+rewriting completed history. **Resolved as DL-126 (OD-04)**: Urgency is the primary discriminator
+among simultaneously eligible Communications; where Urgency ties, Significance (**DL-75**) is the
+secondary discriminator; where both tie, a household-configured Equal-priority policy applies, with no
+HTBW-wide default order invented. Urgency never overrides audience, privacy, consent,
 disclosure, identity, or authority; Concierge selects surface, moment, and form only within the
 granted entitlement and verified surface capability (**DL-53**). Identity-and-authority-governed
 deferral is distinct from Urgency and remains **OD-45**/**OD-54**'s own mechanics. Urgency is
@@ -402,6 +404,13 @@ acceptance, recorded with provenance. Silent promotion is prohibited.
 
 `undecidable` is never rendered as `permitted`.
 
+**Combination across applicable scopes is precise (resolved — DL-126, OD-04).** Where more than one
+scope's outcome applies to the same evaluation: any applicable `prohibited` makes the final outcome
+`prohibited`; absent that, any applicable `undecidable` makes the final outcome `undecidable`; absent
+both, every applicable `permitted_with_confirmation` and `permitted_with_escalation` requirement
+combines cumulatively — each is independently discharged, and satisfying one never substitutes for
+another; only if every applicable scope yields `permitted` does the final outcome become `permitted`.
+
 A confirmation outcome is one of `Confirmed`, `Denied`, `Unclear`, `Cancelled`, `Unavailable`, or
 `Expired`. **`Unclear`, `Unavailable`, and `Expired` are never rendered as `Confirmed`**, and
 `Confirmed` applies only within its governed scope.
@@ -478,7 +487,7 @@ would change the outcome.
 
 | ID | Question |
 |---|---|
-| OD-04 | Exact global priority order across policy scopes |
+| OD-04 | **Closed — DL-126.** Policy precedence is four operations; most-restrictive combination across scopes is precise (`prohibited` > `undecidable` > cumulative confirmation/escalation > `permitted`); Mode, capability, and operation are applicability/condition dimensions, never scopes |
 | OD-06 | Consent user experience |
 | OD-08 | **Resolved** as **DL-39** and **DL-40** |
 | OD-28 | **Closed — DL-123.** Learned-Policy Promotion Lifecycle — Concierge formulates and presents the Suggestion as an ordinary Communication; acceptance requires at minimum Authenticated Confirmation Strength; pause suspends and revocation terminates the autonomy permission alone; "forgotten" is replaced by Revocation/Preference deletion/source-evidence expiration |

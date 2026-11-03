@@ -628,6 +628,28 @@ Current Activity** Urgency or above, for a **Household** audience, but not for *
 25. **Continuous occupancy is not continuous identity, and a valid assertion is not the current-speaker assertion.**
 26. **A confirmation is spent by the operation that required it. There is no presence grace period.**
 
+### Reconciliation with DL-126 (OD-04 — Policy Precedence Order)
+
+Scenarios 1, 2, 5, and 6 reproduce their documented outcomes unchanged under DL-126's final rule:
+
+- **Scenario 1** (two people, one Den): David's explicit instruction ("Play the news") is DL-126's
+  Operation C (Current Explicit Request) — it is evaluated as present intent, but Operational Trust's
+  ceiling evaluation (Operation B) finds David has no authority to displace Tom's existing session
+  without confirmation. Explicit instruction never bypasses that ceiling, exactly as DL-126 clause 9
+  requires.
+- **Scenario 2** (ambiguous identity): with no resolved candidate, Operation A (Candidate Value
+  Resolution) cannot select a single "my playlist" value; this is the household-configured
+  Ask-versus-Assume rule (`../architecture/behavioral-governance.md`), not a precedence tier — exactly
+  DL-126 clause 16's generalization for two residents with conflicting candidates and no resolving
+  priority policy.
+- **Scenario 5** (two sessions meet): neither Person has authority to displace the other silently
+  (Operation B, ceiling unmet); Concierge suppresses and offers an alternative — confirming DL-126's
+  "existing Room experience" treatment under the Priority hierarchy's item 5, never silently overridden
+  by item 3.
+- **Scenario 6** (child safety): the person-scoped restriction is the applicable ceiling; DL-126 clause
+  7's combination rule makes `prohibited` absolute regardless of any Home-scope autonomy permission —
+  "the most restrictive applicable policy sets the ceiling," restated, not reopened.
+
 ---
 
 ## Related documents

@@ -614,8 +614,9 @@ surface (**OD-60**).
 
 ### What this decision does not resolve
 
-- **OD-04** — exact global precedence ordering among competing Communications, including those
-  sharing an escalation path.
+- **Resolved as DL-126 (OD-04)** — global precedence ordering among competing Communications, including
+  those sharing an escalation path: Urgency (DL-77) then Significance (DL-75) then a household-configured
+  Equal-priority tie-break; escalation's own internal ladder (rungs, triggers, audiences) remains DL-97's.
 - **OD-54** — retry interval, cadence, and give-up policy; escalation and retry remain independently
   owned and are never substituted for one another.
 - The exact household-facing configuration surface (UI/UX) through which Escalation intent and timing

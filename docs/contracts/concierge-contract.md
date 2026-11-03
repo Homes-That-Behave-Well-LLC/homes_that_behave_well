@@ -290,13 +290,14 @@ already stated in this contract.
 | Independent governance per item | Each decomposed intent or parameter is independently resolved, authorized, and executed under its own Vocabulary match, Identity requirement, and Operational Trust evaluation. One low-risk item in a compound request is never authorized by another item's higher trust, and one ambiguous or unauthorized item never blocks the others by default |
 | Partial success is explicit, never silent | Where some decomposed items succeed and others do not, Concierge reports **which** succeeded, **which** failed or were refused, and **why** — never a single pass/fail outcome that conceals a partial result |
 | Ambiguity is scoped to the item | An ambiguous decomposed item is clarified using only its own bounded, contextual, exposed candidates, under the existing no-silent-guess rule in [contextual-vocabulary.md](../models/contextual-vocabulary.md); clarification never broadens into re-confirming already-resolved items |
-| Execution ordering is not assumed by default | Unless the household's own phrasing, an existing accepted sequencing rule, or a declared dependency requires otherwise, decomposed items carry no implied ordering or rollback guarantee. The global priority and sequencing order across competing or dependent decomposed intents remains **open — OD-04** |
+| Execution ordering is not assumed by default | Unless the household's own phrasing, an existing accepted sequencing rule, or a declared dependency requires otherwise, decomposed items carry no implied ordering or rollback guarantee. **This is execution sequencing among independently-authorized decomposed items, distinct from policy precedence (resolved as DL-126/OD-04): DL-126 governs which policy/preference/outcome wins when applicable scopes or candidates conflict, never the order in which already-authorized, non-conflicting items execute.** The global sequencing order across decomposed items remains open, tracked as a residual for Epic #147, not discharged by DL-126 |
 | One parent trace, one child outcome per decomposed item | The originating utterance produces one parent Decision Trace entry identifying it as compound; each decomposed intent or parameter additionally produces its own child **Action taken / Action suppressed / Reason for suppression** record (see [decision-trace.md](../models/decision-trace.md)), so a resident asking *"why did only the lights happen?"* receives an answer scoped to that one item |
 
 **This section creates no new responsibility, no new store, and no new authority.** It is restated
 decomposition doctrine: the rules that already govern a single-item request govern every decomposed
-item identically. Global sequencing and dependency semantics beyond the rule above remain **OD-04**,
-unresolved here.
+item identically. **Global execution-sequencing semantics among decomposed items are distinct from
+policy precedence and are not resolved by DL-126 (OD-04); they remain an open residual for Epic
+#147.**
 
 ---
 
@@ -314,8 +315,8 @@ another responsibility's answer.
 | Intent is ambiguous | Ask, offering only exposed options | Guess |
 
 The priority hierarchy is recorded in
-[../architecture/behavioral-governance.md](../architecture/behavioral-governance.md); its exact global
-order is open decision **OD-04**.
+[../architecture/behavioral-governance.md](../architecture/behavioral-governance.md); its most-restrictive
+combination and same-scope resolution are **resolved as DL-126 (OD-04)**.
 
 ---
 
@@ -402,7 +403,7 @@ See [../models/decision-trace.md](../models/decision-trace.md) and
 
 | ID | Question |
 |---|---|
-| OD-04 | Exact global priority order across policy scopes |
+| OD-04 | **Closed — DL-126.** Policy precedence is four operations (Candidate Value/Preference Resolution, Authority/Policy Ceiling Evaluation, Current Explicit Request, Competing-Communication Ordering); most-restrictive combination across scopes is precise (`prohibited` > `undecidable` > cumulative confirmation/escalation > `permitted`); Mode/capability/operation are condition dimensions, never scopes. Execution sequencing among decomposed items (§7, above) remains a distinct, open residual, not discharged by this closure |
 | OD-29 | Where Decision Traces are persisted |
 | OD-30 | Which surfaces expose Decision Traces, and to whom |
 | OD-43 | **Closed — DL-53.** Delivery Surface capability model, including perceptibility and attestation |

@@ -83,6 +83,21 @@ Correlation, and Causation (DL-104)" for the full model.
 
 Concierge composes the trace. **Concierge does not author fields it does not own.**
 
+### Policy precedence and competing-Communication ordering (DL-126, resolved OD-04)
+
+No new field is introduced. Fields 12–14 (policies, restrictions, autonomy level) already carry: every
+applicable scope considered and its individual outcome (`permitted`, `prohibited`,
+`permitted_with_confirmation`, `permitted_with_escalation`, `undecidable`); the clause-7 most-restrictive
+combination that produced the final outcome; and, where two applicable policies at the same scope
+combined, each policy's own version identity, distinguishing a temporal version-evolution case from a
+genuine independent-policy conflict. Fields 15–16 (conflicts, resolution) already carry which candidate
+preference was selected under Continuity's Operation A, why a competing candidate did not win (current
+explicit request, specificity, or household-configured priority), and — where the household-facing
+conflict was among simultaneously eligible Communications — the DL-126 ordering inputs considered
+(Urgency, Significance, the applicable Equal-priority tie-break) and the resolved order. A trace naming
+only "higher priority" without the specific ceiling, inapplicability, combination, or ordering input
+that actually produced the result is incomplete.
+
 ### Delegated Stewardship authority (DL-57)
 
 Where an obligation-related decision involved self-authority, an authorized proxy, or a Delegated

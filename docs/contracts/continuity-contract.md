@@ -70,11 +70,13 @@ Room Configuration **Configured Default** — never a remembered preference and 
 Person invented to hold a Room's taste. **Which of these applies reuses the already-accepted order**:
 Person-scoped Continuity applies only where Identity sufficiently identifies the Person; Room-scoped
 Continuity (including a Configured Default or a Last Stable Observed Value) is the shared baseline
-otherwise. **DL-124** resolves the value-class taxonomy and restoration mechanics; it creates no new
-general cross-type precedence mechanism, which remains **OD-04**'s, unreopened. Settled regardless,
-independent of OD-04: an explicit resident request is never overridden by remembered state of any
-scope — see the Concierge Contract hard prohibition that a preference is never treated as an
-instruction.
+otherwise. **DL-124** resolves the value-class taxonomy and restoration mechanics; the general
+cross-type precedence mechanism is **resolved as DL-126** (**OD-04** — Candidate Value/Preference
+Resolution is Continuity's Operation A, consuming this taxonomy unchanged; the Current Explicit
+Request outranks a stored preference as evidence of present intent within that same operation, but
+never bypasses Operational Trust's ceiling evaluation). Consistent with DL-126: an explicit resident
+request is never overridden by remembered state of any scope — see the Concierge Contract hard
+prohibition that a preference is never treated as an instruction.
 
 ### What is *not* in either column
 

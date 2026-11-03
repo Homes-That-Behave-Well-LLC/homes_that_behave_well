@@ -483,7 +483,7 @@ Authorization is resolved against the effective Person, never a Room, per this r
 | **OD-07** (#95) | Voice processing locality — a different provider class; the "prefer local-first AI" setting is OD-07's own privacy-boundary question, not a Continuity preference |
 | **OD-65** (#130) | Learning eligibility — whether a provider-inferred value may enter the promotion ladder |
 | **OD-66** (#131) | Delegation boundary for an external **autonomous policy engine that decides** — a different thing from a Reasoning provider that is consulted and never decides |
-| **OD-04** (#97) | Wider Operational Trust policy precedence; effective-Person authorization gating here reuses, not reopens, OD-04's ordering |
+| **OD-04** (#97) | **Resolved as DL-126.** Wider Operational Trust policy precedence; effective-Person authorization gating here reuses, not reopens, DL-126's ordering |
 | **#185** | MCP transport-preference research — a transport question, not a provider-classification question |
 | **Home Intelligence** (accepted **DL-86**, #191) | Its own configuration, authorization, deployment, and discovery/trust-establishment mechanics (**#190**) |
 | **Home Steward** (proposed product term, ownership unassigned) | Its own product definition, naming adoption, deployment, and finer-grained information-category authorization taxonomy — **not owned by #188 or draft DL-81**, neither of which names or defines it; this ADR states only that it is independent of General Reasoning |
@@ -505,7 +505,7 @@ abstraction, API, or transport is selected or designed by this ADR.
 - Does not decide voice-processing locality (**OD-07**, #95).
 - Does not decide learning-evidence eligibility (**OD-65**, #130).
 - Does not decide the external autonomous-policy-engine delegation boundary (**OD-66**, #131).
-- Does not decide wider Operational Trust policy precedence (**OD-04**, #97).
+- Does not decide wider Operational Trust policy precedence (resolved as **DL-126**, **OD-04**, #97).
 - Does not accept, decide, or redefine Home Intelligence's own architecture (accepted **DL-86**, #191).
 - Does not define, name, or own the Home Steward product, its deployment, its finer-grained
   information-category authorization taxonomy, or its relationship (if any) to the drafted Household

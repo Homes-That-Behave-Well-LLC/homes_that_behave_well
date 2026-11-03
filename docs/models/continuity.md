@@ -208,9 +208,12 @@ of:
 Continuity applies only where Identity sufficiently identifies the Person (per the existing scope
 table and **DL-112**'s competing-residents rule); Room-scoped Continuity, including a Last Stable
 Observed Value or Configured Default, is the shared baseline otherwise. **DL-124 resolves which of the
-four canonical classes a given value belongs to and how each is captured, restored, and explained; it
-does not create a new general cross-type precedence mechanism.** Any further, general policy-precedence
-question beyond this remains **OD-04**'s, unreopened. What is settled regardless: an **explicit
+four canonical classes a given value belongs to and how each is captured, restored, and explained.**
+The general cross-type precedence mechanism is **resolved as DL-126 (OD-04)**: Candidate Value/
+Preference Resolution is Continuity's own Operation A, consuming DL-124's taxonomy unchanged; the
+Current Explicit Request outranks a stored preference as the strongest evidence of present intent
+within that operation, but every candidate still passes through Operational Trust's ceiling
+evaluation unchanged. Consistent with DL-126: an **explicit
 resident request is never overridden
 by remembered state of any scope.** Continuity supplies state Concierge may apply; a preference is
 never treated as an instruction (see

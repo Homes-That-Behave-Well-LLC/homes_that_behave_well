@@ -161,10 +161,18 @@ both are decided by Concierge.
 The household configures priority. The framework requires that a priority policy exist, that it be
 explicit, and that it be recorded in every Decision Trace where it applied.
 
+**Resolved — DL-126 (OD-04).** Items 1–2 below are the hard ceiling (Operational Trust's
+most-restrictive combination across the Safety/Security Action-Risk Classes and every other applicable
+scope, **DL-76**): they are never configured away, and a narrower scope can restrict but never relax
+them. Items 3–8 are the household-configurable **Equal-priority** tier below the ceiling — the
+framework names them and requires a priority policy exist; it does not invent one. This is not a new
+model: it formalizes, rather than reopens, this section's own "the household configures priority"
+requirement.
+
 A representative default that a household may adopt or override:
 
-1. Safety
-2. Security
+1. Safety (ceiling — Operational Trust, not configurable)
+2. Security (ceiling — Operational Trust, not configurable)
 3. Explicit human instruction, from a person with authority
 4. Room mode restrictions
 5. Existing Room experience
@@ -172,7 +180,15 @@ A representative default that a household may adopt or override:
 7. Continuity transfer or resume intent
 8. Learned or suggested behavior
 
-**The exact global priority order is not decided by this framework.** It is open decision **OD-04** in
+**The exact ordering among items 3–8 is household-configured; no HTBW-wide default order is invented
+(DL-126, consistent with the DL-97/DL-98/DL-107/DL-112/DL-123 "household-configured, no invented
+default" pattern).** Item 3 (explicit human instruction) outranks a *stored* preference as evidence of
+present intent, but — per **DL-126** — never outranks items 1–2, any other applicable ceiling, a
+confirmation requirement, or an escalation requirement; item 5 (existing Room experience) is not
+silently displaced by item 3 without Operational Trust authority, exactly as
+[../scenarios/multi-person-conflict.md](../scenarios/multi-person-conflict.md) Scenario 1 and Scenario
+5 already demonstrate. **Policy precedence across scopes, same-scope conflict resolution, and
+competing-Communication ordering are resolved in full as DL-126**, in
 [../governance/decision-ledger.md](../governance/decision-ledger.md).
 
 ---
