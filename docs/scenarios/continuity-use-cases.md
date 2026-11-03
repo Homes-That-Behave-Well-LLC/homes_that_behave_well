@@ -172,9 +172,9 @@ factory-default 100%.
 | Precondition | Owner | Status |
 |---|---|---|
 | Office lamp vocabulary is configured | Room Configuration / Contextual Vocabulary | **A** |
-| A room-scoped lamp level exists as a Continuity record | **Continuity** | **A** — [../models/continuity.md](../models/continuity.md) holds *last lamp levels, last speaker volume* |
+| A room-scoped lamp level exists as a **Last Stable Observed Value** | **Home Assistant holds the value (native Helper); Continuity governs capture/scope/explainability** | **A — resolved DL-124** |
 | Restoration is explicitly configured rather than inferred | Household configuration | **A** — [../patterns/execution-patterns.md](../patterns/execution-patterns.md), *State Restoration Execution* |
-| **Which remembered value class is restored** | — | **U — OD-78** |
+| **Which remembered value class is restored** | **Continuity, resolved — DL-124** | **A** — Last Stable Observed Value (dwell + attribution gated, native Home-Assistant-held) |
 
 ## Ownership map
 
@@ -183,13 +183,13 @@ factory-default 100%.
 | 1 | Authoritative Truth inputs | **Truth** | Current entity availability, Room mode, and any environmental constraint. **A remembered value is not a Fact** |
 | 2 | Identity requirements | **Identity** | **None for a room-scoped value.** A *person*-preferred level requires an Identity Assertion meeting the configured band (**DL-39**, **DL-36**) |
 | 3 | Consent and Operational Trust requirements | **Operational Trust** | Whether the level may be applied at Explicit, Assisted, or Autonomous level; whether Room mode prohibits it |
-| 4 | What Continuity supplies | **Continuity** | The remembered value and its scope. **Not the decision to apply it** |
-| 5 | Memory scope | **Room-scoped** for lamp level, music volume, duck volume, TTS volume. **Person-scoped** only where an approved preference exists | **A** |
-| 6 | Source of record | **Home Assistant** for current entity state (**DL-46**). Continuity for the governed remembered value | **A** |
+| 4 | What Continuity supplies | **Continuity** | **Resolved — DL-124.** The value's class, scope, and governed reference to the native source. **Not the stored value itself (Home Assistant holds that), and not the decision to apply it** |
+| 5 | Memory scope | **Room-scoped** for the lighting collection, music volume, duck volume, TTS volume, and room temperature. **Person-scoped** only where an approved preference exists | **A** |
+| 6 | Source of record | **Home Assistant** for both current entity state (**DL-46**) and the Last Stable Observed Value itself (a native Helper, **resolved DL-124**). Continuity holds the governed reference, class, and scope only | **A** |
 | 7 | Who decides | **Concierge** | — |
 | 8 | Who executes | An **executor** — service call, scene, or script | — |
 | 9 | Explainability | **Decision Trace** | Which remembered value, at which version (**P30**, **DL-27**), and why it was applied or not |
-| 10 | Retention and lifecycle | **DL-47** | Preference history is Continuity's; entity-state history is Home Assistant's and is **not copied** (**DL-46**) |
+| 10 | Retention and lifecycle | **DL-47** | **Resolved — DL-124.** The native Helper value is Home Assistant's own object, outside HTBW's retention declaration; Continuity's own governed reference is a Current Projection (replaced, never retained) |
 | 11 | Guest and Unknown Person behaviour | **Operational Trust** | An Unknown Person *owns no preferences or history, inherits nothing from any resident, generates no person-scoped learning* (**DL-33**) |
 | 12 | Multi-person conflict behaviour | **Operational Trust** / **Concierge** | Room-scoped values are shared; a person-scoped value is not applied on another person's behalf |
 | 13 | Failure behaviour | **Continuity** | *Do not substitute a platform default silently; state that the preference could not be read* |
@@ -209,7 +209,17 @@ If the remembered value cannot be read, the home says so rather than silently ap
 | 1.2 | No remembered value exists | The home states the absence | Substitute a platform default silently |
 | 1.3 | A person-preferred level exists but was never accepted | The home **asks** | Apply it silently (**P26**, **DL-21**) |
 | 1.4 | Room mode prohibits the change | Suppressed, with a reason in the trace | Present suppression as a failure |
-| 1.5 | The remembered value conflicts with a current environmental constraint | **Unresolved — OD-78** | Assert that the architecture already decides this |
+| 1.5 | The remembered value conflicts with a current environmental constraint | **Resolved — DL-124.** The Home does not apply it and does not silently substitute a different value; it states the specific conflicting precondition (Truth, Room mode, safety, etc.) | Assert that the architecture already decides this; silently substitute a computed value and call it remembered |
+| 1.6 | No remembered value has ever been captured | States the absence explicitly (never-captured, distinct from unreadable) | Substitute a platform default and call it remembered |
+| 1.7 | A remembered value exists but its native Helper is currently unreadable/unavailable | **DL-41**'s unavailable-dependency outcome; stated, never silently defaulted | Conflate unreadable with never-captured |
+| 1.8 | A Room-scoped keyed collection has some targets available and some not | The available subset is applied; unavailable targets are named | Silently drop unavailable targets without naming them, or refuse the whole restoration |
+| 1.9 | Current Room mode prohibits restoration | Suppressed, with the specific mode named in the trace | Present suppression as an unexplained failure |
+| 1.10 | A Person-specific preference exists but Identity requirements are not met | Room-scoped Last Stable Observed Value or Configured Default applies instead; the Person preference is not applied | Apply the Person preference anyway |
+| 1.11 | The prior stable value was produced by an existing automation, not a resident | Evidence only, per `why-did-this-happen.md` Scenario 16; never captured as a resident preference without independent DL-73 attribution | Write the automation's own output into the remembered value as though the resident chose it |
+| 1.12 | The resident subsequently overrides the restored value | The override is new evidence, eligible under **DL-112** where attribution/consent/scope conditions are met | Treat the restored value as self-reinforcing evidence of continued preference |
+| 1.13 | The current value resulted from an accepted Adaptive Policy, not direct Person selection | Attributed as an HTBW learned/adaptive-policy Decision Authority (**DL-73**, **DL-123**), never narrated as "last person-selected" | Call an Adaptive-Policy-produced value a direct Person selection |
+| 1.14 | A constituent Room enters or exits a Merged Room context | Reuses **DL-13**/**DL-62**'s Primary-Authority selection; the non-selected constituent Room's own record is untouched and therefore cannot be destroyed by merging or un-merging | Invent a new deterministic participating-Room priority algorithm; let a Merged Room interaction overwrite or erase a constituent Room's own record |
+| 1.15 | A remembered Room temperature conflicts with a current safety/HVAC constraint | The constraint governs; the remembered value is not applied, and the Home states why | Let a remembered temperature override live safety/HVAC/Operational Trust authority |
 
 ## Implementation status and unresolved decisions
 
@@ -217,8 +227,8 @@ If the remembered value cannot be read, the home says so rather than silently ap
 
 | Concern | Held by |
 |---|---|
-| Whether restoration reproduces a prior value or computes a currently appropriate one; the value classes (*last observed*, *last successful*, *last person-selected*, *configured default*, *preference*) | **OD-78** |
-| Prior/preferred **room temperature** as a Continuity-held value | **N** — no canonical document states it |
+| Whether restoration reproduces a prior value or computes a currently appropriate one; the value-class taxonomy | **Resolved — DL-124**: reproduction only; four canonical classes (Last Stable Observed Value, Configured Default, Person Preference, Room Preference) |
+| Prior/preferred **room temperature** as a Continuity-held value | **Resolved — DL-124**: in scope, as a Room-scoped Last Stable Observed Value, subject to the same safety/HVAC preconditions as every other channel |
 | Learned-preference promotion | **Resolved — DL-123**; evidence eligibility **OD-65 (resolved — DL-112)** |
 
 ---

@@ -146,6 +146,15 @@ learned_values:
 ---
 # LEARNED VALUE PATTERN
 
+> **Canonical resolution: DL-124 (OD-78).** The value-class taxonomy (Last Stable Observed Value,
+> Configured Default, Person Preference, Room Preference), native-storage ownership, capture-eligibility
+> (dwell + attribution, household-configured, no invented default), and keyed-collection-within-Room-
+> scope treatment below are superseded in substance by **DL-124** —
+> [../models/continuity.md](../models/continuity.md) and
+> [../governance/decision-ledger.md](../governance/decision-ledger.md). "Learned values" in this
+> document corresponds to DL-124's **Last Stable Observed Value** class; this section is retained as
+> implementation-pattern guidance, never as an independent source of restoration semantics.
+
 ---
 
 ## Purpose
@@ -188,7 +197,9 @@ learned_values:
 
 Learned values must:
 
-- be captured during normal operation
+- be captured during normal operation, gated on a household-configured dwell/stability interval and,
+  where Person-scoped, resident attribution under DL-73/DL-112 — dwell alone never establishes
+  authorship or preference (**DL-124**)
 - be stored in helper-backed state, dedicated retained-value storage, or runtime cache
 - be reused by execution patterns (e.g. restore)
 

@@ -29,7 +29,7 @@ The two must not be folded together in either direction.
 |---|---|
 | Person-scoped preferred artist, genre, album, playlist | Care obligations and their state |
 | Preferred delivery, presentation, and re-presentation of a Communication | Significance, with provenance |
-| Preferred interaction patterns, last lamp levels, last speaker volume | Caretaker assignment and the escalation ladder |
+| Preferred interaction patterns; the Room's Last Stable Observed Value collection (lamp/lighting levels, keyed per target) and last speaker volume (**resolved — DL-124**) | Caretaker assignment and the escalation ladder |
 | Room-scoped music, duck, and TTS volume | Maintenance, service, and conservation history |
 | Session, resume, and transfer state; Follow-Me behaviour | Obligation, significance, and caretaker-assignment history |
 | Selected experience history and preference evolution | Care records that establish that care occurred |
@@ -139,9 +139,12 @@ consequence of the home having addressed someone by name. See
 | The association between a Person and an external service, account, mailbox, or calendar | **No responsibility is currently named.** [person-and-identity.md](person-and-identity.md) records the extension without an owner, and the accepted relationship types — `caretaker-of`, `owner-of`, `serves-room`, `located-in` — do not express it. **OD-77** |
 | A recommendation, of any kind | Nobody, as truth. A **Reasoning Provider** *owns nothing*, and its recommendation *never silently becomes an authorised action* (**OD-67**) |
 
-**A remembered value is not a Fact.** Which class of remembered value a restoration reproduces — last
-observed, last successful, last person-selected, configured default, or approved preference — and
-whether restoration reproduces a prior value or computes a currently appropriate one, is **OD-78**.
+**A remembered value is not a Fact.** **Resolved as DL-124**: the canonical remembered-value classes
+are **Last Stable Observed Value** (dwell- and, where Person-scoped, attribution-gated; native
+Home-Assistant-held), **Configured Default**, **Person Preference**, and **Room Preference** — "last
+observed," "last successful," "Experience preference," and "restored state" are collapsed or rejected
+as standalone classes. Restoration **reproduces** the stored value, gated by the existing precondition
+set; derivation is not authorised by DL-124.
 
 **There is no Journey, checkpoint, or progress-marker object.** The glossary defines **Experience** and
 **Session**; resuming a book is a Session with a resume candidate, an eligibility window (**OD-25**),
@@ -171,6 +174,8 @@ and a **Governed Reference** to provider-owned position.
 - TTS volume
 - Current room experience
 - Room-specific resume state
+- **Lighting/lamp level collection, room temperature** — Room-scoped **Last Stable Observed Value**
+  instances, keyed per target where more than one participates (**resolved — DL-124**)
 
 ### Room-scoped granularity follows Room Configuration's participating capabilities
 
@@ -195,12 +200,18 @@ of:
   designates as the default consulted under Unknown Person, consulted here as ordinary person-scoped
   Continuity for that Person Extension, never a new Identity state; or
 - a **configured default** — Room Configuration's own baseline value for a capability, not a
-  remembered or learned preference at all. "Configured default" is already named as one of the
-  remembered-value classes **OD-78** must resolve; this model does not decide its provenance here.
+  remembered or learned preference at all. "Configured Default" is one of the four canonical
+  remembered-value classes **resolved as DL-124**, distinct from Last Stable Observed Value, Person
+  Preference, and Room Preference.
 
-**Which of these applies, and the full precedence among explicit request, Person-scoped Continuity,
-Room/session Continuity, this guest/default context, and no fallback at all, remains OD-78.** What is
-settled now is narrower and does not wait on OD-78: an **explicit resident request is never overridden
+**Which of these applies at a given moment reuses the already-accepted order** — Person-scoped
+Continuity applies only where Identity sufficiently identifies the Person (per the existing scope
+table and **DL-112**'s competing-residents rule); Room-scoped Continuity, including a Last Stable
+Observed Value or Configured Default, is the shared baseline otherwise. **DL-124 resolves which of the
+four canonical classes a given value belongs to and how each is captured, restored, and explained; it
+does not create a new general cross-type precedence mechanism.** Any further, general policy-precedence
+question beyond this remains **OD-04**'s, unreopened. What is settled regardless: an **explicit
+resident request is never overridden
 by remembered state of any scope.** Continuity supplies state Concierge may apply; a preference is
 never treated as an instruction (see
 [../contracts/concierge-contract.md](../contracts/concierge-contract.md) hard prohibitions). Remembered
@@ -630,7 +641,7 @@ plus a custom numeric override.
 | OD-33 | **Closed — DL-43, DL-46, DL-47.** Retention is declared inside every governed record lifecycle; experience-history scope and duration are **resolved as DL-122** |
 | OD-48 | **Closed — DL-99.** Re-presentation preference for outstanding Communications — opt-in, Person-scoped, optionally refined by Category/Urgency; no HTBW-wide default repetition count or cooldown; not coupled to Follow-Me media eligibility |
 | OD-77 | Ownership of the association between a Person and an external service, account, calendar, mailbox, or media profile |
-| OD-78 | Remembered-value classes and restoration semantics — reproduce a prior value, or compute a currently appropriate one |
+| OD-78 | **Closed — DL-124.** Four canonical remembered-value classes (Last Stable Observed Value, Configured Default, Person Preference, Room Preference), each one owner; Home Assistant owns the native value, HTBW governs capture eligibility/scope/restoration/explainability only; restoration reproduces, never derives; device-level values are a keyed collection within Room scope; Merged Room reuses DL-13/DL-62's Primary Authority discipline |
 | OD-79 | **Closed — DL-100.** Presentation preference scope and precedence: Continuity retains exactly two scopes; Room decorative character (persona, voice) belongs to Foundation/Room Configuration; accessibility/accommodation and required-comprehension language are non-overridable Person-borne requirements, not ordinary preferences; precedence is requirement → applicable preference → Room baseline → plain failure |
 
 ## Related documents

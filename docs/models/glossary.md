@@ -1315,6 +1315,33 @@ Model: [experience-and-session.md](experience-and-session.md)
 A specific running instance of an Experience, with an owner, participants, an origin Room, a current
 Room, and a lifecycle.
 
+**Last Stable Observed Value (DL-124)**
+A remembered-value class: a native Home-Assistant-held operational value (lamp/lighting level, media
+volume, room temperature, or a similar channel) captured only once it has remained unchanged for a
+household-configured dwell interval and, where Person-scoped, is independently attributed to a Known
+Person under **DL-73**/**DL-112**. Room-scoped capture requires no Person attribution. **Dwell alone
+never establishes resident authorship or preference.** Home Assistant owns the stored value (a Helper
+or equivalent native object); Continuity governs only the capture-eligibility rule, scope, restoration
+decision, and explainability — never a second copy of the value (**DL-46**).
+Model: [continuity.md](continuity.md)
+
+**Configured Default (DL-124)**
+A remembered-value class: a resident-authored declared value for a capability, distinct from any
+observed/remembered value and from a shipped platform default. May exist at Person or Room scope;
+governed as an ordinary Continuity preference once declared.
+Model: [continuity.md](continuity.md)
+
+**Reproduction (DL-124)**
+The only restoration mode DL-124 authorizes: applying a governed remembered value unchanged, subject
+to the full precondition set (current Truth, Room mode, Identity band, Operational Trust outcome,
+audience, safety, target/capability availability).
+
+**Derivation (DL-124)**
+A currently appropriate value computed from a remembered value plus current Truth, distinct from
+Reproduction. **Not authorised by DL-124 for any value class**; a future capability separately
+accepted to derive a value must record, explain, and Decision-Trace-label the result as a derivation,
+never narrate it as the remembered value, and never silently substitute it for a failed reproduction.
+
 **Activity**
 What is currently happening, expressed as a Truth fact — for example "a conversation is active".
 

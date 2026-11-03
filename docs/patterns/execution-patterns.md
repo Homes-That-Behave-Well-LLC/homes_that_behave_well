@@ -417,6 +417,14 @@ Defines execution flow
 
 # 4. STATE RESTORATION EXECUTION
 
+> **Canonical resolution: DL-124 (OD-78).** The value-class taxonomy, native-storage ownership,
+> restoration semantics (reproduction only; derivation not authorised), precondition set, and
+> Merged-Room/keyed-collection treatment below are superseded in substance by **DL-124** —
+> [../models/continuity.md](../models/continuity.md) and
+> [../governance/decision-ledger.md](../governance/decision-ledger.md). This section is retained as
+> implementation-pattern guidance and must be read consistently with DL-124, never as an independent
+> source of restoration semantics.
+
 ## Definition
 
 State restoration allows entities to return to a previously known state instead of a fixed configuration.
@@ -434,6 +442,9 @@ This supports natural interactions such as:
 - restoration must be explicitly configured  
 - restoration must use stored state  
 - restoration must not rely on inference or heuristics  
+- restoration **reproduces** the stored value, gated by DL-124's precondition set (current Truth, Room
+  mode, Identity band, Operational Trust outcome, audience, safety, target/capability availability) —
+  it never silently computes a different value and presents the result as remembered (DL-124 point 8)
 
 The system must not:
 
@@ -445,16 +456,18 @@ The system must not:
 
 ## State Source
 
-Restored state must come from:
-
-- last known valid state captured prior to change  
-- a runtime state snapshot or cache  
+Restored state must come from **a native Home Assistant Helper entity (or an equivalent native store
+DL-30 verifies)** — this is DL-124's resolution of the previously undefined "runtime state snapshot or
+cache." HTBW holds no copy of the value itself.
 
 Rules:
 
-- state must be captured before state-changing actions occur  
-- state must be stored in a runtime-accessible cache  
-- retrieval must be constant-time (no history queries)
+- state must be captured before state-changing actions occur, subject to DL-124's dwell/attribution
+  capture-eligibility rule — a value's own stability is never by itself evidence of resident authorship
+- the native Helper is the system of record; HTBW stores no duplicate runtime cache
+- retrieval reads the native Helper's current value directly (no history queries); recent native state
+  **may** be consulted only to evaluate capture eligibility at the moment of writing, never as the
+  source of a restored value
 
 ---
 

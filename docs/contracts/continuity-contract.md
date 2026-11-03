@@ -66,10 +66,13 @@ Authority granularity Room Configuration already uses per Environmental Purpose 
 **Guest and default experience are not a third scope.** A guest or default experience (for example, a
 default music genre when no identified Person's preference applies) is either the already-accepted
 **Guest fallback Person Extension** (**DL-71**) consulted as ordinary person-scoped Continuity, or a
-Room Configuration **configured default** — never a remembered preference and never a fabricated
-Person invented to hold a Room's taste. Which applies, and the complete precedence among explicit
-request, Person-scoped, Room/session-scoped, and guest/default context, remains **OD-78**. Settled now,
-independent of OD-78: an explicit resident request is never overridden by remembered state of any
+Room Configuration **Configured Default** — never a remembered preference and never a fabricated
+Person invented to hold a Room's taste. **Which of these applies reuses the already-accepted order**:
+Person-scoped Continuity applies only where Identity sufficiently identifies the Person; Room-scoped
+Continuity (including a Configured Default or a Last Stable Observed Value) is the shared baseline
+otherwise. **DL-124** resolves the value-class taxonomy and restoration mechanics; it creates no new
+general cross-type precedence mechanism, which remains **OD-04**'s, unreopened. Settled regardless,
+independent of OD-04: an explicit resident request is never overridden by remembered state of any
 scope — see the Concierge Contract hard prohibition that a preference is never treated as an
 instruction.
 
@@ -88,8 +91,10 @@ A record does not become Continuity's because it is personal, remembered, or emo
 | The Person-to-external-service association | **Currently unowned — OD-77** |
 | A recommendation | Nobody, as truth. A Reasoning Provider *owns nothing* (**OD-67**) |
 
-**A remembered value is not a Fact.** Whether a restoration reproduces a prior value or computes a
-currently appropriate one, and which value class it draws from, is **OD-78**.
+**A remembered value is not a Fact.** **Resolved as DL-124**: the canonical classes are Last Stable
+Observed Value (dwell- and, where Person-scoped, attribution-gated), Configured Default, Person
+Preference, and Room Preference. Restoration **reproduces** the stored value, gated by the existing
+precondition set; derivation is not authorised.
 
 **There is no Journey, checkpoint, or progress-marker construct.** Resuming a book is a Session with a
 resume candidate, an eligibility window (**OD-25**), and a **Governed Reference** to provider-owned
@@ -247,7 +252,7 @@ A suppressed transfer must be explainable as a deliberate outcome, not as a fail
 | OD-27 | **Closed — DL-102.** Concurrency governed by endpoint-class contention, not Session/Experience class; suppressed-transfer vs. conflict-reported-not-started outcomes defined; duplicate playback is a semantic-only (`Current Room`) guarantee, never a provider-render guarantee |
 | OD-48 | **Closed — DL-99.** Re-presentation preference for outstanding Communications — opt-in, Person-scoped, optionally refined by Category/Urgency; no HTBW-wide default repetition count or cooldown; not coupled to Follow-Me media eligibility |
 | OD-77 | Ownership of the association between a Person and an external service, account, calendar, mailbox, or media profile |
-| OD-78 | Remembered-value classes and restoration semantics |
+| OD-78 | **Closed — DL-124.** Remembered-value classes and restoration semantics |
 | OD-79 | **Closed — DL-100.** Presentation preference scope and precedence — Room decorative character belongs to Foundation/Room Configuration; accessibility/accommodation and required-comprehension language are non-overridable Person-borne requirements |
 
 ## Related documents
