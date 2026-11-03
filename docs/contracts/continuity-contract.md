@@ -35,7 +35,10 @@ into Stewardship**. See [../models/continuity.md](../models/continuity.md).
   Configuration
 - Active session state: identity, experience class, owner, participants, origin Room, current Room,
   state, and lifecycle
-- Transfer intent: Follow-Me enabled or disabled, ask-before-transfer, never-transfer
+- Transfer intent: Follow-Me enabled or disabled, ask-before-transfer, never-transfer. **Mutable
+  within the same Session via a Change Record (resolved — DL-127)**: "leave it here" sets it to
+  never-transfer; "take it with me" sets it to Follow-Me, requiring no known destination at that
+  moment. Neither transition creates a successor Session or rewrites prior history.
 - Transfer and resume **eligibility**, with blocking attribution
 - Experience history and resume candidates
 
@@ -248,7 +251,7 @@ A suppressed transfer must be explainable as a deliberate outcome, not as a fail
 
 | ID | Question |
 |---|---|
-| OD-24 | Session-merging algorithm when two people's sessions meet in one Room |
+| OD-24 | **Closed — DL-127.** No Session Merge construct exists; competing-session scenarios resolve via already-named mechanisms (participant join, displacement, transfer suppression, grouped playback within one Merged Room, multi-Room target expansion) |
 | OD-25 | Resume eligibility window defaults per experience class |
 | OD-26 | **Resolved as DL-122.** Experience History is one governed record class, Room context + optional Identity-exclusive Person attribution; retention follows attribution, never duplicated; duration configured in Room Setup/Person Setup, never globally, as a hybrid of enumerated presets plus a custom numeric override |
 | OD-27 | **Closed — DL-102.** Concurrency governed by endpoint-class contention, not Session/Experience class; suppressed-transfer vs. conflict-reported-not-started outcomes defined; duplicate playback is a semantic-only (`Current Room`) guarantee, never a provider-render guarantee |

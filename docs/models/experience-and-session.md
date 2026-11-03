@@ -62,6 +62,27 @@ A Room may host at most one *primary* experience per endpoint class at a time; a
 constitute a conflict to be resolved. **Whether a Room permits concurrent sessions of the same class
 is resolved as DL-102**, see *Session Concurrency Policy* below.
 
+### Transfer intent is mutable within the same Session (resolved — DL-127)
+
+**Transfer intent is an ordinary, mutable Session element, governed by the same Current-Projection-
+plus-Change-Record pattern as every other Session field (State, Resume eligibility, and so on) — not
+fixed at Session start.** A resident may explicitly shift it mid-session:
+
+- *"Leave it here"* — a Person-following Session (Transfer intent: Follow-Me) becomes Room-anchored: a
+  Change Record sets Transfer intent to **never-transfer**. The Session stops following the Person into
+  future Rooms; it does not clone or continue elsewhere merely because the Person later leaves.
+- *"Take it with me"* — a Room-anchored Session (Transfer intent: never-transfer) becomes
+  Person-following: a Change Record sets Transfer intent to **Follow-Me**. No destination needs to be
+  known at that moment; wherever Identity later sufficiently resolves the Person, Follow-Me eligibility
+  (above) governs continuation there.
+
+**Neither transition changes the Session's own identity.** No successor Session is created, and no
+historical meaning is rewritten — the Session's prior Transfer-intent value remains reconstructable
+exactly as any other Change Record history is. An **explicit Room-targeted request** ("play music in
+my Office") establishes a Session with Transfer intent never-transfer by default, because Follow-Me
+was never invoked; the Person subsequently leaving that Room is never, by itself, reason to transfer,
+follow, or end the Session — occupancy alone is not a termination mechanism; intent provenance governs.
+
 ---
 
 ## Lifecycle
@@ -179,9 +200,42 @@ Session lifecycle or in `continuity.md`/`continuity-contract.md`, and is not ado
 
 OD-27 supplies OD-24 with the **facts** a merge decision needs, and decides no part of the merge
 itself: that two Sessions exist, the endpoint class they both require, their respective owners and
-participants, and whether Operational Trust has (or has not) authorized displacement. **OD-24 alone**
-decides whether, how, and under whose ownership a merge occurs, how preferences resolve in a merged
-Session, and separation behavior.
+participants, and whether Operational Trust has (or has not) authorized displacement.
+
+### No Session Merge construct exists (resolved — DL-127)
+
+**OD-24 resolved by retiring "merge" as an architectural noun for Session concurrency, rather than by
+building merge mechanics.** HTBW never combines two Sessions into one synthetic merged Session. Every
+scenario the historical issue language called "merge" is already covered by a distinct, already-named
+mechanism: **participant join** (an explicit Operational-Trust-evaluated act, above); **displacement**
+(Operational Trust's own authority, `multi-person-conflict.md` Rule 3); **transfer suppression** (the
+existing Transfer lifecycle's "suppressed transfer" outcome, above); **grouped playback within one
+Merged Room** (below, DL-13 unchanged); and **multi-Room target expansion** (below). Competing intent
+is resolved by one of these outcomes — never by inventing a combined-ownership Session.
+
+### Multi-Room target expansion creates no Floor/House-owned Session tier (resolved — DL-127)
+
+A spatial phrase such as *"throughout the house"* or *"upstairs"* is **Concierge/vocabulary target
+resolution** — `contextual-vocabulary.md`'s Home-scoped term resolution and/or native Home Assistant
+multi-Area/Floor targeting — producing **N independently targeted Rooms**, directly reusing **DL-125**'s
+own "Floor-targeted fan-out, each entity's own scope evaluated independently" precedent. Each resulting
+Room receives its own ordinary per-Room Session, independently governed; a later Room-specific command
+(*"turn the music down in the Den"*) affects only that Room's own Session, never reaching into the
+other Rooms the earlier broad command also targeted. The earlier broad command remains Decision Trace
+provenance for why each Room's Session began — it does not bind the resulting per-Room Sessions into
+one Session, and no Floor-owned, House-owned, or "everywhere"-owned Session-ownership tier is created.
+**Target resolution and value resolution stay separate** (**DL-124**, **DL-126**, unchanged): once a
+target expression resolves to Rooms, each Room resolves its own applicable value under existing
+Continuity rules unless the request itself supplies an explicit value, applied per targeted Room.
+
+### Remembered-value observation is a separate governed activity (resolved — DL-127)
+
+A command causing a Room's observable state to change (for example, a multi-Room volume command
+changing the Den from 20% to 30%) is one governed activity. An **independent** remembered-value
+observer separately, later, evaluates whether the new state qualifies as stable under **DL-124**'s own
+dwell/attribution gating and records it if so — unchanged, not reopened. Causation never merges the
+two activities into one Session, and the causing Session/command is never recorded as the owner of the
+resulting remembered-value record.
 
 ### Grouped playback and duplicate playback
 
@@ -193,7 +247,9 @@ constituent Physical Rooms of one Merged Room remains neither Transfer nor Resum
 Context changed). **Grouped playback deliberately spanning separate, non-merged Rooms is not currently
 modeled** and is not decided here; a household wanting this already has the Merged Room mechanism
 available, and a from-scratch cross-Room grouped-session concept remains a genuine, narrow, explicitly
-deferred residual — not a blocking gap, and not invented in its absence.
+deferred residual — not a blocking gap, and not invented in its absence. **This remains distinct from
+multi-Room target expansion (above, DL-127): expansion produces N independent per-Room Sessions from
+one broad command, never one synchronized cross-Room session — the two must not be conflated.**
 
 **Duplicate playback — the precise, bounded guarantee.** A Session's `Current Room` is a **single**
 field: HTBW's own semantic record never represents one Session as simultaneously Active with two
@@ -205,7 +261,10 @@ exactly as `continuity-use-cases.md` Use Case 3 already states: *"The provider's
 handed off → Unresolved — provider session semantics are `N` → Must not: Claim a governed handoff
 protocol exists."* Where Truth/media-player evidence shows the origin endpoint still rendering after a
 declared Transfer, this is an honest, representable **discrepancy** between HTBW's semantic state and
-physical reality — never silently hidden, never asserted away as resolved.
+physical reality — never silently hidden, never asserted away as resolved. **Intentional multi-Room
+playback (target expansion) and intentional Merged-Room/grouped playback are each legitimate,
+already-distinguished patterns (resolved — DL-127) and must never be misclassified as accidental
+duplication; no blanket "never play in two Rooms" rule is created.**
 
 ### Volume
 
@@ -288,12 +347,13 @@ to displace — carries the Decision Trace reference that caused it.
 
 - [../scenarios/follow-me-media.md](../scenarios/follow-me-media.md)
 - [../scenarios/multi-person-conflict.md](../scenarios/multi-person-conflict.md)
+- [../scenarios/continuity-use-cases.md](../scenarios/continuity-use-cases.md) Use Case 3
 
 ## Open decisions
 
 | ID | Question |
 |---|---|
-| OD-24 | Session-merging algorithm |
+| OD-24 | **Closed — DL-127.** No Session Merge construct exists; competing-session scenarios resolve via participant join, displacement, transfer suppression, grouped playback within one Merged Room, and multi-Room target expansion (N independent per-Room Sessions, never a Floor/House-owned tier). Person-following versus Room-anchored intent is a Change Record mutating the existing Session's own Transfer-intent field, never a successor Session |
 | OD-25 | Resume eligibility window defaults per experience class |
 | OD-27 | **Closed — DL-102.** Concurrency is governed by endpoint-class contention, not Session/Experience class; second-session/incoming-request outcomes (suppressed transfer vs. conflict-reported-not-started), participant join, grouped playback within/across Merged Rooms, and the duplicate-playback semantic-only guarantee are each stated; OD-24 retains merge policy |
 

@@ -329,7 +329,7 @@ he gets there — at a sensible volume, without duplicating in the Den.
 | 9 | Explainability | **Decision Trace** | *"I moved the jazz because you asked the music to follow you, I recognised you here, and the room was free"* |
 | 10 | Retention and lifecycle | **DL-47** | Session and transfer history are Continuity's; scope and duration of experience history are **OD-26** |
 | 11 | Guest and Unknown Person behaviour | **Operational Trust** | An Unknown Person owns no session and inherits no preference (**DL-33**) |
-| 12 | Multi-person conflict behaviour | **Operational Trust** / **Concierge** | *Another person's session would be displaced without authority* is a representable block. Concurrency is resolved as **DL-102** (endpoint-class contention; suppressed transfer, as in this use case); merge policy remains **OD-24** |
+| 12 | Multi-person conflict behaviour | **Operational Trust** / **Concierge** | *Another person's session would be displaced without authority* is a representable block. Concurrency is resolved as **DL-102** (endpoint-class contention; suppressed transfer, as in this use case); **no Session Merge construct exists (resolved — DL-127)** — displacement, participant join, and transfer suppression are the governing mechanisms |
 | 13 | Failure behaviour | **Continuity** | Missed transition → treat the newly observed Room as current, record the gap, **do not retroactively transfer**. Partial speaker-group availability → configured policy, and say which members were unavailable |
 | 14 | What must never happen | — | **Motion-triggered movement.** Follow-Me is a policy-governed handoff |
 
@@ -360,15 +360,25 @@ enabled Follow-Me and the home moves it because the household said it may. The h
 | 3.4 | Kitchen and Dining are inside the Living Space Merged Room | Nothing happens, and nothing needs to | Invent a merged-room orchestration path |
 | 3.5 | Tom stopped the music by hand a minute ago | Manual-stop protection blocks the move | Override a manual stop |
 | 3.6 | The provider's session cannot be handed off | **Unresolved** — provider session semantics are `N` | Claim a governed handoff protocol exists |
+| 3.7 | Tom's Follow-Me jazz reaches the Den; Tom says "leave it here" | A Change Record sets the Session's Transfer intent to never-transfer; playback stays Room-anchored in the Den | Clone or continue following Tom into a later Room; create a successor Session (**DL-127**) |
+| 3.8 | David's Room-anchored music is playing in his Office; David says "I'm done in here, take the music with me" | A Change Record sets Transfer intent to Follow-Me; no destination needs to be known yet; wherever Identity later resolves David, Follow-Me eligibility governs continuation there | Require a known destination at the moment of the request; invent a successor Session (**DL-127**) |
+| 3.9 | David explicitly commands "play music in my Office"; David later leaves | The Session remains Room-anchored (Transfer intent never-transfer by default); it does not transfer or end merely because David left | Treat occupancy alone as a reason to transfer, follow, or end a Room-anchored Session (**DL-127**) |
+| 3.10 | "Play music throughout the house" resolves to multiple Rooms | Each Room receives its own independent Session; a later "turn it down in the Den" affects only the Den | Create a Floor/House-owned Session; bind the resulting per-Room Sessions together (**DL-127**) |
+| 3.11 | "Play music throughout the house at 30%" causes the Den to change from 20% to 30% | The explicit 30% applies per targeted Room; a separate, independent remembered-value observer later evaluates whether 30% qualifies as stable under **DL-124** | Treat the multi-Room command as directly recording a remembered value, or as owning that observation (**DL-127**) |
+| 3.12 | A household's provider groups two separate, non-merged Rooms for synchronized playback | Recognised as the DL-102 grouped-playback residual, or as target expansion (3.10) if it originated from one broad command — never accidental duplication | Apply a blanket "never play in two Rooms" rule (**DL-127**) |
 
 ## Implementation status and unresolved decisions
 
 **F**. Governed: eligibility, blocking, scoping, suppression, concurrency (**DL-102**, resolving
 **OD-27** — endpoint-class contention, not Session/Experience class; duplicate playback is a semantic
-`Current Room` guarantee only, never a provider-render guarantee). Unresolved: **OD-24** merge,
-**OD-25** resume window. **Not governed (`N`)**: provider session-state handoff, grouped/joined
-playback spanning separate non-merged Rooms (within one Merged Room this requires no new architecture
-— **DL-13**), and indirect-intent inference.
+`Current Room` guarantee only, never a provider-render guarantee); **session contention and
+Person-following/Room-anchored intent (DL-127, resolving OD-24 — no Session Merge construct exists;
+"leave it here"/"take it with me" is a Transfer-intent Change Record on the same Session, never a
+successor Session)**. Unresolved: **OD-25** resume window. **Not governed (`N`)**: provider
+session-state handoff, grouped/joined playback spanning separate non-merged Rooms (within one Merged
+Room this requires no new architecture — **DL-13**), indirect-intent inference, and a Room
+post-occupancy manual-override grace period (a genuine gap identified but not decided by **DL-127**,
+tracked via Epic #147).
 
 ---
 
