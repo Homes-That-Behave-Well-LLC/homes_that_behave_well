@@ -159,6 +159,14 @@ no contributor coverage, and a Formula-Derived Fact carries input-availability s
 of them — nor **OD-72** — may borrow the Identity Fusion Function or DL-39 bands to answer a Truth-side
 question.
 
+**Floor is not a first-class Truth subject (resolved — DL-125, OD-10).** Foundation's accepted
+object-type enumeration does not include Floor, and this decision does not add it. A Floor-scoped
+question (*"what's the temperature upstairs"*) is answered as a Concierge-assembled projection over
+each constituent Room's own already-existing Primary-Authority Fact — reusing the identical
+"Concierge-assembled projection, not a decision HTBW made" discipline **DL-74** already established —
+never a persisted Floor Fact, and never a same-purpose aggregation across Rooms (the identical
+discipline **DL-60**/**DL-62** already apply within a single Room extends unchanged to Floor).
+
 **An optional normalised numeric may accompany the band as a non-authoritative deterministic ordering
 value only.** It is never resident-facing probability, likelihood, calibration, or accuracy; it never
 merges Fact classes or merges Truth and Identity; it is never sufficient evidence and never authorizes

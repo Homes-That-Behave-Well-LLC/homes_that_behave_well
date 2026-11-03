@@ -307,6 +307,10 @@ Experience class, and Action-risk class.
 | Action-risk class | Locks, garage doors, and heat sources require higher confidence |
 | External Decision Authority (delegation, **DL-118**) | A declared external policy engine; Type-2 (unmediated) action is capped at Convenience/Disclosure regardless of any other scope's permission |
 
+**Floor adds no scope here (resolved — DL-125).** A native Home Assistant Floor is referenced for
+targeting only; it is never a policy-authorship unit, and a Floor-targeted action's fan-out is
+evaluated at each entity's own already-accepted scope (ordinarily Room) independently.
+
 Precedence within a scope, and the exact global priority order across scopes, is recorded in
 [../architecture/behavioral-governance.md](../architecture/behavioral-governance.md) and remains open
 decision **OD-04**.

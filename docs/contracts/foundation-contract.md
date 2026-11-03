@@ -158,7 +158,7 @@ Foundation supplies to every Decision Trace:
 |---|---|
 | OD-01 | Home Assistant representation strategy for HTBW objects |
 | OD-02 | **Closed — DL-43, DL-44, DL-45.** Configuration and documentation are located through a governed artifact reference; encoding remains capability-specific |
-| OD-10 | Whether Floors are a first-class scope |
+| OD-10 | **Closed — DL-125.** Floor is a native physical-hierarchy construct referenced for targeting only, never a first-class HTBW scope |
 | OD-11 | Whether one Physical Room may participate in more than one Room |
 | OD-20 | **Resolved as DL-121.** No runtime consumption, mandatory or optional; Asset Intelligence is solely an optional predecessor-product migration source |
 

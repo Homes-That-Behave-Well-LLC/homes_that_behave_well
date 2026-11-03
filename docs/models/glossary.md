@@ -37,6 +37,15 @@ Floor/Area targeting meets the household's need for a broader or different group
 one, and Assist/Conversation must never receive one.
 This is the canonical public term. Do not rename it.
 
+**Floor**
+A native Home Assistant physical-hierarchy object grouping Areas (never Rooms directly — Area carries
+the native `floor_id`). **Referenced by HTBW for targeting only; never a first-class HTBW scope, never
+a Merged Room, never a Truth subject, and never an Operational Trust precedence tier (DL-125, resolved
+OD-10).** Native Floor targeting already expands to every entity in every Area on that Floor; HTBW
+never enumerates constituent Areas itself. A Floor-level query is answered as a Concierge-assembled
+projection over constituent Rooms' own Facts, never a persisted Floor Fact.
+Model: [room-configuration.md](room-configuration.md)
+
 **Constituent Room**
 A Physical Room that is a member of a Merged Room. Constituent membership is retained and remains
 addressable for location, maintenance, evidence, and diagnostics.

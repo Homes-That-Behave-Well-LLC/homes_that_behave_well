@@ -153,6 +153,25 @@ native intent matching bypass HTBW's own curated participation, exclusions, and 
 > grouping ("Downstairs") is met by Home Assistant's own native Floor and Area targeting, never by an
 > overlapping Merged Room.
 
+### Floor is native targeting only, not an HTBW scope (DL-125, resolved OD-10)
+
+A native Home Assistant **Floor** is referenced for targeting; it is never a first-class HTBW scope, a
+Merged Room, a Truth subject, or an Operational Trust precedence tier. Home Assistant owns Floor
+existence, Floor CRUD, and Area-to-Floor membership (`floor_id` on the Area); HTBW holds no copy, no
+parallel hierarchy, and no independent membership mapping. **"Turn off everything upstairs" resolves
+entirely through native Floor targeting** — Home Assistant's own documented target mechanism already
+expands a Floor target to every entity in every Area on that Floor — so Concierge resolves the
+household's Floor reference by reading the native Floor's own name/alias (exactly as it already reads
+Area and entity names/aliases, per [contextual-vocabulary.md](contextual-vocabulary.md)) and passes the
+resolved Floor identifier straight through as a native target; **HTBW never enumerates constituent
+Areas itself**. Each entity reached by that fan-out is still evaluated at its own, already-accepted
+Operational Trust scope (ordinarily Room) independently — Floor targeting addresses many entities at
+once; it never authorises them as a unit and adds no new precedence tier. A Floor-level query (for
+example, *"what's the temperature upstairs"*) is answered as a Concierge-assembled projection over each
+constituent Room's own Primary-Authority Fact (**DL-62**), never a persisted Floor Fact or a
+"Floor health" composite. A Merged Room may span constituent Rooms on different native Floors; Floor
+membership neither constrains nor is constrained by Merged Room membership.
+
 ### Selecting participating objects
 
 The configuration experience distinguishes **available** native objects from **participating** ones.
