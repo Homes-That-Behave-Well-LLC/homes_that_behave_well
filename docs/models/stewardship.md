@@ -148,6 +148,13 @@ This clarifies, rather than adds to, the already-accepted Foundation `caretaker-
 (**DL-49**): nothing previously stated a cardinality limit, and household examples such as a pet with
 two caretakers or a Person who is caretaker of both a pet and an instrument require it.
 
+**This same `caretaker-of` relationship is reused, unchanged, as the Subject Authorization candidate
+mechanism for Historical Retrieval and Access (DL-130, resolved OD-35)**: holding the relationship
+supplies a candidate Person who may inquire about a Person or Pet subject's historical location or
+movement, never authorization by itself — Operational Trust's own Person-scope/Relationship-scope
+policy confirms actual access, exactly as it already confirms actual Stewardship-content access below
+(**DL-57**). Stewardship's own assignment records are not altered or duplicated by that reuse.
+
 **Stewardship owns the current assignment records; there is exactly one governed record set.** A
 Person's own view ("Relationships: Caretaker of Maisey, Caretaker of Piano") and a subject's view
 ("Caretakers: Tom, David") are both **projections** over that same record set — never independently

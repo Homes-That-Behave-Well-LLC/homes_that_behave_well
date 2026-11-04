@@ -57,7 +57,7 @@ HTBW retains only what the native object does not hold, and **each extension kee
 | Roles, relationships, consent records | **Foundation** |
 | Identity-evidence associations and assertions | **Identity** |
 | Person-scoped preferences and continuity | **Continuity** |
-| Person-scoped authority and disclosure policy | **Operational Trust** |
+| Person-scoped authority and disclosure policy | **Operational Trust** — includes who may receive a historical answer about this Person, resolved via **DL-130** |
 | Obligations and accountability | **Stewardship** |
 | Delegated Access Grants held over another Person's, Asset's, or Pet's Stewardship content (**DL-57**) | **Stewardship** (grant record and lifecycle); Foundation types `caretaker-of`/`owner-of` unchanged |
 | Person Environmental Requirements — minimum/maximum/range per **DL-60** Environmental Purpose (**DL-61**) | **Foundation** holds the declared requirement, coordinated through Person Setup; **Stewardship** evaluates it against current Room Environment Facts |
@@ -514,7 +514,10 @@ never-retained record is answered **unavailable**, never reconstructed, inferred
 adverse inference; existing records follow their own governing retention class unchanged, and a
 Preservation Hold, where validly placed under **OD-39**'s own governance, may protect only records
 that still exist — it can never resurrect a deleted one or itself authorize retrospective Person
-Association. **OD-35, OD-36, and OD-39 remain open and are not decided or pre-empted by this section.**
+Association. **OD-36 and OD-39 remain open and are not decided or pre-empted by this section.**
+**OD-35 is resolved as DL-130**, which likewise does not decide or pre-empt this section: a historical
+Person-association query remains subject to the Subject Authorization and reconstruction rules DL-130
+establishes, applied here unchanged.
 
 **Household incident review and an external legal request are both access/disclosure paths only, kept
 symmetric, never a derivation path.** Each may be separately authorized to access, preserve, or

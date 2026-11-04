@@ -260,7 +260,7 @@ None is closed by this ADR.
 |---|---|
 | **OD-33** | **Closed — DL-43, DL-46, DL-47.** Retention is declared inside every governed record and artifact lifecycle; the remaining values are **OD-05**, **OD-26**, **OD-49** |
 | **OD-34** | **Closed — DL-42, DL-44, DL-46, DL-47.** The temporal-persistence model is complete; the representation mechanism is the residual of **OD-01** |
-| **OD-35** | Historical query surface and access |
+| **OD-35** | **Closed — DL-130.** Governed Historical Retrieval and Access — one surface, classified before assembly; nine existing Explainability scopes remain the complete query model; `caretaker-of`/**DL-71** reused unchanged for Subject Authorization |
 | **OD-36** | Reconciliation of deletion and export obligations with retention floors and Preservation Holds |
 | **OD-05** *(amended)* | Decision Trace retention **floor and ceiling** |
 | **OD-18** *(resolved as DL-59)* | Governs **operational** Fact validity, not Historical Fact retention |

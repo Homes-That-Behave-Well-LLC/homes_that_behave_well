@@ -180,7 +180,86 @@ uncertainties must be as explainable as its conclusions**.
 | Where was it before? | Truth's Fact history. **A Historical Fact is never presented as current** |
 
 > **Access to movement histories and reconstructions is governed by Operational Trust and must not be
-> reachable through generic Room Help or a general-question capability** (**DL-35**, **OD-35**).
+> reachable through generic Room Help or a general-question capability** (**DL-35**, resolved as
+> **DL-130**).
+
+### Historical Retrieval and Access (resolved — DL-130)
+
+**One surface, classified before assembly.** Assist/Conversation remains the sole resident-facing
+interaction surface for every historical question. Every historical query is classified — before any
+protected content is assembled — into (a) an ordinary historical explanation or Fact query, handled
+through Conversation's existing **DL-69** pre-answer-filtered retrieval discipline, extended to the
+query dimensions below; or (b) a query that would return a Person/actor movement reconstruction,
+which Conversation receives but routes into the dedicated governed Historical Reconstruction path
+(Concierge assembling, Operational Trust authorizing) — never answered inline by generic Room Help or
+a general-question capability (**DL-35**). A dashboard or panel is a presentation surface only,
+carrying the identical authority, never a second interaction path (restating
+[../scenarios/why-did-this-happen.md](../scenarios/why-did-this-happen.md) Scenarios 42/50: "history
+files are never the interaction surface").
+
+**Query model.** The nine retrieval scopes above remain the complete, canonical set — no tenth scope
+is created. A historical query is expressed along these dimensions: Requester; Subject (Person, Pet,
+Asset, Room/Merged Room, Communication, Decision, or Incident scope); Record/Evidence Class (Decision
+Trace, Truth Fact history per **P28**, Identity Assertion history, native Recorder/long-term
+statistics, Domain Event, Communication record, or Historical Reconstruction projection); Time or
+time range; Correlation/causation chain; and a **Reconstruction-Required** flag, resolved before
+assembly.
+
+**Episode 9 category mapping.** The twenty Episode 9 question categories map onto this model without
+multiplying mechanisms:
+
+| # | Category | Canonical routing |
+|---|---|---|
+| 1–3, 5, 18 | Current-state/action/recommendation/delay explanation; counterfactual | Decision scope, accepted |
+| 4 | Request-for-consent explanation | Consent object is **OD-06** |
+| 6 | Delivery-channel explanation | Surface capability is **OD-43** |
+| 7 | Inaction/non-event explanation | **Splits** — see below |
+| 8 | Failed-outcome explanation | **Resolved** — **DL-129** field 18, Observed outcome |
+| 9 | Historical Fact query | Truth Fact history (**P28**), accepted |
+| 10 | Historical environmental maximum | Native statistics; HTBW self-detects gaps (below) |
+| 11 | Historical presence query | Person scope, restricted by **DL-35** |
+| 12 | Historical identity query, room-relative | Routed to **OD-73**/**OD-15** |
+| 13 | Current location query | Unchanged — `where-is-tom.md`/`where-is-maisey.md`/`where-is-my-phone.md` |
+| 14, 16 | Movement reconstruction; correlation across events | Location-conclusion/correlation scope, Reconstruction-Required, calibrated by **DL-74** |
+| 15 | Incident reconstruction | Existing Incident scope; does not decide **OD-41** |
+| 17 | Next-evidence guidance | No owner here — routed to **OD-41**/**OD-40** |
+| 19 | Correction and supersession | Bitemporal model, accepted |
+| 20 | Explanation unavailability | Tombstone model, accepted |
+
+**Category 7 is structurally split, never merged.** "Why didn't X happen?" is classified, before any
+answer is composed, into exactly one of two branches, and the answer states which branch produced it:
+HTBW evaluated and decided not to act — a Decision Trace exists, fully governed (**DL-15**); or HTBW
+made no decision at all — nothing is held, and the answer is a diagnostic reconstruction from native
+evidence (**DL-73**, **DL-111**), carrying its own confidence, never borrowed from the Decision Trace
+path.
+
+**Authorization sequence.** Assist/Conversation receives the request; the request is classified
+(above) before any content is assembled; requester identity is resolved to the degree the shape
+requires; the underlying domain/capability authority gates first (General Questions/Home Steward,
+**DL-93**; Asset/email/calendar authority through the responsibility that governs their use); where
+the Subject is a Person or Pet, Subject Authorization applies — see
+[operational-trust.md](../models/operational-trust.md) "Historical Retrieval and Access
+authorization"; the resulting Access outcome combines under **DL-126**'s existing
+most-restrictive-combination algorithm; where denied, the refusal reuses the existing six-outcome
+disclosure table; where permitted, retrieval proceeds only against the authorized dimensions, with
+gaps and provenance preserved (below); audience composition and disclosure (**DL-34**, **DL-72**) are
+evaluated separately and after Access; the answer is presented through Assist/Concierge on an allowed
+surface; the Decision Trace records the retrieval, disclosure, or refusal itself.
+
+**Gap model — every source's own already-accepted vocabulary, surfaced structurally, never
+silently.** An expired Decision Trace resolves to "no longer retained"; differing Room-normalized
+retention and a storage-outage interval reuse **DL-129**'s own incompleteness/coverage-gap records;
+a long-term-statistics missing interval must be self-detected by whichever responsibility assembles
+the historical-aggregate answer, because native statistics performs no gap detection of its own
+(Issue #146, VERIFIED_SUPPORTED) — this is the one new structural obligation this decision adds;
+no responsive evidence reuses Truth's own `unknown` outcome, never a new value; reconstruction
+uncertainty reuses the existing Primary Hypothesis Label/Criteria Satisfaction Record (**DL-74**) and
+movement-path labels ([temporal-record.md](../models/temporal-record.md)). **A historical answer
+containing an unreported gap remains a defect** (**P27**).
+
+See [../governance/decision-ledger.md](../governance/decision-ledger.md) **DL-130** and
+[../scenarios/historical-retrieval-and-access.md](../scenarios/historical-retrieval-and-access.md)
+for the full decision and worked scenarios.
 
 ### The communication retrieval scope
 

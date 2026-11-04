@@ -32,6 +32,7 @@ If a scenario cannot be walked through without ambiguity about ownership, the ar
 | [where-is-tom.md](where-is-tom.md) | **Person location — the two-stage path.** Identity Assertion → Contextual Person-Presence Fact, evidence ceilings, correlated evidence, conflict preservation, `unknown` versus `unavailable`, access versus presentation versus disclosure |
 | [where-is-maisey.md](where-is-maisey.md) | **Pet location — a Truth-only path.** Why a Pet is never routed through Identity, tag versus wearer, an undischarged **DL-30** burden stated honestly, consent and disclosure for pet-derived evidence, Pet record lifecycle |
 | [where-is-my-phone.md](where-is-my-phone.md) | **Device location — a Truth-only path.** Zone versus Room granularity, **Home Assistant First** applied to a location answer, why a device answer is a person disclosure, Historical versus current, broken-reference lifecycle |
+| [historical-retrieval-and-access.md](historical-retrieval-and-access.md) | **Governed Historical Retrieval and Access (DL-130).** One surface classified before assembly, Subject Authorization reusing `caretaker-of` and Person Setup, the Category-7 split, Maisey as a trackable Pet subject, actor reconstruction routing, the native-statistics gap obligation, and the refusal/disclosure discipline |
 
 > **The three location scenarios are read together.** They exist to make one asymmetry unmistakable:
 > *"Where is Tom?"* is a **two-stage** question requiring an Identity Assertion first; *"Where is

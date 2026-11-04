@@ -1464,6 +1464,46 @@ four receive the same default disposition, but the Decision Trace preserves whic
 applied. A Merged Room's wider Potential Listener and Delivery Surface pool changes the composition
 **inputs** evaluated here, never the policy itself.
 
+### Historical Retrieval and Access authorization (resolved — DL-130)
+
+**Access and disclosure remain two decisions for a historical question exactly as for a current one**
+(restating the rule above, never reopening it). A historical query reaches Operational Trust through
+Assist/Conversation — the sole resident-facing surface, internally classified before any content is
+assembled into an ordinary retrieval or a Person/actor reconstruction (**DL-35**, never reachable
+through generic Room Help or a general-question capability).
+
+**Subject Authorization is Person-scope and Relationship-scope policy, unchanged from the existing
+scope table above.** Where a historical query's Subject is a Person or a Pet, the Subject's own
+configured access policy — owned by Operational Trust under the existing **Person-level authority**
+and **Privacy visibility policy** items — governs who may inquire about them historically. That
+policy is expressed using **DL-71**'s five already-accepted Intended Audience Specification forms
+(Named Person, Role/Authority Class, Relationship-based, Anyone Present With Authority, Household),
+reused unchanged, never a new vocabulary. A **DL-49** `caretaker-of` relationship — typed over Person,
+Pet, and Asset subjects alike — supplies a **candidate** only: holding the relationship is never
+itself sufficient, restating DL-71/DL-57's "accountability is not access" discipline, now applied to
+Historical Retrieval access generally rather than only to Stewardship content. The resulting Access
+outcome combines with every other applicable scope (Home, Room, Person, Relationship, Asset,
+Action-Risk Class) under the existing **DL-126** most-restrictive-combination algorithm — no new
+scope is added.
+
+**Current-location access and historical-movement-reconstruction access are two independently
+configurable capabilities, never one setting.** Both classify under **DL-76**'s existing Disclosure
+Risk Class HTBW Default (Moderate Identity Band, Verbal Confirmation Strength); a household wanting
+stricter treatment for reconstruction-class queries specifically may apply **DL-109**'s existing
+object-specific override, restating "the requirement belongs to what is being protected" — neither
+is inherited from the other by default, and no new Required Identity Band/Confirmation Strength table
+is created.
+
+**Refusal reuses the existing six-outcome disclosure table above unchanged.** An
+authorized-to-ask-but-unauthorized-to-receive historical question resolves to "Access denied" or
+"Access allowed, disclosure not appropriate" — a resident-safe, content-free refusal that never
+confirms or denies the existence or completeness of the underlying evidence. No bespoke historical
+refusal taxonomy is introduced.
+
+See [../architecture/explainability.md](../architecture/explainability.md)'s "Historical Retrieval and
+Access" section for the full query model, the twelve-step authorization sequence, and the Episode 9
+category mapping.
+
 ### Location disclosure
 
 > **A location answer is a disclosure about a person, whatever its Subject.**
@@ -1866,7 +1906,7 @@ effect.** See [../architecture/privacy.md](../architecture/privacy.md).
 | OD-08 | **Resolved** as **DL-39** and **DL-40**. Four Identity bands, `None` as a Trust requirement, threshold ownership, Address by Name, operation-scoped confirmation, and the **Required Confirmation Strength** class set. Per-class defaults are configuration, resolved as **DL-76** |
 | OD-28 | **Closed — DL-123.** Learned-Policy Promotion Lifecycle: Concierge formulates and presents the Suggestion (an ordinary Communication); acceptance requires at minimum Authenticated Confirmation Strength (this document's "permission changes" floor) and resolves eligibility through the Suggestion's own DL-71 Audience Specification; pause suspends, revocation terminates, the autonomy permission alone; "forgotten" is replaced by Revocation/Preference deletion/source-evidence expiration |
 | OD-33 | **Closed — DL-43, DL-46, DL-47.** Retention is declared inside every governed record and artifact lifecycle; remaining values are **OD-05**, **OD-26**, **OD-49** |
-| OD-35 | Historical query surface and access |
+| OD-35 | **Closed — DL-130.** Assist/Conversation is the sole historical-retrieval surface, classified before assembly into ordinary retrieval versus Person/actor reconstruction; the nine existing Explainability scopes remain the complete query model; `caretaker-of` (**DL-49**) and **DL-71**'s five Intended Audience Specification forms are reused unchanged for Subject Authorization; current-location and historical-movement access are two independently configurable Disclosure-Risk-Class capabilities, never one setting; refusal and gap semantics reuse existing vocabulary throughout |
 | OD-36 | Reconciliation of deletion and export obligations with retention floors and Preservation Holds |
 | OD-39 | Preservation Hold authority, duration, review, release, and conflict with deletion |
 | OD-40 | Evidence Package assembly, transport, integrity representation, and audience |

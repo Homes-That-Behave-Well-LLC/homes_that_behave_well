@@ -48,6 +48,7 @@ Dispositions: **New** · **Keep** · **Revise** · **Supersede** · **Merge** ·
 | `adr-temporal-record-model.md` | Canonical ADR | New |
 | `adr-resident-communication-and-delivery-separation.md` | Canonical ADR | New |
 | `adr-wyoming-compatible-voice-evidence-runtime.md` | Canonical ADR | **New** — Accepted 2026-08-25 as **DL-50** |
+| `adr-governed-historical-retrieval-and-access.md` | Canonical ADR | **New** — Accepted 2026-11-04 as **DL-130** (Issue #81, OD-35) |
 | `adr-product-disposition-and-legacy-adoption.md` | Canonical ADR | **New** — Accepted 2026-08-26 as **DL-51** and **DL-52**. Closes **OD-82**, opens **OD-85**, and amends the non-negotiable constraint in `authority-order.md` |
 | `adr-household-knowledge-provider-governance.md` | Active — subordinate | **New** — Recorded 2026-10-13, pending formal acceptance review at **Issue #188**, as **DL-81**. Architecture-only; no V1 implementation authorized even if later accepted. Raised by the 2026-10 AI, Natural Interaction, and Household Knowledge Architecture Review (#188) |
 | `adr-generated-behavior-authoring-governance.md` | Active — subordinate | **New** — Recorded 2026-10-13, pending formal acceptance review at **Issue #188**, as **DL-83**. Governance lifecycle boundary only; no implementation authorized even if later accepted. Raised by the 2026-10 AI, Natural Interaction, and Household Knowledge Architecture Review (#188) |
@@ -228,6 +229,7 @@ Dispositions: **New** · **Keep** · **Revise** · **Supersede** · **Merge** ·
 | `where-is-tom.md` | Canonical | New |
 | `where-is-maisey.md` | Canonical | New |
 | `where-is-my-phone.md` | Canonical | New |
+| `historical-retrieval-and-access.md` | Canonical | New — added by **DL-130** (Issue #81, OD-35) |
 
 ---
 

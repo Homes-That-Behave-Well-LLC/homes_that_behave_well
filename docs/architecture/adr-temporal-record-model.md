@@ -439,7 +439,7 @@ None is closed by this ADR.
 | **OD-41** | Incident and Case object model |
 | **OD-33** | **Closed — DL-43, DL-46, DL-47.** Retention is declared inside every governed record and artifact lifecycle rather than in a universal matrix |
 | **OD-34** | **Closed — DL-42, DL-44, DL-46, DL-47.** The temporal-persistence model is complete; the representation mechanism is the residual of **OD-01** |
-| **OD-35** | Historical query surface and access |
+| **OD-35** | **Closed — DL-130.** Governed Historical Retrieval and Access — one surface, classified before assembly; nine existing Explainability scopes remain the complete query model; `caretaker-of`/**DL-71** reused unchanged for Subject Authorization |
 | **OD-36** | Reconciliation of deletion and export obligations with retention floors and Preservation Holds |
 | **OD-01** | **Closed — DL-31, DL-92** (accepted 2026-10-27, Issue #76, formal acceptance review PASS). Representation strategy is **DL-31**; the persistence-mechanism residual (Current Projection, Change Record, Snapshot) is **DL-92** — see [adr-governed-record-persistence-mechanism.md](adr-governed-record-persistence-mechanism.md). **Decision Trace's own mechanism is resolved as DL-129 (OD-29, closed)**; Snapshot triggers/cadence/scope remain **OD-37** |
 | **OD-29** | **Closed — DL-129.** Connected Storage is the authoritative durable Decision Trace location, reusing DL-92's mechanism; purge exemption and Governed Reference resolvability are each stated |

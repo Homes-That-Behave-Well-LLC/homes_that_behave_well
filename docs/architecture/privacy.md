@@ -221,7 +221,9 @@ than against who asked.
 - Retention is bounded from both directions: **P27** sets the floor, this document sets the ceiling, and
   a redacted Historical Fact **remains a record that the Fact existed**.
 - Access to movement histories and reconstructions is governed by Operational Trust and **must not be
-  reachable through generic Room Help or a general-question capability** (**DL-35**, **OD-35**).
+  reachable through generic Room Help or a general-question capability** (**DL-35**, resolved as
+  **DL-130** — see [operational-trust.md](../models/operational-trust.md) "Historical Retrieval and
+  Access authorization" and [explainability.md](explainability.md) "Historical Retrieval and Access").
 
 ### Visibility of Stewardship information
 

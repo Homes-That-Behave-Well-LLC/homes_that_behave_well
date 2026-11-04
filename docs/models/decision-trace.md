@@ -498,7 +498,9 @@ history.
 
 Decision Traces participate in Historical Explainability retrieval by decision, time range, incident
 retrieval scope, Room, Merged Room, Asset, Person, and correlation or causation chain. The query
-surface is open decision **OD-35**.
+surface, authorization sequence, and gap model are resolved as **DL-130** (**OD-35**) — see
+[../architecture/explainability.md](../architecture/explainability.md) "Historical Retrieval and
+Access."
 
 ### Preservation and transitive integrity
 
@@ -781,7 +783,7 @@ This model *is* the explainability requirement. Every other canonical document r
 | OD-21 | **Closed — DL-75.** An obligation's referenced Significance Declaration (Derivation Source, Base Significance, Provenance, Effective Version) is referenced by its **Effective Version at the time of the decision** (**P30**), never copied, so a past explanation reports the declaration that was in force then, even after the household later changes it |
 | OD-29 | **Closed — DL-129.** Connected Storage is the authoritative durable location, reusing DL-92's mechanism; durable capture is a DL-41 Connected-Storage dependency that never stops the underlying governed action; write-time assembly, Room-normalized multi-Room persistence with DL-104 correlation, diagnostic fallback, and storage-outage/recovery coverage-gap semantics are each stated |
 | OD-30 | Which surfaces expose Decision Traces, and to whom |
-| OD-35 | Historical query surface and access |
+| OD-35 | **Closed — DL-130.** Assist/Conversation is the sole historical-retrieval surface, classified before assembly into ordinary retrieval versus Person/actor reconstruction; the nine existing Explainability scopes remain the complete query model; a trace records which Category-7 branch applied (a retained Decision Trace versus a diagnostic reconstruction) and which query dimensions/evidence classes were consulted |
 | OD-38 | Version identity, correlation, and causation identifier strategy |
 | OD-39 | Preservation Hold authority, duration, review, release, and conflict with deletion |
 | OD-44 | **Closed — DL-95.** A trace records, where applicable: the Communication's lifecycle state transition (Created, Suppressed, Acknowledged, Expired, Superseded, Resolved by origin, Undeliverable), each Delivery Attempt and its outcome (Attempted, Delivered, Presented, Failed), the Presentation Outcome evidence (**DL-54**), and the governing decision behind any Suppressed or Undeliverable non-action |

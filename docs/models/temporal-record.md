@@ -893,7 +893,9 @@ Access to actor reconstructions and movement histories is governed by **Operatio
 are among the most sensitive projections the home can produce, and they must not be reachable through
 generic Room Help or a general-question capability. Retention follows the existing classification
 rules, and **indefinite retention of unknown-person observation is not a default** (**DL-47**,
-**OD-35**).
+**DL-130**). Access and retrieval are governed by Operational Trust per **DL-130** (resolved **OD-35**)
+— see [../architecture/explainability.md](../architecture/explainability.md) "Historical Retrieval
+and Access."
 
 ---
 
@@ -1106,7 +1108,7 @@ recorded the wrong thing.
 | ID | Question |
 |---|---|
 | OD-01 | **Closed — DL-31, DL-92.** Home Assistant representation strategy is **DL-31**; the persistence-mechanism residual (Current Projection, Change Record, Snapshot) is **DL-92** — Storage helper default, Connected Storage optional via the **DL-42** External History Retention extension for Change Records only. Accepted 2026-10-27, Issue #76, formal acceptance review PASS. See [adr-governed-record-persistence-mechanism.md](../architecture/adr-governed-record-persistence-mechanism.md). **Decision Trace's own mechanism is resolved as DL-129 (OD-29, closed)**; Snapshot triggers/cadence/scope remain **OD-37** |
-| OD-35 | Historical query surface and access |
+| OD-35 | **Closed — DL-130.** Governed Historical Retrieval and Access — one surface (Assist/Conversation), classified before assembly; the nine existing Explainability scopes remain the complete query model; `caretaker-of` (**DL-49**) and **DL-71**'s Intended Audience Specification forms are reused unchanged for Subject Authorization |
 | OD-36 | Reconciliation of deletion and export obligations with retention floors and Preservation Holds |
 | OD-37 | Snapshot triggers, cadence, and scope per responsibility |
 | OD-38 | Version identity, correlation, and causation identifier strategy, including evaluation of Home Assistant Context IDs |

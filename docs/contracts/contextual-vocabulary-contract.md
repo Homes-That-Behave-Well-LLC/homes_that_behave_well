@@ -199,7 +199,7 @@ Explanation records the form heard and the authoritative term it resolved to. Ro
 | OD-02 | **Closed — DL-43, DL-44, DL-45.** Vocabulary definitions are located through a governed artifact reference; encoding remains capability-specific |
 | OD-13 | **Closed — DL-70.** Home-scope inheritance and Room/Merged-Room shadowing are accepted; Vocabulary and Fulfillment are distinguished; Person Vocabulary stays restricted to Person-owned capabilities; collision behaviour is stated; Floor participation stays deferred to **OD-10** |
 | OD-14 | **Resolved.** Native aliases are an input — a seed — and never an authority |
-| OD-62 | **Closed — DL-69.** Vocabulary is first-class; command resolution, cardinality, and safe native fallback are accepted; historical reconstruction remains **OD-35**'s |
+| OD-62 | **Closed — DL-69.** Vocabulary is first-class; command resolution, cardinality, and safe native fallback are accepted; historical reconstruction remains excluded from generic conversational retrieval, now fully resolved by **OD-35** as **DL-130** |
 | OD-86 | **What the home owes the household when a term is changed, retargeted, or withdrawn.** Raised 2026-08-27. **Consumers must not assume any transitional alias, deprecation window, or grace period**, because none is guaranteed and none has been decided. See [../models/contextual-vocabulary.md](../models/contextual-vocabulary.md) |
 
 ## Related documents
