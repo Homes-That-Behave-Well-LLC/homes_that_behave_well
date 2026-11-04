@@ -441,8 +441,8 @@ None is closed by this ADR.
 | **OD-34** | **Closed — DL-42, DL-44, DL-46, DL-47.** The temporal-persistence model is complete; the representation mechanism is the residual of **OD-01** |
 | **OD-35** | Historical query surface and access |
 | **OD-36** | Reconciliation of deletion and export obligations with retention floors and Preservation Holds |
-| **OD-01** | **Closed — DL-31, DL-92** (accepted 2026-10-27, Issue #76, formal acceptance review PASS). Representation strategy is **DL-31**; the persistence-mechanism residual (Current Projection, Change Record, Snapshot) is **DL-92** — see [adr-governed-record-persistence-mechanism.md](adr-governed-record-persistence-mechanism.md). Decision Trace's own mechanism remains **OD-29**; Snapshot triggers/cadence/scope remain **OD-37** |
-| **OD-29** *(amended)* | Now includes purge exemption and Governed Reference resolvability |
+| **OD-01** | **Closed — DL-31, DL-92** (accepted 2026-10-27, Issue #76, formal acceptance review PASS). Representation strategy is **DL-31**; the persistence-mechanism residual (Current Projection, Change Record, Snapshot) is **DL-92** — see [adr-governed-record-persistence-mechanism.md](adr-governed-record-persistence-mechanism.md). **Decision Trace's own mechanism is resolved as DL-129 (OD-29, closed)**; Snapshot triggers/cadence/scope remain **OD-37** |
+| **OD-29** | **Closed — DL-129.** Connected Storage is the authoritative durable Decision Trace location, reusing DL-92's mechanism; purge exemption and Governed Reference resolvability are each stated |
 
 ### On OD-41
 

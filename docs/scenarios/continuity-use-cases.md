@@ -920,7 +920,7 @@ This is the distinction the narration needs and the repository had not stated in
 | **External source reference** | A **Governed Reference**; the source keeps the content | Broken references are reported, never silently hidden |
 | **Source-owned content** — calendar entries, mail, playback position | **The provider** | HTBW *persists no second copy merely to explain later* (**DL-46**) |
 | **Derived recommendation** | Nobody owns it as truth. *A reasoning provider owns nothing* | Retained as the consultation record and the decision that accepted it |
-| **Retained explanation artifact** — the Decision Trace | **Concierge** | External History Retention, unless a floor or Preservation Hold applies (**DL-47**, **OD-05**, **OD-29**) |
+| **Retained explanation artifact** — the Decision Trace | **Concierge** | External History Retention, unless a floor or Preservation Hold applies (**DL-47**, **DL-129** — Connected Storage authoritative location/mechanism resolved; **OD-05** retains the numeric floor/ceiling values) |
 
 ## Why Continuity cannot become a data lake
 

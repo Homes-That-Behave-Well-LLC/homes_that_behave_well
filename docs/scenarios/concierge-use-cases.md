@@ -725,7 +725,7 @@ anyone else.
 | **Privacy** | An explanation is itself a disclosure and is audience-evaluated |
 | **Maturity** | **B — Architecturally supported** |
 | **Related decisions** | **DL-15**, **DL-27**, **DL-46**; [../models/decision-trace.md](../models/decision-trace.md); concierge-contract §13 |
-| **Open decisions** | **OD-29** (#79) trace persistence, **OD-30** (#80) trace visibility |
+| **Open decisions** | **OD-29 resolved — DL-129** (#79) trace persistence, **OD-30** (#80) trace visibility |
 
 **The contract already requires the exact sentence shape this use case asks for.** What is open is
 *where traces live* and *who may see them* — not whether they exist.

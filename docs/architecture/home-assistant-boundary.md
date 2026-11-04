@@ -661,7 +661,7 @@ These object kinds are **not** interchangeable. Treating them as the same object
 | Obligation | Calendar event or `todo` item (partially), stage-sensitive per **DL-117** | An obligation has accountability, lifecycle, and escalation semantics beyond a calendar entry; `todo` projects the current actionable unit, Calendar only an actual scheduled occurrence, never a due date alone. |
 | Session | None | Media player state is evidence about a session, not the session. |
 | Policy | None | Automations encode behavior; they do not express governed authority. |
-| Decision Trace | Logbook (partially) | The logbook records what changed, not why a decision was reached or refused. |
+| Decision Trace | Logbook / Activity (partially) | Activity now presents execution causality (what triggered a change, and the automations/scripts passed through — 2026.9, **R1**); it still carries no identity assertion, evidence/provenance, governance context, Operational Trust evaluation, alternatives considered, or policy version — the governed meaning a Decision Trace records (**DL-129**). |
 | Historical Fact | Recorder `states` row (partially) | A recorded state is historical **evidence**. A Historical Fact is a governed conclusion carrying confidence at the time, provenance, coverage, validity, and lifecycle. |
 | Change Record | Recorder `states` row with `old_state_id` (partially) | Home Assistant links prior state per entity. A Change Record spans non-entity subjects, names an owning responsibility, carries privacy and retention classification, and survives purge policy independently. |
 | Domain Event | Bus event | A bus event is a platform occurrence. A Domain Event is a governed household occurrence with an owner and provenance. |
@@ -1135,7 +1135,7 @@ thing**; this one says **how each is referenced, extended, and projected**.
 | HTBW Config Entry | Config Entry | The entry and its data | HTBW's own configuration | Foundation | HTBW configuration | Not applicable | — | — |
 | Referenced provider or integration configuration | Another integration's Config Entry, conversation agent, or Assist pipeline | Credentials, endpoints, model and connection configuration | **Selects or references** the already-configured capability | The responsibility governing its use | Allowed use, disclosure constraints, authority constraints, orchestration policy | Not applicable | Credentials, endpoints, model configuration, connection information | **OD-67** — closed as **DL-93** (#132, accepted); this representation mechanism confirmed |
 | Communication | None equivalent | Not applicable | Governed HTBW record | Foundation defines; Concierge decides delivery | The full Communication model | Delivery surfaces; Household Inbox as a projection | Treating a notification as the Communication | **OD-42** |
-| Decision Trace | Logbook / Activity (partially) | The native entry, if one is written | Governed HTBW record | Concierge | The full trace | Optional native entry as a projection | Treating a native entry as the trace | **OD-29** |
+| Decision Trace | Logbook / Activity (partially) | The native entry, if one is written | Governed HTBW record | Concierge | The full trace | Optional native entry as a projection | Treating a native entry as the trace | **DL-129** |
 | Temporal Record | Recorder rows (partially) | The native rows | Governed HTBW record | The owning responsibility | Change Records, Domain Events, Snapshots, versions | Not applicable | Treating recorder history as governed history | **OD-01** residual |
 | Stewardship Obligation | Calendar or `todo` (partially) | The projected item | Governed HTBW record | Stewardship | Significance, accountability, state, escalation intent | Calendar or `todo` item | Treating list completion as fulfilment | **OD-23** |
 | Continuity Preference | None | Not applicable | Governed HTBW record | Continuity | Person-scoped and room-scoped preferences | Not applicable | Treating media-player state as the preference | — |
@@ -1270,7 +1270,7 @@ These, and only these, justify an HTBW temporal extension:
 | No field-level historical redaction | Attribute exclusion is permanent and class-level, and cannot redact a recorded row |
 | No Tombstone distinction | Removal and absence become indistinguishable |
 | No per-record retention classification | Floors and ceilings cannot coexist per record class |
-| No durable structured Decision Trace | Activity records what changed, not why |
+| No durable structured Decision Trace | Activity records execution causality (2026.9, **R1**), not decision explainability — the governed meaning OD-29/**DL-129** assigns to the Decision Trace |
 | No Preservation Hold semantics | Holds have no native representation |
 
 ### Purged native records
@@ -1410,7 +1410,7 @@ review. It records what was evaluated, what remains, and which decision each fin
 | Repairs issue registry, `severity`, `is_fixable`, `is_persistent`, `learn_more_url`, ignore semantics, `RepairsFlow` | Repairs platform documentation | Defect definition only | Ignoring identifies nobody; severity is developer-facing | **DL-65** |
 | To-do entities, with `item_added`, `item_completed`, `item_removed` triggers and completion conditions | To-do list integration | Obligation, significance, accountability, escalation | Completion is a list state, not proof that care occurred | **OD-23** |
 | Recorder, `purge_keep_days`, `recorder.purge_entities`, include and exclude filters | Recorder integration | Governed retention, holds, tombstones | Purge is global or entity-scoped; there is no per-record exemption | **DL-47**, **OD-01**, **OD-39** |
-| Activity, and `logbook.log` custom entries | Activity integration | Decision Trace | Activity records what changed, never why | **OD-29** |
+| Activity, and `logbook.log` custom entries | Activity integration | Decision Trace | Activity now records execution causality (2026.9, **R1**), never full decision explainability (identity, evidence, governance context, alternatives, policy version) | **DL-129** |
 | History panel export and the history REST endpoint | History integration | Governed export scope | Export is entity-scoped and ungoverned | **OD-09**, **OD-35** |
 | Backup, automatic backup, and backup result reporting | Backup integration | Nothing for platform-resident state | Connected storage is outside backup scope unless deliberately placed within it | **OD-09**, **OD-36** |
 | Tag scan events carrying `tag_id`, `name`, and `device_id` | Tags integration | Confidence banding and evidence fusion | A tag identifies an object and a scanner, never a person | **OD-16** |

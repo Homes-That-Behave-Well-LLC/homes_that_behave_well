@@ -404,7 +404,7 @@ See [../models/decision-trace.md](../models/decision-trace.md) and
 | ID | Question |
 |---|---|
 | OD-04 | **Closed — DL-126.** Policy precedence is four operations (Candidate Value/Preference Resolution, Authority/Policy Ceiling Evaluation, Current Explicit Request, Competing-Communication Ordering); most-restrictive combination across scopes is precise (`prohibited` > `undecidable` > cumulative confirmation/escalation > `permitted`); Mode/capability/operation are condition dimensions, never scopes. Execution sequencing among decomposed items (§7, above) remains a distinct, open residual, not discharged by this closure |
-| OD-29 | Where Decision Traces are persisted |
+| OD-29 | **Closed — DL-129.** Connected Storage is the authoritative durable Decision Trace location (reusing DL-92's mechanism); durable capture is a DL-41 dependency that never stops the underlying governed action; write-time assembly, Room-normalized persistence, diagnostic fallback, and storage-outage/recovery semantics are each stated |
 | OD-30 | Which surfaces expose Decision Traces, and to whom |
 | OD-43 | **Closed — DL-53.** Delivery Surface capability model, including perceptibility and attestation |
 | OD-44 | **Closed — DL-95.** Delivery outcome semantics across the two levels — Communication lifecycle and Delivery Attempt outcome, consuming DL-54 and DL-94 unchanged |

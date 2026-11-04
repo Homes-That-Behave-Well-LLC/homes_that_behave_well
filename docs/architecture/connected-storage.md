@@ -739,11 +739,12 @@ settled by **DL-42**, **DL-44**, **DL-46**, and **DL-47**; **OD-34 is closed**. 
 **representation mechanism** for Current Projections, Change Records, and Snapshots (including
 Historical Facts, which Truth expresses through those same three record kinds) was the residual of
 **OD-01**, resolved as **DL-92** (accepted 2026-10-27, Issue #76, formal acceptance review PASS; **OD-01
-is closed**). **Decision Trace's own representation mechanism is a separate residual, owned by OD-29
-(#79)**, whose stated options include the Home Assistant Logbook, Connected Storage, or both —
-OD-01/DL-92 did not decide it and does not foreclose it. The identifier strategy is **OD-38**. Neither
-OD-29 nor OD-38 is resolved here. Communication object persistence is **OD-42**, and communication
-retention floors and ceilings are **OD-49**. Neither is resolved here.
+is closed**). **Decision Trace's own representation mechanism — Connected Storage, reusing DL-92's
+Storage-helper-based mechanism as the already-accepted External History Retention extension — is
+resolved as DL-129 (accepted 2026-11-04, Issue #79, formal acceptance review PASS; OD-29 is closed)**,
+consuming DL-92 unchanged. The identifier strategy is **DL-104** (**OD-38**, closed). Communication
+object persistence is **OD-42**, and communication retention floors and ceilings are **OD-49**. Neither
+is resolved here.
 
 **Update (2026-10-06, Issue #146 verification pass).** The `Store` helper mechanism itself is now
 **partially verified against `home-assistant/core` source** — see

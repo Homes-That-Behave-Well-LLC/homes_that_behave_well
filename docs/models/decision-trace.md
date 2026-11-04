@@ -42,9 +42,12 @@ A Decision Trace must be able to record:
 15. Conflicts detected
 16. Resolution applied
 17. Action taken
-18. Action suppressed
-19. Reason for suppression
-20. Alternative considered
+18. **Observed outcome (resolved — DL-129)** — distinct from Action taken; `unknown` is a first-class
+    value. A command successfully issued is never treated as proof its physical effect occurred, and
+    is never rendered as failure absent platform evidence of one
+19. Action suppressed
+20. Reason for suppression
+21. Alternative considered
 
 A trace is produced for **actions, non-actions, and suppressions alike**.
 
@@ -52,7 +55,7 @@ A trace is produced for **actions, non-actions, and suppressions alike**.
 
 ## Trace identity (DL-104)
 
-Every Decision Trace carries its own immutable **Trace ID**, distinct from the 20 content fields
+Every Decision Trace carries its own immutable **Trace ID**, distinct from the 21 content fields
 above. A Decision Trace is never revised in place — it is produced once, for one evaluation — so its
 identity and its "version" collapse into this one opaque value; no separate Subject Type/Subject ID/
 Version Identity triple is created for it. The worked `decision_id` values shown in this document's
@@ -79,7 +82,7 @@ Correlation, and Causation (DL-104)" for the full model.
 | 9 obligations | Stewardship |
 | 10–11 preferences and continuity intent | Continuity |
 | 12–14 policies, restrictions, autonomy level | Operational Trust |
-| 15–20 conflicts, resolution, action, suppression, reason, alternative | Concierge — **a household-facing decision conflict** (for example two sessions meeting in one Room), distinct from and never conflated with a Truth-level evidence conflict (**DL-63**), which is recorded in fields 7–8 as part of the Fact itself |
+| 15–21 conflicts, resolution, action, observed outcome, suppression, reason, alternative | Concierge — **a household-facing decision conflict** (for example two sessions meeting in one Room), distinct from and never conflated with a Truth-level evidence conflict (**DL-63**), which is recorded in fields 7–8 as part of the Fact itself. **Observed outcome (field 18, resolved — DL-129) is composed from execution/Truth evidence where available; `unknown` is recorded where the platform supplies no confirming evidence, never inferred from successful command issuance** |
 
 Concierge composes the trace. **Concierge does not author fields it does not own.**
 
@@ -170,10 +173,34 @@ vocabulary_resolution:
   resolved_targets: [kitchen_ceiling, kitchen_under_cabinet]
   mapping_source: room_configuration
 action_taken: light.turn_on(kitchen lights)
+observed_outcome: confirmed_on
 ```
 
 > "I turned on the Kitchen lights because you asked the Kitchen assistant, and *Lights* is configured
 > there as the ceiling and under-cabinet lights."
+
+#### Worked example — action issued, outcome unknown (resolved — DL-129)
+
+```yaml
+decision_id: 2026-08-16T19:03:12Z/den/cover.close
+requested: "close the Den shades"
+facts_consulted:
+  - statement: den.illuminance = 735 lux
+    truth_confidence_band: High
+policies_evaluated:
+  - den.shade_policy: close_above_threshold(800)
+action_taken: cover.close(den_shades)
+observed_outcome: unknown
+observed_outcome_reason: no_confirming_state_change_reported
+```
+
+> "I told the Den shades to close. I can't confirm they actually moved — the platform reported the
+> command as sent, but no state change came back."
+
+**A successfully issued command is never, by itself, evidence that its physical effect occurred.**
+`observed_outcome` is rendered `unknown` unless the platform itself supplied confirming or
+disconfirming evidence — never defaulted to success, and never defaulted to failure absent a
+platform-reported error.
 
 #### Worked example — Room Context unresolved
 
@@ -625,6 +652,51 @@ See [communication.md](communication.md).
 
 ---
 
+## Persistence (resolved — DL-129)
+
+**Authoritative location.** The Decision Trace is persisted durably in Connected Storage, reusing
+**DL-92**'s already-accepted Storage-helper-based persistence mechanism as the already-accepted
+External History Retention (**DL-42**) extension — never a competing mechanism. Native Home Assistant
+Activity is never the authoritative trace; it may supply supporting execution-causality evidence for
+an action with a corresponding native state change, consumed by Governed Reference, never manufactured
+for a non-action/suppression/evaluation-only trace. Durable capture is therefore a Connected-Storage
+capability dependency (**DL-41**): where Connected Storage is unavailable, durable persistence
+degrades, but **the underlying governed action, non-action, suppression, or refusal proceeds
+according to its own governance regardless** — Explainability capture is never a precondition for
+ordinary Home operation.
+
+**Write-time assembly.** A Decision Trace is composed when the governed evaluation occurs, consuming
+each contributing responsibility's own already-accepted record via Governed Reference, exact-version
+pinned (**DL-104**). Retrieval later retrieves this already-assembled trace; it does not normally
+rediscover Room architecture or reconstruct the decision from surviving native evidence. Where no
+trace was retained (never configured, expired, lost to an outage, or not an HTBW-governed evaluation),
+HTBW may assemble a **diagnostic explanation** at query time from currently available evidence — this
+is explicitly distinguished from, and never presented as, the missing contemporaneous trace; where
+durable storage is available at that moment, the diagnostic interaction may itself be persisted as an
+ordinary new record of a *current* activity, never backdated into the original.
+
+**Room normalization.** A multi-Room command ("turn off all downstairs lights") produces one
+Decision Trace per participating Room, each scoped to that Room's own targets/evaluation/outcome and
+governed by that Room's own configured Explainability retention — never a Floor- or House-owned
+trace, by direct analogy to **DL-125**/**DL-127**. Every Room-normalized trace from one originating
+command carries the same correlation/causation identifier (**DL-104**); a later cross-Room query
+aggregates the authoritative Room traces that still exist, never fabricates a missing Room's outcome,
+and states incompleteness honestly where Rooms carry different configured retention.
+
+**Storage outage and recovery.** A Connected-Storage outage never stops the underlying governed
+action. On recovery, Explainability creates a durable coverage-gap record using only the temporal
+precision the evidence supports — never an invented exact boundary, and never a fabricated trace for
+the gap interval. A later question about that interval is answered honestly, with the clause-10
+diagnostic fallback available from surviving evidence. External-storage availability is one shared
+capability-dependency condition (**DL-41**) — Truth may hold a Fact about it and Repairs may surface
+it, never reimplemented per responsibility, and Explainability's high write frequency may make it the
+first to detect an outage without becoming its architectural owner.
+
+See [../architecture/explainability.md](../architecture/explainability.md) and
+[../architecture/connected-storage.md](../architecture/connected-storage.md) for the full model.
+
+---
+
 ## Quality rules
 
 1. Explanations use **household vocabulary**, not entity IDs or internal service names.
@@ -707,7 +779,7 @@ This model *is* the explainability requirement. Every other canonical document r
 |---|---|
 | OD-05 | Decision Trace retention floor and ceiling |
 | OD-21 | **Closed — DL-75.** An obligation's referenced Significance Declaration (Derivation Source, Base Significance, Provenance, Effective Version) is referenced by its **Effective Version at the time of the decision** (**P30**), never copied, so a past explanation reports the declaration that was in force then, even after the household later changes it |
-| OD-29 | Where Decision Traces are persisted — Home Assistant logbook, connected storage, or both, including purge exemption and Governed Reference resolvability |
+| OD-29 | **Closed — DL-129.** Connected Storage is the authoritative durable location, reusing DL-92's mechanism; durable capture is a DL-41 Connected-Storage dependency that never stops the underlying governed action; write-time assembly, Room-normalized multi-Room persistence with DL-104 correlation, diagnostic fallback, and storage-outage/recovery coverage-gap semantics are each stated |
 | OD-30 | Which surfaces expose Decision Traces, and to whom |
 | OD-35 | Historical query surface and access |
 | OD-38 | Version identity, correlation, and causation identifier strategy |
