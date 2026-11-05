@@ -1961,6 +1961,42 @@ claims deletion.
 Whether a hold may override an authorised deletion request, and reconciliation of deletion and export
 obligations with retention floors and holds, is **resolved as DL-133 (OD-36), above.**
 
+### Evidence Package authority (DL-135)
+
+**Accepted 2026-11-05 (Issue #86, formal acceptance review PASS).** Resolves **OD-40** in full. Full
+decision: [../architecture/adr-evidence-package-governance.md](../architecture/adr-evidence-package-governance.md).
+
+An Evidence Package begins as an on-demand projection; it becomes durable **Managed Content**
+(**DL-44**) only through an explicit, separately authorized materialization request. **Assembly,
+materialization, recipient authorization, and transport are four distinct governed operations**,
+reusing this model's existing Action-Risk Classes and the **DL-71**/**DL-109** configured-authority
+mechanism — no parallel role model is invented:
+
+- **Assembly** (constructing/viewing a projection, no durable artifact) is **Disclosure**-class at the
+  existing default (Moderate / Verbal).
+- **Materialization** (creating durable Managed Content) is **Disclosure**-class with a **capability-
+  specific override** to **Authenticated** confirmation — reusing this model's own already-accepted
+  Capability-Default → HTBW-Default → Household-Override tiering, not a new risk class: a materialized
+  artifact outlives the moment of disclosure and is retrievable later without re-asking, justifying the
+  stronger confirmation tier within the same class.
+- **External recipient/export** (the package leaves HTBW governance) is **Governance**-class (Very
+  High / Strong) — matching this class's own test most precisely (an evidentiary-adjacent artifact
+  permanently leaving governed control), mirroring **DL-132**'s treatment of Hold placement/release.
+
+**Materialization creates no new disclosure authority.** Information not otherwise disclosable to a
+recipient does not become disclosable merely because it was placed in a package; recipient-aware
+inclusion precedes materialization/export for external recipients rather than assembling a full
+household package and relying on a recipient not to view protected portions. **Preservation Hold
+authority never implies package authority**, and materializing a package never automatically places a
+Hold on its sources. **DL-133** restricted-use status on an included source survives materialization
+unchanged. **Media visibility and storage reachability remain non-authorization** (**DL-44**,
+unchanged); anonymous public/"share with anyone with a link" transport is never generated absent an
+independently accepted equivalent control.
+
+**Governing Parent and lifecycle** are Foundation's and the owning responsibility's, not Operational
+Trust's: see `temporal-record.md`'s *Evidence Package* section and
+[adr-evidence-package-governance.md](../architecture/adr-evidence-package-governance.md).
+
 ### Historical visibility
 
 Visibility policy applies to historical records exactly as it applies to current ones. Presence
@@ -1995,7 +2031,7 @@ architectural terms. They are not claims of legal effect.** See
 | OD-35 | **Closed — DL-130.** Assist/Conversation is the sole historical-retrieval surface, classified before assembly into ordinary retrieval versus Person/actor reconstruction; the nine existing Explainability scopes remain the complete query model; `caretaker-of` (**DL-49**) and **DL-71**'s five Intended Audience Specification forms are reused unchanged for Subject Authorization; current-location and historical-movement access are two independently configurable Disclosure-Risk-Class capabilities, never one setting; refusal and gap semantics reuse existing vocabulary throughout |
 | OD-36 | **Closed — DL-133.** Reconciliation of deletion and export obligations with retention floors and Preservation Holds |
 | OD-39 | **Closed — DL-132.** Preservation Hold authority, duration, review, release, scope, disclosure, and enforcement. Conflict with deletion remains OD-36 |
-| OD-40 | Evidence Package assembly, transport, integrity representation, and audience |
+| OD-40 | **Closed — DL-135.** Evidence Package assembly, transport, integrity representation, and audience |
 | OD-45 | **Resolved as DL-96.** Acknowledgement is an explicit, Communication-specific responsive act by an identified, in-audience Person; attribution reuses this document's existing Required Identity Band machinery (**DL-36**, **DL-39**) unchanged, no new scale; unacknowledged delivery remains `unknown`, never failure |
 | OD-46 | **Resolved as DL-77.** Urgency is a fixed, cumulative four-level entitlement ladder, formally independent of Action-Risk Classification (**DL-76**), never overriding audience, privacy, consent, disclosure, identity, authority, or precedence (**OD-04**) |
 | OD-66 | **Resolved as DL-118.** Delegation Boundary for External Adaptive Behaviour — External Decision Authority is a new autonomy-model scope, not a new policy type; declaration is explicit only, never inferred; Type-2 (unmediated) delegation is constitutionally capped at Convenience/Disclosure Risk Classes; the delegated act is a Domain Event (**DL-73**), never its own Decision Trace |

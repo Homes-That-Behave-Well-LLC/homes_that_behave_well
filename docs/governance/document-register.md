@@ -64,6 +64,7 @@ Dispositions: **New** · **Keep** · **Revise** · **Supersede** · **Merge** ·
 | `adr-preservation-hold-governance.md` | Canonical ADR | **New, Accepted 2026-11-05** as **DL-132** (Issue #85, formal acceptance review PASS). Resolves **OD-39** in full except deletion-versus-preservation precedence, explicitly deferred to **OD-36**: placement/review/release authority (**DL-71**, **DL-109**), Governance-class identity/confirmation (**DL-76**), scope, no invented numeric duration default (restating **DL-97**), missed-review fail-safe behaviour, release-does-not-erase-history, hold-existence-as-governed-information, storage-boundary enforcement, and the honest native-HA-Recorder limitation. Raised by the Preservation Hold Governance review (#85, closed) |
 | `adr-deletion-versus-preservation-reconciliation.md` | Canonical ADR | **New, Accepted 2026-11-05** as **DL-133** (Issue #82, formal acceptance review PASS). Resolves **OD-36** in full: a deletion/preservation collision becomes a governed conflict (no blind universal winner); a fourth, independently configured Conflict-Resolution Authority (**DL-71**, **DL-109**, **DL-76**); lowest-practical-granularity resolution; a required minimization sequence (generalising **DL-56**); restricted use of conflict-preserved payload (restating **DL-93**); pending-deletion reuse of **DL-45**; a late-Hold anti-abuse rule; honest Tombstone and native-HA-Recorder-limitation behaviour; **DL-110**'s adoption governing-parent resolution consumed unchanged. Raised by the Deletion Versus Preservation Reconciliation review (#82, closed) |
 | `adr-incident-and-case-object-model.md` | Canonical ADR | **New, Accepted 2026-11-05** as **DL-134** (Issue #87, formal acceptance review PASS). Resolves **OD-41** in full: an Incident is a bounded, governed event scope, never a persisted object, Case, artifact, **DL-45** Governing Parent, durable actor profile, or store; no owning responsibility; constructed, never created, when a governed operation requires a bounded event context; no lifecycle; no **DL-47** retention of its own; shared scope reused across Historical Reconstruction/Preservation Hold/Evidence Package without a shared container; **DL-35** Unknown Actor Reference boundary fully preserved; Episode 9's next-evidence guidance resolved without a new Evidence responsibility. Raised by the Incident and Case Object Model review (#87, closed) |
+| `adr-evidence-package-governance.md` | Canonical ADR | **New, Accepted 2026-11-05** as **DL-135** (Issue #86, formal acceptance review PASS). Resolves **OD-40** in full: projection-by-default, materialization requires an explicit separately-authorized request (never automatic); Evidence Package distinguished from **OD-09** comprehensive export; curated/bounded content with honest gap/withheld/redaction markers (reusing **DL-134**'s next-evidence states); Governing Parent via **DL-105**'s anchor-ownership rule (Home fallback), never the Incident (**DL-134**); restricted-use survival from **DL-133**; Integrity Manifest explicitly not forensic/legal/chain-of-custody sufficient; authority mapped onto existing **DL-76** Action-Risk Classes (Assembly=Disclosure, Materialization=Disclosure/Authenticated-override, External export=Governance) via the already-accepted Capability-Default → HTBW-Default → Household-Override tiering; Connected Storage/native-HA-Recorder limits restated unchanged. Raised by the Evidence Package Governance review (#86, closed) |
 
 ---
 
@@ -493,18 +494,28 @@ ADR** from creation (+1 to new canonical documents, +1 to Canonical total, +1 to
 place, adding the *Incident scope* section/term and resolving the Episode 9 category-15/17 mapping;
 `open-decision-issue-index.md` is updated; none is reclassified.
 
+**Updated 2026-11-05 (continued), Issue #86 formal acceptance review PASS (Evidence Package
+Governance, DL-135)**: one new document, `adr-evidence-package-governance.md`, is added as **Canonical
+ADR** from creation (+1 to new canonical documents, +1 to Canonical total, +1 to Total classified).
+`temporal-record.md`, `operational-trust.md`, `privacy.md`, `connected-storage.md`, and
+`decision-trace.md` (all already Canonical) are revised in place, replacing the Evidence Package
+section/rows with the full DL-135 resolution and resolving remaining bare `**OD-40**` cross-references
+to `**DL-135**`; `connected-storage.md` additionally resolves stray stale `**OD-39**`/`**OD-36**`
+cross-references (already resolved as **DL-132**/**DL-133**) found in the same pass;
+`open-decision-issue-index.md` is updated; none is reclassified.
+
 | Category | Count |
 |---|---|
-| New canonical documents | 66 |
+| New canonical documents | 67 |
 | Revised in place | 2 (`README.md`, `concierge-contract.md`) |
-| **Canonical total** (66 new + 2 revised) | **68** |
+| **Canonical total** (67 new + 2 revised) | **69** |
 | Marked Active — subordinate | 23 |
 | Marked Historical — superseded | 83 |
 | Marked Historical illustration (`examples/`) | 16 |
 | Marked Historical — planning/closure record | 2 |
 | **Historical total** | **101** |
 | Operational | 8 |
-| **Total classified** | **200** |
+| **Total classified** | **201** |
 | **Unclassified** | **0** |
 | **Deleted** | **0** |
 

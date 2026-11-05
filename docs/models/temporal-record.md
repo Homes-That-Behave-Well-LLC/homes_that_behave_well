@@ -1032,6 +1032,10 @@ according to their canonical owners.
 
 ## Evidence Package
 
+**Accepted 2026-11-05 (DL-135, Issue #86, formal acceptance review PASS).** Resolves **OD-40** in
+full. Full decision:
+[../architecture/adr-evidence-package-governance.md](../architecture/adr-evidence-package-governance.md).
+
 An Evidence Package is a **projection over governed records**, produced on demand.
 
 It may assemble records by date and time range, incident retrieval scope, Room, Merged Room, Asset,
@@ -1061,7 +1065,39 @@ An Evidence Package:
   advance
 - **Must never claim completeness when gaps exist**
 
-Assembly, transport, integrity representation, and permitted audience are **OD-40**.
+**Projection by default, materialization by explicit request.** Assembly produces a transient
+projection only; a durable artifact exists only after an explicit, separately authorized
+materialization request. Neither Historical Retrieval, an Incident scope (**DL-134**), a Preservation
+Hold (**DL-132**), nor a deletion/preservation conflict (**DL-133**) automatically creates or
+materializes a package.
+
+**Governing Parent.** A materialized package's Governing Parent is its own declared primary Subject
+anchor — the single governed, Foundation-owned Identity Subject (**DL-84**: Room/Merged Room, Asset,
+Person, or Pet) the package's boundary is centered on, reusing **DL-105**'s anchor-ownership rule.
+Where the boundary spans multiple Subjects with no single narrower anchor, the Governing Parent is the
+**Home**, exactly as **DL-105** already established for Materialized Household Assessment. **Incident
+is never the Governing Parent** (**DL-134**, unchanged). Parent Removal Behavior: deleted when the
+Governing Parent is removed, unless an overriding retention rule or an active Preservation Hold
+applies (**DL-45**, unchanged).
+
+**Lifecycle.** A materialized package is **Managed Content** (**DL-44**) with its own **DL-43**/
+**DL-47** retention — never automatically the longest/shortest constituent, Incident, or Hold
+duration; exact numeric values remain **OD-05**/**OD-26**/**OD-49**'s. Each materialization is a
+one-shot immutable artifact under **DL-104**'s Object+Version shape; a later regeneration over the same
+scope is a new artifact, never a silent supersession. **DL-133** restricted-use status on an included
+source survives materialization; materialization is never a retention or disclosure loophole.
+
+**Authority.** Assembly, materialization, recipient authorization, and transport are four distinct
+governed operations (**DL-76**/**DL-71**/**DL-109**): Assembly is Disclosure-class at the existing
+default; materialization is Disclosure-class with a capability-specific override to Authenticated
+confirmation; external recipient/export is Governance-class (Very High/Strong). Preservation Hold
+authority never implies package authority, and materialization never automatically places a Hold.
+
+**Integrity and disclosure.** A logical Package Integrity Manifest (IDs, timestamps, provenance,
+digests where applicable) is explicitly never described as forensic, legal, or chain-of-custody
+sufficient. Every package states its own generation-time status, gaps, and non-forensic/non-legal
+nature. Externally owned video/media remains referenced, never copied; an included Unknown Actor
+Reference remains package-scoped and never becomes reusable (**DL-35**, unchanged).
 
 ---
 
@@ -1212,7 +1248,7 @@ recorded the wrong thing.
 | OD-37 | Snapshot triggers, cadence, and scope per responsibility |
 | OD-38 | Version identity, correlation, and causation identifier strategy, including evaluation of Home Assistant Context IDs |
 | OD-39 | **Closed — DL-132.** Preservation Hold authority, duration, review, release, scope, disclosure, and enforcement. Conflict with deletion remains OD-36 |
-| OD-40 | Evidence Package assembly, transport, integrity representation, and audience |
+| OD-40 | **Closed — DL-135.** Evidence Package assembly, transport, integrity representation, and audience — see *Evidence Package*, above |
 | OD-41 | **Closed — DL-134.** Incident and Case object model — scope, not object; see *Incident scope*, above |
 
 ## Related documents

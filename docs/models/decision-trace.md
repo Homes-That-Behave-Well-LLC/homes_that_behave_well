@@ -536,6 +536,31 @@ operational questions.
 
 ---
 
+## Evidence Package explainability (DL-135)
+
+**Accepted 2026-11-05 (Issue #86, formal acceptance review PASS).** Every Evidence Package assembly,
+materialization, and export produces Decision Trace evidence under this model's existing structure.
+Full decision:
+[../architecture/adr-evidence-package-governance.md](../architecture/adr-evidence-package-governance.md).
+
+At minimum:
+
+| Field | Content |
+|---|---|
+| Request | requester; request time; authority used; requested purpose; package boundary/scope |
+| Assembly | sources/records considered; inclusion/exclusion decisions; withheld content; gaps/uncertainty (reusing DL-134's next-evidence states) |
+| Materialization decision | whether materialized; Governing Parent; identity/confirmation used (Disclosure-class, Authenticated override) |
+| Recipient/audience | intended recipient; audience evaluation outcome; recipient-aware inclusion applied |
+| Export/transport | selected transport category; external-boundary warning/confirmation given; Governance-class identity/confirmation used, where external |
+| Lifecycle | retention classification selected; Governing Parent and Parent Removal Behavior |
+| Final outcome | package Record Identity; generation provenance; any gaps or restricted-use content carried forward |
+
+The package's own content is never copied into the Decision Trace merely to explain it — restating this
+model's existing discipline unchanged. This section does not decide, and does not reopen, **OD-09**'s
+own operational questions.
+
+---
+
 ## The Decision Trace across time
 
 A Decision Trace is an **immutable temporal record**. It is one of the five record kinds defined in

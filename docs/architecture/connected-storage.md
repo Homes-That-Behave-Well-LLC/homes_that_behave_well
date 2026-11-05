@@ -411,7 +411,7 @@ addition: **the obligation is preserved, not discarded.**
 - **Retry and reconciliation timing are implementation mapping**, not architecture.
 
 Reconciliation of this obligation against retention floors and Preservation Holds is owned by
-**OD-36**; no separate decision is created for it.
+**DL-133 (OD-36)**; no separate decision is created for it.
 
 ---
 
@@ -548,7 +548,7 @@ placement has been verified.**
 | The justification does not widen | Backup convenience is **not** a reason to move records into connected storage. The narrow justification above is unchanged |
 | A gap must be explainable | If governed records are outside backup coverage, that limitation is itself a diagnosable, explainable condition |
 
-Reconciliation with retention floors and Preservation Holds is **OD-36**; export and deletion
+Reconciliation with retention floors and Preservation Holds is **DL-133 (OD-36)**; export and deletion
 mechanics are **OD-09**.
 
 ---
@@ -600,14 +600,14 @@ storage owns nothing.**
 | **Voice enrollment samples** | **Identity**, which owns the enrollment and consent lifecycle | **Temporary.** Retained only as long as required to complete voiceprint generation or an explicitly governed retry | Removed on success, and on cancellation, failure cleanup, consent withdrawal, or expiry under policy | Zero default retention. **Raw samples never become historical identity evidence merely because they existed.** Required only where samples cannot remain transient within an accepted processing boundary. See [../patterns/temporary-artifact-lifecycle-pattern.md](../patterns/temporary-artifact-lifecycle-pattern.md) |
 | **Voiceprints and derived identity profiles** | **Identity**, which owns the consent lifecycle; Foundation holds the consent record on the Person | Retained while the governed voice profile remains enabled **and consent remains valid** | Profile removal, or **consent withdrawal** | **Revocation removes the derived profile and its associations, not merely their use.** Biometric internals — vectors, embeddings, payloads, and **storage paths** — are never exposed. **Deleting a voiceprint never rewrites an earlier Identity Assertion**; identity history retains evidence classes and reason codes only. See [../models/person-and-identity.md](../models/person-and-identity.md) |
 | **Extended historical records** | The responsibility owning each record | The configured External History Retention period | Governed purge at the configured boundary | Preservation Holds and retention floors take precedence. See below |
-| **Preservation Hold** | **Operational Trust** authorises; each responsibility enforces over its own records | A governance **marker or state on governed records** — **not an artifact class of its own** | Released under **OD-39** | **Never a duplicate payload or separate evidence store.** It suspends ordinary deletion where applicable. **Releasing a hold does not itself delete anything** — ordinary retention policy then resumes. Hold metadata follows the accepted historical and privacy model |
-| **Evidence Package** | **Concierge** and **Operational Trust** | **Not retained by default.** A projection assembled on demand | Not applicable while it remains a projection | Where a resident or deployment **explicitly saves or exports** a package, **the saved copy becomes an artifact** and must declare its own lifecycle, access, and preservation behaviour. **Retention never makes it legal proof.** Assembly, transport, integrity, and audience remain **OD-40** |
+| **Preservation Hold** | **Operational Trust** authorises; each responsibility enforces over its own records | A governance **marker or state on governed records** — **not an artifact class of its own** | Released under **DL-132 (OD-39)** | **Never a duplicate payload or separate evidence store.** It suspends ordinary deletion where applicable. **Releasing a hold does not itself delete anything** — ordinary retention policy then resumes. Hold metadata follows the accepted historical and privacy model |
+| **Evidence Package** | **Foundation**, which owns the Governing Parent (the package's own declared primary Subject anchor — Room/Merged Room, Asset, Person, or Pet — falling back to the **Home** where no single narrower Subject is distinguished, reusing **DL-105**'s anchor-ownership rule). **Concierge** creates it; **Operational Trust** authorises assembly/materialization/recipient/transport | **Not retained by default.** A projection assembled on demand; a materialized copy gets its own **DL-43**/**DL-47** lifecycle, never automatically the longest/shortest constituent | Not applicable while it remains a projection; once materialized, explicit household deletion or Governing-Parent removal (subject to Preservation Hold/retention floor) | Where a resident explicitly materializes a package, **the saved copy becomes an artifact** (Managed Content) and declares its own lifecycle, access, and preservation behaviour. **Retention never makes it legal proof.** Assembly is Disclosure-class, materialization is Disclosure-class with an Authenticated-confirmation override, external export is Governance-class (**DL-76**). Resolved in full as **DL-135** (**OD-40**) |
 | **Historical Reconstruction** | The responsibility owning the reconstructed records | **Not retained.** A projection, never a store (see [../models/temporal-record.md](../models/temporal-record.md)) | Not applicable while it remains a projection | Where a reconstruction is **explicitly saved or exported**, the saved copy becomes an artifact and must declare a lifecycle. **No persistent reconstruction store is created by implication** |
 | **Materialized Household Assessment** (**DL-105**) | **Foundation**, which owns the **Home** — the artifact's anchor and Governing Parent, by the same anchor-ownership rule already applied to Asset documents. Content within it remains owned by whichever responsibility already owns it (Stewardship owns obligation significance, Truth owns Facts, Operational Trust owns policies) | Retained while the **Home** exists; **no ordinary age-based purge** | Explicit household deletion of that specific saved artifact, or Home removal (subject to Preservation Hold/retention floor) | **The canonical Assessment Record is a projection, not retained by default** (`../assessment/assessment-to-platform.md`); materialization occurs only on explicit household request, mirroring the Evidence Package/Historical Reconstruction pattern above. **A new Assessment never deletes a previously materialized artifact** — each materialization is its own immutable **Record Identity** (**DL-104**), never a revision of a prior one. Carries Governed References to the exact versions consulted, never copied payloads. A Stewardship obligation produced by a finding survives independently through its own required Provenance, never through artifact retention |
 
 Consent and Preservation Hold both act on deletion and must be evaluated before it: consent
 withdrawal **causes** deletion, and a Preservation Hold **defers** it. Their reconciliation with
-retention floors is **OD-36**.
+retention floors is **DL-133 (OD-36)**.
 
 ### Parent Removal Behavior by artifact class
 
@@ -617,7 +617,7 @@ retention floors is **OD-36**.
 | **Voice enrollment sample** | The **enrollment session** | Internal Runtime Artifact | Removed on completion, cancellation, failure, or session expiry |
 | **Voiceprint or derived profile** | The **voice profile**, and above it the **Person** | Internal Runtime Artifact | Deleted with the profile; deleted with the Person; **no orphan profile remains** |
 | **Extended historical record** | Its **record class**, and where object-scoped, the object | Queryable Historical Record | Object-scoped records follow the object; time-scoped records follow the retention window. **Both mechanisms apply where both are relevant** |
-| **Saved Evidence Package** | The **package record** that caused it to be saved | Managed Content | Its declared Parent Removal Behavior governs; holds and retention rules are honoured first |
+| **Saved Evidence Package** | Its own declared primary Subject anchor (Room/Merged Room, Asset, Person, or Pet), falling back to the **Home** (**DL-135**, reusing **DL-105**'s anchor-ownership rule) — **never the Incident that may have motivated it** (**DL-134**) | Managed Content | Its declared Parent Removal Behavior governs; holds and retention rules are honoured first |
 | **Saved Historical Reconstruction** | The **record that caused it to be saved** | Managed Content | As above |
 | **Materialized Household Assessment** (**DL-105**) | The **Home** | Managed Content | Deleted unless an overriding retention or Preservation Hold rule applies; a Stewardship obligation produced by a finding is never affected — it survives through its own independent Provenance, never through this artifact |
 
@@ -792,8 +792,8 @@ DL-31/DL-92.**
 **The artifact declarations above are a requirement, not a schema.** Requiring every artifact to
 state its class, owner, parent, lifecycle, interaction model, and cleanup behaviour decides nothing
 about encoding. **DL-47 extends that same requirement to every governed record class**, deletion and
-preservation reconciliation remains **OD-36**, and the default value of External History Retention
-is a deployment choice rather than an architectural one.
+preservation reconciliation is resolved as **DL-133 (OD-36)**, and the default value of External
+History Retention is a deployment choice rather than an architectural one.
 
 ---
 

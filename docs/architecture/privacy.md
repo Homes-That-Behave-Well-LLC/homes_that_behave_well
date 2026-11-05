@@ -513,7 +513,10 @@ according to their canonical owners.
 
 ---
 
-## Evidence Package
+## Evidence Package (DL-135)
+
+**Accepted 2026-11-05 (Issue #86, formal acceptance review PASS).** Resolves **OD-40** in full. Full
+decision: [adr-evidence-package-governance.md](adr-evidence-package-governance.md).
 
 An Evidence Package is a projection over governed records, assembled on demand for a stated scope —
 a date and time range, an incident retrieval scope, a Room, a Merged Room, an Asset, a Person, a
@@ -528,8 +531,15 @@ become authoritative over the underlying records, **may legitimately differ** wh
 different times because retention and redaction advance, and **must never claim completeness when
 gaps exist**.
 
-Assembly, transport, integrity representation, and permitted audience are **not decided here**. Open
-decision **OD-40**.
+**Projection is default; materialization requires an explicit, separately authorized request** — never
+automatic because of Historical Retrieval, an Incident scope, a Preservation Hold, or a deletion/
+preservation conflict. **Assembly is Disclosure-class; materialization is Disclosure-class with a
+capability-specific Authenticated-confirmation override; external recipient/export is Governance-class**
+(**DL-76**) — materialization creates no new disclosure authority, and **DL-133** restricted-use status
+on an included source survives materialization. A materialized package's **Governing Parent** is its
+own declared primary Subject anchor (Room/Asset/Person/Pet), falling back to the Home, reusing
+**DL-105**'s precedent; **Incident is never the Governing Parent** (**DL-134**). The package's own
+**Integrity Manifest is explicitly never forensic, legal, or chain-of-custody sufficient.**
 
 ---
 
@@ -570,7 +580,7 @@ The following are recorded as open decisions and must **not** be resolved inside
 | OD-33 | **Closed — DL-43, DL-46, DL-47.** Retention is declared inside every governed record and artifact lifecycle; the remaining values are **OD-05**, **OD-26**, **OD-49** |
 | OD-36 | **Closed — DL-133.** Reconciliation of deletion and export obligations with retention floors and Preservation Holds |
 | OD-39 | **Closed — DL-132.** Preservation Hold authority, duration, review, release, scope, disclosure, and enforcement. Conflict with deletion remains OD-36 |
-| OD-40 | Evidence Package assembly, transport, integrity representation, and audience |
+| OD-40 | **Closed — DL-135.** Evidence Package assembly, transport, integrity representation, and audience |
 | OD-49 | Communication retention floor and ceiling, with content and metadata classified separately |
 | OD-52 | **Closed — DL-71.** Audience specification model, including resolution of *anyone present with authority* |
 | OD-57 | **Closed — DL-94.** Indication, the Room-Delivery Authorization Challenge, and message-scoped Room-Delivery Authorization formally separated; the mandatory-threshold rule settled |
