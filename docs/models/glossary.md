@@ -1636,6 +1636,20 @@ exists independently of the mechanism used to convey it, and is **never** define
 push message, announcement, or indicator. Governed by **P31**.
 Model: [communication.md](communication.md)
 
+**Communication Content (DL-138)**
+The substance actually conveyed, or intended to be conveyed, to the recipient — the Communication's
+Minimal rendering projection. **Referenced source material (an Asset document, email, Truth Fact, or
+similar) is never automatically Communication Content**; it retains its own owning responsibility and
+is never duplicated. A separately, independently household-configured retention class from
+Communication Metadata — **HTBW imposes no independent numeric architectural floor or ceiling**.
+
+**Communication Metadata (DL-138)**
+The minimum governed information describing a Communication event and its lifecycle — identity,
+timestamps, provenance, audience, Category, Urgency, lifecycle state, delivery/acknowledgement
+history — **without retaining Content**. Must never contain enough substantive information to
+reconstruct expired Content. A separately, independently household-configured retention class from
+Communication Content.
+
 **System-Initiated Communication**
 A Communication HTBW originates without a current explicit request — a medication reminder, new
 private Mail, a Calendar reminder, a Stewardship warning (**DL-72**). Under audience uncertainty, the

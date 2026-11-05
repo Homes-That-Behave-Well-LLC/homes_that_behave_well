@@ -67,6 +67,7 @@ Dispositions: **New** · **Keep** · **Revise** · **Supersede** · **Merge** ·
 | `adr-evidence-package-governance.md` | Canonical ADR | **New, Accepted 2026-11-05** as **DL-135** (Issue #86, formal acceptance review PASS). Resolves **OD-40** in full: projection-by-default, materialization requires an explicit separately-authorized request (never automatic); Evidence Package distinguished from **OD-09** comprehensive export; curated/bounded content with honest gap/withheld/redaction markers (reusing **DL-134**'s next-evidence states); Governing Parent via **DL-105**'s anchor-ownership rule (Home fallback), never the Incident (**DL-134**); restricted-use survival from **DL-133**; Integrity Manifest explicitly not forensic/legal/chain-of-custody sufficient; authority mapped onto existing **DL-76** Action-Risk Classes (Assembly=Disclosure, Materialization=Disclosure/Authenticated-override, External export=Governance) via the already-accepted Capability-Default → HTBW-Default → Household-Override tiering; Connected Storage/native-HA-Recorder limits restated unchanged. Raised by the Evidence Package Governance review (#86, closed) |
 | `adr-data-portability-and-erasure-mechanics.md` | Canonical ADR | **New, Accepted 2026-11-05** as **DL-136** (Issue #78, formal acceptance review PASS). Resolves **OD-09** in full: Portability Export distinguished from Evidence Package (**DL-135**); on-demand governed projection, no permanent Portability Store; **Transient Export Artifact** materialized only by explicit separate authorization, household-configured short lifetime reusing **DL-122**'s preset/override shape, Governing Parent via **DL-105**'s anchor-ownership rule; mandatory Completeness Manifest; machine-readable representation required; **Temporal Portability Contract** extends **DL-30**'s verified native UTC/IANA-timezone evidence to the export surface (canonical UTC instant, event-time-rule local representation, IANA identifier, DST-safe, precision reusing **DL-129**'s observed/derived/inferred/estimated/unknown vocabulary); Portability authority reuses **DL-34**/**DL-71**/**DL-76**/**DL-135** (Assembly=Disclosure, Materialization=Disclosure/Authenticated-override, External transport=Governance); Erasure remains fully distributed, orchestrated-request authority Governance-class by analogy to **DL-132**/**DL-133**; **DL-133** governs every retention-floor/Hold collision unchanged; **DL-56**/**DL-45** consumed unchanged; **OD-05**/**OD-49** remain open for numeric values only, reusing **DL-47**'s mechanics-versus-values precedent. Raised by the Data Portability and Erasure Mechanics review (#78, closed) |
 | `adr-explainability-persistence-and-retention.md` | Canonical ADR | **New, Accepted 2026-11-05** as **DL-137** (Issue #77, formal acceptance review PASS; amended 2026-11-05, same day, by targeted Owner clarification). Resolves **OD-05** in full: Decision Trace (process) distinguished from **Explainability Record** (persisted result) by persistence ownership only, never a global rename, not reopening **DL-15**/**DL-24**/**DL-27**/**DL-46**/**DL-129**; two canonical origins `outcome_generated`/`on_demand_decision_trace`, every on-demand invocation producing a new record, never deduplicated/backdated, formalizing **DL-129**'s own diagnostic-explanation clause as first-class under **DL-15**; **SQLite established as the default Explainability persistence technology** (Home Assistant Recorder precedent), a distinct database never written into the HA Recorder, narrowly reconciling **DL-129**'s "JSON-backed" descriptive detail via **DL-92**'s own encoding-is-implementation-mapping non-goal without reopening DL-129's authoritative-location/write-time-assembly/Room-normalization/storage-outage holdings; Connected Storage/Backup-growth boundary stated explicitly; **retention is governed entirely by the household-configured Explainability retention policy** (**DL-122** pattern) **— HTBW imposes no independent numeric architectural floor or ceiling, and DL-76's Action-Risk Classes classify action consequence only, never Explainability retention duration**; consent-lifecycle interaction restated from **DL-47**'s structural-floor separation; expiry requires a Tombstone, no indefinite shadow summary; one new follow-on governed issue created (HTBW Structured Data Persistence Placement Review), not executed. Raised by the Decision Trace Retention Floor and Ceiling review (#77, closed) |
+| `adr-communication-retention-governance.md` | Canonical ADR | **New, Accepted 2026-11-05** as **DL-138** (Issue #118, formal acceptance review PASS). Resolves **OD-49** in full: Communication Content (substance conveyed, Minimal rendering projection anchor) and Communication Metadata (every other already-required field) classified separately; referenced source material never automatically Content; two independent, household-configured retention policies (**DL-122** preset/override shape) with **no independent architectural floor or ceiling**, applying the corrected **DL-137** philosophy; **DL-78** Category and **DL-77** Urgency never automatically dictate retention duration, optional per-Category override supported, never required; ordinary/on-demand Explainability reference never extends or resets Communication retention (**DL-47** holding rule minimizes first, **DL-132**/amended **DL-137** consumed unchanged); consent/erasure/Tombstone consume **DL-56**/**DL-133**/**DL-136** unchanged, Metadata not automatically exempt; persistence-technology placement routed to **#207** (unexecuted); **DL-136** Completeness Manifest reports Content/Metadata independently; also corrects stale pre-amendment-DL-137 dependency evidence previously posted on #118. Raised by the Communication Retention review (#118, closed) |
 
 ---
 
@@ -537,18 +538,29 @@ and DL-76's Action-Risk Classes classify action consequence only, never Explaina
 duration. DL-137 remains the same accepted decision, amended in place per repository convention; none
 is reclassified.
 
+**Updated 2026-11-05 (continued), Issue #118 formal acceptance review PASS (Communication Retention
+Governance, DL-138)**: one new document, `adr-communication-retention-governance.md`, is added as
+**Canonical ADR** from creation (+1 to new canonical documents, +1 to Canonical total, +1 to Total
+classified). `communication.md`, `privacy.md`, `operational-trust.md`, and `glossary.md` (all already
+Canonical) are revised in place, adding the Communication Content/Metadata classification, the
+independent household-configured retention model (applying the corrected DL-137 philosophy), the
+Category/Urgency retention boundary, and the Explainability-reference non-extension rule;
+`open-decision-issue-index.md` is updated; a stale pre-amendment-DL-137 dependency-evidence comment on
+#118 is corrected via issue comment, not by rewriting this register; Issue #207 remains open and
+unexecuted; none is reclassified.
+
 | Category | Count |
 |---|---|
-| New canonical documents | 69 |
+| New canonical documents | 70 |
 | Revised in place | 2 (`README.md`, `concierge-contract.md`) |
-| **Canonical total** (69 new + 2 revised) | **71** |
+| **Canonical total** (70 new + 2 revised) | **72** |
 | Marked Active — subordinate | 23 |
 | Marked Historical — superseded | 83 |
 | Marked Historical illustration (`examples/`) | 16 |
 | Marked Historical — planning/closure record | 2 |
 | **Historical total** | **101** |
 | Operational | 8 |
-| **Total classified** | **203** |
+| **Total classified** | **204** |
 | **Unclassified** | **0** |
 | **Deleted** | **0** |
 

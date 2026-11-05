@@ -491,14 +491,14 @@ would change the outcome.
 | OD-06 | Consent user experience |
 | OD-08 | **Resolved** as **DL-39** and **DL-40** |
 | OD-28 | **Closed — DL-123.** Learned-Policy Promotion Lifecycle — Concierge formulates and presents the Suggestion as an ordinary Communication; acceptance requires at minimum Authenticated Confirmation Strength; pause suspends and revocation terminates the autonomy permission alone; "forgotten" is replaced by Revocation/Preference deletion/source-evidence expiration |
-| OD-33 | **Closed — DL-43, DL-46, DL-47.** Retention is declared inside every governed record and artifact lifecycle; the remaining values are **DL-137** (OD-05, closed), **OD-26**, **OD-49** |
+| OD-33 | **Closed — DL-43, DL-46, DL-47.** Retention is declared inside every governed record and artifact lifecycle; the remaining values are **DL-137** (OD-05, closed), **OD-26**, **DL-138** (OD-49, closed) |
 | OD-35 | **Closed — DL-130.** Governed Historical Retrieval and Access — one surface, classified before assembly; nine existing Explainability scopes remain the complete query model; `caretaker-of`/**DL-71** reused unchanged for Subject Authorization |
 | OD-36 | Reconciliation of deletion and export obligations with retention floors and Preservation Holds |
 | OD-39 | Preservation Hold authority, duration, review, release, and conflict with deletion |
 | OD-40 | Evidence Package assembly, transport, integrity representation, and audience |
 | OD-45 | **Resolved as DL-96.** Acknowledgement is an explicit, Communication-specific responsive act by an identified, in-audience Person; unacknowledged delivery remains `unknown`, never failure |
 | OD-46 | **Resolved as DL-77.** Urgency is a fixed, cumulative four-level entitlement ladder, formally independent of Action-Risk Classification (**DL-76**) |
-| OD-49 | Communication retention floor and ceiling |
+| OD-49 | **Closed — DL-138.** Communication Content and Metadata classified separately; two independent household-configured retention policies; no independent architectural floor/ceiling |
 | OD-51 | **Resolved as DL-76.** Action-Risk Class enumeration and per-class defaults; household and object-specific override model; interruption confirmed as a separate axis (**DL-77**) |
 | OD-52 | Audience specification model |
 | OD-53 | **Resolved as DL-78.** Communication Category is a closed, seven-value, content-domain enumeration, structurally separate from Urgency, Operation Type, and Action-Risk Classification; Operational Trust Category admissibility rejected |

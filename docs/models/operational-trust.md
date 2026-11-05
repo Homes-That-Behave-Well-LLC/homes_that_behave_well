@@ -2062,6 +2062,30 @@ overridden merely because it is zero, absent independently accepted authority re
 Connected Storage's, not Operational Trust's: see `decision-trace.md`'s *Persistence* section and
 [connected-storage.md](../architecture/connected-storage.md).
 
+### Communication retention authority (DL-138)
+
+**Accepted 2026-11-05 (Issue #118, formal acceptance review PASS).** Resolves **OD-49** in full. Full
+decision: [../architecture/adr-communication-retention-governance.md](../architecture/adr-communication-retention-governance.md).
+
+**Communication Content and Communication Metadata are two separate, independently
+household-configured retention policies** — Operational Trust owns the configuration surface
+(**DL-122**'s preset-plus-custom-override shape, Integration-default/Room-override scope) for each,
+never a single combined duration. **HTBW imposes no independent numeric architectural floor or
+ceiling** on either class, applying the corrected **DL-137** philosophy unchanged. **DL-78** Category
+and **DL-77** Urgency remain downstream inputs to disclosure/audience/interruption, never automatic
+retention-duration determinants; an optional per-Category override reuses the identical configuration
+surface.
+
+**Retained Communication Metadata remains fully subject to existing disclosure/privacy architecture**
+(**DL-34**) — never treated as non-private merely because Content has expired or is absent.
+
+**An ordinary or on-demand Explainability reference to a Communication never extends or resets its
+retention** — restating **DL-47**'s holding-rule minimization and amended **DL-137**'s always-new-
+on-demand-record rule, applied to Communication specifically: only a valid Preservation Hold
+(**DL-132**) may preserve Content genuinely required to keep a held Explainability Record explainable,
+and only under the Hold's own rules, never as a rewrite of the Communication's own configured
+retention.
+
 ### Historical visibility
 
 Visibility policy applies to historical records exactly as it applies to current ones. Presence
@@ -2102,7 +2126,7 @@ architectural terms. They are not claims of legal effect.** See
 | OD-45 | **Resolved as DL-96.** Acknowledgement is an explicit, Communication-specific responsive act by an identified, in-audience Person; attribution reuses this document's existing Required Identity Band machinery (**DL-36**, **DL-39**) unchanged, no new scale; unacknowledged delivery remains `unknown`, never failure |
 | OD-46 | **Resolved as DL-77.** Urgency is a fixed, cumulative four-level entitlement ladder, formally independent of Action-Risk Classification (**DL-76**), never overriding audience, privacy, consent, disclosure, identity, authority, or precedence (**OD-04**) |
 | OD-66 | **Resolved as DL-118.** Delegation Boundary for External Adaptive Behaviour — External Decision Authority is a new autonomy-model scope, not a new policy type; declaration is explicit only, never inferred; Type-2 (unmediated) delegation is constitutionally capped at Convenience/Disclosure Risk Classes; the delegated act is a Domain Event (**DL-73**), never its own Decision Trace |
-| OD-49 | Communication retention floor and ceiling, with content and metadata classified separately |
+| OD-49 | **Closed — DL-138.** Communication Retention Governance — Content/Metadata classified separately, two independent household-configured retention policies, no independent architectural floor/ceiling (corrected DL-137 philosophy), Category/Urgency never automatically dictate duration, Explainability reference never extends/resets retention |
 | OD-51 | **Resolved as DL-76.** Action-Risk Class enumeration (Convenience, Disclosure, Financial, Safety, Security, Governance) and per-class Required Identity Band / Confirmation Strength / Address by Name / Presentation Threshold defaults; household and object-specific override model; interruption confirmed as a separate axis (**DL-77**) |
 | OD-52 | **Closed — DL-71.** Five Intended Audience Specification forms accepted; relationship-based resolution requires a **DL-57** Delegated Access Grant for actual authorization; Guest fallback and Copy Settings From Person are Person Setup conveniences, not new authority models |
 | OD-53 | **Resolved as DL-78.** Communication Category is a closed, seven-value, content-domain enumeration (Stewardship, Security, Care, Environment, Experience, System, Safety), structurally separate from Urgency, Operation Type, and Action-Risk Classification; Operational Trust Category admissibility rejected |

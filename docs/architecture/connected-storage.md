@@ -789,8 +789,8 @@ is closed**). **Decision Trace's own representation mechanism — Connected Stor
 Storage-helper-based mechanism as the already-accepted External History Retention extension — is
 resolved as DL-129 (accepted 2026-11-04, Issue #79, formal acceptance review PASS; OD-29 is closed)**,
 consuming DL-92 unchanged. The identifier strategy is **DL-104** (**OD-38**, closed). Communication
-object persistence is **OD-42**, and communication retention floors and ceilings are **OD-49**. Neither
-is resolved here.
+object persistence is **OD-42**, and communication content/metadata retention is **resolved as
+DL-138** (**OD-49**, closed) — see `communication.md`'s *Retention* section. OD-42 remains open.
 
 **Update (2026-10-06, Issue #146 verification pass).** The `Store` helper mechanism itself is now
 **partially verified against `home-assistant/core` source** — see

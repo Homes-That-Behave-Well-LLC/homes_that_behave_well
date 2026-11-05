@@ -1113,13 +1113,51 @@ Stewardship's; it is not delivery history and is not duplicated here.
 
 > **No consumer may maintain a competing or re-derived communication history.**
 
-### Retention
+### Retention (DL-138)
 
-Settled by **DL-47** as a governed record class; the separate classification of content and metadata
-remains **OD-49**. A floor is never stated without its ceiling.
+**Accepted 2026-11-05 (Issue #118, formal acceptance review PASS).** Resolves **OD-49** in full. Full
+decision:
+[../architecture/adr-communication-retention-governance.md](../architecture/adr-communication-retention-governance.md).
 
-**Content and metadata are classified separately.** The fact that the home tried to convey something
-and failed may require a longer floor than the content of what it tried to convey.
+**Communication Content** and **Communication Metadata** are two separate, independently
+household-configured retention classes — restating **DL-47**'s already-accepted classification split,
+now given values. **Content** is the substance actually conveyed or intended to be conveyed — the
+**Minimal rendering projection**, above — not the referenced source material that may have informed
+it, which remains owned by its own responsibility and is never duplicated into Content. **Metadata** is
+every other required field above, plus the delivery/acknowledgement history in the table above:
+sufficient to describe the Communication event and lifecycle without retaining Content, and **never
+containing enough substantive information to reconstruct expired Content** (no full text, paraphrase,
+or recoverable excerpt in a description/summary field).
+
+**HTBW imposes no independent numeric architectural floor or ceiling on either class** — applying the
+corrected **DL-137** philosophy: the architecture supplies the classification, configuration surface
+(reusing **DL-122**'s enumerated-presets-plus-custom-override shape, at Integration-default/
+Room-override scope), validation, and lifecycle behaviour; **the household supplies the retention
+value**, independently for Content and for Metadata. A household-configured value of zero, disabled,
+or immediate-expiry is not silently overridden merely because it is zero, absent independently
+accepted authority requiring otherwise.
+
+**DL-78 Category and DL-77 Urgency do not automatically dictate retention duration.** A Care-category
+Communication is not assumed to require shorter retention, nor a Safety-category one longer, merely by
+Category; Urgency remains ordinary Metadata/context and creates no retention class of its own.
+Optional household-configurable per-Category retention override is supported using the identical
+configuration surface, never required merely because Categories exist.
+
+**On Content expiry, Metadata survives under its own independently configured policy.** The Home may
+honestly report that a Communication occurred, its Category, authorized audience, timing, and
+delivery/acknowledgement result, while stating Content is no longer retained — **never reconstructing
+the expired message, never implying the Communication never occurred.** A Tombstone is required on
+Content removal; Metadata is never made permanent by default and follows its own expiry/Tombstone
+lifecycle independently.
+
+**An ordinary Explainability Record referencing a Communication (either DL-137 origin) never
+automatically extends that Communication's own retention**, and an on-demand Decision Trace evaluating
+a Communication never resets its retention clock. A valid **Preservation Hold** (**DL-132**) is the one
+exception, and **DL-47**'s holding rule minimizes first — preserving only the Content genuinely
+required to keep a held Explainability Record explainable, never a global rewrite of the
+Communication's own retention policy. Consent withdrawal and erasure reuse **DL-56**/**DL-133**/
+**DL-136** unchanged; Metadata is **not** automatically exempt from erasure merely because it answers
+*"did you tell me?"* — only **DL-47**'s four already-accepted structural floors are preserved.
 
 ---
 
@@ -1342,7 +1380,7 @@ See [../scenarios/why-did-this-happen.md](../scenarios/why-did-this-happen.md).
 | OD-46 | **Closed — DL-77.** Urgency is a fixed, cumulative four-level entitlement ladder, formally independent of Action-Risk Classification (**DL-76**), never overriding audience, privacy, consent, disclosure, identity, authority, or precedence (**OD-04**) |
 | OD-47 | Household Inbox projection scope and refresh semantics |
 | OD-48 | **Closed — DL-99.** Re-presentation is a new Delivery Attempt triggered by a Room transition Fact; the preference is opt-in, Person-scoped, and optionally refined by Category/Urgency; no HTBW-wide default repetition count or cooldown exists, household-configured where enabled; stop conditions reuse DL-95/DL-96 unchanged; formally distinct from Delivery Retry (**DL-98**), non-compounding structural |
-| OD-49 | Communication retention floor and ceiling |
+| OD-49 | **Closed — DL-138.** Communication Retention Governance — Content and Metadata classified separately, two independent household-configured retention policies, no independent architectural floor/ceiling; see *Retention*, above |
 | OD-50 | Escalation ladder semantics for communications, resolved into **OD-22**, now **closed — DL-97** |
 | OD-51 | **Closed — DL-76.** Action-Risk Class enumeration (Convenience, Disclosure, Financial, Safety, Security, Governance) and per-class defaults; interruption confirmed as a separate axis (**DL-77**) |
 | OD-52 | **Closed — DL-71.** Five audience specification forms accepted; relationship-based resolution, re-resolution timing, resolved-to-nobody/too-broadly behaviour, and Notice/completion boundary are stated |

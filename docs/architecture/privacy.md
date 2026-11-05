@@ -342,12 +342,24 @@ and [../models/communication.md](../models/communication.md).
   under **P16** and **DL-15**.
 - **Silent non-delivery is prohibited.** A home that decided to stay quiet must be able to say so.
 
-### Retention of communications
+### Retention of communications (DL-138)
 
-- Communication **content** and communication **metadata** are classified separately. The fact that
-  the home tried to convey something may need a longer floor than what it tried to say.
-- Floors follow the governed-record retention rule in **DL-47**; communication-specific floors,
-  ceilings, and the separate classification of content and metadata are **OD-49**.
+**Accepted 2026-11-05 (Issue #118, formal acceptance review PASS).** Resolves **OD-49** in full. Full
+decision:
+[adr-communication-retention-governance.md](adr-communication-retention-governance.md).
+
+- Communication **content** and communication **metadata** are classified separately and are **two
+  independently household-configured retention policies** — the architecture supplies the
+  classification and configuration surface (**DL-122**'s preset-plus-custom-override shape); the
+  household supplies each value. **HTBW imposes no independent numeric architectural floor or ceiling**
+  on either class, applying the corrected **DL-137** philosophy.
+- **DL-78** Category and **DL-77** Urgency do not automatically dictate retention duration; an optional
+  per-Category household override is supported, never required.
+- Metadata must never contain enough substantive information to reconstruct expired content. On
+  content expiry, Metadata survives under its own configured policy and may honestly state that a
+  Communication occurred, without reconstructing what was said.
+- An ordinary or on-demand Explainability reference to a Communication never extends or resets its
+  retention; a valid Preservation Hold is the one exception and minimizes first (**DL-47**, **DL-132**).
 - Redaction, purge, or truncation of a Communication leaves a **Tombstone**.
 
 ---
@@ -616,7 +628,7 @@ The following are recorded as open decisions and must **not** be resolved inside
 | OD-36 | **Closed — DL-133.** Reconciliation of deletion and export obligations with retention floors and Preservation Holds |
 | OD-39 | **Closed — DL-132.** Preservation Hold authority, duration, review, release, scope, disclosure, and enforcement. Conflict with deletion remains OD-36 |
 | OD-40 | **Closed — DL-135.** Evidence Package assembly, transport, integrity representation, and audience |
-| OD-49 | Communication retention floor and ceiling, with content and metadata classified separately |
+| OD-49 | **Closed — DL-138.** Communication Content and Metadata classification, independent household-configured retention, Category/Urgency boundary, Explainability-reference non-extension |
 | OD-52 | **Closed — DL-71.** Audience specification model, including resolution of *anyone present with authority* |
 | OD-57 | **Closed — DL-94.** Indication, the Room-Delivery Authorization Challenge, and message-scoped Room-Delivery Authorization formally separated; the mandatory-threshold rule settled |
 
