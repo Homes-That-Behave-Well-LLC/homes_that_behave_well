@@ -208,62 +208,59 @@ history, that native projection is reported as unavailable where relevant; **the
 is never treated as invalid merely because Recorder's own, independently governed projection has since
 expired.**
 
-### 11. Retention — proportionate, not a single invented number
+### 11. Retention — household-configured, no independent architectural floor or ceiling
 
-**DL-76's existing six Action-Risk Classes (Convenience, Disclosure, Financial, Safety, Security,
-Governance) are reused to make retention proportionate, inventing no second, Explainability-only
-classification system** (restating `decision-ledger.md` DL-76's own comment-2 evidence on this issue).
-**Proportionality is expressed as an ordering constraint, never as an invented absolute duration**: a
-decision class's configured Explainability retention floor must be no shorter than a lower-consequence
-class's configured floor (Governance ≥ Security/Safety/Financial ≥ Disclosure ≥ Convenience, consistent
-with **DL-76**'s own consequence ordering) — **HTBW assigns no specific day, month, or year value to
-any class.** This generalizes **DL-76**'s already-accepted Capability-Default → HTBW-Default →
-Household-Override tiering: the Capability-Default is the governed outcome's own Action-Risk Class
-(already recorded, field 12–14 of the Decision Trace content model); the HTBW-Default is the
-**ordering constraint** above (a relative rule, not a number); the Household-Override is the household's
-own configured value per class, reusing **DL-122**'s already-accepted retention-duration-choice shape
-(a hybrid of enumerated, human-understandable presets plus a custom numeric override), configured at
-Integration-default/Room-override scope exactly as **DL-129** (comment 4 on this issue) already
-anticipated.
+> **Amended 2026-11-05 (targeted Owner clarification to accepted DL-137, Issue #77 comment).** This
+> section supersedes an earlier DL-137 draft that described an independent, non-zero
+> "configuration-existence floor" and a DL-76-ordered proportional-retention model. **Neither is the
+> intended policy.** DL-137 remains accepted; this section states its retention holding correctly.
 
-**No numeric floor or ceiling value is invented by this decision.** **DL-47 already classified the
-exact values as a household configuration matter, not architecture** ("the trace floor (OD-05)...
-household configuration value, not architecture"); this decision does not relitigate that
-classification, and does not choose 30, 90, or 365 days, or any other specific number, "merely because
-they are common."
+**Canonical model: Explainability Retention Configuration → Ordinary Explainability Retention
+Period.** Once an Explainability Record is created, its ordinary lifetime is governed entirely by the
+household-configured Explainability retention policy. **HTBW imposes no independent numeric
+architectural floor and no independent numeric architectural ceiling on Explainability retention.**
+The architecture provides the governance mechanism — the retention classification (**DL-47**), the
+configuration surface (**DL-122**'s enumerated-presets-plus-custom-override shape, at
+Integration-default/Room-override scope), validation, lifecycle behaviour, Preservation Hold
+interaction (§13), and erasure/conflict interaction (§15–§16) — and **the household provides the
+value**. There is no second, competing "configured retention plus architectural floor plus
+architectural ceiling" model; there is exactly one configured Explainability retention period.
 
-**The floor is a configuration requirement, not a configuration default.** Reusing **DL-47**'s own
-"undeclared retention must not be accepted... undecided is not a retention strategy" discipline,
-applied here to the floor specifically: **a configured Explainability retention floor of zero,
-disabled, or unset is invalid and must be rejected by configuration validation**, because **P27**/
-**DL-24** already establish that *some* retained explainability window is a constitutional
-requirement — the household determines what counts as a sufficient floor for its own home, but it
-may not configure "no floor" at all. This is the same **existence-requirement-without-an-invented-
-value** pattern already accepted for Preservation Hold duration (**DL-97**, **DL-132**) — generalized
-here to a case where the existence of a non-zero value is itself constitutionally required, which Hold
-duration never was.
+**No non-zero minimum is imposed.** A household-configured value of zero, disabled, or
+immediate-expiry is **not** rejected or silently overridden merely because it is zero — **unless
+already-accepted architecture independently requires otherwise** (no such independent requirement is
+identified for ordinary Explainability content). Where a household configures effectively no
+historical Explainability retention, HTBW may explain the consequence honestly (historical
+Explainability will not remain available after ordinary expiration) but does not override the
+household's configured value with an invented architectural minimum. **P27**/**DL-24**'s constitutional
+requirement is that Explainability retention be **explicitly governed and configured** — not that HTBW
+itself imposes an undisclosed minimum duration.
 
-**The ceiling is household-configurable, Integration-default/Room-override** (**DL-122**'s pattern,
-unchanged), bounded only by the floor relationship below; no HTBW-invented ceiling value is assigned
-either.
+**DL-76's Action-Risk Classes classify action consequence, not Explainability retention duration.**
+Convenience, Disclosure, Financial, Safety, Security, and Governance answer "what happens if this
+decision is wrong?" — they do not, by themselves, establish that a Governance-class decision's
+Explainability Record must be retained longer than a Convenience-class one. **No such mapping is
+created here**, because no independent accepted authority requires it; **DL-76 is not reopened**, and
+remains exactly what it already is (an Action-Risk enumeration consumed elsewhere, unchanged). **No
+second, Explainability-only classification system is created.**
 
-**Floor/ceiling relationship**: a configured retention value must satisfy `configured retention >=
-applicable floor` and `configured retention <= configured ceiling`. **A configuration attempting to
-violate the floor is rejected by existing configuration-validation convention, never silently
-accepted.**
+**`outcome_generated` and `on_demand_decision_trace` records share the identical, single configured
+retention policy** — restated, not newly established (see §2 and §16); origin is provenance, never a
+retention classification, and neither origin is retained longer or shorter than the other merely
+because of its origin.
 
-### 12. Consent-lifecycle interaction does not become the whole record's ceiling
+### 12. Consent-lifecycle interaction does not become the whole record's retention period
 
 **Restated from DL-47's already-accepted structural-floor separation, not reinvented.** Where an
 Explainability Record's Subject was a Person under consent, the record does **not** automatically
-inherit that Person's full consent-lifecycle duration as the whole record's retention ceiling.
-**DL-47**'s four structural floors already separate, in kind, the **consent-lifecycle proof** (that
-consent existed, its scope, when it ended — a structural floor that survives any configured window)
-from the **ordinary Explainability content** governed by this decision's own floor/ceiling — exactly
-the separation **DL-56**, **DL-133**, and **DL-136** already apply elsewhere. **Consent withdrawal
-reuses DL-56 unchanged**: it does not retroactively shorten an already-configured Explainability
-ceiling; it governs only the person-association evidence within the record, per **DL-56**'s existing
-rule.
+inherit that Person's full consent-lifecycle duration as the whole record's configured retention
+period. **DL-47**'s four structural floors already separate, in kind, the **consent-lifecycle proof**
+(that consent existed, its scope, when it ended — a structural floor that survives any configured
+window) from the **ordinary Explainability content** governed by this decision's own configured
+retention — exactly the separation **DL-56**, **DL-133**, and **DL-136** already apply elsewhere.
+**Consent withdrawal reuses DL-56 unchanged**: it does not retroactively shorten an already-configured
+Explainability retention period; it governs only the person-association evidence within the record,
+per **DL-56**'s existing rule.
 
 ### 13. Expiry and Tombstone
 
@@ -319,7 +316,7 @@ that new issue's matrix will formalize, not a substitute for performing that rev
 | Responsibility | Change |
 |---|---|
 | **Concierge** | Produces the Decision Trace for both origins; composes and persists the resulting Explainability Record |
-| **Operational Trust** | Authorizes on-demand Explainability requests as Disclosure-class (**DL-76**, unchanged, per `operational-trust.md`'s existing Historical Retrieval authorization); owns the proportionality ordering constraint (§11); no new authority mechanism |
+| **Operational Trust** | Authorizes on-demand Explainability requests as Disclosure-class (**DL-76**, unchanged, per `operational-trust.md`'s existing Historical Retrieval authorization); owns the Explainability retention configuration surface (§11); no new authority mechanism |
 | **Foundation** | Owns the Home's temporal conventions (IANA timezone, unchanged) |
 | **Each responsibility (Truth, Stewardship, Continuity, Identity)** | Continues to supply the content an Explainability Record references by Governed Reference, never copied |
 | **Explainability repository (SQLite, Connected Storage)** | New default persistence technology for both Explainability origins; no new responsibility created |
@@ -331,7 +328,8 @@ that new issue's matrix will formalize, not a substitute for performing that rev
 - Does not rename "Decision Trace" globally or reopen DL-15, DL-24, DL-27, DL-46, or DL-129.
 - Does not create a second Home Assistant Recorder or write HTBW schema into the Recorder database.
 - Does not create a duplicate durable Decision-Trace-plus-Explainability store.
-- Does not invent a numeric retention floor or ceiling value.
+- Does not impose an independent numeric architectural retention floor or ceiling on Explainability
+  records, and does not map DL-76 Action-Risk Class to Explainability retention duration.
 - Does not reopen DL-76's Action-Risk Class enumeration, DL-122's retention-duration-choice shape,
   DL-132's Preservation Hold model, DL-133's deletion/preservation conflict model, DL-136's Portability/
   Erasure model, or DL-114's publishing/Recorder-consequence model.

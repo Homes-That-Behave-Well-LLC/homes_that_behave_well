@@ -444,8 +444,9 @@ process above; **Explainability Record** names the persisted, durable record of 
 result — one repository, never a duplicate store. Every Explainability Record identifies one of two
 canonical origins, `outcome_generated` or `on_demand_decision_trace`, the latter always producing a
 new record per invocation, never deduplicated or backdated against this model's own **Effective
-Time**/**Recorded Time** bitemporal pair. Retention is proportionate (DL-76 ordering, no invented
-number) and a non-zero floor is required by **P27**. Full decision:
+Time**/**Recorded Time** bitemporal pair. Retention is governed entirely by the household-configured
+Explainability retention policy — **HTBW imposes no independent numeric architectural floor or
+ceiling**. Full decision:
 [../architecture/adr-explainability-persistence-and-retention.md](../architecture/adr-explainability-persistence-and-retention.md).
 See [decision-trace.md](decision-trace.md), "Explainability Record and origins."
 
@@ -1389,7 +1390,7 @@ recorded the wrong thing.
 | ID | Question |
 |---|---|
 | OD-01 | **Closed — DL-31, DL-92.** Home Assistant representation strategy is **DL-31**; the persistence-mechanism residual (Current Projection, Change Record, Snapshot) is **DL-92** — Storage helper default, Connected Storage optional via the **DL-42** External History Retention extension for Change Records only. Accepted 2026-10-27, Issue #76, formal acceptance review PASS. See [adr-governed-record-persistence-mechanism.md](../architecture/adr-governed-record-persistence-mechanism.md). **Decision Trace's own mechanism is resolved as DL-129 (OD-29, closed)**; Snapshot triggers/cadence/scope remain **OD-37** |
-| OD-05 | **Closed — DL-137.** Explainability Persistence, Origins, and Retention — Decision Trace/Explainability Record distinguished; `outcome_generated`/`on_demand_decision_trace` origins; SQLite default persistence technology; retention proportionality/floor-existence/ceiling model; see *Decision Trace*, above |
+| OD-05 | **Closed — DL-137** (amended 2026-11-05, targeted Owner clarification). Explainability Persistence, Origins, and Retention — Decision Trace/Explainability Record distinguished; `outcome_generated`/`on_demand_decision_trace` origins; SQLite default persistence technology; retention fully household-configured, no independent architectural floor or ceiling; see *Decision Trace*, above |
 | OD-09 | **Closed — DL-136.** Data Portability and Erasure Mechanics — Portability Export and Erasure each stated; Transient Export Artifact; Completeness Manifest; Temporal Portability Contract; see *Portability Export* and *Erasure*, above |
 | OD-35 | **Closed — DL-130.** Governed Historical Retrieval and Access — one surface (Assist/Conversation), classified before assembly; the nine existing Explainability scopes remain the complete query model; `caretaker-of` (**DL-49**) and **DL-71**'s Intended Audience Specification forms are reused unchanged for Subject Authorization |
 | OD-36 | **Closed — DL-133.** Deletion versus preservation reconciliation — governed conflict, Conflict-Resolution Authority, minimization sequence, restricted use, pending-deletion reuse, late-Hold anti-abuse rule, Tombstone semantics |

@@ -925,27 +925,24 @@ Decision Traces contain identity, presence, preference, and obligation data. Vis
 Operational Trust policy. Biometric internals are never included; only reason codes, confidence bands,
 and evidence classes.
 
-Retention is bounded from **both** directions: **P27** establishes a floor, and
-[../architecture/privacy.md](../architecture/privacy.md) establishes the ceiling. **DL-47 settles the
-rule**: an Explainability Record is governed explainability history following **External History
-Retention** unless an accepted floor or a Preservation Hold applies, and **holding a record preserves
-the governed source versions required to keep it explainable** rather than duplicating their payloads.
-
-**Retention (DL-137): proportionate, no invented number.** Retention is proportionate, reusing
-**DL-76**'s six existing Action-Risk Classes as an **ordering constraint only** — a higher-consequence
-class's configured floor is never shorter than a lower-consequence class's — never an invented
-absolute duration. **The floor is a non-zero configuration-existence requirement**: a configured floor
-of zero, disabled, or unset is invalid and rejected, because **P27**/**DL-24** make *some* retained
-window constitutionally required, while the household determines what counts as sufficient for its own
-home. The ceiling is household-configurable (Integration-default/Room-override, reusing **DL-122**'s
-enumerated-presets-plus-custom-override shape); a configured value must satisfy `floor <= retention <=
-ceiling`, rejected rather than silently accepted if violated. **A Person's full consent-lifecycle
-duration is never automatically inherited as a record's whole retention ceiling** — **DL-47**'s
+**Retention (DL-137): household-configured, no independent architectural floor or ceiling.** **P27**/
+**DL-24**'s constitutional requirement is that Explainability retention be **explicitly governed and
+configured** — not that HTBW itself imposes an undisclosed minimum duration. Once an Explainability
+Record is created, its ordinary lifetime is governed entirely by the household-configured
+Explainability retention policy (**DL-47**'s existing retention classification; **DL-122**'s
+enumerated-presets-plus-custom-override configuration shape, at Integration-default/Room-override
+scope). **HTBW imposes no independent numeric architectural floor and no independent numeric
+architectural ceiling** — the architecture supplies the mechanism and the household supplies the
+value. A household-configured value of zero, disabled, or immediate-expiry is **not** silently
+overridden merely because it is zero, absent independently accepted authority requiring otherwise.
+**DL-76's Action-Risk Classes classify action consequence, not Explainability retention duration** —
+no mapping between the two exists, and **DL-76 is not reopened**. **A Person's full consent-lifecycle
+duration is never automatically inherited as a record's whole retention period** — **DL-47**'s
 existing structural-floor separation (consent-lifecycle proof survives independently of ordinary
 content) governs instead, and **DL-56** consent withdrawal never retroactively shortens an
-already-configured ceiling. **Both Explainability origins (`outcome_generated`,
-`on_demand_decision_trace`) share this identical retention policy** — origin is provenance, never a
-retention classification. **On ordinary expiry, a Tombstone is required**, distinguishing *"an
+already-configured retention period. **Both Explainability origins (`outcome_generated`,
+`on_demand_decision_trace`) share this identical configured retention policy** — origin is provenance,
+never a retention classification. **On ordinary expiry, a Tombstone is required**, distinguishing *"an
 Explainability Record existed and expired"* from *"none was ever created"*; no indefinite shadow
 summary survives expiry. Full decision:
 [../architecture/adr-explainability-persistence-and-retention.md](../architecture/adr-explainability-persistence-and-retention.md).
@@ -969,7 +966,7 @@ This model *is* the explainability requirement. Every other canonical document r
 
 | ID | Question |
 |---|---|
-| OD-05 | **Closed — DL-137.** Explainability Record origins (`outcome_generated`, `on_demand_decision_trace`), always-new-on-demand-record semantics, SQLite persistence technology, retention proportionality via DL-76 ordering (no invented number), floor-existence requirement, Tombstone-on-expiry — see *Explainability Record and origins* and *Privacy considerations*, above |
+| OD-05 | **Closed — DL-137** (amended 2026-11-05, targeted Owner clarification). Explainability Record origins (`outcome_generated`, `on_demand_decision_trace`), always-new-on-demand-record semantics, SQLite persistence technology, household-configured retention with no independent architectural floor/ceiling, Tombstone-on-expiry — see *Explainability Record and origins* and *Privacy considerations*, above |
 | OD-09 | **Closed — DL-136.** A trace records, for Portability: requester, authorized scope, Risk-Class authority applied, Completeness Manifest outcomes per class, Temporal Portability Contract elements applied, recipient/transport result. For Erasure: requester/subject, scope, Governance-class authority applied, per-responsibility result, DL-133 conflict handling, storage outages, final household-facing outcome shape — see *Portability Export explainability* and *Erasure explainability*, above |
 | OD-21 | **Closed — DL-75.** An obligation's referenced Significance Declaration (Derivation Source, Base Significance, Provenance, Effective Version) is referenced by its **Effective Version at the time of the decision** (**P30**), never copied, so a past explanation reports the declaration that was in force then, even after the household later changes it |
 | OD-29 | **Closed — DL-129.** Connected Storage is the authoritative durable location, reusing DL-92's mechanism; durable capture is a DL-41 Connected-Storage dependency that never stops the underlying governed action; write-time assembly, Room-normalized multi-Room persistence with DL-104 correlation, diagnostic fallback, and storage-outage/recovery coverage-gap semantics are each stated |
