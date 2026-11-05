@@ -1861,20 +1861,64 @@ explainable. **Operational Trust owns no central purge and no retention registry
 responsibility enforces retention over its own records. The remaining numeric values are household
 configuration, held by **OD-05**, **OD-26**, and **OD-49**.
 
-### Preservation Hold
+### Preservation Hold (DL-132)
+
+**Accepted 2026-11-05 (Issue #85, formal acceptance review PASS).** Resolves **OD-39** in full, except
+deletion-versus-preservation precedence, explicitly **OD-36**'s own. Full decision:
+[../architecture/adr-preservation-hold-governance.md](../architecture/adr-preservation-hold-governance.md).
 
 **Operational Trust authorises Preservation Holds.** It determines who may create, review, and
 release a hold; governs hold visibility; governs conflict with deletion; and governs duration and
-review.
+review. **Operational Trust does not enforce holds centrally.** Each responsibility enforces holds
+over its own records. **There is no central preservation-hold enforcer.**
 
-**Operational Trust does not enforce holds centrally.** Each responsibility enforces holds over its
-own records. **There is no central preservation-hold enforcer.**
+**Placement, review, and release are each an independent, household-configured authorisation**,
+expressed through **DL-71**'s existing Named Person / Role-Authority-Class Intended Audience
+Specification forms — the same mechanism **DL-109** (above) already confirmed as the accepted way to
+configure "a more capable or trusted configuration role," and the same forms **DL-97** already reused
+for escalation accountability. **No parallel Preservation Hold identity/role system is invented.**
+Placement authority never implies review or release authority; a household may name the same Person/
+Role for all three, or different ones. None of the following is, by itself, a sufficient basis for
+any of the three: being a resident; being Household; holding an Owner-role Person record; holding the
+native Home Assistant administrator flag alone (**DL-109**); controlling the underlying device; being
+able to see the underlying data; managing the affected Asset; being the Subject the records describe;
+or holding Explainability/Historical-Retrieval access. **Record access never implies hold authority.**
+
+**Placement and release are each Governance-class (DL-76): Required Identity Band Very High, Required
+Confirmation Strength Strong.** No new Identity Band or Confirmation Strength is invented for holds.
+Where the required band/strength cannot be verified, **DL-40**'s existing `Unavailable` outcome governs
+— refused, never silently downgraded. A review that continues or narrows a hold is likewise
+Governance-class under the same defaults.
+
+**No HTBW-wide numeric default duration or review interval exists** (restating **DL-97**'s identical
+refusal for escalation timing). Every active hold carries an explicit, placer-set review-due time,
+status, stated purpose, authorised placer, review history, and release status. **A missed review
+fails safe toward preservation**: ACTIVE → REVIEW DUE → OVERDUE → RENEWED/CONTINUED → RELEASED. An
+overdue hold remains preserving and is reported through existing governed Communication, remaining
+visible/explainable for as long as it is outstanding — never silently released, never silently
+permanent. Review reminders reuse the existing Stewardship "incomplete obligation is notification, not
+automatic escalation" pattern (`stewardship.md`) without transferring hold ownership to Stewardship.
+
+**Release does not erase hold history** (who placed it, when, stated purpose, scope, review history,
+releaser, reason, time — **DL-47** unchanged) **and release is not immediate deletion**; it removes the
+retention floor and returns the records to normal retention/**OD-36** governance.
+
+**Hold existence is itself governed information**, evaluated through this section's own existing
+disclosure architecture (above), never a separate model. No universal rule is invented that a data
+subject must always, or must never, be proactively notified that their records are held — it is
+evaluated case by case exactly as any other sensitive fact about them.
 
 A hold must be discoverable, attributable, bounded or periodically reviewed, independent of normal
 visibility permissions, and explainable. **A hold does not automatically increase visibility.** A
 hold cannot preserve raw biometric internals or raw voice samples, because those were never stored.
+**Any purge/truncation/archival-deletion mechanism governing hold-eligible governed records must
+discover and consult hold status before discarding a record; a fixed-size bound whose eviction step
+cannot evaluate a hold is not an acceptable retention mechanism for such records.** Home Assistant
+Recorder offers no native per-record hold exemption; where only ephemeral native history exists with
+no corresponding governed record, a hold may be unimplementable for that specific evidence, stated
+honestly rather than claimed.
 
-Whether a hold may override an authorised deletion request is **OD-39**. Reconciliation of deletion
+Whether a hold may override an authorised deletion request is **OD-36**. Reconciliation of deletion
 and export obligations with retention floors and holds is **OD-36**.
 
 ### Historical visibility
@@ -1908,7 +1952,7 @@ effect.** See [../architecture/privacy.md](../architecture/privacy.md).
 | OD-33 | **Closed — DL-43, DL-46, DL-47.** Retention is declared inside every governed record and artifact lifecycle; remaining values are **OD-05**, **OD-26**, **OD-49** |
 | OD-35 | **Closed — DL-130.** Assist/Conversation is the sole historical-retrieval surface, classified before assembly into ordinary retrieval versus Person/actor reconstruction; the nine existing Explainability scopes remain the complete query model; `caretaker-of` (**DL-49**) and **DL-71**'s five Intended Audience Specification forms are reused unchanged for Subject Authorization; current-location and historical-movement access are two independently configurable Disclosure-Risk-Class capabilities, never one setting; refusal and gap semantics reuse existing vocabulary throughout |
 | OD-36 | Reconciliation of deletion and export obligations with retention floors and Preservation Holds |
-| OD-39 | Preservation Hold authority, duration, review, release, and conflict with deletion |
+| OD-39 | **Closed — DL-132.** Preservation Hold authority, duration, review, release, scope, disclosure, and enforcement. Conflict with deletion remains OD-36 |
 | OD-40 | Evidence Package assembly, transport, integrity representation, and audience |
 | OD-45 | **Resolved as DL-96.** Acknowledgement is an explicit, Communication-specific responsive act by an identified, in-audience Person; attribution reuses this document's existing Required Identity Band machinery (**DL-36**, **DL-39**) unchanged, no new scale; unacknowledged delivery remains `unknown`, never failure |
 | OD-46 | **Resolved as DL-77.** Urgency is a fixed, cumulative four-level entitlement ladder, formally independent of Action-Risk Classification (**DL-76**), never overriding audience, privacy, consent, disclosure, identity, authority, or precedence (**OD-04**) |

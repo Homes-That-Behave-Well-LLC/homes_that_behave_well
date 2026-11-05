@@ -485,6 +485,30 @@ mechanics — see
 
 ---
 
+## Preservation Hold lifecycle explainability (DL-132)
+
+**Accepted 2026-11-05 (Issue #85, formal acceptance review PASS).** Every consequential Preservation
+Hold lifecycle event is explainable under this model's existing structure. Full decision:
+[../architecture/adr-preservation-hold-governance.md](../architecture/adr-preservation-hold-governance.md).
+
+At minimum:
+
+| Event | Required fields |
+|---|---|
+| **Placement** | requester; authorised Person; identity/confirmation used; stated purpose; scope; start time; review-due time; applicable policy; affected record classes where known |
+| **Review** | reviewer; date/time; outcome; continuation/narrowing/release; reason; next review-due time if continuing |
+| **Missed review** | overdue state; notification/escalation where configured; confirmation the hold remains preserving |
+| **Release** | authorised releaser; confirmation used; reason; release time; resulting preservation-state change |
+| **Purge/truncation skipped due to hold** | affected record/reference; reason = Preservation Hold; resulting preservation behaviour |
+
+Hold metadata references governed records/subjects under the **References, not copies** discipline
+above; it does not duplicate payload contents, copied communications, copied video/documents, or
+reconstructed actor history merely to satisfy this explainability requirement — restating **DL-43**'s
+"marker, not artifact class" unchanged. This section does not decide, and does not narrow, **OD-36**'s
+deletion-versus-preservation precedence question.
+
+---
+
 ## The Decision Trace across time
 
 A Decision Trace is an **immutable temporal record**. It is one of the five record kinds defined in

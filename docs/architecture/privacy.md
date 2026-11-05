@@ -374,7 +374,7 @@ request their own erasure.
 
 Ordinary operational retention, extended retention, and incident-related preservation remain three
 different things, classified under the floors and ceilings above and under **DL-47**, **OD-36**, and
-**OD-39**.
+**DL-132**.
 
 ---
 
@@ -452,7 +452,12 @@ content removed under privacy policy**. See [../models/temporal-record.md](../mo
 
 ---
 
-## Preservation Hold
+## Preservation Hold (DL-132)
+
+**Accepted 2026-11-05 (Issue #85, formal acceptance review PASS).** Resolves **OD-39** in full, except
+deletion-versus-preservation precedence, which remains **OD-36**'s own (corrected cross-reference —
+this section previously cited OD-39 for that question). Full decision:
+[adr-preservation-hold-governance.md](adr-preservation-hold-governance.md).
 
 A Preservation Hold protects applicable records from normal purge, truncation, archival deletion, or
 retention-driven deletion.
@@ -466,12 +471,23 @@ A hold must be **discoverable**, **attributable**, **bounded or periodically rev
 of normal visibility permissions**, and **explainable**.
 
 - **A hold does not automatically increase visibility.** Preserving a record is not disclosing it.
+  **The existence of a hold is itself governed information**, evaluated through this document's own
+  existing disclosure/audience architecture, never a separate model; no universal rule is invented
+  that a data subject must always, or must never, be proactively notified that their records are held.
 - A hold does not retain content that was never permitted to be retained. **A hold cannot preserve
   raw biometric internals or raw voice samples, because those were never stored.**
-- An indefinite, unreviewed hold defeats minimisation and is prohibited.
+- **Placement, review, and release are each an independent, household-configured authorisation**
+  (**DL-71** Named Person/Role-Authority-Class forms — never inferred from residency, Household
+  membership, Owner-role status, or the native HA administrator flag alone), and **placement/release
+  are each Governance-class (DL-76): Required Identity Band Very High, Required Confirmation Strength
+  Strong.**
+- **No HTBW-wide numeric default duration or review interval exists**; an indefinite, unreviewed hold
+  defeats minimisation and is prohibited, but a missed review fails safe toward preservation and is
+  reported, never silently released and never silently permanent.
+- **Release does not erase hold history and is not immediate deletion.**
 
 Whether a hold may override an authorised deletion request is **not decided here**. Open decision
-**OD-39**.
+**OD-36**.
 
 ### Transitive hold integrity
 
@@ -545,7 +561,7 @@ The following are recorded as open decisions and must **not** be resolved inside
 | OD-09 | Export and deletion mechanics across connected storage |
 | OD-33 | **Closed — DL-43, DL-46, DL-47.** Retention is declared inside every governed record and artifact lifecycle; the remaining values are **OD-05**, **OD-26**, **OD-49** |
 | OD-36 | Reconciliation of deletion and export obligations with retention floors and Preservation Holds |
-| OD-39 | Preservation Hold authority, duration, review, release, and conflict with deletion |
+| OD-39 | **Closed — DL-132.** Preservation Hold authority, duration, review, release, scope, disclosure, and enforcement. Conflict with deletion remains OD-36 |
 | OD-40 | Evidence Package assembly, transport, integrity representation, and audience |
 | OD-49 | Communication retention floor and ceiling, with content and metadata classified separately |
 | OD-52 | **Closed — DL-71.** Audience specification model, including resolution of *anyone present with authority* |

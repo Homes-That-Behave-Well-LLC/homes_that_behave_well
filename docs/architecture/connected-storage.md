@@ -41,7 +41,7 @@ capability that needs it is **unavailable**, in the sense defined in
 |---|---|
 | Asset documents, manuals, invoices, warranty records | Home Assistant stores no document body for a Device |
 | Voiceprints and derived identity profiles | No native store exists, and consent-scoped deletion is required |
-| Preservation Hold enforcement | Recorder offers **no per-record purge exemption** |
+| Preservation Hold enforcement | Recorder offers **no per-record purge exemption** (**DL-132**: where only ephemeral native history exists with no corresponding governed Connected Storage record, a hold may be unimplementable for that specific evidence, stated honestly rather than claimed; **no second Recorder is built**) |
 | Extended historical retention beyond the Recorder window | Recorder retention is global and entity-scoped |
 | Historical reconstruction artifacts | No native governed-record versioning exists |
 | Materialised Evidence Packages | Only where a package is written down rather than assembled on demand |
@@ -689,7 +689,15 @@ Four constraints bound this:
   purge** for the records it covers. Per record class, retention is declared inside the lifecycle
   under **DL-47**, and **four structural floors survive any configured window** — Tombstones,
   consent-lifecycle records, held records, and the versions required to keep a held Decision Trace
-  explainable.
+  explainable. **(DL-132)** The governed recurring purge above — and any other purge, truncation, or
+  archival-deletion mechanism governing Preservation-Hold-eligible governed records — **must discover
+  and consult hold status before discarding a record**; ordinary expiry cannot silently override it. **A
+  fixed-size bound whose eviction step cannot evaluate a hold before discarding (an unconditional
+  `records = records[-max_count:]` truncation) is not an acceptable retention mechanism for governed
+  records to which a Preservation Hold may apply** — the eviction/discard step must itself be
+  evaluable. Where a hold prevents a discard, the mechanism fails safe toward preservation, the
+  prevented discard is recorded and explainable, and any resulting capacity pressure is surfaced as a
+  **DL-41** dependency/capacity condition rather than resolved by silently violating the hold.
 - **Purge is not silence.** A record removed by external retention is still distinguishable from one
   that never existed, under the temporal degradation rules in
   [failure-and-degradation.md](failure-and-degradation.md).

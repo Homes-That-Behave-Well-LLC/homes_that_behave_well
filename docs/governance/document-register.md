@@ -61,6 +61,7 @@ Dispositions: **New** · **Keep** · **Revise** · **Supersede** · **Merge** ·
 | `adr-governed-record-persistence-mechanism.md` | Canonical ADR | **Accepted 2026-10-27** as **DL-92** (Issue #76, formal acceptance review PASS, following bounded reference/terminology corrections). Resolves **OD-01**'s persistence-mechanism residual, closing **OD-01** (DL-31, DL-92): Storage helper is the default mechanism for Current Projection, Change Record, and Snapshot; Connected Storage participates only as the already-accepted **DL-42** External History Retention extension (Change Records only, never Current Projections); distinguishes config-entry removal from governed-record deletion authority; restates no-second-Recorder (**DL-46**); defers **OD-05**, **OD-26**, **OD-29**, **OD-36**, **OD-37**, **OD-38**, **OD-39**, **OD-42**, **OD-49**, **OD-64**. Raised by the Issue #76 governed-record persistence review (#76, closed) |
 | `adr-reasoning-provider-strategy.md` | Canonical ADR | **Accepted 2026-10-27** as **DL-93** (Issue #132, formal acceptance review PASS, following bounded stale-reference corrections). Resolves **OD-67**: permits local/self-hosted, household-approved cloud, or no Reasoning provider (none selected); distinguishes Reasoning, Home Intelligence (accepted **DL-86**, #191, an optional deployment/hosting boundary), and Home Steward (**accepted DL-131**, Issue #206); every evaluation resolves to an **effective Person** (resolved household Person, otherwise the designated Guest fallback Person Extension — **DL-71** — otherwise the **DL-33** unidentified-person policy; no Room involvement); defines Integration/Person configuration scopes only, with no runtime discovery; two independent Person capability gates (Allow General Questions, Allow Home Steward); configured provider fallback (Person → Integration-default → unavailable); permitted/prohibited purposes ("Reasoning may reason, never govern"); a factual-integrity response-quality profile; data minimization under Operational Trust; Explainability reusing the existing Decision Trace structure. Defers **OD-77**, **OD-07**, **OD-65**, **OD-66**, **OD-04**. Raised by the Issue #132 Reasoning Provider Strategy review (#132, closed) |
 | `adr-home-steward-product-boundary.md` | Canonical ADR | **New, Accepted 2026-11-05** as **DL-131** (Issue #206, Governance Review, formal acceptance review PASS). Defines Home Steward as HTBW's locally governed AI knowledge-assistant product/domain, consuming **DL-81**, optionally hostable within **DL-86**, optionally configurable as a **DL-93** Reasoning Provider without altering DL-93's Person-only resolution order. Raised by the Home Steward Product/Domain Definition and Boundary review (#206, closed) |
+| `adr-preservation-hold-governance.md` | Canonical ADR | **New, Accepted 2026-11-05** as **DL-132** (Issue #85, formal acceptance review PASS). Resolves **OD-39** in full except deletion-versus-preservation precedence, explicitly deferred to **OD-36**: placement/review/release authority (**DL-71**, **DL-109**), Governance-class identity/confirmation (**DL-76**), scope, no invented numeric duration default (restating **DL-97**), missed-review fail-safe behaviour, release-does-not-erase-history, hold-existence-as-governed-information, storage-boundary enforcement, and the honest native-HA-Recorder limitation. Raised by the Preservation Hold Governance review (#85, closed) |
 
 ---
 
@@ -467,18 +468,26 @@ already Canonical) are revised in place, not reclassified. **DL-80** and **DL-83
 documents, `concierge-contract.md` §7 and `adr-generated-behavior-authoring-governance.md`) are
 **not** part of this update and remain Active — subordinate, pending #188 alone.
 
+**Updated 2026-11-05 (continued), Issue #85 formal acceptance review PASS (Preservation Hold
+Governance, DL-132)**: one new document, `adr-preservation-hold-governance.md`, is added as
+**Canonical ADR** from creation (+1 to new canonical documents, +1 to Canonical total, +1 to Total
+classified). `temporal-record.md`, `operational-trust.md`, `privacy.md`, `connected-storage.md`,
+`decision-trace.md`, and `stewardship.md` (all already Canonical) are revised in place, extending their
+existing Preservation Hold sections and correcting one stale OD-39/OD-36 cross-reference in
+`privacy.md`; none is reclassified.
+
 | Category | Count |
 |---|---|
-| New canonical documents | 63 |
+| New canonical documents | 64 |
 | Revised in place | 2 (`README.md`, `concierge-contract.md`) |
-| **Canonical total** (63 new + 2 revised) | **65** |
+| **Canonical total** (64 new + 2 revised) | **66** |
 | Marked Active — subordinate | 23 |
 | Marked Historical — superseded | 83 |
 | Marked Historical illustration (`examples/`) | 16 |
 | Marked Historical — planning/closure record | 2 |
 | **Historical total** | **101** |
 | Operational | 8 |
-| **Total classified** | **197** |
+| **Total classified** | **198** |
 | **Unclassified** | **0** |
 | **Deleted** | **0** |
 

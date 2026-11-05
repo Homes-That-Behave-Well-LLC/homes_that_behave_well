@@ -741,6 +741,13 @@ where the household has configured an actual change of accountable party**; wher
 configuration exists, the existing obligation-state, reminder, and notification architecture is
 sufficient on its own.
 
+**This pattern is reused, not transferred, by Preservation Hold review (DL-132, Issue #85).** A
+Preservation Hold with a missed review is reported exactly as an incomplete obligation already is —
+an overdue, visible, notified state, never a silent release and never silent permanence — without
+making Stewardship the owner of the Hold; Operational Trust continues to own Hold authority, and the
+record-owning responsibility continues to own the marker. See
+[../architecture/adr-preservation-hold-governance.md](../architecture/adr-preservation-hold-governance.md).
+
 ### Revocation
 
 A subject with self-authority may revoke a grant at any time; an authorized proxy may revoke where the

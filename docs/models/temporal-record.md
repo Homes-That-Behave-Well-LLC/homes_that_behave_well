@@ -901,6 +901,10 @@ and Access."
 
 ## Preservation Hold
 
+**Accepted 2026-11-05 (DL-132, Issue #85, formal acceptance review PASS).** Resolves **OD-39** in
+full, except deletion-versus-preservation precedence, which remains explicitly **OD-36**'s own. Full
+decision: [adr-preservation-hold-governance.md](../architecture/adr-preservation-hold-governance.md).
+
 A Preservation Hold protects applicable records from normal purge, truncation, archival deletion, or
 retention-driven deletion.
 
@@ -913,7 +917,8 @@ retention-driven deletion.
 
 A hold must be:
 
-- **Discoverable** — hold status is visible on the record
+- **Discoverable** — hold status is visible on the record, and at the storage/retention boundary for
+  any purge/truncation/archival-deletion mechanism that governs it (**DL-132**)
 - **Attributable** — who placed it, when, and under what authority
 - **Bounded or periodically reviewed** — an indefinite unreviewed hold defeats minimisation
 - **Independent of visibility** — a hold does **not** automatically increase visibility
@@ -922,7 +927,38 @@ A hold must be:
 A hold does not retain content that was never permitted to be retained. **A hold cannot preserve raw
 biometric internals or raw voice samples, because those were never stored.**
 
-Whether a hold may override an authorised deletion request is **OD-39**. It is not resolved here.
+Whether a hold may override an authorised deletion request is **OD-36**. It is not resolved here.
+
+### Authority, duration, review, release, and scope (DL-132)
+
+- **Placement, review, and release are each an independent, household-configured authorisation**,
+  expressed through **DL-71**'s existing Named Person / Role-Authority-Class forms — never inferred
+  from residency, Household membership, an Owner-role Person record, the native Home Assistant
+  administrator flag alone, device/data access, or Asset management. Placement authority never implies
+  review or release authority.
+- **Placement and release are Governance-class (DL-76): Required Identity Band Very High, Required
+  Confirmation Strength Strong.**
+- **Scope** is one or more specific governed records, a governed object/Subject qualified by its
+  applicable records, a bounded time range, a bounded Room/time context, or a correlation/causation
+  chain (**DL-104**); an Incident/Case scope is optional convenience once **OD-41** accepts a usable
+  construct, never a prerequisite. Scope expansion must be explicit, never inferred.
+- **No HTBW-wide numeric default duration or review interval exists.** Every active hold carries an
+  explicit, placer-set review-due time, status, purpose, authorised placer, review history, and
+  release status.
+- **A missed review fails safe toward preservation**: ACTIVE → REVIEW DUE → OVERDUE →
+  RENEWED/CONTINUED → RELEASED. An overdue hold remains preserving and stays visible/explainable
+  through existing governed Communication — never silently released, never silently permanent.
+- **Release does not erase hold history and is not immediate deletion** — it removes the retention
+  floor and returns the records to normal retention/**OD-36** governance.
+- **Hold existence is itself governed information**, evaluated through existing Operational
+  Trust/Identity/audience/disclosure architecture — no universal mandatory (or prohibited) subject-
+  notification rule is invented.
+- **A fixed-size bound whose eviction step cannot evaluate a hold before discarding is not an
+  acceptable retention mechanism** for hold-eligible governed records; a prevented discard fails safe
+  toward preservation and is itself recorded.
+- **Home Assistant Recorder offers no native per-record hold exemption.** Where only ephemeral native
+  history exists with no corresponding governed record, a hold may be unimplementable for that specific
+  evidence, stated honestly rather than claimed.
 
 ### Transitive hold integrity
 
@@ -1112,7 +1148,7 @@ recorded the wrong thing.
 | OD-36 | Reconciliation of deletion and export obligations with retention floors and Preservation Holds |
 | OD-37 | Snapshot triggers, cadence, and scope per responsibility |
 | OD-38 | Version identity, correlation, and causation identifier strategy, including evaluation of Home Assistant Context IDs |
-| OD-39 | Preservation Hold authority, duration, review, release, and conflict with deletion |
+| OD-39 | **Closed — DL-132.** Preservation Hold authority, duration, review, release, scope, disclosure, and enforcement. Conflict with deletion remains OD-36 |
 | OD-40 | Evidence Package assembly, transport, integrity representation, and audience |
 | OD-41 | Incident and Case object model |
 
