@@ -3,6 +3,14 @@
 > **Document status: Canonical ADR.**
 > Status: **Accepted** 2026-10-27. Records **DL-93** (issue **#132**, formal acceptance review PASS,
 > following bounded stale-reference corrections made during the review).
+> **Terminology update, 2026-11-05 (not a reopening):** this ADR's own prior "Home Steward remains
+> proposed/unaccepted" characterization is superseded by **DL-131**
+> ([adr-home-steward-product-boundary.md](adr-home-steward-product-boundary.md)), which accepts Home
+> Steward as a product and accepts that it consumes **DL-81**'s pipeline. **This ADR's own substance —
+> Person-only (no Room) General Reasoning authorization/resolution, the two independent Person
+> capability gates, and "Home Steward never auto-inserted into the General Reasoning fallback
+> chain" — is unchanged and was explicitly not reopened by DL-131**, per the Owner's own confirmation
+> during that review.
 > Canonical authority: [framework.md](framework.md) and [../models/glossary.md](../models/glossary.md).
 > Where this document conflicts with canonical authority, canonical authority prevails.
 > Resolves **OD-67**.

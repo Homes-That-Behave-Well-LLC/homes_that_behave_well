@@ -1,21 +1,29 @@
 # ADR: Household Knowledge Provider Governance
 
-> **Document status: Active — subordinate to the HTBW canonical architecture.**
+> **Document status: Canonical ADR.**
+> Status: **Accepted** 2026-11-05. Records **DL-81** (Issue #188, formal acceptance review PASS,
+> completed alongside the Home Steward Product/Domain Definition and Boundary review, **DL-131**,
+> Issue #206).
 > Canonical authority: [framework.md](framework.md) and [../models/glossary.md](../models/glossary.md).
 > Where this document conflicts with canonical authority, canonical authority prevails.
-> Drafts decision **DL-81**, recorded pending formal acceptance review at **Issue #188**.
-> **Not yet authoritative.** Creates no new responsibility.
 > Terminology: [../models/glossary.md](../models/glossary.md).
 
 ---
 
 ## Status
 
-**Recorded, pending formal acceptance review (Issue #188). Not yet authoritative.**
+**Accepted 2026-11-05.** Formal acceptance review on Issue #188 recorded **PASS** for this document's
+**DL-81** specifically (DL-80 and DL-83, drafted in the same original review, are unrelated to this
+pipeline and remain separately pending at #188).
+
+**Terminology note (DL-131, not a substantive change):** the household-facing product consuming this
+pipeline is **Home Steward** (see
+[adr-home-steward-product-boundary.md](adr-home-steward-product-boundary.md)). This pipeline itself
+remains a provider-agnostic architectural boundary/role, never itself a product name.
 
 Drafted by the 2026-10 AI, Natural Interaction, and Household Knowledge Architecture Review, which
 found no current-authority document governing household document and knowledge retrieval for AI-
-assisted answers. This ADR proposes to close that gap at the architecture level, consistent with this
+assisted answers. This ADR closes that gap at the architecture level, consistent with this
 repository's established practice that a drafted decision is recorded first and separately undergoes
 formal acceptance review before being treated as binding (see *Notes on the custody and obligation-
 lifecycle decision* in [../governance/decision-ledger.md](../governance/decision-ledger.md) for the

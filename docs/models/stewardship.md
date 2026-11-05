@@ -363,10 +363,11 @@ Timestamp** — when HTBW learned or recorded it. Where effective time cannot be
 recorded as unknown; Recorded Time is never silently substituted for it (`temporal-record.md`,
 Failure behavior, unchanged). "Planned" is the step's own materialized target, evaluated against the
 version-pinned fulfilment definition in force for the cycle. No third temporal field, and no new
-explainability subsystem, is introduced. **Home Steward** may later consume this governed history
-under its own applicable authorization and disclosure architecture; it never becomes Stewardship's
-authority, never reconstructs missing history from current entity, `todo`, Calendar, or Recorder
-state, and never becomes a second Recorder.
+explainability subsystem, is introduced. **Home Steward** (accepted **DL-131**,
+[adr-home-steward-product-boundary.md](../architecture/adr-home-steward-product-boundary.md)) may
+consume this governed history under its own applicable authorization and disclosure architecture; it
+never becomes Stewardship's authority, never reconstructs missing history from current entity, `todo`,
+Calendar, or Recorder state, and never becomes a second Recorder.
 
 **Boundary with OD-23.** This decision owns the Fulfilment Step, its kind, its timing, and its
 completion-evidence semantics — the **current actionable unit** of a cycle's progression. It does not

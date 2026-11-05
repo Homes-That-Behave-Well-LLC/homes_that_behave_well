@@ -521,14 +521,16 @@ and policies available when a decision is evaluated.
 > would collapse distinctions that are deliberately kept apart.**
 
 **Household Knowledge Provider**
-**Drafted, pending formal acceptance review (Issue #188); not yet authoritative.** The proposed,
-architecture-only boundary (**DL-81**) governing retrieval over household documents and
+**Accepted 2026-11-05 (Issue #188, formal acceptance review PASS).** (**DL-81**) The
+architecture-only boundary governing retrieval over household documents and
 records for AI-assisted answers: authoritative sources → governed ingestion or query connector →
 extraction and classification → asset/document association, consumed by reference from Asset
 Intelligence → structured indexes and embeddings → retrieval → a replaceable Reasoning Provider →
-a provenance-aware answer → Identity- and Operational-Trust-governed disclosure. **It is not a
-responsibility, not a second asset catalog, and not a competing document repository.** Household
-knowledge would be durable; the Reasoning Provider it consults would be replaceable.
+a provenance-aware answer (**DL-82**) → Identity- and Operational-Trust-governed disclosure. **It is
+not a responsibility, not a second asset catalog, and not a competing document repository.** Household
+knowledge is durable; the Reasoning Provider it consults is replaceable. **Home Steward** (**DL-131**,
+below) is accepted as this pipeline's household-facing product consumer — the pipeline itself remains
+a provider-agnostic architectural boundary/role, never itself a product name.
 ADR: [../architecture/adr-household-knowledge-provider-governance.md](../architecture/adr-household-knowledge-provider-governance.md)
 
 **Identity Subject**
@@ -620,7 +622,7 @@ an AI/vector datastore.** Reuses existing Operational Trust disclosure evaluatio
 **Home Intelligence**
 **Accepted 2026-10-14 (Issue #191, formal acceptance review PASS).** (**DL-86**) The optional,
 separately deployable product/deployment boundary that may host the **Household
-Knowledge Provider** pipeline (**DL-81**, still drafted pending #188) and a **Reasoning Provider**
+Knowledge Provider** pipeline (**accepted DL-81**, Issue #188) and a **Reasoning Provider**
 (**accepted DL-93**, **OD-67** closed, Issue #132). Analogous to the
 already-accepted standalone Asset Intelligence product boundary (**DL-08**, narrowed by **OD-20**): it
 may have its own repository, lifecycle, failure domain, installable package, and versioned API
@@ -630,31 +632,37 @@ trust-establishment mechanics are explicitly not decided (**#190**). **Home Core
 for Home Assistant, HTBW, and Concierge operating independently of Home Intelligence. **Home
 Intelligence is the deployment/hosting boundary — it is not, by itself, the household-facing
 commercial product name for a specific capability it may host.** Contrast **Home Steward**, below,
-a separately-proposed, unaccepted product term — the relationship between the two, if any, is not
-decided here.
+now an accepted product (**DL-131**): Home Steward **may optionally** be deployed within the Home
+Intelligence hosting boundary but is never required to be, and Home Intelligence is never renamed or
+redefined by Home Steward's acceptance. Ordinary questions about governed operational Home state
+(*"why are the Den shades closed"*) are answered by Truth/Stewardship/Explainability/Concierge
+directly and are not routed to Home Steward merely because Home Steward exists.
 ADR: [../architecture/adr-home-identity-and-home-intelligence-governance.md](../architecture/adr-home-identity-and-home-intelligence-governance.md)
 
 **Home Steward**
-**Proposed term; not yet a governed or canonical product.** A working/tentative name discussed during
-the OD-67 Reasoning Provider Strategy review (Issue #132) for a prospective, separate commercial
-product delivering governed household information (documents, financial/banking records, Asset
-manuals, insurance, maintenance, and administrative information) to residents. **Its relationship, if
-any, to the drafted Household Knowledge Provider (DL-81, itself non-binding, architecture-only, and
-pending formal acceptance review at #188) is not decided.** Home Steward is **not** stated to be
-identical to, or owned by, the Household Knowledge Provider's architecture — that pipeline may
-eventually be one capability a future Home Steward product consumes, an architectural service several
-products use, or related in another future-governed way, once DL-81 itself is formally accepted and a
-separate product decision is made. **Issue #188 is a governance-review record, not architecture
-authority and not an Open Decision; it has no standing to assign Home Steward's product ownership, and
-this entry does not claim that it does.** **DL-93** (OD-67, accepted 2026-10-27, Issue #132) states only that
-General Reasoning and Home Steward are independent, Person-scoped-authorized capabilities, and that
-neither is a fallback for the other; it does not name, define, accept, or own the Home Steward
-product, and does not decide its relationship to the Household Knowledge Provider. **No existing issue
-has been identified as the owner of Home Steward's product naming, commercial packaging, or
-information-category authorization taxonomy**; that governance remains explicitly unassigned pending a
-future decision.
+**Accepted 2026-11-05 (Issue #206, Governance Review, formal acceptance review PASS).** (**DL-131**)
+HTBW's locally governed AI knowledge assistant: it reasons over HTBW/Home Intelligence context
+supplied through governed boundaries plus additional household knowledge the household has explicitly
+authorized it to consume (documents, financial/banking records, Asset manuals, insurance, maintenance,
+and administrative information), so that Concierge and other responsible HTBW capabilities may obtain
+an answer from authorized household knowledge the Home would otherwise need to ask a Person to
+provide. **It is an AI extension to HTBW: it does not replace HTBW, and does not assume ownership of
+any HTBW responsibility merely because AI/LLM reasoning enhances that responsibility.** It **consumes**
+the accepted **Household Knowledge Provider** pipeline (**DL-81**) as one capability it is built on,
+without being identical to it; it **may optionally** be deployed within the accepted **Home
+Intelligence** (**DL-86**) hosting boundary, without requiring it; and it **may optionally** be
+explicitly configured as a **DL-93** Reasoning Provider entry, subject to DL-93's existing, unchanged
+Person → Integration-default → unavailable resolution order (no Room step, no runtime discovery) and
+never auto-substituted into the General Reasoning fallback chain. Home Steward may substitute for
+asking a Person for already-authorized **knowledge**; it may never substitute for asking a Person for
+current **intent**, consent, confirmation, or authorization absent separate, explicit HTBW delegation.
+No currently accepted HTBW responsibility (Stewardship, calendar, Asset documents, email, Identity,
+Operational Trust, Concierge, etc.) is transferred to Home Steward by this acceptance; a capability may
+be HTBW-owned and Home-Steward-enhanced without becoming Home-Steward-owned.
+ADR: [../architecture/adr-home-steward-product-boundary.md](../architecture/adr-home-steward-product-boundary.md)
 
 ---
+
 
 ## Time and history
 

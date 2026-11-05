@@ -442,14 +442,12 @@ is open decision **OD-38**.
 
 ## Source-class provenance for AI-assisted and document-grounded explanations (DL-82)
 
-> **This section is additive and is recorded pending formal acceptance review at Issue #188. It is
-> drafted content, not yet an accepted part of this model**, consistent with this repository's
-> practice of recording a decision before its separate formal acceptance review (see
-> [../governance/decision-ledger.md](../governance/decision-ledger.md), *Notes on the 2026-10 AI,
-> Natural Interaction, and Household Knowledge Architecture Review*). The rest of this model is
-> unaffected and remains fully canonical.
+> **This section is additive and is Accepted 2026-11-05 (Issue #188, formal acceptance review PASS,
+> completed alongside the Home Steward Product/Domain Definition and Boundary review, DL-131, Issue
+> #206).** This is the provenance model every **Home Steward** (DL-131) answer must use. The rest of
+> this model is, and remains, fully canonical and unchanged.
 
-**Proposes to extend the existing provenance architecture; it creates no second provenance
+**Extends the existing provenance architecture; it creates no second provenance
 ownership.** Truth already requires every Fact to carry Provenance ([truth.md](truth.md)). This
 section proposes the corresponding requirement where an explanation draws on evidence that is not
 itself a Truth Fact — a document, an invoice, a Home Assistant history record, or a Reasoning

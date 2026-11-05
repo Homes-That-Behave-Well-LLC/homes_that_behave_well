@@ -5,6 +5,9 @@
 > acceptance review PASS). This acceptance was not propagated into this banner until 2026-10-27, during
 > the OD-67/#132 remediation — see *Notes on the 2026-10 Home Identity and Home Intelligence
 > Architecture Review* in [../governance/decision-ledger.md](../governance/decision-ledger.md).
+> **Terminology clarification, 2026-11-05 (not a reopening):** see the annotation at *"Share with Home
+> Intelligence: Yes/No"* below — **DL-131** names Home Steward as that toggle's consuming product;
+> **DL-85**'s disclosure-governance mechanics are unchanged.
 > Canonical authority: [framework.md](framework.md) and [../models/glossary.md](../models/glossary.md).
 > Terminology: [../models/glossary.md](../models/glossary.md).
 
@@ -289,6 +292,14 @@ evaluate; it is never itself the obligation, and a personal reminder is weaker e
 Continuity's own record of what one person intends to do, carrying no Stewardship authority at all.
 
 ### "Share with Home Intelligence: Yes/No" is governed disclosure, not bulk copying
+
+> **Terminology clarification, 2026-11-05 (not a reopening of DL-85):** the product this toggle
+> discloses *into* is **Home Steward** (accepted **DL-131**,
+> [adr-home-steward-product-boundary.md](adr-home-steward-product-boundary.md)), the household-facing
+> consumer of **DL-81**'s pipeline. **DL-86**'s "Home Intelligence" naming refers to the optional
+> deployment/hosting boundary, not the consuming product; this toggle's historical name, its
+> disclosure-governance mechanics, and **DL-85** itself are unchanged and not reopened — future
+> household-facing copy may present this toggle as "Share with Home Steward" for clarity.
 
 Where a Home-owned or person-owned source is already configured within the HTBW capability that owns
 its meaning (a Home mailbox, a Home calendar, an Individual's own permitted personal calendar, or Asset
