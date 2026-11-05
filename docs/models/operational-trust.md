@@ -2036,6 +2036,29 @@ responsibility's, not Operational Trust's: see `temporal-record.md`'s *Portabili
 *Erasure* sections and
 [adr-data-portability-and-erasure-mechanics.md](../architecture/adr-data-portability-and-erasure-mechanics.md).
 
+### Explainability persistence and retention authority (DL-137)
+
+**Accepted 2026-11-05 (Issue #77, formal acceptance review PASS).** Resolves **OD-05** in full. Full
+decision: [../architecture/adr-explainability-persistence-and-retention.md](../architecture/adr-explainability-persistence-and-retention.md).
+
+**Answering an on-demand Explainability question is a governed evaluation**, authorized under the
+existing Historical Retrieval and Access model (**DL-130**, above) — Disclosure-class by **DL-76**
+default, no new authority mechanism. Every invocation produces its own new Explainability Record
+(`on_demand_decision_trace` origin), never deduplicated against an earlier identical request.
+
+**Retention is Operational Trust policy, proportionate via DL-76, never an invented absolute
+duration.** A decision class's configured retention floor is never shorter than a lower-consequence
+class's configured floor — an ordering constraint only. **The floor's existence (non-zero) is
+required**, by **P27**/**DL-24**'s own constitutional requirement; its exact value is household
+configuration, reusing **DL-122**'s enumerated-presets-plus-custom-override shape at
+Integration-default/Room-override scope. The ceiling is equally household-configurable, bounded only by
+`>= floor`. **A Person's consent-lifecycle duration is never inherited as a record's whole ceiling** —
+**DL-47**'s existing structural-floor separation governs instead.
+
+**Persistence technology (SQLite) and Connected-Storage/Backup-growth boundaries** are Foundation's/
+Connected Storage's, not Operational Trust's: see `decision-trace.md`'s *Persistence* section and
+[connected-storage.md](../architecture/connected-storage.md).
+
 ### Historical visibility
 
 Visibility policy applies to historical records exactly as it applies to current ones. Presence
@@ -2063,11 +2086,12 @@ architectural terms. They are not claims of legal effect.** See
 | ID | Question |
 |---|---|
 | OD-04 | **Closed — DL-126.** Policy precedence is four operations (Candidate Value/Preference Resolution, Authority/Policy Ceiling Evaluation, Current Explicit Request, Competing-Communication Ordering), never one undifferentiated ladder. Most-restrictive combination across scopes is precise: `prohibited` > `undecidable` > cumulative confirmation/escalation (never substituted for one another) > `permitted`. Mode, capability, and operation are applicability/condition dimensions, never scopes; Person is dual in kind (Policy vs. Preference), never dual in precedence; a Person preference never becomes permission |
+| OD-05 | **Closed — DL-137.** Explainability Persistence, Origins, and Retention — retention proportionate via DL-76 ordering (no invented duration), floor-existence requirement (non-zero, per P27/DL-24), ceiling household-configurable (DL-122 pattern); on-demand Explainability requests authorized as Disclosure-class, each invocation its own governed evaluation |
 | OD-06 | Consent user experience |
 | OD-08 | **Resolved** as **DL-39** and **DL-40**. Four Identity bands, `None` as a Trust requirement, threshold ownership, Address by Name, operation-scoped confirmation, and the **Required Confirmation Strength** class set. Per-class defaults are configuration, resolved as **DL-76** |
 | OD-09 | **Closed — DL-136.** Data Portability and Erasure Mechanics — Portability Export authority (Assembly/Materialization/External-transport mapped onto DL-76), orchestrated-erasure-request Governance-class authority by analogy to DL-132/DL-133, each responsibility's own existing deletion authority unchanged |
 | OD-28 | **Closed — DL-123.** Learned-Policy Promotion Lifecycle: Concierge formulates and presents the Suggestion (an ordinary Communication); acceptance requires at minimum Authenticated Confirmation Strength (this document's "permission changes" floor) and resolves eligibility through the Suggestion's own DL-71 Audience Specification; pause suspends, revocation terminates, the autonomy permission alone; "forgotten" is replaced by Revocation/Preference deletion/source-evidence expiration |
-| OD-33 | **Closed — DL-43, DL-46, DL-47.** Retention is declared inside every governed record and artifact lifecycle; remaining values are **OD-05**, **OD-26**, **OD-49** |
+| OD-33 | **Closed — DL-43, DL-46, DL-47.** Retention is declared inside every governed record and artifact lifecycle; remaining values are **DL-137** (OD-05, closed), **OD-26**, **OD-49** |
 | OD-35 | **Closed — DL-130.** Assist/Conversation is the sole historical-retrieval surface, classified before assembly into ordinary retrieval versus Person/actor reconstruction; the nine existing Explainability scopes remain the complete query model; `caretaker-of` (**DL-49**) and **DL-71**'s five Intended Audience Specification forms are reused unchanged for Subject Authorization; current-location and historical-movement access are two independently configurable Disclosure-Risk-Class capabilities, never one setting; refusal and gap semantics reuse existing vocabulary throughout |
 | OD-36 | **Closed — DL-133.** Reconciliation of deletion and export obligations with retention floors and Preservation Holds |
 | OD-39 | **Closed — DL-132.** Preservation Hold authority, duration, review, release, scope, disclosure, and enforcement. Conflict with deletion is **DL-133** |

@@ -158,15 +158,30 @@ A numeric confidence value is disclosed **only where policy governs it and the a
 - Trace visibility is an Operational Trust policy decision, per audience and per content class.
 - A human-readable explanation must be redactable without becoming false.
 
-### Decision Trace retention
+### Decision Trace retention (DL-137)
+
+**Accepted 2026-11-05 (Issue #77, formal acceptance review PASS).** Resolves **OD-05** in full. Full
+decision:
+[adr-explainability-persistence-and-retention.md](adr-explainability-persistence-and-retention.md).
 
 - Traces are retained long enough to answer "why did this happen?" for a household-meaningful
   period, and no longer.
 - Retention is bounded from **both** directions: **P27** establishes a floor, this document
   establishes the ceiling. See [Historical retention — floors and ceilings](#historical-retention--floors-and-ceilings).
-- The retention rule is settled by **DL-47** — a Decision Trace follows External History Retention
-  unless an accepted floor or a Preservation Hold applies. The exact floor and ceiling values are
-  **not decided here**. Open decision **OD-05**.
+- The retention rule is settled by **DL-47** — a Decision Trace (persisted as an **Explainability
+  Record**) follows External History Retention unless an accepted floor or a Preservation Hold
+  applies. **Retention is proportionate, reusing DL-76's six existing Action-Risk Classes as an
+  ordering constraint** (a higher-consequence class's configured floor is never shorter than a
+  lower-consequence class's) — **no absolute numeric duration is invented**. **The floor is a
+  non-zero configuration-existence requirement, never an invented value**: a configured floor of
+  zero, disabled, or unset is invalid and rejected, because **P27**/**DL-24** make *some* retained
+  window constitutionally required, while the household determines what counts as sufficient for its
+  own home. The ceiling is household-configurable (Integration-default/Room-override, reusing
+  **DL-122**'s enumerated-presets-plus-custom-override shape). **A Person's full consent-lifecycle
+  duration is never automatically inherited as a record's whole retention ceiling** — the existing
+  **DL-47** structural-floor separation (consent-lifecycle proof survives independently) governs
+  instead. On ordinary expiry, a **Tombstone is required**, distinguishing *"an Explainability Record
+  existed and expired"* from *"none was ever created"*; no indefinite shadow summary survives expiry.
 
 ### Visibility of personal preferences
 
@@ -590,7 +605,7 @@ The following are recorded as open decisions and must **not** be resolved inside
 
 | ID | Open decision |
 |---|---|
-| OD-05 | Decision Trace retention floor and ceiling |
+| OD-05 | **Closed — DL-137.** Explainability Record origins, on-demand always-new-record semantics, SQLite persistence technology, and retention proportionality/floor-existence/ceiling model |
 | OD-06 | **Resolved as DL-56.** Consent user experience and its Home Assistant-native surface |
 | OD-07 | **Resolved as DL-120.** Speaker-biometric Identity processing is HA-Prod-local only (**DL-119**); speech-to-text/text-to-speech follow the ordinary declare/disclose/consent rule above |
 | OD-08 | **Resolved** as **DL-39** and **DL-40** |

@@ -231,10 +231,13 @@ multiplying mechanisms:
 
 **Category 7 is structurally split, never merged.** "Why didn't X happen?" is classified, before any
 answer is composed, into exactly one of two branches, and the answer states which branch produced it:
-HTBW evaluated and decided not to act — a Decision Trace exists, fully governed (**DL-15**); or HTBW
-made no decision at all — nothing is held, and the answer is a diagnostic reconstruction from native
-evidence (**DL-73**, **DL-111**), carrying its own confidence, never borrowed from the Decision Trace
-path.
+HTBW evaluated and decided not to act — an `outcome_generated` Explainability Record already exists,
+fully governed (**DL-15**); or HTBW made no decision at all — nothing is held, and the answer is a
+diagnostic reconstruction from native evidence (**DL-73**, **DL-111**), persisted as a new
+`on_demand_decision_trace` Explainability Record (**DL-137**), carrying its own confidence, never
+borrowed from the retained-record path. **Answering the question is itself a governed evaluation**
+(**DL-15**), so every invocation of this branch — even a repeated, identical question — produces its
+own new Explainability Record; see `decision-trace.md`'s *Explainability Record and origins* section.
 
 **Category 15/17 detail (DL-134).** An Incident scope is a bounded, governed scope — never a persisted
 object, never a DL-45 Governing Parent, never independently retained once the operation that

@@ -772,28 +772,82 @@ See [communication.md](communication.md).
 
 ---
 
-## Persistence (resolved — DL-129)
+## Explainability Record and origins (DL-137)
 
-**Authoritative location.** The Decision Trace is persisted durably in Connected Storage, reusing
-**DL-92**'s already-accepted Storage-helper-based persistence mechanism as the already-accepted
-External History Retention (**DL-42**) extension — never a competing mechanism. Native Home Assistant
-Activity is never the authoritative trace; it may supply supporting execution-causality evidence for
-an action with a corresponding native state change, consumed by Governed Reference, never manufactured
-for a non-action/suppression/evaluation-only trace. Durable capture is therefore a Connected-Storage
-capability dependency (**DL-41**): where Connected Storage is unavailable, durable persistence
-degrades, but **the underlying governed action, non-action, suppression, or refusal proceeds
-according to its own governance regardless** — Explainability capture is never a precondition for
-ordinary Home operation.
+**Accepted 2026-11-05 (Issue #77, formal acceptance review PASS).** Resolves **OD-05** in full. Full
+decision:
+[../architecture/adr-explainability-persistence-and-retention.md](../architecture/adr-explainability-persistence-and-retention.md).
+
+**Decision Trace** names the governed reasoning process described above (the 21-field content model).
+**Explainability Record** names the persisted, durable record of that process's result — the thing the
+*Persistence* section below describes being written to Connected Storage. **These are not two stores.**
+There is exactly one durable Explainability repository; a Decision Trace's content, once produced,
+becomes an Explainability Record the moment it is persisted. "Decision Trace" is **not** renamed —
+every existing use of the term in this document, and in **DL-15**, **DL-24**, **DL-27**, **DL-46**, and
+**DL-129**, remains correct and unchanged; the clarification concerns **persistence ownership** only.
+
+**Every Explainability Record identifies one of exactly two canonical origins:**
+
+| Origin | Produced when |
+|---|---|
+| **`outcome_generated`** | HTBW performs a governed evaluation and produces an outcome (action, non-action, suppression, refusal, disclosure, escalation) — the ordinary write-time-assembled trace described below |
+| **`on_demand_decision_trace`** | A Person asks an Explainability question requiring research or reconstruction, and HTBW evaluates and answers it — formalizing the *Persistence* section's own "diagnostic explanation" as a first-class origin |
+
+**Answering an Explainability question is itself a governed evaluation under DL-15.** Every invocation
+of an `on_demand_decision_trace` produces a **new** Explainability Record — never deduplicated, never
+backdated — even where the historical scope and resulting explanation are identical to an earlier
+request. Two such records are two legitimate governed interactions, each with its own Record Identity
+(**DL-104**), Creation Time, request parameters, evidence basis, and gaps. An earlier record is never
+overwritten, mutated into a later one, or silently returned as though no new interaction occurred; an
+existing retained record may be consulted as evidence for a new request, but the request itself always
+produces its own new record.
+
+**Record Creation Time and Historical/Effective Scope are distinct.** Record Creation Time is when
+HTBW performed the on-demand Decision Trace and wrote the Explainability Record; Historical/Effective
+Scope is the earlier event, interval, decision, or non-action being examined — reusing this document's
+own bitemporal **Effective Time**/**Recorded Time** pair (see `temporal-record.md`) unchanged, never a
+third competing timestamp taxonomy. **An on-demand Explainability Record is never backdated** to make
+it appear created at the historical event's own time.
+
+**Both origins share one retention policy** (see *Retention*, below). Origin is provenance, recorded
+on the record, never a retention classification of its own.
+
+---
+
+## Persistence (resolved — DL-129; encoding reconciled — DL-137)
+
+**Authoritative location.** The Explainability Record is persisted durably in Connected Storage,
+reusing **DL-92**'s already-accepted Storage-helper-based persistence mechanism as the already-accepted
+External History Retention (**DL-42**) extension — never a competing mechanism. **This authoritative-
+location holding is unchanged by DL-137.** Native Home Assistant Activity is never the authoritative
+trace; it may supply supporting execution-causality evidence for an action with a corresponding native
+state change, consumed by Governed Reference, never manufactured for a non-action/suppression/
+evaluation-only trace. Durable capture is therefore a Connected-Storage capability dependency
+(**DL-41**): where Connected Storage is unavailable, durable persistence degrades, but **the
+underlying governed action, non-action, suppression, or refusal proceeds according to its own
+governance regardless** — Explainability capture is never a precondition for ordinary Home operation.
+
+**Persistence technology: SQLite (DL-137).** Following Home Assistant's own verified Recorder-uses-
+SQLite precedent, the Explainability repository's default persistence technology is **SQLite** — a
+distinct, separately owned HTBW database, never Home Assistant's Recorder database, and never a
+second Recorder. **This narrowly reconciles one descriptive detail of DL-129** ("one governed
+JSON-backed record class"): **DL-92** itself states database technology and serialization format are
+implementation mapping for every record class it governs, so SQLite narrows only the physical
+encoding, leaving this section's authoritative-location, write-time-assembly, Room-normalization, and
+storage-outage-independence holdings fully unchanged. See
+[../architecture/connected-storage.md](../architecture/connected-storage.md) for the Backup-growth
+boundary.
 
 **Write-time assembly.** A Decision Trace is composed when the governed evaluation occurs, consuming
 each contributing responsibility's own already-accepted record via Governed Reference, exact-version
-pinned (**DL-104**). Retrieval later retrieves this already-assembled trace; it does not normally
-rediscover Room architecture or reconstruct the decision from surviving native evidence. Where no
-trace was retained (never configured, expired, lost to an outage, or not an HTBW-governed evaluation),
-HTBW may assemble a **diagnostic explanation** at query time from currently available evidence — this
-is explicitly distinguished from, and never presented as, the missing contemporaneous trace; where
-durable storage is available at that moment, the diagnostic interaction may itself be persisted as an
-ordinary new record of a *current* activity, never backdated into the original.
+pinned (**DL-104**), and is persisted as an `outcome_generated` Explainability Record. Retrieval later
+retrieves this already-assembled record; it does not normally rediscover Room architecture or
+reconstruct the decision from surviving native evidence. Where no record was retained (never
+configured, expired, lost to an outage, or not an HTBW-governed evaluation), HTBW may assemble a
+**diagnostic explanation** at query time from currently available evidence, persisted as an
+`on_demand_decision_trace` Explainability Record (see *Explainability Record and origins*, above) —
+this is explicitly distinguished from, and never presented as, the missing contemporaneous record, and
+is never backdated into the original.
 
 **Room normalization.** A multi-Room command ("turn off all downstairs lights") produces one
 Decision Trace per participating Room, each scoped to that Room's own targets/evaluation/outcome and
@@ -873,10 +927,28 @@ and evidence classes.
 
 Retention is bounded from **both** directions: **P27** establishes a floor, and
 [../architecture/privacy.md](../architecture/privacy.md) establishes the ceiling. **DL-47 settles the
-rule**: a Decision Trace is governed explainability history following **External History Retention**
-unless an accepted floor or a Preservation Hold applies, and **holding a trace preserves the governed
-source versions required to keep it explainable** rather than duplicating their payloads. The exact
-floor and ceiling values remain open decision **OD-05**.
+rule**: an Explainability Record is governed explainability history following **External History
+Retention** unless an accepted floor or a Preservation Hold applies, and **holding a record preserves
+the governed source versions required to keep it explainable** rather than duplicating their payloads.
+
+**Retention (DL-137): proportionate, no invented number.** Retention is proportionate, reusing
+**DL-76**'s six existing Action-Risk Classes as an **ordering constraint only** — a higher-consequence
+class's configured floor is never shorter than a lower-consequence class's — never an invented
+absolute duration. **The floor is a non-zero configuration-existence requirement**: a configured floor
+of zero, disabled, or unset is invalid and rejected, because **P27**/**DL-24** make *some* retained
+window constitutionally required, while the household determines what counts as sufficient for its own
+home. The ceiling is household-configurable (Integration-default/Room-override, reusing **DL-122**'s
+enumerated-presets-plus-custom-override shape); a configured value must satisfy `floor <= retention <=
+ceiling`, rejected rather than silently accepted if violated. **A Person's full consent-lifecycle
+duration is never automatically inherited as a record's whole retention ceiling** — **DL-47**'s
+existing structural-floor separation (consent-lifecycle proof survives independently of ordinary
+content) governs instead, and **DL-56** consent withdrawal never retroactively shortens an
+already-configured ceiling. **Both Explainability origins (`outcome_generated`,
+`on_demand_decision_trace`) share this identical retention policy** — origin is provenance, never a
+retention classification. **On ordinary expiry, a Tombstone is required**, distinguishing *"an
+Explainability Record existed and expired"* from *"none was ever created"*; no indefinite shadow
+summary survives expiry. Full decision:
+[../architecture/adr-explainability-persistence-and-retention.md](../architecture/adr-explainability-persistence-and-retention.md).
 
 **Referencing instead of copying is itself a privacy mechanism.** Sensitive content stays in one
 governed place, where it can be redacted once, rather than in every trace that consumed it. A trace
@@ -897,7 +969,7 @@ This model *is* the explainability requirement. Every other canonical document r
 
 | ID | Question |
 |---|---|
-| OD-05 | Decision Trace retention floor and ceiling |
+| OD-05 | **Closed — DL-137.** Explainability Record origins (`outcome_generated`, `on_demand_decision_trace`), always-new-on-demand-record semantics, SQLite persistence technology, retention proportionality via DL-76 ordering (no invented number), floor-existence requirement, Tombstone-on-expiry — see *Explainability Record and origins* and *Privacy considerations*, above |
 | OD-09 | **Closed — DL-136.** A trace records, for Portability: requester, authorized scope, Risk-Class authority applied, Completeness Manifest outcomes per class, Temporal Portability Contract elements applied, recipient/transport result. For Erasure: requester/subject, scope, Governance-class authority applied, per-responsibility result, DL-133 conflict handling, storage outages, final household-facing outcome shape — see *Portability Export explainability* and *Erasure explainability*, above |
 | OD-21 | **Closed — DL-75.** An obligation's referenced Significance Declaration (Derivation Source, Base Significance, Provenance, Effective Version) is referenced by its **Effective Version at the time of the decision** (**P30**), never copied, so a past explanation reports the declaration that was in force then, even after the household later changes it |
 | OD-29 | **Closed — DL-129.** Connected Storage is the authoritative durable location, reusing DL-92's mechanism; durable capture is a DL-41 Connected-Storage dependency that never stops the underlying governed action; write-time assembly, Room-normalized multi-Room persistence with DL-104 correlation, diagnostic fallback, and storage-outage/recovery coverage-gap semantics are each stated |

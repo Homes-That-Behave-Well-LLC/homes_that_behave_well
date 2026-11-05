@@ -491,7 +491,7 @@ would change the outcome.
 | OD-06 | Consent user experience |
 | OD-08 | **Resolved** as **DL-39** and **DL-40** |
 | OD-28 | **Closed — DL-123.** Learned-Policy Promotion Lifecycle — Concierge formulates and presents the Suggestion as an ordinary Communication; acceptance requires at minimum Authenticated Confirmation Strength; pause suspends and revocation terminates the autonomy permission alone; "forgotten" is replaced by Revocation/Preference deletion/source-evidence expiration |
-| OD-33 | **Closed — DL-43, DL-46, DL-47.** Retention is declared inside every governed record and artifact lifecycle; the remaining values are **OD-05**, **OD-26**, **OD-49** |
+| OD-33 | **Closed — DL-43, DL-46, DL-47.** Retention is declared inside every governed record and artifact lifecycle; the remaining values are **DL-137** (OD-05, closed), **OD-26**, **OD-49** |
 | OD-35 | **Closed — DL-130.** Governed Historical Retrieval and Access — one surface, classified before assembly; nine existing Explainability scopes remain the complete query model; `caretaker-of`/**DL-71** reused unchanged for Subject Authorization |
 | OD-36 | Reconciliation of deletion and export obligations with retention floors and Preservation Holds |
 | OD-39 | Preservation Hold authority, duration, review, release, and conflict with deletion |

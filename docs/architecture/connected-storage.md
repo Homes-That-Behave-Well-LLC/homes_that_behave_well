@@ -499,6 +499,36 @@ cannot satisfy required governance. The reviewed gaps are:
 5. Home Assistant remains the system of record for everything it owns authoritatively. A governed
    HTBW history alongside it is an extension, never a replacement.
 
+### Explainability database — SQLite (DL-137)
+
+**Accepted 2026-11-05 (Issue #77, formal acceptance review PASS).** Resolves **OD-05** in full. Full
+decision: [adr-explainability-persistence-and-retention.md](adr-explainability-persistence-and-retention.md).
+
+**SQLite is the default persistence technology for the structured, growing Explainability repository**,
+following Home Assistant's own verified Recorder-uses-SQLite precedent (Reference Home evidence
+register, `home-assistant_v2.db`). **This is a distinct, separately owned HTBW database — never Home
+Assistant's Recorder database, and never a second Recorder.** No HTBW schema or table is ever written
+into the Home Assistant Recorder database; the Explainability database is never queried or written as
+though it were Recorder. It resides within the Connected Storage governed namespace, at the same
+authoritative location **DL-129** already established (the **DL-42** External History Retention
+extension) — this decision narrows only the physical encoding (SQLite rather than the Storage helper's
+native JSON), not the authoritative location, write-time-assembly, Room-normalization, or
+storage-outage-independence rules **DL-129** already accepted.
+
+**Backup-growth boundary, stated explicitly.** Explainability is an append-heavy, continuously growing
+governed record set. **Its growth must never silently inflate Home Assistant Backup without explicit
+architectural intent.** Restated, not newly invented, from this document's own Backup-scope section,
+below: Connected Storage sits outside Home Assistant's Backup boundary unless the deployment
+deliberately places it there and that placement has been verified — this applies to the Explainability
+database precisely as to every other Connected Storage record. **Connected Storage backup coverage for
+the Explainability database must be deliberately configured and verified by the household/deployment;
+it is never assumed included in an ordinary Home Assistant Backup merely because the database is
+reachable from the Home Assistant host.** Database consistency, recovery, and restore behaviour follow
+the same unavailable/lost-after-creation rules already established above for every Connected Storage
+artifact — no competing recovery model is introduced. **This ADR does not specify the Explainability
+SQLite schema** — tables, indexes, and migrations remain implementation design, consistent with
+**DL-92**'s own "exact keys and schemas are implementation mapping" discipline.
+
 ### Communication records — a narrower justification still
 
 Governed Communication records and their Change Records are **potentially** justified in connected

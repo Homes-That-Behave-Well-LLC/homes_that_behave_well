@@ -1581,8 +1581,21 @@ A Decision to do nothing, for a stated reason. It is a first-class outcome and m
 as an Action.
 
 **Decision Trace**
-The structured record of a decision evaluation, sufficient to answer why something happened and why
-something did not.
+The governed reasoning process/content of a decision evaluation, sufficient to answer why something
+happened and why something did not. **Distinguished from Explainability Record (DL-137) by persistence
+ownership, not by renaming**: Decision Trace names the process/content; Explainability Record names the
+persisted, durable record of its result. There is one durable Explainability repository, never a
+duplicate store.
+Model: [decision-trace.md](decision-trace.md)
+
+**Explainability Record (DL-137)**
+The persisted, durable governed record of a Decision Trace's result. Carries one of exactly two
+canonical **Explainability Origins**: `outcome_generated` (HTBW performed a governed evaluation and
+produced an outcome) or `on_demand_decision_trace` (a Person asked an Explainability question requiring
+research/reconstruction). **Every on-demand invocation produces a new Explainability Record — never
+deduplicated, never backdated** — even where the historical scope and resulting explanation are
+identical to an earlier request. Both origins share one retention policy; origin is provenance, never a
+retention classification.
 Model: [decision-trace.md](decision-trace.md)
 
 **Compound Intent**
