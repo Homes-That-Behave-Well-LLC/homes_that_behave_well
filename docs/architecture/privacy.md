@@ -243,8 +243,14 @@ than against who asked.
 - A person must be able to obtain what the home holds about them.
 - A person must be able to have it deleted, subject to household authority and safety obligations.
 - Deletion must reach connected storage, not only the primary record.
-- Reconciliation of deletion and export obligations with retention floors and Preservation Holds is
-  **not decided here**. Open decision **OD-36**.
+- **Reconciliation of deletion and export obligations with retention floors and Preservation Holds is
+  resolved as DL-133 (OD-36)**: a collision between a valid deletion obligation and a valid
+  Preservation Hold becomes a governed conflict (never a blind universal winner), resolved by an
+  independently configured Conflict-Resolution Authority, after a required minimization sequence,
+  with any payload retained solely because of the conflict restricted to the Hold's own stated
+  purpose and the deletion obligation remaining pending (never lost) until the conflict ends. See
+  [adr-deletion-versus-preservation-reconciliation.md](adr-deletion-versus-preservation-reconciliation.md).
+
 
 ---
 
@@ -373,7 +379,7 @@ request their own erasure.
   and remains bound by every rule already stated in this section.
 
 Ordinary operational retention, extended retention, and incident-related preservation remain three
-different things, classified under the floors and ceilings above and under **DL-47**, **OD-36**, and
+different things, classified under the floors and ceilings above and under **DL-47**, **DL-133**, and
 **DL-132**.
 
 ---
@@ -486,8 +492,10 @@ of normal visibility permissions**, and **explainable**.
   reported, never silently released and never silently permanent.
 - **Release does not erase hold history and is not immediate deletion.**
 
-Whether a hold may override an authorised deletion request is **not decided here**. Open decision
-**OD-36**.
+**Whether a hold overrides an authorised deletion request is resolved by DL-133 (OD-36)**: the
+collision becomes a governed conflict, resolved by an independently configured Conflict-Resolution
+Authority after a minimization sequence, never a blind universal winner. See
+[adr-deletion-versus-preservation-reconciliation.md](adr-deletion-versus-preservation-reconciliation.md).
 
 ### Transitive hold integrity
 
@@ -560,7 +568,7 @@ The following are recorded as open decisions and must **not** be resolved inside
 | OD-08 | **Resolved** as **DL-39** and **DL-40** |
 | OD-09 | Export and deletion mechanics across connected storage |
 | OD-33 | **Closed — DL-43, DL-46, DL-47.** Retention is declared inside every governed record and artifact lifecycle; the remaining values are **OD-05**, **OD-26**, **OD-49** |
-| OD-36 | Reconciliation of deletion and export obligations with retention floors and Preservation Holds |
+| OD-36 | **Closed — DL-133.** Reconciliation of deletion and export obligations with retention floors and Preservation Holds |
 | OD-39 | **Closed — DL-132.** Preservation Hold authority, duration, review, release, scope, disclosure, and enforcement. Conflict with deletion remains OD-36 |
 | OD-40 | Evidence Package assembly, transport, integrity representation, and audience |
 | OD-49 | Communication retention floor and ceiling, with content and metadata classified separately |

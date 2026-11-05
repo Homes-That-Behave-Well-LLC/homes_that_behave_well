@@ -927,7 +927,11 @@ A hold must be:
 A hold does not retain content that was never permitted to be retained. **A hold cannot preserve raw
 biometric internals or raw voice samples, because those were never stored.**
 
-Whether a hold may override an authorised deletion request is **OD-36**. It is not resolved here.
+**Whether a hold overrides an authorised deletion request is resolved by DL-133 (OD-36)**: neither
+always prevails; the collision becomes a governed conflict, resolved by an independently configured
+Conflict-Resolution Authority, with minimization applied before any full payload is preserved and
+payload retained solely because of the conflict restricted to the hold's own stated purpose. Full
+decision: [adr-deletion-versus-preservation-reconciliation.md](../architecture/adr-deletion-versus-preservation-reconciliation.md).
 
 ### Authority, duration, review, release, and scope (DL-132)
 
@@ -1030,9 +1034,18 @@ These states must always be distinguishable:
 | A record existed but was redacted | Retained, with values removed |
 | A record is unavailable | Held somewhere that cannot currently be reached |
 | A record is withheld by policy | Exists and is retained, but not disclosable to this audience |
+| A deletion request is pending due to an active preservation conflict | A valid deletion obligation collides with a valid Preservation Hold; no Tombstone is created until the conflict resolves (**DL-133**) |
 
 > **Do not silently truncate history.** Silent truncation converts *"we discarded the record"* into
 > *"nothing happened"*, which is a false statement about the household.
+
+**Deletion-versus-preservation conflict (DL-133).** Where a valid deletion/erasure/consent-withdrawal
+obligation collides with a valid Preservation Hold, no Tombstone is created claiming deletion while
+payload remains preserved under the conflict — conflict/pending lifecycle metadata is preserved
+instead. A Tombstone is created only once deletion actually occurs, and it never reconstructs the
+deleted payload; where a Hold applied, the Hold's own history and the conflict-resolution outcome
+survive alongside the Tombstone. Full decision:
+[adr-deletion-versus-preservation-reconciliation.md](../architecture/adr-deletion-versus-preservation-reconciliation.md).
 
 ---
 
@@ -1145,7 +1158,7 @@ recorded the wrong thing.
 |---|---|
 | OD-01 | **Closed — DL-31, DL-92.** Home Assistant representation strategy is **DL-31**; the persistence-mechanism residual (Current Projection, Change Record, Snapshot) is **DL-92** — Storage helper default, Connected Storage optional via the **DL-42** External History Retention extension for Change Records only. Accepted 2026-10-27, Issue #76, formal acceptance review PASS. See [adr-governed-record-persistence-mechanism.md](../architecture/adr-governed-record-persistence-mechanism.md). **Decision Trace's own mechanism is resolved as DL-129 (OD-29, closed)**; Snapshot triggers/cadence/scope remain **OD-37** |
 | OD-35 | **Closed — DL-130.** Governed Historical Retrieval and Access — one surface (Assist/Conversation), classified before assembly; the nine existing Explainability scopes remain the complete query model; `caretaker-of` (**DL-49**) and **DL-71**'s Intended Audience Specification forms are reused unchanged for Subject Authorization |
-| OD-36 | Reconciliation of deletion and export obligations with retention floors and Preservation Holds |
+| OD-36 | **Closed — DL-133.** Deletion versus preservation reconciliation — governed conflict, Conflict-Resolution Authority, minimization sequence, restricted use, pending-deletion reuse, late-Hold anti-abuse rule, Tombstone semantics |
 | OD-37 | Snapshot triggers, cadence, and scope per responsibility |
 | OD-38 | Version identity, correlation, and causation identifier strategy, including evaluation of Home Assistant Context IDs |
 | OD-39 | **Closed — DL-132.** Preservation Hold authority, duration, review, release, scope, disclosure, and enforcement. Conflict with deletion remains OD-36 |

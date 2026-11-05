@@ -1918,8 +1918,48 @@ Recorder offers no native per-record hold exemption; where only ephemeral native
 no corresponding governed record, a hold may be unimplementable for that specific evidence, stated
 honestly rather than claimed.
 
-Whether a hold may override an authorised deletion request is **OD-36**. Reconciliation of deletion
-and export obligations with retention floors and holds is **OD-36**.
+### Deletion versus preservation (DL-133)
+
+**Accepted 2026-11-05 (Issue #82, formal acceptance review PASS).** Resolves **OD-36** in full. Full
+decision: [../architecture/adr-deletion-versus-preservation-reconciliation.md](../architecture/adr-deletion-versus-preservation-reconciliation.md).
+
+**Neither "preservation always prevails" nor "deletion always prevails" is adopted.** A collision
+between a valid deletion/erasure/consent-withdrawal obligation and a valid Preservation Hold or
+retention floor becomes a **governed conflict**, producing exactly one outcome.
+
+**Preservation/Deletion Conflict-Resolution Authority is a fourth, independently configured
+authorisation**, alongside Hold placement/review/release (above) — the same **DL-71** Named
+Person/Role-Authority-Class mechanism, configured per **DL-109**, evaluated as Governance-class
+(**DL-76**: Very High / Strong). **The Person who placed a Hold does not automatically gain authority
+to decide that another Person's deletion request loses**; none of the four Hold/conflict
+authorisations is inferred from another.
+
+The conflict is resolved at the **lowest practical level** — the record, the governed Subject-record
+relationship, or the specific deletion obligation — never globally per record class or uniformly per
+Hold. A required **minimization sequence** precedes any full-payload preservation: delete the payload
+and keep only Tombstone/consent-lifecycle/Hold-lifecycle metadata where the preservation purpose
+survives that; otherwise reduce identifying content where the purpose survives reduction; otherwise a
+reduced governed record; only where the actual payload is necessary for the valid Hold's purpose does
+it remain (generalising **DL-56**'s accepted biometric/consent pattern, not universalising it beyond
+cases where it actually applies).
+
+**Payload retained solely because of the conflict is restricted to the stated preservation purpose** —
+restating the already-accepted purpose-bound-never-blanket authorization principle (**DL-93**), never a
+new access-control model — and is unavailable for ordinary use, unrelated reasoning (including **Home
+Steward**), personalization, Historical Retrieval, training, analytics, broader disclosure,
+correlation, or unrelated automation.
+
+A deletion obligation that cannot immediately be fulfilled becomes a **governed pending-cleanup
+obligation** (restating **DL-45** unchanged) — never reported deleted while payload remains, never
+lost; **Hold release makes it automatically actionable again**, so the Person is never required to
+repeat the request. A Hold placed **after** a deletion request may affect it only with explicit
+Conflict-Resolution-Authority approval; ordinary Hold-placement authority alone never suffices, and
+chronology is recorded. Where deletion prevails, the existing Tombstone requirement (above, and
+`temporal-record.md`) applies unchanged; where preservation temporarily prevails, no Tombstone falsely
+claims deletion.
+
+Whether a hold may override an authorised deletion request, and reconciliation of deletion and export
+obligations with retention floors and holds, is **resolved as DL-133 (OD-36), above.**
 
 ### Historical visibility
 
@@ -1930,8 +1970,10 @@ happened*.
 
 ### Not a legal instrument
 
-**Preservation Hold and Evidence Package are HTBW architectural terms. They are not claims of legal
-effect.** See [../architecture/privacy.md](../architecture/privacy.md).
+**Preservation Hold, Evidence Package, and deletion/preservation conflict resolution are HTBW
+architectural terms. They are not claims of legal effect.** See
+[../architecture/privacy.md](../architecture/privacy.md).
+
 
 ---
 
@@ -1951,7 +1993,7 @@ effect.** See [../architecture/privacy.md](../architecture/privacy.md).
 | OD-28 | **Closed — DL-123.** Learned-Policy Promotion Lifecycle: Concierge formulates and presents the Suggestion (an ordinary Communication); acceptance requires at minimum Authenticated Confirmation Strength (this document's "permission changes" floor) and resolves eligibility through the Suggestion's own DL-71 Audience Specification; pause suspends, revocation terminates, the autonomy permission alone; "forgotten" is replaced by Revocation/Preference deletion/source-evidence expiration |
 | OD-33 | **Closed — DL-43, DL-46, DL-47.** Retention is declared inside every governed record and artifact lifecycle; remaining values are **OD-05**, **OD-26**, **OD-49** |
 | OD-35 | **Closed — DL-130.** Assist/Conversation is the sole historical-retrieval surface, classified before assembly into ordinary retrieval versus Person/actor reconstruction; the nine existing Explainability scopes remain the complete query model; `caretaker-of` (**DL-49**) and **DL-71**'s five Intended Audience Specification forms are reused unchanged for Subject Authorization; current-location and historical-movement access are two independently configurable Disclosure-Risk-Class capabilities, never one setting; refusal and gap semantics reuse existing vocabulary throughout |
-| OD-36 | Reconciliation of deletion and export obligations with retention floors and Preservation Holds |
+| OD-36 | **Closed — DL-133.** Reconciliation of deletion and export obligations with retention floors and Preservation Holds |
 | OD-39 | **Closed — DL-132.** Preservation Hold authority, duration, review, release, scope, disclosure, and enforcement. Conflict with deletion remains OD-36 |
 | OD-40 | Evidence Package assembly, transport, integrity representation, and audience |
 | OD-45 | **Resolved as DL-96.** Acknowledgement is an explicit, Communication-specific responsive act by an identified, in-audience Person; attribution reuses this document's existing Required Identity Band machinery (**DL-36**, **DL-39**) unchanged, no new scale; unacknowledged delivery remains `unknown`, never failure |

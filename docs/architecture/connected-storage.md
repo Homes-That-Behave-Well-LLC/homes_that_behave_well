@@ -697,7 +697,11 @@ Four constraints bound this:
   records to which a Preservation Hold may apply** — the eviction/discard step must itself be
   evaluable. Where a hold prevents a discard, the mechanism fails safe toward preservation, the
   prevented discard is recorded and explainable, and any resulting capacity pressure is surfaced as a
-  **DL-41** dependency/capacity condition rather than resolved by silently violating the hold.
+  **DL-41** dependency/capacity condition rather than resolved by silently violating the hold. **(DL-133)**
+  Where the record a hold is protecting is also the subject of a valid deletion/erasure/consent-
+  withdrawal obligation, the purge/retention mechanism does not resolve that collision itself — it
+  defers to the governed conflict model (**DL-133**), representing the obligation as pending-cleanup
+  (**DL-45**) rather than silently preserving or silently deleting.
 - **Purge is not silence.** A record removed by external retention is still distinguishable from one
   that never existed, under the temporal degradation rules in
   [failure-and-degradation.md](failure-and-degradation.md).

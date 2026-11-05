@@ -62,6 +62,7 @@ Dispositions: **New** · **Keep** · **Revise** · **Supersede** · **Merge** ·
 | `adr-reasoning-provider-strategy.md` | Canonical ADR | **Accepted 2026-10-27** as **DL-93** (Issue #132, formal acceptance review PASS, following bounded stale-reference corrections). Resolves **OD-67**: permits local/self-hosted, household-approved cloud, or no Reasoning provider (none selected); distinguishes Reasoning, Home Intelligence (accepted **DL-86**, #191, an optional deployment/hosting boundary), and Home Steward (**accepted DL-131**, Issue #206); every evaluation resolves to an **effective Person** (resolved household Person, otherwise the designated Guest fallback Person Extension — **DL-71** — otherwise the **DL-33** unidentified-person policy; no Room involvement); defines Integration/Person configuration scopes only, with no runtime discovery; two independent Person capability gates (Allow General Questions, Allow Home Steward); configured provider fallback (Person → Integration-default → unavailable); permitted/prohibited purposes ("Reasoning may reason, never govern"); a factual-integrity response-quality profile; data minimization under Operational Trust; Explainability reusing the existing Decision Trace structure. Defers **OD-77**, **OD-07**, **OD-65**, **OD-66**, **OD-04**. Raised by the Issue #132 Reasoning Provider Strategy review (#132, closed) |
 | `adr-home-steward-product-boundary.md` | Canonical ADR | **New, Accepted 2026-11-05** as **DL-131** (Issue #206, Governance Review, formal acceptance review PASS). Defines Home Steward as HTBW's locally governed AI knowledge-assistant product/domain, consuming **DL-81**, optionally hostable within **DL-86**, optionally configurable as a **DL-93** Reasoning Provider without altering DL-93's Person-only resolution order. Raised by the Home Steward Product/Domain Definition and Boundary review (#206, closed) |
 | `adr-preservation-hold-governance.md` | Canonical ADR | **New, Accepted 2026-11-05** as **DL-132** (Issue #85, formal acceptance review PASS). Resolves **OD-39** in full except deletion-versus-preservation precedence, explicitly deferred to **OD-36**: placement/review/release authority (**DL-71**, **DL-109**), Governance-class identity/confirmation (**DL-76**), scope, no invented numeric duration default (restating **DL-97**), missed-review fail-safe behaviour, release-does-not-erase-history, hold-existence-as-governed-information, storage-boundary enforcement, and the honest native-HA-Recorder limitation. Raised by the Preservation Hold Governance review (#85, closed) |
+| `adr-deletion-versus-preservation-reconciliation.md` | Canonical ADR | **New, Accepted 2026-11-05** as **DL-133** (Issue #82, formal acceptance review PASS). Resolves **OD-36** in full: a deletion/preservation collision becomes a governed conflict (no blind universal winner); a fourth, independently configured Conflict-Resolution Authority (**DL-71**, **DL-109**, **DL-76**); lowest-practical-granularity resolution; a required minimization sequence (generalising **DL-56**); restricted use of conflict-preserved payload (restating **DL-93**); pending-deletion reuse of **DL-45**; a late-Hold anti-abuse rule; honest Tombstone and native-HA-Recorder-limitation behaviour; **DL-110**'s adoption governing-parent resolution consumed unchanged. Raised by the Deletion Versus Preservation Reconciliation review (#82, closed) |
 
 ---
 
@@ -476,18 +477,26 @@ classified). `temporal-record.md`, `operational-trust.md`, `privacy.md`, `connec
 existing Preservation Hold sections and correcting one stale OD-39/OD-36 cross-reference in
 `privacy.md`; none is reclassified.
 
+**Updated 2026-11-05 (continued), Issue #82 formal acceptance review PASS (Deletion Versus
+Preservation Reconciliation, DL-133)**: one new document,
+`adr-deletion-versus-preservation-reconciliation.md`, is added as **Canonical ADR** from creation (+1
+to new canonical documents, +1 to Canonical total, +1 to Total classified). `temporal-record.md`,
+`operational-trust.md`, `privacy.md`, `connected-storage.md`, and `decision-trace.md` (all already
+Canonical) are revised in place, extending their existing deletion/preservation sections and resolving
+the remaining bare `**OD-36**` cross-references to `**DL-133**`; none is reclassified.
+
 | Category | Count |
 |---|---|
-| New canonical documents | 64 |
+| New canonical documents | 65 |
 | Revised in place | 2 (`README.md`, `concierge-contract.md`) |
-| **Canonical total** (64 new + 2 revised) | **66** |
+| **Canonical total** (65 new + 2 revised) | **67** |
 | Marked Active — subordinate | 23 |
 | Marked Historical — superseded | 83 |
 | Marked Historical illustration (`examples/`) | 16 |
 | Marked Historical — planning/closure record | 2 |
 | **Historical total** | **101** |
 | Operational | 8 |
-| **Total classified** | **198** |
+| **Total classified** | **199** |
 | **Unclassified** | **0** |
 | **Deleted** | **0** |
 

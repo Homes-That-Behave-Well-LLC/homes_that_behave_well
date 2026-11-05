@@ -504,8 +504,35 @@ At minimum:
 Hold metadata references governed records/subjects under the **References, not copies** discipline
 above; it does not duplicate payload contents, copied communications, copied video/documents, or
 reconstructed actor history merely to satisfy this explainability requirement — restating **DL-43**'s
-"marker, not artifact class" unchanged. This section does not decide, and does not narrow, **OD-36**'s
-deletion-versus-preservation precedence question.
+"marker, not artifact class" unchanged. **This section's deletion-versus-preservation precedence
+question is resolved — see *Deletion-versus-preservation conflict explainability (DL-133)*, below.**
+
+---
+
+## Deletion-versus-preservation conflict explainability (DL-133)
+
+**Accepted 2026-11-05 (Issue #82, formal acceptance review PASS).** Every deletion/erasure/consent-
+withdrawal request that collides with a valid Preservation Hold produces Decision Trace evidence under
+this model's existing structure. Full decision:
+[../architecture/adr-deletion-versus-preservation-reconciliation.md](../architecture/adr-deletion-versus-preservation-reconciliation.md).
+
+At minimum:
+
+| Field | Content |
+|---|---|
+| Request | requester; subject; request time; affected record; applicable deletion obligation |
+| Active Hold context | Hold reference; purpose/scope as authorised for disclosure; chronology of request versus Hold placement |
+| Minimization analysis | which step of the required sequence applied, and why |
+| Conflict decision | Conflict-Resolution Authority used; identity/confirmation used; outcome class (Delete/Preserve-restricted/Partial-minimized/Technically-unavailable) |
+| Payload handling | restricted-use status where payload was preserved |
+| Tombstone/lifecycle outcome | per `temporal-record.md`'s Tombstone states |
+| Person-facing disclosure | what the affected Person was told, and when |
+| Pending obligation | whether a deletion obligation remains pending, and its re-evaluation trigger |
+| Release/reconciliation | eventual Hold release and resulting pending-obligation re-evaluation, if applicable |
+
+Protected payload is never copied merely to explain the conflict — restating this model's existing
+discipline unchanged. This section does not decide, and does not reopen, **OD-40**'s or **OD-09**'s own
+operational questions.
 
 ---
 
