@@ -65,6 +65,7 @@ Dispositions: **New** · **Keep** · **Revise** · **Supersede** · **Merge** ·
 | `adr-deletion-versus-preservation-reconciliation.md` | Canonical ADR | **New, Accepted 2026-11-05** as **DL-133** (Issue #82, formal acceptance review PASS). Resolves **OD-36** in full: a deletion/preservation collision becomes a governed conflict (no blind universal winner); a fourth, independently configured Conflict-Resolution Authority (**DL-71**, **DL-109**, **DL-76**); lowest-practical-granularity resolution; a required minimization sequence (generalising **DL-56**); restricted use of conflict-preserved payload (restating **DL-93**); pending-deletion reuse of **DL-45**; a late-Hold anti-abuse rule; honest Tombstone and native-HA-Recorder-limitation behaviour; **DL-110**'s adoption governing-parent resolution consumed unchanged. Raised by the Deletion Versus Preservation Reconciliation review (#82, closed) |
 | `adr-incident-and-case-object-model.md` | Canonical ADR | **New, Accepted 2026-11-05** as **DL-134** (Issue #87, formal acceptance review PASS). Resolves **OD-41** in full: an Incident is a bounded, governed event scope, never a persisted object, Case, artifact, **DL-45** Governing Parent, durable actor profile, or store; no owning responsibility; constructed, never created, when a governed operation requires a bounded event context; no lifecycle; no **DL-47** retention of its own; shared scope reused across Historical Reconstruction/Preservation Hold/Evidence Package without a shared container; **DL-35** Unknown Actor Reference boundary fully preserved; Episode 9's next-evidence guidance resolved without a new Evidence responsibility. Raised by the Incident and Case Object Model review (#87, closed) |
 | `adr-evidence-package-governance.md` | Canonical ADR | **New, Accepted 2026-11-05** as **DL-135** (Issue #86, formal acceptance review PASS). Resolves **OD-40** in full: projection-by-default, materialization requires an explicit separately-authorized request (never automatic); Evidence Package distinguished from **OD-09** comprehensive export; curated/bounded content with honest gap/withheld/redaction markers (reusing **DL-134**'s next-evidence states); Governing Parent via **DL-105**'s anchor-ownership rule (Home fallback), never the Incident (**DL-134**); restricted-use survival from **DL-133**; Integrity Manifest explicitly not forensic/legal/chain-of-custody sufficient; authority mapped onto existing **DL-76** Action-Risk Classes (Assembly=Disclosure, Materialization=Disclosure/Authenticated-override, External export=Governance) via the already-accepted Capability-Default → HTBW-Default → Household-Override tiering; Connected Storage/native-HA-Recorder limits restated unchanged. Raised by the Evidence Package Governance review (#86, closed) |
+| `adr-data-portability-and-erasure-mechanics.md` | Canonical ADR | **New, Accepted 2026-11-05** as **DL-136** (Issue #78, formal acceptance review PASS). Resolves **OD-09** in full: Portability Export distinguished from Evidence Package (**DL-135**); on-demand governed projection, no permanent Portability Store; **Transient Export Artifact** materialized only by explicit separate authorization, household-configured short lifetime reusing **DL-122**'s preset/override shape, Governing Parent via **DL-105**'s anchor-ownership rule; mandatory Completeness Manifest; machine-readable representation required; **Temporal Portability Contract** extends **DL-30**'s verified native UTC/IANA-timezone evidence to the export surface (canonical UTC instant, event-time-rule local representation, IANA identifier, DST-safe, precision reusing **DL-129**'s observed/derived/inferred/estimated/unknown vocabulary); Portability authority reuses **DL-34**/**DL-71**/**DL-76**/**DL-135** (Assembly=Disclosure, Materialization=Disclosure/Authenticated-override, External transport=Governance); Erasure remains fully distributed, orchestrated-request authority Governance-class by analogy to **DL-132**/**DL-133**; **DL-133** governs every retention-floor/Hold collision unchanged; **DL-56**/**DL-45** consumed unchanged; **OD-05**/**OD-49** remain open for numeric values only, reusing **DL-47**'s mechanics-versus-values precedent. Raised by the Data Portability and Erasure Mechanics review (#78, closed) |
 
 ---
 
@@ -504,18 +505,28 @@ to `**DL-135**`; `connected-storage.md` additionally resolves stray stale `**OD-
 cross-references (already resolved as **DL-132**/**DL-133**) found in the same pass;
 `open-decision-issue-index.md` is updated; none is reclassified.
 
+**Updated 2026-11-05 (continued), Issue #78 formal acceptance review PASS (Data Portability and
+Erasure Mechanics, DL-136)**: one new document, `adr-data-portability-and-erasure-mechanics.md`, is
+added as **Canonical ADR** from creation (+1 to new canonical documents, +1 to Canonical total, +1 to
+Total classified). `temporal-record.md`, `operational-trust.md`, `privacy.md`, `connected-storage.md`,
+`decision-trace.md`, `home-assistant-boundary.md`, `explainability.md`, and `glossary.md` (all already
+Canonical) are revised in place, adding the *Portability Export* and *Erasure* sections/terms and the
+Temporal Portability Contract, and resolving stray stale `**OD-39**`/`**OD-09**` cross-references
+(already resolved as **DL-132**/this decision) found in the same pass; `open-decision-issue-index.md`
+is updated; none is reclassified.
+
 | Category | Count |
 |---|---|
-| New canonical documents | 67 |
+| New canonical documents | 68 |
 | Revised in place | 2 (`README.md`, `concierge-contract.md`) |
-| **Canonical total** (67 new + 2 revised) | **69** |
+| **Canonical total** (68 new + 2 revised) | **70** |
 | Marked Active — subordinate | 23 |
 | Marked Historical — superseded | 83 |
 | Marked Historical illustration (`examples/`) | 16 |
 | Marked Historical — planning/closure record | 2 |
 | **Historical total** | **101** |
 | Operational | 8 |
-| **Total classified** | **201** |
+| **Total classified** | **202** |
 | **Unclassified** | **0** |
 | **Deleted** | **0** |
 

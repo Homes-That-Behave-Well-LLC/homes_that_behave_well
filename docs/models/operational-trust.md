@@ -1997,6 +1997,45 @@ independently accepted equivalent control.
 Trust's: see `temporal-record.md`'s *Evidence Package* section and
 [adr-evidence-package-governance.md](../architecture/adr-evidence-package-governance.md).
 
+### Portability and Erasure authority (DL-136)
+
+**Accepted 2026-11-05 (Issue #78, formal acceptance review PASS).** Resolves **OD-09** in full. Full
+decision: [../architecture/adr-data-portability-and-erasure-mechanics.md](../architecture/adr-data-portability-and-erasure-mechanics.md).
+
+**A Portability Export is a disclosure**, evaluated exactly as any other disclosure (**DL-34**), never
+merely authenticated. Authority is evaluated at request/assembly time, reusing **DL-71**'s existing
+Intended-Audience-Specification forms to determine **who may request**, and **DL-76**'s Action-Risk
+Classification plus its Capability-Default → HTBW-Default → Household-Override tiering — the identical
+mechanism **DL-135** already established for Evidence Package — to determine **how strongly gated**
+each operation is: **Assembly** is Disclosure-class (Moderate/Verbal, default); **Materialization**
+(creating a **Transient Export Artifact**) is Disclosure-class with the same capability-specific
+Authenticated-confirmation override already established for Evidence Package materialization;
+**external recipient/transport** (the export leaves HTBW governance) is Governance-class (Very High/
+Strong). **Requester authority ≠ recipient authority ≠ transport authority**, restated verbatim from
+**DL-135**. No native Home Assistant administrator flag, by itself, grants portability authority over
+another Person's data.
+
+**Erasure remains fully distributed — no central Erasure responsibility, store, or service.** The
+**overall orchestrated erasure request** (the household-facing act of asking to remove a Person's or
+an Asset's data across every applicable responsibility) is itself a **Governance-class** action (Very
+High/Strong), by direct analogy to **DL-132**'s Hold placement/release and **DL-133**'s Conflict-
+Resolution Authority — both already Governance-class for the identical reason: an irreversible,
+high-consequence governed action. This governs the **orchestrated request itself only**; each
+responsibility's own already-accepted internal deletion authority (for example, **DL-56**'s
+consent-withdrawal authority) continues unchanged and is never additionally gated by this requirement.
+Every retention-floor/Preservation-Hold collision encountered during erasure is resolved exactly as
+**DL-133** already requires — not reopened, not reinterpreted.
+
+**A Person-scoped export never widens disclosure beyond this model's existing rules.** Field-level
+redaction and withheld-by-policy markers apply exactly as `privacy.md` already states; **"Home" scope
+is never a privacy override**; a Person's own contribution to another Person's Decision Trace is
+minimized/restricted/Tombstoned exactly as **DL-133** requires, never used to rewrite history.
+
+**Governing Parent, lifecycle, and the Temporal Portability Contract** are Foundation's and the owning
+responsibility's, not Operational Trust's: see `temporal-record.md`'s *Portability Export* and
+*Erasure* sections and
+[adr-data-portability-and-erasure-mechanics.md](../architecture/adr-data-portability-and-erasure-mechanics.md).
+
 ### Historical visibility
 
 Visibility policy applies to historical records exactly as it applies to current ones. Presence
@@ -2026,11 +2065,12 @@ architectural terms. They are not claims of legal effect.** See
 | OD-04 | **Closed — DL-126.** Policy precedence is four operations (Candidate Value/Preference Resolution, Authority/Policy Ceiling Evaluation, Current Explicit Request, Competing-Communication Ordering), never one undifferentiated ladder. Most-restrictive combination across scopes is precise: `prohibited` > `undecidable` > cumulative confirmation/escalation (never substituted for one another) > `permitted`. Mode, capability, and operation are applicability/condition dimensions, never scopes; Person is dual in kind (Policy vs. Preference), never dual in precedence; a Person preference never becomes permission |
 | OD-06 | Consent user experience |
 | OD-08 | **Resolved** as **DL-39** and **DL-40**. Four Identity bands, `None` as a Trust requirement, threshold ownership, Address by Name, operation-scoped confirmation, and the **Required Confirmation Strength** class set. Per-class defaults are configuration, resolved as **DL-76** |
+| OD-09 | **Closed — DL-136.** Data Portability and Erasure Mechanics — Portability Export authority (Assembly/Materialization/External-transport mapped onto DL-76), orchestrated-erasure-request Governance-class authority by analogy to DL-132/DL-133, each responsibility's own existing deletion authority unchanged |
 | OD-28 | **Closed — DL-123.** Learned-Policy Promotion Lifecycle: Concierge formulates and presents the Suggestion (an ordinary Communication); acceptance requires at minimum Authenticated Confirmation Strength (this document's "permission changes" floor) and resolves eligibility through the Suggestion's own DL-71 Audience Specification; pause suspends, revocation terminates, the autonomy permission alone; "forgotten" is replaced by Revocation/Preference deletion/source-evidence expiration |
 | OD-33 | **Closed — DL-43, DL-46, DL-47.** Retention is declared inside every governed record and artifact lifecycle; remaining values are **OD-05**, **OD-26**, **OD-49** |
 | OD-35 | **Closed — DL-130.** Assist/Conversation is the sole historical-retrieval surface, classified before assembly into ordinary retrieval versus Person/actor reconstruction; the nine existing Explainability scopes remain the complete query model; `caretaker-of` (**DL-49**) and **DL-71**'s five Intended Audience Specification forms are reused unchanged for Subject Authorization; current-location and historical-movement access are two independently configurable Disclosure-Risk-Class capabilities, never one setting; refusal and gap semantics reuse existing vocabulary throughout |
 | OD-36 | **Closed — DL-133.** Reconciliation of deletion and export obligations with retention floors and Preservation Holds |
-| OD-39 | **Closed — DL-132.** Preservation Hold authority, duration, review, release, scope, disclosure, and enforcement. Conflict with deletion remains OD-36 |
+| OD-39 | **Closed — DL-132.** Preservation Hold authority, duration, review, release, scope, disclosure, and enforcement. Conflict with deletion is **DL-133** |
 | OD-40 | **Closed — DL-135.** Evidence Package assembly, transport, integrity representation, and audience |
 | OD-45 | **Resolved as DL-96.** Acknowledgement is an explicit, Communication-specific responsive act by an identified, in-audience Person; attribution reuses this document's existing Required Identity Band machinery (**DL-36**, **DL-39**) unchanged, no new scale; unacknowledged delivery remains `unknown`, never failure |
 | OD-46 | **Resolved as DL-77.** Urgency is a fixed, cumulative four-level entitlement ladder, formally independent of Action-Risk Classification (**DL-76**), never overriding audience, privacy, consent, disclosure, identity, authority, or precedence (**OD-04**) |

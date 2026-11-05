@@ -762,6 +762,10 @@ When a change took effect in the household.
 When HTBW recorded the change. Distinct from Effective Time; both are constitutional. A correction is
 a **new** Change Record, never an overwrite.
 
+**Export Generation Time (DL-136)**
+When a Portability Export itself was assembled. Describes the export *operation*, never a record's own
+Effective Time or Recorded Time, and the two are never confused.
+
 **Historical Reconstruction**
 A projection of governed state or activity for a past time or range, assembled from the nearest valid
 Snapshot plus subsequent Change Records in Effective Time order. **A projection — never a store and
@@ -808,6 +812,33 @@ A governed assembly of records for a stated scope, produced on demand, recording
 filters, redactions, missing records, and known gaps. **Never an alternative source of truth** and
 never authoritative over the records it summarises. An HTBW architectural term, **not a claim of
 legal effect**.
+
+**Portability Export (DL-136)**
+A comprehensive governed export of every applicable record/artifact class within an authorized scope
+(Person, Home, Asset, Room/Merged Room, responsibility, record class, time range, or a combination),
+assembled on demand from authoritative sources. **Distinct from an Evidence Package**, which is a
+curated, bounded account for a stated question — a Portability Export is never a curated subset, and
+an Evidence Package is never a substitute for one. **No permanent Portability Store is created.**
+Model: [temporal-record.md](temporal-record.md)
+
+**Transient Export Artifact (DL-136)**
+The materialized, durable delivery copy of a Portability Export, created only by an explicit,
+separately authorized action distinct from assembly. **Managed Content**, short-lived by household-
+configured design, with a Governing Parent reusing the same anchor-ownership rule as an Evidence
+Package. **Never a loophole that outlives a subsequent erasure request.**
+
+**Erasure (DL-136)**
+Removal of governed content within an authorized scope (Person, Asset, Room, governing parent, record/
+artifact class, a specific record, or a combination), reconciled against retention floors and
+Preservation Holds under **DL-133**'s existing conflict model. **Fully distributed** — no central
+Erasure responsibility, store, or service; each responsibility deletes, redacts, minimizes, and
+Tombstones its own records under its own already-accepted rules.
+
+**Completeness Manifest (DL-136)**
+The mandatory record accompanying a Portability Export resolving every applicable governed class to
+exactly one of: included, included by reference, excluded by scope, withheld by policy, unavailable,
+no longer retained, deleted/tombstoned, unsupported by native source, or no responsive records. **No
+class is silently omitted, and completeness is never falsely claimed.**
 
 **Tombstone**
 The marker left when a governed record is deleted, purged, or truncated, so that *"a record existed

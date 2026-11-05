@@ -687,6 +687,14 @@ recorded. It is the mechanism by which
 *"do not retroactively invent a transition — record the gap"* becomes enforceable rather than merely
 stated.
 
+**Temporal Portability Contract (DL-136).** Where Effective Time/Recorded Time is carried into a
+Portability Export, it is accompanied, where the source genuinely supplies it, by a canonical UTC
+instant, a local civil-time representation using the timezone rule applicable at the event's own time,
+and the IANA timezone identifier — never a fixed numeric UTC offset applied retroactively across
+Daylight Saving Time boundaries. **Export Generation Time** is a distinct, export-operation-only
+concept — when the export itself was assembled — never a third record-level timestamp and never
+confused with Effective Time or Recorded Time. See *Portability Export*, below.
+
 ---
 
 ## Historical Reconstruction
@@ -1101,6 +1109,134 @@ Reference remains package-scoped and never becomes reusable (**DL-35**, unchange
 
 ---
 
+## Portability Export
+
+**Accepted 2026-11-05 (DL-136, Issue #78, formal acceptance review PASS).** Resolves **OD-09** in
+full. Full decision:
+[../architecture/adr-data-portability-and-erasure-mechanics.md](../architecture/adr-data-portability-and-erasure-mechanics.md).
+
+A Portability Export is **a comprehensive governed export of every applicable record/artifact class
+within an authorized scope** — distinct from an **Evidence Package**, which is a curated, bounded
+account for a stated question or purpose. The two are never conflated: an Evidence Package is never a
+substitute for a Portability Export, and a Portability Export never applies a curated subset.
+
+**Scope**: Person, Home, Asset, Room/Merged Room, responsibility/capability, record/artifact class,
+time range, or an authorized combination — reusing the same scope dimensions already accepted for
+Historical Retrieval (**DL-130**) and Evidence Package (**DL-135**).
+
+**Shape**: an **on-demand governed projection** assembled from authoritative sources at request time.
+**No permanent Portability Store, periodic export snapshot, or export-ready duplicate dataset is
+created.** Materializing a durable delivery copy — a **Transient Export Artifact** — is an explicit,
+separately authorized action distinct from assembly, reusing the identical Assembly/Materialization
+split already accepted for Evidence Package. The Transient Export Artifact is **Managed Content**
+while it exists, carries a **household-configured short lifetime** (reusing **DL-122**'s enumerated-
+presets-plus-custom-override shape — no numeric default is invented here), and its **Governing Parent**
+is its own declared primary Subject anchor, falling back to the **Home**, reusing **DL-105**'s
+anchor-ownership rule exactly as **DL-135** already applies it. A Preservation Hold on an underlying
+source record never itself holds the derived Transient Export Artifact.
+
+**Completeness Manifest (mandatory).** Every applicable governed class resolves to exactly one of:
+included; included by reference; excluded by requested scope; withheld by policy; unavailable;
+no longer retained; deleted/tombstoned; unsupported by native source; no responsive records. **No
+class is silently omitted, and completeness is never falsely claimed.**
+
+**Representation.** A machine-readable canonical representation is required; a human-readable
+rendering may additionally be offered but never substitutes for, or degrades, the canonical
+representation or its provenance. No single physical format is locked in by this decision. **Export ≠
+Backup ≠ Clone ≠ Restore Image.**
+
+**Temporal Portability Contract.** For every materially relevant exported timestamp, where the source
+genuinely supplies it, an export preserves: the canonical **UTC instant** (reusing **Effective Time**/
+**Recorded Time**, above, expressed in UTC); a **local civil-time representation** using the timezone
+rule applicable **at the event's own time** — never the export-generation day's offset applied
+retroactively; and the **IANA timezone identifier**, reused from Foundation's Home-level temporal
+conventions. A further, narrow, export-specific concept — **Export Generation Time** — describes when
+the export itself was assembled, and is never confused with a contained record's own Effective Time or
+Recorded Time. **Timestamp precision is never fabricated or increased**, reusing the already-accepted
+observed/derived/inferred/estimated/unknown distinction; an imported historical record is never
+reinterpreted using the current Home's timezone unless explicitly marked as a derived presentation;
+source temporal inconsistency is surfaced in the Completeness Manifest, never silently smoothed.
+
+**Authority.** Export is a disclosure, evaluated exactly as any other disclosure, never merely
+authenticated. Assembly is Disclosure-class (Moderate/Verbal, **DL-76**); Materialization is
+Disclosure-class with the same capability-specific Authenticated-confirmation override already
+established for Evidence Package materialization; external recipient/transport is Governance-class
+(Very High/Strong). **Requester authority ≠ recipient authority ≠ transport authority.**
+
+**Self-data and shared records.** A Person-scoped export never silently discloses another Person's
+private content and never strips context until a record becomes meaningless; field-level redaction
+and withheld-by-policy markers apply exactly as stated below. **"Home" scope is never a privacy
+override.** A Person's own contribution to another Person's Decision Trace is minimized, restricted,
+or Tombstoned exactly as the deletion/preservation conflict model (**DL-133**) already requires, and
+is never used to rewrite history.
+
+**Native History export, Backup, and Connected Storage.** Native Home Assistant History export is
+entity-scoped and ungoverned and is never treated as the complete HTBW portability mechanism. Home
+Assistant Backup is not portability and is never presented as a substitute for erasure. Connected
+Storage unavailability is reported as **unavailable** in the Completeness Manifest, never silently
+omitted or falsely claimed complete.
+
+**Home Steward / external-source boundary.** Access to an external knowledge source through Home
+Steward never becomes HTBW ownership of, or export authority over, that entire source; the same
+applies to externally sourced Communications.
+
+---
+
+## Erasure
+
+**Accepted 2026-11-05 (DL-136, Issue #78, formal acceptance review PASS).** Resolves **OD-09** in
+full, jointly with *Portability Export*, above.
+
+**Erasure remains fully distributed — no central Erasure responsibility, store, or service is
+created.** Operational Trust authorizes and governs the overall orchestrated erasure request as a
+**Governance-class** action (Very High/Strong), by direct analogy to the Preservation Hold's own
+placement/release authority (**DL-132**) and the Deletion-Versus-Preservation Conflict-Resolution
+Authority (**DL-133**), both already Governance-class for the identical reason: an irreversible,
+high-consequence governed action. This governs the **orchestrated household-level request** only —
+each responsibility's own already-accepted internal deletion authority (for example, **DL-56**'s
+consent-withdrawal authority) continues unchanged and is never additionally gated by this requirement.
+Each responsibility owns its own records, performs its own deletion, redaction, or minimization, writes
+its own Tombstone/lifecycle evidence, applies **DL-133**'s conflict behaviour where applicable, and
+reports its own result.
+
+**Erasure unit**: Person, Asset, Room, governing parent, record/artifact class, a specific record, a
+responsibility/capability, or an authorized combination. **A Person erasure request never
+automatically deletes another Person's records, shared household records, records structurally
+required for Explainability, or records under an unresolved valid conflict** — reusing **DL-133**'s
+record/obligation-level resolution model, never a blanket cascade.
+
+**Vocabulary (consolidated, never collapsed into one taxonomy):**
+
+| Term | Meaning |
+|---|---|
+| **Delete** | Payload/record removed according to its own declared lifecycle |
+| **Redact / Minimize** | Protected fields or content removed while a surviving governed record remains where architecture permits |
+| **Tombstone** | Governance evidence that something existed and was removed; never reconstructs the deleted payload |
+| **Pending Cleanup** | A deletion obligation exists but cannot yet complete (storage unavailable, or a conflict is active) |
+| **Preserve-Restricted** | A **DL-133** conflict outcome where payload is retained solely under an active Preservation Hold's own stated purpose |
+
+These compose into **DL-133**'s own four household-facing outcome shapes, reused verbatim: **A —
+Deleted**; **B — Pending (preservation conflict)**; **C — Partial/minimized**; **D — Technically
+unavailable/pending reconciliation**. **Silently doing nothing is prohibited.**
+
+**DL-133 governs every retention-floor/Preservation-Hold collision in full — not reopened.** Minimization
+is attempted first; payload retained is restricted to the Hold's stated purpose; the deletion
+obligation remains pending, never lost, until the conflict resolves; Hold release reactivates the
+pending obligation automatically; a late-placed Hold is subject to **DL-133**'s existing anti-abuse
+rule. **DL-56** (consent withdrawal) and **DL-45** (parent removal) are consumed unchanged.
+
+**Export-then-erasure sequencing.** Where both are requested, the authorized export completes to the
+extent technically possible and its own completeness is stated before erasure proceeds; erasure is
+never performed first. A Transient Export Artifact's own short lifecycle is never a loophole that
+outlives a subsequent erasure; HTBW cannot guarantee deletion of copies already delivered outside its
+own governance, and the household is told this honestly. **Export never implies a Hold; erasure never
+implies Hold release** — these remain separate governed operations.
+
+**Erasure Result Manifest** answers *"what did you actually remove?"* per responsibility/class/item,
+using the vocabulary above — never a parallel, incompatible status set.
+
+---
+
 ## Tombstone
 
 When a governed record is deleted, purged, or truncated, a **Tombstone** remains where the
@@ -1243,11 +1379,12 @@ recorded the wrong thing.
 | ID | Question |
 |---|---|
 | OD-01 | **Closed — DL-31, DL-92.** Home Assistant representation strategy is **DL-31**; the persistence-mechanism residual (Current Projection, Change Record, Snapshot) is **DL-92** — Storage helper default, Connected Storage optional via the **DL-42** External History Retention extension for Change Records only. Accepted 2026-10-27, Issue #76, formal acceptance review PASS. See [adr-governed-record-persistence-mechanism.md](../architecture/adr-governed-record-persistence-mechanism.md). **Decision Trace's own mechanism is resolved as DL-129 (OD-29, closed)**; Snapshot triggers/cadence/scope remain **OD-37** |
+| OD-09 | **Closed — DL-136.** Data Portability and Erasure Mechanics — Portability Export and Erasure each stated; Transient Export Artifact; Completeness Manifest; Temporal Portability Contract; see *Portability Export* and *Erasure*, above |
 | OD-35 | **Closed — DL-130.** Governed Historical Retrieval and Access — one surface (Assist/Conversation), classified before assembly; the nine existing Explainability scopes remain the complete query model; `caretaker-of` (**DL-49**) and **DL-71**'s Intended Audience Specification forms are reused unchanged for Subject Authorization |
 | OD-36 | **Closed — DL-133.** Deletion versus preservation reconciliation — governed conflict, Conflict-Resolution Authority, minimization sequence, restricted use, pending-deletion reuse, late-Hold anti-abuse rule, Tombstone semantics |
 | OD-37 | Snapshot triggers, cadence, and scope per responsibility |
 | OD-38 | Version identity, correlation, and causation identifier strategy, including evaluation of Home Assistant Context IDs |
-| OD-39 | **Closed — DL-132.** Preservation Hold authority, duration, review, release, scope, disclosure, and enforcement. Conflict with deletion remains OD-36 |
+| OD-39 | **Closed — DL-132.** Preservation Hold authority, duration, review, release, scope, disclosure, and enforcement. Conflict with deletion is **DL-133** |
 | OD-40 | **Closed — DL-135.** Evidence Package assembly, transport, integrity representation, and audience — see *Evidence Package*, above |
 | OD-41 | **Closed — DL-134.** Incident and Case object model — scope, not object; see *Incident scope*, above |
 

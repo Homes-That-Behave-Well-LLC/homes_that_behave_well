@@ -362,7 +362,7 @@ make.
 
 | Model | Examples | Governed operations | Resident browsing |
 |---|---|---|---|
-| **Managed Content** | Asset documents; explicitly saved Evidence Packages; explicitly saved Historical Reconstructions; the **Materialized Household Assessment** (**DL-105**) | List, add, open, review, download, print, delete, export | Through the **owning capability**, never through storage |
+| **Managed Content** | Asset documents; explicitly saved Evidence Packages; explicitly saved Historical Reconstructions; the **Materialized Household Assessment** (**DL-105**); a materialized **Transient Export Artifact** (**DL-136**) | List, add, open, review, download, print, delete, export | Through the **owning capability**, never through storage |
 | **Internal Runtime Artifact** | Voiceprints; temporary enrollment artifacts; internal manifests; capability-specific runtime artifacts | Create, validate, use internally, replace, delete, reconcile | **None** |
 | **Queryable Historical Record** | Extended Activity History; governed historical Truth; decision history | Retain, query, explain, reconstruct, hold, purge | **None.** Interaction is by question, not by file |
 
@@ -548,8 +548,10 @@ placement has been verified.**
 | The justification does not widen | Backup convenience is **not** a reason to move records into connected storage. The narrow justification above is unchanged |
 | A gap must be explainable | If governed records are outside backup coverage, that limitation is itself a diagnosable, explainable condition |
 
-Reconciliation with retention floors and Preservation Holds is **DL-133 (OD-36)**; export and deletion
-mechanics are **OD-09**.
+Reconciliation with retention floors and Preservation Holds is **DL-133 (OD-36)**; Portability Export
+and Erasure mechanics are **DL-136 (OD-09)** — **Home Assistant Backup is not portability**: a
+household's portability request is never satisfied by offering Backup, since Backup may omit
+Connected Storage and applies no HTBW authority filtering.
 
 ---
 
@@ -604,10 +606,11 @@ storage owns nothing.**
 | **Evidence Package** | **Foundation**, which owns the Governing Parent (the package's own declared primary Subject anchor — Room/Merged Room, Asset, Person, or Pet — falling back to the **Home** where no single narrower Subject is distinguished, reusing **DL-105**'s anchor-ownership rule). **Concierge** creates it; **Operational Trust** authorises assembly/materialization/recipient/transport | **Not retained by default.** A projection assembled on demand; a materialized copy gets its own **DL-43**/**DL-47** lifecycle, never automatically the longest/shortest constituent | Not applicable while it remains a projection; once materialized, explicit household deletion or Governing-Parent removal (subject to Preservation Hold/retention floor) | Where a resident explicitly materializes a package, **the saved copy becomes an artifact** (Managed Content) and declares its own lifecycle, access, and preservation behaviour. **Retention never makes it legal proof.** Assembly is Disclosure-class, materialization is Disclosure-class with an Authenticated-confirmation override, external export is Governance-class (**DL-76**). Resolved in full as **DL-135** (**OD-40**) |
 | **Historical Reconstruction** | The responsibility owning the reconstructed records | **Not retained.** A projection, never a store (see [../models/temporal-record.md](../models/temporal-record.md)) | Not applicable while it remains a projection | Where a reconstruction is **explicitly saved or exported**, the saved copy becomes an artifact and must declare a lifecycle. **No persistent reconstruction store is created by implication** |
 | **Materialized Household Assessment** (**DL-105**) | **Foundation**, which owns the **Home** — the artifact's anchor and Governing Parent, by the same anchor-ownership rule already applied to Asset documents. Content within it remains owned by whichever responsibility already owns it (Stewardship owns obligation significance, Truth owns Facts, Operational Trust owns policies) | Retained while the **Home** exists; **no ordinary age-based purge** | Explicit household deletion of that specific saved artifact, or Home removal (subject to Preservation Hold/retention floor) | **The canonical Assessment Record is a projection, not retained by default** (`../assessment/assessment-to-platform.md`); materialization occurs only on explicit household request, mirroring the Evidence Package/Historical Reconstruction pattern above. **A new Assessment never deletes a previously materialized artifact** — each materialization is its own immutable **Record Identity** (**DL-104**), never a revision of a prior one. Carries Governed References to the exact versions consulted, never copied payloads. A Stewardship obligation produced by a finding survives independently through its own required Provenance, never through artifact retention |
+| **Transient Export Artifact** (**DL-136**) | **Foundation**, which owns the Governing Parent (the Portability Export's own declared primary Subject anchor, falling back to the **Home**, reusing **DL-105**'s anchor-ownership rule exactly as **DL-135** already applies it). **Concierge** creates it; **Operational Trust** authorises assembly/materialization/recipient/transport | **Not retained by default.** A Portability Export begins as a projection assembled on demand; a materialized delivery copy is **short-lived by design**, with a household-configured duration reusing **DL-122**'s enumerated-presets-plus-custom-override shape — no numeric default is invented here | Not applicable while it remains a projection; once materialized, automatic expiry under its declared short retention, explicit household deletion, or Governing-Parent removal (subject to Preservation Hold/retention floor) | A Preservation Hold on an **underlying source record** never itself holds the derived artifact; preserving the artifact itself requires its own explicit materialization under the ordinary artifact rules. **Never a loophole that outlives a subsequent erasure request** (**DL-133**'s conflict rules apply to the underlying sources, not bypassed by a prior export). Resolved in full as **DL-136** (**OD-09**) |
 
 Consent and Preservation Hold both act on deletion and must be evaluated before it: consent
 withdrawal **causes** deletion, and a Preservation Hold **defers** it. Their reconciliation with
-retention floors is **DL-133 (OD-36)**.
+retention floors is **DL-133 (OD-36)**. Portability Export and Erasure mechanics are **DL-136 (OD-09)**.
 
 ### Parent Removal Behavior by artifact class
 
@@ -620,6 +623,7 @@ retention floors is **DL-133 (OD-36)**.
 | **Saved Evidence Package** | Its own declared primary Subject anchor (Room/Merged Room, Asset, Person, or Pet), falling back to the **Home** (**DL-135**, reusing **DL-105**'s anchor-ownership rule) — **never the Incident that may have motivated it** (**DL-134**) | Managed Content | Its declared Parent Removal Behavior governs; holds and retention rules are honoured first |
 | **Saved Historical Reconstruction** | The **record that caused it to be saved** | Managed Content | As above |
 | **Materialized Household Assessment** (**DL-105**) | The **Home** | Managed Content | Deleted unless an overriding retention or Preservation Hold rule applies; a Stewardship obligation produced by a finding is never affected — it survives through its own independent Provenance, never through this artifact |
+| **Transient Export Artifact** (**DL-136**) | Its own declared primary Subject anchor (Person, Asset, Room/Merged Room, or Pet), falling back to the **Home** — reusing **DL-105**'s anchor-ownership rule exactly as **DL-135**/the Saved Evidence Package row apply it | Managed Content | Automatic expiry under its own declared short retention governs first; holds and retention rules on **underlying source records** are evaluated independently and never bypassed by a prior export |
 
 **Native Home Assistant objects follow their own lifecycle** and are never deleted merely because an
 HTBW artifact structure was cleaned. Cleanup runs **downward** from the parent to the artifacts, not

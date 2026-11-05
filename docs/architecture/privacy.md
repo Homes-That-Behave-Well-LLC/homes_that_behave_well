@@ -238,11 +238,24 @@ than against who asked.
   is **content-free indication** followed by identity-gated retrieval. See
   [../models/communication.md](../models/communication.md).
 
-### Deletion and export
+### Deletion and export (DL-136)
 
-- A person must be able to obtain what the home holds about them.
-- A person must be able to have it deleted, subject to household authority and safety obligations.
-- Deletion must reach connected storage, not only the primary record.
+**Accepted 2026-11-05 (Issue #78, formal acceptance review PASS).** Resolves **OD-09** in full. Full
+decision:
+[adr-data-portability-and-erasure-mechanics.md](adr-data-portability-and-erasure-mechanics.md).
+
+- A person must be able to obtain what the home holds about them, within their own authorized scope —
+  a **Portability Export**, assembled on demand, never a curated Evidence Package (**DL-135**)
+  substituted for a comprehensive export.
+- Export is itself a **disclosure**, evaluated exactly as any other disclosure (**DL-34**): a
+  Person-scoped export never silently discloses another Person's private content, and "Home" scope is
+  never a privacy override.
+- A person must be able to have their data removed, subject to household authority and safety
+  obligations. **Erasure remains fully distributed** — no central Erasure responsibility or store;
+  Operational Trust authorizes the overall orchestrated request (Governance-class); each responsibility
+  deletes, redacts, minimizes, and Tombstones its own records under its own already-accepted rules.
+- **Deletion must reach Connected Storage, not only the primary record** — Connected Storage
+  unavailability is reported, never silently omitted or falsely claimed complete.
 - **Reconciliation of deletion and export obligations with retention floors and Preservation Holds is
   resolved as DL-133 (OD-36)**: a collision between a valid deletion obligation and a valid
   Preservation Hold becomes a governed conflict (never a blind universal winner), resolved by an
@@ -250,7 +263,12 @@ than against who asked.
   with any payload retained solely because of the conflict restricted to the Hold's own stated
   purpose and the deletion obligation remaining pending (never lost) until the conflict ends. See
   [adr-deletion-versus-preservation-reconciliation.md](adr-deletion-versus-preservation-reconciliation.md).
-
+- **A materialized export (Transient Export Artifact) is short-lived by design** and is never a
+  loophole that outlives a subsequent erasure request; HTBW cannot guarantee deletion of a copy already
+  delivered outside its own governance, and this limitation is disclosed honestly.
+- **Native Home Assistant History export and Backup are not portability or erasure mechanisms** —
+  History export is entity-scoped and ungoverned; Backup may omit Connected Storage and is never a
+  substitute for a governed, authority-filtered export or for erasure.
 
 ---
 
@@ -576,7 +594,7 @@ The following are recorded as open decisions and must **not** be resolved inside
 | OD-06 | **Resolved as DL-56.** Consent user experience and its Home Assistant-native surface |
 | OD-07 | **Resolved as DL-120.** Speaker-biometric Identity processing is HA-Prod-local only (**DL-119**); speech-to-text/text-to-speech follow the ordinary declare/disclose/consent rule above |
 | OD-08 | **Resolved** as **DL-39** and **DL-40** |
-| OD-09 | Export and deletion mechanics across connected storage |
+| OD-09 | **Closed — DL-136.** Portability Export, Erasure, Transient Export Artifact, Completeness Manifest, and Temporal Portability Contract |
 | OD-33 | **Closed — DL-43, DL-46, DL-47.** Retention is declared inside every governed record and artifact lifecycle; the remaining values are **OD-05**, **OD-26**, **OD-49** |
 | OD-36 | **Closed — DL-133.** Reconciliation of deletion and export obligations with retention floors and Preservation Holds |
 | OD-39 | **Closed — DL-132.** Preservation Hold authority, duration, review, release, scope, disclosure, and enforcement. Conflict with deletion remains OD-36 |

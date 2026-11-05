@@ -531,8 +531,8 @@ At minimum:
 | Release/reconciliation | eventual Hold release and resulting pending-obligation re-evaluation, if applicable |
 
 Protected payload is never copied merely to explain the conflict — restating this model's existing
-discipline unchanged. This section does not decide, and does not reopen, **OD-40**'s or **OD-09**'s own
-operational questions.
+discipline unchanged. This section does not decide, and does not reopen, **DL-135**'s or **DL-136**'s
+own operational questions.
 
 ---
 
@@ -556,8 +556,52 @@ At minimum:
 | Final outcome | package Record Identity; generation provenance; any gaps or restricted-use content carried forward |
 
 The package's own content is never copied into the Decision Trace merely to explain it — restating this
-model's existing discipline unchanged. This section does not decide, and does not reopen, **OD-09**'s
-own operational questions.
+model's existing discipline unchanged. This section does not decide, and does not reopen, **DL-136**'s
+own Portability Export/Erasure mechanics.
+
+---
+
+## Portability Export explainability (DL-136)
+
+**Accepted 2026-11-05 (Issue #78, formal acceptance review PASS).** Every Portability Export assembly,
+materialization, and external delivery produces Decision Trace evidence under this model's existing
+structure. Full decision:
+[../architecture/adr-data-portability-and-erasure-mechanics.md](../architecture/adr-data-portability-and-erasure-mechanics.md).
+
+At minimum:
+
+| Field | Content |
+|---|---|
+| Request | requester; request time; authority used; authorized scope (Person/Home/Asset/Room/responsibility/record class/time range) |
+| Assembly | classes evaluated; each class's Completeness Manifest outcome (included/included-by-reference/excluded/withheld/unavailable/no-longer-retained/deleted-tombstoned/unsupported/no-responsive-records) |
+| Materialization decision | whether a Transient Export Artifact was created; its Governing Parent; identity/confirmation used (Disclosure-class, Authenticated override) |
+| Temporal representation | which Temporal Portability Contract elements were applied (UTC instant, local civil-time, IANA identifier, precision) and any source temporal inconsistency surfaced |
+| Recipient/transport | intended recipient; external-boundary warning/confirmation given; Governance-class identity/confirmation used, where external |
+| Final outcome | Export Generation Time; Completeness Manifest reference; any gaps or withheld content carried forward |
+
+The export's own content is never copied into the Decision Trace merely to explain it — restating
+this model's existing discipline unchanged. This section does not decide, and does not reopen,
+**OD-40**'s or **OD-05**'s/**OD-49**'s own questions.
+
+## Erasure explainability (DL-136)
+
+**Accepted 2026-11-05 (Issue #78, formal acceptance review PASS).** Every orchestrated erasure request
+produces Decision Trace evidence under this model's existing structure. Full decision:
+[../architecture/adr-data-portability-and-erasure-mechanics.md](../architecture/adr-data-portability-and-erasure-mechanics.md).
+
+At minimum:
+
+| Field | Content |
+|---|---|
+| Request | requester/subject; request time; Governance-class identity/confirmation used for the overall orchestrated request; authorized scope |
+| Per-responsibility result | each responsibility/class contacted and its own result (deleted; redacted/minimized; tombstoned; preserve-restricted; pending cleanup; technically unsupported; excluded by scope; no responsive records) |
+| Conflict handling | any **DL-133** conflict encountered and its resolution (minimization sequence applied, Conflict-Resolution Authority used, restricted-use status, pending re-evaluation trigger) |
+| Storage outages | any Connected Storage unavailability encountered and the resulting pending-cleanup state |
+| Final outcome | the household-facing result, using **DL-133**'s four outcome shapes (Deleted; Pending-preservation-conflict; Partial/minimized; Technically unavailable/pending reconciliation) |
+
+The erasure's own deleted/redacted payload is never copied into the Decision Trace merely to explain
+it — restating this model's existing discipline unchanged. This section does not decide, and does not
+reopen, **DL-133**'s own conflict-resolution rules.
 
 ---
 
@@ -854,12 +898,13 @@ This model *is* the explainability requirement. Every other canonical document r
 | ID | Question |
 |---|---|
 | OD-05 | Decision Trace retention floor and ceiling |
+| OD-09 | **Closed — DL-136.** A trace records, for Portability: requester, authorized scope, Risk-Class authority applied, Completeness Manifest outcomes per class, Temporal Portability Contract elements applied, recipient/transport result. For Erasure: requester/subject, scope, Governance-class authority applied, per-responsibility result, DL-133 conflict handling, storage outages, final household-facing outcome shape — see *Portability Export explainability* and *Erasure explainability*, above |
 | OD-21 | **Closed — DL-75.** An obligation's referenced Significance Declaration (Derivation Source, Base Significance, Provenance, Effective Version) is referenced by its **Effective Version at the time of the decision** (**P30**), never copied, so a past explanation reports the declaration that was in force then, even after the household later changes it |
 | OD-29 | **Closed — DL-129.** Connected Storage is the authoritative durable location, reusing DL-92's mechanism; durable capture is a DL-41 Connected-Storage dependency that never stops the underlying governed action; write-time assembly, Room-normalized multi-Room persistence with DL-104 correlation, diagnostic fallback, and storage-outage/recovery coverage-gap semantics are each stated |
 | OD-30 | Which surfaces expose Decision Traces, and to whom |
 | OD-35 | **Closed — DL-130.** Assist/Conversation is the sole historical-retrieval surface, classified before assembly into ordinary retrieval versus Person/actor reconstruction; the nine existing Explainability scopes remain the complete query model; a trace records which Category-7 branch applied (a retained Decision Trace versus a diagnostic reconstruction) and which query dimensions/evidence classes were consulted |
 | OD-38 | Version identity, correlation, and causation identifier strategy |
-| OD-39 | Preservation Hold authority, duration, review, release, and conflict with deletion |
+| OD-39 | **Closed — DL-132.** Preservation Hold authority, duration, review, release, and enforcement. Conflict with deletion is **DL-133** |
 | OD-44 | **Closed — DL-95.** A trace records, where applicable: the Communication's lifecycle state transition (Created, Suppressed, Acknowledged, Expired, Superseded, Resolved by origin, Undeliverable), each Delivery Attempt and its outcome (Attempted, Delivered, Presented, Failed), the Presentation Outcome evidence (**DL-54**), and the governing decision behind any Suppressed or Undeliverable non-action |
 | OD-46 | **Closed — DL-77.** A trace records, where applicable: the originator proposal or its recorded absence, the Canonical HTBW Recommendation, any Learned Household Recommendation, the configured value and override status, the Risk Class and threshold state considered, the granted Urgency entitlement and any prior entitlement on reevaluation, determination time, the selected or degraded surface, deferral state, and the **OD-04** precedence reference |
 | OD-10 | **Closed — DL-125.** A trace names whether a resolved target was a native Floor (targeting only), a Merged Room, or an ordinary Room/Area, and never represents a Floor-targeted action as though a policy had been evaluated at Floor scope — no such scope exists |

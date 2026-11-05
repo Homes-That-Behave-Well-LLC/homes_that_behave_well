@@ -73,7 +73,10 @@ Every decision evaluation must be capable of producing a Decision Trace containi
 - Action or intentional non-action
 - Human-readable explanation
 - Confidence and uncertainty
-- Relevant timestamps or validity periods
+- Relevant timestamps or validity periods — stated in household-local time, derived from the Home's
+  own verified configured time zone, never raw UTC alone (**DL-136**'s Temporal Portability Contract
+  extends this identical requirement to exported timestamps: canonical UTC instant, event-time-rule
+  local representation, and IANA identifier together, never a retroactively applied offset)
 - Result
 - Failure or fallback, if any
 

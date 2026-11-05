@@ -411,7 +411,7 @@ ownership boundary changes, and no open decision is closed.**
 | Remaining gap | None |
 | Why a lower layer cannot satisfy it | Not applicable — this is a verified platform convention, not a gap. Recorded here because the October 2026 investigation itself was initially obscured by skipping this normalisation step, which is a recurring operational hazard worth naming rather than a new capability question |
 
-**Discharges item 16.** Feeds **explainability.md**'s resident-facing explanation requirement directly: any explanation surfacing a timestamp to a resident must state it in household-local time, derived from the verified `time_zone` configuration, never in raw UTC.
+**Discharges item 16.** Feeds **explainability.md**'s resident-facing explanation requirement directly: any explanation surfacing a timestamp to a resident must state it in household-local time, derived from the verified `time_zone` configuration, never in raw UTC. **Extended to the portability/export surface as the Temporal Portability Contract (DL-136, OD-09)**: a Portability Export preserves the canonical UTC instant, a local civil-time representation using the timezone rule applicable at the event's own time, and the IANA identifier itself — never a fixed numeric offset applied retroactively across a Daylight-Saving-Time boundary. This extends, rather than reopens, this verified finding, and remains Reference-Home evidence for the one verified deployment, not a universal guarantee about every installation's clock or NTP accuracy.
 
 ### Issue #146 OD-64 reassessment evidence pass (2026-10-06)
 
@@ -1411,8 +1411,8 @@ review. It records what was evaluated, what remains, and which decision each fin
 | To-do entities, with `item_added`, `item_completed`, `item_removed` triggers and completion conditions | To-do list integration | Obligation, significance, accountability, escalation | Completion is a list state, not proof that care occurred | **OD-23** |
 | Recorder, `purge_keep_days`, `recorder.purge_entities`, include and exclude filters | Recorder integration | Governed retention, holds, tombstones | Purge is global or entity-scoped; there is no per-record exemption | **DL-47**, **OD-01**, **OD-39** |
 | Activity, and `logbook.log` custom entries | Activity integration | Decision Trace | Activity now records execution causality (2026.9, **R1**), never full decision explainability (identity, evidence, governance context, alternatives, policy version) | **DL-129** |
-| History panel export and the history REST endpoint | History integration | Governed export scope | Export is entity-scoped and ungoverned | **OD-09**, resolved **DL-130** (OD-35) |
-| Backup, automatic backup, and backup result reporting | Backup integration | Nothing for platform-resident state | Connected storage is outside backup scope unless deliberately placed within it | **OD-09**, **OD-36** |
+| History panel export and the history REST endpoint | History integration | Governed export scope | Export is entity-scoped and ungoverned | **Resolved — DL-130** (OD-35), **DL-136** (OD-09) |
+| Backup, automatic backup, and backup result reporting | Backup integration | Nothing for platform-resident state | Connected storage is outside backup scope unless deliberately placed within it | **Resolved — DL-133** (OD-36), **DL-136** (OD-09) |
 | Tag scan events carrying `tag_id`, `name`, and `device_id` | Tags integration | Confidence banding and evidence fusion | A tag identifies an object and a scanner, never a person | **OD-16** |
 | Labels across areas, devices, entities, automations, scenes, scripts, and helpers | Labels documentation | Nothing | Labels are flat, global, and ungoverned | — |
 | Assist pipelines, Wyoming, local speech-to-text and text-to-speech | Local Assist pipeline | Identity evidence governance | Speech-to-Phrase is close-ended and does not support open-ended items out of the box | **OD-07** |
