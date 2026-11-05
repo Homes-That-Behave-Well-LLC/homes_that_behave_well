@@ -533,6 +533,23 @@ below) is accepted as this pipeline's household-facing product consumer — the 
 a provider-agnostic architectural boundary/role, never itself a product name.
 ADR: [../architecture/adr-household-knowledge-provider-governance.md](../architecture/adr-household-knowledge-provider-governance.md)
 
+**Incident**
+**Accepted 2026-11-05 (Issue #87, formal acceptance review PASS).** (**DL-134**) A bounded, governed
+event scope used for historical reconstruction, retrieval, preservation scope, Evidence Package
+projection, or related explainability where several authoritative records must be considered
+together. Constructed from existing authoritative records and scope constraints (time, Room/spatial,
+governed Subject, Correlation/Causation Identity, record classes, explicit inclusion/exclusion) when a
+governed operation requires a bounded event context. **An Incident is not**: a persisted Home object;
+a Case; an artifact; a **DL-45** Governing Parent; a durable actor profile; a store; or a new
+responsibility. Nothing creates a durable Incident — a governed operation constructs an Incident scope
+when needed, and when the operation ends no separate Incident object survives unless some other
+already-accepted durable construct (a Decision Trace, a Preservation Hold, an Evidence Package)
+independently persists information under its own lifecycle. **Incident has no lifecycle and no DL-47
+retention of its own.** A Historical Reconstruction, a Preservation Hold, and an Evidence Package
+describing the same household event may reuse a coherent Incident scope definition; none of them is
+owned by it, and none may treat it as a shared container.
+ADR: [../architecture/adr-incident-and-case-object-model.md](../architecture/adr-incident-and-case-object-model.md)
+
 **Identity Subject**
 **Accepted 2026-10-14 (Issue #191, formal acceptance review PASS).** (**DL-84**) The name for
 Foundation's existing, general concept — not new in substance — that **every**

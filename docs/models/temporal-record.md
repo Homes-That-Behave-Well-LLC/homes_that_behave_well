@@ -899,7 +899,57 @@ and Access."
 
 ---
 
+## Incident scope
+
+**Accepted 2026-11-05 (DL-134, Issue #87, formal acceptance review PASS).** Resolves **OD-41** in
+full. Full decision:
+[../architecture/adr-incident-and-case-object-model.md](../architecture/adr-incident-and-case-object-model.md).
+
+An **Incident** is a bounded, governed event scope — describing the set of relevant records, Facts,
+observations, decisions, correlations, and other authorized evidence associated with a household
+question or event — constructed from existing authoritative records and scope constraints. **An
+Incident is not a persisted Home object, a Case, an artifact, a DL-45 Governing Parent, a durable actor
+profile, a store, or a new responsibility.**
+
+- **No owner.** No responsibility owns an Incident record because no Incident record exists. The
+  governed operation that constructs and consumes the scope (Historical Reconstruction, Preservation
+  Hold placement, Evidence Package assembly, Explainability) retains ownership of its own durable
+  output exactly as it already does.
+- **No creation, only construction.** Nothing creates a durable Incident as a side effect of a
+  question being asked, a Hold being placed, a reconstruction being performed, an unknown actor
+  appearing, an Evidence Package being requested, or an automation firing. A governed operation
+  constructs an Incident scope when a bounded event context is required; when the operation ends, no
+  separate Incident object is retained unless some other already-accepted durable construct
+  independently persists information under its own lifecycle.
+- **No lifecycle.** No open/under-review/closed/archived states exist for Incident. Durable
+  constructs that used an Incident scope (Preservation Hold, Decision Trace, Evidence Package,
+  Communications, Truth Facts, Identity Assertions, deletion/preservation conflicts) keep their own
+  already-accepted lifecycle unchanged.
+- **Not a Governing Parent.** A Preservation Hold (**DL-132**) or Evidence Package (prospective
+  **OD-40**) may *reference* the same Incident scope another operation used for the same event; it is
+  never *owned by* that scope.
+- **No independent retention.** Incident has no **DL-47** retention duration of its own; records
+  produced in an Incident-scoped operation retain their own existing retention classification.
+- **Shared scope, not shared container.** A Historical Reconstruction, a Preservation Hold, and an
+  Evidence Package describing the same event reuse a coherent scope definition — time bounds,
+  **DL-104** Correlation/Causation Identity, record/Subject references, Room/spatial scope, explicit
+  inclusions/exclusions — as a value/projection/reference structure, never a shared persisted
+  container.
+- **Dossier prevention.** Using an Incident scope never creates a persistent Person dossier, a durable
+  actor profile, automatic retention extension, manufactured continuity from intermittent observation,
+  or an inferred role/intent/criminality. **DL-35**'s Unknown Actor Reference boundary (above) is fully
+  preserved, not weakened: an Unknown Actor Reference remains reconstruction-scoped and is never reused
+  across Incident scopes merely because observations look similar.
+- **Next-evidence guidance.** A Historical Reconstruction identifies an unresolved question/evidence
+  gap; Concierge may offer a permitted **Ask**; Operational Trust governs whether a proposed source's
+  existence/access may be disclosed; the existing source responsibility retrieves it where authorized.
+  **Naming a source never asserts its contents, and identifying a source is separate from retrieving
+  it.** "There is nothing further to examine" is a valid, complete answer.
+
+---
+
 ## Preservation Hold
+
 
 **Accepted 2026-11-05 (DL-132, Issue #85, formal acceptance review PASS).** Resolves **OD-39** in
 full, except deletion-versus-preservation precedence, which remains explicitly **OD-36**'s own. Full
@@ -944,8 +994,8 @@ decision: [adr-deletion-versus-preservation-reconciliation.md](../architecture/a
   Confirmation Strength Strong.**
 - **Scope** is one or more specific governed records, a governed object/Subject qualified by its
   applicable records, a bounded time range, a bounded Room/time context, or a correlation/causation
-  chain (**DL-104**); an Incident/Case scope is optional convenience once **OD-41** accepts a usable
-  construct, never a prerequisite. Scope expansion must be explicit, never inferred.
+  chain (**DL-104**); an Incident scope (**DL-134**) is optional convenience, never a prerequisite.
+  Scope expansion must be explicit, never inferred.
 - **No HTBW-wide numeric default duration or review interval exists.** Every active hold carries an
   explicit, placer-set review-due time, status, purpose, authorised placer, review history, and
   release status.
@@ -1163,7 +1213,7 @@ recorded the wrong thing.
 | OD-38 | Version identity, correlation, and causation identifier strategy, including evaluation of Home Assistant Context IDs |
 | OD-39 | **Closed — DL-132.** Preservation Hold authority, duration, review, release, scope, disclosure, and enforcement. Conflict with deletion remains OD-36 |
 | OD-40 | Evidence Package assembly, transport, integrity representation, and audience |
-| OD-41 | Incident and Case object model |
+| OD-41 | **Closed — DL-134.** Incident and Case object model — scope, not object; see *Incident scope*, above |
 
 ## Related documents
 

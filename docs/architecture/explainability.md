@@ -221,8 +221,8 @@ multiplying mechanisms:
 | 12 | Historical identity query, room-relative | Routed to **OD-73**/**OD-15** |
 | 13 | Current location query | Unchanged — `where-is-tom.md`/`where-is-maisey.md`/`where-is-my-phone.md` |
 | 14, 16 | Movement reconstruction; correlation across events | Location-conclusion/correlation scope, Reconstruction-Required, calibrated by **DL-74** |
-| 15 | Incident reconstruction | Existing Incident scope; does not decide **OD-41** |
-| 17 | Next-evidence guidance | No owner here — routed to **OD-41**/**OD-40** |
+| 15 | Incident reconstruction | Incident scope — accepted as a bounded, non-persisted scope, never an object (**DL-134**) |
+| 17 | Next-evidence guidance | Resolved (**DL-134**): Historical Reconstruction identifies the gap; Concierge may offer **Ask**; Operational Trust governs source-existence disclosure; the owning source responsibility retrieves it — no new Evidence responsibility |
 | 19 | Correction and supersession | Bitemporal model, accepted |
 | 20 | Explanation unavailability | Tombstone model, accepted |
 
@@ -232,6 +232,17 @@ HTBW evaluated and decided not to act — a Decision Trace exists, fully governe
 made no decision at all — nothing is held, and the answer is a diagnostic reconstruction from native
 evidence (**DL-73**, **DL-111**), carrying its own confidence, never borrowed from the Decision Trace
 path.
+
+**Category 15/17 detail (DL-134).** An Incident scope is a bounded, governed scope — never a persisted
+object, never a DL-45 Governing Parent, never independently retained once the operation that
+constructed it ends. See
+[adr-incident-and-case-object-model.md](adr-incident-and-case-object-model.md). Next-evidence guidance
+(category 17) distinguishes six states using existing vocabulary, never a new one: source consulted,
+no responsive evidence found; source exists, not consulted; source unavailable/retrieval failed;
+source does not exist/is not configured, where known; source existence cannot be disclosed; no further
+authorized source is known. **"There is nothing further to examine" is a valid, complete answer.**
+Naming a source never asserts its contents, and identifying a source is a separate, separately
+authorized act from retrieving it.
 
 **Authorization sequence.** Assist/Conversation receives the request; the request is classified
 (above) before any content is assembled; requester identity is resolved to the degree the shape
