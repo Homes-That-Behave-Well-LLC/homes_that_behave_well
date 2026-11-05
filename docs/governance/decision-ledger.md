@@ -4033,11 +4033,18 @@ evidence this decision corrects does not alter DL-137's own holding. **OD-46**/*
 
 ---
 
-### Notes on the 2026-10 Home Identity and Home Intelligence Architecture Review (DL-84–DL-86)
+### Notes on the 2026-10 Home Identity and Home Intelligence Architecture Review (DL-84–DL-86, closed as accepted — see Update below)
 
-**Status: DL-84 through DL-86 are recorded, drafted content, pending formal acceptance review at
-#191. They are not yet closed, binding decisions**, following the same separate-review pattern as
-DL-80–DL-83/#188 and the custody and obligation-lifecycle precedent cited there.
+**Original status note (preserved for history): DL-84 through DL-86 were recorded, drafted content,
+pending formal acceptance review at #191. They were not yet closed, binding decisions**, following the
+same separate-review pattern as DL-80–DL-83/#188 and the custody and obligation-lifecycle precedent
+cited there.
+
+**Update, 2026-11-05 (governance backlog reconciliation): #191 is closed with an Owner Acceptance
+Review result of PASS (2026-10-14), and DL-84, DL-85, and DL-86 are each already marked Accepted in
+their own Part 1 table rows above. This Notes section's original status line, which predates that
+closure, is superseded by this update — no DL text, substance, or holding is altered.** OD-90 (the
+Home-scoped sibling this review raised) is independently closed as **DL-115** (#189).
 
 An owner discussion concerning HTBW Identity (Home, Individual, Guest), Home-owned email and calendar,
 caretaker/personal calendars, Asset Intelligence source sharing, Home Intelligence, Concierge and
@@ -4090,11 +4097,16 @@ remain open and require formal governance resolution at #189, #190, and #191 res
 
 ---
 
-### Notes on the 2026-10 Reference Home Network Segmentation and Stable Endpoint Identity Architecture Review (DL-87–DL-89)
+### Notes on the 2026-10 Reference Home Network Segmentation and Stable Endpoint Identity Architecture Review (DL-87–DL-89, closed as accepted — see Update below)
 
-**Status: DL-87 through DL-89 are recorded, drafted content, pending formal acceptance review at #195.
-They are not yet closed, binding decisions**, following the same separate-review pattern as
-DL-80–DL-83/#188 and DL-84–DL-86/#191.
+**Original status note (preserved for history): DL-87 through DL-89 were recorded, drafted content,
+pending formal acceptance review at #195. They were not yet closed, binding decisions**, following the
+same separate-review pattern as DL-80–DL-83/#188 and DL-84–DL-86/#191.
+
+**Update, 2026-11-05 (governance backlog reconciliation): #195 is closed with formal acceptance review
+result PASS (2026-10-27), and DL-87, DL-88, and DL-89 are each already marked Accepted in their own
+Part 1 table rows above. This Notes section's original status line, which predates that closure, is
+superseded by this update — no DL text, substance, or holding is altered.**
 
 Reviewed against the Reference Home's completed VLAN, firewall, mDNS, addressing, and cold-start
 commissioning migration evidence, Epic **#147**'s checklist, the open-decision and non-decision
@@ -4159,11 +4171,16 @@ classification authority only and does not perform or complete the audit.
 
 ---
 
-### Notes on the 2026-10 Decoupled Voice Interaction Capability Architecture Review (DL-90–DL-91)
+### Notes on the 2026-10 Decoupled Voice Interaction Capability Architecture Review (DL-90–DL-91, closed as accepted — see Update below)
 
-**Status: DL-90 and DL-91 are recorded, drafted content, pending formal acceptance review at #198. They
-are not yet closed, binding decisions**, following the same separate-review pattern as #188, #191, and
-#195.
+**Original status note (preserved for history): DL-90 and DL-91 were recorded, drafted content,
+pending formal acceptance review at #198. They were not yet closed, binding decisions**, following the
+same separate-review pattern as #188, #191, and #195.
+
+**Update, 2026-11-05 (governance backlog reconciliation): #198 is closed with formal acceptance review
+result PASS, and DL-90 and DL-91 are each already marked Accepted in their own Part 1 table rows
+above. This Notes section's original status line, which predates that closure, is superseded by this
+update — no DL text, substance, or holding is altered.**
 
 Prompted by the Reference Home's intent to evaluate dedicated far-field microphone arrays as
 voice-input endpoints alongside the existing Concierge-managed Sonos room-audio response path, reviewed
