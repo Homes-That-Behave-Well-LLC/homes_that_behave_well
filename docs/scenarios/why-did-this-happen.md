@@ -1100,6 +1100,31 @@ category, surfaced for review rather than silently tolerated or quietly upgraded
 
 ---
 
+## Scenario 64 — "Why didn't 'Movie Time' work?" (a withdrawn vocabulary term)
+
+### What the household experiences
+
+Tuesday morning, the household replaces the term "Movie Time" with "Cinema" for the same Scene. Tuesday
+evening, Tom says "Start Movie Time" — nothing happens. Wednesday, he asks Assist why.
+
+### The expected architectural result
+
+| Element | Outcome |
+|---|---|
+| Tuesday evening (current resolution) | "Movie Time" is no longer configured vocabulary. HTBW does not search retained vocabulary history for its former meaning, and does not silently execute Cinema's Scene. The response is the ordinary **not-configured-here** / **Not understood** outcome — identical to any other never-configured term (**DL-143**) |
+| Wednesday (on-demand Explainability) | A new Explainability Record is created now, under the `on_demand_decision_trace` origin (amended **DL-137**), with its **Historical/Effective Scope** set to Tuesday evening's failed interaction |
+| Explanation, where authorized | *"Movie Time was no longer configured when you made that request. The vocabulary had changed to Cinema earlier that day."* |
+| Prohibited | Reactivating "Movie Time"; executing Cinema's Scene as a side effect of explaining; implying "Movie Time" was still valid Tuesday evening; fabricating what "Movie Time" used to mean if that history has since expired |
+| Version identity | The historical record cites the vocabulary mapping version applicable Tuesday morning (**P30**); a later vocabulary change never rewrites it |
+
+**If, instead, "Movie Time" had already been withdrawn the day before the household even changed
+anything**, Explainability would report that truthfully too — it never implies a term was current
+vocabulary at a time it was not, in either direction. See
+[adr-vocabulary-change-and-withdrawal-consequences.md](../architecture/adr-vocabulary-change-and-withdrawal-consequences.md)
+(**DL-143**).
+
+---
+
 ## Explanation quality rules
 
 1. Use **household vocabulary**, never entity IDs or internal service names.
@@ -1146,3 +1171,4 @@ different facts.
 - [../architecture/privacy.md](../architecture/privacy.md)
 - [../architecture/adr-resident-communication-and-delivery-separation.md](../architecture/adr-resident-communication-and-delivery-separation.md)
 - [nighttime-suppression.md](nighttime-suppression.md)
+- [../architecture/adr-vocabulary-change-and-withdrawal-consequences.md](../architecture/adr-vocabulary-change-and-withdrawal-consequences.md)

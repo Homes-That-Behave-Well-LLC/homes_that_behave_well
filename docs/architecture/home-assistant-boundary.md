@@ -347,6 +347,12 @@ After applying only native capability (media-playback and occupancy Facts, both 
 
 **Discharges Steps B through F of item 11's A–F sub-evaluation in full.** Item 11 is now completely discharged. The one admissible residual already identified (OD-86 / #174's deferred wake-word-vocabulary sub-question) may now proceed, because item 11 has reported: no HTBW audio-source discriminator is being built, so OD-86 inherits nothing further from it beyond the household-vocabulary-change aspect it was always scoped to.
 
+**Update (2026-11-06, Issue #174 formal acceptance review PASS).** **OD-86 is resolved as DL-143.** The
+wake-word sub-question is closed conservatively, preserving this item's own "HTBW builds nothing"
+conclusion unchanged: no wake-word ownership, configuration, alias, or compatibility mechanism is
+created. See
+[adr-vocabulary-change-and-withdrawal-consequences.md](adr-vocabulary-change-and-withdrawal-consequences.md).
+
 ### Issue #146 Home Assistant 2026.11 revalidation sweep (2026-11-03)
 
 Performed immediately before the expected Home Assistant 2026.11 stable release (official beta

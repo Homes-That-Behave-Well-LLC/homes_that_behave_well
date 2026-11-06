@@ -256,8 +256,16 @@ vocabulary-scoped, or habit-scoped tier alongside the two above.
 
 The words the household uses are **Contextual Vocabulary**, owned by Room Configuration
 ([contextual-vocabulary.md](contextual-vocabulary.md)), and a vocabulary term is a **configured
-mapping**, never a remembered value. **The consequence for the household when a term changes or is
-withdrawn is not settled**, and is **OD-86** — it belongs to vocabulary governance, not to Continuity.
+mapping**, never a remembered value. **The consequence for the household when a term changes, is
+retargeted, or is withdrawn is resolved as DL-143 (OD-86)** — it belongs to vocabulary governance, not
+to Continuity, and does not create a third Continuity scope. **A Continuity value captured under
+vocabulary that later changes is not automatically rewritten merely because its household-facing term
+changed**: where the retained value references the underlying semantic target and that target remains
+validly referenced, the remembered value stays meaningful unchanged; where the retained value depends
+only on a vocabulary reference that is now broken, existing broken-reference/failure semantics apply —
+HTBW never guesses or silently remaps using historical vocabulary, and no Continuity vocabulary
+migration subsystem is created. See
+[../architecture/adr-vocabulary-change-and-withdrawal-consequences.md](../architecture/adr-vocabulary-change-and-withdrawal-consequences.md).
 An established household routine is likewise not a Continuity object: what it rests on is either a
 configured mapping, an approved preference already held at one of the two scopes, or a household
 automation that HTBW references and never rewrites.
@@ -694,3 +702,4 @@ plus a custom numeric override.
 - [temporal-record.md](temporal-record.md)
 - [../architecture/behavioral-governance.md](../architecture/behavioral-governance.md)
 - [../contracts/continuity-contract.md](../contracts/continuity-contract.md)
+- [../architecture/adr-vocabulary-change-and-withdrawal-consequences.md](../architecture/adr-vocabulary-change-and-withdrawal-consequences.md)

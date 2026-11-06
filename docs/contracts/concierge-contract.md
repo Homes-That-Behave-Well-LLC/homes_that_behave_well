@@ -129,6 +129,11 @@ Nothing depends on Concierge.
     record, and must not treat its dismissal as acknowledgement** (**DL-142**). A native notify "sent"
     state is not complete delivery truth; a native correlation identifier may be retained as delivery
     metadata but never becomes the Communication's own Record Identity (**DL-104**).
+21. **Concierge must not resurrect a withdrawn or superseded vocabulary term for current resolution, and
+    must not search retained vocabulary history as a fallback when current resolution fails** (**DL-143**).
+    Concierge consumes the vocabulary resolution current at the time of interaction only; historical
+    vocabulary may be consumed later by Explainability as evidence, which does not grant Concierge
+    permission to execute a historical meaning.
 
 ---
 
@@ -420,6 +425,7 @@ See [../models/decision-trace.md](../models/decision-trace.md) and
 | OD-54 | **Closed — DL-98.** Delivery retry policy — household-configured, no HTBW-wide default count or interval; formally distinct from DL-54's fallback and DL-99's re-presentation |
 | OD-55 | **Closed — DL-54.** Presentation attestation per surface class |
 | OD-57 | **Closed — DL-94.** Indication versus content separation |
+| OD-86 | **Closed — DL-143.** Vocabulary change and term-withdrawal consequences — a governed change, retargeting, or withdrawal takes effect immediately; no implicit alias, deprecation window, or grace period; current resolution never searches history as a fallback; historical vocabulary evidence recognized for Explainability only, never executable |
 
 ### Related documents
 
@@ -433,6 +439,8 @@ See [../models/decision-trace.md](../models/decision-trace.md) and
 - [../models/decision-trace.md](../models/decision-trace.md)
 - [../models/communication.md](../models/communication.md)
 - [../architecture/adr-decoupled-voice-interaction-capability-architecture.md](../architecture/adr-decoupled-voice-interaction-capability-architecture.md) — `spoken_response_output` is consumed by, and does not alter, the Response Delivery Space model in §6 above (**DL-90**, accepted)
+- [../architecture/adr-vocabulary-change-and-withdrawal-consequences.md](../architecture/adr-vocabulary-change-and-withdrawal-consequences.md)
+  (**DL-143**)
 
 ---
 ---

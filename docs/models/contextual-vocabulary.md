@@ -436,35 +436,54 @@ the same target resolution" guarantee.
 
 ---
 
-## Changing or withdrawing a term — the household consequence is open
+## Changing, retargeting, or withdrawing a term (DL-143)
+
+**Accepted 2026-11-06 (Issue #174, formal acceptance review PASS).** Resolves **OD-86** in full. Full
+decision:
+[adr-vocabulary-change-and-withdrawal-consequences.md](../architecture/adr-vocabulary-change-and-withdrawal-consequences.md).
 
 This model governs how a term **comes into existence**: it is created by the household, may be seeded
 from a native value, resolves deterministically, and becomes `broken_mapping` when its target no longer
-resolves. Of removal it says only that a term the household withdraws is **removed through the ordinary
-Room Configuration lifecycle, and its history is retained**.
+resolves. **A governed vocabulary change, retargeting, or withdrawal takes effect immediately when the
+new Room Configuration becomes authoritative.** The previous term immediately ceases to apply for
+current resolution and execution — no transition interval, implicit alias, compatibility alias,
+deprecation window, grace period, or hidden fallback to the old term exists, unless the household
+explicitly configures both terms as current vocabulary (never automatically). **Term change/
+replacement**, **retargeting** (the term remains, the target changes), and **withdrawal** (the term is
+removed without replacement) are three distinct outcomes, none with added compatibility behaviour.
 
-> **History retained is not habit preserved.** **What the home owes the people who still use the old
-> word is not settled, and is OD-86.**
+> **Current vocabulary governs current behavior. Historical vocabulary governs historical truth.
+> Explainability connects the two.** Historical evidence may recognize a previous term for
+> Explainability, provenance, historical reconstruction, and diagnosing why a current interaction did
+> not resolve — **this recognition never makes the previous term valid for current command resolution
+> or execution.** A withdrawn term's immediate-failure behaviour reuses this model's own existing
+> `not_configured_here` failure response unchanged; **current resolution never searches history as a
+> fallback.**
 
-Open there, and deliberately unanswered here: whether a superseded term is recognised at all and for how
-long; whether the home may say that a word it once understood is no longer configured, and which
-responsibility says it; how a change is explained afterwards, given that under **P30** a Decision Trace
-references the exact vocabulary version and so remains accurate while the household habit does not;
-what is owed regarding household-authored automations, scripts, and scenes that named the previous
-target; and what becomes of retained references and of Continuity values captured under the earlier
-term.
+**A withdrawn term is not necessarily `broken_mapping`.** It may simply no longer exist in current
+vocabulary; a current term whose target cannot be resolved remains `broken_mapping`, a distinct,
+unchanged state. **Household-authored automations, scripts, and scenes are never automatically
+rewritten, wrapped, renamed, or migrated** merely because vocabulary changes — HTBW surfaces a stale or
+broken dependency where evidence permits (visibility, not repair), restating `why-did-this-happen.md`
+Scenario 17 unchanged. **A retained governed reference remains version-accurate and never becomes a
+current-execution fallback** (**DL-27**/**P30**): resolving for historical explanation is formally
+distinct from resolving for current execution. **Continuity values are not automatically migrated**
+merely because a household-facing term changed — where the underlying semantic target remains validly
+referenced, the remembered value stays meaningful; where only the vocabulary reference is broken,
+existing broken-reference semantics apply; no new Continuity scope is created. **The wake-word
+sub-question is closed conservatively**: #146's conclusion (HTBW builds nothing) is preserved unchanged,
+and no wake-word ownership, alias, or compatibility mechanism is created. **No write-back to native Home
+Assistant aliases is reopened, and the seed-once lifecycle is unchanged** — HTBW never re-seeds a
+withdrawn term from a surviving native alias.
 
-**Nothing is asserted here.** **No transitional alias, deprecation window, grace period, or withdrawal
-behaviour is introduced by recording this**, and none may be inferred from it. Rule 6 stands unchanged:
-vocabulary never renames or replaces the authoritative asset. HTBW references household automations as
-named executors and **never rewrites, wraps, or migrates them**.
-
-**This question exists because it was once owned and was not carried forward.** The superseded
+**This question existed because it was once owned and was not carried forward.** The superseded
 `adr-room-vocabulary-governance.md`, `room-vocabulary-registry-contract.md`, and
-`room-vocabulary-registry-model.md` carried a *managed vocabulary lifecycle*. **They are Historical and
-are not reactivated** — they are evidence that the question existed, never authority for its answer.
+`room-vocabulary-registry-model.md` carried a *managed vocabulary lifecycle*. **They remain Historical
+and are not reactivated** — they were evidence that the question existed, never authority for its
+answer.
 
-**Inheritance across scopes is a different question and remains OD-13.**
+**Inheritance across scopes remains a different question, resolved as DL-70 (OD-13), not reopened or
+absorbed here.**
 
 ---
 
@@ -615,9 +634,9 @@ linguistic mechanics to receive a usable explanation.**
 | ID | Question |
 |---|---|
 | OD-02 | **Closed — DL-43, DL-44, DL-45.** Vocabulary definitions are located through a governed artifact reference; encoding remains capability-specific |
-| OD-13 | Whether vocabulary terms may be inherited from Home scope and overridden per Room |
+| OD-13 | **Closed — DL-70.** Home-scope inheritance and Room/Merged-Room shadowing are accepted; see *Context precedence* above |
 | OD-14 | **Resolved.** Native aliases are an **input** — a seed — and never an authority. See *Native names and aliases* above |
-| OD-86 | **What the home owes the household when a term is changed, retargeted, or withdrawn.** Raised 2026-08-27. See *Changing or withdrawing a term* above. A wake-word change is admissible there only as a household-vocabulary sub-question and remains deferred behind **#146** |
+| OD-86 | **Closed — DL-143.** Current vocabulary becomes authoritative immediately on change, retargeting, or withdrawal; no implicit alias, deprecation window, or grace period; historical vocabulary evidence recognized for Explainability only, never executable; household-authored automations never rewritten; Continuity values not automatically migrated; wake-word sub-question closed conservatively, preserving #146's no-build conclusion. See *Changing, retargeting, or withdrawing a term* above |
 
 ## Related documents
 
@@ -625,3 +644,4 @@ linguistic mechanics to receive a usable explanation.**
 - [room.md](room.md)
 - [../contracts/contextual-vocabulary-contract.md](../contracts/contextual-vocabulary-contract.md)
 - [../architecture/home-assistant-boundary.md](../architecture/home-assistant-boundary.md)
+- [../architecture/adr-vocabulary-change-and-withdrawal-consequences.md](../architecture/adr-vocabulary-change-and-withdrawal-consequences.md)

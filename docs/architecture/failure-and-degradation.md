@@ -60,6 +60,15 @@ that may interpret the request differently." See
 [../models/contextual-vocabulary.md](../models/contextual-vocabulary.md), *Command resolution and safe
 native fallback*.
 
+**A changed, retargeted, or withdrawn term produces exactly these same honest responses — never a
+historical fallback (DL-143).** A withdrawn or superseded term is, for current resolution, simply no
+longer configured: **Not understood** (conversational) or the equivalent **"term not configured here"**
+response (below) applies, identically to a term that was never configured. Current resolution never
+searches retained vocabulary history to find what the term used to mean. A later on-demand
+Explainability question about the same interaction is a separate, later evaluation, governed by
+[adr-vocabulary-change-and-withdrawal-consequences.md](adr-vocabulary-change-and-withdrawal-consequences.md),
+never a change to this immediate response.
+
 ---
 
 ## Capability dependency
@@ -225,7 +234,7 @@ timing are implementation matters and are not settled by this document.
 | Truth cannot establish a fact | Truth | Publish "unknown" rather than a default. Downstream must treat unknown as unknown. |
 | A Primary Authority is unavailable | Truth | The Authority-Derived Fact becomes `unknown` or unavailable (**DL-59**); never silently switched to another candidate sensor, and never treated as an evidence conflict (**DL-62**). |
 | A voice assistant has no Room assignment | Room Configuration | Ask which Room, or refuse. Never guess a Room from device naming. Surface it as a configuration problem. |
-| A vocabulary term has no mapping | Room Configuration | Say the term is not configured here. Never fall back to a runtime device search. |
+| A vocabulary term has no mapping, including a changed, retargeted, or withdrawn term (**DL-143**) | Room Configuration | Say the term is not configured here. Never fall back to a runtime device search, and never search retained vocabulary history for a historical executable match. |
 | A vocabulary term maps ambiguously | Room Configuration | Ask which target was meant. Offer only exposed options. |
 | A target device is unavailable | Truth / execution | Report partial or failed execution honestly. Do not claim success. |
 | A command was issued and no corresponding state change was confirmed (resolved — DL-129) | Concierge / execution | Record the **observed outcome** as `unknown`. **Never treat successful command issuance as proof the physical effect occurred, and never render it as failure unless the platform itself reported one.** |
@@ -386,3 +395,5 @@ be able to learn why something did not happen.
 - [explainability.md](explainability.md)
 - [privacy.md](privacy.md)
 - [adr-stable-endpoint-identity-and-network-boundary-independence.md](adr-stable-endpoint-identity-and-network-boundary-independence.md) — restates "validation is not discovery" explicitly for the network layer (**DL-87**, accepted at **#195**)
+- [adr-vocabulary-change-and-withdrawal-consequences.md](adr-vocabulary-change-and-withdrawal-consequences.md)
+  (**DL-143**)

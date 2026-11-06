@@ -72,6 +72,7 @@ Dispositions: **New** · **Keep** · **Revise** · **Supersede** · **Merge** ·
 | `adr-explainability-presentation-and-assist-interaction-path.md` | Canonical ADR | **New, Accepted 2026-11-05** as **DL-140** (Issue #80, formal acceptance review PASS). Resolves **OD-30** in full: Terminology corrected (Decision Trace / Explainability Record / **Explainability Projection**, consuming **DL-137** unchanged); **Assist named the canonical household-facing Explainability interaction path**, extending **DL-130** without reopening it; Companion App (**DL-113**), dashboard/kiosk (**DL-88**), and voice (**DL-90**) named as Assist endpoints, never independent capabilities; endpoint contributes context, never authority (five explicit non-equations); Access/Disclosure/Presentation reused as three separable considerations via existing recorded-outcome fields, no new field created; per-request/per-audience/per-endpoint projection at read time (Option A + Option C's gating discipline); Option B (two persisted renderings) and any administrator bypass rejected outright; partial-authority honesty, affected-guest, and Unknown Person (**DL-33**) presentation behavior defined; actor reconstruction remains excluded (**DL-35**/**DL-130** unchanged); passive dashboard cards and direct database access not authorized. Raised by the Explainability Presentation review (#80, closed) |
 | `adr-household-inbox-projection-semantics.md` | Canonical ADR | **New, Accepted 2026-11-05** as **DL-141** (Issue #116, formal acceptance review PASS, closed as part of the **Assist Interaction Governance Sweep** under Epic #147). Resolves **OD-47** in full: Communications-only scope (Option A, obligations remain **DL-117**'s own projection); request-centric refresh, no cache/store (Option C rejected); **accessed through Assist** (**DL-140**), scoped per requester, never per-Room/per-household; viewing not automatic acknowledgement but may constitute a Presentation event (**DL-95**/**DL-96**); filtered items receive Indication/Challenge/omission reusing **DL-94**'s three forms unchanged; the Inbox is not itself a Delivery Surface (**DL-53** not reopened); a broad Assist question may compose the Inbox and obligation projections without merging models. Raised by the Household Inbox Projection Semantics review (#116, closed) |
 | `adr-communication-object-persistence.md` | Canonical ADR | **New, Accepted 2026-11-05** as **DL-142** (Issue #112, formal acceptance review PASS). Resolves **OD-42** in full: Communication is the authoritative governed record (**DL-28** unchanged); durability follows lifecycle — a Communication whose lifecycle extends beyond the creating transaction must be durably committed first, neither an always-persist-immediately nor a never-persist-until-resolved rule; persisted Content/Metadata consume **DL-138**'s classification unchanged, no duplicate field invented; source material referenced, never copied (**P30**); persistence mechanism consumes **DL-92** directly, no Communication-specific exception, Connected Storage available only as the already-accepted **DL-42** extension; **#207 not preempted**, exactly as **DL-137** independently settled Explainability's placement; native Home Assistant representation remains a **DL-31** projection, never authority; Home Assistant Notifications are the default HA-native delivery mechanism (**P21**); full delivery-mechanism matrix recorded (Companion App/mobile push, HA frontend/web, dashboard/kiosk, spoken Room announcement, email, SMS, other Notify targets, Assist/**DL-141** Household Inbox retrieval); dismissal ≠ acknowledgement, native notify "sent" ≠ delivery truth, native correlation identifiers never become Record Identity (**DL-104**); Recorder and `todo` restated as not Communication persistence (**DL-114**); Household Inbox restart behavior restated (no Inbox-specific state to lose, **DL-141** unchanged); external-copy boundary restated (**DL-136**). Raised by the Communication Persistence review (#112, closed) |
+| `adr-vocabulary-change-and-withdrawal-consequences.md` | Canonical ADR | **New, Accepted 2026-11-06** as **DL-143** (Issue #174, formal acceptance review PASS). Resolves **OD-86** in full: a governed vocabulary change, retargeting, or withdrawal takes effect immediately, with term change/replacement, retargeting, and withdrawal defined as three distinct outcomes; no implicit alias, compatibility alias, deprecation window, transition window, or grace period exists unless the household explicitly configures both terms as current vocabulary; current resolution never searches history as a fallback, reusing the already-accepted `not_configured_here`/**Not understood** response unchanged, with `broken_mapping` kept distinct from withdrawal; historical vocabulary evidence is recognized for Explainability, provenance, and historical reconstruction only (consuming amended **DL-137**'s on-demand origin and Historical/Effective Scope, and **P30** Version Identity), never reactivating a term for current execution; household-authored automations, scripts, and scenes are never automatically rewritten, wrapped, renamed, or migrated (restating `why-did-this-happen.md` Scenario 17); retained governed references remain version-accurate and never become a current-execution fallback (**DL-27**/**DL-45**); no new Continuity scope is created, distinguishing a semantic-target-preserved value from a broken-vocabulary-dependency value; the wake-word sub-question is closed conservatively, preserving Issue #146 item 11's "HTBW builds nothing" conclusion unchanged; no write-back to native Home Assistant aliases is reopened and the seed-once lifecycle is unchanged; **OD-13**/**OD-59**/**OD-63**/**OD-64** are not reopened or absorbed. Raised by the Vocabulary Change and Term-Withdrawal Consequences review (#174, closed) |
 
 ---
 
@@ -604,18 +605,35 @@ rows in its "Open decisions" table (OD-47, OD-49, OD-51, OD-52, OD-56, OD-58, ea
 closed) are reconciled in the same pass; `open-decision-issue-index.md` and `decision-ledger.md` are
 updated; none is reclassified.
 
+**Updated 2026-11-06, Issue #174 formal acceptance review PASS (Vocabulary Change and Term-Withdrawal
+Consequences, DL-143)**: one new document, `adr-vocabulary-change-and-withdrawal-consequences.md`, is
+added as **Canonical ADR** from creation (+1 to new canonical documents, +1 to Canonical total, +1 to
+Total classified). `contextual-vocabulary.md`, `contextual-vocabulary-contract.md`,
+`adr-room-configuration-ownership.md`, `continuity.md`, `decision-trace.md`,
+`failure-and-degradation.md`, `why-did-this-happen.md`, `home-assistant-boundary.md`,
+`concierge-contract.md`, and `glossary.md` (all already Canonical) are revised in place: stating the
+immediate-change rule for term change/replacement/retargeting/withdrawal, the current-versus-historical
+vocabulary distinction, the historical-evidence-never-executes rule (consuming amended **DL-137**'s
+on-demand origin and Historical/Effective Scope), the never-rewrite-household-artifacts restatement, the
+Continuity semantic-target-versus-broken-reference distinction, the conservative wake-word-sub-question
+closure preserving Issue #146 item 11 unchanged, and a new Scenario 64 worked example; two stale
+cross-references found and corrected in the same pass (`contextual-vocabulary.md`'s Open Decisions table
+and `adr-room-configuration-ownership.md`'s own Open-decisions line each still listed the already-closed
+**OD-13** as open); `open-decision-issue-index.md` and `decision-ledger.md` are updated; none is
+reclassified.
+
 | Category | Count |
 |---|---|
-| New canonical documents | 74 |
+| New canonical documents | 75 |
 | Revised in place | 2 (`README.md`, `concierge-contract.md`) |
-| **Canonical total** (74 new + 2 revised) | **76** |
+| **Canonical total** (75 new + 2 revised) | **77** |
 | Marked Active — subordinate | 23 |
 | Marked Historical — superseded | 83 |
 | Marked Historical illustration (`examples/`) | 16 |
 | Marked Historical — planning/closure record | 2 |
 | **Historical total** | **101** |
 | Operational | 8 |
-| **Total classified** | **208** |
+| **Total classified** | **209** |
 | **Unclassified** | **0** |
 | **Deleted** | **0** |
 

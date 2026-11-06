@@ -64,7 +64,10 @@ meaning within an applicable context (**DL-69**). Contextual, never globally uni
 exists, and a Room or Merged Room may shadow it (**DL-70**). Owned by Foundation as part of Room
 Configuration; Person-scoped Vocabulary is coordinated through Person Setup under the same concept —
 **no new responsibility is created**. Not a native identifier, a formal Asset name, a permission, an
-exposure decision, or an execution authorization.
+exposure decision, or an execution authorization. **A change, retargeting, or withdrawal takes effect
+immediately; no implicit alias, deprecation window, or grace period exists absent explicit household
+configuration of both terms as current vocabulary — historical vocabulary evidence may be recognized
+for Explainability only, never executed (DL-143)**.
 Model: [contextual-vocabulary.md](contextual-vocabulary.md)
 
 **Fulfillment**

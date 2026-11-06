@@ -45,7 +45,8 @@ were, at this ADR's own acceptance, unaffected — none was narrowed, resolved, 
 OD-85 → DL-110, 2026-10-29; OD-90 → DL-115, 2026-11-02; OD-20 → DL-121, 2026-11-03; OD-77 → DL-139,
 2026-11-05), none of them reopened or altered by this ADR's own text. The wake-word sub-question
 carried by **OD-86** [the vocabulary-supersession decision, not to be confused with this ADR's own
-**DL-86**] remains open and unaffected.
+**DL-86**] was, at this ADR's own acceptance, open and unaffected; **OD-86 has since independently
+closed as DL-143 (2026-11-06)**, preserving the wake-word conclusion this ADR restates below unchanged.
 
 ---
 
@@ -436,7 +437,7 @@ Concierge is not coupled to any particular wake word by this decision.
 | **OD-82** (#160) | **Closed — DL-51/DL-52** (2026-08-26, prior to this ADR's own acceptance). Product consolidation/retirement resolved independently; this ADR does not narrow or reopen it. |
 | **OD-85** (#172) | **Closed — DL-110** (2026-10-29). Asset Intelligence adoption scope, custody, and coexistence resolved independently; this ADR's "Share with Home Intelligence" remains a disclosure question, not an adoption/custody question. |
 | **DL-81**, **DL-82** (pending **#188**) | Extended, not altered. DL-85 and DL-86 build on DL-81's pipeline and DL-82's provenance model without changing either. |
-| **OD-86** wake-word sub-question (#174) | Unaffected. Restated above without reopening. |
+| **OD-86** wake-word sub-question (#174) | **Closed — DL-143** (2026-11-06). Resolved independently; the wake-word sub-question is closed conservatively, preserving this ADR's own restatement and #146 item 11's conclusion unchanged — not reopened. |
 | **#186**, **#187** | Unaffected siblings. **#190** is this ADR's equivalent residual-mechanics issue for the Home Intelligence product boundary. |
 
 ---

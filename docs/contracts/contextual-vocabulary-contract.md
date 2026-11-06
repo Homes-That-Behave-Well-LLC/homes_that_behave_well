@@ -37,6 +37,10 @@ Do not define vocabulary as owned by Concierge. Any document doing so is superse
   while its Fulfillment (provider, target, source) varies by Room, Merged Room, or Person
 - **Person Vocabulary never redefines a Room- or Merged-Room-owned device term (DL-70)**: it is
   restricted to Person-owned capabilities and resources
+- **Change, retargeting, and withdrawal take effect immediately (DL-143)**: once a governed vocabulary
+  change becomes authoritative, the new vocabulary applies immediately and the previous term
+  immediately stops participating in current resolution; no implicit alias, deprecation window, or
+  grace period exists unless the household explicitly configures both terms as current vocabulary
 
 ---
 
@@ -200,10 +204,11 @@ Explanation records the form heard and the authoritative term it resolved to. Ro
 | OD-13 | **Closed — DL-70.** Home-scope inheritance and Room/Merged-Room shadowing are accepted; Vocabulary and Fulfillment are distinguished; Person Vocabulary stays restricted to Person-owned capabilities; collision behaviour is stated; Floor participation stays deferred to **OD-10** |
 | OD-14 | **Resolved.** Native aliases are an input — a seed — and never an authority |
 | OD-62 | **Closed — DL-69.** Vocabulary is first-class; command resolution, cardinality, and safe native fallback are accepted; historical reconstruction remains excluded from generic conversational retrieval, now fully resolved by **OD-35** as **DL-130** |
-| OD-86 | **What the home owes the household when a term is changed, retargeted, or withdrawn.** Raised 2026-08-27. **Consumers must not assume any transitional alias, deprecation window, or grace period**, because none is guaranteed and none has been decided. See [../models/contextual-vocabulary.md](../models/contextual-vocabulary.md) |
+| OD-86 | **Closed — DL-143.** Current vocabulary becomes authoritative immediately; no implicit alias, deprecation window, or grace period exists absent explicit household configuration of both terms. Historical vocabulary evidence is recognized for Explainability/provenance only, never executable for current resolution. See [../architecture/adr-vocabulary-change-and-withdrawal-consequences.md](../architecture/adr-vocabulary-change-and-withdrawal-consequences.md) |
 
 ## Related documents
 
 - [../models/contextual-vocabulary.md](../models/contextual-vocabulary.md)
 - [room-configuration-contract.md](room-configuration-contract.md)
 - [../scenarios/room-vocabulary.md](../scenarios/room-vocabulary.md)
+- [../architecture/adr-vocabulary-change-and-withdrawal-consequences.md](../architecture/adr-vocabulary-change-and-withdrawal-consequences.md)

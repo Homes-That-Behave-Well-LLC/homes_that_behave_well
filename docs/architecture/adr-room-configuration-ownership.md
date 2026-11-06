@@ -135,10 +135,14 @@ replacement set established above did not carry the deprecate-and-retire half fo
 owner; it is never authority for the answer.
 
 The consequence is that **the household-facing effect of changing, retargeting, or withdrawing a term
-is unowned**, which is now **OD-86**. **Recording this asserts no transitional alias, deprecation
-window, grace period, or withdrawal behaviour**, and creates no lifecycle construct. The accepted
-position is unchanged: **Room Configuration owns the mapping, Concierge consumes the resolved
-target**, and vocabulary never renames or replaces the authoritative asset.
+was unowned**, which was recorded as **OD-86** and is now **resolved as DL-143**: a governed vocabulary
+change, retargeting, or withdrawal takes effect immediately; no transitional alias, deprecation window,
+grace period, or withdrawal behaviour is created unless the household explicitly configures both terms
+as current vocabulary. Historical vocabulary evidence may be recognized for Explainability and
+provenance only, and never reactivates a term for current execution. See
+[adr-vocabulary-change-and-withdrawal-consequences.md](adr-vocabulary-change-and-withdrawal-consequences.md).
+The accepted position is unchanged: **Room Configuration owns the mapping, Concierge consumes the
+resolved target**, and vocabulary never renames or replaces the authoritative asset.
 
 ### Costs accepted
 
@@ -163,8 +167,8 @@ target**, and vocabulary never renames or replaces the authoritative asset.
 
 **OD-01** HA representation strategy; **OD-02** connected-storage format, **since closed as DL-43, DL-44, and DL-45**; **OD-10** Floors as a
 first-class scope; **OD-11** a Physical Room in more than one Room; **OD-12** structured exclusion
-reasons, **since closed as DL-103**; **OD-13** vocabulary inheritance; **OD-14** HA aliases; **OD-86** the household consequence of
-changing or withdrawing a vocabulary term — distinct from **OD-13**, which is inheritance across scopes.
+reasons, **since closed as DL-103**; **OD-13** vocabulary inheritance, **since closed as DL-70**; **OD-14** HA aliases; **OD-86** the household consequence of
+changing or withdrawing a vocabulary term, **since closed as DL-143** — distinct from **OD-13**, which is inheritance across scopes.
 
 ---
 
@@ -174,3 +178,4 @@ changing or withdrawing a vocabulary term — distinct from **OD-13**, which is 
 - [../contracts/room-configuration-contract.md](../contracts/room-configuration-contract.md)
 - [../contracts/contextual-vocabulary-contract.md](../contracts/contextual-vocabulary-contract.md)
 - [../scenarios/room-vocabulary.md](../scenarios/room-vocabulary.md)
+- [adr-vocabulary-change-and-withdrawal-consequences.md](adr-vocabulary-change-and-withdrawal-consequences.md)

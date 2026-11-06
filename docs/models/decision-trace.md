@@ -316,9 +316,18 @@ retrieval or command-resolution interaction. A trace must be able to carry:
 | Native-fallback candidate, where considered | Whether it was exact, permitted, exposed, and safe |
 | Match classification | Deterministic, ambiguous, no-match-with-safe-native-candidate, no-match-unsafe-interpretation-rejected, or no-match-no-safe-candidate |
 | No-match reason, where applicable | Never silently omitted |
+| Applicable vocabulary version | The vocabulary mapping's own version identity (**P30**) current at the interaction's Effective Time — preserved unchanged by a later vocabulary change, never rewritten to reflect a subsequent term (**DL-143**) |
 
 A trace for this class of interaction must never record content that was withheld from the resident
 alongside content that was spoken, in a form that could itself leak the withheld content.
+
+**A changed, retargeted, or withdrawn term never resolves through historical search (DL-143).** Where
+a term no longer matches current vocabulary, the match classification above reports a no-match outcome
+exactly as any other unconfigured term — current resolution never substitutes a historical mapping. An
+on-demand Explainability question about a now-superseded term is a separate, later interaction: it
+produces its own new Explainability Record (amended **DL-137**), whose **Historical/Effective Scope**
+is set to the earlier interaction being explained, and which may cite the applicable vocabulary
+version recorded above as historical evidence — never as a current-execution fallback.
 
 ### Intended Audience Specification (DL-71)
 
@@ -1019,3 +1028,6 @@ This model *is* the explainability requirement. Every other canonical document r
 - [../architecture/adr-explainability-presentation-and-assist-interaction-path.md](../architecture/adr-explainability-presentation-and-assist-interaction-path.md)
   (**DL-140**) — Assist as the canonical household-facing Explainability interaction path and the
   Explainability Projection model
+- [../architecture/adr-vocabulary-change-and-withdrawal-consequences.md](../architecture/adr-vocabulary-change-and-withdrawal-consequences.md)
+  (**DL-143**) — current-versus-historical vocabulary resolution, and the applicable-vocabulary-version
+  field above
