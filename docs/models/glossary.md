@@ -1807,8 +1807,16 @@ is versioned; the reason is explainable through the Decision Trace; completed de
 never rewritten.
 
 **Household Inbox**
-A **projection** over outstanding Communications, assembled on demand and filtered by the viewer's
-authority at read time. It is not a persisted object and no responsibility owns it.
+**Resolved as DL-141 (accepted 2026-11-05, Issue #116, formal acceptance review PASS).** A
+**projection** over outstanding Communications only (never obligations, which remain **DL-117**'s own
+`todo`/Calendar projection), assembled fresh on every request and filtered by the viewer's authority at
+read time — no cache, no store, no owning responsibility. Accessed through **Assist** (**DL-140**),
+scoped per requester rather than per Room or per household. Viewing does not automatically constitute
+acknowledgement but may constitute a Presentation event (**DL-95**/**DL-96**); a filtered item receives
+a content-free Indication, a Room-Delivery Authorization Challenge, or is omitted entirely where its
+existence is protected (**DL-94**). **The Inbox is not itself a Delivery Surface** (**DL-53**) — the
+invoking Assist endpoint supplies presentation/surface context.
+ADR: [../architecture/adr-household-inbox-projection-semantics.md](../architecture/adr-household-inbox-projection-semantics.md)
 
 **Urgency (DL-77)**
 The **maximum interruption entitlement** Operational Trust grants to a Communication. Answers *"what

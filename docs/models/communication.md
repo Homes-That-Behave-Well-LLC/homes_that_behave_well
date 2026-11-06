@@ -258,8 +258,9 @@ otherwise eligible. The deterministic ordering algorithm:
    this is the already-recognised "Equal-priority policies" conflict class
    (`../architecture/behavioral-governance.md`'s own Conflict-resolution table): the household
    configures the deterministic tie-break. **No HTBW-wide default order is invented**; completing that
-   configuration surface is a distinct follow-on question tracked under **OD-47** (Household Inbox
-   projection scope), not an Owner Policy Question.
+   configuration surface is a distinct follow-on question, not resolved by **DL-141** (OD-47's own
+   closure, which settles Inbox projection scope/refresh/access-path, not this tie-break's own
+   configuration placement), and not an Owner Policy Question.
 5. **Category plays no role in ordering.** Restates DL-78 unchanged — Category is content-domain
    classification only, never a severity rank.
 6. **Defer/Redirect remain Concierge's expression of Operational Trust's underlying constraint**
@@ -1180,8 +1181,14 @@ This is the **P30** failure mode applied to visibility.
 **There is no single household inbox.** There are as many projections as there are viewers.
 
 This is the same treatment given to **Historical Reconstruction** and **Evidence Package** in
-[temporal-record.md](temporal-record.md). Projection scope and refresh semantics are open decision
-**OD-47**.
+[temporal-record.md](temporal-record.md). **Resolved as DL-141**: scope is Communications only
+(obligations remain `todo`/Calendar's own projection, DL-117); refresh is request-centric with no
+cache or store; the Inbox is accessed through **Assist** (DL-140), scoped per requester rather than
+per Room or per household; viewing is not automatic acknowledgement but may constitute a Presentation
+event (DL-95/DL-96); a filtered item receives a content-free Indication, a Room-Delivery Authorization
+Challenge, or is omitted entirely where its existence is protected (DL-94); the Inbox is not itself a
+Delivery Surface. See
+[adr-household-inbox-projection-semantics.md](../architecture/adr-household-inbox-projection-semantics.md).
 
 ---
 
@@ -1378,7 +1385,7 @@ See [../scenarios/why-did-this-happen.md](../scenarios/why-did-this-happen.md).
 | OD-44 | **Closed — DL-95.** Communication lifecycle (Created, Suppressed, Acknowledged, Expired, Superseded, Resolved by origin, Undeliverable) and Delivery Attempt outcome (Attempted, Delivered, Presented, Failed) are formally distinct and never flattened; **DL-54** and **DL-94** consumed unchanged. Acknowledgement validity (**OD-45**), retry (**OD-54**), and escalation (**OD-22**) remain independently owned |
 | OD-45 | **Closed — DL-96.** Acknowledgement is an explicit, Communication-specific responsive act by an identified, in-audience Person, attribution governed by DL-36/DL-39 unchanged; unacknowledged delivery remains `unknown`, never failure; Confirmation (DL-37), DL-94 authorization, and Stewardship Completion (DL-48, DL-71) remain distinct. Escalation (**OD-22**) and retry (**OD-54**) consume this truthfully, deciding nothing themselves |
 | OD-46 | **Closed — DL-77.** Urgency is a fixed, cumulative four-level entitlement ladder, formally independent of Action-Risk Classification (**DL-76**), never overriding audience, privacy, consent, disclosure, identity, authority, or precedence (**OD-04**) |
-| OD-47 | Household Inbox projection scope and refresh semantics |
+| OD-47 | **Closed — DL-141.** Household Inbox Projection Semantics — Communications-only scope (obligations remain DL-117's own `todo`/Calendar projection); request-centric refresh, no cache/store; accessed through Assist (DL-140), scoped per requester; viewing is not automatic acknowledgement but may constitute a Presentation event (DL-95/DL-96); filtered items receive Indication/Challenge/omission (DL-94); the Inbox is not itself a Delivery Surface (DL-53) |
 | OD-48 | **Closed — DL-99.** Re-presentation is a new Delivery Attempt triggered by a Room transition Fact; the preference is opt-in, Person-scoped, and optionally refined by Category/Urgency; no HTBW-wide default repetition count or cooldown exists, household-configured where enabled; stop conditions reuse DL-95/DL-96 unchanged; formally distinct from Delivery Retry (**DL-98**), non-compounding structural |
 | OD-49 | **Closed — DL-138.** Communication Retention Governance — Content and Metadata classified separately, two independent household-configured retention policies, no independent architectural floor/ceiling; see *Retention*, above |
 | OD-50 | Escalation ladder semantics for communications, resolved into **OD-22**, now **closed — DL-97** |

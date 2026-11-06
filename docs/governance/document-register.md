@@ -70,6 +70,7 @@ Dispositions: **New** · **Keep** · **Revise** · **Supersede** · **Merge** ·
 | `adr-communication-retention-governance.md` | Canonical ADR | **New, Accepted 2026-11-05** as **DL-138** (Issue #118, formal acceptance review PASS). Resolves **OD-49** in full: Communication Content (substance conveyed, Minimal rendering projection anchor) and Communication Metadata (every other already-required field) classified separately; referenced source material never automatically Content; two independent, household-configured retention policies (**DL-122** preset/override shape) with **no independent architectural floor or ceiling**, applying the corrected **DL-137** philosophy; **DL-78** Category and **DL-77** Urgency never automatically dictate retention duration, optional per-Category override supported, never required; ordinary/on-demand Explainability reference never extends or resets Communication retention (**DL-47** holding rule minimizes first, **DL-132**/amended **DL-137** consumed unchanged); consent/erasure/Tombstone consume **DL-56**/**DL-133**/**DL-136** unchanged, Metadata not automatically exempt; persistence-technology placement routed to **#207** (unexecuted); **DL-136** Completeness Manifest reports Content/Metadata independently; also corrects stale pre-amendment-DL-137 dependency evidence previously posted on #118. Raised by the Communication Retention review (#118, closed) |
 | `adr-person-to-external-resource-association-ownership.md` | Canonical ADR | **New, Accepted 2026-11-05** as **DL-139** (Issue #148, formal acceptance review PASS, following one bounded grounding correction resolved during this review itself). Resolves **OD-77** in full: Foundation owns the Person-scoped **External-Resource Association** assignment (**DL-85**), mirroring **DL-115**'s Home-scoped assignment; Options B–E (Identity, Continuity, Operational Trust, Concierge) rejected; internal Person-device associations (BLE, phone, watch) confirmed as Identity's (**DL-32**) and Continuity's, not Foundation precedent — the grounding correction identified and resolved in this review; requester-governed "my" resolution, never Room occupancy; Unknown Person/Guest inherit nothing (**DL-33**); shared resources are not automatic conflicts; reasoning-provider profile associations Foundation-owned where **DL-93**/**DL-131** support a Person-specific reference, DL-93's resolution order unchanged; no independent retention floor/ceiling (corrected **DL-137** philosophy); erasure (**DL-136**) distinguishes the association from the referenced resource; `continuity-use-cases.md` Use Case 6 changes U → A. Raised by the Person-to-External-Resource Association Ownership review (#148, closed) |
 | `adr-explainability-presentation-and-assist-interaction-path.md` | Canonical ADR | **New, Accepted 2026-11-05** as **DL-140** (Issue #80, formal acceptance review PASS). Resolves **OD-30** in full: Terminology corrected (Decision Trace / Explainability Record / **Explainability Projection**, consuming **DL-137** unchanged); **Assist named the canonical household-facing Explainability interaction path**, extending **DL-130** without reopening it; Companion App (**DL-113**), dashboard/kiosk (**DL-88**), and voice (**DL-90**) named as Assist endpoints, never independent capabilities; endpoint contributes context, never authority (five explicit non-equations); Access/Disclosure/Presentation reused as three separable considerations via existing recorded-outcome fields, no new field created; per-request/per-audience/per-endpoint projection at read time (Option A + Option C's gating discipline); Option B (two persisted renderings) and any administrator bypass rejected outright; partial-authority honesty, affected-guest, and Unknown Person (**DL-33**) presentation behavior defined; actor reconstruction remains excluded (**DL-35**/**DL-130** unchanged); passive dashboard cards and direct database access not authorized. Raised by the Explainability Presentation review (#80, closed) |
+| `adr-household-inbox-projection-semantics.md` | Canonical ADR | **New, Accepted 2026-11-05** as **DL-141** (Issue #116, formal acceptance review PASS, closed as part of the **Assist Interaction Governance Sweep** under Epic #147). Resolves **OD-47** in full: Communications-only scope (Option A, obligations remain **DL-117**'s own projection); request-centric refresh, no cache/store (Option C rejected); **accessed through Assist** (**DL-140**), scoped per requester, never per-Room/per-household; viewing not automatic acknowledgement but may constitute a Presentation event (**DL-95**/**DL-96**); filtered items receive Indication/Challenge/omission reusing **DL-94**'s three forms unchanged; the Inbox is not itself a Delivery Surface (**DL-53** not reopened); a broad Assist question may compose the Inbox and obligation projections without merging models. Raised by the Household Inbox Projection Semantics review (#116, closed) |
 
 ---
 
@@ -576,18 +577,29 @@ non-equations, and extending the existing Presentation decision field to cover e
 eligibility for Explainability requests specifically — no new recorded-outcome field is created;
 `open-decision-issue-index.md` and `decision-ledger.md` are updated; none is reclassified.
 
+**Updated 2026-11-05 (continued), Issue #116 formal acceptance review PASS (Household Inbox Projection
+Semantics, DL-141, closed as part of the Assist Interaction Governance Sweep)**: one new document,
+`adr-household-inbox-projection-semantics.md`, is added as **Canonical ADR** from creation (+1 to new
+canonical documents, +1 to Canonical total, +1 to Total classified). `communication.md`,
+`glossary.md`, and `concierge-contract.md` (all already Canonical) are revised in place: stating the
+Communications-only scope, request-centric no-cache refresh, Assist access path, per-requester
+scoping, viewing/acknowledgement distinction, filtered-item behavior, and not-itself-a-Delivery-Surface
+holding; a stray `communication.md` cross-reference (a tie-break configuration-surface follow-on
+loosely "tracked under OD-47") is corrected to note it is not resolved by DL-141;
+`open-decision-issue-index.md` and `decision-ledger.md` are updated; none is reclassified.
+
 | Category | Count |
 |---|---|
-| New canonical documents | 72 |
+| New canonical documents | 73 |
 | Revised in place | 2 (`README.md`, `concierge-contract.md`) |
-| **Canonical total** (72 new + 2 revised) | **74** |
+| **Canonical total** (73 new + 2 revised) | **75** |
 | Marked Active — subordinate | 23 |
 | Marked Historical — superseded | 83 |
 | Marked Historical illustration (`examples/`) | 16 |
 | Marked Historical — planning/closure record | 2 |
 | **Historical total** | **101** |
 | Operational | 8 |
-| **Total classified** | **206** |
+| **Total classified** | **207** |
 | **Unclassified** | **0** |
 | **Deleted** | **0** |
 

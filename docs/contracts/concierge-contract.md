@@ -409,7 +409,7 @@ See [../models/decision-trace.md](../models/decision-trace.md) and
 | OD-43 | **Closed — DL-53.** Delivery Surface capability model, including perceptibility and attestation |
 | OD-44 | **Closed — DL-95.** Delivery outcome semantics across the two levels — Communication lifecycle and Delivery Attempt outcome, consuming DL-54 and DL-94 unchanged |
 | OD-45 | **Closed — DL-96.** Acknowledgement semantics and acknowledger identification — an explicit, Communication-specific responsive act by an identified, in-audience Person, consuming DL-36/DL-39 unchanged |
-| OD-47 | Household Inbox projection scope and refresh semantics |
+| OD-47 | **Closed — DL-141.** Household Inbox Projection Semantics — Communications-only scope; request-centric refresh, no cache/store; accessed through Assist (DL-140), scoped per requester; viewing is not automatic acknowledgement; filtered items receive Indication/Challenge/omission (DL-94); not itself a Delivery Surface (DL-53) |
 | OD-48 | **Closed — DL-99.** Re-presentation preference — opt-in, Person-scoped, optionally refined by Category/Urgency; no HTBW-wide default repetition count or cooldown |
 | OD-52 | Audience specification model |
 | OD-54 | **Closed — DL-98.** Delivery retry policy — household-configured, no HTBW-wide default count or interval; formally distinct from DL-54's fallback and DL-99's re-presentation |
