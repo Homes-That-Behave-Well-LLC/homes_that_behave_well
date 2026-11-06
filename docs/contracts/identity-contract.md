@@ -121,6 +121,7 @@ topology that produces this evidence is accepted as **DL-50** and recorded in
 | **A non-match never suppresses transcription** | Voice comparison is enrichment. It never gates speech-to-text, and identity never travels inside transcript content |
 | **Compatibility is enforced before comparison** | Encoder family, encoder version, and audio-contract version must match. A mismatch produces an explicit **DL-41** outcome — *configured but invalid* — and never a comparison made on assumption |
 | **Speaker-biometric processing is HA-Prod-local only** | Enrollment audio, embedding/voiceprint generation, retained voiceprints, runtime comparison audio/embeddings, and the matching operation itself must use a currently HA-Prod-admitted resource (**DL-119**, **DL-120**); never an external/cloud provider, regardless of process, host, or network placement. The resulting assertion carries no biometric payload and is unaffected |
+| **Each Person has exactly one governed Voiceprint Identity Profile (DL-144)** | Never per Room, microphone, satellite, or phone. Channel-diverse enrollment and runtime capture context are evidence provenance/quality only — never identity or authorization. Voice contributes at most one correlation-family contribution regardless of how many channels or samples informed it. Voiceprint comparison is scoped to interactions originating from voice-assistant endpoints requiring the speaker's identity from voice evidence; it is never a redundant check on an interaction already bound through another sufficient evidence source, such as Authenticated Session Identity |
 
 ### What Identity guarantees about evidence
 
@@ -336,7 +337,7 @@ A resident must be able to hear *"I was not certain it was you"* as a valid expl
 | OD-15 | **Closed — DL-64.** "Assertion lifetime" was a conflation of Assertion Validity (permanent), Current-Interaction Applicability (re-evaluated per interaction via fresh fusion, no fixed window), and Retention (DL-47's). Cross-purpose assertion eligibility is accepted, bounded by Room occupancy and the Person's configured primary evidence source |
 | OD-16 | **Resolved** as **DL-32** and **DL-38**. Remaining coefficients are Fusion Policy configuration |
 | OD-80 | **Resolved** as **DL-50**. A capability may declare an execution host; Wyoming is the preferred voice-pipeline boundary; a provider reports candidates and Identity alone resolves |
-| OD-83 | Voiceprint gallery structure under channel diversity — person-global, per-channel, hybrid, or quality-only |
+| OD-83 | **Closed — DL-144.** Voiceprint gallery structure under channel diversity — Alternative D accepted: each Person has exactly one governed Voiceprint Identity Profile; channel is evidence provenance/quality context only, never identity or authorization; no per-channel, per-Room, per-microphone, or per-phone governed voiceprint; voice contributes at most one correlation-family contribution (**DL-38 F2**) regardless of channel diversity; no aggregation mathematics, sample count, or threshold decided (**OD-16** not reopened) |
 | OD-84 | Multi-speaker evidence and speaker plurality. **`ambiguous` is one speaker whose identity could not be separated; it is not two speakers** |
 
 ## Related documents
@@ -346,3 +347,7 @@ A resident must be able to hear *"I was not certain it was you"* as a valid expl
 - [operational-trust-contract.md](operational-trust-contract.md)
 - [../architecture/adr-identity-replaces-voice-identity-boundary.md](../architecture/adr-identity-replaces-voice-identity-boundary.md)
 - [../architecture/adr-decoupled-voice-interaction-capability-architecture.md](../architecture/adr-decoupled-voice-interaction-capability-architecture.md) — Voice Identity remains independently owned regardless of which STT engine or capture device is selected (**DL-91**, accepted)
+- [../architecture/adr-wyoming-compatible-voice-evidence-runtime.md](../architecture/adr-wyoming-compatible-voice-evidence-runtime.md)
+  (**DL-50**)
+- [../architecture/adr-voiceprint-gallery-structure-under-channel-diversity.md](../architecture/adr-voiceprint-gallery-structure-under-channel-diversity.md)
+  (**DL-144**)

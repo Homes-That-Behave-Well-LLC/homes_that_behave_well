@@ -210,6 +210,20 @@ A claim produced by a responsibility from evidence, carrying confidence and attr
 Identity's output: a candidate person, **the purpose it answers**, a confidence value, and the evidence
 that produced it. **Not** a contextual person-presence fact.
 
+**Voiceprint (DL-144)**
+A Person's **one** governed voice identity profile — never per Room, per microphone, per voice
+satellite, per phone, or per capture channel. Derived from one or more enrollment samples, which may be
+channel-diverse; capture-channel and provenance context (endpoint, microphone/source identity, Room,
+capture distance, audio characteristics, encoder family/version, audio-contract version) are recorded
+as **evidence provenance and quality context**, never as a reason to create a second governed
+voiceprint. Owned by **Identity**; retained while the profile is enabled and consent remains valid,
+deleted on profile removal or consent withdrawal (**DL-43**). Internal representation (one embedding,
+several enrollment embeddings, an aggregated structure) is implementation mapping beneath this one
+governed artifact, never a second identity. **Voice contributes at most one evidence contribution per
+correlation family** (**DL-38 F2**), regardless of how many channels or samples informed it.
+Model: [person-and-identity.md](person-and-identity.md),
+[../architecture/adr-voiceprint-gallery-structure-under-channel-diversity.md](../architecture/adr-voiceprint-gallery-structure-under-channel-diversity.md)
+
 **Identity Fusion Function**
 The deterministic, ordinal, purpose-scoped function by which Identity converts eligible evidence into
 an Identity Assertion. Support is set by one **anchor family** and raised by bounded corroboration

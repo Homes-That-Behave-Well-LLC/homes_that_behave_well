@@ -1008,15 +1008,17 @@ transcription is prohibited as the mechanism** — see section 26.
 | A single-maintainer upstream project becomes load-bearing | Medium | Section 22, rule 3 |
 | Model licence drift | Medium | Licence pinned with the encoder version |
 | Near-miss telemetry grows into an audio archive | Medium | Section 20 — metadata adopted, raw audio gated |
-| **Gallery-versus-channel question decided silently** | Medium | Recorded as a residual below; must not be chosen by implementation |
+| **Gallery-versus-channel question decided silently** | Medium | **Resolved as DL-144** (Alternative D, one governed Voiceprint per Person); no longer an open risk |
 | Latency regression in the voice pipeline | Low | Bounded provider budget; timeout yields `unavailable`, never a stalled pipeline |
 
 ### Residuals not decided by this ADR
 
-**Gallery structure under channel diversity** — one person-global gallery with channel diversity,
-per-channel derived profiles, or a hybrid. **Recorded as OD-83** rather than settled by implementation
-choice. Pattern 4 decides that a voiceprint **records where enrollment occurred**; it does not decide
-how the gallery is **structured**, and the two must not be conflated.
+**Gallery structure under channel diversity — resolved as DL-144 (Issue #168, 2026-11-06).** Each
+Person has exactly one governed Voiceprint Identity Profile (Alternative D); channel is evidence
+provenance/quality context, never a reason to structure the gallery per channel. Pattern 4's own
+"records where enrollment occurred" is unaffected — it supplied provenance; **DL-144** supplies the
+gallery-structure answer Pattern 4 deliberately deferred. See
+[adr-voiceprint-gallery-structure-under-channel-diversity.md](adr-voiceprint-gallery-structure-under-channel-diversity.md).
 
 **Speaker plurality** — whether an evidence record may report that **more than one person spoke**.
 **Recorded as OD-84.** See section 17: **ambiguity is not plurality**, and an implementation must not
@@ -1163,10 +1165,10 @@ repository deploy script when implementation begins.
 |---|---|---|
 | **OD-80** | **#153** | **Resolved by this ADR as DL-50** |
 | **OD-82** | **#160** | **Raised by this ADR.** Product consolidation and retirement — see below |
-| **OD-83** | **#168** | **Raised on acceptance.** Voiceprint gallery structure under channel diversity — see §28 |
+| **OD-83** | **#168** | **Resolved by Issue #168 as DL-144.** Voiceprint gallery structure under channel diversity — Alternative D accepted (each Person has exactly one governed Voiceprint Identity Profile); see §28 and [adr-voiceprint-gallery-structure-under-channel-diversity.md](adr-voiceprint-gallery-structure-under-channel-diversity.md) |
 | **OD-84** | **#169** | **Raised by the post-acceptance harvest.** Multi-speaker evidence and speaker plurality — see §17 |
-| **OD-07** | #95 | Voice processing locality. **Engaged, not resolved** |
-| **OD-06** | #94 | Consent capture and revocation. **Engaged, not resolved** |
+| **OD-07** | #95 | **Resolved as DL-120.** Speaker-biometric processing is HA-Prod-local only; speech-to-text/text-to-speech follow their own residency framework |
+| **OD-06** | #94 | **Resolved as DL-56.** Consent capture, scope, self/proxy consent, and withdrawal/deletion are accepted |
 | **OD-15** | #96 | Assertion lifetime. Untouched |
 | **OD-66** | #131 | Delegation boundary. The App is **HTBW's own capability**, not a third-party engine that decides and acts — distinct, and not preempted |
 | **OD-67** | #132 | Reasoning provider strategy. A speech-to-text provider **must not be merged** with a reasoning provider |
@@ -1349,4 +1351,6 @@ onto the existing **Voice Profile** concept above and is not introduced as a dis
 - [../contracts/identity-contract.md](../contracts/identity-contract.md)
 - [../models/person-and-identity.md](../models/person-and-identity.md)
 - [../governance/decision-ledger.md](../governance/decision-ledger.md)
+- [adr-voiceprint-gallery-structure-under-channel-diversity.md](adr-voiceprint-gallery-structure-under-channel-diversity.md)
+  (**DL-144**)
 - [../governance/open-decision-issue-index.md](../governance/open-decision-issue-index.md)

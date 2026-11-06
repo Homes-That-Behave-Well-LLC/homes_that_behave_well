@@ -73,6 +73,7 @@ Dispositions: **New** · **Keep** · **Revise** · **Supersede** · **Merge** ·
 | `adr-household-inbox-projection-semantics.md` | Canonical ADR | **New, Accepted 2026-11-05** as **DL-141** (Issue #116, formal acceptance review PASS, closed as part of the **Assist Interaction Governance Sweep** under Epic #147). Resolves **OD-47** in full: Communications-only scope (Option A, obligations remain **DL-117**'s own projection); request-centric refresh, no cache/store (Option C rejected); **accessed through Assist** (**DL-140**), scoped per requester, never per-Room/per-household; viewing not automatic acknowledgement but may constitute a Presentation event (**DL-95**/**DL-96**); filtered items receive Indication/Challenge/omission reusing **DL-94**'s three forms unchanged; the Inbox is not itself a Delivery Surface (**DL-53** not reopened); a broad Assist question may compose the Inbox and obligation projections without merging models. Raised by the Household Inbox Projection Semantics review (#116, closed) |
 | `adr-communication-object-persistence.md` | Canonical ADR | **New, Accepted 2026-11-05** as **DL-142** (Issue #112, formal acceptance review PASS). Resolves **OD-42** in full: Communication is the authoritative governed record (**DL-28** unchanged); durability follows lifecycle — a Communication whose lifecycle extends beyond the creating transaction must be durably committed first, neither an always-persist-immediately nor a never-persist-until-resolved rule; persisted Content/Metadata consume **DL-138**'s classification unchanged, no duplicate field invented; source material referenced, never copied (**P30**); persistence mechanism consumes **DL-92** directly, no Communication-specific exception, Connected Storage available only as the already-accepted **DL-42** extension; **#207 not preempted**, exactly as **DL-137** independently settled Explainability's placement; native Home Assistant representation remains a **DL-31** projection, never authority; Home Assistant Notifications are the default HA-native delivery mechanism (**P21**); full delivery-mechanism matrix recorded (Companion App/mobile push, HA frontend/web, dashboard/kiosk, spoken Room announcement, email, SMS, other Notify targets, Assist/**DL-141** Household Inbox retrieval); dismissal ≠ acknowledgement, native notify "sent" ≠ delivery truth, native correlation identifiers never become Record Identity (**DL-104**); Recorder and `todo` restated as not Communication persistence (**DL-114**); Household Inbox restart behavior restated (no Inbox-specific state to lose, **DL-141** unchanged); external-copy boundary restated (**DL-136**). Raised by the Communication Persistence review (#112, closed) |
 | `adr-vocabulary-change-and-withdrawal-consequences.md` | Canonical ADR | **New, Accepted 2026-11-06** as **DL-143** (Issue #174, formal acceptance review PASS). Resolves **OD-86** in full: a governed vocabulary change, retargeting, or withdrawal takes effect immediately, with term change/replacement, retargeting, and withdrawal defined as three distinct outcomes; no implicit alias, compatibility alias, deprecation window, transition window, or grace period exists unless the household explicitly configures both terms as current vocabulary; current resolution never searches history as a fallback, reusing the already-accepted `not_configured_here`/**Not understood** response unchanged, with `broken_mapping` kept distinct from withdrawal; historical vocabulary evidence is recognized for Explainability, provenance, and historical reconstruction only (consuming amended **DL-137**'s on-demand origin and Historical/Effective Scope, and **P30** Version Identity), never reactivating a term for current execution; household-authored automations, scripts, and scenes are never automatically rewritten, wrapped, renamed, or migrated (restating `why-did-this-happen.md` Scenario 17); retained governed references remain version-accurate and never become a current-execution fallback (**DL-27**/**DL-45**); no new Continuity scope is created, distinguishing a semantic-target-preserved value from a broken-vocabulary-dependency value; the wake-word sub-question is closed conservatively, preserving Issue #146 item 11's "HTBW builds nothing" conclusion unchanged; no write-back to native Home Assistant aliases is reopened and the seed-once lifecycle is unchanged; **OD-13**/**OD-59**/**OD-63**/**OD-64** are not reopened or absorbed. Raised by the Vocabulary Change and Term-Withdrawal Consequences review (#174, closed) |
+| `adr-voiceprint-gallery-structure-under-channel-diversity.md` | Canonical ADR | **New, Accepted 2026-11-06** as **DL-144** (Issue #168, formal acceptance review PASS). Resolves **OD-83** in full: Alternative D selected at the governance level — each Person has exactly one governed Voiceprint Identity Profile, never per Room/microphone/satellite/phone; channel diversity is evidence provenance/quality context (**DL-38 F3**), never Person identity or authorization; voice contributes at most one evidence contribution per correlation family regardless of channel diversity (**DL-38 F2**); one governed voiceprint does not mandate one physical embedding or a specific aggregation algorithm, remaining implementation mapping beneath the governed artifact; runtime comparison never selects a channel-specific profile, known or unknown channel alike; **DL-32**/**DL-43** apply to the single governed Voiceprint unchanged; Identity identifies the Person, Operational Trust authorizes (restated); voiceprint comparison is scoped to voice-assistant-endpoint interactions requiring speaker identity from voice evidence, never a redundant check atop an already-sufficiently-authenticated interaction; **DL-120**'s HA-Prod-local-only locality ceiling consumed unchanged; Explainability must not imply multiple confirmations; **OD-16** not reopened; Issue #163 (Phase 3) updated to consume this decision, not executed. Raised by the Voiceprint Gallery Structure Under Channel Diversity review (#168, closed) |
 
 ---
 
@@ -622,18 +623,36 @@ and `adr-room-configuration-ownership.md`'s own Open-decisions line each still l
 **OD-13** as open); `open-decision-issue-index.md` and `decision-ledger.md` are updated; none is
 reclassified.
 
+**Updated 2026-11-06 (continued), Issue #168 formal acceptance review PASS (Voiceprint Gallery Structure
+Under Channel Diversity, DL-144)**: one new document,
+`adr-voiceprint-gallery-structure-under-channel-diversity.md`, is added as **Canonical ADR** from
+creation (+1 to new canonical documents, +1 to Canonical total, +1 to Total classified).
+`person-and-identity.md`, `identity-contract.md`, `adr-wyoming-compatible-voice-evidence-runtime.md`,
+`operational-trust.md`, and `glossary.md` (all already Canonical) are revised in place: stating that each
+Person has exactly one governed Voiceprint Identity Profile (Alternative D), channel diversity as
+evidence provenance/quality context only (never identity or authorization), the governed-semantics-
+versus-physical-representation boundary (no mandated aggregation algorithm), the known/unknown-channel
+runtime-comparison rule, the voiceprint-comparison-scope clarification (voice-assistant-endpoint
+interactions requiring speaker identity from voice evidence, never a redundant check atop an
+already-authenticated session), and a new **Voiceprint (DL-144)** glossary entry; three stale
+cross-references found and corrected in the same pass (`adr-wyoming-compatible-voice-evidence-runtime.
+md`'s §32 Open-decisions table still listed **OD-06** and **OD-07** as "Engaged, not resolved," both
+independently closed as **DL-56** and **DL-120**); `open-decision-issue-index.md` and
+`decision-ledger.md` are updated, including a refreshed readiness check confirming **#175**/**OD-87**
+now has zero remaining blockers; none is reclassified.
+
 | Category | Count |
 |---|---|
-| New canonical documents | 75 |
+| New canonical documents | 76 |
 | Revised in place | 2 (`README.md`, `concierge-contract.md`) |
-| **Canonical total** (75 new + 2 revised) | **77** |
+| **Canonical total** (76 new + 2 revised) | **78** |
 | Marked Active — subordinate | 23 |
 | Marked Historical — superseded | 83 |
 | Marked Historical illustration (`examples/`) | 16 |
 | Marked Historical — planning/closure record | 2 |
 | **Historical total** | **101** |
 | Operational | 8 |
-| **Total classified** | **209** |
+| **Total classified** | **210** |
 | **Unclassified** | **0** |
 | **Deleted** | **0** |
 

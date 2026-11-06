@@ -1000,7 +1000,9 @@ question (*where may this run*, not *is this inside the boundary*).
 **First consumer: DL-120.** Speaker-biometric Identity processing's hard local-only ceiling
 (voiceprint/embedding generation and runtime comparison) is the first capability-level rule built
 directly on this admission test — no new residency concept, Foundation/Operational-Trust split, or
-enforcement model was created for it.
+enforcement model was created for it. **DL-120's locality ceiling applies to the one governed Person
+Voiceprint (DL-144) unchanged** — gallery structure and locality are orthogonal questions, neither
+reopening the other.
 
 ## Urgency Entitlement (DL-77)
 
@@ -2185,3 +2187,5 @@ architectural terms. They are not claims of legal effect.** See
 - [../contracts/operational-trust-contract.md](../contracts/operational-trust-contract.md)
 - [../architecture/adr-explainability-presentation-and-assist-interaction-path.md](../architecture/adr-explainability-presentation-and-assist-interaction-path.md)
   (**DL-140**)
+- [../architecture/adr-voiceprint-gallery-structure-under-channel-diversity.md](../architecture/adr-voiceprint-gallery-structure-under-channel-diversity.md)
+  (**DL-144**)
