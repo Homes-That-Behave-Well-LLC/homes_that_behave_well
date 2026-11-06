@@ -1,39 +1,37 @@
 # ADR: Generated Behavior Authoring Governance
 
-> **Document status: Active — subordinate to the HTBW canonical architecture.**
+> **Document status: Canonical ADR.**
+> Status: **Accepted** 2026-11-06. Records **DL-83** (Issue #188, formal acceptance review PASS).
 > Canonical authority: [framework.md](framework.md) and [../models/glossary.md](../models/glossary.md).
 > Where this document conflicts with canonical authority, canonical authority prevails.
-> Drafts decision **DL-83**, recorded pending formal acceptance review at **Issue #188**.
-> **Not yet authoritative.** Creates no new responsibility.
 > Terminology: [../models/glossary.md](../models/glossary.md).
 
 ---
 
 ## Status
 
-**Recorded, pending formal acceptance review (Issue #188). Not yet authoritative.**
+**Accepted 2026-11-06.** Formal acceptance review on Issue #188 recorded **PASS** for this document's
+**DL-83** (DL-80, drafted in the same original review, was accepted alongside it in the same formal
+acceptance review pass; DL-81 and DL-82, drafted in the same original review, were accepted in an
+earlier pass, 2026-11-05).
 
 Drafted by the 2026-10 AI, Natural Interaction, and Household Knowledge Architecture Review, which
 found no current or historical document governing what happens when a natural-language request asks
 the Home to change its own future behavior (*"do that every evening at sunset when I'm here"*), as
-distinct from an ordinary one-time action. This ADR proposes the **governance lifecycle boundary**
-that would prevent silent, ungoverned persistent change. Consistent with this repository's
-established practice that a drafted decision is recorded first and separately undergoes formal
-acceptance review before being treated as binding (see *Notes on the custody and obligation-lifecycle
-decision* in [../governance/decision-ledger.md](../governance/decision-ledger.md)), this ADR is
-**not yet authoritative** and must not be cited as equivalent to an accepted ADR until #188 records a
-result. **It does not decide implementation mechanics** — versioning, conflict detection with existing
-native automations, or a storage shape — which remain open regardless of this ADR's eventual
-acceptance status (see below).
+distinct from an ordinary one-time action. This ADR establishes the **governance lifecycle boundary**
+that prevents silent, ungoverned persistent change. **It does not decide implementation mechanics** —
+versioning, conflict detection with existing native automations, or a storage shape — which remain
+open regardless of this ADR's acceptance status (see below) and are tracked at **#187**.
 
 This ADR creates **no new responsibility**. Concierge continues to decide what should happen now,
 including what should happen in the future; Operational Trust continues to own authorization;
 Home Assistant continues to own the native automation, script, scene, and blueprint execution
 substrate ([home-assistant-boundary.md](home-assistant-boundary.md), *Native automations, scripts, and
-scenes*). **OD-66** (Delegation Boundary for External Adaptive Behaviour) is unchanged and governs a
-different question — a *third party's* autonomous policy engine, not HTBW- or resident-directed
-authoring of HTBW's or Home Assistant's own behavior. **OD-67** is unchanged and governs the reasoning
-provider used, where one is consulted, to help generate a candidate.
+scenes*). **OD-66** (Delegation Boundary for External Adaptive Behaviour, closed as **DL-118**) is
+unchanged and governs a different question — a *third party's* autonomous policy engine, not HTBW- or
+resident-directed authoring of HTBW's or Home Assistant's own behavior. **OD-67** (closed as **DL-93**)
+is unchanged and governs the reasoning provider used, where one is consulted, to help generate a
+candidate.
 
 ---
 
@@ -111,15 +109,13 @@ Not decided by this ADR, and routed to a new non-decision research item rather t
 
 ## Consequences
 
-- If formally accepted, natural-language requests that change future Home behavior gain an explicit,
-  bounded governance lifecycle, closing a gap the original architecture review identified as a
-  genuine absence.
-- No implementation is required or authorized by this ADR, whether drafted or later formally
-  accepted. A V1 release may ship with this ADR in either state while implementing none of its
-  stages, provided no natural-language persistent-behavior authoring ships ahead of formal
-  acceptance.
-- Any future implementation of this lifecycle must preserve **OD-66** and **OD-67**'s invariants
-  unchanged, regardless of this ADR's acceptance status at that time.
+- Natural-language requests that change future Home behavior now have an explicit, bounded governance
+  lifecycle, closing a gap the original architecture review identified as a genuine absence.
+- No implementation is required or authorized by this ADR. Zero V1 implementation is authorized by
+  this acceptance; natural-language persistent-behavior authoring may not ship ahead of this ADR's own
+  stages being separately implemented and reviewed.
+- Any future implementation of this lifecycle must preserve **OD-66**/**DL-118** and **OD-67**/
+  **DL-93**'s invariants unchanged.
 
 ---
 

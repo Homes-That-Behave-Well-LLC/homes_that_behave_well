@@ -13,8 +13,9 @@
 ## Status
 
 **Accepted 2026-11-05.** Formal acceptance review on Issue #188 recorded **PASS** for this document's
-**DL-81** specifically (DL-80 and DL-83, drafted in the same original review, are unrelated to this
-pipeline and remain separately pending at #188).
+**DL-81** specifically (DL-80 and DL-83, drafted in the same original review, were unrelated to this
+pipeline and were accepted in a second, later formal-acceptance-review pass, 2026-11-06, closing
+Issue #188 in full).
 
 **Terminology note (DL-131, not a substantive change):** the household-facing product consuming this
 pipeline is **Home Steward** (see

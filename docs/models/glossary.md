@@ -1704,29 +1704,26 @@ browsing.
 ADR: [../architecture/adr-explainability-presentation-and-assist-interaction-path.md](../architecture/adr-explainability-presentation-and-assist-interaction-path.md)
 
 **Compound Intent**
-**Drafted, pending formal acceptance review (Issue #188).** A single utterance requesting more than
-one distinct outcome (*"lock the doors, turn off the downstairs lights, and play jazz in my
-bedroom"*). Concierge would decompose it into independently governed item references; proposed as
-never a new responsibility or a single pass/fail outcome (**DL-80**).
+A single utterance requesting more than one distinct outcome (*"lock the doors, turn off the
+downstairs lights, and play jazz in my bedroom"*). Concierge decomposes it into independently governed
+item references — never a new responsibility or a single pass/fail outcome (**DL-80**).
 Contract: [../contracts/concierge-contract.md](../contracts/concierge-contract.md)
 
 **Compound Parameter**
-**Drafted, pending formal acceptance review (Issue #188).** A single requested outcome naming more
-than one object (*"add milk, eggs, bananas, Diet Coke, and dog treats to the shopping list"*).
-Proposed to be governed identically to a Compound Intent's decomposed items (**DL-80**).
+A single requested outcome naming more than one object (*"add milk, eggs, bananas, Diet Coke, and dog
+treats to the shopping list"*). Governed identically to a Compound Intent's decomposed items
+(**DL-80**).
 Contract: [../contracts/concierge-contract.md](../contracts/concierge-contract.md)
 
 **Generated Behavior**
-**Drafted, pending formal acceptance review (Issue #188); not yet authoritative.** A persistent,
-standing rule governing future Home behavior (a native automation, script, scene, or
-HTBW-equivalent rule) proposed from natural language. Distinct from a one-time desired outcome and from
-an unpersisted scene proposal. Proposed to become persistent only by completing the
+A persistent, standing rule governing future Home behavior (a native automation, script, scene, or
+HTBW-equivalent rule) authored from natural language. Distinct from a one-time desired outcome and from
+an unpersisted scene proposal. Becomes persistent only by completing the
 **Behavior Authoring Lifecycle** (**DL-83**).
 ADR: [../architecture/adr-generated-behavior-authoring-governance.md](../architecture/adr-generated-behavior-authoring-governance.md)
 
 **Behavior Authoring Lifecycle**
-**Drafted, pending formal acceptance review (Issue #188); not yet authoritative.** The proposed
-governance sequence for a **Generated Behavior**: Generate → Validate → Explain →
+The governance sequence for a **Generated Behavior**: Generate → Validate → Explain →
 Authorize → Persist → Observe → Review → Revise or Retire. No stage may be skipped or silently
 collapsed; a proposal is never silently promoted to persistent (**DL-83**).
 ADR: [../architecture/adr-generated-behavior-authoring-governance.md](../architecture/adr-generated-behavior-authoring-governance.md)

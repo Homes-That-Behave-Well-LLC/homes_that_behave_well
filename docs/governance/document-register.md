@@ -51,7 +51,7 @@ Dispositions: **New** · **Keep** · **Revise** · **Supersede** · **Merge** ·
 | `adr-governed-historical-retrieval-and-access.md` | Canonical ADR | **New** — Accepted 2026-11-04 as **DL-130** (Issue #81, OD-35) |
 | `adr-product-disposition-and-legacy-adoption.md` | Canonical ADR | **New** — Accepted 2026-08-26 as **DL-51** and **DL-52**. Closes **OD-82**, opens **OD-85**, and amends the non-negotiable constraint in `authority-order.md` |
 | `adr-household-knowledge-provider-governance.md` | Canonical ADR | **Accepted 2026-11-05** as **DL-81** (Issue #188, formal acceptance review PASS). Architecture-only; no V1 implementation authorized. Raised by the 2026-10 AI, Natural Interaction, and Household Knowledge Architecture Review (#188); acceptance completed alongside the Home Steward Product/Domain Definition review (#206) |
-| `adr-generated-behavior-authoring-governance.md` | Active — subordinate | **New** — Recorded 2026-10-13, pending formal acceptance review at **Issue #188**, as **DL-83**. Governance lifecycle boundary only; no implementation authorized even if later accepted. Raised by the 2026-10 AI, Natural Interaction, and Household Knowledge Architecture Review (#188) |
+| `adr-generated-behavior-authoring-governance.md` | Canonical ADR | **Accepted 2026-11-06** as **DL-83** (Issue #188, formal acceptance review PASS). Governance lifecycle boundary only; no implementation authorized. Raised by the 2026-10 AI, Natural Interaction, and Household Knowledge Architecture Review (#188) |
 | `adr-home-identity-and-home-intelligence-governance.md` | Canonical ADR | **Accepted 2026-10-14** as **DL-84**, **DL-85**, and **DL-86** (Issue #191, formal acceptance review PASS). Acceptance propagated to this register 2026-10-27 during the OD-67/#132 remediation (bookkeeping gap only, no re-review). Governance-only; no implementation, discovery mechanism, or technology stack authorized. Opened **OD-90**; **OD-90 and OD-77 are both now closed** (DL-115, 2026-11-02; DL-139, 2026-11-05), each independently selecting Foundation. Raised by the 2026-10 Home Identity and Home Intelligence Architecture Review (#191, closed) |
 | `adr-stable-endpoint-identity-and-network-boundary-independence.md` | Canonical ADR | **Accepted 2026-10-27** as **DL-87**, **DL-88**, and **DL-89** (Issue #195, formal acceptance review PASS). Governance-only; no VLAN/firewall/DHCP/DNS/mDNS/wireless/switch/UniFi management or runtime endpoint-resolution implementation authorized even if later accepted. No OD identifier allocated. Raised by the 2026-10 Reference Home Network Segmentation and Stable Endpoint Identity Architecture Review (#195, closed) |
 | `adr-decoupled-voice-interaction-capability-architecture.md` | Canonical ADR | **Accepted 2026-10-26** as **DL-90** and **DL-91** (Issue #198, formal acceptance review PASS). Governance-only; authorizes no implementation, vendor, STT/TTS engine, or technology stack. No OD identifier allocated. Refines (does not reopen) the still-pending **DL-88**'s `audio_output` term to `spoken_response_output`. Raised by the 2026-10 Decoupled Voice Interaction Capability Architecture Review (#198, closed) |
@@ -195,7 +195,7 @@ Dispositions: **New** · **Keep** · **Revise** · **Supersede** · **Merge** ·
 | `stewardship-contract.md` | Canonical | New |
 | `continuity-contract.md` | Canonical | New |
 | `operational-trust-contract.md` | Canonical | New |
-| `concierge-contract.md` | Canonical + historical appendix | **Revise** — canonical sections 1–14 prepended; prior content retained as a marked appendix; §7 subsection *Compound and multi-item requests* (**DL-80**) added 2026-10-13, recorded pending formal acceptance review at **Issue #188**; §1–§14 otherwise unaffected and remain canonical |
+| `concierge-contract.md` | Canonical + historical appendix | **Revise** — canonical sections 1–14 prepended; prior content retained as a marked appendix; §7 subsection *Compound and multi-item requests* (**DL-80**) added 2026-10-13, **accepted 2026-11-06** (Issue #188, formal acceptance review PASS); §1–§14 otherwise unaffected and remain canonical |
 
 ---
 
@@ -784,12 +784,30 @@ updated; **#155** receives a dependency/evidence update recording the legacy lab
 contradiction as formally rejected, not executed or remediated here; **OD-69**/**DL-61** and **DL-114**
 are each independently preserved, neither decided nor reopened; none is reclassified.
 
+**Updated 2026-11-06 (continued), Issue #188 formal acceptance review PASS, final pass (Compound
+Intent/Parameter Handling, DL-80; Generated Behavior Authoring Governance, DL-83)**:
+`adr-generated-behavior-authoring-governance.md` completes its own outstanding formal acceptance review
+and is reclassified **Canonical ADR** (Active — subordinate → Canonical ADR, net zero to Total
+classified; −1 to Active — subordinate, +1 to new canonical documents and Canonical total).
+`concierge-contract.md` §7 (already counted as Revised in place, no reclassification), `glossary.md`,
+and `open-decision-issue-index.md` (all already Canonical/governance) are revised in place: removing
+every "drafted"/"pending formal acceptance review" marker for DL-80 and DL-83 and stating acceptance;
+one bounded wording correction made during this review (`concierge-contract.md` §7 and the DL-80 ledger
+row both claimed the execution-ordering question was "tracked as a residual for Epic #147," but no such
+tracking entry existed anywhere — corrected to state the bounded default-none/explicit-dependency rule
+is sufficient on its own, no separate tracking entry required). `adr-household-knowledge-provider-
+governance.md` (already Canonical) is revised in place to correct one further stale cross-reference
+(its own Status section still said DL-80/DL-83 "remain separately pending at #188"). Issue #188 is
+closed; Epic **#147** receives an evidence update recording its previously-identified hidden governance
+blocker as discharged, explicitly not closed by this update. **OD-04**/**DL-126**, **OD-66**/**DL-118**,
+**OD-67**/**DL-93**, **OD-85**/**DL-110** — each consumed unchanged, none reopened.
+
 | Category | Count |
 |---|---|
-| New canonical documents | 82 |
+| New canonical documents | 83 |
 | Revised in place | 2 (`README.md`, `concierge-contract.md`) |
-| **Canonical total** (82 new + 2 revised) | **84** |
-| Marked Active — subordinate | 23 |
+| **Canonical total** (83 new + 2 revised) | **85** |
+| Marked Active — subordinate | 22 |
 | Marked Historical — superseded | 83 |
 | Marked Historical illustration (`examples/`) | 16 |
 | Marked Historical — planning/closure record | 2 |
