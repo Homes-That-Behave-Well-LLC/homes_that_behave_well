@@ -232,9 +232,19 @@ Required behaviour for the managed projection:
 - HTBW maintains its **reserved** labels; resident-created labels are **never removed or overwritten**
 - **A failed or missing label projection never silently changes the Asset Type**
 - Reconciliation, where reported, uses the existing Repairs boundary (**DL-65**)
+- **A projected Label is never read back as Asset Type, Significance, Trust, or behavioral policy**
+  (**DL-150**) — closing the legacy Asset Intelligence defect (**#155**) in which a label string drove
+  debounce/alerting policy directly
 
-The reserved taxonomy's naming, seeding, collision handling, versioning, retirement, and reconciliation
-mechanism are **OD-68**. No punctuation, casing, namespacing, or label identifiers are prescribed here.
+**The reserved taxonomy's naming, seeding, collision handling, versioning, retirement, and
+reconciliation mechanism are accepted as DL-150** (**OD-68**, closed): a stable internal HTBW taxonomy
+key plus a stable Home Assistant `label_id` identify each managed Label; the reserved namespace is
+`HTBW · Asset Type · <Display Name>`; a label-name match alone never proves HTBW ownership; seeding and
+reconciliation are idempotent; a resident-created name collision is never adopted, overwritten, renamed,
+or deleted; a retired managed Label is never automatically deleted or silently reclaimed; and
+class-level behavioral defaults, where they exist, attach to the authoritative Asset Type, never to the
+derived Label. See
+[../architecture/adr-managed-label-projection-mechanism.md](../architecture/adr-managed-label-projection-mechanism.md).
 
 ### Asset-derived Entities
 
@@ -242,8 +252,8 @@ Where an Asset-related value is useful natively, it may be **published as an Ent
 **projection**: it never becomes a second authority for a value another responsibility determines.
 Obligation state remains **Stewardship's**, current conditions remain **Truth's**, and the projected
 value stays explainable back to its inputs. Which values are projected, on which entity platform, and
-with which state vocabulary is **OD-69** — HTBW defines no "asset health" state model, and none is
-invented here.
+with which state vocabulary is **resolved by OD-69 (closed — DL-61)** — HTBW defines no "asset health"
+state model, and none is invented here.
 
 ---
 
@@ -317,8 +327,8 @@ that fact and its source in the Decision Trace.
 |---|---|
 | OD-01 | Home Assistant representation strategy for HTBW Assets — the representation rule is accepted as **DL-31**; the residual is the persistence shape of governed records |
 | OD-02 | **Closed — DL-43, DL-44, DL-45.** Documentation, manuals, photos, and records are located through a governed artifact reference; file formats remain capability-specific |
-| OD-68 | Reserved Asset Type label taxonomy and its projection mechanism |
-| OD-69 | Which Asset-related values are projected as Entities, on which platform, and with which state vocabulary |
+| OD-68 | **Closed — DL-150.** Reserved Asset Type label taxonomy and its projection mechanism |
+| OD-69 | **Closed — DL-61.** Which Asset-related values are projected as Entities, on which platform, and with which state vocabulary — resolved: no asset-health scale is invented; a projected Entity resolves back to its Asset, projects `unknown` honestly, and is never externally writable (stale cross-reference corrected during the OD-68/DL-150 review) |
 | OD-20 | **Resolved as DL-121.** No runtime consumption of the standalone Asset Intelligence product, mandatory or optional; it is solely an optional predecessor-product migration source (**DL-52**/**DL-110**) |
 
 ## Related documents

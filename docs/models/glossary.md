@@ -154,6 +154,10 @@ record, and its absence or deletion never changes what HTBW holds to be true. Se
 A Home Assistant Label within a reserved set that HTBW creates and maintains as a derived projection
 of an authoritative HTBW classification. Home Assistant owns the Label object. **Resident-created
 labels are never removed or overwritten**, and removing a Managed Label changes no classification.
+Identified by a stable internal HTBW taxonomy key plus the native `label_id` Home Assistant returns on
+creation — a name match alone never proves ownership — and **never read back as a classification,
+Significance, Trust, or behavioral-policy input** (**DL-150**). Model:
+[asset.md](asset.md), [../architecture/adr-managed-label-projection-mechanism.md](../architecture/adr-managed-label-projection-mechanism.md).
 
 **Extension**
 Additional governed HTBW information attached **to** a referenced Home Assistant object by its stable

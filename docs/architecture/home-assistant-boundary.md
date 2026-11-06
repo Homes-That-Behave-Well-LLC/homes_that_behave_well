@@ -150,6 +150,8 @@ release before treating any version-sensitive detail as permanent.
 
 **Addendum (2026-11-03):** Device-registry `labels` independently confirmed via current official documentation (`contributors.home-assistant.io/core/integrations/device-registry/`, Device properties table: *"`labels` — The labels of the device"*). **Discharges the Device-registry residual.** Entity-registry `labels` remains reasoned by the same registry architecture pattern but was not independently re-fetched this pass — a small, non-blocking residual, since OD-68's own naming/seeding question is unaffected either way.
 
+**Closure update (2026-11-06).** OD-68 is closed, **accepted as DL-150** (Issue #141, formal acceptance review PASS). An Asset's native backing is a Device (`asset.md`, Native representation), so the verified Device-registry `labels` assignment above is the only assignable-target capability OD-68's mechanism required; the Entity-registry residual remains unaffected and non-blocking. The naming, stable-identification, idempotent-seeding, collision-handling, versioning, retirement, and reconciliation mechanism itself is recorded in [adr-managed-label-projection-mechanism.md](adr-managed-label-projection-mechanism.md), not in this verification record — this section records capability verification only, consistent with every other closed-OD note in this document.
+
 #### Automation and script trace retention (item 6, 2026-10-06) — PARTIALLY_VERIFIED
 
 | DL-30 element | Finding |
