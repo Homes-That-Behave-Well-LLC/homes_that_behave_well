@@ -366,10 +366,10 @@ escalation to another adult; **Concierge performs the escalation**.
 
 | Gap | Classification |
 |---|---|
-| **What constitutes accepted evidence that care occurred** (medication given, fed, walked) | **REMEDIATION REQUIRED — OD-75** |
+| **What constitutes accepted evidence that care occurred** (medication given, fed, walked) | **Resolved — DL-48** (Care Evidence Record) |
 | No dedicated pet model document exists; the Pet is defined in the glossary, the asset model's object table, and [where-is-maisey.md](where-is-maisey.md) | **E** — sufficient today, and worth consolidating |
-| Notification recipient specification | **OD-52** |
-| Escalation ladder semantics and defaults | **OD-22** |
+| Notification recipient specification | **Resolved — DL-71** |
+| Escalation ladder semantics and defaults | **Resolved — DL-97** |
 
 ---
 
@@ -785,11 +785,11 @@ maintained.
 | 10 | Explainability | Decision Trace | Which schedule, its **provenance** — manufacturer guidance, household decision, or learned suggestion — and when it became due |
 | 11 | Continuity interaction | **None** | — |
 | 12 | Retention | **DL-47** | Maintenance history is long-lived **Stewardship** history. *When was this last serviced?* must remain answerable years later |
-| 13 | Closure criteria | **Stewardship** | A recorded replacement. **The accepted completion evidence is unresolved** (**OD-75**) |
+| 13 | Closure criteria | **Stewardship** | A recorded replacement, per the accepted **Care Evidence Record** (**DL-48**) |
 | 14 | Failure / uncertainty | **Stewardship** | No usage data → fall back to the declared schedule and **say that is what happened**. Never silently assert an inferred usage figure |
 | 15 | HA native capabilities | Home Assistant | Climate entities, Recorder long-term statistics, Calendar, `todo` |
 | 16 | What must never happen | — | **`overdue` is not failure.** An overdue filter obligation is not a claim that the HVAC system is broken or that air quality is poor |
-| 17 | Deferral | **Stewardship** | A deliberately deferred obligation must remain distinguishable from an ignored one — **unresolved** (**OD-75**) |
+| 17 | Deferral | **Stewardship** | A deliberately deferred obligation remains distinguishable from an ignored one via the **DL-48** lifecycle state (`deferred` vs. `raised`/`active`), resolved — not **unresolved** |
 | 18 | Repeated non-completion | **Stewardship** | **The pattern itself becomes reportable**, and Concierge must not send a fifth identical reminder |
 
 ## Reference scenarios
