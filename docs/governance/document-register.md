@@ -69,6 +69,7 @@ Dispositions: **New** · **Keep** · **Revise** · **Supersede** · **Merge** ·
 | `adr-explainability-persistence-and-retention.md` | Canonical ADR | **New, Accepted 2026-11-05** as **DL-137** (Issue #77, formal acceptance review PASS; amended 2026-11-05, same day, by targeted Owner clarification). Resolves **OD-05** in full: Decision Trace (process) distinguished from **Explainability Record** (persisted result) by persistence ownership only, never a global rename, not reopening **DL-15**/**DL-24**/**DL-27**/**DL-46**/**DL-129**; two canonical origins `outcome_generated`/`on_demand_decision_trace`, every on-demand invocation producing a new record, never deduplicated/backdated, formalizing **DL-129**'s own diagnostic-explanation clause as first-class under **DL-15**; **SQLite established as the default Explainability persistence technology** (Home Assistant Recorder precedent), a distinct database never written into the HA Recorder, narrowly reconciling **DL-129**'s "JSON-backed" descriptive detail via **DL-92**'s own encoding-is-implementation-mapping non-goal without reopening DL-129's authoritative-location/write-time-assembly/Room-normalization/storage-outage holdings; Connected Storage/Backup-growth boundary stated explicitly; **retention is governed entirely by the household-configured Explainability retention policy** (**DL-122** pattern) **— HTBW imposes no independent numeric architectural floor or ceiling, and DL-76's Action-Risk Classes classify action consequence only, never Explainability retention duration**; consent-lifecycle interaction restated from **DL-47**'s structural-floor separation; expiry requires a Tombstone, no indefinite shadow summary; one new follow-on governed issue created (HTBW Structured Data Persistence Placement Review), not executed. Raised by the Decision Trace Retention Floor and Ceiling review (#77, closed) |
 | `adr-communication-retention-governance.md` | Canonical ADR | **New, Accepted 2026-11-05** as **DL-138** (Issue #118, formal acceptance review PASS). Resolves **OD-49** in full: Communication Content (substance conveyed, Minimal rendering projection anchor) and Communication Metadata (every other already-required field) classified separately; referenced source material never automatically Content; two independent, household-configured retention policies (**DL-122** preset/override shape) with **no independent architectural floor or ceiling**, applying the corrected **DL-137** philosophy; **DL-78** Category and **DL-77** Urgency never automatically dictate retention duration, optional per-Category override supported, never required; ordinary/on-demand Explainability reference never extends or resets Communication retention (**DL-47** holding rule minimizes first, **DL-132**/amended **DL-137** consumed unchanged); consent/erasure/Tombstone consume **DL-56**/**DL-133**/**DL-136** unchanged, Metadata not automatically exempt; persistence-technology placement routed to **#207** (unexecuted); **DL-136** Completeness Manifest reports Content/Metadata independently; also corrects stale pre-amendment-DL-137 dependency evidence previously posted on #118. Raised by the Communication Retention review (#118, closed) |
 | `adr-person-to-external-resource-association-ownership.md` | Canonical ADR | **New, Accepted 2026-11-05** as **DL-139** (Issue #148, formal acceptance review PASS, following one bounded grounding correction resolved during this review itself). Resolves **OD-77** in full: Foundation owns the Person-scoped **External-Resource Association** assignment (**DL-85**), mirroring **DL-115**'s Home-scoped assignment; Options B–E (Identity, Continuity, Operational Trust, Concierge) rejected; internal Person-device associations (BLE, phone, watch) confirmed as Identity's (**DL-32**) and Continuity's, not Foundation precedent — the grounding correction identified and resolved in this review; requester-governed "my" resolution, never Room occupancy; Unknown Person/Guest inherit nothing (**DL-33**); shared resources are not automatic conflicts; reasoning-provider profile associations Foundation-owned where **DL-93**/**DL-131** support a Person-specific reference, DL-93's resolution order unchanged; no independent retention floor/ceiling (corrected **DL-137** philosophy); erasure (**DL-136**) distinguishes the association from the referenced resource; `continuity-use-cases.md` Use Case 6 changes U → A. Raised by the Person-to-External-Resource Association Ownership review (#148, closed) |
+| `adr-explainability-presentation-and-assist-interaction-path.md` | Canonical ADR | **New, Accepted 2026-11-05** as **DL-140** (Issue #80, formal acceptance review PASS). Resolves **OD-30** in full: Terminology corrected (Decision Trace / Explainability Record / **Explainability Projection**, consuming **DL-137** unchanged); **Assist named the canonical household-facing Explainability interaction path**, extending **DL-130** without reopening it; Companion App (**DL-113**), dashboard/kiosk (**DL-88**), and voice (**DL-90**) named as Assist endpoints, never independent capabilities; endpoint contributes context, never authority (five explicit non-equations); Access/Disclosure/Presentation reused as three separable considerations via existing recorded-outcome fields, no new field created; per-request/per-audience/per-endpoint projection at read time (Option A + Option C's gating discipline); Option B (two persisted renderings) and any administrator bypass rejected outright; partial-authority honesty, affected-guest, and Unknown Person (**DL-33**) presentation behavior defined; actor reconstruction remains excluded (**DL-35**/**DL-130** unchanged); passive dashboard cards and direct database access not authorized. Raised by the Explainability Presentation review (#80, closed) |
 
 ---
 
@@ -563,18 +564,30 @@ stale "OD-77 remains open" cross-references found in `foundation-contract.md`,
 `adr-home-identity-and-home-intelligence-governance.md`, and this register's own DL-84–86 row;
 `open-decision-issue-index.md` and `decision-ledger.md` are updated; none is reclassified.
 
+**Updated 2026-11-05 (continued), Issue #80 formal acceptance review PASS (Explainability Presentation
+— Assist as the Canonical Household-Facing Interaction Path, DL-140)**: one new document,
+`adr-explainability-presentation-and-assist-interaction-path.md`, is added as **Canonical ADR** from
+creation (+1 to new canonical documents, +1 to Canonical total, +1 to Total classified).
+`decision-trace.md`, `explainability.md`, `operational-trust.md`, `privacy.md`, `concierge-contract.md`,
+and `glossary.md` (all already Canonical) are revised in place: adding the **Explainability Projection**
+term, naming Assist as the canonical household-facing Explainability interaction path and Companion
+App/dashboard/kiosk/voice as its endpoints, stating the endpoint-contributes-context-not-authority
+non-equations, and extending the existing Presentation decision field to cover endpoint/modality
+eligibility for Explainability requests specifically — no new recorded-outcome field is created;
+`open-decision-issue-index.md` and `decision-ledger.md` are updated; none is reclassified.
+
 | Category | Count |
 |---|---|
-| New canonical documents | 71 |
+| New canonical documents | 72 |
 | Revised in place | 2 (`README.md`, `concierge-contract.md`) |
-| **Canonical total** (71 new + 2 revised) | **73** |
+| **Canonical total** (72 new + 2 revised) | **74** |
 | Marked Active — subordinate | 23 |
 | Marked Historical — superseded | 83 |
 | Marked Historical illustration (`examples/`) | 16 |
 | Marked Historical — planning/closure record | 2 |
 | **Historical total** | **101** |
 | Operational | 8 |
-| **Total classified** | **205** |
+| **Total classified** | **206** |
 | **Unclassified** | **0** |
 | **Deleted** | **0** |
 

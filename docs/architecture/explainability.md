@@ -278,6 +278,39 @@ See [../governance/decision-ledger.md](../governance/decision-ledger.md) **DL-13
 [../scenarios/historical-retrieval-and-access.md](../scenarios/historical-retrieval-and-access.md)
 for the full decision and worked scenarios.
 
+### Explainability Projection and Assist endpoints (resolved — DL-140)
+
+**Assist is the canonical household-facing Explainability interaction path**, restating and extending
+DL-130 above (not reopening it). An Explainability request may enter Assist through typed Assist in the
+Home Assistant Companion App, typed Assist on an authorized dashboard/kiosk, spoken Assist through a
+voice endpoint, or a future governed Assist endpoint satisfying the same contract. **These are
+endpoints through which Assist is invoked — not independent Explainability capabilities, and not
+independent authorization paths.** The endpoint may contribute device/resource identity, requester and
+audience evidence, Room context, private/shared classification, and output modality; it never grants
+Explainability authority by itself (surface visibility, device ownership, HA administrator status, and
+a signed-in session are each explicitly **not** access, disclosure, or audience authority).
+
+**Explainability Projection** names the non-persisted, audience-governed rendering assembled from an
+Explainability Record for the current requester, audience, endpoint, and context — assembled fresh at
+read time, per request, per audience, per endpoint, never cached and replayed to a different audience,
+never persisted as a second authority. One Explainability Record may produce many projections. **No
+second persisted rendering is created** (no resident-safe, administrator, or technical clone); an HA
+administrator receives no unrestricted bypass, and no user-selectable "detail level" defeats disclosure
+evaluation. Rendering an existing record never creates a duplicate record and never changes its
+retention; an on-demand Decision Trace still creates its own new Explainability Record every time,
+including on a repeated identical question (**DL-137**).
+
+A guest directly affected by a Home behavior may receive an honest explanation of the observable
+behavior without the protected cause. An Unknown Person (**DL-33**) is not blanket-excluded from every
+explanation — conservative, non-sensitive disclosure about directly observable behavior may be
+permitted where it reveals no resident information, Identity evidence, protected policy, presence,
+actor reconstruction, or Safety/Security circumvention detail. Passive dashboard cards, raw Decision
+Trace browsing, and direct database access remain **not authorized** by this decision; a dashboard or
+Companion App may host Assist, never a standalone Explainability-record browser.
+
+Full decision:
+[adr-explainability-presentation-and-assist-interaction-path.md](adr-explainability-presentation-and-assist-interaction-path.md).
+
 ### The communication retrieval scope
 
 *"Why didn't you tell me?"* is answered from governed Communication records:
@@ -598,3 +631,5 @@ responsibilities.**
 - [adr-historical-explainability-and-historical-truth.md](adr-historical-explainability-and-historical-truth.md)
 - [adr-resident-communication-and-delivery-separation.md](adr-resident-communication-and-delivery-separation.md)
 - [../scenarios/why-did-this-happen.md](../scenarios/why-did-this-happen.md)
+- [adr-explainability-presentation-and-assist-interaction-path.md](adr-explainability-presentation-and-assist-interaction-path.md)
+  (**DL-140**)

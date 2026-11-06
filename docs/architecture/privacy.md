@@ -157,6 +157,12 @@ A numeric confidence value is disclosed **only where policy governs it and the a
 - Traces may contain identity assertions, presence facts, preferences, and obligations.
 - Trace visibility is an Operational Trust policy decision, per audience and per content class.
 - A human-readable explanation must be redactable without becoming false.
+- **Presentation to a household participant (DL-140, resolving OD-30)**: Assist is the canonical
+  household-facing Explainability interaction path; Companion App, dashboard/kiosk, and voice are
+  Assist endpoints, never independent capabilities or authorization paths. An Explainability
+  Projection is assembled per-request/per-audience/per-endpoint at read time — no second persisted
+  rendering, no administrator bypass, no passive dashboard exposure. See
+  [adr-explainability-presentation-and-assist-interaction-path.md](adr-explainability-presentation-and-assist-interaction-path.md).
 
 ### Decision Trace retention (DL-137)
 
@@ -624,6 +630,7 @@ The following are recorded as open decisions and must **not** be resolved inside
 | OD-07 | **Resolved as DL-120.** Speaker-biometric Identity processing is HA-Prod-local only (**DL-119**); speech-to-text/text-to-speech follow the ordinary declare/disclose/consent rule above |
 | OD-08 | **Resolved** as **DL-39** and **DL-40** |
 | OD-09 | **Closed — DL-136.** Portability Export, Erasure, Transient Export Artifact, Completeness Manifest, and Temporal Portability Contract |
+| OD-30 | **Closed — DL-140.** Assist is the canonical household-facing Explainability interaction path; Companion App, dashboard/kiosk, and voice are Assist endpoints; per-request/per-audience/per-endpoint projection at read time; no administrator bypass, no passive dashboard exposure |
 | OD-33 | **Closed — DL-43, DL-46, DL-47.** Retention is declared inside every governed record and artifact lifecycle; the remaining values are **OD-05**, **OD-26**, **OD-49** |
 | OD-36 | **Closed — DL-133.** Reconciliation of deletion and export obligations with retention floors and Preservation Holds |
 | OD-39 | **Closed — DL-132.** Preservation Hold authority, duration, review, release, scope, disclosure, and enforcement. Conflict with deletion remains OD-36 |
@@ -648,3 +655,5 @@ See [../governance/decision-ledger.md](../governance/decision-ledger.md).
 - [adr-temporal-record-model.md](adr-temporal-record-model.md)
 - [adr-resident-communication-and-delivery-separation.md](adr-resident-communication-and-delivery-separation.md)
 - [adr-stable-endpoint-identity-and-network-boundary-independence.md](adr-stable-endpoint-identity-and-network-boundary-independence.md) — sensitive-information and placeholder convention for repository network examples (**DL-89**, accepted at **#195**)
+- [adr-explainability-presentation-and-assist-interaction-path.md](adr-explainability-presentation-and-assist-interaction-path.md)
+  (**DL-140**)

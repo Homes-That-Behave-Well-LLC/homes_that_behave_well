@@ -1009,7 +1009,7 @@ here.
 | A Decision Trace references the **exact version** of the preference or session it used | **P30**, **DL-27** |
 | **The unknown answer is a correct answer** | [why-did-this-happen.md](why-did-this-happen.md) Scenario 21 |
 | *Converting temporal proximity into asserted causation* is prohibited | [why-did-this-happen.md](why-did-this-happen.md) Scenario 21 |
-| Whether this listener may receive this answer is **Operational Trust's** | **DL-34**; visibility is **OD-30**; retrieval is **DL-69** (resolved **OD-62**) |
+| Whether this listener may receive this answer is **Operational Trust's** | **DL-34**; presentation is **DL-140** (resolved **OD-30**); retrieval is **DL-69** (resolved **OD-62**) |
 
 ---
 

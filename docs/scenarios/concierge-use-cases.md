@@ -127,7 +127,7 @@ accepted decision prevails.
 | **C16** | Multi-party relationship-aware disclosure | **E — Blocked** | **OD-84**, **OD-71** |
 | **C17** | Channel selection across the household experience | **E — Blocked** | **OD-43** (#113) |
 | **C18** | Importance, urgency, escalation, and follow-up | **E — Blocked** | **OD-53**, **OD-22** |
-| **C19** | Explainability | **B — Architecturally supported** | **OD-30** for surfaces |
+| **C19** | Explainability | **B — Architecturally supported** | **OD-30 resolved — DL-140** |
 | **C20** | Do nothing as a valid Concierge response | **B — Architecturally supported** | None |
 | **C21** | Context-aware message delivery and response location | **B — Architecturally supported** | **OD-57**, **OD-73** |
 
@@ -725,10 +725,11 @@ anyone else.
 | **Privacy** | An explanation is itself a disclosure and is audience-evaluated |
 | **Maturity** | **B — Architecturally supported** |
 | **Related decisions** | **DL-15**, **DL-27**, **DL-46**; [../models/decision-trace.md](../models/decision-trace.md); concierge-contract §13 |
-| **Open decisions** | **OD-29 resolved — DL-129** (#79) trace persistence, **OD-30** (#80) trace visibility |
+| **Open decisions** | **OD-29 resolved — DL-129** (#79) trace persistence, **OD-30 resolved — DL-140** (#80) trace visibility/presentation |
 
-**The contract already requires the exact sentence shape this use case asks for.** What is open is
-*where traces live* and *who may see them* — not whether they exist.
+**The contract already requires the exact sentence shape this use case asks for.** *Where traces live*
+(DL-129) and *who may see them, through which endpoint* (DL-140) are both now resolved — this use case's
+own maturity reflects architecture, not yet implementation.
 
 ---
 
@@ -878,11 +879,13 @@ architectural construct.**
 | 16 | Multi-speaker plurality? | **Open — OD-84** |
 | 17 | Transient facts consumed without becoming durable? | **Answered** — **DL-25**, **DL-46**, **DL-47** |
 | 18 | Local decision making with connected services? | **Answered in principle** — **DL-31**, **DL-42**, **DL-46**. Edges in **OD-07**, **OD-67** |
-| 19 | Decision Traces exposed safely? | **Open — OD-30** |
+| 19 | Decision Traces exposed safely? | **Resolved — OD-30 closed as DL-140** |
 | 20 | Deliberate no-action represented? | **Answered** — **DL-15**; §7; [nighttime-suppression.md](nighttime-suppression.md) |
 
-**Eleven of twenty are answered by accepted architecture. Nine are open, and every one of them is an
-existing open decision. This review created none.**
+**This table predates several later OD closures (OD-30 among them, now resolved as DL-140); it is not
+re-audited in full here — row 19 is corrected because it is this closure's own direct subject.** A
+complete re-validation of every row remains Issue #170's own scope (Episode 8 Concierge Narrative
+Validation).
 
 ---
 

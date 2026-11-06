@@ -1504,6 +1504,44 @@ See [../architecture/explainability.md](../architecture/explainability.md)'s "Hi
 Access" section for the full query model, the twelve-step authorization sequence, and the Episode 9
 category mapping.
 
+### Explainability Projection and endpoint authority (resolved — DL-140)
+
+**Assist is the canonical household-facing Explainability interaction path.** Companion App,
+dashboard/kiosk, and voice are endpoints through which Assist is invoked — never independent
+Explainability capabilities, and never independent authorization paths. The endpoint may contribute
+requester evidence, Room context, audience context, private/shared classification, and output
+modality; **it never grants access, disclosure, or audience authority by itself**:
+
+```
+SURFACE VISIBILITY        != ACCESS AUTHORITY
+SURFACE AVAILABILITY      != DISCLOSURE AUTHORITY
+DEVICE OWNERSHIP          != UNRESTRICTED EXPLAINABILITY AUTHORITY
+HA ADMINISTRATOR STATUS   != HTBW GOVERNANCE AUTHORITY
+SIGNED-IN USER            != COMPLETE AUDIENCE COMPOSITION
+```
+
+**An HA administrator account does not automatically receive unrestricted Explainability access.**
+Native administrator status does not replace Identity, does not replace Operational Trust, does not
+grant access to private resident information, and does not bypass presentation policy. If an
+administrator is also a governed Person with appropriate authority, Operational Trust may authorize
+permitted detail for that Person/context — authority comes from HTBW governance, not the HA admin
+flag. No user-selectable "detail level" (a request to "show raw trace," "administrator view," or
+"full audit") bypasses this evaluation; it triggers another ordinary access/disclosure/presentation
+evaluation.
+
+**Access, disclosure, and presentation remain three separable considerations for an Explainability
+request**, reusing the existing mechanisms above and `decision-trace.md`'s existing Access decision
+and Presentation decision fields — no new recorded-outcome field is created. Presentation additionally
+evaluates endpoint/modality eligibility for Explainability specifically: whether the authorized
+content may be rendered on this endpoint, through this modality, right now. A projection assembled for
+one requester/audience/endpoint is never reused for another without fresh evaluation, and a
+surface/endpoint change (for example, from shared voice Assist to private Companion App Assist)
+triggers a new evaluation rather than inheriting a prior authorization or refusal.
+
+Full decision:
+[../architecture/adr-explainability-presentation-and-assist-interaction-path.md](../architecture/adr-explainability-presentation-and-assist-interaction-path.md)
+(**DL-140**, resolving **OD-30**).
+
 ### Location disclosure
 
 > **A location answer is a disclosure about a person, whatever its Subject.**
@@ -2145,3 +2183,5 @@ architectural terms. They are not claims of legal effect.** See
 - [../architecture/behavioral-governance.md](../architecture/behavioral-governance.md)
 - [../architecture/privacy.md](../architecture/privacy.md)
 - [../contracts/operational-trust-contract.md](../contracts/operational-trust-contract.md)
+- [../architecture/adr-explainability-presentation-and-assist-interaction-path.md](../architecture/adr-explainability-presentation-and-assist-interaction-path.md)
+  (**DL-140**)

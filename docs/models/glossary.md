@@ -1611,6 +1611,19 @@ identical to an earlier request. Both origins share one retention policy; origin
 retention classification.
 Model: [decision-trace.md](decision-trace.md)
 
+**Explainability Projection (DL-140)**
+**Accepted 2026-11-05 (Issue #80, formal acceptance review PASS).** Resolves **OD-30** in full. The
+non-persisted, audience-governed rendering assembled from an **Explainability Record** for the current
+requester, audience, endpoint, and context, assembled fresh at read time and delivered through
+**Assist** — the canonical household-facing Explainability interaction path. One Explainability Record
+may produce many projections; no projection is itself persisted as a second authority, and no
+projection assembled for one requester/audience/endpoint is reused for another without fresh
+evaluation. Companion App, dashboard/kiosk, and voice are **Assist endpoints** through which this
+projection is requested and delivered — never independent Explainability capabilities or independent
+authorization paths. No administrator bypass, no passive dashboard exposure, no raw Decision Trace
+browsing.
+ADR: [../architecture/adr-explainability-presentation-and-assist-interaction-path.md](../architecture/adr-explainability-presentation-and-assist-interaction-path.md)
+
 **Compound Intent**
 **Drafted, pending formal acceptance review (Issue #188).** A single utterance requesting more than
 one distinct outcome (*"lock the doors, turn off the downstairs lights, and play jazz in my

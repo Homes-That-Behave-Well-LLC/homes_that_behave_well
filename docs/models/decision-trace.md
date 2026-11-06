@@ -812,6 +812,17 @@ it appear created at the historical event's own time.
 **Both origins share one retention policy** (see *Retention*, below). Origin is provenance, recorded
 on the record, never a retention classification of its own.
 
+**Explainability Projection (DL-140).** Retrieving and presenting an Explainability Record to a
+household participant is itself governed — see
+[../architecture/adr-explainability-presentation-and-assist-interaction-path.md](../architecture/adr-explainability-presentation-and-assist-interaction-path.md).
+**Explainability Projection** names the non-persisted, audience-governed rendering assembled from an
+Explainability Record for the current requester, audience, endpoint, and context, delivered through
+**Assist** — the canonical household-facing Explainability interaction path. Companion App,
+dashboard/kiosk, and voice are endpoints through which Assist is invoked, never independent
+Explainability capabilities. One record, many projections: rendering a record never creates a
+duplicate Explainability Record, never restarts or extends retention, and is never cached and replayed
+to a different audience without fresh evaluation.
+
 ---
 
 ## Persistence (resolved — DL-129; encoding reconciled — DL-137)
@@ -970,7 +981,7 @@ This model *is* the explainability requirement. Every other canonical document r
 | OD-09 | **Closed — DL-136.** A trace records, for Portability: requester, authorized scope, Risk-Class authority applied, Completeness Manifest outcomes per class, Temporal Portability Contract elements applied, recipient/transport result. For Erasure: requester/subject, scope, Governance-class authority applied, per-responsibility result, DL-133 conflict handling, storage outages, final household-facing outcome shape — see *Portability Export explainability* and *Erasure explainability*, above |
 | OD-21 | **Closed — DL-75.** An obligation's referenced Significance Declaration (Derivation Source, Base Significance, Provenance, Effective Version) is referenced by its **Effective Version at the time of the decision** (**P30**), never copied, so a past explanation reports the declaration that was in force then, even after the household later changes it |
 | OD-29 | **Closed — DL-129.** Connected Storage is the authoritative durable location, reusing DL-92's mechanism; durable capture is a DL-41 Connected-Storage dependency that never stops the underlying governed action; write-time assembly, Room-normalized multi-Room persistence with DL-104 correlation, diagnostic fallback, and storage-outage/recovery coverage-gap semantics are each stated |
-| OD-30 | Which surfaces expose Decision Traces, and to whom |
+| OD-30 | **Closed — DL-140.** Assist is the canonical household-facing Explainability interaction path; Companion App, dashboard/kiosk, and voice are Assist endpoints, never independent capabilities; an Explainability Projection is assembled per-request/per-audience/per-endpoint at read time; no administrator bypass, no passive dashboard exposure, no second Explainability store |
 | OD-35 | **Closed — DL-130.** Assist/Conversation is the sole historical-retrieval surface, classified before assembly into ordinary retrieval versus Person/actor reconstruction; the nine existing Explainability scopes remain the complete query model; a trace records which Category-7 branch applied (a retained Decision Trace versus a diagnostic reconstruction) and which query dimensions/evidence classes were consulted |
 | OD-38 | Version identity, correlation, and causation identifier strategy |
 | OD-39 | **Closed — DL-132.** Preservation Hold authority, duration, review, release, and enforcement. Conflict with deletion is **DL-133** |
@@ -1005,3 +1016,6 @@ This model *is* the explainability requirement. Every other canonical document r
 - [../architecture/connected-storage.md](../architecture/connected-storage.md)
 - [../architecture/home-assistant-boundary.md](../architecture/home-assistant-boundary.md) — Music
   Assistant and video/general media-content resolution capability reviews
+- [../architecture/adr-explainability-presentation-and-assist-interaction-path.md](../architecture/adr-explainability-presentation-and-assist-interaction-path.md)
+  (**DL-140**) — Assist as the canonical household-facing Explainability interaction path and the
+  Explainability Projection model
