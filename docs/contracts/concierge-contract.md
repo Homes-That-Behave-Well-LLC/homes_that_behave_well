@@ -125,6 +125,10 @@ Nothing depends on Concierge.
     resolver (Music Assistant is the accepted concrete instance for music) and the target Room or
     Merged Room's configured media capability, never by Concierge itself. This extends prohibition #3's
     runtime-device-search rule to content/media resolution generally.
+20. **Concierge must not treat a native Home Assistant notification/representation as the Communication
+    record, and must not treat its dismissal as acknowledgement** (**DL-142**). A native notify "sent"
+    state is not complete delivery truth; a native correlation identifier may be retained as delivery
+    metadata but never becomes the Communication's own Record Identity (**DL-104**).
 
 ---
 
@@ -406,6 +410,7 @@ See [../models/decision-trace.md](../models/decision-trace.md) and
 | OD-04 | **Closed — DL-126.** Policy precedence is four operations (Candidate Value/Preference Resolution, Authority/Policy Ceiling Evaluation, Current Explicit Request, Competing-Communication Ordering); most-restrictive combination across scopes is precise (`prohibited` > `undecidable` > cumulative confirmation/escalation > `permitted`); Mode/capability/operation are condition dimensions, never scopes. Execution sequencing among decomposed items (§7, above) remains a distinct, open residual, not discharged by this closure |
 | OD-29 | **Closed — DL-129.** Connected Storage is the authoritative durable Decision Trace location (reusing DL-92's mechanism); durable capture is a DL-41 dependency that never stops the underlying governed action; write-time assembly, Room-normalized persistence, diagnostic fallback, and storage-outage/recovery semantics are each stated |
 | OD-30 | **Closed — DL-140.** Assist is the canonical household-facing Explainability interaction path; Companion App, dashboard/kiosk, and voice are Assist endpoints, never independent capabilities; an Explainability Projection is assembled per-request/per-audience/per-endpoint at read time; no administrator bypass, no passive dashboard exposure, no second Explainability store |
+| OD-42 | **Closed — DL-142.** Communication object persistence and Home Assistant representation — durability follows lifecycle, not an always/never rule; persists via DL-92's Storage-helper default directly, no Communication-specific exception; native HA representation remains a DL-31 projection, never authority; full delivery-mechanism matrix recorded; #207 not preempted |
 | OD-43 | **Closed — DL-53.** Delivery Surface capability model, including perceptibility and attestation |
 | OD-44 | **Closed — DL-95.** Delivery outcome semantics across the two levels — Communication lifecycle and Delivery Attempt outcome, consuming DL-54 and DL-94 unchanged |
 | OD-45 | **Closed — DL-96.** Acknowledgement semantics and acknowledger identification — an explicit, Communication-specific responsive act by an identified, in-audience Person, consuming DL-36/DL-39 unchanged |
@@ -423,6 +428,7 @@ See [../models/decision-trace.md](../models/decision-trace.md) and
 - [../architecture/runtime-sequence.md](../architecture/runtime-sequence.md)
 - [../architecture/privacy.md](../architecture/privacy.md)
 - [../architecture/adr-resident-communication-and-delivery-separation.md](../architecture/adr-resident-communication-and-delivery-separation.md)
+- [../architecture/adr-communication-object-persistence.md](../architecture/adr-communication-object-persistence.md)
 - [operational-trust-contract.md](operational-trust-contract.md)
 - [../models/decision-trace.md](../models/decision-trace.md)
 - [../models/communication.md](../models/communication.md)

@@ -1134,7 +1134,7 @@ thing**; this one says **how each is referenced, extended, and projected**.
 | External camera or video evidence | Owned by the providing integration | The media, its identifiers, and its retention | **Referenced**, never copied | Concierge, within a reconstruction | The reference, the times, and the stated relationship to a hypothesis | Not applicable | Copying media in order to correlate it; asserting that a clip depicts an actor | **OD-40**; **DL-35** |
 | HTBW Config Entry | Config Entry | The entry and its data | HTBW's own configuration | Foundation | HTBW configuration | Not applicable | — | — |
 | Referenced provider or integration configuration | Another integration's Config Entry, conversation agent, or Assist pipeline | Credentials, endpoints, model and connection configuration | **Selects or references** the already-configured capability | The responsibility governing its use | Allowed use, disclosure constraints, authority constraints, orchestration policy | Not applicable | Credentials, endpoints, model configuration, connection information | **OD-67** — closed as **DL-93** (#132, accepted); this representation mechanism confirmed |
-| Communication | None equivalent | Not applicable | Governed HTBW record | Foundation defines; Concierge decides delivery | The full Communication model | Delivery surfaces; Household Inbox as a projection | Treating a notification as the Communication | **OD-42** |
+| Communication | None equivalent | Not applicable | Governed HTBW record | Foundation defines; Concierge decides delivery | The full Communication model | Delivery surfaces; Household Inbox as a projection | Treating a notification as the Communication | **DL-142** |
 | Decision Trace | Logbook / Activity (partially) | The native entry, if one is written | Governed HTBW record | Concierge | The full trace | Optional native entry as a projection | Treating a native entry as the trace | **DL-129** |
 | Temporal Record | Recorder rows (partially) | The native rows | Governed HTBW record | The owning responsibility | Change Records, Domain Events, Snapshots, versions | Not applicable | Treating recorder history as governed history | **OD-01** residual |
 | Stewardship Obligation | Calendar or `todo` (partially) | The projected item | Governed HTBW record | Stewardship | Significance, accountability, state, escalation intent | Calendar or `todo` item | Treating list completion as fulfilment | **OD-23** |
@@ -1297,6 +1297,9 @@ unsuitable for immutable historical records.
 Conducted under **P21** against official Home Assistant documentation, version **2026.8.2**. The full
 review, with verified documentation links, capability list, and gaps **G1**–**G11**, is recorded in
 [adr-resident-communication-and-delivery-separation.md](adr-resident-communication-and-delivery-separation.md).
+Communication's own persistence mechanism and Home Assistant representation (**OD-42**) are resolved as
+**DL-142** — see
+[adr-communication-object-persistence.md](adr-communication-object-persistence.md).
 
 > **Home Assistant is used for delivery. It is not used for communication governance.**
 
@@ -1844,8 +1847,9 @@ the persistence shape of Change Records, Snapshots, and Current Projections.**
 
 That is a later technical design decision. It is recorded as an open decision:
 **OD-01** in [../governance/decision-ledger.md](../governance/decision-ledger.md), which now owns
-this residual alone. Related open decisions **OD-35**, **OD-38**, and **OD-42** are likewise not
-resolved here. The platform alignment review adds **OD-59** through **OD-67**, and none of them is
+this residual alone. **OD-35** (resolved as **DL-130**), **OD-38** (resolved as **DL-104**), and
+**OD-42** (resolved as **DL-142**) are each closed elsewhere and are not reopened or narrowed by this
+document. The platform alignment review adds **OD-59** through **OD-67**, and none of them is
 resolved here either.
 
 Whether, and how, HTBW orchestrates a resident's hand-off to Home Assistant's own Area, Floor, and

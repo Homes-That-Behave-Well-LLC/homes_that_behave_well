@@ -1162,6 +1162,47 @@ Communication's own retention policy. Consent withdrawal and erasure reuse **DL-
 
 ---
 
+### Persistence and Home Assistant representation (DL-142)
+
+**Accepted 2026-11-05 (Issue #112, formal acceptance review PASS).** Resolves **OD-42** in full. Full
+decision:
+[../architecture/adr-communication-object-persistence.md](../architecture/adr-communication-object-persistence.md).
+
+**The Communication object above is the authoritative governed record** — never a notification, push
+message, announcement, indicator, email, or spoken phrase (**DL-28** unchanged). **Durability follows
+lifecycle, not a blanket rule**: a Communication whose entire required lifecycle completes within the
+creating transaction follows its own ordinary retention (above); a Communication whose lifecycle
+**extends beyond the creating transaction** — outstanding or deferred delivery, pending retry, pending
+Presentation requiring future handling, or pending acknowledgement — **must be durably committed
+first**. HTBW never relies on a future-handling guarantee resting only on volatile in-memory state.
+
+**Persistence consumes the already-accepted governed-record mechanism (DL-92) directly** — Communication
+is already the Current-Projection/Change-Record shape DL-92 governs by default via the Home Assistant
+Storage helper; **no Communication-specific exception is created**, and Connected Storage remains
+available only as the already-accepted External History Retention extension (**DL-42**), never required
+for baseline operation. This does not preempt **#207**'s broader physical-placement review, exactly as
+**DL-137** independently settled Explainability's placement ahead of it.
+
+**Any native Home Assistant representation of a Communication (a `persistent_notification`, a `notify`
+target's own entity state) is a projection, never the authoritative record** (**DL-31** unchanged) — see
+[home-assistant-boundary.md](../architecture/home-assistant-boundary.md)'s Category-3 classification.
+**Home Assistant Notifications are the default HA-native delivery mechanism** (**P21** Home Assistant
+First, applied to delivery) — `notify`, `persistent_notification`, `assist_satellite`, and `tts` are
+used directly; no parallel HTBW push subsystem is created. A full delivery-mechanism matrix (Companion
+App/mobile push, HA frontend/web, dashboard/kiosk, spoken Room announcement, email, SMS, other
+configured Notify targets, and Assist/Household-Inbox retrieval) is recorded in the ADR, each stating
+its Authoritative Record, Delivery Artifact, Acknowledgement Semantics, and Fallback/Failure behaviour.
+
+**Dismissing a native notification never automatically acknowledges the Communication** (above); a
+native notify "sent" state is not complete delivery truth — this model's own `Attempted`/`Delivered`/
+`Presented`/`Failed`/`Unknown` vocabulary remains authoritative, and a native correlation identifier may
+be retained as delivery metadata but never becomes Record Identity (**DL-104**). **Home Assistant
+Recorder is not Communication persistence; `todo` is not Communication persistence** — both boundaries
+restated unchanged. **External copies (email, SMS, OS-level push) are not within HTBW's deletion
+control** once delivered, restating the **DL-136** external-copy boundary honestly.
+
+---
+
 ## Household Inbox
 
 > **The Household Inbox is a projection over outstanding Communications. It is not a persisted
@@ -1378,9 +1419,9 @@ See [../scenarios/why-did-this-happen.md](../scenarios/why-did-this-happen.md).
 | OD-22 | **Closed — DL-97.** Escalation ladder semantics and defaults — the single ladder, serving communications and obligations identically, reusing DL-71's five Intended Audience forms as rungs; no self-authorizing trigger; no HTBW-wide default grace period |
 | OD-28 | **Closed — DL-123.** A learned-policy Suggestion is an ordinary Communication: Category assigned by its actual subject (ordinarily **Experience**), Urgency per **DL-77**, Audience per **DL-71** resolved by what the Suggestion concerns, and lifecycle per **DL-95**; its response reuses **DL-96**'s existing confirming/denying/dismissing acknowledgement types as Accept/Reject/Dismiss, never a new mechanism |
 | OD-33 | **Closed — DL-43, DL-46, DL-47.** Communication records follow the governed-record retention model; the content-versus-metadata classification remains **OD-49** |
-| OD-34 | **Closed — DL-42, DL-44, DL-46, DL-47.** The temporal-persistence model is complete; Communication object persistence remains **OD-42**, subordinate to **OD-01** |
+| OD-34 | **Closed — DL-42, DL-44, DL-46, DL-47.** The temporal-persistence model is complete; Communication object persistence closed as **DL-142** |
 | OD-38 | Version identity, correlation, and causation identifier strategy |
-| OD-42 | Communication object persistence and Home Assistant representation |
+| OD-42 | **Closed — DL-142.** Communication object persistence and Home Assistant representation — durability follows lifecycle (not an always/never rule); persists via **DL-92**'s Storage-helper default directly, no Communication-specific exception; Connected Storage remains available only as **DL-42**'s own External History Retention extension; native HA representation remains a **DL-31** projection, never authority; **#207** not preempted; full delivery-mechanism matrix recorded (Companion App, HA frontend, dashboard/kiosk, voice, email, SMS, other Notify targets, Assist/DL-141 Household Inbox retrieval) |
 | OD-43 | **Closed — DL-53.** Delivery Surface capability model, including perceptibility and attestation; portable-surface Room Context mechanism remains **OD-73** |
 | OD-44 | **Closed — DL-95.** Communication lifecycle (Created, Suppressed, Acknowledged, Expired, Superseded, Resolved by origin, Undeliverable) and Delivery Attempt outcome (Attempted, Delivered, Presented, Failed) are formally distinct and never flattened; **DL-54** and **DL-94** consumed unchanged. Acknowledgement validity (**OD-45**), retry (**OD-54**), and escalation (**OD-22**) remain independently owned |
 | OD-45 | **Closed — DL-96.** Acknowledgement is an explicit, Communication-specific responsive act by an identified, in-audience Person, attribution governed by DL-36/DL-39 unchanged; unacknowledged delivery remains `unknown`, never failure; Confirmation (DL-37), DL-94 authorization, and Stewardship Completion (DL-48, DL-71) remain distinct. Escalation (**OD-22**) and retry (**OD-54**) consume this truthfully, deciding nothing themselves |
@@ -1403,6 +1444,7 @@ See [../scenarios/why-did-this-happen.md](../scenarios/why-did-this-happen.md).
 ## Related documents
 
 - [../architecture/adr-resident-communication-and-delivery-separation.md](../architecture/adr-resident-communication-and-delivery-separation.md)
+- [../architecture/adr-communication-object-persistence.md](../architecture/adr-communication-object-persistence.md)
 - [../architecture/principles.md](../architecture/principles.md)
 - [../architecture/framework.md](../architecture/framework.md)
 - [../architecture/privacy.md](../architecture/privacy.md)

@@ -788,9 +788,14 @@ Historical Facts, which Truth expresses through those same three record kinds) w
 is closed**). **Decision Trace's own representation mechanism — Connected Storage, reusing DL-92's
 Storage-helper-based mechanism as the already-accepted External History Retention extension — is
 resolved as DL-129 (accepted 2026-11-04, Issue #79, formal acceptance review PASS; OD-29 is closed)**,
-consuming DL-92 unchanged. The identifier strategy is **DL-104** (**OD-38**, closed). Communication
-object persistence is **OD-42**, and communication content/metadata retention is **resolved as
-DL-138** (**OD-49**, closed) — see `communication.md`'s *Retention* section. OD-42 remains open.
+consuming DL-92 unchanged. The identifier strategy is **DL-104** (**OD-38**, closed). **Communication
+object persistence and Home Assistant representation is resolved as DL-142 (accepted 2026-11-05, Issue
+#112, formal acceptance review PASS; OD-42 is closed)** — Communication consumes DL-92's Storage-helper
+mechanism directly, no exception, Connected Storage available only as this same DL-42 extension where
+configured retention exceeds native practicality; see
+[adr-communication-object-persistence.md](adr-communication-object-persistence.md). Communication
+content/metadata retention is separately **resolved as DL-138** (**OD-49**, closed) — see
+`communication.md`'s *Retention* section.
 
 **Update (2026-10-06, Issue #146 verification pass).** The `Store` helper mechanism itself is now
 **partially verified against `home-assistant/core` source** — see

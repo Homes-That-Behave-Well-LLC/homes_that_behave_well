@@ -227,12 +227,14 @@ explainable. **It is never a bypass.**
 | **DL-96** | **Acknowledgement is an explicit, Communication-specific responsive act by an identified, in-audience Person** — resolves **OD-45**. See *Acknowledgement Semantics (DL-96)* above and **Part 1** of [decision-ledger.md](../governance/decision-ledger.md) for the full accepted text |
 | **DL-98** | **Delivery Retry is household-configured, has no HTBW-wide numeric default, and is formally distinct from both DL-54's single-failure graceful fallback and DL-99's re-presentation** — resolves **OD-54**. See *Delivery Retry Policy (DL-98)* below and **Part 1** of [decision-ledger.md](../governance/decision-ledger.md) for the full accepted text |
 | **DL-99** | **Re-presentation is a new Delivery Attempt triggered by a Room transition Fact; the preference is opt-in, Person-scoped, optionally refined by Category/Urgency, with no HTBW-wide default repetition count or cooldown** — resolves **OD-48**. See *Re-Presentation Policy (DL-99)* below and **Part 1** of [decision-ledger.md](../governance/decision-ledger.md) for the full accepted text |
+| **DL-142** | **Communication object persistence and Home Assistant representation** — resolves **OD-42**. Durability follows lifecycle; persistence consumes **DL-92** directly, no exception; native HA representation remains a **DL-31** projection; #207 not preempted. See [adr-communication-object-persistence.md](adr-communication-object-persistence.md) and **Part 1** of [decision-ledger.md](../governance/decision-ledger.md) for the full accepted text |
 
 ### Deliberately not decided
 
 This ADR selects no delivery technology, no surface catalogue, no indicator scheme, no urgency
 enumeration, no retry interval, no retention duration, and no identifier implementation. Those are
-open decisions **OD-42** through **OD-58**.
+open decisions **OD-43** through **OD-58** (Communication object persistence, **OD-42**, is resolved
+as **DL-142**).
 
 ---
 
@@ -452,13 +454,18 @@ escalation model.
 
 ## Connected-storage implications
 
-Narrow. Governed Communication records and their Change Records may justify connected storage **only
-where a retention floor exceeds what native Home Assistant retention preserves**, on the basis of
-gaps **G5**, **G7**, and **G8**.
+**Reconciled by DL-142 (OD-42, closed).** Communication's physical persistence mechanism is the
+already-accepted **DL-92** default: the Home Assistant Storage helper, applied to Communication's
+Current Projection and Change Record history exactly as to any other governed record of that shape —
+**no Communication-specific exception exists.** Connected storage remains available strictly as the
+already-accepted **DL-42** External History Retention extension — a household-configured option used
+when a configured retention floor exceeds what is practical to keep in the Storage helper, informed by
+gaps **G5**, **G7**, and **G8** below, never a second general-purpose store.
 
 This creates no general licence to store communication content outside Home Assistant, and no
 communication content is stored in connected storage merely because it is convenient. See
-[connected-storage.md](connected-storage.md).
+[connected-storage.md](connected-storage.md) and
+[adr-communication-object-persistence.md](adr-communication-object-persistence.md) (**DL-142**).
 
 ---
 
@@ -949,23 +956,23 @@ already supplies. No further Home Assistant research was required or performed.
 
 | ID | Question |
 |---|---|
-| **OD-42** | Communication object persistence and Home Assistant representation — subordinate to OD-01, which now owns the persistence-mechanism residual alone |
+| **OD-42** | **Resolved as DL-142** — Communication object persistence and Home Assistant representation; durability follows lifecycle; persists via DL-92 directly, no exception; native HA representation remains a DL-31 projection; full delivery-mechanism matrix recorded; #207 not preempted |
 | **OD-43** | **Resolved as DL-53** — Delivery Surface capability model, including perceptibility and presentation attestation |
 | **OD-44** | **Resolved as DL-95** — Communication lifecycle (Created, Suppressed, Acknowledged, Expired, Superseded, Resolved by origin, Undeliverable) and Delivery Attempt outcome (Attempted, Delivered, Presented, Failed) are formally distinct, mutually exclusive-per-level, and never flattened; **DL-54** and **DL-94** are consumed unchanged and not duplicated |
 | **OD-45** | **Resolved as DL-96** — Acknowledgement is an explicit, Communication-specific responsive act by an identified, in-audience Person; attribution reuses DL-36/DL-39 unchanged; unacknowledged delivery remains `unknown`, never failure |
 | **OD-46** | **Resolved as DL-77.** Urgency is a fixed, cumulative four-level entitlement ladder, formally independent of Action-Risk Classification (**DL-76**) |
-| **OD-47** | Household Inbox projection scope and refresh semantics |
+| **OD-47** | **Resolved as DL-141** — Household Inbox projection scope (Communications-only) and refresh semantics (request-centric, no cache/store), accessed through Assist (DL-140) |
 | **OD-48** | **Resolved as DL-99** — Re-presentation is a new Delivery Attempt triggered by a Room transition Fact; the preference is opt-in, Person-scoped, optionally refined by Category/Urgency; no HTBW-wide default repetition count or cooldown exists, household-configured where enabled |
-| **OD-49** | Communication retention floor and ceiling, with content and metadata classified separately — the retention rule is settled by DL-47; the separate classification and the values remain |
+| **OD-49** | **Resolved as DL-138** — Communication retention floor and ceiling, content and metadata classified separately, each independently household-configured, no HTBW-wide numeric floor or ceiling |
 | **OD-50** | Escalation ladder semantics for communications, resolved into OD-22 |
-| **OD-51** | Interruption action-risk class enumeration and defaults |
-| **OD-52** | Audience specification model, including resolution of *anyone present with authority* |
+| **OD-51** | **Resolved as DL-76** — Interruption action-risk class enumeration (Convenience, Disclosure, Financial, Safety, Security, Governance) and per-class defaults |
+| **OD-52** | **Resolved as DL-71** — Audience specification model, including resolution of *anyone present with authority* |
 | **OD-53** | **Resolved as DL-78** — Communication Category is a closed, seven-value, content-domain enumeration (Stewardship, Security, Care, Environment, Experience, System, Safety), structurally separate from Urgency, Operation Type, and Action-Risk Classification |
 | **OD-54** | **Resolved as DL-98** — Delivery Retry is household-configured (no HTBW-wide default count or interval), formally distinct from DL-54's single-failure fallback and DL-99's re-presentation; stop conditions, give-up, and the indefinite-repetition safeguard are each stated |
 | **OD-55** | **Resolved as DL-54** — Presentation Outcome model (Presented / Failed / Unknown / Attestation Unavailable), and the representation of unknown |
-| **OD-56** | **Narrowed by DL-78** — Safety accepted as the seventh Category; disclaimer content/survival, written reconciliation, audience-bypass confirmation, dependency-missing behaviour, and certified-device deference remain open |
+| **OD-56** | **Resolved as DL-79** — Safety accepted as the seventh Category; non-life-safety acknowledgement, certified-device deference, evidence-quality-proportionate conclusions, Investigation Needed, and temporal provenance are each stated; the commissioning surface that captures the acknowledgement remains **OD-85** |
 | **OD-57** | **Resolved as DL-94** — Indication, the Room-Delivery Authorization Challenge, and message-scoped Room-Delivery Authorization are formally separated; the mandatory-threshold rule is settled; a new Room-Delivery Audience Preference governs Room-delivery eligibility by Urgency level and by Household/Individual/Guest audience permission |
-| **OD-58** | Terminology supersession scope for *Notification* and *Message* |
+| **OD-58** | **Resolved as DL-101** — Notification and Message are formally superseded as HTBW domain terms; the lexical form remains legitimate for source-faithful native-vocabulary naming and externally-owned content |
 
 Existing open decisions amended by this ADR: **OD-04** (priority order was later resolved as **DL-126**,
 which explicitly includes delivery ordering — Urgency then Significance then a household-configured

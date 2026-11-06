@@ -71,6 +71,7 @@ Dispositions: **New** · **Keep** · **Revise** · **Supersede** · **Merge** ·
 | `adr-person-to-external-resource-association-ownership.md` | Canonical ADR | **New, Accepted 2026-11-05** as **DL-139** (Issue #148, formal acceptance review PASS, following one bounded grounding correction resolved during this review itself). Resolves **OD-77** in full: Foundation owns the Person-scoped **External-Resource Association** assignment (**DL-85**), mirroring **DL-115**'s Home-scoped assignment; Options B–E (Identity, Continuity, Operational Trust, Concierge) rejected; internal Person-device associations (BLE, phone, watch) confirmed as Identity's (**DL-32**) and Continuity's, not Foundation precedent — the grounding correction identified and resolved in this review; requester-governed "my" resolution, never Room occupancy; Unknown Person/Guest inherit nothing (**DL-33**); shared resources are not automatic conflicts; reasoning-provider profile associations Foundation-owned where **DL-93**/**DL-131** support a Person-specific reference, DL-93's resolution order unchanged; no independent retention floor/ceiling (corrected **DL-137** philosophy); erasure (**DL-136**) distinguishes the association from the referenced resource; `continuity-use-cases.md` Use Case 6 changes U → A. Raised by the Person-to-External-Resource Association Ownership review (#148, closed) |
 | `adr-explainability-presentation-and-assist-interaction-path.md` | Canonical ADR | **New, Accepted 2026-11-05** as **DL-140** (Issue #80, formal acceptance review PASS). Resolves **OD-30** in full: Terminology corrected (Decision Trace / Explainability Record / **Explainability Projection**, consuming **DL-137** unchanged); **Assist named the canonical household-facing Explainability interaction path**, extending **DL-130** without reopening it; Companion App (**DL-113**), dashboard/kiosk (**DL-88**), and voice (**DL-90**) named as Assist endpoints, never independent capabilities; endpoint contributes context, never authority (five explicit non-equations); Access/Disclosure/Presentation reused as three separable considerations via existing recorded-outcome fields, no new field created; per-request/per-audience/per-endpoint projection at read time (Option A + Option C's gating discipline); Option B (two persisted renderings) and any administrator bypass rejected outright; partial-authority honesty, affected-guest, and Unknown Person (**DL-33**) presentation behavior defined; actor reconstruction remains excluded (**DL-35**/**DL-130** unchanged); passive dashboard cards and direct database access not authorized. Raised by the Explainability Presentation review (#80, closed) |
 | `adr-household-inbox-projection-semantics.md` | Canonical ADR | **New, Accepted 2026-11-05** as **DL-141** (Issue #116, formal acceptance review PASS, closed as part of the **Assist Interaction Governance Sweep** under Epic #147). Resolves **OD-47** in full: Communications-only scope (Option A, obligations remain **DL-117**'s own projection); request-centric refresh, no cache/store (Option C rejected); **accessed through Assist** (**DL-140**), scoped per requester, never per-Room/per-household; viewing not automatic acknowledgement but may constitute a Presentation event (**DL-95**/**DL-96**); filtered items receive Indication/Challenge/omission reusing **DL-94**'s three forms unchanged; the Inbox is not itself a Delivery Surface (**DL-53** not reopened); a broad Assist question may compose the Inbox and obligation projections without merging models. Raised by the Household Inbox Projection Semantics review (#116, closed) |
+| `adr-communication-object-persistence.md` | Canonical ADR | **New, Accepted 2026-11-05** as **DL-142** (Issue #112, formal acceptance review PASS). Resolves **OD-42** in full: Communication is the authoritative governed record (**DL-28** unchanged); durability follows lifecycle — a Communication whose lifecycle extends beyond the creating transaction must be durably committed first, neither an always-persist-immediately nor a never-persist-until-resolved rule; persisted Content/Metadata consume **DL-138**'s classification unchanged, no duplicate field invented; source material referenced, never copied (**P30**); persistence mechanism consumes **DL-92** directly, no Communication-specific exception, Connected Storage available only as the already-accepted **DL-42** extension; **#207 not preempted**, exactly as **DL-137** independently settled Explainability's placement; native Home Assistant representation remains a **DL-31** projection, never authority; Home Assistant Notifications are the default HA-native delivery mechanism (**P21**); full delivery-mechanism matrix recorded (Companion App/mobile push, HA frontend/web, dashboard/kiosk, spoken Room announcement, email, SMS, other Notify targets, Assist/**DL-141** Household Inbox retrieval); dismissal ≠ acknowledgement, native notify "sent" ≠ delivery truth, native correlation identifiers never become Record Identity (**DL-104**); Recorder and `todo` restated as not Communication persistence (**DL-114**); Household Inbox restart behavior restated (no Inbox-specific state to lose, **DL-141** unchanged); external-copy boundary restated (**DL-136**). Raised by the Communication Persistence review (#112, closed) |
 
 ---
 
@@ -588,18 +589,33 @@ holding; a stray `communication.md` cross-reference (a tie-break configuration-s
 loosely "tracked under OD-47") is corrected to note it is not resolved by DL-141;
 `open-decision-issue-index.md` and `decision-ledger.md` are updated; none is reclassified.
 
+**Updated 2026-11-05 (continued), Issue #112 formal acceptance review PASS (Communication Object
+Persistence and Home Assistant Representation, DL-142)**: one new document,
+`adr-communication-object-persistence.md`, is added as **Canonical ADR** from creation (+1 to new
+canonical documents, +1 to Canonical total, +1 to Total classified). `communication.md`,
+`adr-resident-communication-and-delivery-separation.md`, `home-assistant-boundary.md`, and
+`connected-storage.md` (all already Canonical) are revised in place: stating the lifecycle-based
+durability rule, the persisted Content/Metadata field set (consuming **DL-138** unchanged), the
+source-reference-not-copy boundary, the direct **DL-92** persistence-mechanism consumption with no
+Communication-specific exception, the **#207** non-preemption, the native-HA-representation-as-
+projection restatement, and the full delivery-mechanism matrix; `adr-resident-communication-and-
+delivery-separation.md`'s own pre-**DL-92** "Connected-storage implications" section and several stale
+rows in its "Open decisions" table (OD-47, OD-49, OD-51, OD-52, OD-56, OD-58, each since independently
+closed) are reconciled in the same pass; `open-decision-issue-index.md` and `decision-ledger.md` are
+updated; none is reclassified.
+
 | Category | Count |
 |---|---|
-| New canonical documents | 73 |
+| New canonical documents | 74 |
 | Revised in place | 2 (`README.md`, `concierge-contract.md`) |
-| **Canonical total** (73 new + 2 revised) | **75** |
+| **Canonical total** (74 new + 2 revised) | **76** |
 | Marked Active — subordinate | 23 |
 | Marked Historical — superseded | 83 |
 | Marked Historical illustration (`examples/`) | 16 |
 | Marked Historical — planning/closure record | 2 |
 | **Historical total** | **101** |
 | Operational | 8 |
-| **Total classified** | **207** |
+| **Total classified** | **208** |
 | **Unclassified** | **0** |
 | **Deleted** | **0** |
 
