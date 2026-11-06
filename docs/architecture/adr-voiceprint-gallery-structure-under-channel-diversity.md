@@ -315,3 +315,5 @@ unreopened.
 - [privacy.md](privacy.md)
 - [../models/glossary.md](../models/glossary.md)
 - [../governance/decision-ledger.md](../governance/decision-ledger.md)
+- [adr-voice-identity-enrollment-evidence-retention-and-regeneration.md](adr-voice-identity-enrollment-evidence-retention-and-regeneration.md)
+  (**DL-145**)

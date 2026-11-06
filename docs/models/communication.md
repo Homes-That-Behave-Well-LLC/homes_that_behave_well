@@ -1445,6 +1445,9 @@ See [../scenarios/why-did-this-happen.md](../scenarios/why-did-this-happen.md).
 
 - [../architecture/adr-resident-communication-and-delivery-separation.md](../architecture/adr-resident-communication-and-delivery-separation.md)
 - [../architecture/adr-communication-object-persistence.md](../architecture/adr-communication-object-persistence.md)
+- [../architecture/adr-voice-identity-enrollment-evidence-retention-and-regeneration.md](../architecture/adr-voice-identity-enrollment-evidence-retention-and-regeneration.md)
+  (**DL-145**) — the governed Communication required for a Person needing manual Voice Identity
+  re-enrollment
 - [../architecture/principles.md](../architecture/principles.md)
 - [../architecture/framework.md](../architecture/framework.md)
 - [../architecture/privacy.md](../architecture/privacy.md)

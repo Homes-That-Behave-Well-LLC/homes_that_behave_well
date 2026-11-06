@@ -269,6 +269,11 @@ timing are implementation matters and are not settled by this document.
 | A governing parent object is removed | The responsibility owning the artifact | Dependent artifacts and references are cleaned up, holds and retention floors are evaluated first, and empty capability-owned structures are removed. **The default is cleanup; continued existence requires an accepted reason.** |
 | Parent-object cleanup is triggered while Connected Storage is unavailable | The responsibility owning the artifact | **Do not claim deletion succeeded.** Retain a governed pending-cleanup state, keep the reference, do not recreate the artifact elsewhere, surface the condition, and reconcile once storage returns. |
 | Cleanup cannot complete for an artifact under a Preservation Hold or retention floor | Operational Trust, with the owning responsibility | The artifact remains, **governed and explained**. Cleanup never silently overrides a hold or a floor. |
+| Retained Voice Identity enrollment recordings are absent at a Breaking Identity Update (**DL-145**) | Identity | Automatic Voiceprint regeneration is `unavailable` for the Person. Manual re-enrollment is required — never represented as a trust, identity, or permission failure. |
+| Retained enrollment recordings do not satisfy the new encoder's compatibility requirements (**DL-145**) | Identity | Regeneration is `unavailable`/fails validation. Manual re-enrollment is required. The recordings are never discarded or repurposed merely because this attempt failed, absent a separate deletion trigger. |
+| Regeneration is attempted but fails technical validation (**DL-145**) | Identity | No new authoritative Voiceprint is produced. The still-valid prior Voiceprint is not removed before the new compatibility boundary successfully commits; once it does, the Person requires manual re-enrollment. |
+| The Voice Identity application/runtime is unavailable during a planned migration (**DL-145**) | Identity | The migration **capability** is `unavailable` (**DL-41**), naming the dependency. Still-valid existing Voiceprints are never destroyed before the new compatibility boundary successfully commits. |
+| Person consent does not permit reuse of retained enrollment evidence (**DL-145**) | Identity | No regeneration is attempted from that evidence. Manual re-enrollment is required, following current consent/deletion rules — never a silent override of the Person's own consent state. |
 
 > **Silent non-delivery is prohibited.** *"Nothing was sent"* and *"we decided not to send"* are
 > different facts, and the home must be able to tell them apart. See
@@ -397,3 +402,5 @@ be able to learn why something did not happen.
 - [adr-stable-endpoint-identity-and-network-boundary-independence.md](adr-stable-endpoint-identity-and-network-boundary-independence.md) — restates "validation is not discovery" explicitly for the network layer (**DL-87**, accepted at **#195**)
 - [adr-vocabulary-change-and-withdrawal-consequences.md](adr-vocabulary-change-and-withdrawal-consequences.md)
   (**DL-143**)
+- [adr-voice-identity-enrollment-evidence-retention-and-regeneration.md](adr-voice-identity-enrollment-evidence-retention-and-regeneration.md)
+  (**DL-145**)

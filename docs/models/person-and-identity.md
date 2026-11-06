@@ -778,6 +778,12 @@ permission.** These follow **DL-06**: a detection is not an identification.
 > already bound to a sufficiently authenticated Person through another evidence source, such as an
 > Authenticated Session Identity. See
 > [../architecture/adr-voiceprint-gallery-structure-under-channel-diversity.md](../architecture/adr-voiceprint-gallery-structure-under-channel-diversity.md).
+>
+> **The Person's enrollment recordings — the source material a Voiceprint is derived from — may be
+> retained only under explicit household policy and the Person's own applicable consent, for the
+> narrow purpose of Voiceprint generation and regeneration (DL-145).** Retained recordings are source
+> evidence, never a second Voiceprint, independent confirmation, or per-channel profile. See
+> [../architecture/adr-voice-identity-enrollment-evidence-retention-and-regeneration.md](../architecture/adr-voice-identity-enrollment-evidence-retention-and-regeneration.md).
 
 ---
 
@@ -1577,6 +1583,7 @@ implying the assertion never existed.
 | OD-33 | **Closed — DL-43, DL-46, DL-47.** A persisted Identity Assertion is retained with the Decision Trace or governed history it supports, never on a separate universal clock |
 | OD-36 | Reconciliation of deletion and export obligations with retention floors and Preservation Holds |
 | OD-83 | **Closed — DL-144.** Voiceprint Gallery Structure Under Channel Diversity — each Person has exactly one governed Voiceprint Identity Profile (Alternative D); channel is evidence provenance/quality context only, never identity or authorization; no per-channel, per-Room, per-microphone, or per-phone governed voiceprint; voice contributes at most one correlation-family contribution (**DL-38 F2**) regardless of channel diversity |
+| OD-96 | **Closed — DL-145.** Voice Identity Enrollment Evidence Retention, Voiceprint Regeneration, and Breaking Encoder Compatibility Governance — enrollment recordings retained only under explicit household Integration policy (Option A/B, chosen before enrollment) and applicable Person consent, for Voiceprint generation/regeneration only; a Voiceprint Compatibility Contract, not a bare encoder version, governs whether a Breaking Identity Update applies; a compelling-reason gate and stability preference bound any Voiceprint-invalidating release; per-Person pre-migration classification (auto-regenerated / manual-re-enrollment-required / unaffected) supplies **OD-87**'s missing prerequisite input; **DL-144** preserved throughout migration (no dual-authority window) |
 | OD-91 | Whether and how HTBW orchestrates a resident's hand-off to Home Assistant's native Person creation surface when no native Person yet exists; native creation by HTBW itself is verified unsupported |
 
 ## Related documents
@@ -1588,3 +1595,4 @@ implying the assertion never existed.
 - [../architecture/privacy.md](../architecture/privacy.md)
 - [../architecture/adr-wyoming-compatible-voice-evidence-runtime.md](../architecture/adr-wyoming-compatible-voice-evidence-runtime.md)
 - [../architecture/adr-voiceprint-gallery-structure-under-channel-diversity.md](../architecture/adr-voiceprint-gallery-structure-under-channel-diversity.md)
+- [../architecture/adr-voice-identity-enrollment-evidence-retention-and-regeneration.md](../architecture/adr-voice-identity-enrollment-evidence-retention-and-regeneration.md)

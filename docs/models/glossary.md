@@ -220,9 +220,37 @@ voiceprint. Owned by **Identity**; retained while the profile is enabled and con
 deleted on profile removal or consent withdrawal (**DL-43**). Internal representation (one embedding,
 several enrollment embeddings, an aggregated structure) is implementation mapping beneath this one
 governed artifact, never a second identity. **Voice contributes at most one evidence contribution per
-correlation family** (**DL-38 F2**), regardless of how many channels or samples informed it.
+correlation family** (**DL-38 F2**), regardless of how many channels or samples informed it. The
+enrollment recordings it is derived from may be retained for future regeneration only under explicit
+household policy and Person consent (**DL-145**).
 Model: [person-and-identity.md](person-and-identity.md),
 [../architecture/adr-voiceprint-gallery-structure-under-channel-diversity.md](../architecture/adr-voiceprint-gallery-structure-under-channel-diversity.md)
+
+**Voice Identity Encoder Migration Policy (DL-145)**
+The household's standing, Integration-scoped choice — made during initial Integration configuration,
+before any Voice Identity enrollment — of whether enrollment recordings are retained (**Option A**) for
+possible future Voiceprint regeneration, or deleted after Voiceprint creation (**Option B**). Persists
+across future Voice Identity updates until deliberately changed; never Room-scoped or redefined
+Person-by-Person. Independent of, and never overriding, Person consent.
+Model: [../architecture/adr-voice-identity-enrollment-evidence-retention-and-regeneration.md](../architecture/adr-voice-identity-enrollment-evidence-retention-and-regeneration.md)
+
+**Voiceprint Compatibility Contract (DL-145)**
+The deterministic identity/version the required Voice Identity application/runtime exposes to
+establish, **before any comparison is attempted**, whether a stored Voiceprint remains valid against a
+given encoder/audio-contract/preprocessing state. Distinct from a bare encoder-version string — an
+encoder package may update without breaking compatibility, and compatibility may break without the
+nominal encoder name changing. Never discovered from degrading recognition scores.
+Model: [../architecture/adr-voice-identity-enrollment-evidence-retention-and-regeneration.md](../architecture/adr-voice-identity-enrollment-evidence-retention-and-regeneration.md)
+
+**Breaking Identity Update (DL-145)**
+Any update — originating from the HTBW Integration, the required Voice Identity application, an
+encoder/model package, a preprocessing change, an audio-contract dependency, or another
+compatibility-boundary component — that intentionally invalidates previously valid enrolled
+Voiceprints. Classified by **household consequence**, never by package ownership or version
+semantics. Requires a documented **compelling reason** and administrator acknowledgement before being
+applied; per-Person pre-migration classification (auto-regeneration possible / manual re-enrollment
+required / unaffected) determines each Person's own outcome.
+Model: [../architecture/adr-voice-identity-enrollment-evidence-retention-and-regeneration.md](../architecture/adr-voice-identity-enrollment-evidence-retention-and-regeneration.md)
 
 **Identity Fusion Function**
 The deterministic, ordinal, purpose-scoped function by which Identity converts eligible evidence into

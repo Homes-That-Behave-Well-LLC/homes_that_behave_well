@@ -426,6 +426,13 @@ historical identity evidence merely because they existed**; voiceprints are reta
 remains enabled **and consent remains valid**, and are deleted on profile removal or consent
 withdrawal.
 
+**Update (2026-11-06, Issue #208 formal acceptance review PASS).** The gallery-structure residual above
+is resolved as **DL-144**. **DL-43's zero-default-retention rule for enrollment samples remains the
+default**, now extended, not reopened, by **DL-145**: a household may explicitly elect, before any
+enrollment, to retain enrollment recordings in protected local storage for future Voiceprint
+regeneration, subject to the Person's own applicable consent and strict purpose limitation. See
+[adr-voice-identity-enrollment-evidence-retention-and-regeneration.md](adr-voice-identity-enrollment-evidence-retention-and-regeneration.md).
+
 ---
 
 ## 13. Runtime matching architecture
@@ -519,7 +526,7 @@ third-party project reviewed has it.**
 | Compatibility is **enforced before comparison** | Not warned about afterwards |
 | An incompatible gallery produces an **explicit outcome** | A capability or compatibility outcome under **DL-41** — *configured but invalid* is already an enumerated dependency state |
 | **No README warning stands in for an invariant** | *"You must re-enroll after changing models"* is not a control |
-| Model upgrade requires a **governed migration path** | Rebuild, re-derive, or re-enroll — declared before the upgrade, never discovered after it |
+| Model upgrade requires a **governed migration path** | Rebuild, re-derive, or re-enroll — declared before the upgrade, never discovered after it. **The full governed migration path — the Voiceprint Compatibility Contract, the compelling-reason release gate, pre-migration Person classification, automatic regeneration versus manual re-enrollment, and safe transition — is resolved as DL-145**, see [adr-voice-identity-enrollment-evidence-retention-and-regeneration.md](adr-voice-identity-enrollment-evidence-retention-and-regeneration.md) |
 | Runtime identity is derived from the **resolved runtime encoder** | Not from a static pinned constant, which can falsely exclude a compatible candidate |
 
 ```mermaid
@@ -1167,6 +1174,7 @@ repository deploy script when implementation begins.
 | **OD-82** | **#160** | **Raised by this ADR.** Product consolidation and retirement — see below |
 | **OD-83** | **#168** | **Resolved by Issue #168 as DL-144.** Voiceprint gallery structure under channel diversity — Alternative D accepted (each Person has exactly one governed Voiceprint Identity Profile); see §28 and [adr-voiceprint-gallery-structure-under-channel-diversity.md](adr-voiceprint-gallery-structure-under-channel-diversity.md) |
 | **OD-84** | **#169** | **Raised by the post-acceptance harvest.** Multi-speaker evidence and speaker plurality — see §17 |
+| **OD-96** | **#208** | **Resolved by Issue #208 as DL-145.** Voice Identity Enrollment Evidence Retention, Voiceprint Regeneration, and Breaking Encoder Compatibility Governance — see §12 and [adr-voice-identity-enrollment-evidence-retention-and-regeneration.md](adr-voice-identity-enrollment-evidence-retention-and-regeneration.md) |
 | **OD-07** | #95 | **Resolved as DL-120.** Speaker-biometric processing is HA-Prod-local only; speech-to-text/text-to-speech follow their own residency framework |
 | **OD-06** | #94 | **Resolved as DL-56.** Consent capture, scope, self/proxy consent, and withdrawal/deletion are accepted |
 | **OD-15** | #96 | Assertion lifetime. Untouched |
@@ -1353,4 +1361,6 @@ onto the existing **Voice Profile** concept above and is not introduced as a dis
 - [../governance/decision-ledger.md](../governance/decision-ledger.md)
 - [adr-voiceprint-gallery-structure-under-channel-diversity.md](adr-voiceprint-gallery-structure-under-channel-diversity.md)
   (**DL-144**)
+- [adr-voice-identity-enrollment-evidence-retention-and-regeneration.md](adr-voice-identity-enrollment-evidence-retention-and-regeneration.md)
+  (**DL-145**)
 - [../governance/open-decision-issue-index.md](../governance/open-decision-issue-index.md)

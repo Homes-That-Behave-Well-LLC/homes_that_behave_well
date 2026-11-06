@@ -119,6 +119,12 @@ reaches back to authorise collection**: usefulness is not a consent substitute. 
 
 - Raw samples default to **zero retention** beyond the processing window.
 - Any retention is explicit, consented, time-bounded, and inspectable.
+- **For Voice Identity enrollment recordings specifically**, this principle is operationalized as
+  **DL-145**: retention requires both an explicit household Integration-scoped policy election (Option
+  A, made before any enrollment) and the Person's own applicable consent, is strictly purpose-limited to
+  Voiceprint generation/regeneration, and is inspectable/governed exactly as any other declared artifact
+  class (`connected-storage.md`). See
+  [adr-voice-identity-enrollment-evidence-retention-and-regeneration.md](adr-voice-identity-enrollment-evidence-retention-and-regeneration.md).
 
 ### Derived voiceprint treatment
 
@@ -534,7 +540,11 @@ of normal visibility permissions**, and **explainable**.
   existing disclosure/audience architecture, never a separate model; no universal rule is invented
   that a data subject must always, or must never, be proactively notified that their records are held.
 - A hold does not retain content that was never permitted to be retained. **A hold cannot preserve
-  raw biometric internals or raw voice samples, because those were never stored.**
+  raw biometric internals or raw voice samples beyond what household policy and Person consent already
+  permit to be retained** (restated for Voice Identity enrollment recordings specifically as **DL-145**:
+  a Preservation Hold never authorizes retaining biometric source material beyond Option A/Person-
+  consent's own already-governed scope — where no retention is permitted at all, there remains nothing
+  for a hold to act on, exactly as before).
 - **Placement, review, and release are each an independent, household-configured authorisation**
   (**DL-71** Named Person/Role-Authority-Class forms — never inferred from residency, Household
   membership, Owner-role status, or the native HA administrator flag alone), and **placement/release
@@ -638,6 +648,7 @@ The following are recorded as open decisions and must **not** be resolved inside
 | OD-49 | **Closed — DL-138.** Communication Content and Metadata classification, independent household-configured retention, Category/Urgency boundary, Explainability-reference non-extension |
 | OD-52 | **Closed — DL-71.** Audience specification model, including resolution of *anyone present with authority* |
 | OD-57 | **Closed — DL-94.** Indication, the Room-Delivery Authorization Challenge, and message-scoped Room-Delivery Authorization formally separated; the mandatory-threshold rule settled |
+| OD-96 | **Closed — DL-145.** Voice Identity Enrollment Evidence Retention, Voiceprint Regeneration, and Breaking Encoder Compatibility Governance — enrollment recordings retained only under explicit household policy and Person consent, strictly purpose-limited to Voiceprint generation/regeneration; operationalizes the *Raw voice-sample retention* principle above |
 
 See [../governance/decision-ledger.md](../governance/decision-ledger.md).
 
@@ -655,5 +666,7 @@ See [../governance/decision-ledger.md](../governance/decision-ledger.md).
 - [adr-temporal-record-model.md](adr-temporal-record-model.md)
 - [adr-resident-communication-and-delivery-separation.md](adr-resident-communication-and-delivery-separation.md)
 - [adr-stable-endpoint-identity-and-network-boundary-independence.md](adr-stable-endpoint-identity-and-network-boundary-independence.md) — sensitive-information and placeholder convention for repository network examples (**DL-89**, accepted at **#195**)
+- [adr-voice-identity-enrollment-evidence-retention-and-regeneration.md](adr-voice-identity-enrollment-evidence-retention-and-regeneration.md)
+  (**DL-145**)
 - [adr-explainability-presentation-and-assist-interaction-path.md](adr-explainability-presentation-and-assist-interaction-path.md)
   (**DL-140**)

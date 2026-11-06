@@ -581,7 +581,11 @@ placement has been verified.**
 Reconciliation with retention floors and Preservation Holds is **DL-133 (OD-36)**; Portability Export
 and Erasure mechanics are **DL-136 (OD-09)** — **Home Assistant Backup is not portability**: a
 household's portability request is never satisfied by offering Backup, since Backup may omit
-Connected Storage and applies no HTBW authority filtering.
+Connected Storage and applies no HTBW authority filtering. **Retained Voice Identity enrollment
+recordings (DL-145) are subject to these same rules unchanged**: their protection classification must
+survive any backup that does include them, restoration must not silently bypass current household
+policy, Person consent, or erasure state, and an Option A→B deletion is never falsely represented as
+guaranteed to purge an already-existing historical backup copy.
 
 ---
 
@@ -629,7 +633,8 @@ storage owns nothing.**
 | Artifact | Owner | Retention | Deletion | Notes |
 |---|---|---|---|---|
 | **Asset documents** — manuals, invoices, warranties, photos, appraisals, service records | **Foundation**, which owns the Asset and its documentation anchor. **Stewardship owns significance and care, not the document artifact** | Retained while the anchor Asset exists | The Asset is removed, or the resident explicitly removes the document | **No ordinary age-based purge.** A document does not expire because it is old. Deletion respects applicable preservation and retention constraints. Anchored to the native Device representation and the governed Asset record. Unreachable documentation is reported as **unavailable**, never as absence. **Applies identically whether the document was created natively in HTBW or carried in through Asset Intelligence Adoption (DL-51, DL-52)** — both are keyed by the Asset's own stable identifier, per the Asset Intelligence/Adoption reconciliation above. See [../models/asset.md](../models/asset.md) |
-| **Voice enrollment samples** | **Identity**, which owns the enrollment and consent lifecycle | **Temporary.** Retained only as long as required to complete voiceprint generation or an explicitly governed retry | Removed on success, and on cancellation, failure cleanup, consent withdrawal, or expiry under policy | Zero default retention. **Raw samples never become historical identity evidence merely because they existed.** Required only where samples cannot remain transient within an accepted processing boundary. See [../patterns/temporary-artifact-lifecycle-pattern.md](../patterns/temporary-artifact-lifecycle-pattern.md) |
+| **Voice enrollment samples** | **Identity**, which owns the enrollment and consent lifecycle | **Temporary.** Retained only as long as required to complete voiceprint generation or an explicitly governed retry | Removed on success, and on cancellation, failure cleanup, consent withdrawal, or expiry under policy | **Zero default retention remains the default.** **Raw samples never become historical identity evidence merely because they existed.** Required only where samples cannot remain transient within an accepted processing boundary. See [../patterns/temporary-artifact-lifecycle-pattern.md](../patterns/temporary-artifact-lifecycle-pattern.md) |
+| **Voice Identity enrollment recordings retained for regeneration (DL-145)** | **Identity**, which owns the enrollment/consent lifecycle | Retained only while the household's standing **Option A** Voice Identity Encoder Migration Policy **and** the Person's own applicable consent both currently permit it | **Option A→B policy change, consent withdrawal, erasure request, or profile removal** | **Explicit, non-default artifact class — exists only under Option A, never under the Option B default.** Purpose strictly limited to Voiceprint generation/regeneration; never Home Steward, RAG, model training, or other reuse. **Internal Runtime Artifact**, not resident media, not media-browser-indexed. Richer/more sensitive source material than the derived Voiceprint; biometric internals never exposed. A Preservation Hold never authorizes retention beyond what policy/consent already permit. Exact physical placement remains **#207**'s own determination. See [adr-voice-identity-enrollment-evidence-retention-and-regeneration.md](adr-voice-identity-enrollment-evidence-retention-and-regeneration.md) |
 | **Voiceprints and derived identity profiles** | **Identity**, which owns the consent lifecycle; Foundation holds the consent record on the Person | Retained while the governed voice profile remains enabled **and consent remains valid** | Profile removal, or **consent withdrawal** | **Revocation removes the derived profile and its associations, not merely their use.** Biometric internals — vectors, embeddings, payloads, and **storage paths** — are never exposed. **Deleting a voiceprint never rewrites an earlier Identity Assertion**; identity history retains evidence classes and reason codes only. See [../models/person-and-identity.md](../models/person-and-identity.md) |
 | **Extended historical records** | The responsibility owning each record | The configured External History Retention period | Governed purge at the configured boundary | Preservation Holds and retention floors take precedence. See below |
 | **Preservation Hold** | **Operational Trust** authorises; each responsibility enforces over its own records | A governance **marker or state on governed records** — **not an artifact class of its own** | Released under **DL-132 (OD-39)** | **Never a duplicate payload or separate evidence store.** It suspends ordinary deletion where applicable. **Releasing a hold does not itself delete anything** — ordinary retention policy then resumes. Hold metadata follows the accepted historical and privacy model |
@@ -648,6 +653,7 @@ retention floors is **DL-133 (OD-36)**. Portability Export and Erasure mechanics
 |---|---|---|---|
 | **Asset document** | The **Asset** | Managed Content | Deleted unless an overriding retention or preservation rule applies. Asset-specific structures are removed when empty |
 | **Voice enrollment sample** | The **enrollment session** | Internal Runtime Artifact | Removed on completion, cancellation, failure, or session expiry |
+| **Voice Identity enrollment recording retained for regeneration (DL-145)** | The **voice profile**, and above it the **Person**; existence additionally gated by the household's Option A policy and the Person's own consent | Internal Runtime Artifact | Deleted with the profile; deleted with the Person; deleted immediately on an Option A→B policy change or consent withdrawal; **no residual regeneration copy remains** |
 | **Voiceprint or derived profile** | The **voice profile**, and above it the **Person** | Internal Runtime Artifact | Deleted with the profile; deleted with the Person; **no orphan profile remains** |
 | **Extended historical record** | Its **record class**, and where object-scoped, the object | Queryable Historical Record | Object-scoped records follow the object; time-scoped records follow the retention window. **Both mechanisms apply where both are relevant** |
 | **Saved Evidence Package** | Its own declared primary Subject anchor (Room/Merged Room, Asset, Person, or Pet), falling back to the **Home** (**DL-135**, reusing **DL-105**'s anchor-ownership rule) — **never the Incident that may have motivated it** (**DL-134**) | Managed Content | Its declared Parent Removal Behavior governs; holds and retention rules are honoured first |
@@ -795,7 +801,13 @@ mechanism directly, no exception, Connected Storage available only as this same 
 configured retention exceeds native practicality; see
 [adr-communication-object-persistence.md](adr-communication-object-persistence.md). Communication
 content/metadata retention is separately **resolved as DL-138** (**OD-49**, closed) — see
-`communication.md`'s *Retention* section.
+`communication.md`'s *Retention* section. **Voice Identity enrollment recordings retained for
+Voiceprint regeneration are resolved as DL-145 (accepted 2026-11-06, Issue #208, formal acceptance
+review PASS; OD-96 is closed)** — a new, explicitly declared, non-default Internal Runtime Artifact
+class (existing only under household Option A policy and applicable Person consent), satisfying this
+document's own 19-point artifact-declaration checklist; **exact physical placement remains #207's own
+determination, not preempted**; see
+[adr-voice-identity-enrollment-evidence-retention-and-regeneration.md](adr-voice-identity-enrollment-evidence-retention-and-regeneration.md).
 
 **Update (2026-10-06, Issue #146 verification pass).** The `Store` helper mechanism itself is now
 **partially verified against `home-assistant/core` source** — see
@@ -847,3 +859,5 @@ History Retention is a deployment choice rather than an architectural one.
 - [adr-home-assistant-first-and-connected-storage.md](adr-home-assistant-first-and-connected-storage.md)
 - [adr-temporal-record-model.md](adr-temporal-record-model.md)
 - [adr-resident-communication-and-delivery-separation.md](adr-resident-communication-and-delivery-separation.md)
+- [adr-voice-identity-enrollment-evidence-retention-and-regeneration.md](adr-voice-identity-enrollment-evidence-retention-and-regeneration.md)
+  (**DL-145**)
