@@ -204,6 +204,7 @@ The Room model does **not**:
 |---|---|
 | A Room has no constituent Physical Rooms | Invalid configuration; report as a configuration problem |
 | A constituent Area is deleted in Home Assistant | Report a broken constituent reference; do not silently shrink the Room |
+| A Room's constituent Area is not yet native (**DL-149**) | A bounded **Pending Area Link** — never a broken reference, never a second Area store — resolved only through the resident's own explicit confirmation once the native Area exists |
 | A Room has no participating voice assistant | Valid; the Room simply has no default voice context |
 | Two Rooms claim the same Physical Room | Permitted only if the household configured it; ambiguity must be surfaced and resolved by explicit configuration, never by runtime preference |
 
@@ -232,7 +233,7 @@ Physical Room supplied a fact.
 | OD-01 | Home Assistant representation strategy for a Room |
 | OD-10 | Whether Floors are a first-class HTBW scope |
 | OD-11 | Whether a Physical Room may belong to more than one Room, and how ambiguity is configured |
-| OD-91 | Whether and how HTBW orchestrates a resident's hand-off to Home Assistant's native Area/Floor creation surfaces when a Room is initiated from HTBW and no Physical Room/Area yet exists; native Area/Floor creation by HTBW itself is verified unsupported (see [../architecture/home-assistant-boundary.md](../architecture/home-assistant-boundary.md)) |
+| OD-91 | **Closed — DL-149.** HTBW-First Provisioning Through Supported Native Hand-off — Area/Floor creation by HTBW itself remains verified unsupported; a Tier 2 supported hand-off to Home Assistant's native setup surfaces (via the "My Home Assistant" `areas` redirect), with resident-confirmed resume, is the accepted provisioning mechanism; a Room Configuration's constituent-Area reference may hold a bounded **Pending Area Link** state only as part of an active hand-off, never a freestanding unassigned-Room feature (see [../architecture/adr-htbw-first-provisioning-through-supported-native-hand-off.md](../architecture/adr-htbw-first-provisioning-through-supported-native-hand-off.md)) |
 
 ## Related documents
 
@@ -240,3 +241,6 @@ Physical Room supplied a fact.
 - [contextual-vocabulary.md](contextual-vocabulary.md)
 - [../contracts/room-configuration-contract.md](../contracts/room-configuration-contract.md)
 - [truth.md](truth.md)
+- [../architecture/home-assistant-boundary.md](../architecture/home-assistant-boundary.md)
+- [../architecture/adr-htbw-first-provisioning-through-supported-native-hand-off.md](../architecture/adr-htbw-first-provisioning-through-supported-native-hand-off.md)
+  (**DL-149**)

@@ -162,6 +162,7 @@ Foundation supplies to every Decision Trace:
 | OD-10 | **Closed — DL-125.** Floor is a native physical-hierarchy construct referenced for targeting only, never a first-class HTBW scope |
 | OD-11 | Whether one Physical Room may participate in more than one Room |
 | OD-20 | **Resolved as DL-121.** No runtime consumption, mandatory or optional; Asset Intelligence is solely an optional predecessor-product migration source |
+| OD-91 | **Closed — DL-149.** HTBW-First Provisioning Through Supported Native Hand-off — Area/Floor/Person creation by HTBW remains verified unsupported; a Tier 2 supported hand-off to Home Assistant's own native setup surfaces, with resident-confirmed resume, is the accepted provisioning mechanism; a bounded Pending Area/Person Link exists only during an active hand-off, never a freestanding unassigned-Room feature or a second native-object store |
 
 ## Related documents
 
@@ -169,3 +170,5 @@ Foundation supplies to every Decision Trace:
 - [../architecture/home-assistant-boundary.md](../architecture/home-assistant-boundary.md)
 - [../models/glossary.md](../models/glossary.md)
 - [../architecture/adr-stable-endpoint-identity-and-network-boundary-independence.md](../architecture/adr-stable-endpoint-identity-and-network-boundary-independence.md) — endpoint-identity resolution order and room-interaction-capability relationships (**DL-87**/**DL-88**, accepted at **#195**)
+- [../architecture/adr-htbw-first-provisioning-through-supported-native-hand-off.md](../architecture/adr-htbw-first-provisioning-through-supported-native-hand-off.md)
+  (**DL-149**)

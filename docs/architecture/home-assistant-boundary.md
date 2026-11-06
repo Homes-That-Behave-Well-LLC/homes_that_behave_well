@@ -487,41 +487,78 @@ branch) only where prose documentation does not reproduce implementation detail.
 "Referenced and extended," in the representation-strategy table above, and that `suggested_area` is
 the only native-creation-adjacent mechanism available when HTBW orchestrates a new device's addition.
 
-#### Floor registry creation by an integration (item 20b) — UNVERIFIED, NEGATIVE BY ANALOGY
+#### Floor registry creation by an integration (item 20b) — VERIFIED_UNSUPPORTED (strengthened 2026-11-06)
 
 | DL-30 element | Finding |
 |---|---|
 | Capability evaluated | Whether a custom integration may programmatically create a resident's Floor |
-| Source | `contributors.home-assistant.io/architecture/core/registries/` ("Areas and floors — how the user describes their home"); `contributors.home-assistant.io/glossary/floor/` (glossary only); `homeassistant/helpers/floor_registry.py` (`async_create`, `async_update`, `async_delete`, `async_reorder`), home-assistant/core, dev branch |
-| Verified | **No dedicated Floor-registry developer-documentation page exists** (`contributors.home-assistant.io/core/integrations/floor-registry/` 404s). The architecture overview groups Floors with Areas as resident-owned, by analogy with the explicit Area restriction above, but **no explicit prose statement restricts integration-created Floors the way the Area page does** |
-| Remaining gap | Whether any sanctioned Floor-creation or Floor-suggestion mechanism exists remains **officially undocumented**; this must not be closed on the Area analogy alone |
-| Why a lower layer cannot satisfy it | The gap is a documentation gap, not a decided restriction; treat as unsupported for planning purposes without claiming it is officially prohibited |
+| Source | `contributors.home-assistant.io/architecture/core/registries/` ("Areas and floors — how the user describes their home"); `contributors.home-assistant.io/glossary/floor/` (glossary only); `homeassistant/helpers/floor_registry.py` (`async_create`, `async_update`, `async_delete`, `async_reorder`), home-assistant/core, dev branch; exhaustive `gh search code "floor_registry.async_create(" --repo home-assistant/core` (2026-11-06) |
+| Verified | **No dedicated Floor-registry developer-documentation page exists** (`contributors.home-assistant.io/core/integrations/floor-registry/` 404s). The architecture overview **textually groups** Floors with Areas as one resident-owned concept governed by the same linked Area registry page — not merely an unstated analogy. **An exhaustive repository-wide code search returns zero production-code callers of `floor_registry.async_create()` anywhere in home-assistant/core** — every match is a test file; not even Home Assistant's own onboarding component calls it |
+| Remaining gap | No per-object developer-documentation page exists naming Floor explicitly, the one remaining honest gap versus Area's explicit sentence |
+| Why a lower layer cannot satisfy it | Not applicable — this is now a verified restriction, strengthened by direct textual grouping and whole-ecosystem empirical absence, not a capability gap |
 
-**Narrows but does not fully discharge item 20 for Floors.** Consistent with **OD-10**'s own standing
-guard that Floor-registry behaviour must not be assumed.
+**Discharges the creation half of item 20 for Floors as `VERIFIED_UNSUPPORTED`.** See the 2026-11-06
+re-verification pass below for the full resolution and the resulting **DL-149**.
 
 #### Person entity creation by an integration (item 20c) — VERIFIED_UNSUPPORTED FOR THIRD-PARTY USE
 
 | DL-30 element | Finding |
 |---|---|
 | Capability evaluated | Whether a custom integration may programmatically create or update a native `person` entity |
-| Source | `homeassistant/components/person/__init__.py` (`async_create_person`, `PersonStorageCollection`, `PersonStorageCollectionWebsocket`), home-assistant/core, dev branch; `homeassistant/components/onboarding/views.py` (sole caller of `async_create_person`), dev branch; `www.home-assistant.io/integrations/person/` (official, current) |
-| Verified | Person objects are managed through the generic `homeassistant.helpers.collection` storage-collection/websocket pattern. `async_create_person` exists, but its **only caller in platform source is Home Assistant's own `onboarding` component**, used once to create the account owner's Person during initial setup. The person integration's own end-user documentation names **only the UI and YAML** as management paths; no developer-documentation page invites a third-party integration to create or update a Person |
-| Remaining gap | No explicit official statement prohibits third-party Person creation the way the Area page does; the conclusion rests on the absence of a documented API, an internal-only caller, and end-user documentation naming no other path |
+| Source | `homeassistant/components/person/__init__.py` (`async_create_person`, `PersonStorageCollection`, `PersonStorageCollectionWebsocket`), home-assistant/core, dev branch; `homeassistant/components/onboarding/views.py` (sole caller of `async_create_person`), dev branch; `www.home-assistant.io/integrations/person/` (official, current); exhaustive `gh search code "async_create_person" --repo home-assistant/core` (2026-11-06) |
+| Verified | Person objects are managed through the generic `homeassistant.helpers.collection` storage-collection/websocket pattern. `async_create_person` exists, but its **only caller in platform source is Home Assistant's own `onboarding` component**, used once to create the account owner's Person during initial setup. The person integration's own end-user documentation names **only the UI and YAML** as management paths, and its **only exposed action is `person.reload`** — no `person.create` action exists. **An exhaustive repository-wide code search confirms exactly three matches for `async_create_person` in the entire codebase**: its own definition, its sole caller (onboarding), and its own test — zero third-party integrations call it. **Person creation is additionally security-sensitive**: the native "Add person" dialog may optionally create a full Home Assistant user account and login credential, an independent reason this is not delegated to integration code |
+| Remaining gap | No explicit official statement prohibits third-party Person creation the way the Area page does; the conclusion rests on the absence of a documented API, an internal-only caller confirmed empirically across the whole ecosystem, end-user documentation naming no other path, and the operation's own security sensitivity |
 | Why a lower layer cannot satisfy it | Not applicable — no supported mechanism is documented or exists for general integration use |
 
-**Discharges item 20 for Person as VERIFIED_UNSUPPORTED FOR THIRD-PARTY USE.** Confirms Person remains
+**Discharges item 20 for Person as `VERIFIED_UNSUPPORTED FOR THIRD-PARTY USE`.** Confirms Person remains
 Category 1, "Referenced and extended," and that HTBW must reference an existing native Person (per
 [../models/person-and-identity.md](../models/person-and-identity.md), "Person extends the native
 Person; it never replaces it") rather than attempt creation.
 
-**Does not close OD-91.** The creation-mechanism question is now substantially discharged for Area and
-Person (unsupported), and narrowed for Floor (undocumented, treated as unsupported for planning). **The
-residual, genuinely open part of OD-91 is the resident-facing orchestration question** — how HTBW hands
-the resident off to Home Assistant's own Area/Floor/Person setup surfaces and resumes without becoming
-a second source of truth or a second onboarding flow — which this pass does not attempt to answer.
+**Did not close OD-91 as of this 2026-10-16 pass.** The creation-mechanism question was substantially
+discharged for Area and Person (unsupported), and narrowed for Floor (undocumented, treated as
+unsupported for planning). **The residual, genuinely open part of OD-91 was the resident-facing
+orchestration question** — how HTBW hands the resident off to Home Assistant's own Area/Floor/Person
+setup surfaces and resumes without becoming a second source of truth or a second onboarding flow —
+which this pass did not attempt to answer. See the following subsection for its resolution.
 
-### Issue #146 — #149/OD-78 native state restoration verification pass (2026-11-03)
+### Issue #192/OD-91 re-verification pass and resolution (2026-11-06)
+
+**This pass re-examines a narrower question the 2026-10-16 pass above did not test**: not whether an
+integration may *independently and silently* create or mutate a resident's Area/Floor/Person, but
+whether *an authenticated resident, operating an HTBW-provided configuration experience, may cause
+Home Assistant to create a native object through the same supported mechanism Home Assistant's own
+frontend uses*. **The 2026-10-16 pass's own conclusions are preserved unchanged and reconfirmed below**
+— they correctly answered the first question; this pass answers the second.
+
+**New evidence obtained 2026-11-06**, supplementing each object's table above:
+
+- Current `contributors.home-assistant.io/core/integrations/area-registry/` was re-fetched directly:
+  *"Areas belong to the user. Your integration does not create or change them"* remains current,
+  unchanged, and **unqualified** — it draws no distinction between silent and user-authorized
+  integration-mediated creation.
+- `gh search code "area_registry.async_create(" --repo home-assistant/core` returns exactly **one**
+  non-test production match in the entire codebase — Home Assistant's own `onboarding` component —
+  and no third-party-style integration despite hundreds of bundled integrations with device-placement
+  context that could plausibly benefit from direct creation; they use `suggested_area` instead.
+- `gh search code "floor_registry.async_create(" --repo home-assistant/core` returns **zero** production
+  matches anywhere, strengthening Floor's classification as set out above.
+- `gh search code "async_create_person" --repo home-assistant/core` returns exactly **three** matches
+  total (the function's own definition, its sole caller, its own test) — zero third-party callers.
+- **"My Home Assistant"** (`my.home-assistant.io`), Home Assistant's own documented deep-linking
+  service (`github.com/home-assistant/my.home-assistant.io/blob/main/redirect.json`, current), supplies
+  a supported navigation redirect to the combined Floors-and-Areas settings page (`redirect: "areas"`)
+  and to the People settings page (`redirect: "people"`) — already used throughout official Home
+  Assistant documentation, including the Person integration's own end-user page.
+
+**Resolution: Tier 2 — supported hand-off — applies to Floor, Area, and Person alike.** None reaches
+Tier 1; Home Assistant does not currently support direct, integration-orchestrated native creation for
+any of the three objects even from an authenticated resident's own HTBW configuration experience, and
+Tier 1 is not forced where the evidence does not support it. **The full resolution — the HTBW-first
+provisioning sequence, the Pending Area/Person Link mechanism, resume/disambiguation rules, and
+`suggested_area`'s confirmed, bounded scope — is recorded as DL-149.** See
+[adr-htbw-first-provisioning-through-supported-native-hand-off.md](adr-htbw-first-provisioning-through-supported-native-hand-off.md).
+**OD-91 is closed by this decision.**
 
 Discharges the DL-30 burden first raised by the Episode 7 Continuity governance review (**#151**) and
 recorded as item D of this issue's current task scope: *"Does Home Assistant natively represent 'the
