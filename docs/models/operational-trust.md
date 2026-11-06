@@ -1353,6 +1353,14 @@ Three rules bind every row:
 **Requestor, Speaker, Present Person, Potential Listener, Authorized Recipient, and Delivery Target
 answer different questions and are never collapsed.**
 
+> **Voice Identity speaker plurality is not audience composition (DL-147).** Identity may report that a
+> capture contains evidence of more than one speech region — zero, one, or multiple Voice Identity
+> evidence records per capture. That is evidence of **who spoke**, never a determination of **who could
+> hear**. Resolving two speakers never, by itself, produces "Audience = both speakers"; audience
+> composition remains this section's own evaluation, consuming whatever evidence it already accepts.
+> See
+> [../architecture/adr-multi-speaker-evidence-and-speaker-plurality.md](../architecture/adr-multi-speaker-evidence-and-speaker-plurality.md).
+
 ### Authorized Recipient resolution from a relationship (DL-71)
 
 Where an Intended Audience Specification is **Relationship-based** (for example "Caretaker of
@@ -2198,3 +2206,5 @@ architectural terms. They are not claims of legal effect.** See
   (**DL-144**)
 - [../architecture/adr-identity-artifact-invalidation-as-a-governed-household-event.md](../architecture/adr-identity-artifact-invalidation-as-a-governed-household-event.md)
   (**DL-146**)
+- [../architecture/adr-multi-speaker-evidence-and-speaker-plurality.md](../architecture/adr-multi-speaker-evidence-and-speaker-plurality.md)
+  (**DL-147**)

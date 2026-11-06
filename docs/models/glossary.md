@@ -285,6 +285,29 @@ The governed requirement that the leading candidate exceed the next by a stated 
 may be asserted. Where it is not met, the outcome is `ambiguous`. **The numerically highest candidate
 is never silently selected.**
 
+**Speech Region (DL-50, DL-147)**
+A portion of a voice capture the Voice Identity runtime has sufficient technical basis to treat as
+belonging to one detected speaker, for the purpose of producing a Voice Identity evidence observation.
+**Not a new governed record class** — it is the existing speech-region-segmentation input/implementation
+concept named in [../architecture/adr-wyoming-compatible-voice-evidence-runtime.md](../architecture/adr-wyoming-compatible-voice-evidence-runtime.md)
+§13, reused unchanged. The governed evidence artifact remains the **Voice Identity evidence record**
+(the existing unbound Voice Evidence Record, **DL-50**), produced per qualified speech region, never
+per capture. A capture may contain zero, one, or several supportably distinguished speech regions.
+Model: [../architecture/adr-multi-speaker-evidence-and-speaker-plurality.md](../architecture/adr-multi-speaker-evidence-and-speaker-plurality.md)
+
+**Speaker Plurality (DL-147)**
+The evidence that a voice capture contains **more than one** supportably distinguished speech region,
+distinct from `ambiguous` (**DL-38 F8**, one speech region whose leading candidate fails separation).
+A capture may therefore yield zero, one, or multiple Voice Identity evidence records — one per
+supportably distinguished speech region, each independently fused through the existing Identity Fusion
+Function. Multiple records never multiply confirmation for the same Person within one correlation
+family (**DL-38 F2**); an unresolved second speaker uses existing **DL-33** Unknown Person semantics;
+resolved speakers never establish audience composition on their own (**DL-34**). **Distinct from
+audience composition's own "Unresolved plurality" state** in
+[communication.md](communication.md), which answers who could perceive a delivery rather than who
+spoke. Overlapping speech that cannot be supportably separated is never fabricated into plurality.
+Model: [../architecture/adr-multi-speaker-evidence-and-speaker-plurality.md](../architecture/adr-multi-speaker-evidence-and-speaker-plurality.md)
+
 **Confidence Normalisation**
 The mapping from an ordinal support level to a **confidence band** through a versioned band map. A
 normalised numeric may accompany the band as a deterministic ordering value; **the band is

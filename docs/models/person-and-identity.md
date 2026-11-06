@@ -991,6 +991,13 @@ measured probability**.
 > Truth resolves conflict among its own eligible current claims — which may include a consumed Identity
 > Assertion as one input, never the fusion process itself.
 
+> **F8's `ambiguous` outcome is never plurality (DL-147).** `ambiguous` means **one** speech region
+> whose leading candidate failed separation among competing candidates. Where a capture instead
+> contains **multiple** supportably distinguished speech regions, each region is independently fused
+> through this same F1–F9 function into its own assertion — never collapsed into one `ambiguous`
+> result merely because several candidate shapes look similar. See
+> [../architecture/adr-multi-speaker-evidence-and-speaker-plurality.md](../architecture/adr-multi-speaker-evidence-and-speaker-plurality.md).
+
 ### Why the result is stepped rather than calculated
 
 | Rejected approach | Why it fails here |
@@ -1598,6 +1605,7 @@ implying the assertion never existed.
 | OD-96 | **Closed — DL-145.** Voice Identity Enrollment Evidence Retention, Voiceprint Regeneration, and Breaking Encoder Compatibility Governance — enrollment recordings retained only under explicit household Integration policy (Option A/B, chosen before enrollment) and applicable Person consent, for Voiceprint generation/regeneration only; a Voiceprint Compatibility Contract, not a bare encoder version, governs whether a Breaking Identity Update applies; a compelling-reason gate and stability preference bound any Voiceprint-invalidating release; per-Person pre-migration classification (auto-regenerated / manual-re-enrollment-required / unaffected) supplies **OD-87**'s missing prerequisite input; **DL-144** preserved throughout migration (no dual-authority window) |
 | OD-87 | **Closed — DL-146.** Identity Artifact Invalidation as a Governed Household Event — applies only to Persons DL-145 classifies manual-re-enrollment-required; Voiceprint unavailability is a **DL-41** capability outcome, never identity/trust/permission failure; other Identity evidence and an authenticated Companion App session remain independently usable; transcription stays ungated; a governed Communication (**DL-142**, Category System) is required; existing consent survives where scope/purpose are unchanged; per-Person and household-event completion are defined; separate from adoption (**OD-85**), surface placement remains **OD-93**'s own |
 | OD-91 | Whether and how HTBW orchestrates a resident's hand-off to Home Assistant's native Person creation surface when no native Person yet exists; native creation by HTBW itself is verified unsupported |
+| OD-84 | **Closed — DL-147.** Multi-Speaker Evidence and Speaker Plurality — Alternative B accepted: one capture may yield zero, one, or multiple Voice Identity evidence records, one per supportably distinguished speech region; `ambiguous` retains its **DL-38 F8** one-speech-region meaning and never means plurality; multiple records never create multiple confirmations for the same Person (**DL-38 F2**); an unresolved second speaker uses existing **DL-33** semantics; resolved speakers never establish audience composition (**DL-34**); overlap is represented as plurality only where technically supportable, otherwise existing quality/unavailability semantics apply; **OD-16** not reopened |
 
 ## Related documents
 
@@ -1610,3 +1618,4 @@ implying the assertion never existed.
 - [../architecture/adr-voiceprint-gallery-structure-under-channel-diversity.md](../architecture/adr-voiceprint-gallery-structure-under-channel-diversity.md)
 - [../architecture/adr-voice-identity-enrollment-evidence-retention-and-regeneration.md](../architecture/adr-voice-identity-enrollment-evidence-retention-and-regeneration.md)
 - [../architecture/adr-identity-artifact-invalidation-as-a-governed-household-event.md](../architecture/adr-identity-artifact-invalidation-as-a-governed-household-event.md)
+- [../architecture/adr-multi-speaker-evidence-and-speaker-plurality.md](../architecture/adr-multi-speaker-evidence-and-speaker-plurality.md)

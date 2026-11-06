@@ -621,10 +621,12 @@ carries *Multiple known Persons* and *Unresolved plurality* as **audience compos
 fusion"*, so it cannot be borrowed here. **Audience answers who could hear. This question is who
 spoke.**
 
-**Whether an evidence record may report more than one speaker is OD-84, and it is not decided here.**
-Until it is, an implementation **must not report plurality as `ambiguous`**, and a second speaker's
-presence in a capture remains **quality metadata** under section 13 rather than a second candidate in
-the list.
+**Whether an evidence record may report more than one speaker was OD-84, now resolved as DL-147**
+(Issue #169): a capture may yield zero, one, or multiple Voice Identity evidence records, one per
+supportably distinguished speech region; `ambiguous` is unchanged and never means plurality; a second
+speaker's presence remains **quality metadata** under section 13 only where supportable distinction is
+not yet possible. See
+[adr-multi-speaker-evidence-and-speaker-plurality.md](adr-multi-speaker-evidence-and-speaker-plurality.md).
 
 ---
 
@@ -1028,8 +1030,11 @@ gallery-structure answer Pattern 4 deliberately deferred. See
 [adr-voiceprint-gallery-structure-under-channel-diversity.md](adr-voiceprint-gallery-structure-under-channel-diversity.md).
 
 **Speaker plurality** — whether an evidence record may report that **more than one person spoke**.
-**Recorded as OD-84.** See section 17: **ambiguity is not plurality**, and an implementation must not
-report one as the other.
+**Resolved as DL-147** (Issue #169, 2026-11-06). A capture may yield zero, one, or multiple Voice
+Identity evidence records, one per supportably distinguished speech region; `ambiguous` retains its
+section 17 meaning and is never used for plurality; multiple records never create multiple
+confirmations for the same Person under **DL-38 F2**. See
+[adr-multi-speaker-evidence-and-speaker-plurality.md](adr-multi-speaker-evidence-and-speaker-plurality.md).
 
 **Two questions were tested against the harvest and deliberately answered *no*.** A separate
 `voice-evidence-provider-contract.md` is **not** created, because
@@ -1173,7 +1178,7 @@ repository deploy script when implementation begins.
 | **OD-80** | **#153** | **Resolved by this ADR as DL-50** |
 | **OD-82** | **#160** | **Raised by this ADR.** Product consolidation and retirement — see below |
 | **OD-83** | **#168** | **Resolved by Issue #168 as DL-144.** Voiceprint gallery structure under channel diversity — Alternative D accepted (each Person has exactly one governed Voiceprint Identity Profile); see §28 and [adr-voiceprint-gallery-structure-under-channel-diversity.md](adr-voiceprint-gallery-structure-under-channel-diversity.md) |
-| **OD-84** | **#169** | **Raised by the post-acceptance harvest.** Multi-speaker evidence and speaker plurality — see §17 |
+| **OD-84** | **#169** | **Resolved by Issue #169 as DL-147.** Multi-speaker evidence and speaker plurality — Alternative B accepted (a capture may yield zero, one, or multiple Voice Identity evidence records, one per supportably distinguished speech region); see §17, §28 and [adr-multi-speaker-evidence-and-speaker-plurality.md](adr-multi-speaker-evidence-and-speaker-plurality.md) |
 | **OD-96** | **#208** | **Resolved by Issue #208 as DL-145.** Voice Identity Enrollment Evidence Retention, Voiceprint Regeneration, and Breaking Encoder Compatibility Governance — see §12 and [adr-voice-identity-enrollment-evidence-retention-and-regeneration.md](adr-voice-identity-enrollment-evidence-retention-and-regeneration.md) |
 | **OD-07** | #95 | **Resolved as DL-120.** Speaker-biometric processing is HA-Prod-local only; speech-to-text/text-to-speech follow their own residency framework |
 | **OD-06** | #94 | **Resolved as DL-56.** Consent capture, scope, self/proxy consent, and withdrawal/deletion are accepted |

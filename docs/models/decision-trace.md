@@ -276,6 +276,7 @@ Fields 3 and 4 must additionally be able to carry the **fusion explanation**:
 | Contradicting evidence, and the reduction applied | Contradiction is claim-specific and is never averaged away |
 | Excluded evidence and its exclusion reason | Ineligible, inapplicable, stale, or disabled |
 | Competing candidates, and whether separation was met | The basis for `known` versus `ambiguous` |
+| Which speech region, within a multi-region capture, produced this assertion, and the common-capture correlation linking it to any sibling assertions (**DL-147**) | Plurality explanation — never collapsed into the `ambiguous` explanation (**DL-38 F8**) |
 | Reason codes | For every reduction, exclusion, ceiling, step, and outcome |
 
 **A deliberate Participation exclusion's contribution to a suppressed or non-selected action is
@@ -1025,6 +1026,8 @@ This model *is* the explainability requirement. Every other canonical document r
 - [../architecture/connected-storage.md](../architecture/connected-storage.md)
 - [../architecture/home-assistant-boundary.md](../architecture/home-assistant-boundary.md) — Music
   Assistant and video/general media-content resolution capability reviews
+- [../architecture/adr-multi-speaker-evidence-and-speaker-plurality.md](../architecture/adr-multi-speaker-evidence-and-speaker-plurality.md)
+  (**DL-147**)
 - [../architecture/adr-explainability-presentation-and-assist-interaction-path.md](../architecture/adr-explainability-presentation-and-assist-interaction-path.md)
   (**DL-140**) — Assist as the canonical household-facing Explainability interaction path and the
   Explainability Projection model

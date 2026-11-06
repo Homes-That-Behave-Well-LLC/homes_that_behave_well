@@ -109,8 +109,8 @@ accepted decision prevails.
 
 | # | Title | Maturity | Principal blocker |
 |---|---|---|---|
-| **C1** | Conversation-aware interruption management | **D — North Star** | Passive monitoring unauthorised; **OD-84** |
-| **C2** | Known and unidentified conversation participants | **E — Blocked** | **OD-84** (#169) |
+| **C1** | Conversation-aware interruption management | **D — North Star** | Passive monitoring unauthorised |
+| **C2** | Known and unidentified conversation participants | **E — Blocked** | **OD-71** (#104) |
 | **C3** | Transient knowledge and purpose-limited forgetting | **B — Architecturally supported** | Values are household configuration under **DL-59** |
 | **C4** | Local-first decision making with connected cloud sources | **B — Architecturally supported** | **OD-07**, **OD-67** for the edges |
 | **C5** | Home Assistant remote access education | **F — Research required** | Platform verification (**#146**) |
@@ -124,7 +124,7 @@ accepted decision prevails.
 | **C13** | First-visit guest consent and introduction | **E — Blocked** | **OD-06** (#94) |
 | **C14** | Returning-guest hospitality | **E — Blocked** | **OD-06**, **OD-15** |
 | **C15** | Guest relationship learning | **E — Blocked** | **OD-06** (still open); **OD-28 resolved — DL-123**, **OD-65 resolved — DL-112** |
-| **C16** | Multi-party relationship-aware disclosure | **E — Blocked** | **OD-84**, **OD-71** |
+| **C16** | Multi-party relationship-aware disclosure | **E — Blocked** | **OD-71** |
 | **C17** | Channel selection across the household experience | **E — Blocked** | **OD-43** (#113) |
 | **C18** | Importance, urgency, escalation, and follow-up | **E — Blocked** | **OD-53**, **OD-22** |
 | **C19** | Explainability | **B — Architecturally supported** | **OD-30 resolved — DL-140** |
@@ -165,9 +165,9 @@ phone."* **It never knows what they were talking about, and never keeps a record
 | **Privacy** | Passive microphone use is the most sensitive capability in this catalogue. **It requires explicit governance and acceptance before implementation** |
 | **Maturity** | **D — North Star** |
 | **Implementation evidence** | None |
-| **Related decisions** | **DL-28**, **DL-29**, **DL-34**, **DL-50** §25, **DL-47**; concierge-contract §7, §11, §12 |
-| **Related issues** | **#167** (Phase 7), **#169** (OD-84) |
-| **Open decisions** | **OD-84**, **OD-74** (Truth Fact confidence — **DL-39 bands may not be borrowed**), **OD-71** |
+| **Related decisions** | **DL-28**, **DL-29**, **DL-34**, **DL-50** §25, **DL-47**, **DL-147**; concierge-contract §7, §11, §12 |
+| **Related issues** | **#167** (Phase 7) |
+| **Open decisions** | **OD-74** (Truth Fact confidence — **DL-39 bands may not be borrowed**), **OD-71** |
 
 ### Required distinctions
 
@@ -199,7 +199,7 @@ room* is exactly the information that makes speaking the wrong choice.
 | **Trigger** | Voice and other evidence indicate more than one apparent participant, at least one unidentified |
 | **Authoritative inputs** | Candidate evidence from the provider; other Identity evidence families; audience composition |
 | **Required Truth** | Current Room and contextual presence |
-| **Identity requirement** | Must preserve `known`, `unknown`, `ambiguous`, `unavailable` — **and plurality, which it cannot currently express** |
+| **Identity requirement** | Must preserve `known`, `unknown`, `ambiguous`, `unavailable` — **and plurality, now expressible as separate per-speech-region evidence records (DL-147)** |
 | **Operational Trust** | Evaluates the apparent audience and selects a permitted alternative surface |
 | **Continuity** | None |
 | **Concierge** | Routes privately; may acknowledge non-sensitively later |
@@ -210,14 +210,16 @@ room* is exactly the information that makes speaking the wrong choice.
 | **Failure and degradation** | Fewer evidence families lower the ceiling; **absence is neutral** (**DL-38 F7**) and never a penalty |
 | **Privacy** | An unidentified person is never named, profiled, or accumulated across visits (**DL-33**) |
 | **Maturity** | **E — Blocked** |
-| **Open decisions** | **OD-84** (#169), **OD-71** (#104) |
+| **Open decisions** | **OD-71** (#104) |
 
 ### The distinction that must not collapse
 
 **One speaker whose identity is ambiguous is not the same condition as several people speaking.** They
 produce the same observable shape — several candidates scoring closely — **from opposite causes**.
-`ambiguous` means the first. **OD-84** owns whether the second is expressible, and until it is decided
-an implementation **must not report plurality as `ambiguous`**.
+`ambiguous` means the first. **OD-84 is resolved as DL-147**: a capture may yield zero, one, or
+multiple Voice Identity evidence records, one per supportably distinguished speech region, and an
+implementation **must not report plurality as `ambiguous`**. This use case's remaining blocker is
+**OD-71** (audience-uncertainty disclosure policy) — the routing decision itself.
 
 ### Acceptance scenarios
 
@@ -225,7 +227,7 @@ an implementation **must not report plurality as `ambiguous`**.
 |---|---|---|---|
 | C2.1 | Tom `known`, one voice unmatched | Private delivery | Name or profile the unmatched voice |
 | C2.2 | Two candidates score closely for one voice | `ambiguous` | Report this as *two people are present* |
-| C2.3 | Two voices are genuinely present | Recorded as **quality metadata** pending OD-84 | Report it as `ambiguous` |
+| C2.3 | Two voices are genuinely present and supportably distinguished | Two separate Voice Identity evidence records (**DL-147**) | Collapse them into one `ambiguous` record, or retain the second only as quality metadata |
 
 ---
 
@@ -640,7 +642,7 @@ behaves according to the person it is least sure about.**
 
 | Field | Statement |
 |---|---|
-| **Identity requirement** | Assertions plus `unknown` plus — **when OD-84 permits** — plurality |
+| **Identity requirement** | Assertions plus `unknown` plus plurality, now expressible as separate per-speech-region evidence records (**DL-147**) |
 | **Operational Trust** | **Owns the disclosure decision.** Audience composition *identifies nobody* and *must retain its uncertainty* |
 | **Concierge** | Selects the delivery strategy appropriate to the **least certain relevant audience state** |
 | **Possible responses** | Speak fully · speak a neutral notice · deliver privately · display personally · wait · ask · suppress · escalate through a permitted channel for critical items |
@@ -649,10 +651,11 @@ behaves according to the person it is least sure about.**
 | **Failure and degradation** | *Audience unknown* and *audience detection unavailable* are **distinct composition states** and must not collapse |
 | **Privacy** | **Absence of evidence is never proof of solitude** (**DL-34**) |
 | **Maturity** | **E — Blocked** |
-| **Open decisions** | **OD-84** (#169), **OD-71** (#104) audience-uncertainty disclosure policy, **OD-52** (#100) |
+| **Open decisions** | **OD-71** (#104) audience-uncertainty disclosure policy, **OD-52** (#100) |
 
-**Multi-speaker architecture is not decided by this document.** OD-84 is open, and use-case
-documentation is not a decision surface.
+**Multi-speaker evidence architecture is resolved as DL-147 and is not reopened by this document.**
+Whether and how resolved speaker evidence is consumed for audience disclosure remains **OD-71**'s own
+open question, not decided here.
 
 ---
 

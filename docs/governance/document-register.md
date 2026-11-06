@@ -76,6 +76,7 @@ Dispositions: **New** · **Keep** · **Revise** · **Supersede** · **Merge** ·
 | `adr-voiceprint-gallery-structure-under-channel-diversity.md` | Canonical ADR | **New, Accepted 2026-11-06** as **DL-144** (Issue #168, formal acceptance review PASS). Resolves **OD-83** in full: Alternative D selected at the governance level — each Person has exactly one governed Voiceprint Identity Profile, never per Room/microphone/satellite/phone; channel diversity is evidence provenance/quality context (**DL-38 F3**), never Person identity or authorization; voice contributes at most one evidence contribution per correlation family regardless of channel diversity (**DL-38 F2**); one governed voiceprint does not mandate one physical embedding or a specific aggregation algorithm, remaining implementation mapping beneath the governed artifact; runtime comparison never selects a channel-specific profile, known or unknown channel alike; **DL-32**/**DL-43** apply to the single governed Voiceprint unchanged; Identity identifies the Person, Operational Trust authorizes (restated); voiceprint comparison is scoped to voice-assistant-endpoint interactions requiring speaker identity from voice evidence, never a redundant check atop an already-sufficiently-authenticated interaction; **DL-120**'s HA-Prod-local-only locality ceiling consumed unchanged; Explainability must not imply multiple confirmations; **OD-16** not reopened; Issue #163 (Phase 3) updated to consume this decision, not executed. Raised by the Voiceprint Gallery Structure Under Channel Diversity review (#168, closed) |
 | `adr-voice-identity-enrollment-evidence-retention-and-regeneration.md` | Canonical ADR | **New, Accepted 2026-11-06** as **DL-145** (Issue #208, formal acceptance review PASS). Resolves **OD-96** in full: Voice Identity enrollment recordings retained only under explicit household Integration policy (Option A — retain for regeneration, or Option B — delete after Voiceprint creation, chosen before enrollment and persisting across updates) and applicable Person consent (**DL-56**, a fully separate axis), for Voiceprint generation/regeneration only, excluding Home Steward/RAG/training/every other reuse; a **Voiceprint Compatibility Contract** (not a bare encoder-version string) determines validity before comparison; any Voiceprint-invalidating release is a **Breaking Identity Update** requiring a documented **compelling reason** under an architectural-stability preference; pre-migration per-Person classification (auto-regeneration-possible / manual-re-enrollment-required / unaffected); safe migration ordering preserves **DL-144** throughout (no dual-authority window, no premature destruction of still-valid Voiceprints); administrator acknowledgement explicitly distinct from Person biometric consent; governed Communications (**DL-142**) only where manual re-enrollment is actually required; backup/erasure addressed honestly (**DL-136**); the new retained-recording artifact class satisfies `connected-storage.md`'s existing 19-point artifact-declaration checklist; **#207**'s physical placement and **OD-93**'s surface placement are identified as related, neither decided here. Raised by the Voice Identity Enrollment Evidence Retention review (#208, closed) |
 | `adr-identity-artifact-invalidation-as-a-governed-household-event.md` | Canonical ADR | **New, Accepted 2026-11-06** as **DL-146** (Issue #175, formal acceptance review PASS). Resolves **OD-87** in full: applies only to Persons **DL-145** classifies manual-re-enrollment-required, correcting the issue's own superseded "every enrolled Person must enrol again" premise; Voiceprint unavailability is a **DL-41** capability outcome only, never identity/trust/permission failure; other Identity evidence and an authenticated Companion App session remain independently usable, requiring no redundant Voiceprint verification; transcription stays ungated (**DL-50**); Person-varying outcomes still require sufficient current Identity, with generic behaviour continuing per existing capability authorization; the household-facing cause remains distinguishable from ordinary `unknown` (**P15**) while an unidentified speaker is never told another Person's migration status; a governed Communication (**DL-142**, Category System) is required, originated by Identity and delivered by Concierge, with bounded reminder behaviour and no second messaging system; existing Voice Identity consent survives into re-enrollment where scope/purpose are unchanged (**DL-56**), reconfirmed only where genuinely required; manual re-enrollment reuses the existing enrollment process with **DL-144**'s one-Voiceprint invariant preserved throughout, never restoring the old incompatible Voiceprint; per-Person completion requires a validated replacement Voiceprint or another accepted terminal disposition, never Communication acknowledgement alone; partial household completion is normal; household completion requires every affected Person to reach a terminal disposition, reusing **DL-52**'s household-scale act pattern; responsibility boundaries are named (Identity, Concierge, Operational Trust, the Voice Identity runtime); remains separate from adoption (**OD-85**/**DL-110**), with **OD-93** retaining interaction-surface placement, not decided here. Raised by the Identity Artifact Invalidation review (#175, closed) |
+| `adr-multi-speaker-evidence-and-speaker-plurality.md` | Canonical ADR | **New, Accepted 2026-11-06** as **DL-147** (Issue #169, formal acceptance review PASS). Resolves **OD-84** in full: Alternative B accepted — a voice capture may yield zero, one, or multiple Voice Identity evidence records, one per supportably distinguished **speech region** (the existing **DL-50**/§13 term, reused unchanged, no new governed record class created); capture, speech region, and evidence record kept as three distinct concepts; `ambiguous` unchanged and retains its exact **DL-38 F8** one-speech-region meaning, never plurality; an unresolved second speaker uses existing **DL-33** semantics, never a synthetic Person; multiple resolved speakers represented as independently qualified records, never merged or treated as mutual corroboration; **DL-38 F2** restated explicitly — multiple regions never multiply confirmation for the same Person within one correlation family; multiple microphones/channels never imply plurality (**DL-144** unchanged); common-capture correlation/provenance retained across sibling records; supportably separable overlap yields multiple records, unsupportable overlap is never fabricated into plurality or misreported as `ambiguous`; no numeric threshold, margin, or speaker-count cap decided (**OD-16** not reopened); Alternatives A/C/D rejected as the canonical model with reasoning stated; speaker plurality never establishes audience composition (**DL-34** unchanged); Explainability distinctions defined; **#164**/Phase 4 and **#166**/Phase 6 receive dependency evidence, neither executed; confidently-wrong-attribution correction (Episode 10) excluded from scope, **#173** classified as evidence only. Raised by the Multi-Speaker Evidence and Speaker Plurality review (#169, closed) |
 
 ---
 
@@ -665,18 +666,60 @@ never stored" claim, no longer universally true now that Option A retention exis
 `open-decision-issue-index.md` and `decision-ledger.md` are updated, including a refreshed readiness
 check confirming **#175**/**OD-87**'s prerequisite is now resolved; none is reclassified.
 
+**Updated 2026-11-06 (continued), Issue #175 formal acceptance review PASS (Identity Artifact
+Invalidation as a Governed Household Event, DL-146)**: one new document,
+`adr-identity-artifact-invalidation-as-a-governed-household-event.md`, is added as **Canonical ADR**
+from creation (+1 to new canonical documents, +1 to Canonical total, +1 to Total classified).
+`person-and-identity.md`, `identity-contract.md`, `failure-and-degradation.md`, `communication.md`,
+`operational-trust.md`, and `glossary.md` (all already Canonical) are revised in place: stating that
+**OD-87** applies only to Persons **DL-145** classifies manual-re-enrollment-required (correcting the
+issue's own superseded "every enrolled Person must enrol again" premise), Voiceprint unavailability as
+a **DL-41** capability outcome only, Companion-App/transcription independence, the unidentified-speaker
+migration-status non-disclosure rule, the governed Communication requirement (**DL-142**, Category
+System), the consent-survival rule (**DL-56**), the per-Person/household completion model reusing
+**DL-52**'s pattern, and responsibility-boundary naming; one stale cross-reference found and corrected
+in the same pass (`person-and-identity.md`'s Identity history section repeated the same "because those
+were never stored" claim already corrected once in `privacy.md` during **DL-145**); `open-decision-
+issue-index.md` and `decision-ledger.md` are updated; none is reclassified.
+
+**Updated 2026-11-06 (continued), Issue #169 formal acceptance review PASS (Multi-Speaker Evidence and
+Speaker Plurality, DL-147)**: one new document,
+`adr-multi-speaker-evidence-and-speaker-plurality.md`, is added as **Canonical ADR** from creation (+1
+to new canonical documents, +1 to Canonical total, +1 to Total classified).
+`adr-wyoming-compatible-voice-evidence-runtime.md`, `person-and-identity.md`, `identity-contract.md`,
+`operational-trust.md`, `communication.md`, `failure-and-degradation.md`, `decision-trace.md`,
+`concierge-use-cases.md`, and `glossary.md` (all already Canonical, or Active — subordinate guidance in
+`concierge-use-cases.md`'s case) are revised in place: stating Alternative B (zero/one/multiple Voice
+Identity evidence records per capture, one per supportably distinguished speech region — the existing
+**DL-50**/§13 term, reused, no new governed record class), the capture-versus-speech-region-versus-
+evidence-record distinction, the unchanged **DL-38 F8** `ambiguous` meaning, the **DL-38 F2** multiple-
+regions-never-multiply-confirmation restatement, the **DL-33** unresolved-second-speaker reuse, the
+**DL-34** speaker-plurality-is-not-audience-composition boundary, the supportable-versus-unsupportable
+overlap distinction, and two new glossary entries (**Speech Region**, **Speaker Plurality**); three
+stale cross-references found and corrected in the same pass (`adr-wyoming-compatible-voice-evidence-
+runtime.md`'s §17/§28/§32 each still recorded **OD-84** as open; `concierge-use-cases.md`'s **C1**,
+**C2**, and **C16** use cases each still cited **OD-84** as a blocker, and **C2.3**'s acceptance
+scenario still read "quality metadata pending OD-84"); `open-decision-issue-index.md` and
+`decision-ledger.md` are updated; **#164** and **#166** receive dependency/acceptance evidence, neither
+executed; **#173** receives a confidently-wrong-attribution classification (evidence only); none is
+reclassified. **This pass also completes a gap found from the prior DL-146 task**: DL-146's own new
+document and revisions were previously recorded only as a document-listing-table row, without the
+narrative paragraph or count-table update this register's established pattern requires — both are
+added retroactively immediately above, with the count table below reflecting both DL-146 and DL-147
+together.
+
 | Category | Count |
 |---|---|
-| New canonical documents | 77 |
+| New canonical documents | 79 |
 | Revised in place | 2 (`README.md`, `concierge-contract.md`) |
-| **Canonical total** (77 new + 2 revised) | **79** |
+| **Canonical total** (79 new + 2 revised) | **81** |
 | Marked Active — subordinate | 23 |
 | Marked Historical — superseded | 83 |
 | Marked Historical illustration (`examples/`) | 16 |
 | Marked Historical — planning/closure record | 2 |
 | **Historical total** | **101** |
 | Operational | 8 |
-| **Total classified** | **211** |
+| **Total classified** | **213** |
 | **Unclassified** | **0** |
 | **Deleted** | **0** |
 

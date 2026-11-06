@@ -277,6 +277,10 @@ timing are implementation matters and are not settled by this document.
 | An affected Person's Voiceprint is unavailable pending manual re-enrollment (**DL-146**) | Identity | Voice evidence for that Person is `unavailable` (**DL-41**) — never Person deletion, identity failure, trust failure, or permission denial. Other Identity evidence, including an authenticated Companion App session, remains usable; transcription remains ungated. |
 | An unidentified speaker uses a shared voice assistant while one or more household Persons require re-enrollment (**DL-146**) | Identity / Operational Trust | Apply the existing **unidentified-person policy**. Never disclose which Person requires re-enrollment, or that count, to an unidentified speaker. Use a household-safe response (*"I couldn't identify the speaker"*, *"I need another accepted way to identify you"*) — never *"permission denied"* when the actual condition is Identity evidence unavailability. |
 | Manual re-enrollment fails validation (**DL-146**) | Identity | No valid replacement Voiceprint becomes authoritative. The old incompatible Voiceprint is never restored as a fallback. Voice evidence remains `unavailable`; other Identity mechanisms remain available. |
+| No speech region in a voice capture is supportably usable (**DL-147**) | Identity | **Zero** Voice Identity evidence records are produced. Never fabricated as `unknown` or `ambiguous` for a region that does not exist. |
+| One speech region's candidates are too close to separate (**DL-147**) | Identity | `ambiguous` — unchanged **DL-38 F8** meaning. Never used to represent more than one speaker. |
+| Multiple speech regions are detected but cannot be supportably separated (**DL-147**) | Identity | Existing evidence-quality/unavailable/insufficient semantics apply. **Never** fabricated plurality, and **never** `ambiguous` merely to represent the overlap. |
+| Multiple speech regions are supportably distinguished, one or more unresolved (**DL-147**) | Identity | Each region yields its own evidence record — a resolved Person's record, and a separate `unknown` (human-participant-supported) record for the other (**DL-33**). **Never** collapsed into one `ambiguous` record. |
 
 > **Silent non-delivery is prohibited.** *"Nothing was sent"* and *"we decided not to send"* are
 > different facts, and the home must be able to tell them apart. See
@@ -409,3 +413,5 @@ be able to learn why something did not happen.
   (**DL-145**)
 - [adr-identity-artifact-invalidation-as-a-governed-household-event.md](adr-identity-artifact-invalidation-as-a-governed-household-event.md)
   (**DL-146**)
+- [adr-multi-speaker-evidence-and-speaker-plurality.md](adr-multi-speaker-evidence-and-speaker-plurality.md)
+  (**DL-147**)

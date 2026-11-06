@@ -398,6 +398,14 @@ the Room the request arrived in.
 > **Audience composition must retain its uncertainty.** It is not required — and not permitted — to
 > identify every listener in order to be useful.
 
+> **This "Unresolved plurality" is an audience-composition state, not Voice Identity speaker plurality
+> (DL-147).** It answers *who could perceive a delivery*. Whether a voice capture's evidence may report
+> that more than one person spoke is a separate, Identity-owned question, resolved as **DL-147**: one
+> capture may yield zero, one, or multiple Voice Identity evidence records. Resolving multiple speakers
+> never, by itself, populates this table's **Multiple known Persons** or **Unresolved plurality** rows —
+> audience composition is evaluated here, independently, exactly as before. See
+> [../architecture/adr-multi-speaker-evidence-and-speaker-plurality.md](../architecture/adr-multi-speaker-evidence-and-speaker-plurality.md).
+
 Four inferences are prohibited:
 
 - **Room occupancy count is not audience identity.** Occupancy says how many, never who.
@@ -1457,6 +1465,8 @@ See [../scenarios/why-did-this-happen.md](../scenarios/why-did-this-happen.md).
 - [../architecture/adr-identity-artifact-invalidation-as-a-governed-household-event.md](../architecture/adr-identity-artifact-invalidation-as-a-governed-household-event.md)
   (**DL-146**) — Category System classification, delivery, and retry/reminder boundary for the
   re-enrollment Communication
+- [../architecture/adr-multi-speaker-evidence-and-speaker-plurality.md](../architecture/adr-multi-speaker-evidence-and-speaker-plurality.md)
+  (**DL-147**) — Voice Identity speaker plurality distinguished from this model's own audience-composition plurality
 - [../architecture/principles.md](../architecture/principles.md)
 - [../architecture/framework.md](../architecture/framework.md)
 - [../architecture/privacy.md](../architecture/privacy.md)
