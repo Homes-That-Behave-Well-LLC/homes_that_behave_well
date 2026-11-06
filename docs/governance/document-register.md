@@ -142,7 +142,7 @@ Dispositions: **New** · **Keep** · **Revise** · **Supersede** · **Merge** ·
 | `continuity.md` | Canonical | New |
 | `experience-and-session.md` | Canonical | New |
 | `operational-trust.md` | Canonical | New |
-| `decision-trace.md` | Canonical | New — §"Source-class provenance..." (**DL-82**) added 2026-10-13, recorded pending formal acceptance review at **Issue #188**; remainder of document unaffected and remains canonical |
+| `decision-trace.md` | Canonical | New — §"Source-class provenance..." (**DL-82**) added 2026-10-13, **accepted 2026-11-05** (Issue #188, formal acceptance review PASS); remainder of document unaffected and remains canonical |
 | `temporal-record.md` | Canonical | New |
 | `communication.md` | Canonical | New |
 

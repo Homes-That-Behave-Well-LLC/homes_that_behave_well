@@ -73,8 +73,8 @@ Review against current authority found:
   account**, despite `home.md` already naming a "home maintenance calendar" among Home-scoped state,
   and despite Stewardship already owning "caretaker-calendar projections" and "the home-maintenance
   calendar" among its representative obligations (`framework.md`).
-- **A Household Knowledge Provider ingestion → retrieval → reasoning pipeline is already drafted as
-  DL-81** (`adr-household-knowledge-provider-governance.md`, pending **#188**), consuming Asset
+- **A Household Knowledge Provider ingestion → retrieval → reasoning pipeline is accepted as
+  DL-81** (`adr-household-knowledge-provider-governance.md`, accepted 2026-11-05), consuming Asset
   Intelligence's asset-to-document relationships and existing Document Storage by reference. That ADR
   is explicit that it is architecture only, selects no hardware, and is not a product or deployment
   boundary — it describes a pipeline, not an installable, optional, separately-failing product.
@@ -335,8 +335,8 @@ automatically and permanently copied into an AI/vector datastore.** Specifically
 - It does not relax **DL-81**'s own constraints: no competing asset catalog or document repository is
   created, Asset Intelligence and Document Storage remain authoritative for asset identity, asset-to-
   document relationships, and original documents, and household knowledge ingestion remains architecture
-  only pending **#188**.
-- It does not relax **DL-82**'s provenance requirement (pending **#188**): an answer drawing on a
+  only (**DL-81**, accepted 2026-11-05).
+- It does not relax **DL-82**'s provenance requirement (accepted 2026-11-05): an answer drawing on a
   shared source must identify its source class and must never blend classes without disclosure.
 - Retention, indexing, retrieval, classification, and derived-data handling for any shared source
   follow whatever governed policy applies to that capability; this ADR does not invent a retention or
@@ -436,7 +436,7 @@ Concierge is not coupled to any particular wake word by this decision.
 | **OD-81** (#159) | **Closed — DL-114** (2026-10-29). Capability-exposure/self-consumption resolved independently; this ADR's Home Intelligence product-boundary treatment remains analogous, not a resolution of, that question. |
 | **OD-82** (#160) | **Closed — DL-51/DL-52** (2026-08-26, prior to this ADR's own acceptance). Product consolidation/retirement resolved independently; this ADR does not narrow or reopen it. |
 | **OD-85** (#172) | **Closed — DL-110** (2026-10-29). Asset Intelligence adoption scope, custody, and coexistence resolved independently; this ADR's "Share with Home Intelligence" remains a disclosure question, not an adoption/custody question. |
-| **DL-81**, **DL-82** (pending **#188**) | Extended, not altered. DL-85 and DL-86 build on DL-81's pipeline and DL-82's provenance model without changing either. |
+| **DL-81**, **DL-82** (accepted 2026-11-05) | Extended, not altered. DL-85 and DL-86 build on DL-81's pipeline and DL-82's provenance model without changing either. |
 | **OD-86** wake-word sub-question (#174) | **Closed — DL-143** (2026-11-06). Resolved independently; the wake-word sub-question is closed conservatively, preserving this ADR's own restatement and #146 item 11's conclusion unchanged — not reopened. |
 | **#186**, **#187** | Unaffected siblings. **#190** is this ADR's equivalent residual-mechanics issue for the Home Intelligence product boundary. |
 
@@ -458,8 +458,9 @@ Concierge is not coupled to any particular wake word by this decision.
   assignment-owning responsibility.
 - No superseded document (`asset-intelligence-contract.md`, `calendar-email-experience-contract.md`,
   `identity-governance-reference.md`) is reinstated as authority.
-- **This entry is drafted content, not yet a closed decision; it must not be cited as equivalent to
-  DL-01–DL-83 until #191's formal acceptance review records a result.**
+- **This entry was drafted content pending formal acceptance review; #191 recorded a PASS result
+  2026-10-14, and DL-84, DL-85, and DL-86 are accepted, binding decisions equivalent in standing to
+  DL-01–DL-83.**
 
 ## Related documents
 

@@ -434,9 +434,8 @@ observability.**
 Home Intelligence is established as an **escalation target** for Class D interactions (§5) —
 **restating, not deciding, DL-91**. This specification does not decide the Home Intelligence
 implementation, does not prescribe Ollama, does not prescribe a model, and does not prescribe hardware.
-**DL-86** (Home Intelligence's own product/deployment boundary) remains separately pending at Issue
-#191; this specification is consistent with it where it already exists as evidence, and does not depend
-on its acceptance.
+**DL-86** (Home Intelligence's own product/deployment boundary) is accepted (2026-10-14, Issue #191);
+this specification is consistent with it and does not depend on any further acceptance.
 
 **Disambiguation**: "escalation" here means routing an interaction to a higher-capability processing
 class (§5). It is a distinct concept from Stewardship's existing **Escalation Ladder** (**OD-22**,

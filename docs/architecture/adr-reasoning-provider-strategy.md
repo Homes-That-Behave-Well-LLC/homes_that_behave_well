@@ -65,7 +65,7 @@ name whose ownership is undecided — see below) are three distinct concepts tha
 
 - A **Reasoning Provider owns nothing** — not facts, not authority, not the reasoning of record; its
   output never silently becomes a Fact, and its recommendation never silently becomes an authorised
-  action (glossary; restated in **DL-73**, **DL-82** (drafted, pending #188)).
+  action (glossary; restated in **DL-73**, **DL-82** (accepted 2026-11-05)).
 - **DL-41** — a Reasoning provider is a declared capability dependency: absent a configured, valid,
   available provider, the dependent capability is **unavailable and names the missing dependency**, and
   **no local approximation stands in for it**.
@@ -98,17 +98,19 @@ name whose ownership is undecided — see below) are three distinct concepts tha
   Authorities**, never Behaviour Sources.
 - **DL-43** — no externally stored artifact exists without a documented lifecycle; a retained complete
   provider interaction would be a new artifact class requiring its own declaration before introduction.
-- **DL-81, DL-82, DL-83** (drafted, pending #188) — each already restates "OD-67 unchanged" and
+- **DL-81, DL-82, DL-83** (accepted — DL-81/DL-82 2026-11-05, DL-83 2026-11-06) — each already restates "OD-67 unchanged" and
   consumes the Reasoning Provider concept by reference; none decides OD-67, and none is reopened or
   narrowed by this ADR. **DL-81 describes an architecture-only Household Knowledge Provider pipeline**
   — ingestion, retrieval, reasoning, and provenance for household documents/records; it does not name,
   define, or constitute a commercial product, and it does not mention "Home Steward." **Issue #188 is
   itself a governance-review record, not architecture authority, and is not an Open Decision** (#188's
-  own authority note); it has no standing to assign ownership of a product-naming decision. **Any
-  relationship between a prospective "Home Steward" product and DL-81's pipeline is undecided** — it
-  may eventually be one consumed capability, an architectural service used by multiple products, or
-  related some other governed way, once DL-81 itself is formally accepted and a separate product
-  decision is made. This ADR asserts none of those relationships.
+  own authority note); it had no standing to assign ownership of a product-naming decision on its own.
+  **The relationship between the "Home Steward" product and DL-81's pipeline, undecided at this ADR's
+  own acceptance, was subsequently resolved by DL-131** (Home Steward Product/Domain Definition and
+  Boundary, accepted 2026-11-05): Home Steward is the household-facing product consuming DL-81's
+  pipeline, which remains itself a provider-agnostic architectural boundary, never itself a product
+  name. This ADR's own text asserted none of that relationship and is not reopened or narrowed by
+  DL-131's later resolution of it.
 - **DL-86** (accepted, #191) — Home Intelligence is an optional deployment/hosting boundary that may
   host **both** DL-81's Household Knowledge Provider pipeline **and** a Reasoning Provider; it is a
   "where," not a "what," and is not itself a product name for either capability it may host.
@@ -155,25 +157,24 @@ serves is a configuration fact, not a property of the technology.
   has explicitly authorised and supplied; and other explicitly declared Reasoning-dependent HTBW
   functions.
 - **Home Intelligence** (accepted **DL-86**, #191) is a separate, optional product/deployment boundary
-  — a "where," not a "what" — that **may host** a Household Knowledge Provider pipeline (drafted
-  **DL-81**, pending **#188**) and **may host** a Reasoning Provider, without becoming either one
+  — a "where," not a "what" — that **may host** a Household Knowledge Provider pipeline (accepted
+  **DL-81**, 2026-11-05) and **may host** a Reasoning Provider, without becoming either one
   itself.
-- **Home Steward** is a tentative household-facing product name discussed during this ADR's owner
+- **Home Steward** was a tentative household-facing product name discussed during this ADR's owner
   review for a prospective, separate commercial product providing governed information about the
   household (documents, financial/banking information, Asset manuals, insurance, maintenance,
-  administrative information). **This is a proposed product term, not an accepted or canonical product
-  boundary. This ADR does not define, name, or own the Home Steward product**, and does not assert any
-  relationship between it and the drafted Household Knowledge Provider pipeline (**DL-81**, itself
-  non-binding, architecture-only, and pending #188). That pipeline may eventually be one capability
-  Home Steward consumes, an architectural service multiple products use, or related some other governed
-  way — **none of those relationships is decided here, and Home Steward is not stated to be equivalent
-  to the Household Knowledge Provider.** No existing issue has been identified as owning the Home
-  Steward product-naming/boundary decision; this ADR states only the authorization-independence pattern
-  below and leaves that product governance question explicitly open.
+  administrative information). **At this ADR's own acceptance this was a proposed product term, not an
+  accepted or canonical product boundary, and this ADR did not define, name, or own the Home Steward
+  product**, nor assert any relationship between it and the Household Knowledge Provider pipeline
+  (**DL-81**). **This has since been resolved: Home Steward was named and bounded by DL-131** (Home
+  Steward Product/Domain Definition and Boundary, accepted 2026-11-05, Issue #206) as the
+  household-facing product consuming DL-81's pipeline — see
+  [adr-home-steward-product-boundary.md](adr-home-steward-product-boundary.md). **This ADR's own
+  authorization-independence pattern below is unaffected and not reopened by that later naming.**
 
 **None implies another's availability.** If no applicable General Reasoning provider is configured,
 general questions are unavailable **while** a separately configured and authorised Home Intelligence
-capability — hosting a Household Knowledge Provider, a future Home Steward product, or something else —
+capability — hosting a Household Knowledge Provider, Home Steward, or something else —
 may still answer an eligible home-based question. **Home Intelligence and Home Steward are never
 inserted into the General Reasoning fallback chain, and General Reasoning is never used as an
 undeclared substitute for either.** This ADR does not allocate Home Intelligence's own configuration
@@ -451,8 +452,8 @@ provenance is ordinary content within that existing structure, not a new artifac
   from?" queries, answered from recorded provenance, never reconstructed.
 
 Where an explanation cites a Reasoning-provider suggestion as evidence, the source-class discipline
-already drafted at **DL-82** (pending #188) — never presenting a provider suggestion as household fact —
-applies without this ADR depending on DL-82's own acceptance; the underlying "never silently becomes a
+accepted at **DL-82** (2026-11-05) — never presenting a provider suggestion as household fact —
+applies; the underlying "never silently becomes a
 Fact" invariant is already accepted independently (glossary; **DL-73**).
 
 **A complete prompt or complete provider response is not retained by default.** If a complete provider
@@ -517,10 +518,12 @@ abstraction, API, or transport is selected or designed by this ADR.
 - Does not decide wider Operational Trust policy precedence (resolved as **DL-126**, **OD-04**, #97).
 - Does not accept, decide, or redefine Home Intelligence's own architecture (accepted **DL-86**, #191).
 - Does not define, name, or own the Home Steward product, its deployment, its finer-grained
-  information-category authorization taxonomy, or its relationship (if any) to the drafted Household
-  Knowledge Provider (**DL-81**, pending #188). **Does not assign Home Steward product ownership to
-  #188 or to draft DL-81**; #188 is a governance-review record, not architecture authority, and DL-81
-  does not name, define, or constitute Home Steward.
+  information-category authorization taxonomy, or its relationship to the accepted Household
+  Knowledge Provider pipeline (**DL-81**) — **that relationship was subsequently resolved by DL-131**
+  (Home Steward Product/Domain Definition and Boundary, accepted 2026-11-05), not by this ADR. **This
+  ADR did not assign Home Steward product ownership to #188 or to draft DL-81**; #188 was a
+  governance-review record, not architecture authority, and DL-81 itself does not name, define, or
+  constitute Home Steward.
 - Does not make Room Configuration an authorization owner for General Reasoning or Home Steward, and
   does not create a Room-level provider assignment.
 - Does not invent a numeric identity-likelihood threshold for the effective-Person determination.
