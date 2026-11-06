@@ -162,7 +162,7 @@ Foundation supplies to every Decision Trace:
 | OD-10 | **Closed — DL-125.** Floor is a native physical-hierarchy construct referenced for targeting only, never a first-class HTBW scope |
 | OD-11 | Whether one Physical Room may participate in more than one Room |
 | OD-20 | **Resolved as DL-121.** No runtime consumption, mandatory or optional; Asset Intelligence is solely an optional predecessor-product migration source |
-| OD-91 | **Closed — DL-149.** HTBW-First Provisioning Through Supported Native Hand-off — Area/Floor/Person creation by HTBW remains verified unsupported; a Tier 2 supported hand-off to Home Assistant's own native setup surfaces, with resident-confirmed resume, is the accepted provisioning mechanism; a bounded Pending Area/Person Link exists only during an active hand-off, never a freestanding unassigned-Room feature or a second native-object store |
+| OD-91 | **Closed — DL-149 (amended 2026-11-06).** HTBW-First Provisioning Through Supported Native Hand-off — Area/Floor/Person creation **directly in backend Python remains unsupported**; the same creation is reachable as **Tier 1** through Home Assistant's own documented, admin-gated WebSocket commands (`config/area_registry/create`, `config/floor_registry/create`, `person/create`) invoked from a **custom panel**; **Tier 2** hand-off to Home Assistant's own native setup surfaces remains correct wherever HTBW's provisioning step is instead a Config Flow/Options Flow; a bounded Pending Area/Person Link exists only during an active creation/hand-off, never a freestanding unassigned-Room feature or a second native-object store |
 
 ## Related documents
 

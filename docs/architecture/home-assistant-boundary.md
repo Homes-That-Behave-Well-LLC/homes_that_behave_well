@@ -560,6 +560,69 @@ provisioning sequence, the Pending Area/Person Link mechanism, resume/disambigua
 [adr-htbw-first-provisioning-through-supported-native-hand-off.md](adr-htbw-first-provisioning-through-supported-native-hand-off.md).
 **OD-91 is closed by this decision.**
 
+> **Remediation notice (2026-11-06, same day).** **The "Resolution" paragraph above is superseded.**
+> Owner review determined the trace above established only that ordinary integrations do not
+> independently call the registry/storage-collection `async_create` methods through internal Python
+> APIs — it did not trace the frontend-to-backend command path or the command's own authorization
+> boundary. That complete trace is supplied in the following subsection, which **amends** (not
+> withdraws) this section's conclusion. This paragraph's own conclusions about Python-level callability
+> remain true and are not reversed; what changes is the discovery of a **different, additionally
+> available** supported mechanism.
+
+### Issue #192/OD-91 remediation — complete frontend-to-backend trace (2026-11-06, same day)
+
+**Performed per direct Owner determination that the prior pass's evidence was insufficient to answer
+the actual question: whether an authenticated administrator, operating an HTBW-provided *frontend*
+experience, may invoke the same supported administrative WebSocket command Home Assistant's own
+frontend uses — not merely whether backend Python code may call the registry method directly.**
+
+**Complete trace, all three objects, fetched directly from `home-assistant/frontend` and
+`home-assistant/core` (`dev` branch), 2026-11-06:**
+
+| Object | Frontend call chain | Exact WS command | Backend registration | Authorization | Mutation |
+|---|---|---|---|---|---|
+| Floor | `ha-config-areas-dashboard.ts` → `dialog-floor-registry-detail.ts` → `createFloorRegistryEntry()` (`data/floor_registry.ts`) | `config/floor_registry/create` | `homeassistant/components/config/floor_registry.py`, `websocket_create_floor` | `@websocket_api.require_admin` | `floor_registry.async_get(hass).async_create(**data)` |
+| Area | `ha-config-areas-dashboard.ts` → `dialog-area-registry-detail.ts` → `createAreaRegistryEntry()` (`data/area/area_registry.ts`) | `config/area_registry/create` | `homeassistant/components/config/area_registry.py`, `websocket_create_area` | `@websocket_api.require_admin` | `area_registry.async_get(hass).async_create(**data)` |
+| Person | `ha-config-person.ts` → `dialog-person-detail.ts` → `createPerson()` (`data/person.ts`) | `person/create` | `homeassistant/components/person/__init__.py`'s `PersonStorageCollectionWebsocket`, via `homeassistant/helpers/collection.py`'s generic `StorageCollectionWebsocket` | `@websocket_api.require_admin` (applied generically by `collection.py`) | `storage_collection.async_create_item(data)` |
+
+**Critical architectural fact, confirmed directly against current official documentation**
+(`contributors.home-assistant.io/core/internals/websocket-api/`, fetched 2026-11-06): the WebSocket API
+is **"the main API: the frontend and the companion apps use it for nearly everything"**; **"almost
+every integration with a UI registers commands of its own"**; and for commands beyond the documented
+core set, **"the frontend source is the best place to see how they are called."** **There is no
+origin-restriction mechanism anywhere in the WebSocket command dispatcher, the `require_admin`
+decorator, or any of the three command handlers above** — authorization is based solely on the
+connected client's own authenticated admin status, never on which panel or component issued the
+message.
+
+**Custom panels receive this same access.** `contributors.home-assistant.io/frontend/custom-ui/panel/`
+(fetched 2026-11-06) confirms a custom panel is *"a custom element that gets the same `hass` object as
+everything else"* — including `hass.callWS`, the exact method every call above uses — and that
+*"[i]ntegrations use them for their own interfaces."* **Config Flow and Options Flow do not** receive
+this access; they execute entirely server-side with no browser/WebSocket connection of their own, and
+could only reach the registry by calling the Python `async_create()` method directly — the path already
+verified unsupported above and still forbidden.
+
+**Revised evidence classification**: `config/area_registry/create`, `config/floor_registry/create`, and
+`person/create` are each `VERIFIED_SUPPORTED_FOR_HTBW` **from a custom panel**;
+`VERIFIED_SUPPORTED_HA_FRONTEND_ONLY` (effectively unreachable) **from a Config Flow or Options Flow**.
+The original Python-level `async_create()`/`async_create_person()` findings are **not reversed** — those
+specific functions remain unsupported for direct backend invocation, exactly as found.
+
+**Person-specific**: `person/create`'s payload makes `user_id` optional — a Person may be created with
+no linked user account, entirely independent of the separate, distinct "Add user"/credential-creation
+pathway. HTBW never invokes that separate pathway.
+
+**Resolution (amended): Tier 1 is available for all three objects, conditioned on HTBW's own
+provisioning step being implemented as a custom panel; Tier 2 (hand-off via My Home Assistant) remains
+the correct, necessary mechanism wherever that step is implemented as a Config Flow or Options
+Flow instead.** The full amended resolution — the dual-path provisioning sequence, the narrowed
+Pending-Link reassessment, and the complete support-boundary analysis — is recorded in the **amended**
+**DL-149**. See
+[adr-htbw-first-provisioning-through-supported-native-hand-off.md](adr-htbw-first-provisioning-through-supported-native-hand-off.md).
+
+---
+
 Discharges the DL-30 burden first raised by the Episode 7 Continuity governance review (**#151**) and
 recorded as item D of this issue's current task scope: *"Does Home Assistant natively represent 'the
 level this room normally uses,' and if so, through which capability?"* The 2026-08-20 household-operator

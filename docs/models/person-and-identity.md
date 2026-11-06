@@ -46,11 +46,16 @@ its associated `device_tracker` entities, and its optional association with a us
 or picture change therefore needs **no synchronisation**, because nothing was copied.
 
 Whether, and how, HTBW helps a resident create a native Person when none yet exists — as distinct from
-referencing one that already exists — is **resolved as DL-149**. Native Person creation by HTBW itself
-remains verified unsupported by current Home Assistant developer documentation; a Tier 2 supported
-hand-off to Home Assistant's native "Add person" surface, with resident-confirmed resume, is the
-accepted mechanism. A Person-scoped configuration record may hold a bounded **Pending Person Link**
-state only as part of an active hand-off, never a second Person record. See
+referencing one that already exists — is **resolved as DL-149 (amended).** Native Person creation
+**directly in backend Python** (e.g. from a Config Flow/Options Flow) remains verified unsupported, but
+the identical creation is reachable as **Tier 1** through Home Assistant's own documented,
+admin-gated `person/create` WebSocket command, invoked from a **custom panel** that receives the same
+authenticated connection access as Home Assistant's own frontend; **Tier 2** hand-off to Home
+Assistant's native "Add person" surface remains the correct mechanism wherever HTBW's provisioning step
+is instead a Config Flow/Options Flow. `person/create`'s `user_id` field is optional, so HTBW creates a
+Person without ever requesting or managing a login account or credential. A Person-scoped configuration
+record may hold a bounded **Pending Person Link** state scoped to an active creation/hand-off, never a
+second Person record. See
 [../architecture/adr-htbw-first-provisioning-through-supported-native-hand-off.md](../architecture/adr-htbw-first-provisioning-through-supported-native-hand-off.md).
 
 HTBW retains only what the native object does not hold, and **each extension keeps its own owner**:
@@ -1607,9 +1612,8 @@ implying the assertion never existed.
 | OD-83 | **Closed — DL-144.** Voiceprint Gallery Structure Under Channel Diversity — each Person has exactly one governed Voiceprint Identity Profile (Alternative D); channel is evidence provenance/quality context only, never identity or authorization; no per-channel, per-Room, per-microphone, or per-phone governed voiceprint; voice contributes at most one correlation-family contribution (**DL-38 F2**) regardless of channel diversity |
 | OD-96 | **Closed — DL-145.** Voice Identity Enrollment Evidence Retention, Voiceprint Regeneration, and Breaking Encoder Compatibility Governance — enrollment recordings retained only under explicit household Integration policy (Option A/B, chosen before enrollment) and applicable Person consent, for Voiceprint generation/regeneration only; a Voiceprint Compatibility Contract, not a bare encoder version, governs whether a Breaking Identity Update applies; a compelling-reason gate and stability preference bound any Voiceprint-invalidating release; per-Person pre-migration classification (auto-regenerated / manual-re-enrollment-required / unaffected) supplies **OD-87**'s missing prerequisite input; **DL-144** preserved throughout migration (no dual-authority window) |
 | OD-87 | **Closed — DL-146.** Identity Artifact Invalidation as a Governed Household Event — applies only to Persons DL-145 classifies manual-re-enrollment-required; Voiceprint unavailability is a **DL-41** capability outcome, never identity/trust/permission failure; other Identity evidence and an authenticated Companion App session remain independently usable; transcription stays ungated; a governed Communication (**DL-142**, Category System) is required; existing consent survives where scope/purpose are unchanged; per-Person and household-event completion are defined; separate from adoption (**OD-85**), surface placement remains **OD-93**'s own |
-| OD-91 | Whether and how HTBW orchestrates a resident's hand-off to Home Assistant's native Person creation surface when no native Person yet exists; native creation by HTBW itself is verified unsupported |
+| OD-91 | **Closed — DL-149 (amended 2026-11-06).** HTBW-First Provisioning Through Supported Native Hand-off — native Person creation **directly in backend Python remains unsupported**, but the same creation may be reached as **Tier 1** through the documented, admin-gated `person/create` WebSocket command invoked from a **custom panel**; **Tier 2** hand-off via the "My Home Assistant" `people` redirect remains correct wherever HTBW's provisioning step is instead a Config Flow/Options Flow; `person/create`'s `user_id` is optional, so HTBW creates Person-only (never requesting or managing login credentials); a Person-scoped configuration record may hold a bounded Pending Person Link scoped to an active creation/hand-off, never a second Person record |
 | OD-84 | **Closed — DL-147.** Multi-Speaker Evidence and Speaker Plurality — Alternative B accepted: one capture may yield zero, one, or multiple Voice Identity evidence records, one per supportably distinguished speech region; `ambiguous` retains its **DL-38 F8** one-speech-region meaning and never means plurality; multiple records never create multiple confirmations for the same Person (**DL-38 F2**); an unresolved second speaker uses existing **DL-33** semantics; resolved speakers never establish audience composition (**DL-34**); overlap is represented as plurality only where technically supportable, otherwise existing quality/unavailability semantics apply; **OD-16** not reopened |
-| OD-91 | **Closed — DL-149.** HTBW-First Provisioning Through Supported Native Hand-off — native Person creation by HTBW remains verified unsupported; a Tier 2 supported hand-off to Home Assistant's native "Add person" surface, with resident-confirmed resume, is accepted; a Person-scoped configuration record may hold a bounded Pending Person Link only during an active hand-off, never a second Person record |
 
 ## Related documents
 
