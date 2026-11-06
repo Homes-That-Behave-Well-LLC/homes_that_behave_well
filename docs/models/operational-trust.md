@@ -1230,6 +1230,13 @@ Two consequences are not configurable:
   evidence for a person-scoped learned preference (**OD-65**). Room-scoped observation, where the
   household permits it, stays room-scoped and person-free.
 
+> **The unidentified-person policy also applies where an unidentified speaker uses a shared voice
+> assistant while one or more household Persons require Voice Identity re-enrollment (DL-146).** An
+> affected Person's own migration status is never disclosed to a speaker who has not been sufficiently
+> identified — the Home may know that re-enrollment is pending for someone without knowing, or
+> revealing, who just spoke. See
+> [../architecture/adr-identity-artifact-invalidation-as-a-governed-household-event.md](../architecture/adr-identity-artifact-invalidation-as-a-governed-household-event.md).
+
 ### General questions and reasoning providers
 
 Where the policy permits a general-question capability, the boundary is the **context supplied**, not
@@ -2189,3 +2196,5 @@ architectural terms. They are not claims of legal effect.** See
   (**DL-140**)
 - [../architecture/adr-voiceprint-gallery-structure-under-channel-diversity.md](../architecture/adr-voiceprint-gallery-structure-under-channel-diversity.md)
   (**DL-144**)
+- [../architecture/adr-identity-artifact-invalidation-as-a-governed-household-event.md](../architecture/adr-identity-artifact-invalidation-as-a-governed-household-event.md)
+  (**DL-146**)

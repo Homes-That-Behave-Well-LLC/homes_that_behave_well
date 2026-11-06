@@ -274,6 +274,9 @@ timing are implementation matters and are not settled by this document.
 | Regeneration is attempted but fails technical validation (**DL-145**) | Identity | No new authoritative Voiceprint is produced. The still-valid prior Voiceprint is not removed before the new compatibility boundary successfully commits; once it does, the Person requires manual re-enrollment. |
 | The Voice Identity application/runtime is unavailable during a planned migration (**DL-145**) | Identity | The migration **capability** is `unavailable` (**DL-41**), naming the dependency. Still-valid existing Voiceprints are never destroyed before the new compatibility boundary successfully commits. |
 | Person consent does not permit reuse of retained enrollment evidence (**DL-145**) | Identity | No regeneration is attempted from that evidence. Manual re-enrollment is required, following current consent/deletion rules — never a silent override of the Person's own consent state. |
+| An affected Person's Voiceprint is unavailable pending manual re-enrollment (**DL-146**) | Identity | Voice evidence for that Person is `unavailable` (**DL-41**) — never Person deletion, identity failure, trust failure, or permission denial. Other Identity evidence, including an authenticated Companion App session, remains usable; transcription remains ungated. |
+| An unidentified speaker uses a shared voice assistant while one or more household Persons require re-enrollment (**DL-146**) | Identity / Operational Trust | Apply the existing **unidentified-person policy**. Never disclose which Person requires re-enrollment, or that count, to an unidentified speaker. Use a household-safe response (*"I couldn't identify the speaker"*, *"I need another accepted way to identify you"*) — never *"permission denied"* when the actual condition is Identity evidence unavailability. |
+| Manual re-enrollment fails validation (**DL-146**) | Identity | No valid replacement Voiceprint becomes authoritative. The old incompatible Voiceprint is never restored as a fallback. Voice evidence remains `unavailable`; other Identity mechanisms remain available. |
 
 > **Silent non-delivery is prohibited.** *"Nothing was sent"* and *"we decided not to send"* are
 > different facts, and the home must be able to tell them apart. See
@@ -404,3 +407,5 @@ be able to learn why something did not happen.
   (**DL-143**)
 - [adr-voice-identity-enrollment-evidence-retention-and-regeneration.md](adr-voice-identity-enrollment-evidence-retention-and-regeneration.md)
   (**DL-145**)
+- [adr-identity-artifact-invalidation-as-a-governed-household-event.md](adr-identity-artifact-invalidation-as-a-governed-household-event.md)
+  (**DL-146**)

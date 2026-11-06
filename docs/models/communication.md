@@ -129,6 +129,12 @@ Governance may exist for that reason.
 involved, every possible downstream consequence, current Urgency, severity, delivery method, audience,
 or platform terminology.
 
+> **A Person's required Voice Identity re-enrollment following a Breaking Identity Update (DL-146)**
+> is classified **System** — the same technical-configuration purpose already illustrated by
+> "reauthentication required" above, never **Security** (no access/intrusion event occurred) and
+> never **Stewardship** (no asset/space condition is involved). See
+> [../architecture/adr-identity-artifact-invalidation-as-a-governed-household-event.md](../architecture/adr-identity-artifact-invalidation-as-a-governed-household-event.md).
+
 #### Exactly one Category per Communication
 
 No multiple, primary-and-secondary, array, tag, weighted, hierarchical, or compound Category (for
@@ -1448,6 +1454,9 @@ See [../scenarios/why-did-this-happen.md](../scenarios/why-did-this-happen.md).
 - [../architecture/adr-voice-identity-enrollment-evidence-retention-and-regeneration.md](../architecture/adr-voice-identity-enrollment-evidence-retention-and-regeneration.md)
   (**DL-145**) — the governed Communication required for a Person needing manual Voice Identity
   re-enrollment
+- [../architecture/adr-identity-artifact-invalidation-as-a-governed-household-event.md](../architecture/adr-identity-artifact-invalidation-as-a-governed-household-event.md)
+  (**DL-146**) — Category System classification, delivery, and retry/reminder boundary for the
+  re-enrollment Communication
 - [../architecture/principles.md](../architecture/principles.md)
 - [../architecture/framework.md](../architecture/framework.md)
 - [../architecture/privacy.md](../architecture/privacy.md)

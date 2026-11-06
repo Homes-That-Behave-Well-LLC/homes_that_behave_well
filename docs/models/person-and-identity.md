@@ -1479,6 +1479,7 @@ See *Current-interaction applicability*, above, and **DL-64** in
 | Evidence sources disagree | Report the disagreement with attribution. Reduce confidence. |
 | Evidence is stale | Reduce confidence or withdraw the assertion. |
 | A dependency fails | Report `unavailable` and **fail closed**. Do not degrade to a guess. |
+| An affected Person's Voiceprint is unavailable pending manual re-enrollment (**DL-145**/**DL-146**) | Voice evidence for that Person is `unavailable` (**DL-41**) — never Person deletion, identity failure, trust failure, or permission denial. Other Identity evidence for that Person remains usable; an authenticated Companion App session remains independently usable; transcription remains ungated. Distinguished from ordinary `unknown` where authorized, without disclosing an affected Person's status to an unidentified speaker. |
 
 **None of the above is ever a Repairs issue by itself** (**DL-65**) — each is a self-resolving runtime
 outcome, re-evaluated fresh on the next interaction. Only a **broken governed reference** an Identity
@@ -1525,6 +1526,14 @@ contributing evidence classes, the reason code, and the threshold that applied.
 
 A resident must be able to hear "I was not certain it was you" as a valid explanation.
 
+**Where a Person's Voiceprint is unavailable pending manual re-enrollment (DL-146), Explainability
+distinguishes**: current speaker unresolved; Voiceprint unavailable; manual re-enrollment required;
+automatic regeneration succeeded; Voice Identity disabled; consent withdrawn; replacement enrollment
+pending, failed, or validated and active; and an Operational Trust refusal following successful
+resolution through other evidence — kept distinct from an Identity-evidence shortfall. An unidentified
+speaker is never told another Person's migration status. See
+[../architecture/adr-identity-artifact-invalidation-as-a-governed-household-event.md](../architecture/adr-identity-artifact-invalidation-as-a-governed-household-event.md).
+
 ---
 
 ## Identity history
@@ -1546,8 +1555,11 @@ internals** — vectors, embeddings, fingerprint payloads, artifact internals, o
 is unchanged by any retention floor: **P27** requires that the home be able to explain itself, and an
 evidence class with a reason code and a confidence band is sufficient to do so.
 
-Raw voice samples remain at **zero retention** by default. No Preservation Hold can preserve them,
-because they were never stored.
+Raw voice samples remain at **zero retention by default**. **Where a household explicitly elects
+DL-145's Option A, Voice Identity enrollment recordings specifically may be retained under that
+explicit policy and the Person's own applicable consent, for Voiceprint generation/regeneration only**
+— a Preservation Hold never authorizes retention beyond what that policy and consent already permit,
+and absent Option A the recordings remain unstored exactly as before.
 
 **Speaker-biometric processing is Home Production (HA-Prod)-local only (DL-120).** Enrollment audio,
 voiceprint/speaker-embedding generation, the retained voiceprint, runtime comparison audio, the
@@ -1584,6 +1596,7 @@ implying the assertion never existed.
 | OD-36 | Reconciliation of deletion and export obligations with retention floors and Preservation Holds |
 | OD-83 | **Closed — DL-144.** Voiceprint Gallery Structure Under Channel Diversity — each Person has exactly one governed Voiceprint Identity Profile (Alternative D); channel is evidence provenance/quality context only, never identity or authorization; no per-channel, per-Room, per-microphone, or per-phone governed voiceprint; voice contributes at most one correlation-family contribution (**DL-38 F2**) regardless of channel diversity |
 | OD-96 | **Closed — DL-145.** Voice Identity Enrollment Evidence Retention, Voiceprint Regeneration, and Breaking Encoder Compatibility Governance — enrollment recordings retained only under explicit household Integration policy (Option A/B, chosen before enrollment) and applicable Person consent, for Voiceprint generation/regeneration only; a Voiceprint Compatibility Contract, not a bare encoder version, governs whether a Breaking Identity Update applies; a compelling-reason gate and stability preference bound any Voiceprint-invalidating release; per-Person pre-migration classification (auto-regenerated / manual-re-enrollment-required / unaffected) supplies **OD-87**'s missing prerequisite input; **DL-144** preserved throughout migration (no dual-authority window) |
+| OD-87 | **Closed — DL-146.** Identity Artifact Invalidation as a Governed Household Event — applies only to Persons DL-145 classifies manual-re-enrollment-required; Voiceprint unavailability is a **DL-41** capability outcome, never identity/trust/permission failure; other Identity evidence and an authenticated Companion App session remain independently usable; transcription stays ungated; a governed Communication (**DL-142**, Category System) is required; existing consent survives where scope/purpose are unchanged; per-Person and household-event completion are defined; separate from adoption (**OD-85**), surface placement remains **OD-93**'s own |
 | OD-91 | Whether and how HTBW orchestrates a resident's hand-off to Home Assistant's native Person creation surface when no native Person yet exists; native creation by HTBW itself is verified unsupported |
 
 ## Related documents
@@ -1596,3 +1609,4 @@ implying the assertion never existed.
 - [../architecture/adr-wyoming-compatible-voice-evidence-runtime.md](../architecture/adr-wyoming-compatible-voice-evidence-runtime.md)
 - [../architecture/adr-voiceprint-gallery-structure-under-channel-diversity.md](../architecture/adr-voiceprint-gallery-structure-under-channel-diversity.md)
 - [../architecture/adr-voice-identity-enrollment-evidence-retention-and-regeneration.md](../architecture/adr-voice-identity-enrollment-evidence-retention-and-regeneration.md)
+- [../architecture/adr-identity-artifact-invalidation-as-a-governed-household-event.md](../architecture/adr-identity-artifact-invalidation-as-a-governed-household-event.md)

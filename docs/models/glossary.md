@@ -222,9 +222,12 @@ several enrollment embeddings, an aggregated structure) is implementation mappin
 governed artifact, never a second identity. **Voice contributes at most one evidence contribution per
 correlation family** (**DL-38 F2**), regardless of how many channels or samples informed it. The
 enrollment recordings it is derived from may be retained for future regeneration only under explicit
-household policy and Person consent (**DL-145**).
+household policy and Person consent (**DL-145**). **Where a Breaking Identity Update leaves a Person's
+Voiceprint unavailable pending manual re-enrollment, this is a DL-41 capability outcome only — never
+identity, trust, or permission failure (DL-146).**
 Model: [person-and-identity.md](person-and-identity.md),
-[../architecture/adr-voiceprint-gallery-structure-under-channel-diversity.md](../architecture/adr-voiceprint-gallery-structure-under-channel-diversity.md)
+[../architecture/adr-voiceprint-gallery-structure-under-channel-diversity.md](../architecture/adr-voiceprint-gallery-structure-under-channel-diversity.md),
+[../architecture/adr-identity-artifact-invalidation-as-a-governed-household-event.md](../architecture/adr-identity-artifact-invalidation-as-a-governed-household-event.md)
 
 **Voice Identity Encoder Migration Policy (DL-145)**
 The household's standing, Integration-scoped choice — made during initial Integration configuration,
@@ -292,7 +295,11 @@ enumeration and its meaning are **DL-39**.
 A **valid** Identity Assertion outcome: a human participant is supported for the stated purpose, but no
 eligible known Person can be established. Momentary, expiring with the assertion. **Not** an error,
 not `unavailable`, not an ambiguous choice among known candidates, **not a Home Assistant Person**,
-not a profile, and not a permission.
+not a profile, and not a permission. **Distinct from a known Person whose Voiceprint is specifically
+unavailable pending manual re-enrollment (DL-146)** — the latter is a named, known Person with a
+capability-availability condition, never reported or treated as Unknown Person; an unidentified
+speaker encountered during such a migration is still an ordinary Unknown Person outcome, and is never
+told which known Person requires re-enrollment.
 Model: [person-and-identity.md](person-and-identity.md)
 
 **Known Non-Resident Person**
