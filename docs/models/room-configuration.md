@@ -334,7 +334,8 @@ is a Home Assistant Device, its own native Area assignment (already within this 
 unextended; (3) `unresolved`. **A declared default Room for a Person is not authorized** — `located-in`
 and every other accepted Foundation relationship are scoped to Pet, Asset, and Device subjects only, and
 a Person's location pathway is structurally distinct (DL-06, Identity-Assertion-gated); this capability,
-if ever wanted, remains **OD-77**'s own future question, not invented here. Raw BLE/device-tracker/zone
+if ever wanted, remains an open future question — **OD-77 (closed as DL-139) explicitly declined to
+absorb it**, consistent with its own non-goal, and it is not invented here. Raw BLE/device-tracker/zone
 data and Identity Room Presence are **permanently excluded** from this resolution by type, independent of
 native-capability verification (**DL-30**, Issue #146 item 3, VERIFIED_NEGATIVE).
 

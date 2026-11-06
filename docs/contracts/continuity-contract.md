@@ -93,7 +93,7 @@ A record does not become Continuity's because it is personal, remembered, or emo
 | Care obligations and their history — medication, veterinary, maintenance, inspection, irrigation | **Stewardship** |
 | Rainfall, forecast, soil-moisture, and every other environmental observation | **Truth** |
 | Calendar contents, mailbox contents, playback position, provider recommendations | **The source system** (**DL-46**, **P21**) |
-| The Person-to-external-service association | **Currently unowned — OD-77** |
+| The Person-to-external-service association | **Foundation** — resolved as **DL-139** (OD-77) |
 | A recommendation | Nobody, as truth. A Reasoning Provider *owns nothing* (**OD-67**) |
 
 **A remembered value is not a Fact.** **Resolved as DL-124**: the canonical classes are Last Stable
@@ -273,7 +273,7 @@ A suppressed transfer must be explainable as a deliberate outcome, not as a fail
 | OD-26 | **Resolved as DL-122.** Experience History is one governed record class, Room context + optional Identity-exclusive Person attribution; retention follows attribution, never duplicated; duration configured in Room Setup/Person Setup, never globally, as a hybrid of enumerated presets plus a custom numeric override |
 | OD-27 | **Closed — DL-102.** Concurrency governed by endpoint-class contention, not Session/Experience class; suppressed-transfer vs. conflict-reported-not-started outcomes defined; duplicate playback is a semantic-only (`Current Room`) guarantee, never a provider-render guarantee |
 | OD-48 | **Closed — DL-99.** Re-presentation preference for outstanding Communications — opt-in, Person-scoped, optionally refined by Category/Urgency; no HTBW-wide default repetition count or cooldown; not coupled to Follow-Me media eligibility |
-| OD-77 | Ownership of the association between a Person and an external service, account, calendar, mailbox, or media profile |
+| OD-77 | **Closed — DL-139.** Foundation owns the Person-scoped External-Resource Association assignment, mirroring DL-115's Home-scoped assignment |
 | OD-78 | **Closed — DL-124.** Remembered-value classes and restoration semantics |
 | OD-79 | **Closed — DL-100.** Presentation preference scope and precedence — Room decorative character belongs to Foundation/Room Configuration; accessibility/accommodation and required-comprehension language are non-overridable Person-borne requirements |
 

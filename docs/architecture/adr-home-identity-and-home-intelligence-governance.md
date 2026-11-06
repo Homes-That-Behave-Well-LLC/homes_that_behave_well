@@ -35,14 +35,17 @@ provisioned by this ADR.
 This ADR creates **no new responsibility**. The seven responsibilities recorded in **DL-01** —
 Foundation, Stewardship, Identity, Truth, Continuity, Operational Trust, Concierge — are unchanged.
 **OD-67** (Reasoning Provider Strategy) is unchanged; its own persistence/provider-strategy question is
-**accepted separately as DL-93** (Issue #132, formal acceptance review PASS, 2026-10-27). **OD-77** (Person-to-External-
-Resource Association Ownership), **OD-20** (Optional Asset Intelligence Product Integration), **OD-81**
-(HTBW Capability Exposure and Self-Consumption), **OD-82** (HTBW Product Consolidation and
-Retirement), **OD-85** (Adoption Scope, Artifact Custody, and Coexistence Behaviour), **OD-90**
-(Home-to-External-Resource Association Ownership, #189), and the wake-word sub-question already
+**accepted separately as DL-93** (Issue #132, formal acceptance review PASS, 2026-10-27). **OD-77**
+(Person-to-External-Resource Association Ownership), **OD-20** (Optional Asset Intelligence Product
+Integration), **OD-81** (HTBW Capability Exposure and Self-Consumption), **OD-82** (HTBW Product
+Consolidation and Retirement), **OD-85** (Adoption Scope, Artifact Custody, and Coexistence Behaviour),
+and **OD-90** (Home-to-External-Resource Association Ownership, #189) were each referenced below and
+were, at this ADR's own acceptance, unaffected — none was narrowed, resolved, or reopened by this ADR.
+**Each has since independently closed** (OD-82 → DL-51/DL-52, 2026-08-26; OD-81 → DL-114, 2026-10-29;
+OD-85 → DL-110, 2026-10-29; OD-90 → DL-115, 2026-11-02; OD-20 → DL-121, 2026-11-03; OD-77 → DL-139,
+2026-11-05), none of them reopened or altered by this ADR's own text. The wake-word sub-question
 carried by **OD-86** [the vocabulary-supersession decision, not to be confused with this ADR's own
-**DL-86**] are each referenced below and remain **open, unaffected** — none is narrowed, resolved, or
-reopened by this ADR.
+**DL-86**] remains open and unaffected.
 
 ---
 
@@ -60,10 +63,11 @@ Review against current authority found:
 - **Guest and caretaker are already correctly modelled** as Roles/relationships, not identity classes
   (**DL-33**; `glossary.md`'s *Role* and *Caretaker* entries; the Foundation `caretaker-of`
   relationship type). This is restated below, not reopened.
-- **The Person-to-external-resource association question is already open and unresolved as OD-77**
+- **The Person-to-external-resource association question was already open and unresolved as OD-77**
   (#148) — mailbox, calendar, and other external-service references are explicitly named in
   `person-and-identity.md`'s Person-extension table with **no responsibility assigned**. OD-77 is
-  Person-scoped by its own title and source evidence.
+  Person-scoped by its own title and source evidence. *(OD-77 has since closed as **DL-139**,
+  2026-11-05, naming Foundation — see §*Reconciling OD-90 with OD-77* below.)*
 - **No document describes the Home itself as capable of owning an external mailbox or calendar
   account**, despite `home.md` already naming a "home maintenance calendar" among Home-scoped state,
   and despite Stewardship already owning "caretaker-calendar projections" and "the home-maintenance
@@ -273,6 +277,15 @@ of how OD-77 and OD-90 relate, recorded here pending the same **#191** formal ac
 does not resolve either OD-77's or OD-90's own open question (which responsibility, for each subject,
 owns the assignment).
 
+> **Update, 2026-11-05 (not a reopening):** both open questions this reconciliation left pending are now
+> closed. **OD-90 → DL-115** (2026-11-02): Foundation owns the Home-scoped assignment. **OD-77 →
+> DL-139** (2026-11-05): Foundation owns the Person-scoped assignment, for the reasons set out in
+> [adr-person-to-external-resource-association-ownership.md](adr-person-to-external-resource-association-ownership.md)
+> §2 — not by importing internal Person-device-association precedent, which this reconciliation never
+> claimed and which remains Identity's/Continuity's unchanged. **Both decisions selected the same
+> responsibility** while remaining two separately closed decisions per Maintenance Rule 1, exactly as
+> this reconciliation anticipated as a possible (not required) outcome.
+
 ### The Home Calendar is a distinct capability from a personal or caretaker calendar
 
 Formalizing what `home.md` and `framework.md` already name but do not fully distinguish:
@@ -415,12 +428,13 @@ Concierge is not coupled to any particular wake word by this decision.
 
 | Open item | Relationship to this ADR |
 |---|---|
-| **OD-77** (#148) | **Reconciled, not merged.** Not reopened, narrowed, or resolved. Shares one Foundation-defined External-Resource Association relationship-type shape with the new **OD-90** (#189); remains an independently closeable decision that may select a different assignment-owning responsibility than OD-90 (see *Reconciling OD-90 with OD-77* above). |
+| **OD-77** (#148) | **Resolved as DL-139 (2026-11-05).** Foundation owns the Person-scoped External-Resource Association assignment, selecting the same responsibility as **OD-90**'s DL-115, mirroring its shape unchanged (see *Reconciling OD-90 with OD-77* above, and [adr-person-to-external-resource-association-ownership.md](adr-person-to-external-resource-association-ownership.md)). This reconciliation's own text is not reopened — both decisions conform to the shared shape it proposed. |
 | **OD-01** (`home.md`) | Unaffected. Home's platform-level backing representation (HA config entry, subentry, or private record) remains entirely open; DL-84 states what the Home is architecturally, never how it is technically represented. |
-| **OD-20** (#110) | Unaffected. Whether/how HTBW Core consumes the standalone Asset Intelligence product remains undecided and is not narrowed here. |
-| **OD-67** (#132) | Unaffected. No reasoning provider class, purpose, or disclosure rule is selected here. |
-| **OD-81** (#159), **OD-82** (#160) | Unaffected. Home Intelligence's product-boundary treatment is analogous to, not a resolution of, the capability-exposure and product-consolidation questions those decisions hold open. |
-| **OD-85** (#172) | Unaffected. Asset Intelligence adoption scope, custody, and coexistence remain governed entirely by OD-85; this ADR's "Share with Home Intelligence" is a disclosure question, not an adoption/custody question. |
+| **OD-20** (#110) | **Closed — DL-121** (2026-11-03). Resolved: no runtime consumption, mandatory or optional; Asset Intelligence is solely an optional predecessor-product migration source. Not narrowed or reopened by this ADR. |
+| **OD-67** (#132) | **Closed — DL-93** (2026-10-27). No reasoning provider class, purpose, or disclosure rule was selected by this ADR; DL-93 resolved them independently. |
+| **OD-81** (#159) | **Closed — DL-114** (2026-10-29). Capability-exposure/self-consumption resolved independently; this ADR's Home Intelligence product-boundary treatment remains analogous, not a resolution of, that question. |
+| **OD-82** (#160) | **Closed — DL-51/DL-52** (2026-08-26, prior to this ADR's own acceptance). Product consolidation/retirement resolved independently; this ADR does not narrow or reopen it. |
+| **OD-85** (#172) | **Closed — DL-110** (2026-10-29). Asset Intelligence adoption scope, custody, and coexistence resolved independently; this ADR's "Share with Home Intelligence" remains a disclosure question, not an adoption/custody question. |
 | **DL-81**, **DL-82** (pending **#188**) | Extended, not altered. DL-85 and DL-86 build on DL-81's pipeline and DL-82's provenance model without changing either. |
 | **OD-86** wake-word sub-question (#174) | Unaffected. Restated above without reopening. |
 | **#186**, **#187** | Unaffected siblings. **#190** is this ADR's equivalent residual-mechanics issue for the Home Intelligence product boundary. |

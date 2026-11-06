@@ -1106,8 +1106,12 @@ from consuming anything.
 
 **No new Foundation relationship type is created.** `owner-of` and `caretaker-of` are **durable**
 relationships; custody is **episodic**, and episodic accountability belongs on a time-bounded record
-rather than in a standing relationship set. Whether a role-bearing construct later supersedes this is
-**OD-77**, which **DL-49** neither expands nor resolves.
+rather than in a standing relationship set. **Whether a role-bearing construct later supersedes this
+remains an open, unassigned future question** — **OD-77** closed as **DL-139**, but DL-139's own scope
+was bounded to the **External-Resource Association** shape (a Person-to-external-resource reference,
+**DL-85**), a structurally different construct from a custody record's free-text Counterparty
+designation; DL-139 created no generic role-bearing-relationship construct, and does not resolve this
+question. **DL-49** neither expands nor resolves it either.
 
 ### Opening and closing
 
@@ -1214,8 +1218,11 @@ duplicate-prevention semantics remain **OD-45**, **OD-51**, and **OD-54**.
 | Corrections are Change Records | Correcting a custodian designation creates a `corrected` Change Record. **The prior text is never overwritten** |
 | No inference | An unrecorded chain leg is **never** inferred from the presence of a later one |
 
-Whether a role-bearing relationship construct later supersedes the free-text designation is **OD-77**,
-which this model neither expands nor resolves.
+Whether a role-bearing relationship construct later supersedes the free-text designation **remains an
+open, unassigned future question** — **OD-77** closed as **DL-139**, but DL-139's own bounded
+**External-Resource Association** scope (**DL-85**) is a structurally different construct from this
+custody Counterparty question and does not resolve it; this model neither expands nor resolves it
+either.
 
 ### Insurance responsibility
 

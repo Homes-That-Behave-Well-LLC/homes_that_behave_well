@@ -114,12 +114,12 @@ accepted decision prevails.
 | **C3** | Transient knowledge and purpose-limited forgetting | **B — Architecturally supported** | Values are household configuration under **DL-59** |
 | **C4** | Local-first decision making with connected cloud sources | **B — Architecturally supported** | **OD-07**, **OD-67** for the edges |
 | **C5** | Home Assistant remote access education | **F — Research required** | Platform verification (**#146**) |
-| **C6** | Shopping-list opportunity recognition | **E — Blocked** | **OD-77** (#148) |
-| **C7** | EV readiness and preventive guidance | **E — Blocked** | **OD-77**; no travel-demand governance |
+| **C6** | Shopping-list opportunity recognition | **B — Architecturally supported** | **OD-77 resolved — DL-139** |
+| **C7** | EV readiness and preventive guidance | **E — Blocked** | **OD-77 resolved — DL-139**; no travel-demand governance |
 | **C8** | Home battery backup and resource optimisation | **E — Blocked** | **OD-51**, **OD-67** |
 | **C9** | Guest capability discovery and vocabulary education | **B — Architecturally supported** | **OD-59**, **OD-13** |
 | **C10** | Guest-asset interpretation and household storytelling | **E — Blocked** | **OD-52** (#100) |
-| **C11** | Asset knowledge becomes household action | **E — Blocked** | **OD-77**, **OD-23** |
+| **C11** | Asset knowledge becomes household action | **B — Architecturally supported** | **OD-77 resolved — DL-139**, **OD-23 resolved — DL-117** |
 | **C12** | Outcome-based room comfort | **B — Architecturally supported** | **OD-04 resolved — DL-126**, **OD-78 resolved — DL-124** |
 | **C13** | First-visit guest consent and introduction | **E — Blocked** | **OD-06** (#94) |
 | **C14** | Returning-guest hospitality | **E — Blocked** | **OD-06**, **OD-15** |
@@ -276,7 +276,7 @@ home uses what they say. **What the home concludes, and what it does about it, s
 | **Failure and degradation** | Source unavailable → the dependent capability is **unavailable and says so** (**DL-41**), never approximated |
 | **Privacy** | Person-scoped external content is access-gated and audience-evaluated before it reaches any surface |
 | **Maturity** | **B — Architecturally supported** |
-| **Open decisions** | **OD-07** (locality), **OD-67** (reasoning provider strategy), **OD-77** (#148 — who owns the person-to-service association) |
+| **Open decisions** | **OD-07** (locality), **OD-67** (reasoning provider strategy), **OD-77 resolved — DL-139** (who owns the person-to-service association) |
 
 ### Required distinctions
 
@@ -332,16 +332,16 @@ usefully, and he can turn it off.
 | **Retention and expiry** | The opportunity expires when the person leaves or the list empties. Location is **referenced**, never accumulated into a movement history |
 | **Failure and degradation** | Location `unknown` → no prompt. **`unknown` is never *not at the store*** |
 | **Privacy** | A location-triggered prompt reveals that the home is watching where someone is. It is person-scoped and must never be delivered to a shared surface |
-| **Maturity** | **E — Blocked** |
-| **Open decisions** | **OD-77** (#148) — **who owns the association between a person and their shopping list is undecided**; **OD-54** (#120) repeat suppression; **OD-43** (#113) surface capability |
+| **Maturity** | **B — Architecturally supported** |
+| **Open decisions** | **OD-77 resolved — DL-139** — Foundation owns the association between a person and their shopping-list/task-service resource; **OD-54 resolved — DL-98** repeat suppression; **OD-43 resolved — DL-53** surface capability |
 
 ### The four questions this use case asks, and where they land
 
 | Question | Answer |
 |---|---|
 | Is *grocery store* a geofence, place category, or named zone? | **Undecided.** Home Assistant Zones are verified; place categories are not. **#146** |
-| Who owns the shopping list? | **OD-77.** Every task and shopping experience contract in this repository is **Historical — superseded** |
-| How is repeated prompting prevented? | **OD-54.** *Repeating delivery to the same audience is retry, not escalation* |
+| Who owns the shopping list? | **OD-77 resolved — DL-139.** Foundation owns the person-to-resource association; which task/shopping *service* a household uses remains its own external provider configuration, never copied |
+| How is repeated prompting prevented? | **OD-54 resolved — DL-98.** *Repeating delivery to the same audience is retry, not escalation* |
 | What if several household members are at the store? | **OD-52** audience specification; the list is one subject with several eligible recipients |
 
 ---
@@ -365,8 +365,8 @@ worth listening to.
 | **Confirmation required** | **Yes** for any action. A recommendation is not authorisation |
 | **Retention and expiry** | Notification history and prior deferral are **Communication** records under **DL-47** |
 | **Failure and degradation** | No reliable travel estimate → say less, not more. **Degrade the claim, never the governance** |
-| **Maturity** | **E — Blocked** |
-| **Open decisions** | **OD-77** (person-to-calendar association), **DL-75** (significance representation, resolved), **OD-51** (interruption risk classes) |
+| **Maturity** | **E — Blocked** — no travel-demand/routing capability exists; every cited open decision below is now resolved |
+| **Open decisions** | **OD-77 resolved — DL-139** (person-to-calendar association), **DL-75** (significance representation, resolved), **OD-51 resolved — DL-76** (interruption risk classes) |
 
 ### Guardrails
 
@@ -499,8 +499,8 @@ the household's real task system, without repeating who or what.
 | **Confirmation required** | **Yes** where target, owner, or timing is missing |
 | **Retention and expiry** | The conversational reference expires with the interaction. The **task belongs to the task service** |
 | **Failure and degradation** | Task service unavailable → **say so**; never silently drop the request |
-| **Maturity** | **E — Blocked** |
-| **Open decisions** | **OD-77** (#148) task/list ownership, **OD-23** (#109) obligation projection |
+| **Maturity** | **B — Architecturally supported** |
+| **Open decisions** | **OD-77 resolved — DL-139** (person-to-task-service association ownership), **OD-23 resolved — DL-117** (obligation projection) |
 
 ### Guardrails
 
@@ -807,12 +807,12 @@ degradation of a private channel is never promotion to a public one.
 | 1 | Conversation active, send privately, acknowledge later | Timing and channel selection | Truth, Identity, Operational Trust | **D** | Passive monitoring; **OD-84** | The home is considerate without being nosy |
 | 2 | An unidentified participant changes disclosure | Audience-aware delivery | Identity, Operational Trust | **E** | **OD-84** | Not knowing someone is itself useful information |
 | 3 | Transient conversation state expires | Context assembly | Truth, Continuity | **B** | **DL-59** values (household configuration) | Forgetting on purpose is a feature |
-| 4 | The shopping list becomes useful at the store | Opportunity recognition | Identity, Truth, Continuity | **E** | **OD-77** | Help arrives at the moment it is useful |
-| 5 | EV readiness considers charging and future need | Preventive guidance | Truth, Stewardship | **E** | **OD-77**; no travel governance | The home looks one day ahead |
-| 6 | Battery backup prompts resource preservation | Recommendation and confirmation | Truth, Stewardship | **E** | **OD-51**, **OD-67** | The home advises; the household decides |
+| 4 | The shopping list becomes useful at the store | Opportunity recognition | Identity, Truth, Continuity | **B** | **OD-77 resolved — DL-139** | Help arrives at the moment it is useful |
+| 5 | EV readiness considers charging and future need | Preventive guidance | Truth, Stewardship | **E** | **OD-77 resolved — DL-139**; no travel governance | The home looks one day ahead |
+| 6 | Battery backup prompts resource preservation | Recommendation and confirmation | Truth, Stewardship | **B** | **OD-51 resolved — DL-76**, **OD-67 resolved — DL-93** | The home advises; the household decides |
 | 7 | A guest asks what can be done in the Den | Capability discovery | Foundation, Operational Trust | **B** | **OD-59** | Hospitality is orientation, not a manual |
 | 8 | A guest asks about the artwork | Experience storytelling | Stewardship, Foundation | **E** | **OD-52** | The house tells its own story, in the household's words |
-| 9 | Piano maintenance becomes a follow-up task | Knowledge-to-action continuation | Stewardship, Continuity | **E** | **OD-77**, **OD-23** | A question turns into a commitment without repeating yourself |
+| 9 | Piano maintenance becomes a follow-up task | Knowledge-to-action continuation | Stewardship, Continuity | **B** | **OD-77 resolved — DL-139**, **OD-23 resolved — DL-117** | A question turns into a commitment without repeating yourself |
 | 10 | *Make the room comfortable* | Outcome interpretation | Truth, Identity, Continuity | **B** | **OD-04 resolved — DL-126** | You ask for an outcome, not a device list |
 | 11 | A guest chooses whether to introduce themselves | Consent capture | Identity, Operational Trust | **E** | **OD-06** | The guest is asked, not enrolled |
 | 12 | A returning guest receives consented hospitality | Existing relationship use | Identity, Continuity | **E** | **OD-06** | Being remembered is a choice that can be unmade |
@@ -844,8 +844,8 @@ degradation of a private channel is never promotion to a public one.
 | 16 | Consent capture | **Blocked** — **OD-06** |
 | 17 | Existing relationship use | **Blocked** — **OD-06**, **OD-15** |
 | 18 | Outcome interpretation | **Already accepted** — §3 *interpretation of intent*, *selection among permitted actions*, *conflict resolution* |
-| 19 | Knowledge-to-action continuation | **Blocked** — **OD-77**, **OD-23** |
-| 20 | Resource optimisation | **Blocked** — **OD-51**, **OD-67** |
+| 19 | Knowledge-to-action continuation | **Already accepted** — **OD-77 resolved — DL-139**, **OD-23 resolved — DL-117** |
+| 20 | Resource optimisation | **Already accepted** — **OD-51 resolved — DL-76**, **OD-67 resolved — DL-93** |
 | 21 | Preventive guidance | **Partially represented** — Stewardship obligations exist; the forward-looking estimate has no governance |
 | 22 | Opportunity recognition | **Partially represented** — *any responsibility may originate a Communication*; the opportunity trigger is per-originator |
 | 23 | Capability discovery | **Already accepted** — room-configuration-contract, **DL-41** |

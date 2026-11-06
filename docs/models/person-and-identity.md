@@ -61,7 +61,7 @@ HTBW retains only what the native object does not hold, and **each extension kee
 | Obligations and accountability | **Stewardship** |
 | Delegated Access Grants held over another Person's, Asset's, or Pet's Stewardship content (**DL-57**) | **Stewardship** (grant record and lifecycle); Foundation types `caretaker-of`/`owner-of` unchanged |
 | Person Environmental Requirements — minimum/maximum/range per **DL-60** Environmental Purpose (**DL-61**) | **Foundation** holds the declared requirement, coordinated through Person Setup; **Stewardship** evaluates it against current Room Environment Facts |
-| Mailbox, calendar, and other external-service references | Referenced through the responsibility that governs their use; **the underlying configuration is never copied** |
+| Mailbox, calendar, and other external-service references | **Foundation** — the governed **External-Resource Association** assignment (**DL-85**, **DL-139**, resolving **OD-77**); **the underlying provider configuration, content, and credentials are never copied** |
 | Person-scoped Vocabulary for a Person-owned capability (**DL-69**) — for example calling a configured mailbox "Mail" or "Inbox" | **Foundation** (Vocabulary's owning model), **coordinated through Person Setup**; no new responsibility. Never disclosed to another Person without authorization; an Unknown Person receives no Person-scoped mapping (**DL-33**) |
 
 **No extension list is a single record**, and this rule decides nothing about how identity evidence is

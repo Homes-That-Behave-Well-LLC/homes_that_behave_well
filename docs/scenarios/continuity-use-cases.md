@@ -245,7 +245,7 @@ moment that is actually useful, and does not announce it in front of guests.
 | Precondition | Owner | Status |
 |---|---|---|
 | A calendar integration is configured and available | Home Assistant | **A** — **P21** |
-| **The association between Tom and that calendar** | — | **U — OD-77** |
+| **The association between Tom and that calendar** | **Foundation** | **A — DL-139** |
 | Interruption appropriateness for this moment | **Operational Trust** | **A** — defaults are **OD-51** |
 | Audience composition in the Den | **Truth** → **Operational Trust** | **A** — **DL-34**; specification is **OD-52** |
 
@@ -273,7 +273,7 @@ moment that is actually useful, and does not announce it in front of guests.
 | Proposed narration | Verdict | Correct wording |
 |---|---|---|
 | *The Home remembered the commitment* | **Requires qualification** | The **calendar provider** holds the commitment. The home **reconnected Tom to it** and chose an appropriate moment |
-| *Continuity preserved the association and relevant context* | **Not yet governed** | The person-to-calendar association has **no named owner** — **OD-77** |
+| *Continuity preserved the association and relevant context* | **Supported, with ownership clarified** | The person-to-calendar association is **Foundation's** (**DL-139**) — Continuity supplies preferred delivery/presentation only |
 | *Concierge selected an appropriate moment to remind* | **Accepted** | — |
 | *Operational Trust permitted disclosure* | **Accepted** | — |
 | *Stewardship marked the commitment as requiring care* | **Contradicted** | **A calendar appointment is not a care obligation.** Stewardship represents a care expectation **the household declared**; it never decides on the household's behalf that something matters |
@@ -289,11 +289,11 @@ moment that is actually useful, and does not announce it in front of guests.
 
 ## Implementation status and unresolved decisions
 
-**F**. Held by **OD-77** (person-to-calendar association), **OD-51** (interruption risk classes),
-**OD-52** (audience specification), **OD-71** (audience uncertainty), **OD-44**/**OD-45** (delivery
-and acknowledgement semantics), **OD-54** (retry is never escalation). Re-presentation is resolved
-(**DL-99**); implementation itself remains unbuilt regardless, per the greenfield status above.
-**Travel-time and routing computation are `N` — not governed, not claimed.**
+**F**. **OD-77** (person-to-calendar association) is **closed — DL-139**. Still held by **OD-51**
+(interruption risk classes), **OD-52** (audience specification), **OD-71** (audience uncertainty),
+**OD-44**/**OD-45** (delivery and acknowledgement semantics), **OD-54** (retry is never escalation).
+Re-presentation is resolved (**DL-99**); implementation itself remains unbuilt regardless, per the
+greenfield status above. **Travel-time and routing computation are `N` — not governed, not claimed.**
 
 ---
 
@@ -398,7 +398,7 @@ room; the request is explicit (resolved — DL-128, OD-25).**
 | An explicit resume/Follow-Me request identifies the experience | **Concierge** (interpretation), **Continuity** (candidate resolution) | **A** — lifecycle-bound, not time-windowed (**resolved — DL-128**) |
 | David's Experience History record for that experience has not expired under its configured retention | **DL-122** (Room Setup/Person Setup configured) | **A** |
 | The playback position | **The audiobook provider** | **A** — **DL-46**, **P21** |
-| **The association between David and that audiobook account** | — | **U — OD-77** (narrowed, not resolved — this decision's core lifecycle does not require it; see row 12) |
+| **The association between David and that audiobook account** | **Foundation** | **A — DL-139.** Resolved: the association is per-Person and explicit; shared-account attribution follows the requester, never the account (see row 12) |
 
 ## Ownership map
 
@@ -415,7 +415,7 @@ room; the request is explicit (resolved — DL-128, OD-25).**
 | 9 | Explainability | **Decision Trace** | *"Continuing your audiobook, left off in the Den yesterday evening"* — spoken **in response to David's explicit request**, never unprompted |
 | 10 | Retention and lifecycle | **DL-122**, **DL-47** | Availability for an explicit resume request follows Experience History retention (Room Setup/Person Setup); there is no separate resume-eligibility window (**resolved — DL-128**, superseding the prior **OD-25** framing) |
 | 11 | Guest and Unknown Person behaviour | **DL-33** | An Unknown Person has no resume candidate and inherits none |
-| 12 | Multi-person conflict behaviour | **Continuity** → **Operational Trust** | Household-shared progress and person-specific progress are different records; the distinction depends on **OD-77**. **This decision's own lifecycle (pending/settled/cancelled/superseded/blocked) does not require OD-77** — Session ownership is already Identity/Operational-Trust-governed; only the narrower shared-account attribution question remains OD-77's own (**DL-128** cl.12) |
+| 12 | Multi-person conflict behaviour | **Continuity** → **Operational Trust** | Household-shared progress and person-specific progress are different records; **resolved — DL-139**: the Foundation association is per-Person and explicit, and Continuity's existing person-scoped progress record (**DL-124**) attributes to the requester, never guessed from a shared account. Session ownership is already Identity/Operational-Trust-governed (**DL-102**) |
 | 13 | Failure behaviour | **DL-41** | Provider unavailable → capability unavailable, dependency named. **A remembered position is never re-derived** |
 | 14 | What must never happen | — | Duplicating the provider's playback position into HTBW as a second source of record; **offering a resume unprompted from historical or provider activity (DL-128)** |
 
@@ -434,7 +434,7 @@ a Session with a lifecycle, a resume candidate, and a **Governed Reference** to 
 | 4.1 | David explicitly asks to resume the audiobook | Concierge may offer or resume, per Operational Trust mode | Resume autonomously where the mode is Assisted |
 | 4.2 | David never explicitly asks; he simply enters a Room where he once listened | **No offer** — HTBW does not proactively surface it (**resolved — DL-128**) | Offer a resume unprompted, at any elapsed time, however short |
 | 4.3 | Provider position and remembered reference disagree | **The provider is authoritative** | Present the HTBW reference as the position |
-| 4.4 | Two people share one household account | **Unresolved — OD-77** (narrowed, not blocking this decision's own lifecycle — **DL-128** cl.12) | Attribute one person's progress to another |
+| 4.4 | Two people share one household account | **Resolved — DL-139.** Attribution follows the requester's own Foundation association and Continuity progress record, never the shared account | Attribute one person's progress to another |
 | 4.5 | David's Experience History record for this audiobook has expired under **DL-122**'s configured retention | The explicit request is answered as unavailable | Silently re-render or reconstruct the expired record |
 | 4.6 | David says "follow me with my audiobook" (destination unresolved); later "follow me with the music" before the audiobook intent settles | The audiobook intent is **Superseded** by the new music intent; never retained in a resume queue | Keep the audiobook as a second pending item |
 | 4.7 | David says "follow me with the music to the Den" | Music is the explicit experience; Den is the explicit destination; no later "resume here" is required | Require Identity to independently confirm David is in the Den before acting |
@@ -445,9 +445,9 @@ a Session with a lifecycle, a resume candidate, and a **Governed Reference** to 
 
 **F.** Resume/Follow-Me lifecycle governed as **DL-128** (resolving **OD-25** — superseded/reframed;
 no time-based window exists or is needed). Retention/availability governed as **DL-122** (resolving
-**OD-26**). **Held by OD-77**: per-person attribution where a household shares one provider account —
-narrowed by **DL-128** to no longer block this use case's own lifecycle. Conflict resolution between
-provider state and
+**OD-26**). **Per-person attribution where a household shares one provider account is resolved — DL-139**
+(resolving **OD-77**): attribution follows the requester's Foundation association and Continuity
+progress record, never the shared account. Conflict resolution between provider state and
 remembered reference is `E` — it follows from **DL-46** but is not written into a canonical model.
 
 ---
@@ -529,7 +529,7 @@ gaining access to the other's.
 |---|---|---|
 | Calendar and mailbox integrations exist and are configured | Home Assistant | **A** — **P21** |
 | HTBW references them and never copies their configuration | Foundation / **P22** | **A** — [../models/person-and-identity.md](../models/person-and-identity.md) |
-| **A governed person-to-external-resource association with a named owner** | — | **U — OD-77.** This is the defect |
+| **A governed person-to-external-resource association with a named owner** | — | **A — DL-139 (resolving OD-77).** Foundation owns the Person-scoped External-Resource Association assignment |
 
 ## The verified gap
 
@@ -545,6 +545,11 @@ Every personal-resource use case in this document depends on that association: t
 the audiobook resume, the person-scoped media profile, and the mail summary. **It is recorded as a
 defect rather than invented here.**
 
+> **Resolved 2026-11-05 — DL-139 (OD-77).** Foundation owns the Person-scoped **External-Resource
+> Association** assignment, mirroring DL-115's already-accepted Home-scoped assignment. The gap
+> described above is historical; see
+> [adr-person-to-external-resource-association-ownership.md](../architecture/adr-person-to-external-resource-association-ownership.md).
+
 ## Ownership map
 
 | # | Question | Owner | Statement |
@@ -553,12 +558,12 @@ defect rather than invented here.**
 | 2 | Identity requirements | **Identity** | Establishes *who is asking*, to a band the capability requires |
 | 3 | Consent and Operational Trust requirements | **Operational Trust** | *Who may access calendars, messages, email, or history* is explicitly Operational Trust's |
 | 4 | What Continuity supplies | **Continuity** | **Preferred delivery and presentation only.** Continuity's ownership list does **not** include external-service references |
-| 5 | Memory scope | **Person-scoped**, once an owner exists | **U — OD-77** |
+| 5 | Memory scope | **Person-scoped**, once an owner exists | **A — Foundation (DL-139)** |
 | 6 | Source of record | **The provider.** HTBW owns no calendar contents, no mailbox contents, and **no credentials** | **A** — **P22**, [../architecture/connected-storage.md](../architecture/connected-storage.md) |
 | 7 | Who decides | **Concierge** | — |
 | 8 | Who executes | The provider integration | — |
 | 9 | Explainability | **Decision Trace** | Which association was used, and why the request was answered or refused |
-| 10 | Retention and lifecycle | **DL-43**, **DL-45**, **DL-47** | Revocation, reassignment, participant removal, and stale-association detection are part of **OD-77** |
+| 10 | Retention and lifecycle | **DL-43**, **DL-45**, **DL-47** | Revocation, reassignment, participant removal, and stale-association detection are governed by **DL-139**; no independent numeric floor/ceiling invented |
 | 11 | Guest and Unknown Person behaviour | **DL-33** | An Unknown Person *references no Person* and *grants nothing*. Access defaults to household-neutral context |
 | 12 | Multi-person conflict behaviour | **Operational Trust** | *My calendar* resolves through the requestor's association, never through room occupancy |
 | 13 | Failure behaviour | **DL-41** | No association, or a broken reference → capability unavailable, dependency named. A dangling reference *is reported, never silently rendered as though the source record never existed* |
@@ -569,7 +574,7 @@ defect rather than invented here.**
 | Proposed line | Verdict |
 |---|---|
 | *Identity establishes who is engaging* | **Supported** |
-| *Continuity reconnects the person to the governed personal context* | **Not yet governed.** No document assigns this to Continuity — **OD-77** |
+| *Continuity reconnects the person to the governed personal context* | **Supported, with ownership clarified.** The association itself is Foundation's (**DL-139**); Continuity supplies preferred delivery/presentation only |
 | *Operational Trust determines whether the resource may be accessed or disclosed* | **Supported** |
 | *Concierge consumes that context to fulfil an appropriate request* | **Supported** |
 
@@ -584,8 +589,10 @@ defect rather than invented here.**
 
 ## Implementation status and unresolved decisions
 
-**U / F**. **OD-77** is the governing decision. Dependent: **OD-06** consent experience, **OD-09**
-portability and erasure, **DL-69** (resolved **OD-62**) governed conversational retrieval.
+**A / F**. **OD-77 is closed — DL-139.** Foundation owns the governed association. Implementation
+itself remains unbuilt (greenfield status, per the repository baseline). Dependent: **OD-06** (closed —
+DL-56) consent experience, **OD-09** (closed — DL-136) portability and erasure, **DL-69** (resolved
+**OD-62**) governed conversational retrieval.
 
 ---
 

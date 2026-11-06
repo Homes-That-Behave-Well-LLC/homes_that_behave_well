@@ -611,20 +611,33 @@ disclosure, reassignment, revocation, stale-detection, retention under **DL-47**
 citation under **P30**). Restates the existing Foundation-defines-the-relationship /
 responsibility-owns-the-assignment split already used for `caretaker-of`
 ([foundation-contract.md](../contracts/foundation-contract.md)). **Person-to-External-Resource
-Association Ownership (OD-77)** and **Home-to-External-Resource Association Ownership (OD-90)** are
-two separate, independently closeable **assignment-ownership** decisions that both specialize this one
-relationship-type shape, so neither may diverge from it in lifecycle, revocation, provenance, or
-Decision Trace behaviour, even though each may select a different owning responsibility.
+Association Ownership (OD-77, resolved as DL-139)** and **Home-to-External-Resource Association
+Ownership (OD-90, resolved as DL-115)** are two separate, independently closed **assignment-ownership**
+decisions that both specialize this one relationship-type shape and both selected **Foundation**,
+conforming to it unchanged in lifecycle, revocation, provenance, and Decision Trace behaviour.
 
 **Home-to-External-Resource Association Ownership (OD-90)**
 **Resolved as DL-115 (accepted 2026-11-02, Issue #189, formal acceptance review PASS).** **Foundation
 owns** the Home-scoped **assignment** of the **External-Resource Association** relationship type,
 above, between the Home and an external mailbox/calendar account — directly on the Home object, by the
 same Foundation-held-declarative-binding pattern already used for `located-in`/`owner-of`.
-**Reconciled with, not merged into,** the already-open **Person-to-External-Resource Association
-Ownership (OD-77)** — both share the same relationship-type shape but remain separately decided,
-because the Home carries no equivalent of the **DL-71** Person Extension's distributed-ownership model;
-OD-77's own assignment-owning responsibility is unaffected and remains entirely open.
+**Reconciled with, and resolved alongside,** **Person-to-External-Resource Association Ownership
+(OD-77)**, below — both share the same relationship-type shape and were decided separately, because
+the Home carries no equivalent of the **DL-71** Person Extension's distributed-ownership model.
+See [decision-ledger.md](../governance/decision-ledger.md).
+
+**Person-to-External-Resource Association Ownership (OD-77)**
+**Resolved as DL-139 (accepted 2026-11-05, Issue #148, formal acceptance review PASS).** **Foundation
+owns** the Person-scoped **assignment** of the **External-Resource Association** relationship type,
+above, between a Person and an external calendar, mailbox, media profile, audiobook account,
+reasoning-provider profile, or other supported external resource — mirroring **DL-115**'s Home-scoped
+assignment in shape, differing only in subject (Person, sitting inside the **DL-71** Person Extension's
+distributed-ownership model) and consuming the identical Foundation-defines-the-relationship/
+responsibility-owns-the-assignment split already used for `caretaker-of`. **Internal Person-device
+associations (BLE, phone, watch) are not Foundation's** — they remain Identity's **Identity Evidence
+Association** (**DL-32**) or Continuity's delivery-surface preference, unchanged; this decision is
+grounded directly in DL-115's precedent, not in an (inaccurate) claim that internal associations are
+already Foundation's.
 See [decision-ledger.md](../governance/decision-ledger.md).
 
 **Share with Home Intelligence**

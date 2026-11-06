@@ -220,9 +220,10 @@ Person Configuration provides, for every Person, independently:
   inventory, selectable only when Allow General Questions is YES.
 
 A Person-scoped provider is an explicit **override candidate**, never a requirement. **The
-Person-to-provider association's own storage and lifecycle mechanics remain OD-77's (#148)** — this ADR
-defines only the permissible use and resolution semantics of a configured association, never where or
-how that association record is kept. **A Reasoning-provider selection is never duplicated as a
+Person-to-provider association's own storage and lifecycle mechanics are Foundation's (resolved as
+DL-139, OD-77, #148)** — this ADR defines only the permissible use and resolution semantics of a
+configured association, never where or how that association record is kept. **A Reasoning-provider
+selection is never duplicated as a
 Continuity presentation preference**: the explicit Person Reasoning-provider assignment is canonical
 for provider assignment, and Continuity's existing preferred-delivery/preferred-presentation preference
 governs wording and delivery form, never which provider answers, and never either capability-
@@ -487,7 +488,7 @@ Authorization is resolved against the effective Person, never a Room, per this r
 
 | Decision/issue | What it retains |
 |---|---|
-| **OD-77** (#148) | Person-to-provider association **storage and lifecycle mechanics** |
+| **OD-77** (#148) | **Resolved as DL-139.** Person-to-provider association **storage and lifecycle mechanics** — Foundation owns the association |
 | **OD-07** (#95) | Voice processing locality — a different provider class; the "prefer local-first AI" setting is OD-07's own privacy-boundary question, not a Continuity preference |
 | **OD-65** (#130) | Learning eligibility — whether a provider-inferred value may enter the promotion ladder |
 | **OD-66** (#131) | Delegation boundary for an external **autonomous policy engine that decides** — a different thing from a Reasoning provider that is consulted and never decides |
@@ -509,7 +510,7 @@ abstraction, API, or transport is selected or designed by this ADR.
 
 - Does not select a vendor, model, or provider technology.
 - Does not design the provider abstraction, API, or transport (including MCP — **#185**).
-- Does not decide Person-to-provider association storage/lifecycle (**OD-77**, #148).
+- Person-to-provider association storage/lifecycle is **resolved as DL-139** (**OD-77**, #148) — Foundation owns the association; this ADR's own provider-resolution order, authorization gates, and fallback chain are unaffected and not reopened.
 - Does not decide voice-processing locality (**OD-07**, #95).
 - Does not decide learning-evidence eligibility (**OD-65**, #130).
 - Does not decide the external autonomous-policy-engine delegation boundary (**OD-66**, #131).
