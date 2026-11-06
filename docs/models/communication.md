@@ -135,6 +135,14 @@ or platform terminology.
 > never **Stewardship** (no asset/space condition is involved). See
 > [../architecture/adr-identity-artifact-invalidation-as-a-governed-household-event.md](../architecture/adr-identity-artifact-invalidation-as-a-governed-household-event.md).
 
+> **Communication delivery is never acceptance authority (DL-148).** Viewing, acknowledging, or
+> dismissing a Communication never itself constitutes a governed acceptance, consent, or completion,
+> unless the governing decision explicitly maps an authorized action back to the accepted authority.
+> The re-enrollment Communication above is the worked example: dismissing it neither creates a
+> replacement Voiceprint nor satisfies DL-146's own re-enrollment completion requirement — only
+> completing the contextual Voice Identity flow does. See
+> [../architecture/adr-contextual-governed-acceptance-placement.md](../architecture/adr-contextual-governed-acceptance-placement.md).
+
 #### Exactly one Category per Communication
 
 No multiple, primary-and-secondary, array, tag, weighted, hierarchical, or compound Category (for
@@ -1467,6 +1475,8 @@ See [../scenarios/why-did-this-happen.md](../scenarios/why-did-this-happen.md).
   re-enrollment Communication
 - [../architecture/adr-multi-speaker-evidence-and-speaker-plurality.md](../architecture/adr-multi-speaker-evidence-and-speaker-plurality.md)
   (**DL-147**) — Voice Identity speaker plurality distinguished from this model's own audience-composition plurality
+- [../architecture/adr-contextual-governed-acceptance-placement.md](../architecture/adr-contextual-governed-acceptance-placement.md)
+  (**DL-148**) — Communication is never acceptance authority
 - [../architecture/principles.md](../architecture/principles.md)
 - [../architecture/framework.md](../architecture/framework.md)
 - [../architecture/privacy.md](../architecture/privacy.md)

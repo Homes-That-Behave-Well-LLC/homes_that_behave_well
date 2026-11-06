@@ -236,10 +236,12 @@ into adoption.
 ### 19. Relationship to OD-93
 
 **OD-87 decides**: what must be communicated, what states/actions exist, what completion means, and
-what household consequences apply. **OD-93 decides**: where and how the household-scale migration
-acknowledgement/review is surfaced. **No standalone migration UI is invented here**, and no choice
-between dashboard, panel, or onboarding route is made — that remains OD-93's own determination. A
-household conversational/interrogative question about the migration uses **Assist** (**DL-140**,
+what household consequences apply. **OD-93, now closed as DL-148, decides**: the household-scale
+migration acknowledgement/re-enrollment action is surfaced via the governed Communication (§10) leading
+to the contextual Person/Voice Identity configuration — never a standalone migration UI, dashboard, or
+centralized acceptance queue. See
+[adr-contextual-governed-acceptance-placement.md](adr-contextual-governed-acceptance-placement.md).
+A household conversational/interrogative question about the migration uses **Assist** (**DL-140**,
 unchanged); delivery uses native Home Assistant Notifications per **DL-142**, unchanged.
 
 ### 20. Fallback behaviour, stated precisely
@@ -317,7 +319,7 @@ evidence-class/reason-code reference remains sufficient to explain the Home hone
    replacement Voiceprint or another accepted terminal disposition; the household event completes when
    every affected Person reaches a terminal disposition; responsibility boundaries are named (§13–§17).
 6. **Relationship to adoption.** OD-87 remains separate from OD-85/DL-110; the household-scale act
-   pattern is reused; **OD-93** owns interaction-surface placement (§18–§19).
+   pattern is reused; **OD-93, now closed as DL-148**, places the re-enrollment interaction (§19).
 
 ---
 
@@ -328,7 +330,7 @@ evidence-class/reason-code reference remains sufficient to explain the Home hone
 - **DL-145 is not reopened or duplicated** — this ADR begins strictly after its classification result.
 - **OD-16 is not reopened** — no threshold, sample count, duration, separation margin, or quality value
   is decided here.
-- **OD-93's interaction-surface placement is not decided here.**
+- **OD-93's interaction-surface placement is not redecided here** — consumed unchanged as **DL-148**.
 - **DL-15, DL-32, DL-33, DL-36, DL-38 (F1–F9), DL-39, DL-41, DL-43, DL-50, DL-52, DL-56, DL-64, DL-69,
   DL-72, DL-90, DL-94, DL-104, DL-109, DL-110, DL-120, DL-130, DL-136, amended DL-137, DL-140, DL-142,
   DL-144, and DL-145 are not reopened.**
@@ -350,4 +352,5 @@ evidence-class/reason-code reference remains sufficient to explain the Home hone
 - [../models/operational-trust.md](../models/operational-trust.md)
 - [privacy.md](privacy.md)
 - [../models/glossary.md](../models/glossary.md)
+- [adr-contextual-governed-acceptance-placement.md](adr-contextual-governed-acceptance-placement.md) (**DL-148**)
 - [../governance/decision-ledger.md](../governance/decision-ledger.md)

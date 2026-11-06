@@ -21,6 +21,13 @@
 Concierge is the last responsibility in the framework order because it depends on all the others.
 Nothing depends on Concierge.
 
+> **Concierge may orchestrate/present a governed acceptance interaction; it never owns acceptance,
+> consent, authorization, Person Configuration, Integration Configuration, adoption semantics, or
+> commissioning semantics (DL-148).** Where Assist is used to ask about a pending acceptance, Concierge
+> may explain the governed state and direct the Person to the authoritative contextual interaction — it
+> must never bypass authorization. See
+> [../architecture/adr-contextual-governed-acceptance-placement.md](../architecture/adr-contextual-governed-acceptance-placement.md).
+
 ---
 
 ## 2. Consumes

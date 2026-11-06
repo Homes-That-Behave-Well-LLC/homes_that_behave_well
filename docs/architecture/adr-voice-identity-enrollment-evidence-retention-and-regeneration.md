@@ -259,8 +259,11 @@ consequence — a count of Voiceprints that can regenerate automatically, a coun
 needing to create a new Voiceprint, confirmation that other accepted Identity methods are unaffected,
 and confirmation that existing Voiceprints are not removed/replaced unless the new compatibility
 boundary is successfully established — with controls to review affected people, acknowledge and
-continue, or cancel/defer. **OD-96 defines the required acknowledgement semantics; OD-93 (#203) retains
-interaction-surface placement and is not decided here.** Existing Home Assistant configuration/update
+continue, or cancel/defer. **OD-96 defines the required acknowledgement semantics; OD-93 is now closed
+as DL-148, placing this acknowledgement at the update/migration lifecycle event** — never a centralized
+acceptance surface. See
+[adr-contextual-governed-acceptance-placement.md](adr-contextual-governed-acceptance-placement.md).
+Existing Home Assistant configuration/update
 interaction patterns are used wherever they satisfy the requirement; no independent HTBW updater,
 notification center, or confirmation framework is invented absent evidence native facilities are
 insufficient (**P21** Home Assistant First).
@@ -387,8 +390,9 @@ checklist invented), the new artifact class is declared:
 - **No new responsibility, Identity state, or second Voiceprint is created.**
 - **No Consent responsibility is created**; **DL-56** governs unchanged.
 - **OD-16 is not reopened** — no sample count, threshold, or margin is decided here.
-- **#175/OD-87's own remaining notification/degradation/completion questions are not decided here.**
-- **OD-93's (#203) interaction-surface placement is not decided here.**
+- **#175/OD-87's own remaining notification/degradation/completion questions are not decided here** (now closed as **DL-146**).
+- **OD-93's (#203) interaction-surface placement is not decided here** (now closed as **DL-148**;
+  see [adr-contextual-governed-acceptance-placement.md](adr-contextual-governed-acceptance-placement.md)).
 - **#207's physical persistence placement is not decided here.**
 - **DL-19, DL-30, DL-32, DL-38 (F1–F9), DL-41, DL-43, DL-50, DL-56, DL-92, DL-104, DL-120, DL-136,
   amended DL-137, DL-140, DL-142, and DL-144 are not reopened.**
@@ -409,5 +413,6 @@ checklist invented), the new artifact class is declared:
 - [failure-and-degradation.md](failure-and-degradation.md)
 - [../models/communication.md](../models/communication.md)
 - [adr-communication-object-persistence.md](adr-communication-object-persistence.md) (**DL-142**)
+- [adr-contextual-governed-acceptance-placement.md](adr-contextual-governed-acceptance-placement.md) (**DL-148**)
 - [../models/glossary.md](../models/glossary.md)
 - [../governance/decision-ledger.md](../governance/decision-ledger.md)

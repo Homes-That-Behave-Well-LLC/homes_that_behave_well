@@ -1179,9 +1179,10 @@ administrator flag confers no care, guardianship, or proxy authority** (**DL-57*
 acceptance record reuses **DL-56**'s consent-record shape (actor, scope, granted/effective time,
 version), extended here to a Home-level governance-boundary acceptance. An installer's technical setup
 action is never household acceptance. Reacceptance is required only for a material governance-boundary
-change, never for routine software changes. **The onboarding or commissioning surface that captures
-this acknowledgement is not decided here** — the repository has no onboarding architecture today, a
-residual **OD-85** (#172) already owns.
+change, never for routine software changes. **This acknowledgement is presented in the commissioning/
+configuration context of the capability being commissioned, per DL-148's contextual-placement
+decision** — never a centralized acceptance surface. See
+[../architecture/adr-contextual-governed-acceptance-placement.md](../architecture/adr-contextual-governed-acceptance-placement.md).
 
 ### Evidence-quality-proportionate conclusions and Investigation Needed (DL-79)
 
@@ -2208,3 +2209,5 @@ architectural terms. They are not claims of legal effect.** See
   (**DL-146**)
 - [../architecture/adr-multi-speaker-evidence-and-speaker-plurality.md](../architecture/adr-multi-speaker-evidence-and-speaker-plurality.md)
   (**DL-147**)
+- [../architecture/adr-contextual-governed-acceptance-placement.md](../architecture/adr-contextual-governed-acceptance-placement.md)
+  (**DL-148**)

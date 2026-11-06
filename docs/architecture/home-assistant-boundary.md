@@ -626,6 +626,15 @@ semantics), which remain #149's own open governance question.
 - Backup, including automatic backup and its result reporting
 - Native automations, scripts, scenes, and blueprints authored by the household
 
+> **Config flows, Options flows, Repairs issues/guided repair flows, and update/reconfigure
+> interactions are the native patterns this verified-facilities list already supports for governed
+> household acceptance (DL-148).** A governed acceptance is placed against the native pattern matching
+> its own scope (Integration-scoped policy → Options Flow; a defect-correctable condition → Repairs;
+> a breaking update → the update/reconfigure interaction) — never forced into Config Flow merely for
+> uniformity, and never a reason to build a bespoke HTBW acceptance surface where a native pattern
+> already fits. See
+> [adr-contextual-governed-acceptance-placement.md](adr-contextual-governed-acceptance-placement.md).
+
 ---
 
 ## What HTBW owns
