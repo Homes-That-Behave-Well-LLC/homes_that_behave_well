@@ -210,6 +210,20 @@ See [docs/architecture/home-assistant-boundary.md](docs/architecture/home-assist
 
 ---
 
+## Related project: Home Steward
+
+[Home Steward](https://github.com/Homes-That-Behave-Well-LLC/home_steward) is the separately
+governed private household intelligence capability associated with Homes That Behave Well.
+
+HTBW governs what is true, who is engaging, what matters, what context applies, what is permitted,
+and what should happen. Home Steward adds retrieval, synthesis, reasoning, and conversational
+exploration over household-authorized knowledge without becoming authoritative for these responsibilities.
+
+Home Steward is designed to operate above a household-controlled private-AI platform connected
+to HTBW through governed local interfaces.
+
+---
+
 ## Local integration development (Issue #201)
 
 The Windows-local `.venv` is for imports, helper checks, linting, and type checking.
