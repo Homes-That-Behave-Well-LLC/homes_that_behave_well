@@ -1,0 +1,79 @@
+# ARM64 Windows-only development dependency set.
+#
+# Installed only by setup-dev-env.ps1's ARM64 Windows compatibility layer,
+# after homeassistant==2025.1.4, pytest-homeassistant-custom-component==
+# 0.13.205, acme, hass_nabucasa, and the bluetooth stack pytest-
+# homeassistant-custom-component's own "hass" fixture mocks unconditionally
+# have each already been installed with --no-deps (see that script for
+# why). This file lists every further package those packages actually need
+# at import/runtime, resolved together in one normal pip call so ordinary
+# transitive resolution still applies to all of them -- only the pinned
+# versions below are special-cased, each for a documented reason.
+#
+# cryptography is pinned because the version homeassistant==2025.1.4 and
+# acme would otherwise request (50.0.2 / >=47.0.0) has no published
+# win_arm64 wheel; 46.0.3 is the newest version confirmed to publish one.
+#
+# syrupy is pinned to the exact version pytest-homeassistant-custom-
+# component==0.13.205 itself requires (4.8.0): it is pure Python with no
+# platform-wheel issue, but a newer major version (6.x) removed the
+# `is_xdist_controller` helper the plugin imports, which is an API
+# incompatibility, not a wheel-availability one.
+#
+# pytest-asyncio is pinned to the exact version pytest-homeassistant-
+# custom-component==0.13.205 itself requires (0.24.0), for the same kind
+# of reason as syrupy above: it is pure Python with no platform-wheel
+# issue, but newer releases (1.x) removed the `event_loop` fixture the
+# harness's own `enable_event_loop_debug` autouse fixture depends on,
+# which is an API incompatibility, not a wheel-availability one.
+#
+# Every other entry is intentionally unpinned so pip selects whatever
+# current release has a win_arm64 wheel.
+
+aiohttp
+cryptography==46.0.3
+PyJWT
+packaging
+bcrypt
+webrtc_models
+propcache
+typing_extensions
+voluptuous
+python-slugify
+aiozoneinfo
+orjson
+atomicwrites
+ulid_transform
+async_interrupt
+awesomeversion
+voluptuous_serialize
+PyYAML
+jinja2
+ifaddr
+async_timeout
+boto3
+pycognito
+snitun
+josepy
+pyrfc3339
+pyopenssl
+aiohttp_cors
+fnv_hash_fast
+psutil-home-assistant
+Pillow
+astral
+pytest
+pytest-asyncio==0.24.0
+pytest-aiohttp
+pytest-socket
+pytest-unordered
+freezegun
+syrupy==4.8.0
+requests-mock
+mock-open
+pydantic
+respx
+sqlalchemy
+ruff
+mypy
+

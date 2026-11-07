@@ -1,0 +1,41 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Add an HTBW room",
+        "description": "Configure how this room participates in HTBW. Choose the room and, if applicable, its voice input and spoken response output. You can add an interface or physical remote afterward from this integration's options.",
+        "data": {
+          "area_id": "Room (Area)",
+          "voice_input": "Voice input",
+          "spoken_response_output": "Spoken response output"
+        }
+      }
+    },
+    "error": {
+      "area_not_found": "The selected room could not be found."
+    },
+    "abort": {
+      "already_configured": "This room is already configured."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Room interaction functions",
+        "description": "Update which native Home Assistant entity or device fulfills each interaction function for this room. Clear a field to remove that assignment.",
+        "data": {
+          "voice_input": "Voice input",
+          "spoken_response_output": "Spoken response output",
+          "interface": "Interface",
+          "physical_remote": "Physical remote"
+        }
+      }
+    }
+  },
+  "issues": {
+    "missing_reference": {
+      "title": "A configured HTBW reference no longer exists",
+      "description": "The {function} assignment for \"{entry_title}\" refers to {reference_id}, which no longer exists in Home Assistant. HTBW will not search for a replacement. Open this integration's configuration and choose a new reference, or remove the assignment."
+    }
+  }
+}
