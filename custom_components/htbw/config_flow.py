@@ -24,6 +24,7 @@ from typing import Any
 import probatio
 from homeassistant.config_entries import ConfigEntry, ConfigFlow, ConfigFlowResult, OptionsFlow
 from homeassistant.core import callback
+from homeassistant.data_entry_flow import section
 from homeassistant.helpers import area_registry as ar
 from homeassistant.helpers import selector
 
@@ -78,7 +79,7 @@ def _build_initial_schema() -> probatio.Schema:
 
 
 def _build_options_schema(current: dict[str, list[str]]) -> probatio.Schema:
-    return probatio.Schema(
+    fields = probatio.Schema(
         {
             probatio.Optional(
                 CONF_VOICE_INPUT,
@@ -110,6 +111,21 @@ def _build_options_schema(current: dict[str, list[str]]) -> probatio.Schema:
                     CONF_PHYSICAL_REMOTE_DEVICES,
                 )
             },
+        }
+    )
+    return probatio.Schema(
+        {
+            probatio.Optional(function.value): section(
+                probatio.Schema(
+                    {
+                        key: value
+                        for key, value in fields.schema.items()
+                        if _FIELD_REFERENCES[key.schema][0] is function
+                    }
+                ),
+                {"collapsed": False},
+            )
+            for function in InteractionFunction
         }
     )
 
@@ -237,7 +253,12 @@ class HTBWOptionsFlow(OptionsFlow):
                 errors["base"] = "unsupported_reference_type"
 
         if user_input is not None and not errors:
-            assignments = _assignments_from_user_input(room_id, user_input, current_assignments)
+            # Sections change only the form payload, not the persisted assignment shape.
+            selections = {
+                field: user_input.get(function.value, {}).get(field, [])
+                for field, (function, _) in _FIELD_REFERENCES.items()
+            }
+            assignments = _assignments_from_user_input(room_id, selections, current_assignments)
             return self.async_create_entry(
                 title="",
                 data={CONF_ASSIGNMENTS: [a.to_dict() for a in assignments]},

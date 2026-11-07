@@ -316,9 +316,17 @@ Options preserve unchanged timestamps and nonparticipating records. An explicit
 selection can reactivate an excluded record; an omitted participating assignment
 is removed. Options include native entity and device selectors for input, output,
 and remote, and a device selector for interface, following specification section
-18.1. The three additional device fields are alternate reference types for the
-same four functions, not additional roles. They remain empty unless explicitly
-selected. A stored unsupported function/reference-type combination is not
+18.1. The options form uses four expanded native HA sections, one per function.
+Within each section, selectors are labelled **Entities** then **Devices** where
+supported; **Interface** has **Devices** only, as specified by section 18.1.
+Section titles and field labels use HA's `options.step.init.sections` translations.
+There are no detached device fields or additional functions. Native selectors
+provide their own Add entity/Add device controls. The nested form submission is
+projected onto the existing assignment builder; persisted keys, timestamps,
+participation, retrieval, and config-entry version are unchanged. No migration or
+entry recreation is required for data from `2b1fd6b`.
+Device selections remain empty unless explicitly selected.
+A stored unsupported function/reference-type combination is not
 silently discarded: the form reports the problem and refuses the save.
 
 Disabled but still-existing native objects are not missing. Repairs are scoped

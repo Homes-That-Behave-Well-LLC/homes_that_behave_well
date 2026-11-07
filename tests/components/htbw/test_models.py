@@ -59,7 +59,22 @@ def test_native_schemas_validate_multiple_references() -> None:
         "spoken_response_output_devices": ["native_output"],
         "physical_remote_devices": ["native_remote"],
     }
-    assert options(selections) == selections
+    grouped = {
+        "voice_input": {
+            "voice_input": selections["voice_input"],
+            "voice_input_devices": selections["voice_input_devices"],
+        },
+        "spoken_response_output": {
+            "spoken_response_output": selections["spoken_response_output"],
+            "spoken_response_output_devices": selections["spoken_response_output_devices"],
+        },
+        "interface": {"interface": selections["interface"]},
+        "physical_remote": {
+            "physical_remote": selections["physical_remote"],
+            "physical_remote_devices": selections["physical_remote_devices"],
+        },
+    }
+    assert options(grouped) == grouped
     assert options({}) == {}
     records = _assignments_from_user_input("configured_room", selections)
     assert len(records) == 9

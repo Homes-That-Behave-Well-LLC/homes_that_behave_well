@@ -23,14 +23,35 @@
       "init": {
         "title": "Room interaction functions",
         "description": "Select the native Home Assistant entities or devices assigned to each interaction function for this room. Multiple selections are independent assignments, not a priority or fallback order. Clear a field to remove its participating assignments.",
-        "data": {
-          "voice_input": "Voice input",
-          "spoken_response_output": "Spoken response output",
-          "interface": "Interface",
-          "physical_remote": "Physical remote",
-          "voice_input_devices": "Voice input (devices)",
-          "spoken_response_output_devices": "Spoken response output (devices)",
-          "physical_remote_devices": "Physical remote (devices)"
+        "sections": {
+          "voice_input": {
+            "name": "Voice input",
+            "data": {
+              "voice_input": "Entities",
+              "voice_input_devices": "Devices"
+            }
+          },
+          "spoken_response_output": {
+            "name": "Spoken response output",
+            "data": {
+              "spoken_response_output": "Entities",
+              "spoken_response_output_devices": "Devices"
+            }
+          },
+          "interface": {
+            "name": "Interface",
+            "description": "Select devices that provide this room's visual or manual interface.",
+            "data": {
+              "interface": "Devices"
+            }
+          },
+          "physical_remote": {
+            "name": "Physical remote",
+            "data": {
+              "physical_remote": "Entities",
+              "physical_remote_devices": "Devices"
+            }
+          }
         }
       }
     },
