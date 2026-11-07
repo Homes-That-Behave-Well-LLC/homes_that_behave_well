@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from homeassistant.config_entries import ConfigEntryState
 from homeassistant.core import HomeAssistant
-from pytest_homeassistant_custom_component.common import MockConfigEntry
+from pytest_homeassistant.common import MockConfigEntry
 
 from custom_components.htbw.const import CONF_ASSIGNMENTS
 
@@ -25,7 +25,7 @@ async def test_setup_and_unload_entry(
 async def test_assignments_persist_across_reload(
     hass: HomeAssistant, setup_integration: MockConfigEntry
 ) -> None:
-    """Configured assignments survive an options update / reload (spec SS20)."""
+    """Configured assignments survive options updates and reload reconstruction."""
     room_id = setup_integration.data["room_id"]
     hass.config_entries.async_update_entry(
         setup_integration,
@@ -50,3 +50,20 @@ async def test_assignments_persist_across_reload(
     assert setup_integration.runtime_data.assignments[0].reference_id == (
         "assist_satellite.den_satellite"
     )
+    stored = setup_integration.options[CONF_ASSIGNMENTS]
+    assert await hass.config_entries.async_unload(setup_integration.entry_id)
+    assert await hass.config_entries.async_setup(setup_integration.entry_id)
+    await hass.async_block_till_done()
+    assert [a.to_dict() for a in setup_integration.runtime_data.assignments] == stored
+
+
+async def test_invalid_stored_assignment_fails_setup_explicitly(
+    hass: HomeAssistant, mock_config_entry: MockConfigEntry
+) -> None:
+    mock_config_entry.add_to_hass(hass)
+    hass.config_entries.async_update_entry(
+        mock_config_entry, options={CONF_ASSIGNMENTS: [{"function": "voice_input"}]}
+    )
+    assert not await hass.config_entries.async_setup(mock_config_entry.entry_id)
+    await hass.async_block_till_done()
+    assert mock_config_entry.state is ConfigEntryState.SETUP_ERROR

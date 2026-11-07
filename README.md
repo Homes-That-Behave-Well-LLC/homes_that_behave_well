@@ -210,6 +210,126 @@ See [docs/architecture/home-assistant-boundary.md](docs/architecture/home-assist
 
 ---
 
+## Local integration development (Issue #201)
+
+The Windows-local `.venv` is for imports, helper checks, linting, and type checking.
+The official integration tests run in an external Linux virtual environment in
+the existing WSL2 installation, authorized for Issue #201 test execution only.
+Neither environment is a Home Assistant installation to run. Do not launch Home
+Assistant, create runtime configuration or storage, use Docker, or restart HA from
+this repository. `H:` remains the only runtime/deployment environment for this work.
+WSL must not access H:, deploy, relocate/clone the repository, reuse the Windows
+`.venv`, or perform Git branch/commit/push/reset/clean operations. Git publication
+and deployment remain Windows-only.
+
+The test target is **Home Assistant Core 2026.11.0**, using **Python 3.14.2 or
+newer in the 3.14 series**. On Windows, select an **x64 Python interpreter**, even
+on an ARM64 host; the setup script checks the interpreter's actual wheel platform.
+Do not use the former ARM64 dependency overrides or replacement modules.
+
+**Native Windows test blocker:** the genuine 2026.11.0 dependencies install, but
+the official pytest plugin imports `homeassistant.runner`, which unconditionally
+imports the Unix-only `fcntl` module. Test collection therefore fails on Windows,
+including x64 Python. Installing another package or substituting a fake `fcntl`
+module is not an accepted fix. Use the authorized Linux test-host procedure below
+for the official suite; Windows static/helper checks do not replace it.
+The Windows setup script validates dependencies, not test readiness.
+
+[requirements-dev.txt](requirements-dev.txt) pins Core and the official
+`pytest-homeassistant` package to the same release. The
+[upstream test package](https://github.com/home-assistant/core/tree/2026.11.0/packages/pytest-homeassistant)
+replaces `pytest-homeassistant-custom-component`; do not install both.
+Dependencies must resolve normally, without `--no-deps` or metadata overrides.
+The pytest settings follow the official package's instructions, including disabling
+the separate respx plugin so Home Assistant can install its HTTP client alias first.
+The integration's form schemas use Probatio, as required by the 2026.11.0 form API.
+
+In PowerShell, from the repository root, supply the full path of an existing
+Python interpreter:
+
+```powershell
+.\scripts\setup-dev-env.ps1 -PythonPath 'C:\path\to\Python314\python.exe' -Recreate
+.\.venv\Scripts\python.exe -m pip check
+.\.venv\Scripts\python.exe -m ruff check custom_components\htbw tests
+.\.venv\Scripts\python.exe -m ruff format --check custom_components\htbw tests
+.\.venv\Scripts\python.exe -m mypy custom_components\htbw
+```
+
+`-Recreate` deletes only the repository-local `.venv`, including packages left by
+the abandoned setup. The script stops on installation or dependency-check failure;
+successful dependency installation alone does not establish passing tests. Repeat
+the clean setup and checks when validating reproducibility.
+
+### Official suite on the authorized WSL2 test host
+
+Use the existing Ubuntu WSL2 distribution and Python 3.14.2+ (3.14.x). The mounted
+working tree is the same authoritative Windows repository, not a second clone.
+Keep the Linux environment, pytest cache, temporary files, and logs outside it:
+
+```bash
+python3.14 -m venv "$HOME/.venvs/htbw-ha-tests"
+source "$HOME/.venvs/htbw-ha-tests/bin/activate"
+cd /mnt/c/HomesPlatformRepos/homes_that_behave_well
+python -m pip install -r requirements-dev.txt
+python -m pip check
+python -m pip freeze --all > "$HOME/.venvs/htbw-ha-tests-freeze.txt"
+test_artifacts="$HOME/.cache/htbw-issue201"
+mkdir -p "$test_artifacts"
+PYTHONDONTWRITEBYTECODE=1 python -m pytest tests -q \
+  -o cache_dir="$test_artifacts/pytest-cache" \
+  --basetemp="$test_artifacts/pytest-tmp" \
+  --junitxml="$test_artifacts/pytest.xml"
+```
+
+The official HA fixtures exercise integration behavior with their in-memory
+storage fixture; this does not authorize running `hass`, `python -m homeassistant`,
+a database, or an HA service. Do not weaken or replace the fixtures to get a pass.
+Use Windows tools for any source edits, inspect `git diff --check` and line-ending
+changes, then rerun the complete Linux suite and Windows checks before publication.
+
+After both Linux pytest and Windows checks pass, commit and push before running the authorized
+[PowerShell deployment script](scripts/deploy-to-ha.ps1), first with
+`-Commit <full-tested-commit-hash> -DryRun`, then with the same `-Commit`
+without `-DryRun`. The script rejects a dirty tree, a commit differing from HEAD
+or origin/main, unexpected runtime files, linked paths, and an H: drive not mapped
+to the authorized HA-DEV configuration share. Source and destination cannot be
+overridden. It compares every deployed runtime file's SHA256 with the checked
+Windows source bytes; Git's CRLF checkout conversion is not a content change.
+Deploy only `custom_components\htbw` to `H:\custom_components\htbw`, verify all
+deployed file hashes, then stop. Passing automated tests and matching files do not
+establish Reference Home runtime or household acceptance; that remains a separate
+owner validation.
+
+### Room interaction implementation boundary
+
+Native selectors for the four functions allow multiple selections. Each selection is persisted
+as its own atomic record; the stored shape for existing single selections is
+unchanged. The Foundation query is
+`get_room_interaction_assignments(hass, room_id, function)`: it returns **all**
+participating records with a per-reference `resolved` or `missing` result. An
+empty list means no participating assignment is configured. No list order implies
+priority, selection, fallback, or fan-out. This replaces the earlier singular
+Python helper that silently selected the first record; there are no production
+Concierge consumers in this slice.
+
+Options preserve unchanged timestamps and nonparticipating records. An explicit
+selection can reactivate an excluded record; an omitted participating assignment
+is removed. Options include native entity and device selectors for input, output,
+and remote, and a device selector for interface, following specification section
+18.1. The three additional device fields are alternate reference types for the
+same four functions, not additional roles. They remain empty unless explicitly
+selected. A stored unsupported function/reference-type combination is not
+silently discarded: the form reports the problem and refuses the save.
+
+Disabled but still-existing native objects are not missing. Repairs are scoped
+to each participating reference, reconcile removal/restoration and native-ID
+renames without remapping, and do not treat an `unavailable` state as a defect.
+Diagnostics redact Room, config-entry, and native-reference identifiers using
+Home Assistant's standard helper. The official integration tests and a new exact-version Owner retest are required
+before acceptance.
+
+---
+
 ## Document status
 
 **Every Markdown file in this repository carries a status banner.** Canonical documents define the

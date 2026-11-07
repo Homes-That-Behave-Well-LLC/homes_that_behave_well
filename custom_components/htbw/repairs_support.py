@@ -20,19 +20,24 @@ integration's own configuration/options path.
 from __future__ import annotations
 
 import logging
+from hashlib import sha256
 
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers import issue_registry as ir
 
-from .const import DOMAIN, ISSUE_ID_TEMPLATE
+from .const import DOMAIN, ISSUE_ID_PREFIX, ParticipationState
 from .foundation import reference_exists
-from .models import HTBWConfigEntry
+from .models import HTBWConfigEntry, RoomInteractionFunctionAssignment
 
 _LOGGER = logging.getLogger(__name__)
 
 
-def _issue_id(entry_id: str, function: str) -> str:
-    return ISSUE_ID_TEMPLATE.format(entry_id=entry_id, function=function)
+def assignment_issue_id(entry_id: str, assignment: RoomInteractionFunctionAssignment) -> str:
+    """Identify a defect by entry, function, and exact native reference."""
+    reference_key = sha256(
+        f"{assignment.reference_type.value}:{assignment.reference_id}".encode()
+    ).hexdigest()
+    return f"{ISSUE_ID_PREFIX.format(entry_id=entry_id)}{assignment.function.value}_{reference_key}"
 
 
 async def async_check_assignment_health(hass: HomeAssistant, entry: HTBWConfigEntry) -> None:
@@ -52,17 +57,20 @@ async def async_check_assignment_health(hass: HomeAssistant, entry: HTBWConfigEn
     live_issue_ids: set[str] = set()
 
     for assignment in entry.runtime_data.assignments:
-        issue_id = _issue_id(entry.entry_id, assignment.function.value)
+        if assignment.participation_state is not ParticipationState.PARTICIPATING:
+            continue
+        issue_id = assignment_issue_id(entry.entry_id, assignment)
         if reference_exists(hass, assignment.reference_type, assignment.reference_id):
-            if registry.async_get_issue(DOMAIN, issue_id) is not None:
-                ir.async_delete_issue(hass, DOMAIN, issue_id)
             continue
 
         live_issue_ids.add(issue_id)
+        if registry.async_get_issue(DOMAIN, issue_id) is not None:
+            continue
         ir.async_create_issue(
             hass,
             DOMAIN,
             issue_id,
+            config_entry_id=entry.entry_id,
             is_fixable=False,
             is_persistent=True,
             severity=ir.IssueSeverity.ERROR,
@@ -81,16 +89,7 @@ async def async_check_assignment_health(hass: HomeAssistant, entry: HTBWConfigEn
             assignment.function.value,
         )
 
-    # Remove any issue for a function no longer configured at all (for
-    # example, the resident removed the assignment through Options).
-    for function_value in (
-        "voice_input",
-        "spoken_response_output",
-        "interface",
-        "physical_remote",
-    ):
-        issue_id = _issue_id(entry.entry_id, function_value)
-        if issue_id in live_issue_ids:
-            continue
-        if registry.async_get_issue(DOMAIN, issue_id) is not None:
+    prefix = ISSUE_ID_PREFIX.format(entry_id=entry.entry_id)
+    for domain, issue_id in list(registry.issues):
+        if domain == DOMAIN and issue_id.startswith(prefix) and issue_id not in live_issue_ids:
             ir.async_delete_issue(hass, DOMAIN, issue_id)

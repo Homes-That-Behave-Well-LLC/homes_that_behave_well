@@ -2,9 +2,10 @@
 
 from __future__ import annotations
 
+from homeassistant.components.diagnostics import REDACTED
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers import entity_registry as er
-from pytest_homeassistant_custom_component.common import MockConfigEntry
+from pytest_homeassistant.common import MockConfigEntry
 
 from custom_components.htbw.const import CONF_ASSIGNMENTS
 from custom_components.htbw.diagnostics import async_get_config_entry_diagnostics
@@ -48,14 +49,23 @@ async def test_diagnostics_reports_assignment_status(
     diagnostics = await async_get_config_entry_diagnostics(hass, setup_integration)
 
     assert diagnostics["domain"] == "htbw"
-    assert diagnostics["room_id"] == room_id
+    assert diagnostics["room_id"] == REDACTED
+    assert diagnostics["config_entry_id"] == REDACTED
+    assert all(a["reference_id"] == REDACTED for a in diagnostics["assignments"])
     by_function = {a["function"]: a for a in diagnostics["assignments"]}
     assert by_function["spoken_response_output"]["reference_exists"] is True
     assert by_function["spoken_response_output"]["standing_defect"] is False
     assert by_function["voice_input"]["reference_exists"] is False
     assert by_function["voice_input"]["standing_defect"] is True
+    assert ok_entry.entity_id not in str(diagnostics)
+    assert "assist_satellite.long_removed" not in str(diagnostics)
 
     # No credentials, tokens, or network information of any kind.
     serialized = str(diagnostics)
     for forbidden in ("token", "password", "secret", "ip_address", "192.168", "10.0.0"):
         assert forbidden not in serialized.lower()
+
+    assert await hass.config_entries.async_unload(setup_integration.entry_id)
+    await hass.async_block_till_done()
+    assert not hasattr(setup_integration, "runtime_data")
+    assert await async_get_config_entry_diagnostics(hass, setup_integration) == diagnostics

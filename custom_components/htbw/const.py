@@ -57,10 +57,7 @@ class ParticipationState(StrEnum):
 
 
 class AssignmentResolution(StrEnum):
-    """Foundation's own existence-only resolution outcome (spec SS7, SS13, SS16).
-
-    NOT_CONFIGURED: no RoomInteractionFunctionAssignment record exists for
-        the requested (room_id, function).
+    """Existence-only outcome for a participating record (spec SS7/SS8).
     RESOLVED: a record exists and its stored native reference still exists
         in the relevant Home Assistant registry. This is an existence
         check only -- it never asserts current runtime availability
@@ -70,11 +67,9 @@ class AssignmentResolution(StrEnum):
         resolves in the registry -- a standing, Repairs-eligible defect.
     """
 
-    NOT_CONFIGURED = "not_configured"
     RESOLVED = "resolved"
     MISSING = "missing"
 
 
-# Home Assistant Repairs issue identifier template (one issue per configured
-# function whose reference is missing, scoped to its own config entry).
-ISSUE_ID_TEMPLATE = "missing_reference_{entry_id}_{function}"
+# Prefix also identifies legacy per-function issues for reconciliation.
+ISSUE_ID_PREFIX = "missing_reference_{entry_id}_"

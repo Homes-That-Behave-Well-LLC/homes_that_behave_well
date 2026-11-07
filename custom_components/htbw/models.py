@@ -59,37 +59,26 @@ class RoomInteractionFunctionAssignment:
             function=InteractionFunction(data["function"]),
             reference_type=ReferenceType(data["reference_type"]),
             reference_id=data["reference_id"],
-            participation_state=ParticipationState(
-                data.get("participation_state", ParticipationState.PARTICIPATING)
-            ),
-            assigned_at=data.get("assigned_at") or _utc_now_iso(),
-            updated_at=data.get("updated_at") or _utc_now_iso(),
+            participation_state=ParticipationState(data["participation_state"]),
+            assigned_at=data["assigned_at"],
+            updated_at=data["updated_at"],
         )
 
 
 @dataclass(frozen=True, slots=True)
 class AssignmentLookupResult:
-    """Honest result of a Foundation (room_id, function) retrieval (spec SS13).
-
-    status is one of AssignmentResolution.NOT_CONFIGURED / RESOLVED / MISSING.
-    assignment is populated for RESOLVED and MISSING, and is None for
-    NOT_CONFIGURED. There is no fourth outcome, and no guessed replacement is
-    ever substituted (spec SS15, SS16).
-    """
+    """Existence outcome for one explicitly participating record (spec SS7/SS8)."""
 
     status: AssignmentResolution
-    assignment: RoomInteractionFunctionAssignment | None = None
+    assignment: RoomInteractionFunctionAssignment
 
 
 @dataclass
 class HTBWRuntimeData:
     """Per-config-entry runtime state (current HA runtime-data convention).
 
-    One config entry represents one Room's full set of Interaction Function
-    Assignments (a deliberate, documented v1 cardinality choice -- see
-    SS21 of Issue #201 and the implementation report). Multiple Rooms are
-    supported by adding multiple config entries, not by one entry holding
-    several Rooms.
+    One config entry represents one Room, with zero or more atomic records per
+    function. Multiple Rooms are supported by adding multiple config entries.
     """
 
     assignments: list[RoomInteractionFunctionAssignment]

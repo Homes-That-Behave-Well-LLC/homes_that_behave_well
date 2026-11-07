@@ -1,7 +1,7 @@
 """Config-entry-backed persistence for Room Interaction Function Assignments.
 
-Spec SS12 (Persistence): uses ordinary Home Assistant config-entry options
-storage. No arbitrary database, no second registry, no direct writes to
+Uses ordinary Home Assistant config-entry options storage. No arbitrary
+database, no second registry, no direct writes to
 Home Assistant's own internal storage files. Display names are never
 persisted as native identity -- only the native entity_id/device_id itself.
 """
