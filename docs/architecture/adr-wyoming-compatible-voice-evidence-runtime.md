@@ -248,6 +248,17 @@ enrollment — enter Identity on exactly the same footing.** No source is archit
 | Discover App health, version, and capability | Claim the conversation agent |
 | Represent capability-unavailable under **DL-41** | Emulate the App when it is absent |
 
+**Update (Phase 1, #161, 2026-11-07): what "hold the voiceprint gallery" means.** Read literally, the
+row above conflicts with §19 (*"never vectors, embeddings"* leave the provider) and with **DL-145** §10,
+which places biometric representation and comparison mechanics with the runtime. **It is reconciled,
+not reversed.** The integration holds the governed **Voice Profile**, which is the Identity container
+for enrollment state, capture provenance, and consent linkage (§33.6). It also holds a **synchronized
+projection** of each Person's Voiceprint existence and compatibility state. **The biometric Voiceprint
+itself is held by the App, in custody for Identity**, which remains its owning responsibility (**DL-43**,
+**DL-145** §27). The App is authoritative for whether that Voiceprint exists, and the routine comparison
+request never carries the Voiceprint population. See the four contracts in
+[../contracts/identity-contract.md](../contracts/identity-contract.md#voice-evidence-app-boundary--four-contracts-phase-1-161).
+
 **`requirements` remains empty of optional heavy dependencies.** This is **D2**, and it is the single
 conformance rule that would have prevented the verified failure.
 
@@ -388,6 +399,26 @@ permission · a Trust outcome · a Concierge outcome.
 **These are boundary corrections, not defects of ambition.** The implementation is ahead of every
 third-party project reviewed on encoder pinning and correlation discipline.
 
+### Phase 1 reconciliation (#161, 2026-11-07)
+
+**The elements above, and the "what the record carries" diagram, are the pre-Phase-1 conceptual
+draft.** They are retained for provenance. **Phase 1 reconciled them** against later accepted authority
+(**DL-120**, **DL-144**–**DL-148**) and explicit Owner direction. The canonical result is the four
+App-boundary contracts — **A** handshake/synchronization, **B** enrollment, **C** runtime comparison,
+and **D** delete/cleanup — recorded in
+[../contracts/identity-contract.md](../contracts/identity-contract.md#voice-evidence-app-boundary--four-contracts-phase-1-161),
+where the provider boundary belongs (§28). **D5 and DL-50 are not reopened**:
+
+| Draft element | Reconciled position | Why D5 still holds |
+|---|---|---|
+| Ordered candidate list, provider-reported score per candidate | **A complete `{person_id, match_level}` set for every eligible enrolled Voiceprint**. No top-N truncation, and no early termination | The **Voiceprint Match Level** *is* the provider-reported score, on a governed ordinal scale. The complete set is a superset of an ordered candidate set, so Pattern 3's purpose (no single winner) is met |
+| Raw provider score | **Stays inside the App.** The App alone maps it to `no_match` < `low` < `moderate` < `high` < `very_high` | **DL-32**: the Match Level is retained as reported and never rewritten as fused confidence. Its calibration is provider-specific, so it is not a universal threshold. It is not a band, and Identity never copies it into one |
+| Winner/runner-up separation, ambiguity indicators | **Evaluated by Identity** from the complete result. Multiple `very_high` results are preserved | **DL-38 F8** is Identity's. The provider computes neither |
+| Provider id/version, encoder identity, capability status | **Contract A**, bound to each result by the Voiceprint Compatibility Contract identifier (**DL-145** §11) | §16's "recorded on every evidence record" is satisfied, because HTBW stamps the record from synchronized state |
+| Source device and Room; observation and expiry timestamps | Device and Room stay HTBW's own interaction context. **`observed_at` is supplied by HTBW**. Expiry is removed, because freshness is Identity's | §15: evidence is unbound, and binding stays in HTBW. The request's opaque `request_id` carries no correlation semantics |
+| Audio-quality, speech-region, processing metadata, warnings | An optional coarse `observation_quality` per result (**DL-38 F3**), and one result per qualified speech region (**DL-147**). Everything else stays in App operational diagnostics | "Quality summary" is already safe metadata |
+| `no-match` / `unavailable` / `incompatible` | `no_match` is the lowest Match Level. The technical outcomes are `unavailable`, `incompatible`, `comparison_failed`, and `no_usable_observation` | A successful all-`no_match` comparison is voice-family `unknown`, never `unavailable` (**DL-33**) |
+
 ---
 
 ## 12. Enrollment architecture
@@ -432,6 +463,17 @@ default**, now extended, not reopened, by **DL-145**: a household may explicitly
 enrollment, to retain enrollment recordings in protected local storage for future Voiceprint
 regeneration, subject to the Person's own applicable consent and strict purpose limitation. See
 [adr-voice-identity-enrollment-evidence-retention-and-regeneration.md](adr-voice-identity-enrollment-evidence-retention-and-regeneration.md).
+
+**Update (Phase 1, #161, 2026-11-07).** The flowchart's "consent recorded first" is an **HTBW-side
+gate**. Without Voice Identity consent in Person Setup, no capture begins and nothing reaches the App.
+No consent field crosses to the App. HTBW captures the enrollment set (ten phrase recordings under
+current configuration; the count remains implementation mapping under **OD-16**) and hands it, with the
+stable `person_id`, to the App. **The App then owns the recordings' technical lifecycle.** It creates
+the Person's one Voiceprint (**DL-144**) and retains or disposes of the recordings according to the
+applicable **DL-145** disposition, which it reads from synchronized configuration rather than from the
+request. Capture-channel provenance is recorded in HTBW's Voice Profile and does not cross. **While a
+Voiceprint exists, enrollment is unavailable**, and re-enrollment requires deletion first. See Contract
+B in [../contracts/identity-contract.md](../contracts/identity-contract.md#voice-evidence-app-boundary--four-contracts-phase-1-161).
 
 ---
 
@@ -697,6 +739,15 @@ flowchart TD
 | Voice Evidence Records | Identity | Retained **with the Decision Trace or governed history they support** — never under a separate universal duration, and never as a licence to retain biometric internals (**DL-47**) |
 | App temporary processing artifacts | Voice Evidence Provider Runtime | Transient; declared before introduction (**DL-43**) |
 
+**Update (Phase 1, #161, 2026-11-07).** Two further rows apply. **Retained enrollment recordings**
+(**DL-145** §27, Identity) are kept only while Option A **and** the Person's applicable consent permit
+it. **Runtime samples and encoded observations** are App temporary processing artifacts. **Ownership
+stays with Identity. Custody of every biometric artifact — enrollment recordings after handoff,
+retained recordings, and the Voiceprint — is the App's.** HTBW keeps no copy after a successful
+handoff. The per-artifact mapping, covering owner, custody, purpose, retention, deletion trigger,
+location, and boundary crossing, is in
+[../contracts/identity-contract.md](../contracts/identity-contract.md#voice-evidence-app-boundary--four-contracts-phase-1-161).
+
 ### Rejected-audio retention
 
 **Not enabled by default. Not enabled without governance.**
@@ -810,7 +861,9 @@ governed channel of section 10 — **never inside transcript text**.
 
 **Bound by.** **DL-38 F8** — `known` requires the leading candidate to reach the purpose minimum *and*
 satisfy a governed separation requirement. **A single winner gives fusion nothing to evaluate
-separation against**, which is why this is a correction and not an enhancement.
+separation against**, which is why this is a correction and not an enhancement. **Phase 1 (#161)
+reconciled "top-N" to its superset**: the App returns a Match Level for **every** eligible enrolled
+Voiceprint, with no truncation and no early termination.
 
 ### Pattern 4 — Channel-aware enrollment
 
@@ -1012,7 +1065,7 @@ transcription is prohibited as the mechanism** — see section 26.
 |---|---|---|
 | **Extraction silently truncates legitimate speech** | High | Section 24 — validation gate; extraction is classified separately and is not accepted behaviour |
 | **The App becomes a second identity authority by drift** | High | Section 6; the contract forbids person resolution, bands, and thresholds at the provider |
-| **Band vocabulary drift** — provider bands re-entering as Identity bands | Medium | Section 11 — the provider emits no band at all |
+| **Band vocabulary drift** — provider bands re-entering as Identity bands | Medium | Section 11 — the provider emits no band at all. **Phase 1 (#161):** the ordinal **Voiceprint Match Level** shares words with the **DL-39** bands but is a Provider Match Value. Identity applies it only at **DL-38** stage 3, and never copies it into a band |
 | Version skew between integration and App | Medium | Mandatory capability and version discovery; incompatible produces `unavailable` |
 | A single-maintainer upstream project becomes load-bearing | Medium | Section 22, rule 3 |
 | Model licence drift | Medium | Licence pinned with the encoder version |
@@ -1069,7 +1122,7 @@ capability requiring the **DL-30** burden to be discharged first.
 
 | # | Question | Position |
 |---|---|---|
-| 1 | Which integration modules remain | Voiceprint registry and storage; compatibility enforcement; candidate provider; services; config and options; health and diagnostics projection; evidence publication |
+| 1 | Which integration modules remain | Voiceprint registry and storage; compatibility enforcement; candidate provider; services; config and options; health and diagnostics projection; evidence publication. **Reconciled by Phase 1 (#161):** the integration keeps the Voice Profile and a synchronized registry projection of Voiceprint existence and compatibility. **Biometric Voiceprint storage, compatibility enforcement mechanics, and comparison move to the App** (§8 update; **DL-145** §10) |
 | 2 | Which modules move to the App | Encoder runtime; model loading, download, and integrity validation; feature extraction; audio preprocessing; VAD; segmentation; embedding. **Already done** — an accepted implementation-repository ADR created a Debian-based app with `GET /health` and `POST /embed` |
 | 3 | Which provisional implementations retire | The deterministic development encoder as a runtime path; any single-winner evidence shape; any provider-emitted confidence band; any universal confidence-threshold constant |
 | 4 | How existing voiceprints are handled | Records carrying full encoder metadata are retained. Legacy all-`None` records **fail closed** and are re-enrolled |
@@ -1122,7 +1175,7 @@ this repository, but it is not overridden here — it is scoped.
 
 | Phase | Scope |
 |---|---|
-| **1 — Architecture and contracts** | This ADR accepted; Voice Evidence Provider contract; App-and-integration responsibility boundary; capability discovery contract, **including optional-feature discovery so a provider declares which of segmentation, extraction, and passive capture it supports**; **provider-substitution migration**, which is the model-upgrade rule of section 16 applied to a change of provider rather than of model; retention classification |
+| **1 — Architecture and contracts** | This ADR accepted; Voice Evidence Provider contract; App-and-integration responsibility boundary; capability discovery contract, **including optional-feature discovery so a provider declares which of segmentation, extraction, and passive capture it supports**; **provider-substitution migration**, which is the model-upgrade rule of section 16 applied to a change of provider rather than of model; retention classification. **Complete (#161, 2026-11-07)** — see the four contracts in [../contracts/identity-contract.md](../contracts/identity-contract.md#voice-evidence-app-boundary--four-contracts-phase-1-161) |
 | **2 — App runtime foundation** | Supported encoder runtime; model loading; health; version reporting; local artifact storage; API authentication; capability reporting |
 | **3 — Enrollment** | Wyoming or satellite capture path; channel metadata; quality gates; voiceprint creation; gallery compatibility; re-enrollment and migration |
 | **4 — Runtime matching** | Pre-STT audio access; top-N candidate result; separation data; ambiguous and no-match outcomes; unbound evidence publication |

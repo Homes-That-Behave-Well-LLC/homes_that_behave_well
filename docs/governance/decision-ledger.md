@@ -1798,6 +1798,81 @@ eighty-four identifiers, ten closed, seventy-four open.
 
 ---
 
+### Notes on the Voice Evidence Phase 1 contract reconciliation (#161)
+
+**Recorded 2026-11-07. Phase 1 acceptance, PASS.** This is contract reconciliation under **DL-50**, not a
+new decision, and **no identifier is issued**. The four App-boundary contracts — **A**
+handshake/synchronization, **B** enrollment, **C** runtime comparison, and **D** delete/cleanup — are
+recorded in [../contracts/identity-contract.md](../contracts/identity-contract.md#voice-evidence-app-boundary--four-contracts-phase-1-161).
+They sit where the post-acceptance harvest placed the provider boundary. **No
+`voice-evidence-provider-contract.md` and no provider registry are created.**
+
+**Stale status corrected.** #161's original header described the ADR as *"Proposed — pending acceptance
+review"*. The repository already recorded it as **Accepted** (**DL-50**). #153 is closed, and Epic #147
+is closed. **DL-50's acceptance review was not re-run.**
+
+**Three apparent contradictions were tested and reconciled. None was material, so no Owner decision
+was required.**
+
+1. **Voiceprint custody.** DL-50 §8 and §30 placed the "gallery" and the "registry and storage" in the
+   integration. Read literally, that conflicts with §19 (*"never vectors, embeddings"* leave the
+   provider) and with **DL-145** §10 (the runtime owns biometric representation and comparison
+   mechanics). **Reconciled:** the integration keeps the governed Voice Profile and a synchronized
+   projection of existence and compatibility. **The App holds the biometric Voiceprint in custody for
+   Identity**, which remains its owning responsibility (**DL-43**, **DL-145** §27). The App is
+   authoritative for whether a Voiceprint exists, and the comparison request never carries the
+   population.
+2. **Provider score.** **D5** and this ledger's DL-50 row describe a *"provider-reported score for each
+   candidate"*. **Reconciled:** the score is the **Voiceprint Match Level**, the ordinal form of the
+   Provider Match Value: `no_match` < `low` < `moderate` < `high` < `very_high`. The App alone maps its
+   native numeric similarity to a level, so raw numbers never cross. **DL-32** holds, because the level
+   is retained as reported and never rewritten as fused confidence. **DL-36** holds, because the
+   calibration is provider-specific rather than a universal threshold or a verdict. **DL-38** holds,
+   because the level is applied only at qualification stage 3 and is never copied into a **DL-39**
+   band. Top-N becomes its superset: every eligible Voiceprint, with no truncation, no early
+   termination, and multiple `very_high` results preserved for Identity to disambiguate. Separation
+   and ambiguity indicators become Identity-derived.
+3. **Ten enrollment recordings.** The Owner direction names ten. The enrollment-sufficiency note above
+   holds that making a shipped sample-count constant canonical would contradict **DL-36** and reopen
+   **OD-16**. **Reconciled:** ten is the current enrollment configuration, which the App advertises in
+   `enrollment_requirements`. It is **not** elevated to architecture, and HTBW still owns the capture.
+
+**Owner direction confirmed against accepted authority:**
+
+- Consent is an **HTBW-side gate** (**DL-56**), and no consent field crosses to the App.
+- Retention is read by the App from synchronized governed configuration (**DL-145** §2–§3), never
+  carried per request.
+- One Voiceprint per Person (**DL-144**); an existing Voiceprint disables enrollment, and re-enrollment
+  requires deletion first.
+- Delete performs complete App-owned cleanup, including retained recordings.
+- Startup and reconnection synchronization drive enrollment availability. An unreachable App is
+  **DL-41** `unavailable`, never "not enrolled".
+- Encoder and provider substitution follow **DL-145**'s Breaking Identity Update path. HTBW governs; the
+  App rebuilds where retained recordings permit, and otherwise deletes the incompatible Voiceprint.
+- The request is minimal: an opaque `request_id`, `observed_at`, and `voice_sample`. `request_id`
+  carries no correlation semantics, so §15's unbound rule holds.
+- Contextual evidence never leaves Home Assistant.
+
+**Draft properties challenged and moved, not lost:**
+
+- Provider and encoder identity, capability status, and optional features move to Contract A.
+- Source device, Room, and `observed_at` stay with HTBW's interaction.
+- Expiry is removed, because freshness is Identity's.
+- Detailed audio, region, and processing metadata, and warnings, become App diagnostics, with a
+  lifecycle to be declared in Phase 2.
+- A coarse `observation_quality` survives, under **DL-38 F3**.
+- `no-match` becomes the lowest Match Level rather than a duplicate outcome.
+
+**The contract is versioned** as a whole (`contract_version` 1.0, major/minor), distinct from the App
+version and the Voiceprint Compatibility Contract.
+
+**This note introduces no construct.** It creates **no responsibility**, **no record class**, **no
+artifact class**, **no retention rule**, **no threshold**, and **no confidence representation**. It
+**amends no accepted decision** and **reopens none**. **No runtime implementation was created.**
+**#162** consumes the contracts. The ledger's identifier count is unchanged.
+
+---
+
 ### Notes on the custody and obligation-lifecycle decision
 
 **Recorded 2026-08-20. DL-48 and DL-49 were accepted, and OD-75 is closed by them. Formal acceptance

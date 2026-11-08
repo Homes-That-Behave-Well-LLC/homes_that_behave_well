@@ -1231,8 +1231,9 @@ silently rewritten as the fused identity confidence**, and it must never be pres
 own belief.
 
 ```
-provider_match:   Tom, 0.82, voice, capture context Den satellite
-                  (provider evidence — retained as reported)
+provider_match:   Tom, match level high, voice, capture context Den satellite
+                  (provider evidence — retained as reported; for voice, an ordinal
+                   Voiceprint Match Level, never a raw score — #161)
 
 assertion:        candidate Tom
                   purpose    current speaker in the Den

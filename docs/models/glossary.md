@@ -205,7 +205,19 @@ never assumed merely because evidence arrived through different entities.
 **Provider Match Value**
 The candidate and match value reported by an evidence provider, such as a voice matcher. It is
 **evidence**, retained as reported. **It is never rewritten as the fused identity confidence** and is
-never presented as the home's own belief.
+never presented as the home's own belief. For voice, it crosses the App boundary only as a
+**Voiceprint Match Level**.
+
+**Voiceprint Match Level (#161)**
+The ordinal form of the voice provider's Provider Match Value: `no_match` < `low` < `moderate` <
+`high` < `very_high`, reported by the Voice Evidence Provider Runtime for **every** eligible enrolled
+Voiceprint, keyed by stable `person_id`. **The App alone translates** its native numeric similarity
+into a level, and raw scores never cross the boundary. Calibration is provider-specific
+implementation mapping (**OD-16**). **Not a confidence band, not Identity confidence, not a probability,
+and not a threshold verdict.** Its labels share words with the **DL-39** bands, but Identity applies it
+only at **DL-38** qualification stage 3 and never copies it into a band. Several `very_high` results
+are valid evidence for Identity to disambiguate, never for the App to resolve.
+Contract: [../contracts/identity-contract.md](../contracts/identity-contract.md#voice-evidence-app-boundary--four-contracts-phase-1-161)
 
 **Assertion**
 A claim produced by a responsibility from evidence, carrying confidence and attribution.
