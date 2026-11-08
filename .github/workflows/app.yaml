@@ -29,10 +29,26 @@ jobs:
         with:
           persist-credentials: false
 
+      # Third-party linter (as used by home-assistant/apps-example), run from its pinned
+      # release so one finding can be overridden: it calls `watchdog` obsolete, but the
+      # official configuration reference
+      # (https://contributors.home-assistant.io/apps/reference/configuration/) and the
+      # Supervisor schema (supervisor/apps/validate.py) both accept it without any
+      # deprecation, and official sources prevail. Every other finding fails the job.
       - name: Home Assistant App lint
-        uses: frenck/action-addon-linter@v2.21.2
-        with:
-          path: "./apps/htbw_voice_evidence"
+        env:
+          LINTER_REF: v2.21.2
+        run: |
+          git clone --quiet --depth 1 --branch "$LINTER_REF" \
+            https://github.com/frenck/action-addon-linter "$RUNNER_TEMP/linter"
+          docker build --quiet --tag local/app-linter "$RUNNER_TEMP/linter/src" > /dev/null
+          docker run --rm -e INPUT_PATH=./apps/htbw_voice_evidence -e INPUT_COMMUNITY=false \
+            -v "$PWD:/work:ro" -w /work local/app-linter \
+            | sed "s/^::error\(.*'watchdog', is obsolete.*\)$/::notice\1 (overridden: official docs)/" \
+            | tee "$RUNNER_TEMP/lint.txt" || true
+          if grep '^::error' "$RUNNER_TEMP/lint.txt"; then
+            exit 1
+          fi
 
   build:
     name: Build ${{ matrix.arch }} (no push)

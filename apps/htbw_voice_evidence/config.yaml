@@ -6,8 +6,6 @@ url: "https://github.com/Homes-That-Behave-Well-LLC/homes_that_behave_well/tree/
 arch:
   - amd64
   - aarch64
-startup: application
-boot: auto
 stage: experimental
 # The Home Assistant base images use S6 overlay as PID 1.
 init: false

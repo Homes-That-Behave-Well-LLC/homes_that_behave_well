@@ -90,12 +90,12 @@ retest on HA-DEV (add both repository links, install, start setup).
 | Translations, `DOCS.md`, `README.md`, `CHANGELOG.md` | Present; CHANGELOG top heading equals `version` (test-enforced) | PASS |
 | `icon.png` / `logo.png` | Absent (optional) | Gap — optional; reuse approved branding when the Owner chooses |
 | Security: no host ports, no privileged access, no config-folder map, bearer secret, discovery provisioning | `config.yaml`, `DOCS.md` | PASS |
-| Lifecycle: `startup: application`, `boot: auto`, `init: false`, `watchdog` | `config.yaml` | PASS |
+| Lifecycle: default `startup` (application) and `boot` (auto), `init: false`, `watchdog` | `config.yaml`; redundant default keys removed per lint | PASS |
 | Backups | Private `/data` is included in HA backups; documented in `DOCS.md` and the user guide | PASS |
 | Model artifact external, pinned, verified | Revision-pinned download, SHA-256 before activation and on load (`MODEL_LICENSE.md`, `DOCS.md`) | PASS |
 | Prebuilt images (`image:`) | Built on device. Official guidance prefers published multi-arch images. | **Owner decision** — production image publication |
 | `stage: experimental` | Accurate for 0.1.0 | PASS |
-| App lint | `frenck/action-addon-linter` (as used by `home-assistant/apps-example`) in `.github/workflows/app.yaml` | PASS (see CI run) |
+| App lint | `frenck/action-addon-linter` (as used by `home-assistant/apps-example`), run from its pinned release in `.github/workflows/app.yaml`. Its one `watchdog` "obsolete" finding is overridden: the official configuration reference and the Supervisor schema accept `watchdog` without deprecation. Every other finding fails CI. | PASS (see CI run) |
 
 ## 6. Integration Quality Scale — rule by rule
 
