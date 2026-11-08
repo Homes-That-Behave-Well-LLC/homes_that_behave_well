@@ -137,32 +137,53 @@ threshold, or confidence representation**. These are **semantic** obligations. T
 encoding, discovery mechanics, polling or listener choice, and storage paths belong to later phases
 (#162–#165).
 
-**The App.** "The App" means the **Voice Evidence Provider Runtime** (**DL-50** D4), whose released
+**Post-acceptance remediation (2026-11-07, Owner review).** Three bounded corrections supersede the
+first acceptance's wording, which remains in git history and the #161 record:
+
+1. Retention policy is **read by the App** from governed configuration, never pushed by HTBW.
+2. Governance ownership is separated explicitly from technical storage and lifecycle execution.
+3. Enrollment is **exactly ten recordings**, a governed workflow cardinality.
+
+Everything else in this section stands as first accepted. "The App" means the **Voice Evidence Provider Runtime** (**DL-50** D4), whose released
 artifact name is the **HTBW Voice Identity App**. It is a **capability component that executes for
 Identity**. It is never a responsibility, never a second identity authority, and never Person
 resolution. **The App produces biometric comparison evidence. HTBW produces decisions.**
 
 #### Responsibility boundary
 
-| HTBW Integration (acting for Identity) owns | The App owns (component custody, executed for Identity) |
+| HTBW Integration (acting for Identity) owns | The App owns, as authoritative technical store and lifecycle executor |
 |---|---|
-| Person Setup / Person Configuration, and the stable HTBW `person_id` | Receipt of handed-off enrollment recordings |
+| Person Setup / Person Configuration, and the stable HTBW `person_id` | Receipt of the handed-off enrollment recordings |
 | The Voice Identity consent gate (**DL-56**) | Encoder execution and the Voiceprint Compatibility Contract it implements (**DL-145** §11) |
-| The capture workflow for the enrollment recordings | Voiceprint creation, and technical enforcement of one Voiceprint per `person_id` |
-| The household retention policy and each Person's applicable retention disposition (**DL-145** §2–§3) | Biometric Voiceprint storage |
-| The live voice-assistant interaction, its correlation, and the observation timestamp | Disposition of enrollment recordings after handoff, and the governed lifecycle of retained recordings |
+| The enrollment UX and capture of **exactly ten** enrollment recordings, then their handoff with `person_id`. **Its responsibility for those recordings ends at successful handoff** | Voiceprint creation, and technical enforcement of one Voiceprint per `person_id` |
+| Establishing the household retention policy as governed Integration configuration (**DL-145** §2, placed by **DL-148**). It does not instruct the App on any recording's disposition | Biometric Voiceprint storage, and storage of handed-off and retained recordings |
+| The live voice-assistant interaction, its correlation, and the observation timestamp | Reading the governed household retention policy, and disposing of or retaining recordings after handoff accordingly |
 | All contextual evidence: Room, occupancy, presence, BLE, personal devices, relationships | Voiceprint rebuild after an encoder change, where retained recordings permit |
 | Identity: evidence qualification, fusion, separation, disambiguation, confidence, Person resolution, `unknown`/`ambiguous` outcomes, and correction history | Cleanup when a rebuild is impossible, and all other App-owned cleanup |
 | Breaking Identity Update governance: compelling reason, classification, administrator acknowledgement, Communications (**DL-145** §13–§23, **DL-146**) | Runtime utterance encoding |
 | Operational Trust handoff, and the UI presentation of enrollment availability | Comparison against the full eligible Voiceprint population, and production of ordinal Match Levels |
 | | App health, version, capability, and compatibility reporting |
 
-**Custody is not ownership of the responsibility.** Every biometric artifact the App holds is still
-owned by **Identity** (**DL-43**, **DL-145** §27). The App holds it because the encoder runtime cannot
-execute inside the integration (**DL-50**). That custody grants the App no policy, consent, retention,
-or identity authority. **Neither side duplicates the other.** The integration does not hold a second
-copy of the Voiceprint, does not micromanage App files, and does not orchestrate App-side rebuild
-mechanics. The App does not interpret consent, choose retention policy, or resolve a Person.
+**Governance owner versus technical store (terminology reconciled by the #161 remediation).** When
+**DL-43** and **DL-145** §27 say an artifact is "owned by **Identity**", they name its **owning
+responsibility**. That is the **governance owner**, which declares the lifecycle (purpose, retention,
+deletion triggers, consent effect). DL-43 adds that *"physical storage owns nothing"*.
+
+**Identity is one of the seven responsibilities. It is not the HTBW Integration
+(`custom_components/htbw`), which is a component**, as the App is (**DL-50** D4). Two roles are
+therefore distinct:
+
+- **Governance owner: Identity.** It decides what the artifact means and what lifecycle governs it.
+- **Authoritative technical store and lifecycle executor: the App.** After successful handoff, the App
+  stores, retains, disposes of, rebuilds, and deletes the Voiceprint, the handed-off and retained
+  recordings, Voiceprint-specific derived encoder artifacts, and App-side biometric metadata. It does
+  so by executing Identity's declared lifecycle and the household's governed configuration.
+
+**The biometric Voiceprint artifact does not live in the HTBW Integration.** "Identity owns the
+Voiceprint" never means `custom_components/htbw` stores it. The Integration holds no second copy, keeps
+no recordings after handoff, does not decide or execute their later disposition, does not delete App
+files, and does not orchestrate App-side rebuild mechanics. The App invents no retention policy,
+interprets no consent, and resolves no Person.
 
 **The App never receives contextual Identity evidence**: no Room, occupancy, presence, BLE,
 personal-device, household-relationship, Operational Trust, authorization, Concierge, or interaction
@@ -178,6 +199,8 @@ history. That evidence stays inside Home Assistant under HTBW authority, where I
 | I4 | **Evidence, never decisions** | The App never returns final Person resolution, Identity confidence, fused confidence, an Identity Confidence Band, a separation verdict, a Trust result, permission, authorization, or a Concierge outcome |
 | I5 | **No biometric internals cross** | Recordings cross **once, inbound**, at enrollment handoff. A runtime voice sample crosses **once, inbound**, per comparison. Voiceprints, embeddings, encoded observations, raw provider scores, and storage paths **never** cross (**DL-43**, **DL-120**, `privacy.md`) |
 | I6 | **HA-Prod-local** (**DL-120**) | The App, its Voiceprints, any retained recordings, and every comparison execute only on an HA-Prod-admitted resource |
+| I7 | **No biometric artifact in the Integration** | The Voiceprint, handed-off recordings, retained recordings, and derived encoder artifacts are stored only by the App. The Integration holds only the Voice Profile and the synchronized state from Contract A |
+| I8 | **Ten-recording enrollment cardinality** | Contract B hands off **exactly ten** successfully captured recordings. That is the governed workflow cardinality of the current HTBW Voice Enrollment experience. **It is not a biometric sufficiency threshold, encoder calibration constant, quality threshold, or provider requirement.** Sufficiency and calibration remain provider/implementation mapping, and **DL-36** is unaffected. The App neither selects nor advertises the count |
 
 #### Contract A — Handshake and synchronization
 
@@ -191,8 +214,19 @@ synchronization.** The mechanism (request, push, or poll) is Phase 2's to choose
 
 | Direction | Conceptual content |
 |---|---|
-| App → HTBW | `contract_version`; `app_version`; `status` and `reason_code` (available, unavailable, or incompatible, naming the cause); the **Voiceprint Compatibility Contract** identity `compatibility_id`, with `encoder_family`, `encoder_version`, and `audio_contract_version` (**DL-50** §16, **DL-145** §11); `optional_capabilities`; `enrollment_requirements`, such as the accepted audio format and required recording count (**DL-145** §12); and **one entry per `person_id` for which the App holds any enrollment state**: `voiceprint_exists`, `voiceprint_state` (`current` or `incompatible`), and `retained_recordings` (present or absent). **While a Breaking Identity Update is pending or in progress, it also reports** the target `compatibility_id`; per `person_id`, a `rebuild_assessment` (`possible` or `not_possible`, with a reason category) — whether retained recordings exist and satisfy the target encoder (**DL-145** §12, §17); and, once migration runs, a per-Person `migration_outcome` (`regenerated` or `removed`, with a reason category such as no retained recordings, reuse not permitted, insufficient for the target, or validation failed) |
-| HTBW → App | `contract_version`; the household **retention policy** (**DL-145** §2); and, per `person_id`, the **applicable retention disposition** — the household policy as narrowed by that Person's applicable consent (**DL-145** §3), computed by HTBW. The App applies the disposition but never sees or interprets the consent behind it. **Once the administrator has acknowledged a Breaking Identity Update**, HTBW also sends a single **`migration_authorization`** for the target `compatibility_id`. This is the household-level regeneration request of **DL-145** §12 and §19; it is never a sequence of per-Person instructions |
+| App → HTBW | `contract_version`; `app_version`; `status` and `reason_code` (available, unavailable, or incompatible, naming the cause); the **Voiceprint Compatibility Contract** identity `compatibility_id`, with `encoder_family`, `encoder_version`, and `audio_contract_version` (**DL-50** §16, **DL-145** §11); `optional_capabilities`; and **one entry per `person_id` for which the App holds any enrollment state**: `voiceprint_exists`, `voiceprint_state` (`current` or `incompatible`), and `retained_recordings` (present or absent). **While a Breaking Identity Update is pending or in progress, it also reports** the target `compatibility_id`; per `person_id`, a `rebuild_assessment` (`possible` or `not_possible`, with a reason category) — whether retained recordings exist and satisfy the target encoder (**DL-145** §12, §17); and, once migration runs, a per-Person `migration_outcome` (`regenerated` or `removed`, with a reason category such as no retained recordings, reuse not permitted, insufficient for the target, or validation failed) |
+| HTBW → App | `contract_version`. **Once the administrator has acknowledged a Breaking Identity Update**, HTBW also sends a single **`migration_authorization`** for the target `compatibility_id`. This is the household-level governance gate of **DL-145** §12 and §19 — an authorization, not lifecycle policy, and never a sequence of per-Person instructions |
+
+**What Contract A never carries.** Contract A is not a general configuration-synchronization protocol.
+It never carries the household retention policy, a per-Person retention disposition, a per-enrollment
+retention choice, or consent state. **The App reads the household's governed retention configuration
+itself** (**DL-145** §2), at the point where it decides what happens to recordings it owns. HTBW
+governance *establishes* that policy in Integration configuration (**DL-148**); the App *executes* it.
+How the App reads the governed setting is #162's to implement. It must be a read of the governed value,
+never an Integration-issued disposition instruction, and never a field of Contracts A–D. **The App
+never advertises or changes the enrollment count**, because enrollment cardinality is governed by HTBW
+(I8). The audio input format DL-145 §12 calls "enrollment-evidence requirements" is expressed by
+`audio_contract_version`.
 
 **Rules.**
 
@@ -217,37 +251,52 @@ synchronization.** The mechanism (request, push, or poll) is Phase 2's to choose
 
 #### Contract B — Enrollment
 
-**Preconditions, all held by HTBW.** Voice Identity consent has been granted in Person Setup (I3). The
-household retention policy exists (**DL-145** §2). Contract A is synchronized and the App is
-available. **The applicable retention disposition for this `person_id` has already been synchronized
-to the App** through Contract A, so the App never receives recordings without knowing whether to keep
-them. **The App reports no Voiceprint for this `person_id`** (I1).
+**Preconditions, all held by HTBW.**
 
-**HTBW responsibility.** Capture the enrollment set and associate it with the stable `person_id`. **The
-enrollment set is ten phrase recordings** under current enrollment configuration. That count is
-**implementation mapping, not architecture** (**OD-16**, **DL-36**), and the App advertises it in
-`enrollment_requirements`. **Capture provenance** — channel, endpoint, microphone, Room, and capture
-distance (**DL-144**, Pattern 4) — **is recorded in HTBW's Voice Profile and does not cross.**
+- Voice Identity consent has been granted in Person Setup (I3).
+- The household retention policy has been established (**DL-145** §2).
+- Contract A is synchronized and the App is available.
+- **The App reports no Voiceprint for this `person_id`** (I1).
+- **Exactly ten enrollment recordings have been successfully captured** (I8).
+
+**HTBW responsibility.** Run the enrollment experience, capture **exactly ten** recordings, associate
+them with the stable `person_id`, and hand them off. Partial enrollment, a provider-selected or
+App-requested count, and a dynamically inferred count are prohibited until later accepted architecture
+changes this. **Capture provenance** — channel, endpoint, microphone, Room, and capture distance
+(**DL-144**, Pattern 4) — **is recorded in HTBW's Voice Profile and does not cross.**
 
 | Direction | Conceptual content |
 |---|---|
-| HTBW → App | `person_id`; `recordings`, the complete captured enrollment set |
-| App → HTBW | `person_id`; `outcome` (`created` or `enrollment_failed`); `reason_code` on failure, as a category such as insufficient quality, insufficient recordings, unsupported audio, Voiceprint already exists, or App unavailable |
+| HTBW → App | `person_id`; `recordings[10]` |
+| App → HTBW | `person_id`; `outcome` (`created` or `enrollment_failed`); `reason_code` on failure, as a category such as insufficient quality, invalid recording count, unsupported audio, Voiceprint already exists, or App unavailable |
 
-**Never sent:** a display name as identity authority, consent, Room or channel context, BLE or other
-evidence, Identity confidence, the retention choice, a provider score threshold, or any authorization
-result beyond the governed workflow having been allowed to occur.
+**Never sent:** a consent flag; the retention choice or any retention disposition; Room, channel,
+presence, BLE, or other evidence; Identity confidence; a provider threshold; a display name as identity
+authority; the existing Voiceprint population; or any authorization result beyond the governed
+workflow having been allowed to occur.
 
-**After successful handoff, the App owns the recordings' technical lifecycle.** HTBW keeps no copy
-(**DL-43**). The App:
+**Consent and retention at handoff.** A valid ten-recording handoff is sufficient evidence to the App
+that the HTBW-side consent prerequisite was satisfied. The Person's Voice Identity consent at the gate
+already discloses the household's retention behaviour (Person Setup, **DL-56**), so the Person's
+applicable consent under **DL-145** §3 is established **before** handoff. Narrowing or withdrawing that
+consent is Voice Identity withdrawal under **DL-56**, and it triggers Contract D. A distinct
+retention-only consent control is **not** introduced here; if one is ever proposed, it requires its
+own governance.
 
-1. validates the recordings against its requirements;
+**After successful handoff, the Integration's responsibility for the recordings ends.** HTBW keeps no
+copy (**DL-43**) and manages none of their later disposition. The App, as authoritative technical
+store and lifecycle executor:
+
+1. validates the recordings. A set other than ten, or one that fails technical validation, yields
+   `enrollment_failed`. Biometric sufficiency and quality judgement are the App's own implementation
+   mapping, never a count it selects;
 2. encodes them and creates the Person's **one** Voiceprint, associated with the supplied `person_id`;
-3. applies the applicable retention disposition. With **retain**, after successful Voiceprint creation
-   and validation, it keeps the recordings in the governed retained-recording location (**DL-145**
-   §6/§27; physical placement is **#207**). With **delete**, it disposes of them (**DL-43**). On
-   `enrollment_failed`, it always disposes of them, because retention requires a successfully
-   completed and validated enrollment (**DL-145** §27, row 4);
+3. **reads the household's governed retention configuration** and acts on it. Under **Option A**,
+   after successful Voiceprint creation and validation, it retains the ten recordings in the governed
+   retained-recording location (**DL-145** §6/§27; physical placement is **#207**) and owns their
+   future rebuild use. Under **Option B**, it disposes of them (**DL-43**). On `enrollment_failed`, it
+   always disposes of them, because retention requires a successfully completed and validated
+   enrollment (**DL-145** §27, row 4);
 4. reports the outcome. After `created`, HTBW reflects `voiceprint_exists = true`, and enrollment
    becomes unavailable.
 
@@ -339,10 +388,10 @@ withdrawn (I3), reconciles at the next synchronization, and never reports deleti
 (**DL-41**). The consent-lifecycle facts that survive deletion are HTBW's **DL-47** structural floor,
 never App state.
 
-**A retention-only change is not Contract D.** When the household policy moves from A to B, or a
-Person's applicable retention disposition ends while the Voiceprint remains valid, the App disposes of
-that Person's retained recordings on reading the changed Contract A disposition (**DL-145** §8). The
-Voiceprint is unaffected. A change from B to A is prospective only (**DL-145** §9).
+**A retention-only change is not Contract D.** When the household policy moves from A to B, the App
+reads the changed governed configuration itself and disposes of retained recordings (**DL-145** §8).
+No Integration instruction is involved, and Voiceprints are unaffected. A change from B to A is
+prospective only (**DL-145** §9).
 
 #### Encoder and provider migration
 
@@ -353,14 +402,15 @@ blast radius**: every Voiceprint becomes incompatible at once.
 
 - **HTBW governs** (**DL-145** §14–§23, **DL-146**). It applies the compelling-reason gate. **Before
   committing**, it classifies each Person from Contract A state (`voiceprint_state`,
-  `retained_recordings`, and the App's `rebuild_assessment` against the target `compatibility_id`)
-  together with the applicable retention disposition. It obtains administrator acknowledgement at the
-  update lifecycle event (**DL-148**), then sends the single `migration_authorization`. It also sends
-  governed Communications and records migration completion.
+  `retained_recordings`, and the App's `rebuild_assessment` against the target `compatibility_id`). It
+  obtains administrator acknowledgement at the update lifecycle event (**DL-148**), then sends the
+  single `migration_authorization`. It also sends governed Communications and records migration
+  completion. **It never sends recordings back to the App and never orchestrates per-Person rebuild
+  steps.**
 - **The App performs the mechanics** once it receives `migration_authorization` and the new
   compatibility boundary commits. For each incompatible Voiceprint:
-  - **If retained recordings exist, the disposition permits reuse, and they satisfy the target
-    encoder,** the App rebuilds the Voiceprint, validates it, and replaces the obsolete one. There is
+  - **If retained recordings exist, the governed household policy permits reuse (Option A), and they
+    satisfy the target encoder,** the App reads the recordings it holds, rebuilds the Voiceprint, validates it, and replaces the obsolete one. There is
     never more than one active Voiceprint. It reports `migration_outcome = regenerated` and
     `voiceprint_state = current`.
   - **Otherwise, or if the rebuild or validation fails,** the App deletes the incompatible Voiceprint
@@ -390,10 +440,10 @@ The initial version is **1.0**. Three versions are deliberately distinct and are
 #### Field vocabulary
 
 Names are reconciled against the existing implementation record (**DL-50** §11), but **an
-exploratory or superseded implementation never overrides this contract**. Unless stated otherwise, the
-owner is **Identity**, held by HTBW.
+exploratory or superseded implementation never overrides this contract**. The "Governance owner /
+technical store" column follows the terminology reconciliation under **Responsibility boundary**.
 
-| Field | Meaning | Owner / custody | Required | Contract | Why it crosses | Implementation analogue | Compatibility concern |
+| Field | Meaning | Governance owner / technical store | Required | Contract | Why it crosses | Implementation analogue | Compatibility concern |
 |---|---|---|---|---|---|---|---|
 | `contract_version` | Semantic contract version | Both sides | Required | A | Compatibility before any use | App `api_version` | Renamed: it versions the semantic contract, not an HTTP API |
 | `app_version` | Runtime/component version | App | Required | A | **DL-145** §12 Explainability and diagnostics | — | None |
@@ -401,7 +451,6 @@ owner is **Identity**, held by HTBW.
 | `compatibility_id` | Voiceprint Compatibility Contract identity | App | Required | A; echoed in C | Binds evidence to encoder identity without repeating it per result (**DL-50** §16) | — (new; **DL-145** §11) | Mismatch triggers resynchronization |
 | `encoder_family`, `encoder_version`, `audio_contract_version` | Encoder identity | App | Required | A | **DL-50** §16; recorded on the HTBW evidence record from synchronized state | Same names (`artifact_persistence.py`, App health) | Preserved unchanged |
 | `optional_capabilities` | Declared optional features | App | Required (may be empty) | A | Avoids assumed or refused capabilities (**DL-41**) | — | Additive by minor version |
-| `enrollment_requirements` | What a valid enrollment set must satisfy | App | Required | A | **DL-145** §12 | Implementation enrollment constants (`TARGET = 10`) | Values are implementation mapping (**OD-16**) |
 | `person_id` | Stable HTBW Person reference | HTBW | Required | A, B, C, D | The only association key; display names are never identity | `person_id` (`contracts.py`, `attribution_models.py`) | `voice_profile_id` / `profile_id` / `voiceprint_id` are **not** adopted, because one Voiceprint per Person makes them redundant at this boundary |
 | `voiceprint_exists` | Whether the App holds a Voiceprint | App (authoritative) | Required | A, D | Drives Person Configuration (I2) | — | None |
 | `voiceprint_state` | `current` or `incompatible` | App | Required when the Voiceprint exists | A | Migration classification (**DL-145** §17) | `compatibility_readiness` | None |
@@ -409,12 +458,11 @@ owner is **Identity**, held by HTBW.
 | `rebuild_assessment` | Whether retained recordings exist and satisfy a pending target encoder | App | Required while a Breaking Identity Update is pending | A | Pre-migration classification (**DL-145** §12, §17) | — | Reason category only; no biometric detail |
 | `migration_authorization` | Household-level authorization to apply a Breaking Identity Update for a target `compatibility_id` | HTBW | Required to start migration | A (HTBW → App) | **DL-145** §12 regeneration request, issued after §19 acknowledgement | — | Never per-Person orchestration |
 | `migration_outcome` | Per-Person migration result: `regenerated` or `removed` | App | Required after migration | A | **DL-145** §17, §20; **DL-146** | — | Reason category only |
-| retention policy and per-Person retention disposition | Household Option A/B and its applicable Person-level effect | HTBW | Required | A (HTBW → App) | The App must apply it; never per enrollment request | — | Never a consent field |
-| `recordings` | The captured enrollment set | Identity; App custody after handoff | Required | B | Voiceprint creation | Enrollment samples | Biometric source; inbound once |
+| `recordings[10]` | The ten-recording enrollment set | Identity / App after handoff | Required, exactly ten | B | Voiceprint creation | Enrollment samples (`TARGET = 10`) | Fixed workflow cardinality (I8); not a sufficiency or calibration value; inbound once |
 | `outcome` | Technical result of B, C, or D | App | Required | B, C, D | The lifecycle result | — | Never Person resolution |
 | `request_id` | Opaque request correlation token | HTBW | Required | C | Pairs a response with its request | — | Never `conversation_id`, `device_id`, `room_id`, `satellite_id`, or `pipeline_id` (**DL-50** §15) |
 | `observed_at` | When the observation was made | HTBW | Required | C (request) | Identity correlates it with contemporaneous evidence | — | Not echoed; HTBW holds it |
-| `voice_sample` | Utterance audio | HTBW → App custody (transient) | Required | C | The thing being compared | Assist audio stream | Inbound once; never retained by default (**DL-43**) |
+| `voice_sample` | Utterance audio | Identity / App (transient) | Required | C | The thing being compared | Assist audio stream | Inbound once; never retained by default (**DL-43**) |
 | `region` | Speech-region index | App | Optional | C | **DL-147** per-region evidence | — | Present only when segmentation is in use |
 | `observation_quality` | Coarse quality summary | App | Optional | C | **DL-38 F3** stage 4; "quality summary" is safe metadata | — | Absence holds rather than lowers |
 | `matches[].match_level` | Ordinal Voiceprint Match Level | App | Required | C | The minimum evidence Identity needs | `ComparisonResult.known_matches` (internal list) | Replaces numeric `confidence`, `ConfidenceBand`, `best_match` / `second_best_match`, `is_ambiguous`, and `is_confident`. Each is retired at this boundary |
@@ -434,22 +482,21 @@ owner is **Identity**, held by HTBW.
 #### Retention and artifact mapping
 
 **No new artifact class is created.** Every artifact maps to an existing **DL-43**, **DL-47**, or
-**DL-145** declaration.
+**DL-145** declaration. **Governance owner** is the DL-43/DL-145 "owning responsibility". It is
+distinct from the component that stores the artifact and executes its lifecycle.
 
-| Artifact | Owning responsibility / custody | Purpose | Retention | Deletion trigger | Governed location | Crosses boundary |
-|---|---|---|---|---|---|---|
-| Enrollment recordings during capture | Identity / HTBW | Enrollment input | **DL-43** voice enrollment samples: temporary, zero default retention | Handoff, cancellation, failure | HA-Prod-local transient (**DL-120**) | Inbound once (B) |
-| Enrollment recordings after handoff (not retained) | Identity / App | Voiceprint creation | **DL-43**, as above | After Voiceprint creation and validation, or on failure | App transient | Never back |
-| Retained enrollment recordings | Identity / App | Regeneration only (**DL-145** §5) | **DL-145** §27: while Option A **and** applicable consent permit | Change from A to B, consent withdrawal, erasure, profile removal, Contract D | **DL-145** §6 governed namespace, Internal Runtime Artifact; physical placement **#207**; **DL-120** | Never; presence only (A) |
-| Voiceprint (biometric artifact) | Identity / App | Comparison | **DL-43** voiceprints and derived profiles: while the profile is enabled and consent is valid | Contract D, consent withdrawal, profile removal, incompatible and not rebuildable | Internal Runtime Artifact; **DL-120** | Never; existence only (A) |
-| App technical enrollment metadata | Identity / App | Compatibility enforcement | With its Voiceprint (**DL-43**) | With its Voiceprint | App, with the Voiceprint | Safe projection only (A) |
-| Runtime voice sample | Voice Evidence Provider Runtime | Comparison | **DL-43** App temporary processing artifact: transient; raw audio is not persisted by default | End of comparison | App transient | Inbound once (C) |
-| Runtime encoded observation (Speaker Embedding) | Voice Evidence Provider Runtime | Comparison | **DL-43** App temporary processing artifact: transient | End of comparison | App transient | Never |
-| Comparison result, recorded by HTBW as the Voice Evidence Record | Identity / HTBW | Fusion and explanation | **DL-47**: with the Decision Trace or governed history it supports | With that trace or history | HTBW governed records | Outbound (C), safe metadata only |
-| Synchronized handshake/status state | Identity / HTBW | Availability and enrollment availability | **DL-47** Current Projection: replaced, never retained as history | Superseded by next synchronization | HTBW | Both ways (A) |
-| Voice Profile: enrollment state, capture provenance, consent link | Identity / HTBW | Governed container (**DL-50** §33.6) | **DL-43** profile lifecycle; consent facts under the **DL-47**/**DL-56** structural floor | Profile removal or consent withdrawal (floor survives) | HTBW | Never |
+| Artifact | Governance owner (DL-43/DL-145) | Authoritative technical store | Lifecycle executor | Retention authority | Deletion executor | Integration stores a copy? | App stores a copy? |
+|---|---|---|---|---|---|---|---|
+| Enrollment recording **before** handoff | Identity (**DL-43** voice enrollment samples) | HTBW Integration, transiently during capture | HTBW Integration | **DL-43**: temporary, zero default retention | HTBW Integration — on successful handoff, cancellation, or failure | Transiently, only until handoff | No |
+| Enrollment recording **after** handoff | Identity (**DL-43**) | App | App | Household governed retention configuration (**DL-145** §2), read by the App; **DL-43** default | App — after Voiceprint creation and validation (Option B) or on failure | **No** | Yes, until disposition |
+| Retained enrollment recordings | Identity (**DL-145** §27) | App, in the **DL-145** §6 governed namespace (physical placement **#207**; **DL-120**) | App, including future rebuild use | **DL-145**: Option A household policy, plus the Person's consent established at the gate | App — on A→B (read from configuration), Contract D, or migration removal | **No** | Yes |
+| Voiceprint artifact | Identity (**DL-43** voiceprints and derived profiles) | App | App: creation, rebuild, removal | **DL-43**: while the profile is enabled and consent is valid | App — on Contract D, or when incompatible and not rebuildable | **No** (I7) | Yes, the only copy |
+| App-specific derived biometric artifacts and App-side biometric metadata | Identity (**DL-43**, with its Voiceprint) | App | App | With its Voiceprint | App, with its Voiceprint | **No** | Yes |
+| Runtime voice sample / encoded observation (Speaker Embedding) | Voice Evidence Provider Runtime temporary processing artifact (**DL-43**) | App, transiently | App | **DL-43**: transient | App, at end of comparison | No | Transiently |
+| Integration-side Voice Profile and synchronized projection (existence, compatibility, Contract A state) | Identity (**DL-43** profile; **DL-47** Current Projection; **DL-56** consent floor) | HTBW Integration | HTBW Integration | **DL-43** / **DL-47** | HTBW Integration — profile removal; projection replaced by synchronization | Yes — metadata only, never biometric | No |
+| Comparison result, recorded as the Voice Evidence Record | Identity (**DL-47**) | HTBW Integration | HTBW Integration | **DL-47**: with the Decision Trace or governed history it supports | HTBW Integration | Yes — safe metadata only | No |
 
-**HTBW capturing a recording does not make HTBW its lifecycle custodian after successful handoff.**
+**HTBW capturing a recording does not make HTBW its lifecycle executor after successful handoff.**
 The App applies the declared lifecycle on Identity's behalf.
 
 #### What Phase 2 and later consume
@@ -457,8 +504,15 @@ The App applies the declared lifecycle on Identity's behalf.
 **#162 onward consume this section rather than rediscovering it.** That covers the four contracts and
 their field vocabulary, the responsibility split, the consent boundary, the Voiceprint lifecycle,
 handshake and synchronization semantics, comparison semantics, and retention and migration
-requirements. Transport (HTTP, Wyoming, or another), authentication mechanics, encoder selection,
-Match Level calibration, and storage placement remain theirs to decide, within these semantics.
+requirements. **Corrected by the #161 post-acceptance remediation (2026-11-07):**
+
+- HTBW never pushes retention policy or disposition; the App reads the governed configuration itself.
+- The Integration stores no biometric artifact (I7).
+- Enrollment is exactly ten recordings (I8).
+
+Transport (HTTP, Wyoming, or another), authentication mechanics, the mechanism by which the App reads
+governed configuration, encoder selection, Match Level calibration, and storage placement remain #162's
+and later phases' to decide, within these semantics.
 
 ### What Identity guarantees about evidence
 

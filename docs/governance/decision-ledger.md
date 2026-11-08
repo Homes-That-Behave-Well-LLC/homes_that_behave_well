@@ -1800,6 +1800,11 @@ eighty-four identifiers, ten closed, seventy-four open.
 
 ### Notes on the Voice Evidence Phase 1 contract reconciliation (#161)
 
+> **Partially superseded by the post-acceptance remediation recorded in the next note (2026-11-07).**
+> This note is retained unchanged as provenance of the first acceptance. Its statements about
+> retention configuration "synchronized" to the App, "custody", and the ten recordings being
+> configuration are corrected there.
+
 **Recorded 2026-11-07. Phase 1 acceptance, PASS.** This is contract reconciliation under **DL-50**, not a
 new decision, and **no identifier is issued**. The four App-boundary contracts — **A**
 handshake/synchronization, **B** enrollment, **C** runtime comparison, and **D** delete/cleanup — are
@@ -1870,6 +1875,47 @@ version and the Voiceprint Compatibility Contract.
 artifact class**, **no retention rule**, **no threshold**, and **no confidence representation**. It
 **amends no accepted decision** and **reopens none**. **No runtime implementation was created.**
 **#162** consumes the contracts. The ledger's identifier count is unchanged.
+
+---
+
+### Notes on the Voice Evidence Phase 1 post-acceptance remediation (#161)
+
+**Recorded 2026-11-07, after Owner review of the first #161 acceptance (commit `bf1eb6c`).** #161 was
+reopened, three bounded corrections were applied, and the corrected contract was re-accepted.
+**Everything else from the first acceptance stands.** That covers the four-contract model, runtime
+comparison, complete-population comparison, the ordinal Match Level, consent as an HTBW-side gate, one
+Voiceprint per Person, startup synchronization, and migration. **No identifier is issued.**
+
+1. **Retention direction.** The first acceptance had HTBW send the household retention policy and a
+   per-Person retention disposition to the App through Contract A. **Corrected:** HTBW governance
+   *establishes* the household policy in Integration configuration (**DL-145** §2, placed by
+   **DL-148**). **The App reads that governed configuration itself and executes it** for recordings it
+   owns after handoff. Contracts A–D carry no retention policy, disposition, or consent state. **DL-145**
+   §3's Person-consent axis is satisfied at the gate: Person Setup's Voice Identity consent already
+   discloses retention behaviour (**DL-56**), and narrowing it is withdrawal, which triggers Contract
+   D. No retention-only consent control is introduced.
+2. **Governance owner versus technical store.** The first acceptance said "App custody / Identity
+   ownership". **"Custody" is a formally governed HTBW term** — a Stewardship accountability record
+   under **DL-49** — so that usage collided with it, and it was removed from the voice boundary. **DL-43**
+   and **DL-145** "owning responsibility" means **governance owner**, and **Identity is a responsibility,
+   not the HTBW Integration component**. The App is the **authoritative technical store and lifecycle
+   executor** for the Voiceprint, the handed-off and retained recordings, derived encoder artifacts,
+   and App-side biometric metadata, including rebuild, removal, and cleanup. **The biometric Voiceprint
+   does not live in `custom_components/htbw`.**
+3. **Ten recordings.** The first acceptance treated the count as implementation mapping. A targeted
+   authority review found that OD-16's own row never names sample counts. The DL-50 ADR §33.2 and the
+   enrollment-sufficiency note above did make that extension explicitly, so the Owner was asked. **The
+   Owner chose A:** Contract B is `person_id` plus **exactly ten** successfully captured recordings, the
+   governed workflow cardinality. Partial, provider-selected, App-advertised, and dynamic counts are
+   prohibited. Biometric sufficiency and calibration remain implementation mapping. **DL-36 is not
+   engaged and OD-16 is not reopened.** Both conflicting texts are annotated as narrowed, not deleted.
+   `enrollment_requirements` is removed from Contract A, and the audio input format remains expressed
+   by `audio_contract_version`.
+
+**This note introduces no construct.** It creates **no responsibility**, **no record class**, **no
+artifact class**, **no retention rule**, **no threshold**, and **no confidence representation**. It
+**amends no accepted decision** beyond the two bounded annotations above. **No runtime implementation
+was created.** The ledger's identifier count is unchanged.
 
 ---
 
@@ -2338,6 +2384,16 @@ counts, minimum durations, quality thresholds, prompt-category diversity, and ca
 diversity are of exactly that class. **Two implementations holding different constants is calibration
 divergence, not an architecture gap**, and **making a shipped constant canonical would contradict
 DL-36 and reopen OD-16**.
+
+**Update (2026-11-07, #161 post-acceptance remediation; Owner decision, Choice A). Bounded
+narrowing:** the sentence above governs **biometric sufficiency and calibration**: how much audio is
+technically enough, quality thresholds, and encoder calibration. Those remain implementation mapping.
+**It does not govern enrollment workflow cardinality.** The current HTBW Voice Enrollment experience
+and its Contract B handoff use **exactly ten** successfully captured recordings
+([../contracts/identity-contract.md](../contracts/identity-contract.md#voice-evidence-app-boundary--four-contracts-phase-1-161),
+I8). That is household-facing workflow governance, never a sufficiency threshold, calibration
+constant, or provider requirement, so **DL-36 is not engaged and OD-16 is not reopened**. OD-16's own
+resolved row names only Fusion Policy values; sample counts were added above by extension.
 
 **Re-enrollment is a dependency outcome, and creates no obligation by default.** An incompatible,
 superseded, or revoked derived profile is an **Identity lifecycle result**; **DL-43** already ties a

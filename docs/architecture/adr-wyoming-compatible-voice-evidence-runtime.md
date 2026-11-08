@@ -254,9 +254,12 @@ which places biometric representation and comparison mechanics with the runtime.
 not reversed.** The integration holds the governed **Voice Profile**, which is the Identity container
 for enrollment state, capture provenance, and consent linkage (§33.6). It also holds a **synchronized
 projection** of each Person's Voiceprint existence and compatibility state. **The biometric Voiceprint
-itself is held by the App, in custody for Identity**, which remains its owning responsibility (**DL-43**,
-**DL-145** §27). The App is authoritative for whether that Voiceprint exists, and the routine comparison
-request never carries the Voiceprint population. See the four contracts in
+itself is stored by the App**, which is its authoritative technical store and lifecycle executor.
+Identity remains its governance owner, the DL-43/DL-145 §27 "owning responsibility" (*remediated
+2026-11-07: "in custody for" replaced, because "custody" is a governed DL-49 Stewardship term*). **The
+Voiceprint does not live in the HTBW Integration.** The App is authoritative for whether that
+Voiceprint exists, and the routine comparison request never carries the Voiceprint population. See the
+four contracts in
 [../contracts/identity-contract.md](../contracts/identity-contract.md#voice-evidence-app-boundary--four-contracts-phase-1-161).
 
 **`requirements` remains empty of optional heavy dependencies.** This is **D2**, and it is the single
@@ -466,12 +469,15 @@ regeneration, subject to the Person's own applicable consent and strict purpose 
 
 **Update (Phase 1, #161, 2026-11-07).** The flowchart's "consent recorded first" is an **HTBW-side
 gate**. Without Voice Identity consent in Person Setup, no capture begins and nothing reaches the App.
-No consent field crosses to the App. HTBW captures the enrollment set (ten phrase recordings under
-current configuration; the count remains implementation mapping under **OD-16**) and hands it, with the
-stable `person_id`, to the App. **The App then owns the recordings' technical lifecycle.** It creates
-the Person's one Voiceprint (**DL-144**) and retains or disposes of the recordings according to the
-applicable **DL-145** disposition, which it reads from synchronized configuration rather than from the
-request. Capture-channel provenance is recorded in HTBW's Voice Profile and does not cross. **While a
+No consent field crosses to the App. HTBW captures **exactly ten** enrollment recordings — the governed
+workflow cardinality, as remediated 2026-11-07; biometric sufficiency and calibration remain
+implementation mapping, see §33.2 — and hands them, with the stable `person_id`, to the App. **The
+Integration's responsibility for the recordings ends at successful handoff, and the App owns their
+technical lifecycle.** It creates the Person's one Voiceprint (**DL-144**) and retains or disposes of
+the recordings according to the household's governed **DL-145** retention configuration. **The App
+reads that configuration itself**; HTBW never pushes it, and it is never part of the request
+(*remediated 2026-11-07*). Capture-channel provenance is recorded in HTBW's Voice Profile and does not
+cross. **While a
 Voiceprint exists, enrollment is unavailable**, and re-enrollment requires deletion first. See Contract
 B in [../contracts/identity-contract.md](../contracts/identity-contract.md#voice-evidence-app-boundary--four-contracts-phase-1-161).
 
@@ -741,11 +747,12 @@ flowchart TD
 
 **Update (Phase 1, #161, 2026-11-07).** Two further rows apply. **Retained enrollment recordings**
 (**DL-145** §27, Identity) are kept only while Option A **and** the Person's applicable consent permit
-it. **Runtime samples and encoded observations** are App temporary processing artifacts. **Ownership
-stays with Identity. Custody of every biometric artifact — enrollment recordings after handoff,
-retained recordings, and the Voiceprint — is the App's.** HTBW keeps no copy after a successful
-handoff. The per-artifact mapping, covering owner, custody, purpose, retention, deletion trigger,
-location, and boundary crossing, is in
+it. **Runtime samples and encoded observations** are App temporary processing artifacts. **Governance
+ownership stays with Identity. The App is the authoritative technical store and lifecycle executor for
+every biometric artifact** — enrollment recordings after handoff, retained recordings, the Voiceprint,
+and its derived artifacts (*remediated 2026-11-07*). HTBW keeps no copy after a successful handoff.
+The per-artifact mapping — governance owner, technical store, lifecycle executor, retention authority,
+deletion executor, and which side holds a copy — is in
 [../contracts/identity-contract.md](../contracts/identity-contract.md#voice-evidence-app-boundary--four-contracts-phase-1-161).
 
 ### Rejected-audio retention
@@ -1143,10 +1150,10 @@ flowchart LR
         N3["Single-candidate evidence record"]
         N4["Provider-emitted confidence band"]
     end
-    subgraph TARGET["Target state"]
-        T1["Integration: thin control surface,<br/>gallery, correlation binding"]
-        T2["App: Voice Evidence Provider Runtime<br/>HTTP /embed retained + Wyoming audio role"]
-        T3["Top-N candidates + separation data"]
+    subgraph TARGET["Target state (remediated by #161, 2026-11-07)"]
+        T1["Integration: thin control surface,<br/>Voice Profile + synchronized Voiceprint-state projection,<br/>correlation binding — no biometric artifact"]
+        T2["App: Voice Evidence Provider Runtime<br/>Voiceprint store + lifecycle executor<br/>HTTP /embed retained + Wyoming audio role"]
+        T3["Complete person_id + ordinal Match Level set<br/>separation evaluated by Identity"]
         T4["No provider band — Identity produces DL-39 bands"]
     end
     N1 --> T1
@@ -1343,6 +1350,27 @@ not preferred"*; *"retry only weakest 1 to 3 samples, prefer retries in missing 
 buckets."* **No phrase-level optimization has been empirically validated against a running encoder**,
 and none is claimed to be by this note.
 
+**Update (2026-11-07, #161 post-acceptance remediation; Owner decision, Choice A). Bounded
+narrowing — OD-16 and DL-36 are not reopened.** Two different things were conflated above:
+
+1. **Enrollment workflow cardinality.** The current HTBW Voice Enrollment experience and its Contract B
+   handoff use **exactly ten** successfully captured recordings. This is governed by HTBW's
+   household-facing enrollment experience. It is never selected, advertised, or changed by the
+   biometric provider, and partial or dynamically sized submission is not permitted.
+2. **Biometric sufficiency and calibration.** Whether recordings are technically sufficient, quality
+   thresholds, encoder calibration, and aggregation remain **provider/implementation mapping**,
+   unchanged.
+
+The statements above that "sample counts … are implementation mapping" and that there is "no
+canonical … sample count" continue to hold **only in sense 2**. Ten is **not** a universal biometric
+sufficiency threshold, encoder calibration constant, quality threshold, or provider requirement. **The
+ten sentences listed above remain non-canonical reference material**: the cardinality is fixed, the
+phrase text is not. One attribution is also corrected: OD-16's own resolved row lists Fusion Policy
+values only and does not name sample counts. The extension to sample counts came from the
+enrollment-sufficiency note in [decision-ledger.md](../governance/decision-ledger.md), which is narrowed
+the same way. See I8 in
+[../contracts/identity-contract.md](../contracts/identity-contract.md#voice-evidence-app-boundary--four-contracts-phase-1-161).
+
 ### 33.3 Encoder identity (rank-5 implementation evidence, not an architectural mandate)
 
 **This ADR's contract remains encoder-agnostic** (§§1, 9, 11, 31 Phase 1–2): nothing here selects or
@@ -1403,6 +1431,14 @@ fourth:
 
 **"Speaker Identity Profile," raised in the owner discussion, is not adopted as a new term.** It maps
 onto the existing **Voice Profile** concept above and is not introduced as a distinct construct.
+
+**Clarification (2026-11-07, #161 post-acceptance remediation).** In the table above, "Owner" is the
+**governance owner**, the DL-43/DL-145 "owning responsibility". A Voice Profile "holds" its Voiceprint
+**by reference**, not by storage. The HTBW Integration keeps the Voice Profile and a synchronized
+projection of Voiceprint existence and compatibility. **The Voiceprint artifact itself is stored only by
+the App**, which is its authoritative technical store and lifecycle executor. Connected Storage
+governance applies to where the App keeps it. **No biometric artifact lives in the HTBW Integration.**
+See [../contracts/identity-contract.md](../contracts/identity-contract.md#voice-evidence-app-boundary--four-contracts-phase-1-161).
 
 ---
 
