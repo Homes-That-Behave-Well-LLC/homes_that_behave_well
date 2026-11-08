@@ -20,6 +20,8 @@ Dispositions: **New** · **Keep** · **Revise** · **Supersede** · **Merge** ·
 | File | Status | Disposition | Canonical replacement |
 |---|---|---|---|
 | `README.md` | Canonical | **Revise** — rewritten on the seven-responsibility framework | — |
+| `SECURITY.md` | Operational | **New** (2026-11-08) — vulnerability reporting and sensitive-data rules for the shipped Integration and App. **Creates no authority** | — |
+| `CONTRIBUTING.md` | Operational | **New** (2026-11-08) — contribution and validation process. **Creates no authority** | — |
 
 ---
 
@@ -281,6 +283,8 @@ Dispositions: **New** · **Keep** · **Revise** · **Supersede** · **Merge** ·
 | `issue-execution-review-checklist.md` | Operational | Keep |
 | `cross-repo-ownership-drift-checklist.md` | Active — subordinate | Revise |
 | `hacs-and-platinum-governance-gate.md` | Operational | Keep |
+| `home-assistant-distribution-and-quality-standard.md` | Operational | **New** (2026-11-08) — organization-wide Home Assistant Marketplace, App, Quality Scale (Gold target, Platinum not an objective), CI, documentation, and release standard. **Creates no architecture authority**; referenced by other repositories rather than copied |
+| `home-assistant-quality.md` | Operational | **New** (2026-11-08) — this repository's Marketplace, app-store, dual-distribution, and rule-by-rule Quality Scale evidence. **Creates no authority**; "Gold" there is HTBW self-assessment, not an official Home Assistant rating |
 | `concierge-v2-roadmap-coverage-review.md` | Historical | Archive — roadmap record |
 | `final-roadmap-closure-review.md` | Historical | Archive — closure record |
 
@@ -382,6 +386,14 @@ Canonical scenarios: [../scenarios/README.md](../scenarios/README.md).
 | `examples/scenarios/rare-book-placement.md` | `../scenarios/stewardship-obligations.md` |
 | `examples/scenarios/room-change-summary.md` | `../scenarios/why-did-this-happen.md` |
 | `examples/scenarios/room-dashboard-response.md` | `../scenarios/room-vocabulary.md` |
+
+---
+
+## 16. `docs/user-guide/`
+
+| File | Status | Disposition |
+|---|---|---|
+| `htbw-in-home-assistant.md` | Operational — household administrator documentation | **New** (2026-11-08) — installation, setup, functionality, data updates, use cases, limitations, troubleshooting, privacy, and removal for the shipped Integration and App. **Creates no authority**; canon prevails on any difference |
 
 ---
 
@@ -802,6 +814,15 @@ closed; Epic **#147** receives an evidence update recording its previously-ident
 blocker as discharged, explicitly not closed by this update. **OD-04**/**DL-126**, **OD-66**/**DL-118**,
 **OD-67**/**DL-93**, **OD-85**/**DL-110** — each consumed unchanged, none reopened.
 
+**Updated 2026-11-08** (Home Assistant Marketplace and Quality Scale conformance review): five
+**Operational** documents were added — `SECURITY.md`, `CONTRIBUTING.md`,
+`governance/home-assistant-distribution-and-quality-standard.md`, `governance/home-assistant-quality.md`,
+and `user-guide/htbw-in-home-assistant.md` (+5 to both Operational and Total classified). None creates
+authority; none was reclassified or deleted. **Known pre-existing gap, not resolved by this update:** the
+App's packaged Markdown files under `apps/htbw_voice_evidence/` (`README.md`, `DOCS.md`, `CHANGELOG.md`,
+`MODEL_LICENSE.md`) are not yet registered and carry no status banner; they are shown verbatim in the
+Home Assistant app store, so a banner there needs an Owner decision.
+
 | Category | Count |
 |---|---|
 | New canonical documents | 83 |
@@ -812,8 +833,8 @@ blocker as discharged, explicitly not closed by this update. **OD-04**/**DL-126*
 | Marked Historical illustration (`examples/`) | 16 |
 | Marked Historical — planning/closure record | 2 |
 | **Historical total** | **101** |
-| Operational | 8 |
-| **Total classified** | **216** |
+| Operational | 13 |
+| **Total classified** | **221** |
 | **Unclassified** | **0** |
 | **Deleted** | **0** |
 

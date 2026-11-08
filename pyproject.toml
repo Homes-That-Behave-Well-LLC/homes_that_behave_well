@@ -8,7 +8,7 @@ select = ["E", "F", "I", "W", "B", "UP"]
 [tool.mypy]
 python_version = "3.14"
 ignore_missing_imports = true
-check_untyped_defs = true
+strict = true
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

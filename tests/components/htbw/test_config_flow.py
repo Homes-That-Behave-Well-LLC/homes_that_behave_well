@@ -414,6 +414,11 @@ async def test_add_room_area_not_found_shows_error(
     assert result["type"] is FlowResultType.FORM
     assert result["errors"] == {"area_id": "area_not_found"}
 
+    office = ar.async_get(hass).async_create("Office")
+    result = await _configure_room(hass, result["flow_id"], {"area_id": office.id})
+    assert result["type"] is FlowResultType.CREATE_ENTRY
+    assert result["title"] == "Office"
+
 
 async def test_add_room_duplicate_area_aborts(
     hass: HomeAssistant, setup_integration: MockConfigEntry

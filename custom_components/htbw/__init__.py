@@ -172,7 +172,9 @@ async def async_setup_entry(hass: HomeAssistant, entry: HTBWConfigEntry) -> bool
         for subentry in room_subentries(entry):
             rooms[subentry.subentry_id] = load_assignments(subentry)
     except (KeyError, TypeError, ValueError) as err:
-        raise ConfigEntryError("Invalid stored Room interaction assignment data") from err
+        raise ConfigEntryError(
+            translation_domain=DOMAIN, translation_key="invalid_room_data"
+        ) from err
 
     runtime_data = HTBWRuntimeData(
         assignments=[a for records in rooms.values() for a in records],

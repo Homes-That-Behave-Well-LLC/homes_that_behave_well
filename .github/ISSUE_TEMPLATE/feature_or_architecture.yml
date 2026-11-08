@@ -1,0 +1,36 @@
+name: Feature or architecture proposal
+description: Propose a capability or an architecture change.
+labels: ["enhancement", "needs-review"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        HTBW changes are governed. Accepted architecture is defined by
+        docs/governance/authority-order.md, and many questions are deliberately open decisions
+        (docs/governance/open-decision-issue-index.md). Check both before proposing.
+  - type: textarea
+    id: problem
+    attributes:
+      label: Household problem
+      description: What a household or administrator cannot do today, and why it matters.
+    validations:
+      required: true
+  - type: textarea
+    id: responsibility
+    attributes:
+      label: Responsibility and boundary
+      description: >-
+        Which HTBW responsibility this belongs to (Foundation, Stewardship, Identity, Truth,
+        Continuity, Operational Trust, Concierge), and whether it touches the Integration, the
+        App, or a governed contract.
+    validations:
+      required: true
+  - type: textarea
+    id: home-assistant-first
+    attributes:
+      label: Home Assistant first
+      description: Does Home Assistant already provide this, fully or partly? Link the official documentation.
+  - type: textarea
+    id: out-of-scope
+    attributes:
+      label: Out of scope

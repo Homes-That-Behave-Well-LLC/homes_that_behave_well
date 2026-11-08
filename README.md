@@ -15,6 +15,29 @@ This repository defines the framework. It does not execute runtime logic.
 
 ---
 
+## Use HTBW in Home Assistant
+
+This repository also ships two separately versioned Home Assistant components:
+
+| Component | Install with | Requires |
+|---|---|---|
+| **HTBW Integration** — `custom_components/htbw`, shown as **HTBW Core** | **Home Assistant Marketplace** (add this repository as an Integration) | Home Assistant 2026.11.0+ |
+| **HTBW Voice Evidence App** — `apps/htbw_voice_evidence`, optional, experimental | **Settings > Apps** (add this repository as an app repository) | Supervisor; amd64 or aarch64 |
+
+The Marketplace installs only the Integration; the app store installs only the App. Neither installs
+the other.
+
+<!-- ha-marketplace:exclude-start -->
+[![Open your Home Assistant instance and open this repository in the Marketplace.](https://my.home-assistant.io/badges/marketplace_repository.svg)](https://my.home-assistant.io/redirect/marketplace_repository/?owner=Homes-That-Behave-Well-LLC&repository=homes_that_behave_well&category=integration)
+[![Open your Home Assistant instance and show the add app repository dialog with this repository URL pre-filled.](https://my.home-assistant.io/badges/supervisor_add_addon_repository.svg)](https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=https%3A%2F%2Fgithub.com%2FHomes-That-Behave-Well-LLC%2Fhomes_that_behave_well)
+<!-- ha-marketplace:exclude-end -->
+
+Installation, setup, supported functionality, use cases, limitations, troubleshooting, and removal:
+[docs/user-guide/htbw-in-home-assistant.md](docs/user-guide/htbw-in-home-assistant.md).
+Security reporting: [SECURITY.md](SECURITY.md).
+
+---
+
 ## The framework
 
 HTBW Core is defined by **seven responsibilities**, in framework order.
@@ -200,6 +223,9 @@ See [docs/architecture/home-assistant-boundary.md](docs/architecture/home-assist
 | `custom_components/htbw/` | The HTBW Home Assistant Integration (household entry with Room subentries) |
 | `apps/htbw_voice_evidence/` | The external HTBW Voice Evidence Home Assistant App (separate runtime; communicates with the Integration only through the #161 contracts; independently versioned) |
 | `repository.yaml` | Home Assistant App repository manifest for installing the App through Supervisor |
+| `hacs.json` | Home Assistant Marketplace metadata for installing the Integration |
+| `.github/` | CI (Marketplace, hassfest, Ruff, mypy, pytest, App lint and build), issue forms, Dependabot |
+| `docs/user-guide/` | Household administrator documentation for the Integration and the App |
 | `docs/architecture/` | The framework, principles, cross-cutting concerns, and ADRs |
 | `docs/models/` | Canonical models for each responsibility, plus the glossary |
 | `docs/contracts/` | Explicit boundaries between responsibilities |

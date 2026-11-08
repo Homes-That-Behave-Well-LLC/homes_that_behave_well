@@ -1,0 +1,80 @@
+name: CI
+
+# GitHub equivalents of the governed local gates (README, "Local integration
+# development"). They protect the repository; they do not replace the Windows
+# static checks or the WSL2 official-harness run required before each commit.
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  integration:
+    name: Integration (ruff, mypy, official HA pytest)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set up Python 3.14
+        uses: actions/setup-python@v7.1.0
+        with:
+          python-version: "3.14"
+
+      - name: Install the pinned Home Assistant test harness
+        run: |
+          python -m pip install -r requirements-dev.txt
+          python -m pip check
+
+      - name: Ruff
+        run: |
+          python -m ruff check custom_components/htbw tests
+          python -m ruff format --check custom_components/htbw tests
+
+      - name: mypy (strict)
+        run: python -m mypy custom_components/htbw
+
+      - name: pytest
+        env:
+          PYTHONDONTWRITEBYTECODE: "1"
+        run: python -m pytest tests -q -p no:cacheprovider
+
+  app:
+    name: Voice Evidence App (ruff, pytest)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/htbw_voice_evidence
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v7.0.1
+        with:
+          persist-credentials: false
+
+      # The App runs Debian trixie python3 (3.13); test on the same minor version.
+      - name: Set up Python 3.13
+        uses: actions/setup-python@v7.1.0
+        with:
+          python-version: "3.13"
+
+      - name: Install pinned App test dependencies
+        run: |
+          python -m pip install --only-binary=:all: -r requirements-test.txt
+          python -m pip check
+
+      - name: Ruff
+        run: |
+          python -m ruff check .
+          python -m ruff format --check .
+
+      # The real-model test downloads the pinned model and skips without HTBW_VE_MODEL_CACHE.
+      - name: pytest
+        env:
+          PYTHONDONTWRITEBYTECODE: "1"
+        run: python -m pytest -q

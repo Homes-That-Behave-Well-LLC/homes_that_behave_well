@@ -241,7 +241,7 @@ async def async_fetch_status(
 
 def configured_retention(entry: HTBWConfigEntry) -> bool | None:
     """Return the household retention choice, or None while it has not been made."""
-    value = entry.options.get(CONF_RETAIN_ENROLLMENT_RECORDINGS)
+    value: str | None = entry.options.get(CONF_RETAIN_ENROLLMENT_RECORDINGS)
     if value is None:
         return None
     return value == RETENTION_RETAIN

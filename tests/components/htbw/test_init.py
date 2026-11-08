@@ -69,3 +69,6 @@ async def test_invalid_stored_assignment_fails_setup_explicitly(
     assert not await hass.config_entries.async_setup(mock_config_entry.entry_id)
     await hass.async_block_till_done()
     assert mock_config_entry.state is ConfigEntryState.SETUP_ERROR
+    assert mock_config_entry.reason is not None
+    assert mock_config_entry.reason.startswith("HTBW could not start")
+    assert "Nothing was changed or deleted" in mock_config_entry.reason

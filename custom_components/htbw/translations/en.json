@@ -6,6 +6,9 @@
         "description": "This creates your household's HTBW configuration. Rooms are added afterward, beneath it.\n\nRetain Enrollment Recordings decides whether the ten voice recordings captured when someone sets up Voice Identity are kept after their Voiceprint is created. Keeping them may let a future Voice Identity update rebuild a Voiceprint automatically; it is never a guarantee. Deleting them means a future incompatible update would require that person to enroll again. This setting never deletes a working Voiceprint, and you can change it later.",
         "data": {
           "retain_enrollment_recordings": "Retain Enrollment Recordings"
+        },
+        "data_description": {
+          "retain_enrollment_recordings": "Whether the ten enrollment recordings are kept after a Voiceprint is created. This applies only when the HTBW Voice Evidence App is installed."
         }
       },
       "hassio_confirm": {
@@ -13,6 +16,9 @@
         "description": "The HTBW Voice Evidence App was found. Connecting it creates your household's HTBW configuration and links the App to it.\n\nRetain Enrollment Recordings decides whether the ten voice recordings captured when someone sets up Voice Identity are kept after their Voiceprint is created. Keeping them may let a future Voice Identity update rebuild a Voiceprint automatically; it is never a guarantee. Deleting them means a future incompatible update would require that person to enroll again. This setting never deletes a working Voiceprint, and you can change it later.",
         "data": {
           "retain_enrollment_recordings": "Retain Enrollment Recordings"
+        },
+        "data_description": {
+          "retain_enrollment_recordings": "Whether the ten enrollment recordings are kept after a Voiceprint is created."
         }
       }
     },
@@ -28,6 +34,9 @@
         "description": "Retain Enrollment Recordings controls only the ten source recordings captured during Voice Identity enrollment. Changing from Retain to Delete removes recordings already kept; every working Voiceprint is kept and no one needs to enroll again.",
         "data": {
           "retain_enrollment_recordings": "Retain Enrollment Recordings"
+        },
+        "data_description": {
+          "retain_enrollment_recordings": "Retain keeps the enrollment recordings for a possible future automatic rebuild. Delete removes them; working Voiceprints are never deleted."
         }
       }
     }
@@ -46,6 +55,11 @@
             "area_id": "Room (Area)",
             "voice_input": "Voice input",
             "spoken_response_output": "Spoken response output"
+          },
+          "data_description": {
+            "area_id": "The Home Assistant area this HTBW Room represents. Each area can be added once.",
+            "voice_input": "Entities that hear spoken requests in this room, such as an Assist satellite. Optional.",
+            "spoken_response_output": "Media players that speak responses in this room. Optional."
           }
         },
         "reconfigure": {
@@ -98,6 +112,11 @@
         "retain": "Retain — keep the ten recordings for possible future automatic rebuild",
         "delete": "Delete — remove the ten recordings after the Voiceprint is created"
       }
+    }
+  },
+  "exceptions": {
+    "invalid_room_data": {
+      "message": "HTBW could not start because its stored Room configuration is invalid. Nothing was changed or deleted. Restore a Home Assistant backup taken before this happened, or report the problem on the HTBW issue tracker."
     }
   },
   "issues": {

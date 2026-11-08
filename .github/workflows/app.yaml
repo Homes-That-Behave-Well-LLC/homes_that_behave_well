@@ -1,0 +1,76 @@
+name: App
+
+# Home Assistant App checks, following the official app guidance:
+# - lint: the linter used by https://github.com/home-assistant/apps-example
+# - build: "Plain Docker" build check for every declared architecture
+#   (https://contributors.home-assistant.io/apps/guides/testing/)
+#
+# This workflow never pushes an image. Publishing prebuilt images to a container
+# registry (and adding `image:` to config.yaml) is an Owner release decision; see
+# docs/governance/home-assistant-quality.md.
+
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron: "0 0 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    name: App lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Home Assistant App lint
+        uses: frenck/action-addon-linter@v2.21.2
+        with:
+          path: "./apps/htbw_voice_evidence"
+
+  build:
+    name: Build ${{ matrix.arch }} (no push)
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - arch: amd64
+            platform: linux/amd64
+          - arch: aarch64
+            platform: linux/arm64
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set up QEMU
+        if: matrix.arch != 'amd64'
+        uses: docker/setup-qemu-action@v4.4.0
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v4.4.1
+
+      - name: Build the App image
+        working-directory: apps/htbw_voice_evidence
+        run: >-
+          docker buildx build
+          --platform ${{ matrix.platform }}
+          --tag local/htbw-voice-evidence:${{ matrix.arch }}
+          --load
+          .
+
+      - name: Check the packaged runtime imports
+        run: >-
+          docker run --rm --platform ${{ matrix.platform }}
+          --entrypoint /opt/venv/bin/python
+          --workdir /opt/htbw_voice_evidence
+          local/htbw-voice-evidence:${{ matrix.arch }}
+          -c "import htbw_voice_evidence.runtime, onnxruntime, numpy; print('ok')"
