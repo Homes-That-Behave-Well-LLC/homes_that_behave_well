@@ -336,6 +336,9 @@ Completion Gate:
 
 Closure Gate:
 - approve only when all five categories PASS and evidence is complete
+- for a Home Assistant integration or App change, also require the
+  Home Assistant Gold Quality Gate acceptance evidence
+  (home-assistant-distribution-and-quality-standard.md, section 6.1)
 ```
 
 Result: PASS

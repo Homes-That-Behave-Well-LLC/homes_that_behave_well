@@ -110,8 +110,51 @@ Pin by commit SHA wherever a repository handles secrets or publishes artifacts.
   because they were absent.
 
 **Platinum is not an objective.** Classify each Platinum rule as already satisfied, low-cost/high-value,
-valuable later, not appropriate, or requiring architecture expansion. Adopt only low-cost practices that
-improve security, async behavior, typing, diagnostics, resilience, or maintainability.
+valuable later, not appropriate, or requiring architecture expansion. Adopt a Platinum practice only when
+it materially improves household experience, reliability, security, privacy, performance, or
+maintainability; never add scope or architectural complexity solely for Platinum.
+
+### 6.1 Gold quality gate — mandatory for every Home Assistant change
+
+Gold is designed in from the start of each issue, not remediated afterwards. Every issue that changes a
+Home Assistant integration or App passes this gate (Owner direction, 2026-11-08).
+
+**Before implementation**
+
+1. Read the current official Home Assistant developer documentation for the patterns involved.
+2. Read the current Quality Scale rules that apply to the change.
+3. List the Bronze, Silver, and Gold rules the issue touches, including rules currently EXEMPT that the
+   change could make applicable.
+4. Design with current Home Assistant-native patterns (P21), citing a Core integration that uses them.
+5. Identify what the change requires in tests, translations, diagnostics, Repairs, documentation,
+   lifecycle behavior, failure and recovery behavior, security and privacy behavior, and performance
+   behavior.
+6. Plan to deliver all of them **with** the feature.
+
+**During implementation**
+
+- Prefer Home Assistant-native mechanisms over HTBW-specific ones.
+- Test success, failure, recovery, and lifecycle (setup, unload, reload, migration, removal).
+- Keep the event loop non-blocking; bound every network call.
+- Make every user-correctable failure actionable (a translated error or a Repair).
+- Redact diagnostics by design.
+- Ship translations, supported-behavior documentation, and household use cases with the feature.
+- Keep Marketplace and app-store compatibility and the repository's Gold evidence current.
+
+**Before acceptance**
+
+1. The official Linux Home Assistant test suite passes (WSL2).
+2. Windows Ruff, mypy, and static validation pass.
+3. Marketplace and repository validation pass (HACS action, hassfest, distribution tests; App lint and
+   build for App changes). A failing check that needs an Owner decision is reported as such, never
+   ignored or silenced.
+4. Every affected rule is evaluated.
+5. The repository's Gold evidence matrix (for this repository,
+   [home-assistant-quality.md](home-assistant-quality.md)) is updated in the same change.
+6. The completion report lists: rules satisfied; rules not applicable, with reasons; rules blocked by
+   explicitly governed future work, with the issue; and any regressions.
+
+Gold is claimed only when every applicable prerequisite through Gold has evidence.
 
 ## 7. Documentation
 

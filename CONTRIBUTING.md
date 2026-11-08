@@ -12,7 +12,9 @@ architecture; [docs/governance/authority-order.md](docs/governance/authority-ord
 ## Before you change anything
 
 1. Read [docs/governance/home-assistant-distribution-and-quality-standard.md](docs/governance/home-assistant-distribution-and-quality-standard.md)
-   for distribution, quality, and CI expectations.
+   for distribution, quality, and CI expectations. Every Integration or App change passes its
+   **Gold quality gate** (section 6.1): Gold requirements are designed in and delivered with the
+   feature, and the Gold evidence matrix is updated in the same change.
 2. Keep the Integration and the App separate: they talk only through the governed contracts in
    [docs/contracts/identity-contract.md](docs/contracts/identity-contract.md), and neither version is
    derived from the other.

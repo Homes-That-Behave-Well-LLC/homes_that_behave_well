@@ -324,6 +324,10 @@ Required outputs:
 - documented authority references
 - conflict status
 - closure evidence aligned to issue requirements
+
+For any change to a Home Assistant integration or App, also apply the
+Home Assistant Gold Quality Gate (home-assistant-distribution-and-quality-standard.md,
+section 6.1) before, during, and after implementation.
 ```
 
 Result: PASS
