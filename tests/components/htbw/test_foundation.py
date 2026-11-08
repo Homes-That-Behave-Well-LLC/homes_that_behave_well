@@ -16,8 +16,6 @@ from pytest_homeassistant.common import MockConfigEntry
 
 from custom_components.htbw.const import (
     CONF_ASSIGNMENTS,
-    CONF_ROOM_ID,
-    DOMAIN,
     AssignmentResolution,
     InteractionFunction,
     ParticipationState,
@@ -27,9 +25,11 @@ from custom_components.htbw.foundation import (
     get_room_interaction_assignments,
 )
 
+from .conftest import DEN_ROOM_ID, den, household_entry, room_subentry_data, set_den_assignments
+
 
 def _set_assignments(hass: HomeAssistant, entry: MockConfigEntry, assignments: list[dict]) -> None:
-    hass.config_entries.async_update_entry(entry, options={CONF_ASSIGNMENTS: assignments})
+    set_den_assignments(hass, entry, assignments)
 
 
 def _assignment(room_id: str, function: str, reference_type: str, reference_id: str) -> dict:
@@ -48,7 +48,7 @@ async def test_not_configured_returns_honest_result(
     hass: HomeAssistant, setup_integration: MockConfigEntry
 ) -> None:
     """No assignment yields an empty configured set, never a guess."""
-    room_id = setup_integration.data["room_id"]
+    room_id = DEN_ROOM_ID
     assert get_room_interaction_assignments(hass, room_id, InteractionFunction.VOICE_INPUT) == []
 
 
@@ -58,7 +58,7 @@ async def test_resolved_when_reference_exists(
     """A configured entity_id that still exists in the registry resolves (existence only)."""
     entity_registry = er.async_get(hass)
     entry = entity_registry.async_get_or_create("media_player", "test", "den_speaker_unique_id")
-    room_id = setup_integration.data["room_id"]
+    room_id = DEN_ROOM_ID
     _set_assignments(
         hass,
         setup_integration,
@@ -77,7 +77,7 @@ async def test_missing_when_reference_no_longer_exists(
     hass: HomeAssistant, setup_integration: MockConfigEntry
 ) -> None:
     """A configured reference that resolves to nothing is MISSING, never substituted."""
-    room_id = setup_integration.data["room_id"]
+    room_id = DEN_ROOM_ID
     _set_assignments(
         hass,
         setup_integration,
@@ -107,7 +107,7 @@ async def test_unavailable_state_is_not_treated_as_missing(
     entry = entity_registry.async_get_or_create("media_player", "test", "den_speaker_2")
     hass.states.async_set(entry.entity_id, "unavailable")
 
-    room_id = setup_integration.data["room_id"]
+    room_id = DEN_ROOM_ID
     _set_assignments(
         hass,
         setup_integration,
@@ -132,7 +132,7 @@ async def test_voice_input_and_spoken_response_output_are_independent(
     speaker_entry = entity_registry.async_get_or_create(
         "media_player", "test", "den_speaker_unique"
     )
-    room_id = setup_integration.data["room_id"]
+    room_id = DEN_ROOM_ID
     _set_assignments(
         hass,
         setup_integration,
@@ -162,7 +162,7 @@ async def test_same_device_multiple_roles_only_when_explicitly_configured(
     combo_entry = entity_registry.async_get_or_create(
         "media_player", "test", "integrated_combo_unique"
     )
-    room_id = setup_integration.data["room_id"]
+    room_id = DEN_ROOM_ID
 
     # Only spoken_response_output is explicitly configured.
     _set_assignments(
@@ -204,7 +204,7 @@ async def test_device_id_reference_resolves_through_device_registry(
         identifiers={("test", "kiosk_1")},
         name="Den Kiosk",
     )
-    room_id = setup_integration.data["room_id"]
+    room_id = DEN_ROOM_ID
     _set_assignments(
         hass,
         setup_integration,
@@ -226,7 +226,7 @@ async def test_no_fallback_discovery_for_unrelated_entities_in_same_area(
     # configured as this Room's spoken_response_output.
     entity_registry.async_get_or_create("media_player", "test", "unrelated_speaker")
 
-    room_id = setup_integration.data["room_id"]
+    room_id = DEN_ROOM_ID
     results = get_room_interaction_assignments(
         hass, room_id, InteractionFunction.SPOKEN_RESPONSE_OUTPUT
     )
@@ -249,16 +249,18 @@ async def test_explicit_cross_room_output_is_preserved(
     )
     entities.async_update_entity(selected.entity_id, area_id=equipment_area.id)
     entities.async_update_entity(local_candidate.entity_id, area_id=context.id)
-    entry = MockConfigEntry(
-        domain=DOMAIN,
-        title=context.name,
-        unique_id=context.id,
-        data={CONF_ROOM_ID: context.id},
-        options={
-            CONF_ASSIGNMENTS: [
-                _assignment(context.id, "spoken_response_output", "entity_id", selected.entity_id)
-            ]
-        },
+    entry = household_entry(
+        rooms=[
+            room_subentry_data(
+                context.id,
+                context.name,
+                [
+                    _assignment(
+                        context.id, "spoken_response_output", "entity_id", selected.entity_id
+                    )
+                ],
+            )
+        ]
     )
     entry.add_to_hass(hass)
     assert await hass.config_entries.async_setup(entry.entry_id)
@@ -283,7 +285,7 @@ async def test_get_room_assignments_returns_every_configured_function(
     hass: HomeAssistant, setup_integration: MockConfigEntry
 ) -> None:
     """get_room_assignments returns the full configured set for a Room."""
-    room_id = setup_integration.data["room_id"]
+    room_id = DEN_ROOM_ID
     _set_assignments(
         hass,
         setup_integration,
@@ -307,7 +309,7 @@ async def test_multiple_records_return_every_reference_without_selection(
 ) -> None:
     """A missing record never hides another record, and neither becomes a preferred target."""
     existing = er.async_get(hass).async_get_or_create("media_player", "test", "multi_existing")
-    room_id = setup_integration.data[CONF_ROOM_ID]
+    room_id = DEN_ROOM_ID
     records = [
         _assignment(room_id, "spoken_response_output", "entity_id", "media_player.missing"),
         _assignment(room_id, "spoken_response_output", "entity_id", existing.entity_id),
@@ -334,7 +336,7 @@ async def test_nonparticipating_records_are_not_returned(
     setup_integration: MockConfigEntry,
     participation_state: ParticipationState,
 ) -> None:
-    room_id = setup_integration.data[CONF_ROOM_ID]
+    room_id = DEN_ROOM_ID
     record = _assignment(room_id, "spoken_response_output", "entity_id", "media_player.excluded")
     record["participation_state"] = participation_state.value
     _set_assignments(hass, setup_integration, [record])
@@ -345,7 +347,7 @@ async def test_nonparticipating_records_are_not_returned(
         == []
     )
     assert get_room_assignments(hass, room_id) == []
-    assert setup_integration.options[CONF_ASSIGNMENTS] == [record]
+    assert den(setup_integration).data[CONF_ASSIGNMENTS] == [record]
 
 
 async def test_disabled_native_entity_still_exists(
@@ -354,7 +356,7 @@ async def test_disabled_native_entity_still_exists(
     entity = er.async_get(hass).async_get_or_create(
         "media_player", "test", "disabled_output", disabled_by=er.RegistryEntryDisabler.USER
     )
-    room_id = setup_integration.data[CONF_ROOM_ID]
+    room_id = DEN_ROOM_ID
     _set_assignments(
         hass,
         setup_integration,
@@ -378,7 +380,7 @@ async def test_disabled_native_device_still_exists(
         identifiers={("test", "disabled_interface")},
         disabled_by=dr.DeviceEntryDisabler.USER,
     )
-    room_id = setup_integration.data[CONF_ROOM_ID]
+    room_id = DEN_ROOM_ID
     _set_assignments(
         hass,
         setup_integration,

@@ -1,12 +1,13 @@
 """Pure record/schema regressions, separate from HA runtime fixture coverage."""
 
 from dataclasses import replace
-from types import SimpleNamespace
+from types import MappingProxyType, SimpleNamespace
 from unittest.mock import Mock, patch
 
 import probatio
 import pytest
 from homeassistant.components.diagnostics import REDACTED
+from homeassistant.config_entries import ConfigSubentry
 
 from custom_components.htbw.config_flow import (
     _assignments_from_user_input,
@@ -166,22 +167,47 @@ async def test_diagnostics_redact_identifiers_and_do_not_export_extra_data() -> 
     record = _record("media_player.private_reference", ParticipationState.DELIBERATELY_EXCLUDED)
     entry = Mock()
     entry.entry_id = "private_entry"
-    entry.data = {"room_id": "private_room", "token": "synthetic_do_not_export"}
-    entry.options = {"password": "another_synthetic_value", CONF_ASSIGNMENTS: [record.to_dict()]}
+    entry.version = 2
+    entry.data = {
+        "token": "synthetic_do_not_export",
+        "voice_evidence": {"host": "private_host", "port": 8099, "api_secret": "x" * 43},
+    }
+    entry.options = {"password": "another_synthetic_value"}
+    entry.subentries = {
+        "private_subentry": ConfigSubentry(
+            data=MappingProxyType(
+                {
+                    "room_id": "private_room",
+                    "token": "room_synthetic_do_not_export",
+                    CONF_ASSIGNMENTS: [record.to_dict()],
+                }
+            ),
+            subentry_id="private_subentry",
+            subentry_type="room",
+            title="Private Room",
+            unique_id="private_room",
+        )
+    }
     del entry.runtime_data
     with patch("custom_components.htbw.diagnostics.reference_exists", return_value=False):
         result = await async_get_config_entry_diagnostics(Mock(), entry)
-    assert result["room_id"] == REDACTED
     assert result["config_entry_id"] == REDACTED
-    (assignment,) = result["assignments"]
+    (room,) = result["rooms"]
+    assert room["room_id"] == REDACTED
+    assert room["subentry_id"] == REDACTED
+    (assignment,) = room["assignments"]
     assert assignment["reference_id"] == REDACTED
     assert assignment["reference_exists"] is False
     assert assignment["standing_defect"] is False
     for private_value in (
         "private_entry",
         "private_room",
+        "private_subentry",
+        "private_host",
+        "x" * 43,
         record.reference_id,
         "synthetic_do_not_export",
+        "room_synthetic_do_not_export",
         "another_synthetic_value",
     ):
         assert private_value not in str(result)

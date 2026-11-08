@@ -1,0 +1,24 @@
+[project]
+name = "htbw-voice-evidence"
+version = "0.1.0"
+description = "HTBW Voice Evidence Home Assistant App runtime"
+requires-python = ">=3.13"
+readme = "README.md"
+
+[tool.ruff]
+line-length = 100
+target-version = "py313"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "W", "B", "UP"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+# Keep caches out of the repository.
+addopts = "-p no:cacheprovider"
+markers = [
+    "real_model: downloads and runs the pinned model; needs HTBW_VE_MODEL_CACHE",
+]

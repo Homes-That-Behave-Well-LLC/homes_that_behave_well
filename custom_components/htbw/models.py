@@ -75,13 +75,17 @@ class AssignmentLookupResult:
 
 @dataclass
 class HTBWRuntimeData:
-    """Per-config-entry runtime state (current HA runtime-data convention).
+    """Household config-entry runtime state (current HA runtime-data convention).
 
-    One config entry represents one Room, with zero or more atomic records per
-    function. Multiple Rooms are supported by adding multiple config entries.
+    `assignments` is every Room's records, flattened; each record carries its
+    own room_id, so (room_id, function) retrieval is unchanged. `rooms` maps a
+    Room subentry id to that Room's records. `voice_evidence` is populated only
+    for the household entry and holds no biometric material.
     """
 
     assignments: list[RoomInteractionFunctionAssignment]
+    rooms: dict[str, list[RoomInteractionFunctionAssignment]] = field(default_factory=dict)
+    voice_evidence: Any = None
 
 
 # Typed alias for this integration's config entries, per current Home

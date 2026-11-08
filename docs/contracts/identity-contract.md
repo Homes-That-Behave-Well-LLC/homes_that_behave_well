@@ -222,8 +222,15 @@ It never carries the household retention policy, a per-Person retention disposit
 retention choice, or consent state. **The App reads the household's governed retention configuration
 itself** (**DL-145** §2), at the point where it decides what happens to recordings it owns. HTBW
 governance *establishes* that policy in Integration configuration (**DL-148**); the App *executes* it.
-How the App reads the governed setting is #162's to implement. It must be a read of the governed value,
-never an Integration-issued disposition instruction, and never a field of Contracts A–D. **The App
+**Mechanism (Owner decision, #162):** on a Supervisor-managed install, the HTBW household entry
+mirrors that one value into the App's **own official app options** through Home Assistant's
+app-options helper. That is configuration synchronization, not an artifact-disposition command and not
+part of Contracts A–D. The App reads its own options, which needs no Home Assistant or Supervisor
+administrator authority, and owns every resulting decision. The App's option is an operational mirror,
+never a second household authority. The App may *report* the value it is applying in Contract A
+status, so HTBW can detect divergence and re-mirror; it is never pushed through Contract A. The App
+never receives the retention value in any Contract A–D field, and never as an Integration-issued
+disposition instruction. **The App
 never advertises or changes the enrollment count**, because enrollment cardinality is governed by HTBW
 (I8). The audio input format DL-145 §12 calls "enrollment-evidence requirements" is expressed by
 `audio_contract_version`.

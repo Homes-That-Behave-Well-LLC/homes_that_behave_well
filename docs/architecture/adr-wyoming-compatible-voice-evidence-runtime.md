@@ -1392,6 +1392,15 @@ under [authority-order.md](../governance/authority-order.md):
 person-global, per-channel, or hybrid) remain exactly as open as **OD-83** (#168) already states**;
 this table adds identity/traceability detail to an already-open question and decides nothing.
 
+**Update (2026-11-08, Issue #162; Owner decision B).** WeSpeaker ECAPA-TDNN512-LM (ONNX), the
+official `Wespeaker/wespeaker-ecapa-tdnn512-LM` artifact pinned by revision and SHA-256, is selected
+as HTBW's **initial** governed Voice Evidence encoder. It sits behind the App's encoder adapter and the
+Voiceprint Compatibility Contract. The selection is replaceable only through the governed encoder
+migration lifecycle (**DL-145**). It is **not** a permanent or universally preferred encoder, and it
+establishes **no** Match Level calibration, threshold, enrollment-sufficiency value, or
+false-match acceptance; those remain evidence work for later phases. The record above is otherwise
+unchanged.
+
 ### 33.4 Text independence (architecturally expected, not independently re-validated)
 
 WeSpeaker's ECAPA-TDNN, trained on VoxCeleb, is — by the well-documented design of that model class —

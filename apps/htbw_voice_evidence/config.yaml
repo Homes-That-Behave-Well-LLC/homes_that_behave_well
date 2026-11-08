@@ -1,0 +1,25 @@
+name: "HTBW Voice Evidence"
+version: "0.1.0"
+slug: "htbw_voice_evidence"
+description: "Local voice evidence runtime for Homes That Behave Well (HTBW)."
+url: "https://github.com/Homes-That-Behave-Well-LLC/homes_that_behave_well/tree/main/apps/htbw_voice_evidence"
+arch:
+  - amd64
+  - aarch64
+startup: application
+boot: auto
+stage: experimental
+# The Home Assistant base images use S6 overlay as PID 1.
+init: false
+# Receives the "rotate-secret" command through hassio.app_stdin.
+stdin: true
+timeout: 30
+# Provisions host, port and API secret to the HTBW integration (domain "htbw").
+discovery:
+  - htbw
+# No `ports`: the API is reachable only on the Supervisor internal network.
+watchdog: "tcp://[HOST]:[PORT:8099]"
+options:
+  retain_enrollment_recordings: false
+schema:
+  retain_enrollment_recordings: bool

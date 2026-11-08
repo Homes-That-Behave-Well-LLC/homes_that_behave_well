@@ -17,6 +17,49 @@ DOMAIN = "htbw"
 CONF_ROOM_ID = "room_id"
 CONF_ASSIGNMENTS = "assignments"
 
+# Configuration hierarchy (Issue #162, Owner decision B): exactly one household
+# HTBW config entry is the Integration configuration authority; each HTBW Room
+# is a native config subentry beneath it (Room Configuration authority).
+HOUSEHOLD_UNIQUE_ID = "htbw_household"
+HOUSEHOLD_TITLE = "HTBW"
+SUBENTRY_TYPE_ROOM = "room"
+# Transient marker on a not-first #201 Room entry whose Room was already copied
+# into the household entry; such an entry only removes itself.
+CONF_MIGRATED_INTO = "migrated_into"
+
+# Household/Integration-scoped settings (DL-145 SS2, placed by DL-148).
+CONF_RETAIN_ENROLLMENT_RECORDINGS = "retain_enrollment_recordings"
+RETENTION_RETAIN = "retain"
+RETENTION_DELETE = "delete"
+
+# Voice Evidence App connection, provisioned by Supervisor Discovery (#162 Choice A).
+CONF_VOICE_EVIDENCE = "voice_evidence"
+CONF_HOST = "host"
+CONF_PORT = "port"
+CONF_API_SECRET = "api_secret"
+CONF_APP_SLUG = "app_slug"
+
+# Voice Evidence App boundary (identity-contract.md, Contract A).
+VOICE_EVIDENCE_CONTRACT_MAJOR = 1
+VOICE_EVIDENCE_REQUEST_TIMEOUT_SECONDS = 10
+VOICE_EVIDENCE_REFRESH_INTERVAL_SECONDS = 300
+VOICE_EVIDENCE_UNREACHABLE_ISSUE_THRESHOLD = 3
+
+
+class VoiceEvidenceOutcome(StrEnum):
+    """Distinct DL-41 outcomes for the optional Voice Evidence App dependency.
+
+    Each outcome names a different missing or failed dependency; none is an
+    identity, trust, or permission failure, and none is ever emulated.
+    """
+
+    AVAILABLE = "available"
+    NOT_CONFIGURED = "not_configured"
+    UNREACHABLE = "unreachable"
+    AUTHENTICATION_FAILED = "authentication_failed"
+    INCOMPATIBLE = "incompatible"
+    APP_UNAVAILABLE = "app_unavailable"
+
 
 class InteractionFunction(StrEnum):
     """The four accepted Interaction Function Assignment roles (DL-88).
@@ -73,3 +116,5 @@ class AssignmentResolution(StrEnum):
 
 # Prefix also identifies legacy per-function issues for reconciliation.
 ISSUE_ID_PREFIX = "missing_reference_{entry_id}_"
+ISSUE_VOICE_EVIDENCE_PREFIX = "voice_evidence_"
+ISSUE_MIGRATION_CONFLICT = "room_migration_conflict_{room_id}"

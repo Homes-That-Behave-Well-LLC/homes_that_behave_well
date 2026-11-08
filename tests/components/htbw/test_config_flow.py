@@ -1,6 +1,8 @@
-"""Tests for the HTBW Core config and options flow."""
+"""Tests for HTBW Core config, household options, discovery, and Room subentry flows."""
 
 from __future__ import annotations
+
+from typing import Any
 
 import probatio
 import pytest
@@ -9,17 +11,25 @@ from homeassistant.core import HomeAssistant
 from homeassistant.data_entry_flow import FlowResultType
 from homeassistant.helpers import area_registry as ar
 from homeassistant.helpers import config_validation as cv
+from homeassistant.helpers.service_info.hassio import HassioServiceInfo
 from homeassistant.helpers.translation import async_get_translations
 from pytest_homeassistant.common import MockConfigEntry
+from pytest_homeassistant.test_util.aiohttp import AiohttpClientMocker
 
 from custom_components.htbw.const import (
     CONF_ASSIGNMENTS,
+    CONF_RETAIN_ENROLLMENT_RECORDINGS,
     CONF_ROOM_ID,
+    CONF_VOICE_EVIDENCE,
     DOMAIN,
+    HOUSEHOLD_UNIQUE_ID,
+    SUBENTRY_TYPE_ROOM,
     AssignmentResolution,
     InteractionFunction,
 )
 from custom_components.htbw.foundation import get_room_interaction_assignments
+
+from .conftest import DEN_ROOM_ID, den, set_den_assignments, start_den_reconfigure
 
 REFERENCE_FIELDS = [
     ("voice_input", "entity_id", "voice_input", "assist_satellite.input"),
@@ -30,6 +40,7 @@ REFERENCE_FIELDS = [
     ("spoken_response_output", "device_id", "spoken_response_output_devices", "native_output"),
     ("physical_remote", "device_id", "physical_remote_devices", "native_remote"),
 ]
+SECRET = "A" * 43
 
 
 def _prior_version_records(room_id: str) -> list[dict[str, str]]:
@@ -67,11 +78,161 @@ def _suggested_options(schema: probatio.Schema) -> dict[str, dict[str, list[str]
     }
 
 
-async def test_options_sections_use_native_serialization_and_translations(
+async def _configure_room(hass: HomeAssistant, flow_id: str, data: dict[str, Any]) -> Any:
+    return await hass.config_entries.subentries.async_configure(flow_id, data)
+
+
+def _assert_reconfigured(result: Any) -> None:
+    assert result["type"] is FlowResultType.ABORT
+    assert result["reason"] == "reconfigure_successful"
+
+
+async def _start_add_room(hass: HomeAssistant, entry: MockConfigEntry) -> Any:
+    return await hass.config_entries.subentries.async_init(
+        (entry.entry_id, SUBENTRY_TYPE_ROOM), context={"source": config_entries.SOURCE_USER}
+    )
+
+
+@pytest.fixture
+def den_area_id(hass: HomeAssistant) -> str:
+    """Create a neutral test Area ("Living Room") and return its native area_id."""
+    return ar.async_get(hass).async_create("Living Room").id
+
+
+# --- Household entry ---------------------------------------------------------
+
+
+async def test_user_flow_creates_household_with_explicit_retention_choice(
+    hass: HomeAssistant,
+) -> None:
+    """The household entry records the DL-145 choice first, with no implicit default."""
+    result = await hass.config_entries.flow.async_init(
+        DOMAIN, context={"source": config_entries.SOURCE_USER}
+    )
+    assert result["type"] is FlowResultType.FORM
+    assert result["step_id"] == "user"
+    key = next(iter(result["data_schema"].schema))
+    assert key.schema == CONF_RETAIN_ENROLLMENT_RECORDINGS
+    assert key.default is probatio.UNDEFINED
+
+    result = await hass.config_entries.flow.async_configure(
+        result["flow_id"], {CONF_RETAIN_ENROLLMENT_RECORDINGS: "retain"}
+    )
+    assert result["type"] is FlowResultType.CREATE_ENTRY
+    entry = result["result"]
+    assert entry.unique_id == HOUSEHOLD_UNIQUE_ID
+    assert entry.version == 2
+    assert entry.options == {CONF_RETAIN_ENROLLMENT_RECORDINGS: "retain"}
+    assert entry.data == {}
+    assert entry.subentries == {}
+
+
+async def test_second_household_entry_is_refused(
+    hass: HomeAssistant, setup_integration: MockConfigEntry
+) -> None:
+    result = await hass.config_entries.flow.async_init(
+        DOMAIN, context={"source": config_entries.SOURCE_USER}
+    )
+    assert result["type"] is FlowResultType.ABORT
+    assert result["reason"] == "already_configured"
+    assert len(hass.config_entries.async_entries(DOMAIN)) == 1
+
+
+async def test_household_options_change_retention_only(
+    hass: HomeAssistant, setup_integration: MockConfigEntry
+) -> None:
+    """The Integration Options Flow holds household settings only, never Room settings."""
+    before = den(setup_integration).data
+    result = await hass.config_entries.options.async_init(setup_integration.entry_id)
+    assert result["type"] is FlowResultType.FORM
+    assert [k.schema for k in result["data_schema"].schema] == [CONF_RETAIN_ENROLLMENT_RECORDINGS]
+    result = await hass.config_entries.options.async_configure(
+        result["flow_id"], {CONF_RETAIN_ENROLLMENT_RECORDINGS: "retain"}
+    )
+    assert result["type"] is FlowResultType.CREATE_ENTRY
+    await hass.async_block_till_done()
+    assert setup_integration.options == {CONF_RETAIN_ENROLLMENT_RECORDINGS: "retain"}
+    assert den(setup_integration).data == before
+    assert CONF_RETAIN_ENROLLMENT_RECORDINGS not in den(setup_integration).data
+
+
+def _discovery(**config: Any) -> HassioServiceInfo:
+    return HassioServiceInfo(
+        config={"host": "local-htbw-voice-evidence", "port": 8099, "api_secret": SECRET, **config},
+        name="HTBW Voice Evidence",
+        slug="local_htbw_voice_evidence",
+        uuid="discovery-uuid",
+    )
+
+
+async def test_discovery_creates_household_after_retention_choice(
+    hass: HomeAssistant, aioclient_mock: AiohttpClientMocker
+) -> None:
+    aioclient_mock.get(
+        "http://local-htbw-voice-evidence:8099/v1/status", exc=ConnectionError("not running")
+    )
+    result = await hass.config_entries.flow.async_init(
+        DOMAIN, context={"source": config_entries.SOURCE_HASSIO}, data=_discovery()
+    )
+    assert result["type"] is FlowResultType.FORM
+    assert result["step_id"] == "hassio_confirm"
+    result = await hass.config_entries.flow.async_configure(
+        result["flow_id"], {CONF_RETAIN_ENROLLMENT_RECORDINGS: "delete"}
+    )
+    assert result["type"] is FlowResultType.CREATE_ENTRY
+    entry = result["result"]
+    assert entry.data[CONF_VOICE_EVIDENCE] == {
+        "host": "local-htbw-voice-evidence",
+        "port": 8099,
+        "api_secret": SECRET,
+        "app_slug": "local_htbw_voice_evidence",
+    }
+    assert entry.options == {CONF_RETAIN_ENROLLMENT_RECORDINGS: "delete"}
+
+
+async def test_repeated_discovery_reconciles_the_one_household_entry(
+    hass: HomeAssistant, setup_integration: MockConfigEntry, aioclient_mock: AiohttpClientMocker
+) -> None:
+    """Discovery is idempotent: it updates the App connection, never adds an entry."""
+    aioclient_mock.get(
+        "http://local-htbw-voice-evidence:8099/v1/status", exc=ConnectionError("not running")
+    )
+    for secret in (SECRET, "B" * 43, "B" * 43):
+        result = await hass.config_entries.flow.async_init(
+            DOMAIN,
+            context={"source": config_entries.SOURCE_HASSIO},
+            data=_discovery(api_secret=secret),
+        )
+        assert result["type"] is FlowResultType.ABORT
+        assert result["reason"] == "already_configured"
+        await hass.async_block_till_done()
+        assert setup_integration.data[CONF_VOICE_EVIDENCE]["api_secret"] == secret
+    assert len(hass.config_entries.async_entries(DOMAIN)) == 1
+    assert [s.unique_id for s in setup_integration.subentries.values()] == [DEN_ROOM_ID]
+    assert CONF_VOICE_EVIDENCE not in den(setup_integration).data
+
+
+@pytest.mark.parametrize(
+    "config",
+    [{"api_secret": "short"}, {"api_secret": None}, {"host": ""}, {"port": "x"}, {"port": 0}],
+)
+async def test_invalid_discovery_is_rejected(hass: HomeAssistant, config: dict[str, Any]) -> None:
+    result = await hass.config_entries.flow.async_init(
+        DOMAIN, context={"source": config_entries.SOURCE_HASSIO}, data=_discovery(**config)
+    )
+    assert result["type"] is FlowResultType.ABORT
+    assert result["reason"] == "invalid_discovery_info"
+    assert hass.config_entries.async_entries(DOMAIN) == []
+
+
+# --- Room subentries (#201 behaviour, unchanged) ------------------------------
+
+
+async def test_room_reconfigure_sections_use_native_serialization_and_translations(
     hass: HomeAssistant, setup_integration: MockConfigEntry
 ) -> None:
     """Each function has one translated section with adjacent native alternatives."""
-    flow = await hass.config_entries.options.async_init(setup_integration.entry_id)
+    flow = await start_den_reconfigure(hass, setup_integration)
     fields = probatio.to_field_list(flow["data_schema"], custom_serializer=cv.custom_serializer)
     expected = [
         (
@@ -98,12 +259,12 @@ async def test_options_sections_use_native_serialization_and_translations(
         ),
     ]
     assert [field["name"] for field in fields] == [name for name, _, _ in expected]
-    translations = await async_get_translations(hass, "en", "options", {DOMAIN})
+    translations = await async_get_translations(hass, "en", "config_subentries", {DOMAIN})
     visible_labels = []
     for group, (name, title, selectors) in zip(fields, expected, strict=True):
         assert group["type"] == "expandable"
         assert group["expanded"] is True
-        prefix = f"component.htbw.options.step.init.sections.{name}"
+        prefix = f"component.htbw.config_subentries.room.step.reconfigure.sections.{name}"
         assert translations[f"{prefix}.name"] == title
         visible_labels.append(translations[f"{prefix}.name"])
         assert [field["name"] for field in group["schema"]] == [
@@ -126,20 +287,19 @@ async def test_options_sections_use_native_serialization_and_translations(
 async def test_prior_version_records_populate_save_and_reload_without_loss(
     hass: HomeAssistant, mock_config_entry: MockConfigEntry, reference_types: tuple[str, ...]
 ) -> None:
-    room_id = mock_config_entry.data[CONF_ROOM_ID]
     original = [
         record
-        for record in _prior_version_records(room_id)
+        for record in _prior_version_records(DEN_ROOM_ID)
         if record["reference_type"] in reference_types
         or record["participation_state"] != "participating"
     ]
     mock_config_entry.add_to_hass(hass)
-    hass.config_entries.async_update_entry(mock_config_entry, options={CONF_ASSIGNMENTS: original})
+    set_den_assignments(hass, mock_config_entry, original)
     assert await hass.config_entries.async_setup(mock_config_entry.entry_id)
     await hass.async_block_till_done()
     assert [a.to_dict() for a in mock_config_entry.runtime_data.assignments] == original
 
-    flow = await hass.config_entries.options.async_init(mock_config_entry.entry_id)
+    flow = await start_den_reconfigure(hass, mock_config_entry)
     suggested = _suggested_options(flow["data_schema"])
     for function, reference_type, field, _ in REFERENCE_FIELDS:
         assert suggested[function][field] == [
@@ -149,17 +309,16 @@ async def test_prior_version_records_populate_save_and_reload_without_loss(
             and record["reference_type"] == reference_type
             and record["participation_state"] == "participating"
         ]
-    result = await hass.config_entries.options.async_configure(flow["flow_id"], suggested)
-    assert result["type"] is FlowResultType.CREATE_ENTRY
+    _assert_reconfigured(await _configure_room(hass, flow["flow_id"], suggested))
     await hass.async_block_till_done()
-    assert mock_config_entry.options[CONF_ASSIGNMENTS] == original
-    assert mock_config_entry.data == {CONF_ROOM_ID: room_id}
-    assert mock_config_entry.version == 1
+    assert den(mock_config_entry).data[CONF_ASSIGNMENTS] == original
+    assert den(mock_config_entry).data[CONF_ROOM_ID] == DEN_ROOM_ID
+    assert mock_config_entry.version == 2
     assert await hass.config_entries.async_reload(mock_config_entry.entry_id)
     await hass.async_block_till_done()
     assert [a.to_dict() for a in mock_config_entry.runtime_data.assignments] == original
     for function in InteractionFunction:
-        results = get_room_interaction_assignments(hass, room_id, function)
+        results = get_room_interaction_assignments(hass, DEN_ROOM_ID, function)
         assert [result.assignment.to_dict() for result in results] == [
             record
             for record in original
@@ -173,7 +332,7 @@ async def test_prior_version_records_populate_save_and_reload_without_loss(
     REFERENCE_FIELDS,
     ids=[field for _, _, field, _ in REFERENCE_FIELDS],
 )
-async def test_grouped_options_clear_references_without_changing_other_records(
+async def test_grouped_reconfigure_clears_references_without_changing_other_records(
     hass: HomeAssistant,
     setup_integration: MockConfigEntry,
     function: str,
@@ -181,17 +340,16 @@ async def test_grouped_options_clear_references_without_changing_other_records(
     field: str,
     reference: str,
 ) -> None:
-    original = _prior_version_records(setup_integration.data[CONF_ROOM_ID])
-    hass.config_entries.async_update_entry(setup_integration, options={CONF_ASSIGNMENTS: original})
+    original = _prior_version_records(DEN_ROOM_ID)
+    set_den_assignments(hass, setup_integration, original)
     await hass.async_block_till_done()
     for retained in ([f"{reference}_0"], []):
-        flow = await hass.config_entries.options.async_init(setup_integration.entry_id)
+        flow = await start_den_reconfigure(hass, setup_integration)
         selections = _suggested_options(flow["data_schema"])
         selections[function][field] = retained
-        result = await hass.config_entries.options.async_configure(flow["flow_id"], selections)
-        assert result["type"] is FlowResultType.CREATE_ENTRY
+        _assert_reconfigured(await _configure_room(hass, flow["flow_id"], selections))
         await hass.async_block_till_done()
-        assert setup_integration.options[CONF_ASSIGNMENTS] == [
+        assert den(setup_integration).data[CONF_ASSIGNMENTS] == [
             record
             for record in original
             if record["function"] != function
@@ -199,31 +357,22 @@ async def test_grouped_options_clear_references_without_changing_other_records(
             or record["participation_state"] != "participating"
             or record["reference_id"] in retained
         ]
-        reopened = await hass.config_entries.options.async_init(setup_integration.entry_id)
+        reopened = await start_den_reconfigure(hass, setup_integration)
         assert _suggested_options(reopened["data_schema"])[function][field] == retained
-        hass.config_entries.options.async_abort(reopened["flow_id"])
+        hass.config_entries.subentries.async_abort(reopened["flow_id"])
 
 
-@pytest.fixture
-def den_area_id(hass: HomeAssistant) -> str:
-    """Create a neutral test Area ("Den") and return its native area_id."""
-    area_registry = ar.async_get(hass)
-    entry = area_registry.async_create("Den")
-    return entry.id
-
-
-async def test_config_flow_creates_entry_with_voice_input_and_response(
-    hass: HomeAssistant, den_area_id: str
+async def test_add_room_with_voice_input_and_response(
+    hass: HomeAssistant, setup_integration: MockConfigEntry, den_area_id: str
 ) -> None:
-    """A room with independently-selected voice_input and spoken_response_output."""
-    result = await hass.config_entries.flow.async_init(
-        DOMAIN, context={"source": config_entries.SOURCE_USER}
-    )
+    """A Room with independently-selected voice_input and spoken_response_output."""
+    result = await _start_add_room(hass, setup_integration)
     assert result["type"] is FlowResultType.FORM
     assert result["step_id"] == "user"
     assert isinstance(result["data_schema"], probatio.Schema)
 
-    result = await hass.config_entries.flow.async_configure(
+    result = await _configure_room(
+        hass,
         result["flow_id"],
         {
             "area_id": den_area_id,
@@ -232,116 +381,109 @@ async def test_config_flow_creates_entry_with_voice_input_and_response(
         },
     )
     assert result["type"] is FlowResultType.CREATE_ENTRY
-    assert result["title"] == "Den"
+    assert result["title"] == "Living Room"
+    assert result["unique_id"] == den_area_id
     assert result["data"][CONF_ROOM_ID] == den_area_id
-
-    assignments = result["options"][CONF_ASSIGNMENTS]
-    functions = {a["function"]: a["reference_id"] for a in assignments}
+    functions = {a["function"]: a["reference_id"] for a in result["data"][CONF_ASSIGNMENTS]}
     assert functions["voice_input"] == "assist_satellite.den_satellite"
     assert functions["spoken_response_output"] == "media_player.den_speaker"
+    await hass.async_block_till_done()
+    assert {s.unique_id for s in setup_integration.subentries.values()} == {
+        DEN_ROOM_ID,
+        den_area_id,
+    }
+    assert len(hass.config_entries.async_entries(DOMAIN)) == 1
 
 
-async def test_config_flow_room_only_is_valid(hass: HomeAssistant, den_area_id: str) -> None:
+async def test_add_room_only_is_valid(
+    hass: HomeAssistant, setup_integration: MockConfigEntry, den_area_id: str
+) -> None:
     """A Room with none of the four functions configured is a valid state (spec SS5)."""
-    result = await hass.config_entries.flow.async_init(
-        DOMAIN, context={"source": config_entries.SOURCE_USER}
-    )
-    result = await hass.config_entries.flow.async_configure(
-        result["flow_id"], {"area_id": den_area_id}
-    )
+    result = await _start_add_room(hass, setup_integration)
+    result = await _configure_room(hass, result["flow_id"], {"area_id": den_area_id})
     assert result["type"] is FlowResultType.CREATE_ENTRY
-    assert result["options"][CONF_ASSIGNMENTS] == []
+    assert result["data"][CONF_ASSIGNMENTS] == []
 
 
-async def test_config_flow_area_not_found_shows_error(hass: HomeAssistant) -> None:
+async def test_add_room_area_not_found_shows_error(
+    hass: HomeAssistant, setup_integration: MockConfigEntry
+) -> None:
     """An area_id that does not resolve in the registry is a form error, never a guess."""
-    result = await hass.config_entries.flow.async_init(
-        DOMAIN, context={"source": config_entries.SOURCE_USER}
-    )
-    result = await hass.config_entries.flow.async_configure(
-        result["flow_id"], {"area_id": "nonexistent_area"}
-    )
+    result = await _start_add_room(hass, setup_integration)
+    result = await _configure_room(hass, result["flow_id"], {"area_id": "nonexistent_area"})
     assert result["type"] is FlowResultType.FORM
     assert result["errors"] == {"area_id": "area_not_found"}
 
 
-async def test_config_flow_duplicate_area_aborts(hass: HomeAssistant, den_area_id: str) -> None:
-    """The same Area cannot be configured by a second HTBW Core entry."""
-    MockConfigEntry(
-        domain=DOMAIN,
-        unique_id=den_area_id,
-        title="Den",
-        data={CONF_ROOM_ID: den_area_id},
-        options={CONF_ASSIGNMENTS: []},
-    ).add_to_hass(hass)
-
-    result = await hass.config_entries.flow.async_init(
-        DOMAIN, context={"source": config_entries.SOURCE_USER}
-    )
-    result = await hass.config_entries.flow.async_configure(
-        result["flow_id"], {"area_id": den_area_id}
-    )
+async def test_add_room_duplicate_area_aborts(
+    hass: HomeAssistant, setup_integration: MockConfigEntry
+) -> None:
+    """The same Area cannot be configured as a second Room."""
+    result = await _start_add_room(hass, setup_integration)
+    result = await _configure_room(hass, result["flow_id"], {"area_id": DEN_ROOM_ID})
     assert result["type"] is FlowResultType.ABORT
     assert result["reason"] == "already_configured"
 
 
-async def test_options_flow_adds_interface_and_physical_remote(
+async def test_reconfigure_adds_interface_and_physical_remote(
     hass: HomeAssistant, setup_integration: MockConfigEntry
 ) -> None:
-    """The two optional functions are configured through Options (spec SS5)."""
-    result = await hass.config_entries.options.async_init(setup_integration.entry_id)
+    """The two optional functions are configured by reconfiguring the Room (spec SS5)."""
+    result = await start_den_reconfigure(hass, setup_integration)
     assert result["type"] is FlowResultType.FORM
-    assert result["step_id"] == "init"
+    assert result["step_id"] == "reconfigure"
     assert isinstance(result["data_schema"], probatio.Schema)
 
-    result = await hass.config_entries.options.async_configure(
+    result = await _configure_room(
+        hass,
         result["flow_id"],
         {
             "interface": {"interface": ["device_kiosk_1"]},
             "physical_remote": {"physical_remote": ["remote.den_remote"]},
         },
     )
-    assert result["type"] is FlowResultType.CREATE_ENTRY
-    functions = {a["function"]: a["reference_id"] for a in result["data"][CONF_ASSIGNMENTS]}
+    _assert_reconfigured(result)
+    await hass.async_block_till_done()
+    functions = {
+        a["function"]: a["reference_id"] for a in den(setup_integration).data[CONF_ASSIGNMENTS]
+    }
     assert functions["interface"] == "device_kiosk_1"
     assert functions["physical_remote"] == "remote.den_remote"
 
 
-async def test_options_flow_clearing_a_field_removes_the_assignment(
+async def test_reconfigure_clearing_a_field_removes_the_assignment(
     hass: HomeAssistant, setup_integration: MockConfigEntry
 ) -> None:
-    """Omitting a previously-configured function in Options removes that assignment."""
-    hass.config_entries.async_update_entry(
+    """Omitting a previously-configured function removes that assignment."""
+    set_den_assignments(
+        hass,
         setup_integration,
-        options={
-            CONF_ASSIGNMENTS: [
-                {
-                    "room_id": setup_integration.data[CONF_ROOM_ID],
-                    "function": "voice_input",
-                    "reference_type": "entity_id",
-                    "reference_id": "assist_satellite.den_satellite",
-                    "participation_state": "participating",
-                    "assigned_at": "2026-01-01T00:00:00+00:00",
-                    "updated_at": "2026-01-01T00:00:00+00:00",
-                }
-            ]
-        },
+        [
+            {
+                "room_id": DEN_ROOM_ID,
+                "function": "voice_input",
+                "reference_type": "entity_id",
+                "reference_id": "assist_satellite.den_satellite",
+                "participation_state": "participating",
+                "assigned_at": "2026-01-01T00:00:00+00:00",
+                "updated_at": "2026-01-01T00:00:00+00:00",
+            }
+        ],
     )
     await hass.async_block_till_done()
 
-    result = await hass.config_entries.options.async_init(setup_integration.entry_id)
-    result = await hass.config_entries.options.async_configure(result["flow_id"], {})
-    assert result["type"] is FlowResultType.CREATE_ENTRY
-    assert result["data"][CONF_ASSIGNMENTS] == []
+    result = await start_den_reconfigure(hass, setup_integration)
+    _assert_reconfigured(await _configure_room(hass, result["flow_id"], {}))
+    await hass.async_block_till_done()
+    assert den(setup_integration).data[CONF_ASSIGNMENTS] == []
 
 
-async def test_multiple_assignments_and_timestamps_survive_options_save(
-    hass: HomeAssistant, den_area_id: str
+async def test_multiple_assignments_and_timestamps_survive_reconfigure_save(
+    hass: HomeAssistant, setup_integration: MockConfigEntry, den_area_id: str
 ) -> None:
-    flow = await hass.config_entries.flow.async_init(
-        DOMAIN, context={"source": config_entries.SOURCE_USER}
-    )
-    result = await hass.config_entries.flow.async_configure(
+    flow = await _start_add_room(hass, setup_integration)
+    result = await _configure_room(
+        hass,
         flow["flow_id"],
         {
             "area_id": den_area_id,
@@ -349,9 +491,9 @@ async def test_multiple_assignments_and_timestamps_survive_options_save(
         },
     )
     assert result["type"] is FlowResultType.CREATE_ENTRY
-    entry = result["result"]
     await hass.async_block_till_done()
-    original = entry.options[CONF_ASSIGNMENTS]
+    room = next(s for s in setup_integration.subentries.values() if s.unique_id == den_area_id)
+    original = room.data[CONF_ASSIGNMENTS]
     assert len(original) == 2
     assert {a["reference_id"] for a in original} == {
         "media_player.first_output",
@@ -359,28 +501,32 @@ async def test_multiple_assignments_and_timestamps_survive_options_save(
     }
     assert all(isinstance(a["reference_id"], str) for a in original)
 
-    flow = await hass.config_entries.options.async_init(entry.entry_id)
+    flow = await hass.config_entries.subentries.async_init(
+        (setup_integration.entry_id, SUBENTRY_TYPE_ROOM),
+        context={"source": config_entries.SOURCE_RECONFIGURE, "subentry_id": room.subentry_id},
+    )
     suggested = _suggested_options(flow["data_schema"])
     assert suggested["spoken_response_output"]["spoken_response_output"] == [
         "media_player.first_output",
         "media_player.second_output",
     ]
-    result = await hass.config_entries.options.async_configure(
-        flow["flow_id"], {"spoken_response_output": suggested["spoken_response_output"]}
+    _assert_reconfigured(
+        await _configure_room(
+            hass, flow["flow_id"], {"spoken_response_output": suggested["spoken_response_output"]}
+        )
     )
-    assert result["type"] is FlowResultType.CREATE_ENTRY
     await hass.async_block_till_done()
-    assert entry.options[CONF_ASSIGNMENTS] == original
-    assert await hass.config_entries.async_reload(entry.entry_id)
+    assert setup_integration.subentries[room.subentry_id].data[CONF_ASSIGNMENTS] == original
+    assert await hass.config_entries.async_reload(setup_integration.entry_id)
     await hass.async_block_till_done()
-    assert [a.to_dict() for a in entry.runtime_data.assignments] == original
+    assert [a.to_dict() for a in setup_integration.runtime_data.rooms[room.subentry_id]] == original
 
 
-async def test_options_preserve_excluded_records(
+async def test_reconfigure_preserves_excluded_records(
     hass: HomeAssistant, setup_integration: MockConfigEntry
 ) -> None:
     record = {
-        "room_id": setup_integration.data[CONF_ROOM_ID],
+        "room_id": DEN_ROOM_ID,
         "function": "spoken_response_output",
         "reference_type": "entity_id",
         "reference_id": "media_player.excluded",
@@ -388,19 +534,19 @@ async def test_options_preserve_excluded_records(
         "assigned_at": "2026-01-01T00:00:00+00:00",
         "updated_at": "2026-01-02T00:00:00+00:00",
     }
-    hass.config_entries.async_update_entry(setup_integration, options={CONF_ASSIGNMENTS: [record]})
+    set_den_assignments(hass, setup_integration, [record])
     await hass.async_block_till_done()
-    flow = await hass.config_entries.options.async_init(setup_integration.entry_id)
-    result = await hass.config_entries.options.async_configure(flow["flow_id"], {})
-    assert result["type"] is FlowResultType.CREATE_ENTRY
-    assert result["data"][CONF_ASSIGNMENTS] == [record]
+    flow = await start_den_reconfigure(hass, setup_integration)
+    _assert_reconfigured(await _configure_room(hass, flow["flow_id"], {}))
+    await hass.async_block_till_done()
+    assert den(setup_integration).data[CONF_ASSIGNMENTS] == [record]
 
 
-async def test_options_do_not_discard_unsupported_native_reference(
+async def test_reconfigure_does_not_discard_unsupported_native_reference(
     hass: HomeAssistant, setup_integration: MockConfigEntry
 ) -> None:
     record = {
-        "room_id": setup_integration.data[CONF_ROOM_ID],
+        "room_id": DEN_ROOM_ID,
         "function": "interface",
         "reference_type": "entity_id",
         "reference_id": "sensor.not_a_native_interface_device",
@@ -408,19 +554,19 @@ async def test_options_do_not_discard_unsupported_native_reference(
         "assigned_at": "2026-01-01T00:00:00+00:00",
         "updated_at": "2026-01-01T00:00:00+00:00",
     }
-    hass.config_entries.async_update_entry(setup_integration, options={CONF_ASSIGNMENTS: [record]})
+    set_den_assignments(hass, setup_integration, [record])
     await hass.async_block_till_done()
-    flow = await hass.config_entries.options.async_init(setup_integration.entry_id)
-    result = await hass.config_entries.options.async_configure(flow["flow_id"], {})
+    flow = await start_den_reconfigure(hass, setup_integration)
+    result = await _configure_room(hass, flow["flow_id"], {})
     assert result["type"] is FlowResultType.FORM
     assert result["errors"] == {"base": "unsupported_reference_type"}
-    assert setup_integration.options[CONF_ASSIGNMENTS] == [record]
+    assert den(setup_integration).data[CONF_ASSIGNMENTS] == [record]
 
 
-async def test_options_support_native_devices_without_fabricated_entities(
+async def test_reconfigure_supports_native_devices_without_fabricated_entities(
     hass: HomeAssistant, setup_integration: MockConfigEntry
 ) -> None:
-    flow = await hass.config_entries.options.async_init(setup_integration.entry_id)
+    flow = await start_den_reconfigure(hass, setup_integration)
     selections = {
         "voice_input": {"voice_input_devices": ["native_input"]},
         "spoken_response_output": {
@@ -429,17 +575,16 @@ async def test_options_support_native_devices_without_fabricated_entities(
         },
         "physical_remote": {"physical_remote_devices": ["native_remote_without_entity"]},
     }
-    result = await hass.config_entries.options.async_configure(flow["flow_id"], selections)
-    assert result["type"] is FlowResultType.CREATE_ENTRY
+    _assert_reconfigured(await _configure_room(hass, flow["flow_id"], selections))
     await hass.async_block_till_done()
-    records = setup_integration.options[CONF_ASSIGNMENTS]
+    records = den(setup_integration).data[CONF_ASSIGNMENTS]
     assert {(a["function"], a["reference_type"], a["reference_id"]) for a in records} == {
         ("voice_input", "device_id", "native_input"),
         ("spoken_response_output", "entity_id", "media_player.explicit_output"),
         ("spoken_response_output", "device_id", "native_output"),
         ("physical_remote", "device_id", "native_remote_without_entity"),
     }
-    reopened = await hass.config_entries.options.async_init(setup_integration.entry_id)
+    reopened = await start_den_reconfigure(hass, setup_integration)
     suggested = _suggested_options(reopened["data_schema"])
     for function, fields in selections.items():
         for key, value in fields.items():

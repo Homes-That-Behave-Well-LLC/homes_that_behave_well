@@ -197,6 +197,9 @@ See [docs/architecture/home-assistant-boundary.md](docs/architecture/home-assist
 
 | Path | Contents |
 |---|---|
+| `custom_components/htbw/` | The HTBW Home Assistant Integration (household entry with Room subentries) |
+| `apps/htbw_voice_evidence/` | The external HTBW Voice Evidence Home Assistant App (separate runtime; communicates with the Integration only through the #161 contracts; independently versioned) |
+| `repository.yaml` | Home Assistant App repository manifest for installing the App through Supervisor |
 | `docs/architecture/` | The framework, principles, cross-cutting concerns, and ADRs |
 | `docs/models/` | Canonical models for each responsibility, plus the glossary |
 | `docs/contracts/` | Explicit boundaries between responsibilities |
@@ -314,6 +317,21 @@ deployed file hashes, then stop. Passing automated tests and matching files do n
 establish Reference Home runtime or household acceptance; that remains a separate
 owner validation.
 
+### Configuration hierarchy (Issue #162)
+
+HTBW is configured as **one household HTBW entry** with each HTBW Room as a native
+**Room subentry** beneath it.
+
+- **Household entry.** This is the Integration configuration. It holds only
+  household-scoped settings: "Retain Enrollment Recordings" (its options flow) and the
+  Voice Evidence App connection provisioned by Supervisor Discovery.
+- **Rooms.** Add a Room with **Add Room** on the HTBW entry. Change a Room's interaction
+  functions by reconfiguring that Room.
+
+The #201 per-Room config entries migrate automatically and losslessly into Room
+subentries on first start of version 0.2.0. The first entry is converted in place, and
+any later ones are copied, verified, and then retired. Migration does not repeat.
+
 ### Room interaction implementation boundary
 
 Native selectors for the four functions allow multiple selections. Each selection is persisted
@@ -326,19 +344,19 @@ priority, selection, fallback, or fan-out. This replaces the earlier singular
 Python helper that silently selected the first record; there are no production
 Concierge consumers in this slice.
 
-Options preserve unchanged timestamps and nonparticipating records. An explicit
+The Room reconfigure form preserves unchanged timestamps and nonparticipating records. An explicit
 selection can reactivate an excluded record; an omitted participating assignment
-is removed. Options include native entity and device selectors for input, output,
+is removed. The form includes native entity and device selectors for input, output,
 and remote, and a device selector for interface, following specification section
-18.1. The options form uses four expanded native HA sections, one per function.
+18.1. It uses four expanded native HA sections, one per function.
 Within each section, selectors are labelled **Entities** then **Devices** where
 supported; **Interface** has **Devices** only, as specified by section 18.1.
-Section titles and field labels use HA's `options.step.init.sections` translations.
+Section titles and field labels use HA's `config_subentries.room.step.reconfigure.sections`
+translations.
 There are no detached device fields or additional functions. Native selectors
 provide their own Add entity/Add device controls. The nested form submission is
-projected onto the existing assignment builder; persisted keys, timestamps,
-participation, retrieval, and config-entry version are unchanged. No migration or
-entry recreation is required for data from `2b1fd6b`.
+projected onto the existing assignment builder; persisted record keys, timestamps,
+participation, and retrieval are unchanged by the move to Room subentries.
 Device selections remain empty unless explicitly selected.
 A stored unsupported function/reference-type combination is not
 silently discarded: the form reports the problem and refuses the save.

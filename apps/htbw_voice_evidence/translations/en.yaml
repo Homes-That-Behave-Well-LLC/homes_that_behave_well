@@ -1,0 +1,7 @@
+configuration:
+  retain_enrollment_recordings:
+    name: "Retain enrollment recordings"
+    description: >-
+      Managed by HTBW — set in HTBW Household configuration; changes here are
+      overwritten. Governs only the ten source enrollment recordings, never the
+      Voiceprint.

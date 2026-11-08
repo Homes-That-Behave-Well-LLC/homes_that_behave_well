@@ -1919,6 +1919,49 @@ was created.** The ledger's identifier count is unchanged.
 
 ---
 
+### Notes on the Voice Evidence Phase 2 runtime-foundation Owner decisions (#162)
+
+**Recorded 2026-11-08.** Grounding #162 against the corrected #161 contract (`059504e`) found six
+consequential choices that accepted authority left open. Each was put to the Owner as a single
+question, highest dependency first, and decided. **No identifier is issued**: each decision applies
+existing accepted architecture (**DL-41**, **DL-43**, **DL-44**, **DL-50**, **DL-120**, **DL-145**,
+**DL-148**) to implementation, and none reopens it.
+
+1. **Execution host.** The Voice Evidence App is an HTBW-owned **Home Assistant App under Supervisor**,
+   the reference deployment **DL-50** already adopted (the Reference Home is observed as
+   Supervisor-managed). It is external to `custom_components/htbw`. Other deployment hosts preserve the
+   same separation and are not designed now.
+2. **Authentication.** The App generates a high-entropy bearer secret and provisions host, port, and
+   secret to the household HTBW entry through official **Supervisor Discovery**. Every request is
+   authenticated, compared in constant time, and redacted everywhere; rotation is App re-provisioning.
+   **Discovery is provisioning, not authority**: the App receives no Home Assistant or Supervisor
+   administrator token. mTLS was rejected as disproportionate for now.
+3. **Source location.** This repository is the governed source for both `custom_components/htbw` and
+   `apps/htbw_voice_evidence` (an official App repository layout). **Co-location never becomes runtime
+   coupling**: no shared code, state, or biometric storage, and the four #161 contracts are the only
+   boundary. The App is independently versioned so it can be split out later.
+4. **Encoder.** WeSpeaker ECAPA-TDNN512-LM (ONNX) is the **initial** governed encoder, pinned by
+   revision and SHA-256, licence-attributed, and verified before activation with no fallback. It is
+   not permanent, and **no Match Level calibration or threshold** is decided (DL-50 ADR §33.3, updated).
+5. **Retention read mechanism.** The household sets "Retain Enrollment Recordings" only in HTBW. On a
+   Supervisor install, HTBW mirrors that one value into the App's own official app options. That is
+   configuration synchronization, never a Contract A–D field or artifact-disposition command. The App
+   reads its own options and owns every lifecycle decision
+   ([../contracts/identity-contract.md](../contracts/identity-contract.md#voice-evidence-app-boundary--four-contracts-phase-1-161)).
+6. **Configuration hierarchy.** HTBW becomes **one household config entry** (the Integration
+   configuration authority) with **each HTBW Room as a native config subentry** (Room Configuration
+   authority). Household settings never leak into Rooms, and Room settings never flatten into the
+   household. #201's per-Room entries migrate **losslessly and idempotently**: the first is converted
+   in place, and any later one is copied, verified, and only then retired. Any doubt preserves the old
+   entry and raises Repairs. #201's own acceptance had already said its Room-as-config-entry surface
+   was a commissioning slice, not final Room Configuration architecture. An HTBW Room remains distinct
+   from a Home Assistant Area. Person Configuration is not a Room subentry.
+
+**This note introduces no responsibility, record class, artifact class, retention rule, threshold, or
+confidence representation**, and the ledger's identifier count is unchanged.
+
+---
+
 ### Notes on the custody and obligation-lifecycle decision
 
 **Recorded 2026-08-20. DL-48 and DL-49 were accepted, and OD-75 is closed by them. Formal acceptance

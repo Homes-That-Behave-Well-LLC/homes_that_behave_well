@@ -1,18 +1,22 @@
-"""Config and options flow for HTBW Core.
+"""Config, options, and Room subentry flows for HTBW Core.
 
-Implements SS5 (Foundation Room Setup requirements), SS4.1 (atomic records),
-and SS18 (native selectors) of
-docs/architecture/foundation-room-interaction-roles-specification.md.
+Configuration hierarchy (Issue #162, Owner decision B):
 
-One config entry represents one Room's full set of Interaction Function
-Assignments. Multiple Rooms are supported by adding multiple config entries.
+- One household HTBW config entry: the Integration configuration authority. It
+  holds household/Integration-scoped settings only -- "Retain Enrollment
+  Recordings" (DL-145 SS2, placed in the Integration Options Flow by DL-148)
+  and the Voice Evidence App connection provisioned by Supervisor Discovery.
+- One native config subentry per HTBW Room: the Room Configuration authority.
+  Implements SS5 (Foundation Room Setup requirements), SS4.1 (atomic records),
+  and SS18 (native selectors) of
+  docs/architecture/foundation-room-interaction-roles-specification.md exactly
+  as #201 did; only the persistence carrier changed.
 
-The initial flow collects the native Area (Room) context plus the two
-historically-integrated functions (voice_input, spoken_response_output) in
-one step, so optional setup does not block an initial, minimal
-configuration. `interface` and `physical_remote` are configured afterwards
-through the Options flow, consistent with "do not make optional functions
-block initial setup."
+Adding a Room collects the native Area context plus the two
+historically-integrated functions (voice_input, spoken_response_output), so
+optional setup does not block an initial, minimal configuration. `interface`
+and `physical_remote` are configured afterwards by reconfiguring the Room,
+consistent with "do not make optional functions block initial setup."
 """
 
 from __future__ import annotations
@@ -22,22 +26,40 @@ from dataclasses import replace
 from typing import Any
 
 import probatio
-from homeassistant.config_entries import ConfigEntry, ConfigFlow, ConfigFlowResult, OptionsFlow
+from homeassistant.config_entries import (
+    ConfigEntry,
+    ConfigFlow,
+    ConfigFlowResult,
+    ConfigSubentryFlow,
+    OptionsFlow,
+    SubentryFlowResult,
+)
 from homeassistant.core import callback
 from homeassistant.data_entry_flow import section
 from homeassistant.helpers import area_registry as ar
 from homeassistant.helpers import selector
+from homeassistant.helpers.service_info.hassio import HassioServiceInfo
 
 from .const import (
-    CONF_ASSIGNMENTS,
+    CONF_API_SECRET,
+    CONF_APP_SLUG,
+    CONF_HOST,
+    CONF_PORT,
+    CONF_RETAIN_ENROLLMENT_RECORDINGS,
     CONF_ROOM_ID,
+    CONF_VOICE_EVIDENCE,
     DOMAIN,
+    HOUSEHOLD_TITLE,
+    HOUSEHOLD_UNIQUE_ID,
+    RETENTION_DELETE,
+    RETENTION_RETAIN,
+    SUBENTRY_TYPE_ROOM,
     InteractionFunction,
     ParticipationState,
     ReferenceType,
 )
 from .models import RoomInteractionFunctionAssignment
-from .storage import load_assignments
+from .storage import load_assignments, room_subentries, room_subentry_data
 
 CONF_VOICE_INPUT = InteractionFunction.VOICE_INPUT.value
 CONF_SPOKEN_RESPONSE_OUTPUT = InteractionFunction.SPOKEN_RESPONSE_OUTPUT.value
@@ -179,72 +201,187 @@ def _assignments_from_user_input(
     return assignments
 
 
-class HTBWConfigFlow(ConfigFlow, domain=DOMAIN):
-    """Config flow for HTBW Core -- one Room's Interaction Function Assignments."""
+def _retention_schema(default: str | None = None) -> probatio.Schema:
+    """The household's explicit DL-145 choice; deliberately no implicit default."""
+    key = (
+        probatio.Required(CONF_RETAIN_ENROLLMENT_RECORDINGS, default=default)
+        if default is not None
+        else probatio.Required(CONF_RETAIN_ENROLLMENT_RECORDINGS)
+    )
+    return probatio.Schema(
+        {
+            key: selector.SelectSelector(
+                selector.SelectSelectorConfig(
+                    options=[RETENTION_RETAIN, RETENTION_DELETE],
+                    translation_key="retain_enrollment_recordings",
+                    mode=selector.SelectSelectorMode.LIST,
+                )
+            )
+        }
+    )
 
-    VERSION = 1
+
+def _discovery_connection(discovery_info: HassioServiceInfo) -> dict[str, Any] | None:
+    """Validate a Supervisor Discovery payload into the stored App connection."""
+    config = discovery_info.config
+    host, port, secret = config.get(CONF_HOST), config.get(CONF_PORT), config.get(CONF_API_SECRET)
+    if not isinstance(host, str) or not host or not isinstance(secret, str) or len(secret) < 32:
+        return None
+    try:
+        port_number = int(port)  # type: ignore[arg-type]
+    except TypeError, ValueError:
+        return None
+    if not 0 < port_number < 65536:
+        return None
+    return {
+        CONF_HOST: host,
+        CONF_PORT: port_number,
+        CONF_API_SECRET: secret,
+        CONF_APP_SLUG: discovery_info.slug,
+    }
+
+
+def _current_by_field(
+    assignments: list[RoomInteractionFunctionAssignment],
+) -> dict[str, list[str]]:
+    return {
+        field: [
+            a.reference_id
+            for a in assignments
+            if a.function is function
+            and a.reference_type is reference_type
+            and a.participation_state is ParticipationState.PARTICIPATING
+        ]
+        for field, (function, reference_type) in _FIELD_REFERENCES.items()
+    }
+
+
+class HTBWConfigFlow(ConfigFlow, domain=DOMAIN):
+    """Config flow for the single household HTBW entry."""
+
+    VERSION = 2
+    MINOR_VERSION = 1
+
+    def __init__(self) -> None:
+        """Initialize the flow."""
+        self._discovered_connection: dict[str, Any] | None = None
 
     async def async_step_user(self, user_input: dict[str, Any] | None = None) -> ConfigFlowResult:
-        """First and only required setup step.
+        """Create the household HTBW entry, recording the DL-145 retention choice first."""
+        await self.async_set_unique_id(HOUSEHOLD_UNIQUE_ID)
+        self._abort_if_unique_id_configured()
+        if user_input is not None:
+            return self.async_create_entry(
+                title=HOUSEHOLD_TITLE,
+                data={},
+                options={
+                    CONF_RETAIN_ENROLLMENT_RECORDINGS: user_input[CONF_RETAIN_ENROLLMENT_RECORDINGS]
+                },
+            )
+        return self.async_show_form(step_id="user", data_schema=_retention_schema())
 
-        Collects the native Area (Room) reference and, optionally, the two
-        historically-integrated functions. `interface` and `physical_remote`
-        are configured afterward through the Options flow (spec SS5: "do
-        not make optional functions block initial setup").
+    async def async_step_hassio(self, discovery_info: HassioServiceInfo) -> ConfigFlowResult:
+        """Bind the Supervisor-discovered Voice Evidence App to the household entry.
+
+        Idempotent: repeated discovery (including after secret rotation)
+        reconciles the one household entry's App connection and never creates
+        a second HTBW entry. The secret is never logged.
         """
-        errors: dict[str, str] = {}
+        connection = _discovery_connection(discovery_info)
+        if connection is None:
+            return self.async_abort(reason="invalid_discovery_info")
+        await self.async_set_unique_id(HOUSEHOLD_UNIQUE_ID)
+        self._abort_if_unique_id_configured(updates={CONF_VOICE_EVIDENCE: connection})
+        self._discovered_connection = connection
+        return await self.async_step_hassio_confirm()
 
+    async def async_step_hassio_confirm(
+        self, user_input: dict[str, Any] | None = None
+    ) -> ConfigFlowResult:
+        """Create the household entry from discovery; the retention choice is required first."""
+        assert self._discovered_connection is not None
+        if user_input is not None:
+            return self.async_create_entry(
+                title=HOUSEHOLD_TITLE,
+                data={CONF_VOICE_EVIDENCE: self._discovered_connection},
+                options={
+                    CONF_RETAIN_ENROLLMENT_RECORDINGS: user_input[CONF_RETAIN_ENROLLMENT_RECORDINGS]
+                },
+            )
+        return self.async_show_form(step_id="hassio_confirm", data_schema=_retention_schema())
+
+    @staticmethod
+    @callback
+    def async_get_options_flow(config_entry: ConfigEntry) -> HTBWOptionsFlow:
+        """Return the household (Integration-scoped) options flow."""
+        return HTBWOptionsFlow()
+
+    @classmethod
+    @callback
+    def async_get_supported_subentry_types(
+        cls, config_entry: ConfigEntry
+    ) -> dict[str, type[ConfigSubentryFlow]]:
+        """Rooms are native config subentries of the household entry."""
+        return {SUBENTRY_TYPE_ROOM: RoomSubentryFlow}
+
+
+class HTBWOptionsFlow(OptionsFlow):
+    """Household/Integration-scoped options only. Room settings never appear here."""
+
+    async def async_step_init(self, user_input: dict[str, Any] | None = None) -> ConfigFlowResult:
+        """Change "Retain Enrollment Recordings" (DL-145 Option A/B)."""
+        if user_input is not None:
+            return self.async_create_entry(
+                title="",
+                data={
+                    **self.config_entry.options,
+                    CONF_RETAIN_ENROLLMENT_RECORDINGS: user_input[
+                        CONF_RETAIN_ENROLLMENT_RECORDINGS
+                    ],
+                },
+            )
+        return self.async_show_form(
+            step_id="init",
+            data_schema=_retention_schema(
+                self.config_entry.options.get(CONF_RETAIN_ENROLLMENT_RECORDINGS)
+            ),
+        )
+
+
+class RoomSubentryFlow(ConfigSubentryFlow):
+    """Add or reconfigure one HTBW Room's Interaction Function Assignments."""
+
+    async def async_step_user(self, user_input: dict[str, Any] | None = None) -> SubentryFlowResult:
+        """Add a Room (spec SS5): Area plus the two historically-integrated functions."""
+        errors: dict[str, str] = {}
         if user_input is not None:
             area_id = user_input["area_id"]
-            await self.async_set_unique_id(area_id)
-            self._abort_if_unique_id_configured()
-
-            area_registry = ar.async_get(self.hass)
-            area_entry = area_registry.async_get_area(area_id)
+            entry = self._get_entry()
+            if any(s.unique_id == area_id for s in room_subentries(entry)):
+                return self.async_abort(reason="already_configured")
+            area_entry = ar.async_get(self.hass).async_get_area(area_id)
             if area_entry is None:
                 errors["area_id"] = "area_not_found"
             else:
                 assignments = _assignments_from_user_input(area_id, user_input)
                 return self.async_create_entry(
                     title=area_entry.name,
-                    data={CONF_ROOM_ID: area_id},
-                    options={CONF_ASSIGNMENTS: [a.to_dict() for a in assignments]},
+                    data=room_subentry_data(area_id, assignments),
+                    unique_id=area_id,
                 )
 
         return self.async_show_form(
-            step_id="user",
-            data_schema=_build_initial_schema(),
-            errors=errors,
+            step_id="user", data_schema=_build_initial_schema(), errors=errors
         )
 
-    @staticmethod
-    @callback
-    def async_get_options_flow(config_entry: ConfigEntry) -> HTBWOptionsFlow:
-        """Return this integration's options flow."""
-        return HTBWOptionsFlow()
-
-
-class HTBWOptionsFlow(OptionsFlow):
-    """Options flow: add, change, or remove participating assignments (spec SS5).
-
-    Also the sole configuration surface for the two optional functions,
-    `interface` and `physical_remote`.
-    """
-
-    async def async_step_init(self, user_input: dict[str, Any] | None = None) -> ConfigFlowResult:
-        """Reconfigure any of the four Interaction Function Assignments."""
-        room_id = self.config_entry.data[CONF_ROOM_ID]
-        current_assignments = load_assignments(self.config_entry)
-        current_by_field: dict[str, list[str]] = {
-            field: [
-                a.reference_id
-                for a in current_assignments
-                if a.function is function
-                and a.reference_type is reference_type
-                and a.participation_state is ParticipationState.PARTICIPATING
-            ]
-            for field, (function, reference_type) in _FIELD_REFERENCES.items()
-        }
+    async def async_step_reconfigure(
+        self, user_input: dict[str, Any] | None = None
+    ) -> SubentryFlowResult:
+        """Reconfigure any of the four Interaction Function Assignments (spec SS5)."""
+        entry = self._get_entry()
+        subentry = self._get_reconfigure_subentry()
+        room_id = subentry.data[CONF_ROOM_ID]
+        current_assignments = load_assignments(subentry)
         errors: dict[str, str] = {}
         for assignment in current_assignments:
             if assignment.participation_state is not ParticipationState.PARTICIPATING:
@@ -259,13 +396,12 @@ class HTBWOptionsFlow(OptionsFlow):
                 for field, (function, _) in _FIELD_REFERENCES.items()
             }
             assignments = _assignments_from_user_input(room_id, selections, current_assignments)
-            return self.async_create_entry(
-                title="",
-                data={CONF_ASSIGNMENTS: [a.to_dict() for a in assignments]},
+            return self.async_update_and_abort(
+                entry, subentry, data=room_subentry_data(room_id, assignments)
             )
 
         return self.async_show_form(
-            step_id="init",
-            data_schema=_build_options_schema(current_by_field),
+            step_id="reconfigure",
+            data_schema=_build_options_schema(_current_by_field(current_assignments)),
             errors=errors,
         )

@@ -1,6 +1,7 @@
 {
   "domain": "htbw",
   "name": "HTBW Core",
+  "after_dependencies": ["hassio"],
   "codeowners": ["@tom-tagmdl"],
   "config_flow": true,
   "dependencies": [],
@@ -9,5 +10,5 @@
   "iot_class": "local_push",
   "issue_tracker": "https://github.com/Homes-That-Behave-Well-LLC/homes_that_behave_well/issues",
   "requirements": [],
-  "version": "0.1.0"
+  "version": "0.2.0"
 }
