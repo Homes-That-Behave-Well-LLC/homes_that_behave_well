@@ -196,3 +196,49 @@ Pin Python dependencies as Home Assistant conventions require (the test harness 
 fully pinned with binary wheels). Pin container base images to a release tag. Download external model
 artifacts by pinned revision and verify their digest before use. Update dependencies deliberately,
 never blindly.
+
+## 11. Release readiness and public development status
+
+Being public, buildable, installable through the Marketplace or an app repository, and distributed
+with release-quality CI are each necessary for development, and **none of them are a release-status
+claim**. A household or a casual reader must not infer general availability from any of them.
+
+### 11.1 Vocabulary
+
+| Status | Meaning |
+|---|---|
+| **Development** | Under active development against the HTBW Reference Home only. Not installable-by-invitation; what is installable exists for controlled development and acceptance testing. Breaking changes remain possible. Migration and backward compatibility are not guaranteed except where an accepted decision explicitly governs them. |
+| **Private Preview** | Invited testing outside the Reference Home, under terms the Owner sets. Not yet open to the general public. |
+| **Public Preview** | Open to the public for testing, with release notes stating what remains unstable. Not yet presented as production-ready. |
+| **Release Candidate** | Feature-complete for the stated scope and believed production-ready, pending final verification. |
+| **Production** | Supported for general household installation under this standard's distribution and quality requirements. |
+
+Status advances **one step at a time** and is never skipped; a repository is never simultaneously two
+statuses.
+
+### 11.2 Current status
+
+**Current release status: Development.** This applies to every component this repository
+distributes — HTBW Core and the HTBW Voice Evidence App — regardless of which of them is
+Marketplace-discoverable, App-store-installable, or individually further along in its own
+implementation than another.
+
+### 11.3 What discoverability does and does not establish
+
+**Marketplace/App discoverability does not establish HTBW release status. Release status advances
+only through an explicit governed Owner decision.**
+
+A component is made installable through the Marketplace or an app repository because the HTBW
+Reference Home itself needs that installation path to develop and accept HTBW — never because the
+component has reached a stage where general household installation is invited. Required repository
+contents, CI, and the Gold quality gate (sections 4–6) remain mandatory throughout Development; they
+establish engineering quality, not release readiness, and satisfying them is not itself a status
+advance.
+
+### 11.4 What this section does not do
+
+This section does not set a date for Private Preview, Public Preview, Release Candidate, or
+Production. It does not change `manifest.json`/`config.yaml`/`hacs.json` version numbers, CI, or
+installability (section 9 is unchanged). It creates no new responsibility, process, or gate beyond
+recording the vocabulary and the current status plainly, for both contributors and the public-facing
+documentation that links here.

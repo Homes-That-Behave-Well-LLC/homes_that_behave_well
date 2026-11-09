@@ -1,5 +1,8 @@
 # HTBW Voice Evidence (Home Assistant App)
 
+> **Development runtime only.** Not ready for household enrollment or production biometric use. See
+> [DOCS.md](DOCS.md).
+
 Local voice-evidence runtime for Homes That Behave Well. Runs as a Home Assistant App
 (formerly add-on) next to Home Assistant and serves only the HTBW integration.
 

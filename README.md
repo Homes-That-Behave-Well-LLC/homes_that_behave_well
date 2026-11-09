@@ -15,7 +15,38 @@ This repository defines the framework. It does not execute runtime logic.
 
 ---
 
+## ⚠️ Development Status: Not Ready for General Use
+
+Homes That Behave Well is under active development and is not yet ready for general installation,
+household testing, or production use.
+
+This repository is public because HTBW is being developed openly, with its architecture, governance,
+implementation, testing, and Home Assistant integration evolving together.
+
+You may see installable artifacts such as HTBW Core in the Home Assistant Marketplace and the HTBW
+Voice Evidence Home Assistant App. Their presence does not mean HTBW has reached a public preview or
+supported release.
+
+Current builds are used only for controlled development and acceptance testing in the HTBW Reference
+Home. Interfaces, configuration, persistence, data models, migration behavior, and installation
+requirements may change without backward-compatibility guarantees until HTBW reaches an announced
+preview milestone.
+
+Please do not install HTBW in a production Home Assistant environment yet.
+
+If you're following the project, the best way to participate right now is to review the architecture,
+follow the issues and roadmap, and contribute experience or ideas. We will explicitly announce when
+HTBW is ready for broader testing.
+
+Release-readiness vocabulary and current status:
+[docs/governance/home-assistant-distribution-and-quality-standard.md](docs/governance/home-assistant-distribution-and-quality-standard.md#11-release-readiness-and-public-development-status).
+
+---
+
 ## Use HTBW in Home Assistant
+
+> **Developer/Reference Home testing only. HTBW has not entered public preview. Do not install this
+> release in a production Home Assistant environment.**
 
 This repository also ships two separately versioned Home Assistant components:
 

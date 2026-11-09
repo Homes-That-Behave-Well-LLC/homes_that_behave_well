@@ -8,6 +8,10 @@
 
 This guide is for the person who administers Home Assistant for a household.
 
+> **Development status.** HTBW has not entered public preview. The builds described in this guide are
+> for controlled development and acceptance testing in the HTBW Reference Home only. Do not install
+> HTBW in a production Home Assistant environment yet.
+
 ## What HTBW is
 
 Homes That Behave Well (HTBW) is a framework for a home that is calm, predictable, and able to explain
@@ -32,6 +36,9 @@ one never installs the other.
 
 ## Install the Integration
 
+**Developer/Reference Home testing only. HTBW has not entered public preview. Do not install this
+release in a production Home Assistant environment.**
+
 HTBW is not in the Marketplace catalog yet, so add the repository from its link:
 
 <!-- ha-marketplace:exclude-start -->
@@ -47,6 +54,9 @@ Do not install HTBW through the HACS custom integration on Home Assistant 2026.1
 version needs 2026.11.0.
 
 ## Install the Voice Evidence App (optional)
+
+**Developer/Reference Home testing only. HTBW has not entered public preview. Do not install this
+release in a production Home Assistant environment.**
 
 <!-- ha-marketplace:exclude-start -->
 [![Open your Home Assistant instance and show the add app repository dialog with this repository URL pre-filled.](https://my.home-assistant.io/badges/supervisor_add_addon_repository.svg)](https://my.home-assistant.io/redirect/supervisor_add_addon_repository/?repository_url=https%3A%2F%2Fgithub.com%2FHomes-That-Behave-Well-LLC%2Fhomes_that_behave_well)
