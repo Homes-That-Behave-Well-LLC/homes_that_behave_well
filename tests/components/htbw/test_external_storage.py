@@ -37,6 +37,7 @@ from custom_components.htbw.external_storage import (
     ExternalStorageUnavailableError,
     check_root_sync,
     deprovision_capability_sync,
+    discover_share_candidates_sync,
     is_media_path_sync,
     probe_write_read_delete_sync,
     provision_capability_sync,
@@ -100,6 +101,28 @@ def test_is_media_path_sync_rejects_media_dir_and_its_children(tmp_path: Path) -
     assert is_media_path_sync(str(share_root / "htbw-storage"), media_dirs) is False
     # No media_dirs configured at all: nothing is rejected on that basis.
     assert is_media_path_sync(str(media_root), {}) is False
+
+
+def test_discover_share_candidates_sync_lists_only_visible_subdirectories(tmp_path: Path) -> None:
+    (tmp_path / "nas-mount-1").mkdir()
+    (tmp_path / "nas-mount-2").mkdir()
+    (tmp_path / ".hidden-system-dir").mkdir()
+    (tmp_path / "a-file-not-a-mount.txt").write_bytes(b"not a directory")
+
+    candidates = discover_share_candidates_sync(str(tmp_path))
+
+    assert candidates == [
+        str(tmp_path / "nas-mount-1"),
+        str(tmp_path / "nas-mount-2"),
+    ]
+
+
+def test_discover_share_candidates_sync_is_empty_when_share_root_is_absent(
+    tmp_path: Path,
+) -> None:
+    """Non-Supervisor installs (no /share): never raises, just offers nothing."""
+    missing = tmp_path / "no-such-share"
+    assert discover_share_candidates_sync(str(missing)) == []
 
 
 def test_check_root_sync_reports_unavailable_when_base_missing(tmp_path: Path) -> None:

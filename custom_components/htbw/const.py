@@ -132,6 +132,15 @@ ISSUE_EXTERNAL_STORAGE_PREFIX = "external_storage_"
 # A transient health check is reported only after it persists, exactly as
 # Voice Evidence's own unreachable threshold (DL-41; never nag on one miss).
 EXTERNAL_STORAGE_UNAVAILABLE_ISSUE_THRESHOLD = 3
+# Home Assistant's own fixed, well-known Supervisor share folder -- always at
+# this path inside Core's container on a Supervisor-backed install (HAOS,
+# Supervised), never household-configurable. Every Share-usage network
+# storage mount Home Assistant creates appears as a plain subdirectory here;
+# listing them needs no Supervisor API access or special role (that API is
+# documented as reachable only by Core's own hassio integration and Apps,
+# https://contributors.home-assistant.io/apps/supervisor-api/, retrieved
+# 2026-11-09), only an ordinary directory listing.
+HOME_ASSISTANT_SHARE_ROOT = "/share"
 
 
 class ExternalStorageOutcome(StrEnum):

@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from pathlib import Path
 from typing import Any
+from unittest.mock import patch
 
 import probatio
 import pytest
@@ -12,6 +13,7 @@ from homeassistant.core import HomeAssistant
 from homeassistant.data_entry_flow import FlowResultType
 from homeassistant.helpers import area_registry as ar
 from homeassistant.helpers import config_validation as cv
+from homeassistant.helpers import selector
 from homeassistant.helpers.service_info.hassio import HassioServiceInfo
 from homeassistant.helpers.translation import async_get_translations
 from pytest_homeassistant.common import MockConfigEntry
@@ -31,7 +33,7 @@ from custom_components.htbw.const import (
 )
 from custom_components.htbw.foundation import get_room_interaction_assignments
 
-from .conftest import DEN_ROOM_ID, den, set_den_assignments, start_den_reconfigure
+from .conftest import DEN_ROOM_ID, den, household_entry, set_den_assignments, start_den_reconfigure
 
 REFERENCE_FIELDS = [
     ("voice_input", "entity_id", "voice_input", "assist_satellite.input"),
@@ -162,6 +164,50 @@ async def test_household_options_change_retention_only(
     }
     assert den(setup_integration).data == before
     assert CONF_RETAIN_ENROLLMENT_RECORDINGS not in den(setup_integration).data
+
+
+async def test_household_options_offers_a_dropdown_of_attached_share_storage(
+    hass: HomeAssistant, setup_integration: MockConfigEntry
+) -> None:
+    """Spec: pick already-attached Share-usage storage instead of typing it."""
+    with patch(
+        "custom_components.htbw.config_flow.discover_share_candidates_sync",
+        return_value=["/share/nas-mount-1", "/share/nas-mount-2"],
+    ):
+        result = await hass.config_entries.options.async_init(setup_integration.entry_id)
+
+    storage_field = next(
+        key for key in result["data_schema"].schema if key.schema == CONF_EXTERNAL_STORAGE_PATH
+    )
+    field_selector = result["data_schema"].schema[storage_field]
+    assert isinstance(field_selector, selector.SelectSelector)
+    assert field_selector.config["custom_value"] is True
+    assert field_selector.config["options"] == ["/share/nas-mount-1", "/share/nas-mount-2"]
+
+
+async def test_household_options_dropdown_includes_a_currently_configured_custom_path(
+    hass: HomeAssistant, tmp_path: Path
+) -> None:
+    """A previously typed path outside /share still appears as the selected option."""
+    entry = household_entry(
+        options={
+            CONF_RETAIN_ENROLLMENT_RECORDINGS: "delete",
+            CONF_EXTERNAL_STORAGE_PATH: str(tmp_path),
+        }
+    )
+    entry.add_to_hass(hass)
+    with patch(
+        "custom_components.htbw.config_flow.discover_share_candidates_sync",
+        return_value=["/share/nas-mount-1"],
+    ):
+        result = await hass.config_entries.options.async_init(entry.entry_id)
+
+    storage_field = next(
+        key for key in result["data_schema"].schema if key.schema == CONF_EXTERNAL_STORAGE_PATH
+    )
+    field_selector = result["data_schema"].schema[storage_field]
+    assert isinstance(field_selector, selector.SelectSelector)
+    assert str(tmp_path) in field_selector.config["options"]
 
 
 async def test_household_options_rejects_a_path_not_yet_allowlisted(

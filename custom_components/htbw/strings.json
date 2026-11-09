@@ -38,7 +38,7 @@
         },
         "data_description": {
           "retain_enrollment_recordings": "Retain keeps the enrollment recordings for a possible future automatic rebuild. Delete removes them; working Voiceprints are never deleted.",
-          "external_storage_path": "The path to your Home Assistant-managed Share-usage external storage, for example /share/htbw-storage. Leave blank if you have not connected external storage yet. Home Assistant must already allow HTBW to use this path (Settings > System > Storage, or allowlist_external_dirs in configuration.yaml)."
+          "external_storage_path": "Pick your Home Assistant-managed Share-usage external storage from the list, or type a path, for example /share/htbw-storage. Leave blank if you have not connected external storage yet. Home Assistant must already allow HTBW to use this path (Settings > System > Storage, or allowlist_external_dirs in configuration.yaml)."
         }
       }
     },

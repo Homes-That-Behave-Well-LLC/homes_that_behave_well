@@ -95,10 +95,11 @@ separately.
    connection (**Settings** > **System** > **Storage**, or your current Home Assistant version's
    equivalent). HTBW never asks for a NAS hostname, address, username, password, or mount options —
    that configuration belongs to Home Assistant alone.
-2. Open **Configure** on the household HTBW entry and set **External Storage path** to the path Home
-   Assistant gave that connection (for example `/share/htbw-storage`). Home Assistant must already
-   allow HTBW to use that path (the same **Settings** > **System** > **Storage** screen, or
-   `allowlist_external_dirs` in `configuration.yaml`).
+2. Open **Configure** on the household HTBW entry. **External Storage path** offers a dropdown of
+   storage Home Assistant already shows as attached; pick yours, or type a path (for example
+   `/share/htbw-storage`) if yours is not listed. Home Assistant must already allow HTBW to use that
+   path (the same **Settings** > **System** > **Storage** screen, or `allowlist_external_dirs` in
+   `configuration.yaml`).
 3. Leave the field blank if you have not connected External Storage yet, or do not want HTBW
    capabilities that use it. Nothing is required until a capability that needs it is enabled.
 

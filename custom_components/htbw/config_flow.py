@@ -22,6 +22,7 @@ consistent with "do not make optional functions block initial setup."
 from __future__ import annotations
 
 from collections import defaultdict
+from collections.abc import Sequence
 from dataclasses import replace
 from typing import Any
 
@@ -59,7 +60,7 @@ from .const import (
     ParticipationState,
     ReferenceType,
 )
-from .external_storage import is_media_path_sync
+from .external_storage import discover_share_candidates_sync, is_media_path_sync
 from .models import RoomInteractionFunctionAssignment
 from .storage import load_assignments, room_subentries, room_subentry_data
 
@@ -224,9 +225,18 @@ def _retention_schema(default: str | None = None) -> probatio.Schema:
 
 
 def _options_schema(
-    retention_default: str | None, external_storage_path_default: str | None
+    retention_default: str | None,
+    external_storage_path_default: str | None,
+    share_candidates: Sequence[str],
 ) -> probatio.Schema:
-    """Household options: DL-145 retention plus the optional #211 External Storage path."""
+    """Household options: DL-145 retention plus the optional #211 External Storage path.
+
+    The External Storage field offers a dropdown of Share-usage storage
+    Home Assistant already has attached (``share_candidates``), with
+    ``custom_value=True`` so the household can still type a different path
+    -- for example on a non-Supervisor install, where no candidates exist
+    and this falls back to an ordinary text field.
+    """
     retention_key = (
         probatio.Required(CONF_RETAIN_ENROLLMENT_RECORDINGS, default=retention_default)
         if retention_default is not None
@@ -234,6 +244,20 @@ def _options_schema(
     )
     storage_key = probatio.Optional(
         CONF_EXTERNAL_STORAGE_PATH, default=external_storage_path_default or ""
+    )
+    options = list(share_candidates)
+    if external_storage_path_default and external_storage_path_default not in options:
+        options.append(external_storage_path_default)
+    storage_selector: selector.Selector[Any] = (
+        selector.SelectSelector(
+            selector.SelectSelectorConfig(
+                options=sorted(options),
+                custom_value=True,
+                mode=selector.SelectSelectorMode.DROPDOWN,
+            )
+        )
+        if options
+        else selector.TextSelector()
     )
     return probatio.Schema(
         {
@@ -244,7 +268,7 @@ def _options_schema(
                     mode=selector.SelectSelectorMode.LIST,
                 )
             ),
-            storage_key: selector.TextSelector(),
+            storage_key: storage_selector,
         }
     )
 
@@ -395,11 +419,13 @@ class HTBWOptionsFlow(OptionsFlow):
                         CONF_EXTERNAL_STORAGE_PATH: path,
                     },
                 )
+        share_candidates = await self.hass.async_add_executor_job(discover_share_candidates_sync)
         return self.async_show_form(
             step_id="init",
             data_schema=_options_schema(
                 self.config_entry.options.get(CONF_RETAIN_ENROLLMENT_RECORDINGS),
                 current_path,
+                share_candidates,
             ),
             errors=errors,
         )

@@ -30,6 +30,18 @@ configured path that resolves under a configured Media folder as its own
 distinct, actionable outcome (``media_path_not_supported``), independently
 of the general allowlist check.
 
+``discover_share_candidates_sync`` lets the household *pick* their path from
+a dropdown instead of typing it. There is no supported way for a
+non-``hassio`` integration to query Supervisor's Mounts API directly
+(``aiohasupervisor``'s own documentation states its Supervisor-token access
+is limited to Core's own ``hassio`` integration and Apps, each of which get
+a token this Integration never receives), so this module does not attempt
+it. Every Share-usage mount Home Assistant creates does, however, appear as
+an ordinary subdirectory of Core's own fixed ``/share`` folder
+(``HOME_ASSISTANT_SHARE_ROOT``) -- listing *that* needs no special role at
+all. The household can still type a different path; this is a convenience,
+never the only way in.
+
 This module never implements a NAS/SMB/NFS client, never stores or asks for
 storage credentials, and never scans, enumerates, or touches content outside
 its own governed root (DL-151 SS2.6, legacy sibling coexistence).
@@ -69,6 +81,7 @@ from .const import (
     EXTERNAL_STORAGE_ROOT_MARKER_VERSION,
     EXTERNAL_STORAGE_ROOT_NAME,
     EXTERNAL_STORAGE_UNAVAILABLE_ISSUE_THRESHOLD,
+    HOME_ASSISTANT_SHARE_ROOT,
     ExternalStorageOutcome,
 )
 from .models import HTBWConfigEntry
@@ -164,6 +177,30 @@ def is_media_path_sync(path_str: str, media_dirs: dict[str, str]) -> bool:
         else:
             return True
     return False
+
+
+def discover_share_candidates_sync(share_root: str = HOME_ASSISTANT_SHARE_ROOT) -> list[str]:
+    """List subdirectories of Home Assistant's Supervisor share folder, as candidate paths.
+
+    Every Share-usage network storage mount Home Assistant creates appears as
+    a plain subdirectory of ``/share`` inside Core's own container -- this is
+    an ordinary directory listing, never a Supervisor API call (see
+    ``HOME_ASSISTANT_SHARE_ROOT``). Returns ``[]`` on any non-Supervisor
+    install (``/share`` does not exist) or read failure; never raises, since
+    the household can always type a path directly instead. Hidden entries
+    (starting with ``.``) are excluded -- never a mount's own display name.
+    """
+    root = Path(share_root)
+    try:
+        if not root.is_dir():
+            return []
+        return sorted(
+            str(root / entry.name)
+            for entry in os.scandir(root)
+            if entry.is_dir() and not entry.name.startswith(".")
+        )
+    except OSError:
+        return []
 
 
 # --- Synchronous filesystem helpers (invoked only through the executor) -----
