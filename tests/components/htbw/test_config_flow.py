@@ -13,6 +13,7 @@ from homeassistant.core import HomeAssistant
 from homeassistant.data_entry_flow import FlowResultType
 from homeassistant.helpers import area_registry as ar
 from homeassistant.helpers import config_validation as cv
+from homeassistant.helpers import issue_registry as ir
 from homeassistant.helpers import selector
 from homeassistant.helpers.service_info.hassio import HassioServiceInfo
 from homeassistant.helpers.translation import async_get_translations
@@ -210,9 +211,15 @@ async def test_household_options_dropdown_includes_a_currently_configured_custom
     assert str(tmp_path) in field_selector.config["options"]
 
 
-async def test_household_options_rejects_a_path_not_yet_allowlisted(
+async def test_household_options_saves_an_unauthorized_path_and_guides_authorization(
     hass: HomeAssistant, setup_integration: MockConfigEntry, tmp_path: Path
 ) -> None:
+    """Spec (#211 remediation, Owner Decision 2026-11-09): the household's choice is
+
+    always saved, even if Home Assistant has not yet allowlisted it -- HTBW explains
+    the one-time step through a Repair instead of rejecting the form and making the
+    household pick the storage again later.
+    """
     result = await hass.config_entries.options.async_init(setup_integration.entry_id)
     result = await hass.config_entries.options.async_configure(
         result["flow_id"],
@@ -221,8 +228,24 @@ async def test_household_options_rejects_a_path_not_yet_allowlisted(
             CONF_EXTERNAL_STORAGE_PATH: str(tmp_path),
         },
     )
-    assert result["type"] is FlowResultType.FORM
-    assert result["errors"] == {CONF_EXTERNAL_STORAGE_PATH: "path_not_allowed"}
+    assert result["type"] is FlowResultType.CREATE_ENTRY
+    await hass.async_block_till_done()
+    assert setup_integration.options[CONF_EXTERNAL_STORAGE_PATH] == str(tmp_path)
+
+    issue = ir.async_get(hass).async_get_issue(DOMAIN, "external_storage_path_not_allowed")
+    assert issue is not None
+    assert issue.translation_placeholders is not None
+    assert issue.translation_placeholders["path"] == str(tmp_path)
+    assert issue.learn_more_url is not None
+    assert "htbw-in-home-assistant.md" in issue.learn_more_url
+
+    # The dropdown still shows the saved (not-yet-authorized) path as the current
+    # selection -- the household never has to choose it again.
+    result = await hass.config_entries.options.async_init(setup_integration.entry_id)
+    storage_field = next(
+        key for key in result["data_schema"].schema if key.schema == CONF_EXTERNAL_STORAGE_PATH
+    )
+    assert storage_field.default() == str(tmp_path)
 
 
 async def test_household_options_rejects_a_media_usage_path(

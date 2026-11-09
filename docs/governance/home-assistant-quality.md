@@ -7,7 +7,12 @@
 > Assessed 2026-11-08 against Home Assistant Core **2026.11.0**, Integration `htbw` **0.2.0**, App
 > `htbw_voice_evidence` **0.1.0**. **Addendum 2026-11-10 (Issue #211, DL-151):** the External
 > Storage Foundation rows below are added evidence for that implementation; they do not re-run or
-> change the 2026-11-08 baseline for any other row.
+> change the 2026-11-08 baseline for any other row. **Further addendum 2026-11-09 (Issue #211
+> remediation, Owner Decision):** the External Storage Options flow no longer blocks saving a
+> not-yet-authorized Share path; the selection is always preserved, and a guided,
+> plain-language Repair (naming the exact path, with step-by-step `configuration.yaml`
+> instructions for every existing-file case) explains the one-time Home Assistant permission
+> step instead.
 
 ## 1. Result
 
@@ -158,7 +163,7 @@ entity, device, and action rules not applicable.
 | docs-known-limitations | PASS | User guide, "Known limitations". |
 | docs-supported-devices | PASS | User guide, "Supported devices". |
 | docs-supported-functions | PASS | User guide, "What HTBW provides". |
-| docs-troubleshooting | PASS | User guide, "Troubleshooting" (every Repair). |
+| docs-troubleshooting | PASS | User guide, "Troubleshooting" (every Repair) plus a dedicated "Authorizing External Storage for HTBW" walkthrough (#211 remediation, Owner Decision 2026-11-09) covering every `configuration.yaml` state a household may already be in. |
 | docs-use-cases | PASS | User guide, "Use cases". |
 | dynamic-devices | EXEMPT | No devices. |
 | entity-category | EXEMPT | No entities. |
@@ -168,7 +173,7 @@ entity, device, and action rules not applicable.
 | exception-translations | PASS | `ConfigEntryError(translation_domain=..., translation_key="invalid_room_data")`; flow errors and aborts are translated. |
 | icon-translations | EXEMPT | No entities or actions. |
 | reconfiguration-flow | PASS | Room subentry `async_step_reconfigure`. The household entry has no user-entered setup data to reconfigure. |
-| repair-issues | PASS | Missing reference, migration conflict, App outcomes, retention sync, External Storage outcomes (#211: `path_not_allowed`, `media_path_not_supported`, `unavailable`, `read_only`, `write_failed`, `invalid_root`, each raised only after it persists) — all actionable, none for transient states. |
+| repair-issues | PASS | Missing reference, migration conflict, App outcomes, retention sync, External Storage outcomes (#211: `path_not_allowed` — the primary first-run guided-authorization state, reported immediately with the exact selected path and a `learn_more_url`, not after a 3-miss threshold — plus `media_path_not_supported`, `unavailable`, `read_only`, `write_failed`, `invalid_root`, each of the latter raised only after it persists) — all actionable, none for transient states. |
 | stale-devices | EXEMPT | No devices. Stale *references* are surfaced as Repairs instead. |
 
 When HTBW later adds entities, devices, or actions, every rule marked EXEMPT because of their absence

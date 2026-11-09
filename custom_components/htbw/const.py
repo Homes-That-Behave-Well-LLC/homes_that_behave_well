@@ -132,6 +132,19 @@ ISSUE_EXTERNAL_STORAGE_PREFIX = "external_storage_"
 # A transient health check is reported only after it persists, exactly as
 # Voice Evidence's own unreachable threshold (DL-41; never nag on one miss).
 EXTERNAL_STORAGE_UNAVAILABLE_ISSUE_THRESHOLD = 3
+# path_not_allowed is different: it is the expected, primary first-run state
+# for a brand-new Share selection (Issue #211 remediation, Owner Decision
+# 2026-11-09), not a flaky/transient condition -- the household is actively
+# waiting for guidance right after saving their selection, so it is reported
+# immediately rather than waiting out the standard 3-miss threshold.
+EXTERNAL_STORAGE_AUTHORIZATION_ISSUE_THRESHOLD = 1
+# The guided-authorization Repair's "learn more" link. Points at the
+# household-facing walkthrough, never shown to the household as a raw path
+# to re-type -- the exact selected path is interpolated into the issue text.
+EXTERNAL_STORAGE_AUTHORIZATION_LEARN_MORE_URL = (
+    "https://github.com/Homes-That-Behave-Well-LLC/homes_that_behave_well/blob/main/"
+    "docs/user-guide/htbw-in-home-assistant.md#authorizing-external-storage-for-htbw"
+)
 # Home Assistant's own fixed, well-known Supervisor share folder -- always at
 # this path inside Core's container on a Supervisor-backed install (HAOS,
 # Supervised), never household-configurable. Every Share-usage network

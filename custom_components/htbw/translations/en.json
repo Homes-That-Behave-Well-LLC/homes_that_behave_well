@@ -31,19 +31,18 @@
     "step": {
       "init": {
         "title": "Household settings",
-        "description": "Retain Enrollment Recordings controls only the ten source recordings captured during Voice Identity enrollment. Changing from Retain to Delete removes recordings already kept; every working Voiceprint is kept and no one needs to enroll again.\n\nExternal Storage Path is optional. Set it only after you have connected a Share-usage external storage location to Home Assistant under Settings > System > Storage (or its current equivalent). HTBW manages its own folder beneath that path; it never asks for NAS credentials, and nothing is created there until a capability that needs it is enabled.",
+        "description": "Retain Enrollment Recordings controls only the ten source recordings captured during Voice Identity enrollment. Changing from Retain to Delete removes recordings already kept; every working Voiceprint is kept and no one needs to enroll again.\n\nExternal Storage Path is optional. Set it only after you have connected a Share-usage external storage location to Home Assistant under Settings > System > Storage (or its current equivalent). HTBW manages its own folder beneath that path; it never asks for NAS credentials, and nothing is created there until a capability that needs it is enabled. Your selection is always saved -- if Home Assistant needs one more security step before HTBW can use it, you'll see clear instructions under Settings > System > Repairs.",
         "data": {
           "retain_enrollment_recordings": "Retain Enrollment Recordings",
           "external_storage_path": "External Storage Path"
         },
         "data_description": {
           "retain_enrollment_recordings": "Retain keeps the enrollment recordings for a possible future automatic rebuild. Delete removes them; working Voiceprints are never deleted.",
-          "external_storage_path": "Pick your Home Assistant-managed Share-usage external storage from the list, or type a path, for example /share/htbw-storage. Leave blank if you have not connected external storage yet. Home Assistant must already allow HTBW to use this path (Settings > System > Storage, or allowlist_external_dirs in configuration.yaml)."
+          "external_storage_path": "Pick your Home Assistant-managed Share-usage external storage from the list, or type a path, for example /share/htbw-storage. Leave blank if you have not connected external storage yet. Your choice is kept even if Home Assistant needs one more one-time security step before HTBW can use it."
         }
       }
     },
     "error": {
-      "path_not_allowed": "Home Assistant does not currently allow HTBW to use this path. Add it to allowlist_external_dirs in configuration.yaml for your Share-usage storage, then try again.",
       "media_path_not_supported": "This path is a Home Assistant Media-usage folder. HTBW uses Share-usage external storage only, never Media, so your existing Media content stays separate. Use the path to your Share-usage connection instead (Settings > System > Storage)."
     }
   },
@@ -155,8 +154,8 @@
       "description": "HTBW could not apply your Retain Enrollment Recordings setting to the HTBW Voice Evidence App. HTBW keeps retrying. If this persists, check that the App is installed and running under Settings > Apps."
     },
     "external_storage_path_not_allowed": {
-      "title": "External Storage is unavailable: Home Assistant has not allowed this path",
-      "description": "Home Assistant has not allowed HTBW to use the configured External Storage path ({reason_code}). Add the path to allowlist_external_dirs in configuration.yaml, then restart Home Assistant. Capabilities that need External Storage stay unavailable until then; nothing else is affected."
+      "title": "One more step: allow HTBW to use your selected storage",
+      "description": "You selected {path} for HTBW's External Storage. Nothing is wrong: for security, Home Assistant requires a one-time permission before any integration -- including HTBW -- can use a storage location you select. Your selection is saved; you will not need to choose it again.\n\nTo finish:\n1. Open the File editor app (Settings > Apps > File editor; install it first if you don't have it) and open configuration.yaml.\n2. Add {path} to the allowlist_external_dirs list, inside a homeassistant: section (select \"Learn more\" below for exact examples covering every situation).\n3. Before restarting, check your configuration for mistakes: Settings > Tools > YAML > Check configuration.\n4. Restart Home Assistant: Settings > System > the power icon > Restart Home Assistant.\n\nHTBW recognizes your storage automatically after the restart -- nothing else to configure."
     },
     "external_storage_media_path_not_supported": {
       "title": "External Storage is unavailable: this path is Media-usage, not Share-usage",

@@ -385,29 +385,31 @@ class HTBWOptionsFlow(OptionsFlow):
 
         External Storage asks only for the path HTBW should use beneath the
         household's already Home-Assistant-managed Share-usage connection --
-        never NAS credentials, protocol, or mount options (DL-151 SS7). The
-        path is validated against ``hass.config.is_allowed_path()`` (current
-        official Home Assistant security guidance) and rejected if it is a
-        Media-usage path (Media never silently substitutes for Share, spec
-        SS5/SS17/SS25), telling the household so directly, inline, rather
-        than accepting either condition silently.
+        never NAS credentials, protocol, or mount options (DL-151 SS7). A
+        Media-usage path is rejected inline (Media never silently
+        substitutes for Share, spec SS5/SS17/SS25) -- that is a wrong
+        choice, not a one-time Home Assistant permission gap.
+
+        Home Assistant's own file-path allowlist (``is_allowed_path()``) is
+        deliberately **not** checked here (Issue #211 remediation, Owner
+        Decision 2026-11-09): the household's selection is always saved and
+        preserved, even if Home Assistant has not yet authorized it.
+        ExternalStorageManager.async_refresh() performs that check on every
+        reload/reconciliation and raises a guided, plain-language Repair --
+        naming the exact selected path and a one-time authorization step --
+        rather than this form silently discarding the household's choice and
+        making them pick it again later.
         """
         errors: dict[str, str] = {}
         current_path = self.config_entry.options.get(CONF_EXTERNAL_STORAGE_PATH)
         if user_input is not None:
             path = user_input.get(CONF_EXTERNAL_STORAGE_PATH, "").strip()
             if path:
-                allowed = await self.hass.async_add_executor_job(
-                    self.hass.config.is_allowed_path, path
+                is_media = await self.hass.async_add_executor_job(
+                    is_media_path_sync, path, dict(self.hass.config.media_dirs)
                 )
-                if not allowed:
-                    errors[CONF_EXTERNAL_STORAGE_PATH] = "path_not_allowed"
-                else:
-                    is_media = await self.hass.async_add_executor_job(
-                        is_media_path_sync, path, dict(self.hass.config.media_dirs)
-                    )
-                    if is_media:
-                        errors[CONF_EXTERNAL_STORAGE_PATH] = "media_path_not_supported"
+                if is_media:
+                    errors[CONF_EXTERNAL_STORAGE_PATH] = "media_path_not_supported"
             if not errors:
                 return self.async_create_entry(
                     title="",

@@ -27,6 +27,7 @@ from homeassistant.helpers import issue_registry as ir
 
 from .const import (
     DOMAIN,
+    EXTERNAL_STORAGE_AUTHORIZATION_LEARN_MORE_URL,
     EXTERNAL_STORAGE_FAILURE_OUTCOMES,
     ISSUE_EXTERNAL_STORAGE_PREFIX,
     ISSUE_ID_PREFIX,
@@ -181,8 +182,18 @@ def async_project_external_storage_issue(
     entry: HTBWConfigEntry,
     outcome: ExternalStorageOutcome | None,
     reason_code: str | None = None,
+    *,
+    configured_path: str | None = None,
 ) -> None:
-    """Project the current External Storage DL-41 outcome as at most one Repairs issue."""
+    """Project the current External Storage DL-41 outcome as at most one Repairs issue.
+
+    ``configured_path`` is the household's own already-selected path, shown
+    back to them so they can recognize/copy it in the guided-authorization
+    text (Issue #211 remediation, Owner Decision 2026-11-09) -- unlike
+    diagnostics, a Repairs issue is only ever shown to the administrator
+    configuring this exact entry, never attached to a public bug report, so
+    this is not a privacy exposure.
+    """
     wanted = (
         f"{ISSUE_EXTERNAL_STORAGE_PREFIX}{outcome.value}"
         if outcome in EXTERNAL_STORAGE_FAILURE_OUTCOMES
@@ -204,5 +215,13 @@ def async_project_external_storage_issue(
         is_persistent=False,
         severity=ir.IssueSeverity.WARNING,
         translation_key=wanted,
-        translation_placeholders={"reason_code": reason_code or "none"},
+        translation_placeholders={
+            "reason_code": reason_code or "none",
+            "path": configured_path or "the selected storage",
+        },
+        learn_more_url=(
+            EXTERNAL_STORAGE_AUTHORIZATION_LEARN_MORE_URL
+            if outcome is ExternalStorageOutcome.PATH_NOT_ALLOWED
+            else None
+        ),
     )

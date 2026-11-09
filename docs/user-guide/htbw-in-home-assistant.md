@@ -33,6 +33,13 @@ one never installs the other.
   Supervised), on an **amd64** or **aarch64** system, and internet access once to download the pinned
   speaker model (about 25 MB).
 - At least one Home Assistant **Area** for each Room you want to configure.
+- **Optional, for External Storage:** if you plan to connect network storage for HTBW to use (no
+  current HTBW capability requires this yet), compatible storage already attached to Home Assistant
+  will be selectable from a dropdown during setup. The first time you select it, Home Assistant may
+  require a one-time security permission before HTBW can use it — this can mean editing
+  `configuration.yaml` and restarting Home Assistant once. HTBW walks you through this step by step
+  (see [Authorizing External Storage for HTBW](#authorizing-external-storage-for-htbw)); no prior
+  experience with Home Assistant's configuration files is required.
 
 ## Install the Integration
 
@@ -97,10 +104,12 @@ separately.
    that configuration belongs to Home Assistant alone.
 2. Open **Configure** on the household HTBW entry. **External Storage path** offers a dropdown of
    storage Home Assistant already shows as attached; pick yours, or type a path (for example
-   `/share/htbw-storage`) if yours is not listed. Home Assistant must already allow HTBW to use that
-   path (the same **Settings** > **System** > **Storage** screen, or `allowlist_external_dirs` in
-   `configuration.yaml`).
-3. Leave the field blank if you have not connected External Storage yet, or do not want HTBW
+   `/share/htbw-storage`) if yours is not listed.
+3. Select **Submit**. Your choice is always saved, even if Home Assistant has not yet given HTBW
+   permission to use it — you will never need to select it again. If a one-time permission step is
+   needed, **Settings** > **System** > **Repairs** will explain it in plain language; see
+   [Authorizing External Storage for HTBW](#authorizing-external-storage-for-htbw) below.
+4. Leave the field blank if you have not connected External Storage yet, or do not want HTBW
    capabilities that use it. Nothing is required until a capability that needs it is enabled.
 
 You never create HTBW's own folder by hand: HTBW creates it, and each capability's own structure
@@ -108,6 +117,82 @@ inside it, only once that capability actually needs it. **Media-usage** storage 
 folder behind Asset Intelligence's own Asset Documents) is a different Home Assistant storage
 relationship and is never an acceptable substitute — HTBW refuses a Media-usage path rather than
 silently mixing its content with Media.
+
+### Authorizing External Storage for HTBW
+
+Home Assistant requires a one-time security permission before **any** integration — including HTBW —
+may read or write a storage location you select, even though Home Assistant itself already shows that
+storage as attached. This is normal, expected, and not a sign that anything is wrong. You will only
+ever need to do this once per storage location, and HTBW remembers your selection throughout —
+nothing needs to be chosen again.
+
+If this step is needed, **Settings** > **System** > **Repairs** shows a notice titled **"One more
+step: allow HTBW to use your selected storage,"** naming the exact path you selected (for example
+`/share/Share`). Follow these steps:
+
+**1. Open an editor for `configuration.yaml`.**
+
+If you have not edited Home Assistant's configuration file before, install the **File editor** app
+first: go to **Settings** > **Apps** > **File editor**, select **Install**, then **Start**, then
+**Open Web UI**. This gives you a simple, web-based editor with automatic YAML error-checking built
+in — no separate software to install.
+
+In the File editor, open `configuration.yaml` from the file list on the left.
+
+**2. Add the permission, matching your current file.**
+
+Look for a line that starts with `homeassistant:` in your file, then follow whichever case matches:
+
+- **Case 1 — you have no `homeassistant:` line at all.** Add this to the end of the file, exactly as
+  shown (the path must be indented with spaces, not tabs):
+
+  ```yaml
+  homeassistant:
+    allowlist_external_dirs:
+      - "/share/Share"
+  ```
+
+- **Case 2 — you already have a `homeassistant:` line, but no `allowlist_external_dirs` beneath it.**
+  Do **not** add a second `homeassistant:` line. Instead, add `allowlist_external_dirs` as a new entry
+  underneath your existing one, matching its indentation:
+
+  ```yaml
+  homeassistant:
+    name: Home                      # <- your existing settings stay as they are
+    allowlist_external_dirs:
+      - "/share/Share"
+  ```
+
+- **Case 3 — you already have `allowlist_external_dirs` with one or more paths listed.** Add your new
+  path as another list entry underneath the existing ones. Do not remove or replace what is already
+  there:
+
+  ```yaml
+  homeassistant:
+    allowlist_external_dirs:
+      - "/tmp/existing-path"        # <- your existing entries stay as they are
+      - "/share/Share"
+  ```
+
+Replace `/share/Share` in every example with the exact path shown in your own Repairs notice.
+
+**3. Check your configuration before restarting.**
+
+Go to **Settings** > **Tools** > **YAML**, and in the **Check and restart** section, select **Check
+configuration**. If it reports a problem, undo your change and try again carefully — comparing against
+the examples above — rather than restarting with a configuration Home Assistant has flagged as
+invalid.
+
+**4. Restart Home Assistant.**
+
+Go to **Settings** > **System**, select the power icon in the top-right corner, then select **Restart
+Home Assistant**, then **Restart**. (Restarting itself also checks your configuration first and will
+refuse to restart, with an on-screen notice, if something is still wrong — so this step is safe even
+if you skipped step 3.)
+
+**After the restart:** HTBW automatically recognizes that the storage is now authorized. You do not
+need to open HTBW's settings or select the storage again, and the Repairs notice clears on its own.
+
 
 ### Rooms
 
@@ -200,7 +285,7 @@ Problems you can fix appear under **Settings** > **System** > **Repairs**:
 | **… the App version is incompatible** | Update the Integration and the App to versions that match. |
 | **… the App is not ready** | Open the App's **Log** tab. The reason (for example `model_downloading` or `model_digest_mismatch`) is explained on the App's **Documentation** tab. |
 | **The Retain Enrollment Recordings setting has not reached the App** | Check that the App is installed and running. HTBW keeps retrying. |
-| **External Storage is unavailable: Home Assistant has not allowed this path** | Add the path to `allowlist_external_dirs` in `configuration.yaml`, then restart Home Assistant. |
+| **One more step: allow HTBW to use your selected storage** | Expected, not an error. Shows the exact path you selected and the one-time permission step; see [Authorizing External Storage for HTBW](#authorizing-external-storage-for-htbw). Clears automatically after you restart with the permission added. |
 | **External Storage is unavailable: this path is Media-usage, not Share-usage** | Open **Configure** on the HTBW entry and set **External Storage path** to your Share-usage connection instead; Media storage is never an acceptable substitute. |
 | **External Storage is unavailable** | Check that the storage is connected and powered on under **Settings** > **System** > **Storage**. |
 | **External Storage is read-only** | Check the storage's own permissions. |

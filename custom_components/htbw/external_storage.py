@@ -74,6 +74,7 @@ from homeassistant.helpers.event import async_track_time_interval
 
 from .const import (
     CONF_EXTERNAL_STORAGE_PATH,
+    EXTERNAL_STORAGE_AUTHORIZATION_ISSUE_THRESHOLD,
     EXTERNAL_STORAGE_FAILURE_OUTCOMES,
     EXTERNAL_STORAGE_HEALTH_PROBE_PREFIX,
     EXTERNAL_STORAGE_REFRESH_INTERVAL_SECONDS,
@@ -416,13 +417,20 @@ class ExternalStorageManager:
             self.consecutive_unavailable += 1
         else:
             self.consecutive_unavailable = 0
+        threshold = (
+            EXTERNAL_STORAGE_AUTHORIZATION_ISSUE_THRESHOLD
+            if outcome is ExternalStorageOutcome.PATH_NOT_ALLOWED
+            else EXTERNAL_STORAGE_UNAVAILABLE_ISSUE_THRESHOLD
+        )
         projected: ExternalStorageOutcome | None = outcome
         if (
             outcome not in (ExternalStorageOutcome.AVAILABLE, ExternalStorageOutcome.NOT_CONFIGURED)
-            and self.consecutive_unavailable < EXTERNAL_STORAGE_UNAVAILABLE_ISSUE_THRESHOLD
+            and self.consecutive_unavailable < threshold
         ):
             projected = None
-        async_project_external_storage_issue(self.hass, self.entry, projected, reason)
+        async_project_external_storage_issue(
+            self.hass, self.entry, projected, reason, configured_path=_configured_path(self.entry)
+        )
         if outcome is not previous:
             _LOGGER.info(
                 "HTBW External Storage capability is %s%s",

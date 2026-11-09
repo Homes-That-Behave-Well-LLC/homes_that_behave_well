@@ -331,9 +331,13 @@ async def test_not_configured_is_quiet(hass: HomeAssistant) -> None:
     assert _issues(hass) == []
 
 
-async def test_path_not_allowed_is_reported_only_after_it_persists(
+async def test_path_not_allowed_is_reported_immediately(
     hass: HomeAssistant, tmp_path: Path
 ) -> None:
+    """Unlike transient failures, path_not_allowed is the primary first-run guidance
+
+    state (#211 remediation, Owner Decision 2026-11-09) and is never delayed.
+    """
     entry = _entry(str(tmp_path))
     entry.add_to_hass(hass)
     # Deliberately not added to hass.config.allowlist_external_dirs.
@@ -342,10 +346,15 @@ async def test_path_not_allowed_is_reported_only_after_it_persists(
     assert outcome is ExternalStorageOutcome.PATH_NOT_ALLOWED
     assert manager.reason_code == "path_not_allowed"
     assert manager.is_available() is False
-    assert _issues(hass) == []
-    for _ in range(EXTERNAL_STORAGE_UNAVAILABLE_ISSUE_THRESHOLD - 1):
-        await manager.async_refresh()
     assert _issues(hass) == ["external_storage_path_not_allowed"]
+
+    issue = ir.async_get(hass).async_get_issue(DOMAIN, "external_storage_path_not_allowed")
+    assert issue is not None
+    assert issue.translation_placeholders == {
+        "reason_code": "path_not_allowed",
+        "path": str(tmp_path),
+    }
+    assert issue.learn_more_url is not None
 
 
 async def test_media_path_is_rejected_even_though_it_is_allowlisted(
@@ -389,8 +398,7 @@ async def test_recovery_clears_a_previously_projected_issue(
     entry = _entry(str(tmp_path))
     entry.add_to_hass(hass)
     manager = ExternalStorageManager(hass, entry)
-    for _ in range(EXTERNAL_STORAGE_UNAVAILABLE_ISSUE_THRESHOLD):
-        await manager.async_refresh()
+    await manager.async_refresh()
     assert _issues(hass) == ["external_storage_path_not_allowed"]
 
     hass.config.allowlist_external_dirs = {str(tmp_path)}
