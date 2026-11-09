@@ -59,6 +59,7 @@ from .const import (
     ParticipationState,
     ReferenceType,
 )
+from .external_storage import is_media_path_sync
 from .models import RoomInteractionFunctionAssignment
 from .storage import load_assignments, room_subentries, room_subentry_data
 
@@ -362,9 +363,10 @@ class HTBWOptionsFlow(OptionsFlow):
         household's already Home-Assistant-managed Share-usage connection --
         never NAS credentials, protocol, or mount options (DL-151 SS7). The
         path is validated against ``hass.config.is_allowed_path()`` (current
-        official Home Assistant security guidance), and a household that has
-        not yet added it to their own ``allowlist_external_dirs`` is told so
-        directly, inline, rather than accepted silently.
+        official Home Assistant security guidance) and rejected if it is a
+        Media-usage path (Media never silently substitutes for Share, spec
+        SS5/SS17/SS25), telling the household so directly, inline, rather
+        than accepting either condition silently.
         """
         errors: dict[str, str] = {}
         current_path = self.config_entry.options.get(CONF_EXTERNAL_STORAGE_PATH)
@@ -376,6 +378,12 @@ class HTBWOptionsFlow(OptionsFlow):
                 )
                 if not allowed:
                     errors[CONF_EXTERNAL_STORAGE_PATH] = "path_not_allowed"
+                else:
+                    is_media = await self.hass.async_add_executor_job(
+                        is_media_path_sync, path, dict(self.hass.config.media_dirs)
+                    )
+                    if is_media:
+                        errors[CONF_EXTERNAL_STORAGE_PATH] = "media_path_not_supported"
             if not errors:
                 return self.async_create_entry(
                     title="",

@@ -168,7 +168,7 @@ entity, device, and action rules not applicable.
 | exception-translations | PASS | `ConfigEntryError(translation_domain=..., translation_key="invalid_room_data")`; flow errors and aborts are translated. |
 | icon-translations | EXEMPT | No entities or actions. |
 | reconfiguration-flow | PASS | Room subentry `async_step_reconfigure`. The household entry has no user-entered setup data to reconfigure. |
-| repair-issues | PASS | Missing reference, migration conflict, App outcomes, retention sync, External Storage outcomes (#211: `path_not_allowed`, `unavailable`, `read_only`, `write_failed`, `invalid_root`, each raised only after it persists) — all actionable, none for transient states. |
+| repair-issues | PASS | Missing reference, migration conflict, App outcomes, retention sync, External Storage outcomes (#211: `path_not_allowed`, `media_path_not_supported`, `unavailable`, `read_only`, `write_failed`, `invalid_root`, each raised only after it persists) — all actionable, none for transient states. |
 | stale-devices | EXEMPT | No devices. Stale *references* are surfaced as Repairs instead. |
 
 When HTBW later adds entities, devices, or actions, every rule marked EXEMPT because of their absence

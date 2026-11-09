@@ -43,7 +43,8 @@
       }
     },
     "error": {
-      "path_not_allowed": "Home Assistant does not currently allow HTBW to use this path. Add it to allowlist_external_dirs in configuration.yaml (or choose a path already covered, such as one listed under media_dirs), then try again."
+      "path_not_allowed": "Home Assistant does not currently allow HTBW to use this path. Add it to allowlist_external_dirs in configuration.yaml for your Share-usage storage, then try again.",
+      "media_path_not_supported": "This path is a Home Assistant Media-usage folder. HTBW uses Share-usage external storage only, never Media, so your existing Media content stays separate. Use the path to your Share-usage connection instead (Settings > System > Storage)."
     }
   },
   "config_subentries": {
@@ -156,6 +157,10 @@
     "external_storage_path_not_allowed": {
       "title": "External Storage is unavailable: Home Assistant has not allowed this path",
       "description": "Home Assistant has not allowed HTBW to use the configured External Storage path ({reason_code}). Add the path to allowlist_external_dirs in configuration.yaml, then restart Home Assistant. Capabilities that need External Storage stay unavailable until then; nothing else is affected."
+    },
+    "external_storage_media_path_not_supported": {
+      "title": "External Storage is unavailable: this path is Media-usage, not Share-usage",
+      "description": "The configured External Storage path is a Home Assistant Media-usage folder ({reason_code}). HTBW uses Share-usage external storage only, so your existing Media content stays separate. Open the HTBW options and set the path to your Share-usage connection instead. Capabilities that need External Storage stay unavailable until then; nothing else is affected."
     },
     "external_storage_unavailable": {
       "title": "External Storage is unavailable",

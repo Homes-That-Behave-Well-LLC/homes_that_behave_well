@@ -27,6 +27,7 @@ from homeassistant.helpers import issue_registry as ir
 
 from .const import (
     DOMAIN,
+    EXTERNAL_STORAGE_FAILURE_OUTCOMES,
     ISSUE_EXTERNAL_STORAGE_PREFIX,
     ISSUE_ID_PREFIX,
     ISSUE_VOICE_EVIDENCE_PREFIX,
@@ -169,17 +170,10 @@ def async_delete_retention_sync_issue(hass: HomeAssistant) -> None:
     ir.async_delete_issue(hass, DOMAIN, f"{ISSUE_VOICE_EVIDENCE_PREFIX}retention_sync_failed")
 
 
-# Outcomes that are standing, administrator-correctable conditions.
 # NOT_CONFIGURED is a legitimate optional state (no nagging, DL-148) and
 # AVAILABLE is healthy; every failure outcome is raised only after it
-# persists (see ExternalStorageManager.consecutive_unavailable).
-_EXTERNAL_STORAGE_ISSUE_OUTCOMES = {
-    ExternalStorageOutcome.PATH_NOT_ALLOWED,
-    ExternalStorageOutcome.UNAVAILABLE,
-    ExternalStorageOutcome.READ_ONLY,
-    ExternalStorageOutcome.WRITE_FAILED,
-    ExternalStorageOutcome.INVALID_ROOT,
-}
+# persists (see ExternalStorageManager.consecutive_unavailable, which reads
+# the same EXTERNAL_STORAGE_FAILURE_OUTCOMES set as this module).
 
 
 def async_project_external_storage_issue(
@@ -191,7 +185,7 @@ def async_project_external_storage_issue(
     """Project the current External Storage DL-41 outcome as at most one Repairs issue."""
     wanted = (
         f"{ISSUE_EXTERNAL_STORAGE_PREFIX}{outcome.value}"
-        if outcome in _EXTERNAL_STORAGE_ISSUE_OUTCOMES
+        if outcome in EXTERNAL_STORAGE_FAILURE_OUTCOMES
         else None
     )
     registry = ir.async_get(hass)

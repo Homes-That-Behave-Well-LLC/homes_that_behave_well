@@ -85,6 +85,29 @@ entry cannot be created.
 You can change **Retain Enrollment Recordings** later with **Configure** on the household entry. HTBW
 copies the value into the App; changes made on the App's own Configuration tab are overwritten.
 
+### External Storage (optional)
+
+HTBW capabilities that need to keep durable, non-biometric content of their own — none exist yet —
+use a single, optional **External Storage** connection rather than each asking you to connect storage
+separately.
+
+1. Connect your network storage through Home Assistant itself first, as a **Share-usage** storage
+   connection (**Settings** > **System** > **Storage**, or your current Home Assistant version's
+   equivalent). HTBW never asks for a NAS hostname, address, username, password, or mount options —
+   that configuration belongs to Home Assistant alone.
+2. Open **Configure** on the household HTBW entry and set **External Storage path** to the path Home
+   Assistant gave that connection (for example `/share/htbw-storage`). Home Assistant must already
+   allow HTBW to use that path (the same **Settings** > **System** > **Storage** screen, or
+   `allowlist_external_dirs` in `configuration.yaml`).
+3. Leave the field blank if you have not connected External Storage yet, or do not want HTBW
+   capabilities that use it. Nothing is required until a capability that needs it is enabled.
+
+You never create HTBW's own folder by hand: HTBW creates it, and each capability's own structure
+inside it, only once that capability actually needs it. **Media-usage** storage (for example the
+folder behind Asset Intelligence's own Asset Documents) is a different Home Assistant storage
+relationship and is never an acceptable substitute — HTBW refuses a Media-usage path rather than
+silently mixing its content with Media.
+
 ### Rooms
 
 Select **Add Room** on the HTBW entry.
@@ -110,6 +133,8 @@ order. Clearing a field removes those assignments.
 - **Voice Evidence App status**, when the App is installed: whether it is available, unreachable,
   rejecting HTBW's credential, incompatible, or not ready, and whether your retention setting has
   reached it.
+- **External Storage health**, when a path is configured: whether it is reachable and writable. No
+  HTBW capability uses it yet (see "Known limitations").
 
 HTBW creates **no entities, devices, actions, triggers, or conditions**, so there is nothing to put on a
 dashboard or into an automation yet.
@@ -151,6 +176,8 @@ The App supports **amd64** and **aarch64** systems only.
 
 - HTBW creates no entities, actions, or automations yet; it is a configuration and governance
   foundation that later HTBW capabilities build on.
+- **External Storage is a foundation only.** No HTBW capability stores anything there yet; configuring
+  it today only proves the connection and lets HTBW create its own root folder.
 - The App cannot enroll anyone or identify voices yet (version 0.1.0).
 - The App is built on your device; prebuilt images are not published yet.
 - A stored assignment with a reference type the form cannot edit blocks that Room's reconfigure
@@ -172,6 +199,12 @@ Problems you can fix appear under **Settings** > **System** > **Repairs**:
 | **… the App version is incompatible** | Update the Integration and the App to versions that match. |
 | **… the App is not ready** | Open the App's **Log** tab. The reason (for example `model_downloading` or `model_digest_mismatch`) is explained on the App's **Documentation** tab. |
 | **The Retain Enrollment Recordings setting has not reached the App** | Check that the App is installed and running. HTBW keeps retrying. |
+| **External Storage is unavailable: Home Assistant has not allowed this path** | Add the path to `allowlist_external_dirs` in `configuration.yaml`, then restart Home Assistant. |
+| **External Storage is unavailable: this path is Media-usage, not Share-usage** | Open **Configure** on the HTBW entry and set **External Storage path** to your Share-usage connection instead; Media storage is never an acceptable substitute. |
+| **External Storage is unavailable** | Check that the storage is connected and powered on under **Settings** > **System** > **Storage**. |
+| **External Storage is read-only** | Check the storage's own permissions. |
+| **External Storage write failed** | Check free space and connectivity on the storage. |
+| **External Storage's HTBW folder could not be verified** | This can happen after restoring an old backup onto newer storage; open a bug report if it does not clear on its own. |
 
 If HTBW fails to start with **"HTBW could not start because its stored Room configuration is
 invalid"**, nothing has been changed or deleted. Restore a backup taken before the problem, or open a

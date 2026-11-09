@@ -146,7 +146,24 @@ class ExternalStorageOutcome(StrEnum):
     AVAILABLE = "available"
     NOT_CONFIGURED = "not_configured"
     PATH_NOT_ALLOWED = "path_not_allowed"
+    MEDIA_PATH_NOT_SUPPORTED = "media_path_not_supported"
     UNAVAILABLE = "unavailable"
     READ_ONLY = "read_only"
     WRITE_FAILED = "write_failed"
     INVALID_ROOT = "invalid_root"
+
+
+# Single source of truth for "this is a standing, administrator-correctable
+# failure" (consecutive-failure counting in ExternalStorageManager._set and
+# Repairs issue eligibility in repairs_support.py both read this same set, so
+# a new outcome added to one can never silently drift from the other).
+EXTERNAL_STORAGE_FAILURE_OUTCOMES = frozenset(
+    {
+        ExternalStorageOutcome.PATH_NOT_ALLOWED,
+        ExternalStorageOutcome.MEDIA_PATH_NOT_SUPPORTED,
+        ExternalStorageOutcome.UNAVAILABLE,
+        ExternalStorageOutcome.READ_ONLY,
+        ExternalStorageOutcome.WRITE_FAILED,
+        ExternalStorageOutcome.INVALID_ROOT,
+    }
+)

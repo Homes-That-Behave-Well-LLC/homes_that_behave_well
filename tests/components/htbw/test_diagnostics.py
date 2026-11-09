@@ -2,11 +2,17 @@
 
 from __future__ import annotations
 
+from pathlib import Path
+
 from homeassistant.components.diagnostics import REDACTED
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers import entity_registry as er
 from pytest_homeassistant.common import MockConfigEntry
 
+from custom_components.htbw.const import (
+    CONF_EXTERNAL_STORAGE_PATH,
+    CONF_RETAIN_ENROLLMENT_RECORDINGS,
+)
 from custom_components.htbw.diagnostics import async_get_config_entry_diagnostics
 
 from .conftest import DEN_ROOM_ID, den, household_entry, set_den_assignments
@@ -52,6 +58,12 @@ async def test_diagnostics_reports_assignment_status(
     assert diagnostics["config_entry_id"] == REDACTED
     assert diagnostics["household"]["retain_enrollment_recordings"] == "delete"
     assert diagnostics["household"]["voice_evidence"]["outcome"] == "not_configured"
+    assert diagnostics["household"]["external_storage"] == {
+        "configured": False,
+        "outcome": "not_configured",
+        "reason_code": None,
+        "root_initialized": False,
+    }
     (room,) = diagnostics["rooms"]
     assert room["room_id"] == REDACTED
     assert room["subentry_id"] == REDACTED
@@ -76,6 +88,7 @@ async def test_diagnostics_reports_assignment_status(
     unloaded = await async_get_config_entry_diagnostics(hass, setup_integration)
     assert unloaded["rooms"] == diagnostics["rooms"]
     assert "outcome" not in unloaded["household"]["voice_evidence"]
+    assert unloaded["household"]["external_storage"] == {"configured": False}
 
 
 async def test_diagnostics_never_export_app_secret_or_host(hass: HomeAssistant) -> None:
@@ -97,3 +110,28 @@ async def test_diagnostics_never_export_app_secret_or_host(hass: HomeAssistant) 
     assert secret not in serialized
     assert "private-voice-evidence-host" not in serialized
     assert diagnostics["household"]["voice_evidence"]["connection_provisioned"] is True
+
+
+async def test_diagnostics_never_export_the_configured_external_storage_path(
+    hass: HomeAssistant, tmp_path: Path
+) -> None:
+    """Spec SS18: configured/outcome/root-initialized only -- never the path itself."""
+    entry = household_entry(
+        options={
+            CONF_RETAIN_ENROLLMENT_RECORDINGS: "delete",
+            CONF_EXTERNAL_STORAGE_PATH: str(tmp_path),
+        }
+    )
+    entry.add_to_hass(hass)
+    hass.config.allowlist_external_dirs = {str(tmp_path)}
+    assert await hass.config_entries.async_setup(entry.entry_id)
+    await hass.async_block_till_done()
+
+    diagnostics = await async_get_config_entry_diagnostics(hass, entry)
+    assert diagnostics["household"]["external_storage"] == {
+        "configured": True,
+        "outcome": "available",
+        "reason_code": None,
+        "root_initialized": True,
+    }
+    assert str(tmp_path) not in str(diagnostics)

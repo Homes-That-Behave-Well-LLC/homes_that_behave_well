@@ -25,16 +25,19 @@ from pytest_homeassistant.common import MockConfigEntry
 from custom_components.htbw.const import (
     CONF_EXTERNAL_STORAGE_PATH,
     DOMAIN,
+    EXTERNAL_STORAGE_HEALTH_PROBE_PREFIX,
     EXTERNAL_STORAGE_ROOT_MARKER,
     EXTERNAL_STORAGE_UNAVAILABLE_ISSUE_THRESHOLD,
     ExternalStorageOutcome,
 )
 from custom_components.htbw.external_storage import (
+    CapabilityDeprovisionNotConfirmedError,
     CapabilityOwnershipError,
     ExternalStorageManager,
     ExternalStorageUnavailableError,
     check_root_sync,
     deprovision_capability_sync,
+    is_media_path_sync,
     probe_write_read_delete_sync,
     provision_capability_sync,
     resolve_root_sync,
@@ -81,6 +84,22 @@ def test_resolve_root_sync_never_touches_disk(tmp_path: Path) -> None:
     assert base == tmp_path
     assert root == tmp_path / "HTBW"
     assert not root.exists()
+
+
+def test_is_media_path_sync_rejects_media_dir_and_its_children(tmp_path: Path) -> None:
+    """Spec SS5/SS17/SS25: Media never silently substitutes for Share."""
+    media_root = tmp_path / "media"
+    media_root.mkdir()
+    share_root = tmp_path / "share"
+    share_root.mkdir()
+    media_dirs = {"local": str(media_root)}
+
+    assert is_media_path_sync(str(media_root), media_dirs) is True
+    assert is_media_path_sync(str(media_root / "asset_documents"), media_dirs) is True
+    assert is_media_path_sync(str(share_root), media_dirs) is False
+    assert is_media_path_sync(str(share_root / "htbw-storage"), media_dirs) is False
+    # No media_dirs configured at all: nothing is rejected on that basis.
+    assert is_media_path_sync(str(media_root), {}) is False
 
 
 def test_check_root_sync_reports_unavailable_when_base_missing(tmp_path: Path) -> None:
@@ -159,6 +178,48 @@ def test_probe_write_read_delete_sync_reports_read_only(tmp_path: Path) -> None:
         assert reason == "read_only"
     finally:
         root.chmod(stat.S_IRWXU)
+
+
+def test_probe_reports_read_failure_without_silently_succeeding(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """A read-back failure is its own distinct, reported outcome, not a false PASS."""
+    base, root = resolve_root_sync(str(tmp_path))
+    check_root_sync(base, root)
+    real_read_bytes = Path.read_bytes
+
+    def _failing_read_bytes(self: Path, *args: object, **kwargs: object) -> bytes:
+        if EXTERNAL_STORAGE_HEALTH_PROBE_PREFIX in self.name:
+            raise OSError(5, "simulated read failure")
+        return real_read_bytes(self, *args, **kwargs)  # type: ignore[arg-type]
+
+    monkeypatch.setattr(Path, "read_bytes", _failing_read_bytes)
+    ok, reason = probe_write_read_delete_sync(root)
+    assert ok is False
+    assert reason is not None
+    assert reason.startswith("probe_read_failed")
+    # Cleanup still runs even though the probe never confirmed a read.
+    assert list(root.glob(f"{EXTERNAL_STORAGE_HEALTH_PROBE_PREFIX}*")) == []
+
+
+def test_probe_reports_cleanup_failure_without_silently_suppressing_it(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """Spec SS16 "failure during cleanup": never swallowed into a false PASS."""
+    base, root = resolve_root_sync(str(tmp_path))
+    check_root_sync(base, root)
+    real_unlink = Path.unlink
+
+    def _failing_unlink(self: Path, *args: object, **kwargs: object) -> None:
+        if EXTERNAL_STORAGE_HEALTH_PROBE_PREFIX in self.name:
+            raise OSError(5, "simulated cleanup failure")
+        real_unlink(self, *args, **kwargs)  # type: ignore[arg-type]
+
+    monkeypatch.setattr(Path, "unlink", _failing_unlink)
+    ok, reason = probe_write_read_delete_sync(root)
+    assert ok is False
+    assert reason is not None
+    assert reason.startswith("probe_cleanup_failed")
 
 
 def test_provision_and_deprovision_capability_are_idempotent(tmp_path: Path) -> None:
@@ -264,6 +325,28 @@ async def test_path_not_allowed_is_reported_only_after_it_persists(
     assert _issues(hass) == ["external_storage_path_not_allowed"]
 
 
+async def test_media_path_is_rejected_even_though_it_is_allowlisted(
+    hass: HomeAssistant, tmp_path: Path
+) -> None:
+    """A Media-usage path is default-allowlisted, but HTBW must still refuse it."""
+    media_root = tmp_path / "media"
+    media_root.mkdir()
+    entry = _entry(str(media_root))
+    entry.add_to_hass(hass)
+    # A Media-usage path is already allowed by Home Assistant by default.
+    hass.config.allowlist_external_dirs = {str(media_root)}
+    hass.config.media_dirs = {"local": str(media_root)}
+    manager = ExternalStorageManager(hass, entry)
+    outcome = await manager.async_refresh()
+    assert outcome is ExternalStorageOutcome.MEDIA_PATH_NOT_SUPPORTED
+    assert manager.is_available() is False
+    # Never silently creates an HTBW root inside the Media folder.
+    assert not (media_root / "HTBW").exists()
+    for _ in range(EXTERNAL_STORAGE_UNAVAILABLE_ISSUE_THRESHOLD - 1):
+        await manager.async_refresh()
+    assert _issues(hass) == ["external_storage_media_path_not_supported"]
+
+
 async def test_available_initializes_root(hass: HomeAssistant, tmp_path: Path) -> None:
     entry = _entry(str(tmp_path))
     entry.add_to_hass(hass)
@@ -323,7 +406,7 @@ async def test_deprovision_capability_requires_a_root(hass: HomeAssistant) -> No
     manager = ExternalStorageManager(hass, entry)
     await manager.async_refresh()
     with pytest.raises(ExternalStorageUnavailableError):
-        await manager.async_deprovision_capability(TEST_CAPABILITY)
+        await manager.async_deprovision_capability(TEST_CAPABILITY, confirmed=True)
 
 
 async def test_invalid_capability_id_is_rejected(hass: HomeAssistant, tmp_path: Path) -> None:
@@ -335,6 +418,27 @@ async def test_invalid_capability_id_is_rejected(hass: HomeAssistant, tmp_path: 
     for bad_id in ("../escape", "Has-Caps", "", ".hidden", "with/slash"):
         with pytest.raises(CapabilityOwnershipError):
             await manager.async_provision_capability(bad_id)
+
+
+async def test_deprovision_without_confirmation_is_refused_and_deletes_nothing(
+    hass: HomeAssistant, tmp_path: Path
+) -> None:
+    """DL-151 SS2.4: deprovisioning requires an explicit, already-disclosed confirmation."""
+    entry = _entry(str(tmp_path))
+    entry.add_to_hass(hass)
+    hass.config.allowlist_external_dirs = {str(tmp_path)}
+    manager = ExternalStorageManager(hass, entry)
+    await manager.async_refresh()
+    handle = await manager.async_provision_capability(TEST_CAPABILITY)
+    (handle.path / "artifact.bin").write_bytes(b"not yet disclosed or confirmed")
+
+    with pytest.raises(CapabilityDeprovisionNotConfirmedError):
+        await manager.async_deprovision_capability(TEST_CAPABILITY, confirmed=False)
+    assert handle.path.exists()
+    assert (handle.path / "artifact.bin").exists()
+
+    await manager.async_deprovision_capability(TEST_CAPABILITY, confirmed=True)
+    assert not handle.path.exists()
 
 
 async def test_async_provision_and_deprovision_capability_round_trip(
@@ -354,10 +458,10 @@ async def test_async_provision_and_deprovision_capability_round_trip(
     handle_again = await manager.async_provision_capability(TEST_CAPABILITY)
     assert handle_again.path == handle.path
 
-    await manager.async_deprovision_capability(TEST_CAPABILITY)
+    await manager.async_deprovision_capability(TEST_CAPABILITY, confirmed=True)
     assert not handle.path.exists()
     # Idempotent: deprovisioning an already-removed capability is a no-op.
-    await manager.async_deprovision_capability(TEST_CAPABILITY)
+    await manager.async_deprovision_capability(TEST_CAPABILITY, confirmed=True)
 
 
 async def test_async_lifecycle_never_touches_siblings(hass: HomeAssistant, tmp_path: Path) -> None:
@@ -373,6 +477,6 @@ async def test_async_lifecycle_never_touches_siblings(hass: HomeAssistant, tmp_p
     _assert_siblings_untouched(hashes)
     await manager.async_refresh()
     _assert_siblings_untouched(hashes)
-    await manager.async_deprovision_capability(TEST_CAPABILITY)
+    await manager.async_deprovision_capability(TEST_CAPABILITY, confirmed=True)
     assert not handle.path.exists()
     _assert_siblings_untouched(hashes)

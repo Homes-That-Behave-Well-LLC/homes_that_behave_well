@@ -3,8 +3,11 @@
 Spec SS18.4: for each RoomInteractionFunctionAssignment record, whether its
 reference still resolves (existence, not current availability). Issue #162
 adds the household's Integration-scoped state: the retention choice and the
-Voice Evidence App's DL-41 outcome and Contract A summary. Reuses Home
-Assistant's native diagnostics platform; does not invent a new health model.
+Voice Evidence App's DL-41 outcome and Contract A summary. Issue #211 adds
+External Storage's DL-41 outcome -- configured/outcome/root-initialized
+only, never the configured path (spec SS18: no arbitrary sibling filenames
+or raw household file inventory). Reuses Home Assistant's native diagnostics
+platform; does not invent a new health model.
 
 Only explicitly selected fields are exported. Native identifiers, the App host,
 and person identifiers are redacted; the App secret is never read here at all.

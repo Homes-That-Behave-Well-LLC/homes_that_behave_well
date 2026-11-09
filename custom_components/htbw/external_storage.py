@@ -22,9 +22,25 @@ it once, in their own ``configuration.yaml``. This module surfaces that
 requirement as an actionable, named outcome (``path_not_allowed``) rather
 than failing silently or working around the check.
 
+Because ``media_dirs`` are themselves default-allowed, a household could
+paste their Media-usage path into this same field and have it technically
+succeed -- exactly the silent Media/Share substitution DL-151 and this
+issue's own acceptance criteria forbid. ``is_media_path_sync`` rejects any
+configured path that resolves under a configured Media folder as its own
+distinct, actionable outcome (``media_path_not_supported``), independently
+of the general allowlist check.
+
 This module never implements a NAS/SMB/NFS client, never stores or asks for
 storage credentials, and never scans, enumerates, or touches content outside
 its own governed root (DL-151 SS2.6, legacy sibling coexistence).
+
+Deprovisioning a capability's branch (DL-151 SS2.4) always requires an
+explicit, already-disclosed confirmation (``async_deprovision_capability``'s
+keyword-only, default-less ``confirmed`` argument) -- composing and
+presenting the destructive-consequence disclosure itself (which artifact
+classes are affected, whether re-enabling only recreates empty structures,
+whether re-enrollment/re-capture is required) is each owning capability's
+own responsibility, never this module's.
 """
 
 from __future__ import annotations
@@ -46,6 +62,7 @@ from homeassistant.helpers.event import async_track_time_interval
 
 from .const import (
     CONF_EXTERNAL_STORAGE_PATH,
+    EXTERNAL_STORAGE_FAILURE_OUTCOMES,
     EXTERNAL_STORAGE_HEALTH_PROBE_PREFIX,
     EXTERNAL_STORAGE_REFRESH_INTERVAL_SECONDS,
     EXTERNAL_STORAGE_ROOT_MARKER,
@@ -69,6 +86,24 @@ _CAPABILITY_ID_PATTERN = re.compile(r"^[a-z][a-z0-9_]*$")
 
 class CapabilityOwnershipError(ValueError):
     """A capability_id is not a safe, governed branch name."""
+
+
+class CapabilityDeprovisionNotConfirmedError(RuntimeError):
+    """Raised when deprovisioning is requested without an explicit confirmation.
+
+    DL-151 SS2.4 accepts capability deprovisioning as its own symmetric
+    lifecycle, distinct from mere disable: a destructive-consequence
+    disclosure (which artifact classes are affected, whether re-enabling
+    recreates only empty structures, whether re-enrollment/re-capture is
+    required) followed by explicit household confirmation, *before* any
+    deletion. The Foundation does not know, and must never invent, what a
+    future capability's own artifacts mean to the household -- composing
+    that disclosure is the owning capability's responsibility (``#212`` and
+    beyond). This exception makes the keyword-only ``confirmed`` argument on
+    :meth:`ExternalStorageManager.async_deprovision_capability` impossible to
+    satisfy by accident, so a caller cannot reach deletion without having
+    made that explicit choice.
+    """
 
 
 class ExternalStorageUnavailableError(RuntimeError):
@@ -105,6 +140,30 @@ class ExternalStorageCapabilityHandle:
 def _configured_path(entry: HTBWConfigEntry) -> str | None:
     value = entry.options.get(CONF_EXTERNAL_STORAGE_PATH)
     return value if isinstance(value, str) and value else None
+
+
+def is_media_path_sync(path_str: str, media_dirs: dict[str, str]) -> bool:
+    """Reject a configured path that is (or is beneath) a Home Assistant Media folder.
+
+    A Media-usage path is, by default, already in ``allowlist_external_dirs``
+    (unlike a Share-usage path -- the opposite of what DL-151 assumes), so
+    ``is_allowed_path()`` alone cannot catch a household pasting their Media
+    path here by mistake. Spec SS5/SS17/SS25: Media must never silently
+    substitute for Share merely because Home Assistant would technically
+    allow writing there.
+    """
+    try:
+        resolved = Path(path_str).resolve()
+    except OSError:
+        return False
+    for media_dir in media_dirs.values():
+        try:
+            resolved.relative_to(Path(media_dir).resolve())
+        except OSError, ValueError:
+            continue
+        else:
+            return True
+    return False
 
 
 # --- Synchronous filesystem helpers (invoked only through the executor) -----
@@ -195,21 +254,36 @@ def check_root_sync(base: Path, root: Path) -> tuple[ExternalStorageOutcome, str
 
 
 def probe_write_read_delete_sync(root: Path) -> tuple[bool, str | None]:
-    """Bounded health probe confined to the governed root; never touches siblings."""
+    """Bounded health probe confined to the governed root; never touches siblings.
+
+    Each phase is its own distinct, non-suppressed failure (spec SS16:
+    "do not collapse every failure into storage unavailable"; cleanup failure
+    is reported, never silently swallowed, so it remains a provable outcome).
+    """
     probe = root / f"{EXTERNAL_STORAGE_HEALTH_PROBE_PREFIX}{secrets.token_hex(8)}"
     token = secrets.token_hex(16).encode("ascii")
     try:
         _atomic_write_bytes(probe, token)
-        read_back = probe.read_bytes()
-        if read_back != token:
-            return False, "probe_mismatch"
     except PermissionError:
         return False, "read_only"
     except OSError as err:
-        return False, f"probe_failed:{err.errno}"
-    finally:
+        return False, f"probe_write_failed:{err.errno}"
+
+    try:
+        read_back = probe.read_bytes()
+    except OSError as err:
         with contextlib.suppress(OSError):
             probe.unlink(missing_ok=True)
+        return False, f"probe_read_failed:{err.errno}"
+    if read_back != token:
+        with contextlib.suppress(OSError):
+            probe.unlink(missing_ok=True)
+        return False, "probe_mismatch"
+
+    try:
+        probe.unlink()
+    except OSError as err:
+        return False, f"probe_cleanup_failed:{err.errno}"
     return True, None
 
 
@@ -272,6 +346,14 @@ class ExternalStorageManager:
             self._set(ExternalStorageOutcome.PATH_NOT_ALLOWED, "path_not_allowed")
             return self.outcome
 
+        is_media = await self.hass.async_add_executor_job(
+            is_media_path_sync, path_str, dict(self.hass.config.media_dirs)
+        )
+        if is_media:
+            self.root = None
+            self._set(ExternalStorageOutcome.MEDIA_PATH_NOT_SUPPORTED, "configured_path_is_media")
+            return self.outcome
+
         base, root = await self.hass.async_add_executor_job(resolve_root_sync, path_str)
         outcome, reason = await self.hass.async_add_executor_job(check_root_sync, base, root)
         if outcome is ExternalStorageOutcome.AVAILABLE:
@@ -293,13 +375,7 @@ class ExternalStorageManager:
     def _set(self, outcome: ExternalStorageOutcome, reason: str | None) -> None:
         previous = self.outcome
         self.outcome, self.reason_code = outcome, reason
-        if outcome in (
-            ExternalStorageOutcome.UNAVAILABLE,
-            ExternalStorageOutcome.READ_ONLY,
-            ExternalStorageOutcome.WRITE_FAILED,
-            ExternalStorageOutcome.INVALID_ROOT,
-            ExternalStorageOutcome.PATH_NOT_ALLOWED,
-        ):
+        if outcome in EXTERNAL_STORAGE_FAILURE_OUTCOMES:
             self.consecutive_unavailable += 1
         else:
             self.consecutive_unavailable = 0
@@ -329,9 +405,26 @@ class ExternalStorageManager:
         )
         return ExternalStorageCapabilityHandle(capability_id, branch)
 
-    async def async_deprovision_capability(self, capability_id: str) -> None:
-        """Remove a capability's own branch in full. Idempotent."""
+    async def async_deprovision_capability(self, capability_id: str, *, confirmed: bool) -> None:
+        """Remove a capability's own branch in full. Idempotent.
+
+        ``confirmed`` is keyword-only and has no default: DL-151 SS2.4 accepts
+        deprovisioning as its own symmetric lifecycle -- destructive-consequence
+        disclosure, then explicit household confirmation, *before* deletion.
+        Composing and presenting that disclosure (which artifact classes are
+        affected, whether re-enabling only recreates empty structures, whether
+        re-enrollment/re-capture is required) is the calling capability's own
+        responsibility; the Foundation never invents it. Passing ``False``
+        (or skipping the disclosure/confirmation step entirely) raises
+        :class:`CapabilityDeprovisionNotConfirmedError` instead of deleting
+        anything.
+        """
         _validate_capability_id(capability_id)
+        if not confirmed:
+            raise CapabilityDeprovisionNotConfirmedError(
+                f"deprovisioning {capability_id!r} requires an explicit, "
+                "already-disclosed household confirmation"
+            )
         if self.root is None:
             raise ExternalStorageUnavailableError(self.outcome, self.reason_code)
         await self.hass.async_add_executor_job(

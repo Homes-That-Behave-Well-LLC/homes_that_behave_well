@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from pathlib import Path
 from typing import Any
 
 import probatio
@@ -161,6 +162,39 @@ async def test_household_options_change_retention_only(
     }
     assert den(setup_integration).data == before
     assert CONF_RETAIN_ENROLLMENT_RECORDINGS not in den(setup_integration).data
+
+
+async def test_household_options_rejects_a_path_not_yet_allowlisted(
+    hass: HomeAssistant, setup_integration: MockConfigEntry, tmp_path: Path
+) -> None:
+    result = await hass.config_entries.options.async_init(setup_integration.entry_id)
+    result = await hass.config_entries.options.async_configure(
+        result["flow_id"],
+        {
+            CONF_RETAIN_ENROLLMENT_RECORDINGS: "retain",
+            CONF_EXTERNAL_STORAGE_PATH: str(tmp_path),
+        },
+    )
+    assert result["type"] is FlowResultType.FORM
+    assert result["errors"] == {CONF_EXTERNAL_STORAGE_PATH: "path_not_allowed"}
+
+
+async def test_household_options_rejects_a_media_usage_path(
+    hass: HomeAssistant, setup_integration: MockConfigEntry, tmp_path: Path
+) -> None:
+    """A Media-usage path never silently substitutes for Share (spec SS5/SS17/SS25)."""
+    hass.config.allowlist_external_dirs = {str(tmp_path)}
+    hass.config.media_dirs = {"local": str(tmp_path)}
+    result = await hass.config_entries.options.async_init(setup_integration.entry_id)
+    result = await hass.config_entries.options.async_configure(
+        result["flow_id"],
+        {
+            CONF_RETAIN_ENROLLMENT_RECORDINGS: "retain",
+            CONF_EXTERNAL_STORAGE_PATH: str(tmp_path),
+        },
+    )
+    assert result["type"] is FlowResultType.FORM
+    assert result["errors"] == {CONF_EXTERNAL_STORAGE_PATH: "media_path_not_supported"}
 
 
 def _discovery(**config: Any) -> HassioServiceInfo:
