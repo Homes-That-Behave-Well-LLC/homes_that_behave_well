@@ -41,6 +41,7 @@ from .const import (
     SUBENTRY_TYPE_ROOM,
     ReferenceType,
 )
+from .external_storage import async_setup_external_storage
 from .models import HTBWConfigEntry, HTBWRuntimeData, RoomInteractionFunctionAssignment
 from .repairs_support import async_check_assignment_health
 from .storage import legacy_room_payload, load_assignments, room_subentries
@@ -182,6 +183,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: HTBWConfigEntry) -> bool
     )
     entry.runtime_data = runtime_data
     runtime_data.voice_evidence = await async_setup_voice_evidence(hass, entry)
+    runtime_data.external_storage = await async_setup_external_storage(hass, entry)
 
     await async_check_assignment_health(hass, entry)
 

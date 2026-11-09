@@ -80,12 +80,16 @@ class HTBWRuntimeData:
     `assignments` is every Room's records, flattened; each record carries its
     own room_id, so (room_id, function) retrieval is unchanged. `rooms` maps a
     Room subentry id to that Room's records. `voice_evidence` is populated only
-    for the household entry and holds no biometric material.
+    for the household entry and holds no biometric material. `external_storage`
+    is the Issue #211 External Storage Foundation manager; it governs HTBW's
+    own root/branches beneath the household's connected storage only, never
+    sibling content.
     """
 
     assignments: list[RoomInteractionFunctionAssignment]
     rooms: dict[str, list[RoomInteractionFunctionAssignment]] = field(default_factory=dict)
     voice_evidence: Any = None
+    external_storage: Any = None
 
 
 # Typed alias for this integration's config entries, per current Home

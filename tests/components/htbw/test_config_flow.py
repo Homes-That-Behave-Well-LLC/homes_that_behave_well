@@ -18,6 +18,7 @@ from pytest_homeassistant.test_util.aiohttp import AiohttpClientMocker
 
 from custom_components.htbw.const import (
     CONF_ASSIGNMENTS,
+    CONF_EXTERNAL_STORAGE_PATH,
     CONF_RETAIN_ENROLLMENT_RECORDINGS,
     CONF_ROOM_ID,
     CONF_VOICE_EVIDENCE,
@@ -145,13 +146,19 @@ async def test_household_options_change_retention_only(
     before = den(setup_integration).data
     result = await hass.config_entries.options.async_init(setup_integration.entry_id)
     assert result["type"] is FlowResultType.FORM
-    assert [k.schema for k in result["data_schema"].schema] == [CONF_RETAIN_ENROLLMENT_RECORDINGS]
+    assert [k.schema for k in result["data_schema"].schema] == [
+        CONF_RETAIN_ENROLLMENT_RECORDINGS,
+        CONF_EXTERNAL_STORAGE_PATH,
+    ]
     result = await hass.config_entries.options.async_configure(
         result["flow_id"], {CONF_RETAIN_ENROLLMENT_RECORDINGS: "retain"}
     )
     assert result["type"] is FlowResultType.CREATE_ENTRY
     await hass.async_block_till_done()
-    assert setup_integration.options == {CONF_RETAIN_ENROLLMENT_RECORDINGS: "retain"}
+    assert setup_integration.options == {
+        CONF_RETAIN_ENROLLMENT_RECORDINGS: "retain",
+        CONF_EXTERNAL_STORAGE_PATH: "",
+    }
     assert den(setup_integration).data == before
     assert CONF_RETAIN_ENROLLMENT_RECORDINGS not in den(setup_integration).data
 

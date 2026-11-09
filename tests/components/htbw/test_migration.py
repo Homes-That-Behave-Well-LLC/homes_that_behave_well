@@ -19,6 +19,7 @@ from pytest_homeassistant.common import MockConfigEntry
 
 from custom_components.htbw.const import (
     CONF_ASSIGNMENTS,
+    CONF_EXTERNAL_STORAGE_PATH,
     CONF_RETAIN_ENROLLMENT_RECORDINGS,
     CONF_ROOM_ID,
     DOMAIN,
@@ -186,7 +187,10 @@ async def test_household_settings_exist_only_on_the_parent(hass: HomeAssistant) 
     )
     await hass.async_block_till_done()
 
-    assert entry.options == {CONF_RETAIN_ENROLLMENT_RECORDINGS: "retain"}
+    assert entry.options == {
+        CONF_RETAIN_ENROLLMENT_RECORDINGS: "retain",
+        CONF_EXTERNAL_STORAGE_PATH: "",
+    }
     for room in _rooms(entry).values():
         assert set(room.data) == {CONF_ROOM_ID, CONF_ASSIGNMENTS}
 

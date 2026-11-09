@@ -27,8 +27,10 @@ from homeassistant.helpers import issue_registry as ir
 
 from .const import (
     DOMAIN,
+    ISSUE_EXTERNAL_STORAGE_PREFIX,
     ISSUE_ID_PREFIX,
     ISSUE_VOICE_EVIDENCE_PREFIX,
+    ExternalStorageOutcome,
     ParticipationState,
     VoiceEvidenceOutcome,
 )
@@ -165,3 +167,48 @@ def async_create_retention_sync_issue(hass: HomeAssistant, entry: HTBWConfigEntr
 def async_delete_retention_sync_issue(hass: HomeAssistant) -> None:
     """Remove the retention-sync issue once the App applies the household setting."""
     ir.async_delete_issue(hass, DOMAIN, f"{ISSUE_VOICE_EVIDENCE_PREFIX}retention_sync_failed")
+
+
+# Outcomes that are standing, administrator-correctable conditions.
+# NOT_CONFIGURED is a legitimate optional state (no nagging, DL-148) and
+# AVAILABLE is healthy; every failure outcome is raised only after it
+# persists (see ExternalStorageManager.consecutive_unavailable).
+_EXTERNAL_STORAGE_ISSUE_OUTCOMES = {
+    ExternalStorageOutcome.PATH_NOT_ALLOWED,
+    ExternalStorageOutcome.UNAVAILABLE,
+    ExternalStorageOutcome.READ_ONLY,
+    ExternalStorageOutcome.WRITE_FAILED,
+    ExternalStorageOutcome.INVALID_ROOT,
+}
+
+
+def async_project_external_storage_issue(
+    hass: HomeAssistant,
+    entry: HTBWConfigEntry,
+    outcome: ExternalStorageOutcome | None,
+    reason_code: str | None = None,
+) -> None:
+    """Project the current External Storage DL-41 outcome as at most one Repairs issue."""
+    wanted = (
+        f"{ISSUE_EXTERNAL_STORAGE_PREFIX}{outcome.value}"
+        if outcome in _EXTERNAL_STORAGE_ISSUE_OUTCOMES
+        else None
+    )
+    registry = ir.async_get(hass)
+    for domain, issue_id in list(registry.issues):
+        if domain == DOMAIN and issue_id.startswith(ISSUE_EXTERNAL_STORAGE_PREFIX):
+            if issue_id != wanted:
+                ir.async_delete_issue(hass, DOMAIN, issue_id)
+    if wanted is None or outcome is None:
+        return
+    ir.async_create_issue(
+        hass,
+        DOMAIN,
+        wanted,
+        config_entry_id=entry.entry_id,
+        is_fixable=False,
+        is_persistent=False,
+        severity=ir.IssueSeverity.WARNING,
+        translation_key=wanted,
+        translation_placeholders={"reason_code": reason_code or "none"},
+    )

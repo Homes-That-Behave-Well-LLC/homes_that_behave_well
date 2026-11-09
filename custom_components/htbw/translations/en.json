@@ -31,14 +31,19 @@
     "step": {
       "init": {
         "title": "Household settings",
-        "description": "Retain Enrollment Recordings controls only the ten source recordings captured during Voice Identity enrollment. Changing from Retain to Delete removes recordings already kept; every working Voiceprint is kept and no one needs to enroll again.",
+        "description": "Retain Enrollment Recordings controls only the ten source recordings captured during Voice Identity enrollment. Changing from Retain to Delete removes recordings already kept; every working Voiceprint is kept and no one needs to enroll again.\n\nExternal Storage Path is optional. Set it only after you have connected a Share-usage external storage location to Home Assistant under Settings > System > Storage (or its current equivalent). HTBW manages its own folder beneath that path; it never asks for NAS credentials, and nothing is created there until a capability that needs it is enabled.",
         "data": {
-          "retain_enrollment_recordings": "Retain Enrollment Recordings"
+          "retain_enrollment_recordings": "Retain Enrollment Recordings",
+          "external_storage_path": "External Storage Path"
         },
         "data_description": {
-          "retain_enrollment_recordings": "Retain keeps the enrollment recordings for a possible future automatic rebuild. Delete removes them; working Voiceprints are never deleted."
+          "retain_enrollment_recordings": "Retain keeps the enrollment recordings for a possible future automatic rebuild. Delete removes them; working Voiceprints are never deleted.",
+          "external_storage_path": "The path to your Home Assistant-managed Share-usage external storage, for example /share/htbw-storage. Leave blank if you have not connected external storage yet. Home Assistant must already allow HTBW to use this path (Settings > System > Storage, or allowlist_external_dirs in configuration.yaml)."
         }
       }
+    },
+    "error": {
+      "path_not_allowed": "Home Assistant does not currently allow HTBW to use this path. Add it to allowlist_external_dirs in configuration.yaml (or choose a path already covered, such as one listed under media_dirs), then try again."
     }
   },
   "config_subentries": {
@@ -147,6 +152,26 @@
     "voice_evidence_retention_sync_failed": {
       "title": "The Retain Enrollment Recordings setting has not reached the Voice Evidence App",
       "description": "HTBW could not apply your Retain Enrollment Recordings setting to the HTBW Voice Evidence App. HTBW keeps retrying. If this persists, check that the App is installed and running under Settings > Apps."
+    },
+    "external_storage_path_not_allowed": {
+      "title": "External Storage is unavailable: Home Assistant has not allowed this path",
+      "description": "Home Assistant has not allowed HTBW to use the configured External Storage path ({reason_code}). Add the path to allowlist_external_dirs in configuration.yaml, then restart Home Assistant. Capabilities that need External Storage stay unavailable until then; nothing else is affected."
+    },
+    "external_storage_unavailable": {
+      "title": "External Storage is unavailable",
+      "description": "HTBW cannot reach the configured External Storage path ({reason_code}). Check that the storage is connected and powered on under Settings > System > Storage. Capabilities that need External Storage stay unavailable until then; nothing else is affected."
+    },
+    "external_storage_read_only": {
+      "title": "External Storage is read-only",
+      "description": "The configured External Storage path exists but HTBW cannot write to it ({reason_code}). Check the storage's permissions. Capabilities that need External Storage stay unavailable until then; nothing else is affected."
+    },
+    "external_storage_write_failed": {
+      "title": "External Storage write failed",
+      "description": "A write to the configured External Storage path failed ({reason_code}), for example because the storage is full. Capabilities that need External Storage stay unavailable until this is resolved; nothing else is affected."
+    },
+    "external_storage_invalid_root": {
+      "title": "External Storage's HTBW folder could not be verified",
+      "description": "HTBW's own folder on the configured External Storage path exists but could not be verified ({reason_code}). This can happen after restoring an old backup onto newer storage. Capabilities that need External Storage stay unavailable until this is resolved; nothing else is affected."
     }
   }
 }

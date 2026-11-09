@@ -118,3 +118,35 @@ class AssignmentResolution(StrEnum):
 ISSUE_ID_PREFIX = "missing_reference_{entry_id}_"
 ISSUE_VOICE_EVIDENCE_PREFIX = "voice_evidence_"
 ISSUE_MIGRATION_CONFLICT = "room_migration_conflict_{room_id}"
+
+# External Storage Foundation (Issue #211, DL-151). Household/Integration-scoped
+# (DL-148): the household supplies only the already-Home-Assistant-managed
+# Share-usage path HTBW should use beneath, never NAS credentials.
+CONF_EXTERNAL_STORAGE_PATH = "external_storage_path"
+EXTERNAL_STORAGE_ROOT_NAME = "HTBW"
+EXTERNAL_STORAGE_ROOT_MARKER = ".htbw-root.json"
+EXTERNAL_STORAGE_ROOT_MARKER_VERSION = 1
+EXTERNAL_STORAGE_HEALTH_PROBE_PREFIX = ".htbw-health-"
+EXTERNAL_STORAGE_REFRESH_INTERVAL_SECONDS = 300
+ISSUE_EXTERNAL_STORAGE_PREFIX = "external_storage_"
+# A transient health check is reported only after it persists, exactly as
+# Voice Evidence's own unreachable threshold (DL-41; never nag on one miss).
+EXTERNAL_STORAGE_UNAVAILABLE_ISSUE_THRESHOLD = 3
+
+
+class ExternalStorageOutcome(StrEnum):
+    """Distinct DL-41 outcomes for the optional External Storage capability.
+
+    Each outcome names a different missing or failed condition; none is an
+    identity, trust, or permission failure, and none is ever emulated by a
+    silent fallback to Home Assistant config storage, App `/data`, or another
+    unmanaged location (DL-151 SS2.8).
+    """
+
+    AVAILABLE = "available"
+    NOT_CONFIGURED = "not_configured"
+    PATH_NOT_ALLOWED = "path_not_allowed"
+    UNAVAILABLE = "unavailable"
+    READ_ONLY = "read_only"
+    WRITE_FAILED = "write_failed"
+    INVALID_ROOT = "invalid_root"

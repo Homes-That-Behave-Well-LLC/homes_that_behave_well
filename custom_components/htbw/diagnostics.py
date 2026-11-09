@@ -19,12 +19,29 @@ from homeassistant.components.diagnostics import async_redact_data
 from homeassistant.core import HomeAssistant
 
 from .const import CONF_RETAIN_ENROLLMENT_RECORDINGS, DOMAIN, ParticipationState
+from .external_storage import ExternalStorageManager
 from .foundation import reference_exists
 from .models import HTBWConfigEntry
 from .storage import load_assignments, room_subentries
 from .voice_evidence import VoiceEvidenceConnection, VoiceEvidenceManager
 
 TO_REDACT = {"config_entry_id", "room_id", "reference_id", "subentry_id", "person_id"}
+
+
+def _external_storage_diagnostics(entry: HTBWConfigEntry) -> dict[str, Any]:
+    """Report health only. The configured path is never included (connected-storage.md:
+
+    "physical storage paths are not exposed... where a governed identifier suffices").
+    """
+    manager = getattr(getattr(entry, "runtime_data", None), "external_storage", None)
+    if not isinstance(manager, ExternalStorageManager):
+        return {"configured": False}
+    return {
+        "configured": manager.outcome.value != "not_configured",
+        "outcome": manager.outcome.value,
+        "reason_code": manager.reason_code,
+        "root_initialized": manager.is_available(),
+    }
 
 
 def _voice_evidence_diagnostics(entry: HTBWConfigEntry) -> dict[str, Any]:
@@ -110,6 +127,7 @@ async def async_get_config_entry_diagnostics(
                     CONF_RETAIN_ENROLLMENT_RECORDINGS, "not_set"
                 ),
                 "voice_evidence": _voice_evidence_diagnostics(entry),
+                "external_storage": _external_storage_diagnostics(entry),
             },
             "rooms": rooms_diag,
         },

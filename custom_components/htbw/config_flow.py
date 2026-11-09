@@ -43,6 +43,7 @@ from homeassistant.helpers.service_info.hassio import HassioServiceInfo
 from .const import (
     CONF_API_SECRET,
     CONF_APP_SLUG,
+    CONF_EXTERNAL_STORAGE_PATH,
     CONF_HOST,
     CONF_PORT,
     CONF_RETAIN_ENROLLMENT_RECORDINGS,
@@ -221,6 +222,32 @@ def _retention_schema(default: str | None = None) -> probatio.Schema:
     )
 
 
+def _options_schema(
+    retention_default: str | None, external_storage_path_default: str | None
+) -> probatio.Schema:
+    """Household options: DL-145 retention plus the optional #211 External Storage path."""
+    retention_key = (
+        probatio.Required(CONF_RETAIN_ENROLLMENT_RECORDINGS, default=retention_default)
+        if retention_default is not None
+        else probatio.Required(CONF_RETAIN_ENROLLMENT_RECORDINGS)
+    )
+    storage_key = probatio.Optional(
+        CONF_EXTERNAL_STORAGE_PATH, default=external_storage_path_default or ""
+    )
+    return probatio.Schema(
+        {
+            retention_key: selector.SelectSelector(
+                selector.SelectSelectorConfig(
+                    options=[RETENTION_RETAIN, RETENTION_DELETE],
+                    translation_key="retain_enrollment_recordings",
+                    mode=selector.SelectSelectorMode.LIST,
+                )
+            ),
+            storage_key: selector.TextSelector(),
+        }
+    )
+
+
 def _discovery_connection(discovery_info: HassioServiceInfo) -> dict[str, Any] | None:
     """Validate a Supervisor Discovery payload into the stored App connection."""
     config = discovery_info.config
@@ -329,22 +356,44 @@ class HTBWOptionsFlow(OptionsFlow):
     """Household/Integration-scoped options only. Room settings never appear here."""
 
     async def async_step_init(self, user_input: dict[str, Any] | None = None) -> ConfigFlowResult:
-        """Change "Retain Enrollment Recordings" (DL-145 Option A/B)."""
+        """Change "Retain Enrollment Recordings" (DL-145) and External Storage (#211, DL-151).
+
+        External Storage asks only for the path HTBW should use beneath the
+        household's already Home-Assistant-managed Share-usage connection --
+        never NAS credentials, protocol, or mount options (DL-151 SS7). The
+        path is validated against ``hass.config.is_allowed_path()`` (current
+        official Home Assistant security guidance), and a household that has
+        not yet added it to their own ``allowlist_external_dirs`` is told so
+        directly, inline, rather than accepted silently.
+        """
+        errors: dict[str, str] = {}
+        current_path = self.config_entry.options.get(CONF_EXTERNAL_STORAGE_PATH)
         if user_input is not None:
-            return self.async_create_entry(
-                title="",
-                data={
-                    **self.config_entry.options,
-                    CONF_RETAIN_ENROLLMENT_RECORDINGS: user_input[
-                        CONF_RETAIN_ENROLLMENT_RECORDINGS
-                    ],
-                },
-            )
+            path = user_input.get(CONF_EXTERNAL_STORAGE_PATH, "").strip()
+            if path:
+                allowed = await self.hass.async_add_executor_job(
+                    self.hass.config.is_allowed_path, path
+                )
+                if not allowed:
+                    errors[CONF_EXTERNAL_STORAGE_PATH] = "path_not_allowed"
+            if not errors:
+                return self.async_create_entry(
+                    title="",
+                    data={
+                        **self.config_entry.options,
+                        CONF_RETAIN_ENROLLMENT_RECORDINGS: user_input[
+                            CONF_RETAIN_ENROLLMENT_RECORDINGS
+                        ],
+                        CONF_EXTERNAL_STORAGE_PATH: path,
+                    },
+                )
         return self.async_show_form(
             step_id="init",
-            data_schema=_retention_schema(
-                self.config_entry.options.get(CONF_RETAIN_ENROLLMENT_RECORDINGS)
+            data_schema=_options_schema(
+                self.config_entry.options.get(CONF_RETAIN_ENROLLMENT_RECORDINGS),
+                current_path,
             ),
+            errors=errors,
         )
 
 
