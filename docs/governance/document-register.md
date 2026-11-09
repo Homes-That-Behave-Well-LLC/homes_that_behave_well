@@ -839,11 +839,23 @@ own already-recorded Asset-by-Asset algorithm. **DL-92**, **DL-110**, **DL-120**
 **DL-137**, **DL-144**, **DL-145**, **DL-148** are each consumed unchanged, none reopened. None is
 reclassified.
 
+**Updated 2026-11-09, Issue #209 formal governance acceptance review PASS (Voice Evidence Biometric
+Artifact Storage, Backup, Recovery, and Deletion Governance)**: `../contracts/identity-contract.md`
+(already Canonical) is revised in place with one new subsection, "Restore-time compatibility
+re-validation" (Voice Evidence App boundary), recording the ten-point restore/compatibility
+re-validation sequence #209 established as governance but which no prior canonical document stated —
+extending **DL-144** and **DL-41** to the restore case specifically, reopening neither. #209 is closed;
+implementation is transferred to two new issues, **#211** (HTBW External Storage Foundation) and
+**#212** (Voice Evidence External Storage Adoption, Restore Governance, and Enrollment Readiness
+Gating), neither of which allocates a Decision Ledger entry (implementation, not architecture). **#163**
+receives a dependency update recording #212 as a prerequisite for real enrollment, not executed. None
+is reclassified.
+
 | Category | Count |
 |---|---|
 | New canonical documents | 84 |
-| Revised in place | 2 (`README.md`, `concierge-contract.md`) |
-| **Canonical total** (84 new + 2 revised) | **86** |
+| Revised in place | 3 (`README.md`, `concierge-contract.md`, `../contracts/identity-contract.md`) |
+| **Canonical total** (84 new + 3 revised) | **87** |
 | Marked Active — subordinate | 22 |
 | Marked Historical — superseded | 83 |
 | Marked Historical illustration (`examples/`) | 16 |

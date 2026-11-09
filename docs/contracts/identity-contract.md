@@ -429,6 +429,30 @@ blast radius**: every Voiceprint becomes incompatible at once.
 - **Still-valid Voiceprints are never destroyed before the new boundary commits** (**DL-145** §20). An
   incompatible Voiceprint is **never compared and never presented as usable enrollment**.
 
+#### Restore-time compatibility re-validation (accepted 2026-11-09, Issue #209, formal governance acceptance PASS)
+
+**Storage recovery is never treated as equivalent to a live, authorized migration.** After App
+reinstall, storage reconnect, or a Home Assistant/App restore, the App re-establishes Voiceprint state
+from first principles rather than trusting a stale in-memory or Integration-side assumption:
+
+1. rediscover and reconnect the authoritative storage;
+2. read candidate Voiceprint metadata;
+3. validate artifact integrity;
+4. validate the Person relationship where applicable;
+5. validate `compatibility_id` against the currently active encoder identity;
+6. validate `encoder_family`/`encoder_version`;
+7. validate `audio_contract_version` compatibility;
+8. validate lifecycle state (`current` vs. `incompatible`);
+9. reject, or mark `incompatible`, any Voiceprint that cannot safely become `current`;
+10. **never silently resurrect an obsolete, pre-migration, or otherwise incompatible Voiceprint as
+    `current` merely because its file exists after a restore.**
+
+This extends **DL-144**'s existing "never more than one active governed Voiceprint per Person" and
+**DL-41**'s existing failure/degradation semantics to the restore case specifically, which neither
+decision previously addressed in those terms. It reopens neither. Implementation and tests for this
+sequence are governed separately (Issue #212); this contract fixes the required sequence, not its
+code.
+
 #### Contract versioning
 
 **The contract is versioned as a whole (A–D), never field by field.** `contract_version` is
