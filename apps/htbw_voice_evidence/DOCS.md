@@ -3,9 +3,10 @@
 > **Development runtime only.** The Voice Evidence App is currently being used to validate the HTBW
 > Voice Evidence architecture and is not ready for household enrollment or production biometric use.
 
-The HTBW Voice Evidence App is the local voice-evidence runtime of Homes That Behave Well
-(HTBW). It runs next to Home Assistant, managed by the Supervisor, and is used only by the
-HTBW integration.
+The HTBW Voice Evidence App is the local voice-evidence runtime used by **BehavesWell Core, Home
+Assistant Edition** (the Home Assistant integration with domain `htbw`, formerly presented as HTBW
+Core), developed in the Homes That Behave Well (HTBW) Reference Home. It runs next to Home
+Assistant, managed by the Supervisor, and is used only by that integration.
 
 ## What it does
 

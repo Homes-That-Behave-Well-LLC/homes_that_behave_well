@@ -185,6 +185,10 @@ HTBW Core is greenfield. Backward, API, schema, data-model, and implementation c
 not required. Proven ideas are preserved; obsolete boundaries are not. See
 [greenfield-mandate.md](greenfield-mandate.md).
 
+> **Annotated 2026-11-10 by DL-153.** "HTBW Core" is now **BehavesWell Core**. P24 concerns
+> compatibility with **predecessor products**; it does not prohibit protecting BehavesWell Core's own
+> installed persisted identifiers (`htbw` and the others listed in DL-153).
+
 **P25. Vendor-agnostic framework, vendor-specific implementation.**
 
 The framework must be able to assess homes built on platforms other than Home Assistant, even

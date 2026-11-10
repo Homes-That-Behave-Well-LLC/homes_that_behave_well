@@ -2,6 +2,15 @@
 
 > **Document status: Canonical (constitutional).**
 > Subordinate only to [north-star.md](north-star.md).
+>
+> **Annotated 2026-11-10 by DL-153 (Issue #214).** "HTBW Core" below is historical wording for what is
+> now **BehavesWell Core** (current edition: **BehavesWell Core, Home Assistant Edition**). **This mandate
+> concerns predecessor products** (Asset Intelligence, Voice Identity, Concierge): their boundaries,
+> schemas, and APIs never constrain BehavesWell Core design. **It does not prohibit BehavesWell Core from
+> protecting its own installed households' persisted technical identifiers** (`htbw`, `htbw_household`,
+> `HTBW/`, Voice Evidence key derivation, and the others DL-153 lists), which a public rename must not
+> break. See
+> [adr-behaveswell-framework-foundation-core-edition-and-context-identity.md](adr-behaveswell-framework-foundation-core-edition-and-context-identity.md).
 
 ---
 

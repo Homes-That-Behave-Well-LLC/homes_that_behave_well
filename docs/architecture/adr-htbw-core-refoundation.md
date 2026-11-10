@@ -3,6 +3,15 @@
 > **Document status: Canonical (constitutional) ADR.**
 > Status: **Accepted**. Supersedes the four-service platform model.
 > Terminology: [../models/glossary.md](../models/glossary.md).
+>
+> **Annotated 2026-11-10 by DL-153 (Issue #214); the text below is historical and is not rewritten.**
+> "HTBW Core" here named the architecture and the product together. Read the seven responsibilities as
+> the **seven layers of the BehavesWell Core architectural stack** — **Layer 0 Foundation** plus the
+> **six BehavesWell Framework stages** (Truth, Identity, Operational Trust, Stewardship, Continuity,
+> Concierge, in that order). Foundation is not a Framework stage. Every ownership decision here stands;
+> the table's numbering and order are the pre-DL-153 presentation. The product is now **BehavesWell
+> Core, Home Assistant Edition**. See
+> [adr-behaveswell-framework-foundation-core-edition-and-context-identity.md](adr-behaveswell-framework-foundation-core-edition-and-context-identity.md).
 
 ---
 

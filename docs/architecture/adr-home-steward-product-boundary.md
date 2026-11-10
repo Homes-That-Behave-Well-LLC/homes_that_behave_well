@@ -7,6 +7,15 @@
 > Canonical authority: [framework.md](framework.md) and [../models/glossary.md](../models/glossary.md).
 > Where this document conflicts with canonical authority, canonical authority prevails.
 > Terminology: [../models/glossary.md](../models/glossary.md).
+>
+> **Annotated 2026-11-10 by DL-153 (Issue #214); text below is historical and is not rewritten.** The
+> product this ADR defines as **Home Steward** is now named **BehavesWell Extended Intelligence** — one
+> product renamed, not a second product. Its boundary, non-authorities, and relationships to DL-81,
+> DL-86, and DL-93 are unchanged. It is not a Framework stage, not Layer 0, not part of BehavesWell Core,
+> not Stewardship, not Concierge, not Home Intelligence, and not General Reasoning; "Extended" extends
+> authorized reasoning context, never operational authority. This file's name and the Home Steward
+> repository's identifiers are unchanged. See
+> [adr-behaveswell-framework-foundation-core-edition-and-context-identity.md](adr-behaveswell-framework-foundation-core-edition-and-context-identity.md).
 
 ---
 

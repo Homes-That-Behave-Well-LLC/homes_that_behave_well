@@ -12,6 +12,14 @@
 Home Assistant is the initial reference platform. The HTBW framework itself remains vendor-agnostic
 and must be able to assess and describe homes built on other platforms.
 
+> **DL-153 (2026-11-10).** In current terms: **Home Assistant supplies Layer 0 Foundation** for
+> **BehavesWell Core, Home Assistant Edition**, the current and only edition. BehavesWell Core extends
+> Home Assistant and does not replace it; Home Assistant remains authoritative for its native concepts,
+> registries, interaction patterns, and platform mechanics. The **BehavesWell Framework** (six stages)
+> is platform-neutral. Another platform could supply Layer 0 only through a separately governed edition;
+> none is authorized, and none is claimed to satisfy the Foundation contract. See
+> [adr-behaveswell-framework-foundation-core-edition-and-context-identity.md](adr-behaveswell-framework-foundation-core-edition-and-context-identity.md).
+
 ---
 
 ## Home Assistant First

@@ -7,6 +7,17 @@
 > model or contract, **those prevail and this document is wrong**.
 > Compiled 2026-09-08. Findings register:
 > [public-claim-register.md](public-claim-register.md).
+>
+> **Superseded in part, 2026-11-10, by DL-153 (Issue #214). Do not publish §1 or the W1 check as
+> written.** The public six-stage BehavesWell Framework (Truth, Identity, Operational Trust,
+> Stewardship, Continuity, Concierge) is **conceptually correct**. Foundation is **Layer 0** of a
+> BehavesWell Core implementation, **not a seventh Framework stage**, so the replacement copy below that
+> changes the public page to *"Seven connected responsibilities"*, adds Foundation as a *first
+> responsibility card*, or says *"Foundation comes first"* in the Framework now contradicts accepted
+> architecture. Any public mention of Foundation should present it as the substrate beneath the six
+> stages. Replacement copy for that is public-copy work on **#180**, with stage wording on **#215**. The
+> remaining sections are unaffected unless they repeat the same claim. See
+> [../architecture/adr-behaveswell-framework-foundation-core-edition-and-context-identity.md](../architecture/adr-behaveswell-framework-foundation-core-edition-and-context-identity.md).
 
 ---
 

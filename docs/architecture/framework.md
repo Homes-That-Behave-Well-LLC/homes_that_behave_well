@@ -7,12 +7,27 @@
 This document defines each framework responsibility: what it owns, what it consumes, what it
 provides, and — critically — what it does **not** own.
 
+**Structure (DL-153).** The **BehavesWell Framework** has **six stages** — Truth, Identity, Operational
+Trust, Stewardship, Continuity, Concierge — each of which is an architectural responsibility.
+**BehavesWell Core** applies them over **Layer 0 Foundation**, the platform substrate. Foundation is
+**not** a seventh Framework stage. Together they form the **seven-layer BehavesWell Core architectural
+stack**, presented below from Layer 0 upward. Every ownership statement in this document is unchanged
+by DL-153; only the presentation order changed. "HTBW" in this document is pre-DL-153 shorthand (see
+[../models/glossary.md](../models/glossary.md)). See
+[adr-behaveswell-framework-foundation-core-edition-and-context-identity.md](adr-behaveswell-framework-foundation-core-edition-and-context-identity.md).
+
 Every responsibility has a contract in [docs/contracts/](../contracts/README.md) and one or more
 models in [docs/models/](../models/glossary.md).
 
 ---
 
-## 1. Foundation — *What exists, and how do we describe it?*
+## Layer 0 — Foundation — *What platform model and native capabilities provide the substrate?*
+
+Foundation is Layer 0, the substrate on which BehavesWell Core applies the six Framework stages. In
+the current edition, **BehavesWell Core, Home Assistant Edition**, Home Assistant supplies the native
+substrate and remains authoritative for its native concepts; the Foundation-owned models below are
+BehavesWell Core's governed extensions of it. Foundation's guarantee to the six stages is *what exists,
+and how we describe it*.
 
 Foundation establishes the shared models, vocabulary, contracts, identifiers, provenance, temporal
 conventions, and configuration primitives used by every other responsibility.
@@ -52,7 +67,105 @@ Contract: [../contracts/foundation-contract.md](../contracts/foundation-contract
 
 ---
 
-## 2. Stewardship — *What matters, and what must be cared for?*
+## Stage 1 — Truth — *What is actually true now?*
+
+Truth is a **first-class authoritative fact engine**. Truth is not a section of Foundation.
+
+**Truth consumes** evidence and assertions from devices, sensors, assets, Identity, voice events,
+BLE events, media systems, calendars where authorized, environmental sources, Room Configuration,
+and other governed sources.
+
+**Truth owns authoritative facts**, including presence, occupancy, environmental, engagement,
+device, contextual, room-state, active-room-mode, and current-activity facts; Composite Facts;
+evidence freshness; fact confidence; provenance; and fact validity and expiration.
+
+**Truth is also the system of record for historical Facts.** Operational expiration removes a Fact
+from *what is true now*; it does not delete *what was true then*. Truth owns Fact history and the
+eight Fact lifecycle transitions. No consumer may maintain a competing or re-derived Fact history.
+See **P28** in [principles.md](principles.md).
+
+Examples: *Tom is present in the Den. The Living Space is occupied. A conversation is active. Music
+is already playing. The television is in use. The Primary Bedroom is in Nighttime mode. The room
+temperature is 72 degrees. The garage door is open. The room moved from occupied to unoccupied.*
+
+Truth may combine multiple eligible contributing sensors into a single **Composite Fact**. "Composite
+Fact" concerns combining evidence and is unrelated to the superseded term "Composite Room" (now
+**Merged Room**), which concerns combining Physical Rooms.
+
+**Truth must not:** trigger actions, control devices, make resident-facing behavioral decisions, own
+preferences, own authority or permission, hide uncertainty, or automatically convert weak evidence
+into a definitive fact.
+
+Model: [../models/truth.md](../models/truth.md)
+Contract: [../contracts/truth-contract.md](../contracts/truth-contract.md)
+
+---
+
+## Stage 2 — Identity — *Who do we believe this is?*
+
+**Voice Identity is not a separate product boundary in HTBW Core.** The responsibility is
+**Identity**, and **voice is one identity-evidence source**.
+
+**Identity may consume:** voice matching, BLE devices, assigned phones, assigned watches, assigned
+tablets, Home Assistant companion-app signals, presence trackers, Wi-Fi associations,
+room-transition evidence, vehicle associations, future identity sources, and explicit household
+enrollment.
+
+**Identity owns:** the person identity profile; associations between a person and identity-evidence
+sources; voice-profile references; assigned-device relationships used for identity; candidate-person
+assertions; identity confidence; identity evidence attribution; enrollment, revocation, and identity
+diagnostics; and privacy treatment of identity evidence.
+
+**Identity produces assertions**, for example:
+
+```
+candidate_person: Tom
+confidence:       0.94
+evidence:         voice + BLE + assigned phone
+```
+
+**Identity does not determine:** authoritative room occupancy, authoritative presence in a
+contextual space, what activity is occurring, what should happen, what a person prefers, or what a
+person is permitted to do.
+
+Model: [../models/person-and-identity.md](../models/person-and-identity.md)
+Contract: [../contracts/identity-contract.md](../contracts/identity-contract.md)
+
+---
+
+## Stage 3 — Operational Trust — *What is allowed?*
+
+**Operational Trust owns:** roles; permissions; authority; privacy boundaries; consent;
+authentication requirements; identity-confidence thresholds; action-risk classifications; explicit /
+assisted / autonomous ceilings; confirmation requirements; override rights; priority policy;
+conflict policy; guest-safe behavior; child-safe behavior; service-provider behavior; caretaker
+authority; security authority; who may disarm an alarm; who may unlock a door; who may view or hear
+private information; who may access calendars, messages, email, or history; who may override whom;
+whether an action must be refused; whether an action must be confirmed; room-mode restrictions;
+privacy modes; quiet-hour restrictions; safety and security precedence; and decision-trace
+visibility and retention policy.
+
+**Operational Trust does not determine who a person is.** It consumes Identity and Truth when
+evaluating whether the requirements for an action have been met.
+
+### Autonomy model
+
+| Level | Meaning |
+|---|---|
+| Explicit | The home acts only after direct human instruction. |
+| Assisted | The home may suggest, or ask for confirmation. |
+| Autonomous | The home may act without asking when all required facts, permissions, confidence thresholds, and policies are satisfied. |
+
+A broad autonomy setting establishes a **ceiling**. More specific person, room, experience, asset,
+or action policies may be **more restrictive**. A narrower policy must never silently become more
+permissive than the governing ceiling.
+
+Model: [../models/operational-trust.md](../models/operational-trust.md)
+Contract: [../contracts/operational-trust-contract.md](../contracts/operational-trust-contract.md)
+
+---
+
+## Stage 4 — Stewardship — *What matters, and what must be cared for?*
 
 Stewardship is a meaningful responsibility. It is **not** a synonym for inventory.
 
@@ -109,73 +222,7 @@ Contract: [../contracts/stewardship-contract.md](../contracts/stewardship-contra
 
 ---
 
-## 3. Identity — *Who do we believe this is?*
-
-**Voice Identity is not a separate product boundary in HTBW Core.** The responsibility is
-**Identity**, and **voice is one identity-evidence source**.
-
-**Identity may consume:** voice matching, BLE devices, assigned phones, assigned watches, assigned
-tablets, Home Assistant companion-app signals, presence trackers, Wi-Fi associations,
-room-transition evidence, vehicle associations, future identity sources, and explicit household
-enrollment.
-
-**Identity owns:** the person identity profile; associations between a person and identity-evidence
-sources; voice-profile references; assigned-device relationships used for identity; candidate-person
-assertions; identity confidence; identity evidence attribution; enrollment, revocation, and identity
-diagnostics; and privacy treatment of identity evidence.
-
-**Identity produces assertions**, for example:
-
-```
-candidate_person: Tom
-confidence:       0.94
-evidence:         voice + BLE + assigned phone
-```
-
-**Identity does not determine:** authoritative room occupancy, authoritative presence in a
-contextual space, what activity is occurring, what should happen, what a person prefers, or what a
-person is permitted to do.
-
-Model: [../models/person-and-identity.md](../models/person-and-identity.md)
-Contract: [../contracts/identity-contract.md](../contracts/identity-contract.md)
-
----
-
-## 4. Truth — *What is actually true now?*
-
-Truth is a **first-class authoritative fact engine**. Truth is not a section of Foundation.
-
-**Truth consumes** evidence and assertions from devices, sensors, assets, Identity, voice events,
-BLE events, media systems, calendars where authorized, environmental sources, Room Configuration,
-and other governed sources.
-
-**Truth owns authoritative facts**, including presence, occupancy, environmental, engagement,
-device, contextual, room-state, active-room-mode, and current-activity facts; Composite Facts;
-evidence freshness; fact confidence; provenance; and fact validity and expiration.
-
-**Truth is also the system of record for historical Facts.** Operational expiration removes a Fact
-from *what is true now*; it does not delete *what was true then*. Truth owns Fact history and the
-eight Fact lifecycle transitions. No consumer may maintain a competing or re-derived Fact history.
-See **P28** in [principles.md](principles.md).
-
-Examples: *Tom is present in the Den. The Living Space is occupied. A conversation is active. Music
-is already playing. The television is in use. The Primary Bedroom is in Nighttime mode. The room
-temperature is 72 degrees. The garage door is open. The room moved from occupied to unoccupied.*
-
-Truth may combine multiple eligible contributing sensors into a single **Composite Fact**. "Composite
-Fact" concerns combining evidence and is unrelated to the superseded term "Composite Room" (now
-**Merged Room**), which concerns combining Physical Rooms.
-
-**Truth must not:** trigger actions, control devices, make resident-facing behavioral decisions, own
-preferences, own authority or permission, hide uncertainty, or automatically convert weak evidence
-into a definitive fact.
-
-Model: [../models/truth.md](../models/truth.md)
-Contract: [../contracts/truth-contract.md](../contracts/truth-contract.md)
-
----
-
-## 5. Continuity — *What should be remembered, restored, resumed, or transferred?*
+## Stage 5 — Continuity — *What should be remembered, restored, resumed, or transferred?*
 
 Continuity is more than storage and more than a preference list.
 
@@ -205,39 +252,7 @@ Contract: [../contracts/continuity-contract.md](../contracts/continuity-contract
 
 ---
 
-## 6. Operational Trust — *What is allowed?*
-
-**Operational Trust owns:** roles; permissions; authority; privacy boundaries; consent;
-authentication requirements; identity-confidence thresholds; action-risk classifications; explicit /
-assisted / autonomous ceilings; confirmation requirements; override rights; priority policy;
-conflict policy; guest-safe behavior; child-safe behavior; service-provider behavior; caretaker
-authority; security authority; who may disarm an alarm; who may unlock a door; who may view or hear
-private information; who may access calendars, messages, email, or history; who may override whom;
-whether an action must be refused; whether an action must be confirmed; room-mode restrictions;
-privacy modes; quiet-hour restrictions; safety and security precedence; and decision-trace
-visibility and retention policy.
-
-**Operational Trust does not determine who a person is.** It consumes Identity and Truth when
-evaluating whether the requirements for an action have been met.
-
-### Autonomy model
-
-| Level | Meaning |
-|---|---|
-| Explicit | The home acts only after direct human instruction. |
-| Assisted | The home may suggest, or ask for confirmation. |
-| Autonomous | The home may act without asking when all required facts, permissions, confidence thresholds, and policies are satisfied. |
-
-A broad autonomy setting establishes a **ceiling**. More specific person, room, experience, asset,
-or action policies may be **more restrictive**. A narrower policy must never silently become more
-permissive than the governing ceiling.
-
-Model: [../models/operational-trust.md](../models/operational-trust.md)
-Contract: [../contracts/operational-trust-contract.md](../contracts/operational-trust-contract.md)
-
----
-
-## 7. Concierge — *What should happen now?*
+## Stage 6 — Concierge — *What should happen now?*
 
 Concierge is the orchestration and resident-interaction responsibility.
 

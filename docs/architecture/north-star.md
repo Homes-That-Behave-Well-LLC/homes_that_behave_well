@@ -4,10 +4,67 @@
 > This document is the highest architecture authority in this repository, subordinate only to the
 > North-Star framework as represented in the HTBW video-series artifacts.
 > Terminology is defined in [docs/models/glossary.md](../models/glossary.md).
+>
+> **Annotated 2026-11-10 by DL-153 (Issue #214).** The framework this document constitutes is the
+> **BehavesWell Framework** of **six stages** — Truth, Identity, Operational Trust, Stewardship,
+> Continuity, Concierge — applied by **BehavesWell Core** over **Layer 0 Foundation**. The section
+> *BehavesWell Framework stages and Layer 0* below is current authority. Sections that present seven
+> responsibilities in the order Foundation → … → Concierge, or that use *HTBW Core* for the
+> architecture, are the **historical pre-DL-153 presentation**, retained as evidence; every ownership
+> statement in them stands. *Homes That Behave Well* in this title names the residential context in which
+> the Framework was developed. See
+> [adr-behaveswell-framework-foundation-core-edition-and-context-identity.md](adr-behaveswell-framework-foundation-core-edition-and-context-identity.md).
+
+---
+
+## BehavesWell Framework stages and Layer 0
+
+> **"The BehavesWell Framework consists of six stages: Truth, Identity, Operational Trust, Stewardship,
+> Continuity, and Concierge. BehavesWell Core applies those six stages over a Layer 0 Foundation
+> supplied by the implementation platform. Foundation is part of the complete BehavesWell Core
+> architectural stack, but it is not a seventh stage of the BehavesWell Framework."** (**DL-153**)
+
+| # | Framework stage | Question answered |
+|---|---|---|
+| 1 | [Truth](../contracts/truth-contract.md) | What is actually true now? |
+| 2 | [Identity](../contracts/identity-contract.md) | Who do we believe this is? |
+| 3 | [Operational Trust](../contracts/operational-trust-contract.md) | What is allowed? |
+| 4 | [Stewardship](../contracts/stewardship-contract.md) | What matters, and what must be cared for? |
+| 5 | [Continuity](../contracts/continuity-contract.md) | What should be remembered, resumed, or transferred? |
+| 6 | [Concierge](../contracts/concierge-contract.md) | What should happen now? |
+
+The complete **BehavesWell Core architectural stack** has seven layers:
+
+```mermaid
+flowchart BT
+    L0["0 Foundation<br/>Platform substrate — not a Framework stage"]
+    L1["1 Truth<br/>What is true now?"]
+    L2["2 Identity<br/>Who is this?"]
+    L3["3 Operational Trust<br/>What is allowed?"]
+    L4["4 Stewardship<br/>What matters?"]
+    L5["5 Continuity<br/>What should be remembered?"]
+    L6["6 Concierge<br/>What should happen now?"]
+    H(["Human Trust<br/>outcome, not a layer"])
+
+    L0 --> L1 --> L2 --> L3 --> L4 --> L5 --> L6 --> H
+```
+
+**[Foundation](../contracts/foundation-contract.md)** (Layer 0) answers *what platform model and native
+capabilities provide the substrate on which BehavesWell Core applies the Framework?* In the current
+edition, **BehavesWell Core, Home Assistant Edition**, Home Assistant supplies that substrate and
+BehavesWell Core extends it; Home Assistant remains authoritative for its native concepts.
+
+The Framework is platform-neutral. **Homes That Behave Well** is the residential context in which it is
+researched, taught, and tested. The six-stage order is the Framework stage order and is distinct from
+the dependency and runtime views below.
 
 ---
 
 ## Purpose
+
+> *Historical framing (pre-DL-153), retained as evidence.* In current terms the framework is the
+> BehavesWell Framework, the reference platform is BehavesWell Core, Home Assistant Edition, and Homes
+> That Behave Well is the residential context.
 
 Homes That Behave Well (HTBW) is not a collection of Home Assistant integrations.
 
@@ -29,6 +86,10 @@ The framework is not retrospective documentation for the platform.
 
 ## The Question Each Responsibility Answers
 
+> *Historical presentation (pre-DL-153).* The seven rows below are the seven layers of the BehavesWell
+> Core stack: Foundation is Layer 0, and the other six are the Framework stages. Their **current order**
+> is the six-stage order above.
+
 The North-Star framework is composed of seven responsibilities.
 
 | # | Responsibility | Question answered |
@@ -47,6 +108,9 @@ together. See [Human Trust and Explainability](explainability.md).
 ---
 
 ## North-Star Framework Order
+
+> *Historical presentation (pre-DL-153), superseded as presentation order by the six-stage Framework
+> stage order over Layer 0 Foundation (see the top of this document).*
 
 This is the framework order used in HTBW North-Star artifacts, presentations, the assessment
 workbook, and the video series.
@@ -71,7 +135,7 @@ Three separate views exist and must not be conflated:
 
 | View | Document | What it shows |
 |---|---|---|
-| Framework order | this document | How the framework is taught, assessed, and presented |
+| Framework order | this document | How the framework is taught, assessed, and presented — now the six-stage Framework stage order over Layer 0 (**DL-153**) |
 | Dependency flow | [dependency-view.md](dependency-view.md) | Which responsibility consumes which |
 | Runtime sequence | [runtime-sequence.md](runtime-sequence.md) | The order in which a single request is evaluated |
 

@@ -3,6 +3,10 @@
 > **Document status: Canonical.**
 > This is one of three separate views. See [north-star.md](north-star.md) for framework order and
 > [dependency-view.md](dependency-view.md) for consumption dependencies.
+>
+> **DL-153 (2026-11-10):** the framework order is now the six BehavesWell Framework stages over **Layer 0
+> Foundation**. This runtime sequence is unchanged, and the Framework stage order is never reordered to
+> match it.
 
 ---
 

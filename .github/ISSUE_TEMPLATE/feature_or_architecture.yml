@@ -20,9 +20,9 @@ body:
     attributes:
       label: Responsibility and boundary
       description: >-
-        Which HTBW responsibility this belongs to (Foundation, Stewardship, Identity, Truth,
-        Continuity, Operational Trust, Concierge), and whether it touches the Integration, the
-        App, or a governed contract.
+        Which responsibility this belongs to — Layer 0 Foundation, or one of the six BehavesWell
+        Framework stages (Truth, Identity, Operational Trust, Stewardship, Continuity,
+        Concierge) — and whether it touches the Integration, the App, or a governed contract.
     validations:
       required: true
   - type: textarea

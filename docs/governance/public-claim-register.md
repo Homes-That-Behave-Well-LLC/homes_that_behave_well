@@ -169,7 +169,7 @@ change is in
 
 | Finding | Disposition | State |
 |---|---|---|
-| **F1** six vs seven responsibilities | **Correct the public page to seven and restore Foundation.** The public wording already exists and is correct in the *Building HTBW* post. **DL-01** is not amended | **Publication-ready correction produced** |
+| **F1** six vs seven responsibilities | **Correct the public page to seven and restore Foundation.** *(Superseded 2026-11-10 by DL-153: six stages are correct; Foundation is Layer 0, not a seventh stage.)* The public wording already exists and is correct in the *Building HTBW* post. **DL-01** is not amended | **Publication-ready correction produced** |
 | **F2** site self-contradiction | **Resolved by F1.** The blog post is the correct statement and needs no change | **Publication-ready correction produced** |
 | **F3** Technical Debt | **Reframe publicly as a condition and assessment lens, addressed through existing responsibilities.** No construct is created, no eighth responsibility is created, and the ledger is not amended | **Publication-ready correction produced** |
 | **F4** Home Operating System | **Retain as a public educational and systems-thinking term, explicitly constrained.** It is not a software operating system, not a responsibility, not a canonical model, and not a competitor to Home Assistant | **Publication-ready correction produced** |
@@ -177,6 +177,23 @@ change is in
 | **F6** *"Truth became the first responsibility"* | **Correct to distinguish narrative order from constitutional order.** Truth was the first responsibility the *series explored*; **Foundation** is first in the constitutional framework | **Publication-ready correction produced** |
 | **F7** Voice Identity playbook vs **DL-51** | **Rename and rescope to Identity, or unpublish.** Do not sell implementation guidance for a sunsetting product | **Publication-ready correction produced** |
 | **F8** HA mantra placement | **Repository first**: record the scope distinction between the platform-neutral framework and platform-specific HTBW Core. Then place the mantra publicly | **Routed — repository clarification required before public change** |
+
+### Repository update, 2026-11-10 — DL-153
+
+**DL-153** (Issue **#214**) resolves **F1**, **F6**, and **F8** at the repository level. It does not
+apply any public change; external copy remains with **#180**.
+
+| Finding | Repository resolution |
+|---|---|
+| **F1**, **F2** | The public **six-stage** model is conceptually correct: Truth, Identity, Operational Trust, Stewardship, Continuity, Concierge. **Foundation is Layer 0** of a BehavesWell Core implementation, not a seventh Framework stage. The *Building HTBW* post's seven-item list now reads as the seven-layer Core stack, in pre-DL-153 order |
+| **F6** | *"Truth became the first responsibility"* is **aligned**: Truth is Framework stage 1; Foundation is Layer 0 beneath it |
+| **F8** | Recorded: the **BehavesWell Framework** is platform-neutral; **BehavesWell Core, Home Assistant Edition** extends Home Assistant. The HA mantra may now be placed publicly under that scope |
+
+Public stage **definitions** differ from repository meaning in three allocations (Identity 02.01,
+Operational Trust 03.02/03.03, Continuity 05.01). These are routed to **#215**; repository meaning is
+unchanged. *"Behaves Well Framework™"* is now governed in the glossary as **BehavesWell Framework**
+(canonical written form). The ™/© notations remain publication concerns, and no legal status is
+inferred.
 
 ### Public teaching vocabulary, and the limits on each term
 
@@ -187,7 +204,7 @@ construct the architecture does not have, and these name real things using non-c
 
 | Public term | Governed relationship | Hard limits |
 |---|---|---|
-| **Behaves Well Framework™** | The **brand name** for the HTBW framework. Repository occurrences: **zero** | A brand phrase. **Do not add it to the canonical glossary** without evidence it is intended and stable. It creates no construct |
+| **Behaves Well Framework™** | The **brand name** for the HTBW framework. Repository occurrences: **zero** | A brand phrase. **Do not add it to the canonical glossary** without evidence it is intended and stable. It creates no construct. **Superseded 2026-11-10:** DL-153 adds **BehavesWell Framework** to the glossary as the six-stage Framework |
 | **Home Operating System** | An **educational and systems-thinking description** of the integrated, governed home | **Not** a software operating system · **not** a responsibility · **not** a canonical model · **not** a replacement for or competitor to Home Assistant · **must not** be promoted to canonical architecture through documentation cleanup. Note the collision with **Home Assistant Operating System (HAOS)**, which appears in [../architecture/connected-storage.md](../architecture/connected-storage.md) |
 | **Technology Stewardship** | A **public-facing category** for the practical lifecycle, maintenance, accountability, obsolescence, and debt topics that the **Stewardship** responsibility already governs. `stewardship.md` defines Stewardship as *"the responsibility for significance, care, obligations, **lifecycle accountability**, and ongoing responsibility"* — the category is inside that definition | **Not** a second responsibility · **must not** rename or narrow the constitutional **Stewardship** responsibility |
 | **Technical Debt** | A **condition of a home and an assessment lens**, arising from choices whose future obligations were not made visible. Addressed through **Stewardship** (obligations, lifecycle accountability), **Foundation** (declarations and dependencies), and **Operational Trust** (authority) | **No debt construct is created** — `decision-ledger.md` states this affirmatively, and the word appears normatively in the repository **exactly once**, at **P24** · **not** a responsibility · **not** a cross-cutting capability peer to Explainability · **not** a canonical model |

@@ -34,6 +34,13 @@ records.
 | Open issues unreferenced by documentation | **0** |
 | HTBW Core implementation | **None. The repository contains no code files** |
 
+> **Correction note, 2026-11-10 (DL-153).** The *Responsibilities* row above cites an order (Foundation,
+> Truth, Identity, Operational Trust, Stewardship, Continuity, Concierge) that did not match **DL-01**'s
+> own order at the time (Foundation, Stewardship, Identity, Truth, Continuity, Operational Trust,
+> Concierge). Both are now superseded as presentation by **DL-153**: six BehavesWell Framework stages —
+> Truth, Identity, Operational Trust, Stewardship, Continuity, Concierge — over **Layer 0 Foundation**.
+> The snapshot itself is not rewritten.
+
 **No new responsibility, store, history mechanism, escalation ladder, or source of truth has been
 created since the refoundation.** Every review in this cycle resolved to *consume a native
 capability*, *record a distinction*, or *govern an existing capability more precisely*.

@@ -3,6 +3,10 @@
 > **Document status: Canonical.**
 > This is one of three separate views of the framework. See [north-star.md](north-star.md) for
 > framework order and [runtime-sequence.md](runtime-sequence.md) for request sequence.
+>
+> **DL-153 (2026-11-10):** the framework order is now the six BehavesWell Framework stages (Truth,
+> Identity, Operational Trust, Stewardship, Continuity, Concierge) over **Layer 0 Foundation**. This
+> dependency view is unchanged: Foundation, as Layer 0, still feeds everything and consumes nothing.
 
 ---
 

@@ -8,6 +8,21 @@
 > Document classification for every file in this repository:
 > [docs/governance/document-register.md](docs/governance/document-register.md).
 
+**This repository develops BehavesWell © Core, Home Assistant Edition — the governed implementation of
+the six-stage BehavesWell Framework over a Home Assistant Layer 0 Foundation — together with the
+architecture, governance, and residential evidence of Homes That Behave Well.**
+
+| Name | What it is |
+|---|---|
+| **BehavesWell Framework** | The platform-neutral behavioral architecture of six stages: Truth, Identity, Operational Trust, Stewardship, Continuity, Concierge |
+| **BehavesWell Core** | The product that applies those six stages over a Layer 0 Foundation. Formerly presented as *HTBW Core* |
+| **BehavesWell Core, Home Assistant Edition** | The current and only edition: Home Assistant supplies Layer 0, and BehavesWell Core extends Home Assistant without replacing it |
+| **Homes That Behave Well (HTBW)** | The residential research, education, evidence, and lived-outcome ecosystem in which the Framework is tested — including this repository's Reference Home |
+
+Recorded as **DL-153**:
+[docs/architecture/adr-behaveswell-framework-foundation-core-edition-and-context-identity.md](docs/architecture/adr-behaveswell-framework-foundation-core-edition-and-context-identity.md).
+"HTBW" elsewhere in this repository is established shorthand that predates DL-153 (see the glossary).
+
 **Homes That Behave Well (HTBW) is the constitutional architecture for homes that are calm,
 predictable, explainable, and trustworthy.**
 
@@ -23,9 +38,9 @@ household testing, or production use.
 This repository is public because HTBW is being developed openly, with its architecture, governance,
 implementation, testing, and Home Assistant integration evolving together.
 
-You may see installable artifacts such as HTBW Core in the Home Assistant Marketplace and the HTBW
-Voice Evidence Home Assistant App. Their presence does not mean HTBW has reached a public preview or
-supported release.
+You may see installable artifacts such as BehavesWell Core (formerly HTBW Core) in the Home Assistant
+Marketplace and the HTBW Voice Evidence Home Assistant App. Their presence does not mean HTBW has
+reached a public preview or supported release.
 
 Current builds are used only for controlled development and acceptance testing in the HTBW Reference
 Home. Interfaces, configuration, persistence, data models, migration behavior, and installation
@@ -52,7 +67,7 @@ This repository also ships two separately versioned Home Assistant components:
 
 | Component | Install with | Requires |
 |---|---|---|
-| **HTBW Integration** — `custom_components/htbw`, shown as **HTBW Core** | **Home Assistant Marketplace** (add this repository as an Integration) | Home Assistant 2026.11.0+ |
+| **BehavesWell Core, Home Assistant Edition** — Home Assistant integration `custom_components/htbw` (domain `htbw`), shown in Home Assistant as **BehavesWell Core** (formerly HTBW Core) | **Home Assistant Marketplace** (add this repository as an Integration) | Home Assistant 2026.11.0+ |
 | **HTBW Voice Evidence App** — `apps/htbw_voice_evidence`, optional, experimental | **Settings > Apps** (add this repository as an app repository) | Supervisor; amd64 or aarch64 |
 
 The Marketplace installs only the Integration; the app store installs only the App. Neither installs
@@ -71,17 +86,20 @@ Security reporting: [SECURITY.md](SECURITY.md).
 
 ## The framework
 
-HTBW Core is defined by **seven responsibilities**, in framework order.
+**The BehavesWell Framework consists of six stages: Truth, Identity, Operational Trust, Stewardship,
+Continuity, and Concierge. BehavesWell Core applies those six stages over a Layer 0 Foundation
+supplied by the implementation platform. Foundation is part of the complete BehavesWell Core
+architectural stack, but it is not a seventh stage of the BehavesWell Framework.** (**DL-153**)
 
-| # | Responsibility | Question |
+| Layer | Stage or substrate | Question |
 |---|---|---|
-| 1 | **Foundation** | What exists, and how do we describe it? |
-| 2 | **Stewardship** | What matters, and what must be cared for? |
-| 3 | **Identity** | Who do we believe this is? |
-| 4 | **Truth** | What is actually true now? |
+| 6 | **Concierge** | What should happen now? |
 | 5 | **Continuity** | What should be remembered, resumed, or transferred? |
-| 6 | **Operational Trust** | What is allowed? |
-| 7 | **Concierge** | What should happen now? |
+| 4 | **Stewardship** | What matters, and what must be cared for? |
+| 3 | **Operational Trust** | What is allowed? |
+| 2 | **Identity** | Who do we believe this is? |
+| 1 | **Truth** | What is actually true now? |
+| 0 | **Foundation** — Layer 0, the platform substrate (Home Assistant, in the current edition) | What platform model and native capabilities provide the substrate? |
 
 Two things are deliberately **not** layers:
 
@@ -104,8 +122,10 @@ Full definition: [docs/architecture/north-star.md](docs/architecture/north-star.
 
 ## Constitutional refoundation
 
-This repository was refounded on the seven-responsibility framework. The refoundation superseded the
-earlier **four-service platform model** (Foundation, Asset Intelligence, Voice Identity, Concierge).
+This repository was refounded on the seven-responsibility framework — now read as the seven-layer
+BehavesWell Core stack, Layer 0 Foundation plus six Framework stages (**DL-153**). The refoundation
+superseded the earlier **four-service platform model** (Foundation, Asset Intelligence, Voice
+Identity, Concierge).
 
 | Previously asserted | Current disposition |
 |---|---|
@@ -133,13 +153,13 @@ no compatibility requirement for any of them. A household's existing Asset Intel
 
 ```mermaid
 flowchart TD
-    F["1 Foundation<br/>What exists?"]
-    S["2 Stewardship<br/>What matters?"]
-    I["3 Identity<br/>Who is this?"]
-    T["4 Truth<br/>What is true now?"]
+    F["0 Foundation<br/>Platform substrate"]
+    S["4 Stewardship<br/>What matters?"]
+    I["2 Identity<br/>Who is this?"]
+    T["1 Truth<br/>What is true now?"]
     K["5 Continuity<br/>What is remembered?"]
-    O["6 Operational Trust<br/>What is allowed?"]
-    C["7 Concierge<br/>What should happen?"]
+    O["3 Operational Trust<br/>What is allowed?"]
+    C["6 Concierge<br/>What should happen?"]
 
     F --> S
     F --> I
@@ -205,7 +225,7 @@ See [docs/architecture/home-assistant-boundary.md](docs/architecture/home-assist
 **Start here:**
 
 1. [docs/architecture/north-star.md](docs/architecture/north-star.md) — the constitution
-2. [docs/architecture/framework.md](docs/architecture/framework.md) — the seven responsibilities in full
+2. [docs/architecture/framework.md](docs/architecture/framework.md) — Layer 0 Foundation and the six Framework stages in full
 3. [docs/models/glossary.md](docs/models/glossary.md) — canonical terminology
 4. [docs/architecture/principles.md](docs/architecture/principles.md) — P1–P26
 
@@ -251,7 +271,7 @@ See [docs/architecture/home-assistant-boundary.md](docs/architecture/home-assist
 
 | Path | Contents |
 |---|---|
-| `custom_components/htbw/` | The HTBW Home Assistant Integration (household entry with Room subentries) |
+| `custom_components/htbw/` | BehavesWell Core, Home Assistant Edition — the Home Assistant integration, domain `htbw` (household entry with Room subentries) |
 | `apps/htbw_voice_evidence/` | The external HTBW Voice Evidence Home Assistant App (separate runtime; communicates with the Integration only through the #161 contracts; independently versioned) |
 | `repository.yaml` | Home Assistant App repository manifest for installing the App through Supervisor |
 | `hacs.json` | Home Assistant Marketplace metadata for installing the Integration |
@@ -270,16 +290,20 @@ See [docs/architecture/home-assistant-boundary.md](docs/architecture/home-assist
 
 ---
 
-## Related project: Home Steward
+## Related project: BehavesWell Extended Intelligence (formerly Home Steward)
 
-[Home Steward](https://github.com/Homes-That-Behave-Well-LLC/home_steward) is the separately
-governed private household intelligence capability associated with Homes That Behave Well.
+[BehavesWell Extended Intelligence](https://github.com/Homes-That-Behave-Well-LLC/home_steward) —
+the product previously named Home Steward (**DL-131**, renamed by **DL-153**) — is a separately governed,
+independently installed product for private, local reasoning across explicitly authorized household
+sources. It is not a Framework stage and not Stewardship. "Extended" extends authorized reasoning
+context, never operational authority. Its repository keeps its current name and identifiers.
 
 HTBW governs what is true, who is engaging, what matters, what context applies, what is permitted,
-and what should happen. Home Steward adds retrieval, synthesis, reasoning, and conversational
-exploration over household-authorized knowledge without becoming authoritative for these responsibilities.
+and what should happen. BehavesWell Extended Intelligence adds retrieval, synthesis, reasoning, and
+conversational exploration over household-authorized knowledge without becoming authoritative for
+these responsibilities.
 
-Home Steward is designed to operate above a household-controlled private-AI platform connected
+It is designed to operate above a household-controlled private-AI platform connected
 to HTBW through governed local interfaces.
 
 ---
@@ -495,3 +519,14 @@ believed, what it did, what it did not do, and why.
 The goal is not merely to automate devices.
 
 The goal is to create a home that understands context, behaves predictably, and explains itself clearly.
+
+---
+
+## Names and notices
+
+*BehavesWell © Core* and *BehavesWell © Extended Intelligence* are the Owner's formal branded
+notations for the products named **BehavesWell Core** and **BehavesWell Extended Intelligence**. They are
+not legal notices, and no trademark or other legal status is asserted by them. Technical identifiers
+(`htbw`, `htbw_voice_evidence`, and the others listed in DL-153) never carry them.
+
+© 2026 Homes That Behave Well LLC

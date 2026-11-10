@@ -1,6 +1,6 @@
 {
   "domain": "htbw",
-  "name": "HTBW Core",
+  "name": "BehavesWell Core",
   "after_dependencies": ["hassio"],
   "codeowners": ["@tom-tagmdl"],
   "config_flow": true,

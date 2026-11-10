@@ -35,6 +35,14 @@ The seven responsibilities, their order, and the questions they answer. Recorded
 [../architecture/north-star.md](../architecture/north-star.md). Nothing in this repository may
 contradict it.
 
+> **Annotated 2026-11-10 by DL-153 (Issue #214).** The framework at this rank is the **BehavesWell
+> Framework** of **six stages** — Truth, Identity, Operational Trust, Stewardship, Continuity, Concierge
+> — applied by **BehavesWell Core** over **Layer 0 Foundation**. The "seven responsibilities" above are
+> the seven layers of the BehavesWell Core architectural stack; Foundation is not a Framework stage.
+> Public BehavesWell material remains public evidence and does not outrank this repository; DL-153
+> records the reconciliation. See
+> [../architecture/adr-behaveswell-framework-foundation-core-edition-and-context-identity.md](../architecture/adr-behaveswell-framework-foundation-core-edition-and-context-identity.md).
+
 ### 2. Constitutional decisions
 
 The decisions made during the refoundation itself — the supersession of the four-service model, Truth
@@ -96,7 +104,9 @@ the work has got. The identifier-to-issue mapping is
 These bind regardless of rank:
 
 - The framework is **vendor-agnostic**; Home Assistant is the first implementation environment, not a
-  constraint on the architecture.
+  constraint on the architecture. **DL-153** states the scope of each name: the **BehavesWell
+  Framework** is platform-neutral; **BehavesWell Core, Home Assistant Edition** is Home Assistant-first
+  and extends Home Assistant; no other edition is authorized.
 - **Product disposition is stated per product, never for the portfolio** (**DL-51**). **Asset
   Intelligence** remains a **separate released product** with its own lifecycle, and **HTBW must never
   require it to be installed**. The standalone **Voice Identity** and **Concierge** integrations will

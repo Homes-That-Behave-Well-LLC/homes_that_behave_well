@@ -3,8 +3,9 @@
 > **Development runtime only.** Not ready for household enrollment or production biometric use. See
 > [DOCS.md](DOCS.md).
 
-Local voice-evidence runtime for Homes That Behave Well. Runs as a Home Assistant App
-(formerly add-on) next to Home Assistant and serves only the HTBW integration.
+Local voice-evidence runtime for BehavesWell Core, Home Assistant Edition (integration domain
+`htbw`, formerly presented as HTBW Core). Runs as a Home Assistant App (formerly add-on) next to
+Home Assistant and serves only that integration.
 
 Version 0.1.0 is the Phase 2 runtime foundation (issue #162): packaging, bearer
 authentication, Supervisor discovery provisioning, Contract A status/health, pinned model

@@ -1,7 +1,8 @@
 # HTBW in Home Assistant: install, set up, use, and remove
 
 > **Document status: Operational — household administrator documentation.**
-> Describes the shipped HTBW Integration and HTBW Voice Evidence App. Creates no architecture
+> Describes the shipped BehavesWell Core integration (Home Assistant Edition, domain `htbw`; formerly
+> HTBW Core) and the HTBW Voice Evidence App. Creates no architecture
 > authority; where it differs from canon, [../governance/authority-order.md](../governance/authority-order.md)
 > decides. Distribution and quality tracking:
 > [../governance/home-assistant-quality.md](../governance/home-assistant-quality.md).
@@ -15,11 +16,13 @@ This guide is for the person who administers Home Assistant for a household.
 ## What HTBW is
 
 Homes That Behave Well (HTBW) is a framework for a home that is calm, predictable, and able to explain
-itself. In Home Assistant it ships as two separate components:
+itself. Its software product is **BehavesWell Core, Home Assistant Edition** — the governed
+implementation of the six-stage BehavesWell Framework that extends Home Assistant. It was formerly
+presented as *HTBW Core*. In Home Assistant it ships as two separate components:
 
 | Component | What it does | How you install it |
 |---|---|---|
-| **HTBW Integration** (`htbw`, shown as **HTBW Core**) | Holds your household's HTBW configuration and its **Rooms**. Each Room records which Home Assistant entities and devices act as its voice input, spoken response output, interface, and physical remote. | **Home Assistant Marketplace** |
+| **BehavesWell Core** (the Home Assistant integration, domain `htbw`; formerly shown as **HTBW Core**) | Holds your household's HTBW configuration and its **Rooms**. Each Room records which Home Assistant entities and devices act as its voice input, spoken response output, interface, and physical remote. | **Home Assistant Marketplace** |
 | **HTBW Voice Evidence App** | Optional. A local voice-evidence runtime that will create and compare Voiceprints. Version 0.1.0 is a foundation: it installs, secures itself, connects to the Integration, and verifies its speaker model. Enrollment and voice comparison are not available yet. | **Settings > Apps**, as an app repository |
 
 The Integration works without the App. The two are versioned and updated independently. Installing
@@ -54,7 +57,8 @@ HTBW is not in the Marketplace catalog yet, so add the repository from its link:
 
 1. Open the link above. Home Assistant offers to add the repository to the Marketplace as a custom
    repository of category **Integration**. Accept.
-2. Select **Download** to install **HTBW Core**.
+2. Select **Download** to install **BehavesWell Core**. (Installations made before the rename show the
+   same integration; only its displayed name changed, from HTBW Core. Nothing needs to be reinstalled.)
 3. Continue with [Set up HTBW](#set-up-htbw). No restart is needed for the first install.
 
 Do not install HTBW through the HACS custom integration on Home Assistant 2026.10 or earlier: this
@@ -81,7 +85,7 @@ The App is built on your device the first time, which can take several minutes. 
 
 ### The household entry
 
-Add the **HTBW Core** integration under **Settings** > **Devices & services** > **Add integration**,
+Add the **BehavesWell Core** integration under **Settings** > **Devices & services** > **Add integration**,
 or confirm the discovered App. Either way creates the single household HTBW entry. A second household
 entry cannot be created.
 
@@ -312,9 +316,9 @@ secrets, or unredacted household identifiers.
 
 **Integration**
 
-1. Under **Settings** > **Devices & services**, open **HTBW Core** and delete the household entry. This
+1. Under **Settings** > **Devices & services**, open **BehavesWell Core** and delete the household entry. This
    removes its Rooms. Your entities, devices, and Areas are untouched.
-2. In the Marketplace, open **HTBW Core** and select **Remove**. Restart Home Assistant when the
+2. In the Marketplace, open **BehavesWell Core** and select **Remove**. Restart Home Assistant when the
    Marketplace asks.
 
 **App**

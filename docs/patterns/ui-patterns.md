@@ -7,7 +7,7 @@
 > **Known stale terminology, not yet fully reconciled (tracked, not silently fixed):** this document
 > predates several since-accepted decisions. "Composite Room"/"composite tile" (§23) is superseded
 > terminology — the accepted term is **Merged Room** (**DL-67**, **DL-68**); "Global Context" (§18) and
-> "Alerts" predate the current seven-responsibility vocabulary and should be read against
+> "Alerts" predate the current Framework vocabulary (six stages over Layer 0 Foundation, **DL-153**) and should be read against
 > [../architecture/htbw-framework-aligned-ux-and-information-architecture.md](../architecture/htbw-framework-aligned-ux-and-information-architecture.md)'s
 > Subject/Perspective/Scope/Filter/Surface vocabulary (§9 there) rather than taken as a competing model.
 > A full terminology pass is follow-on work (see that document's final report, item H), not performed
@@ -791,11 +791,17 @@ integrators through the same progressively-disclosed path (§3; the UX document'
 Extends §8's existing two-layer model (Layer 1: Native entity/sensor icons; Layer 2: System
 signal/context/interaction icons) with a third, explicitly separate layer:
 
-- **Layer 3: Framework** — the seven canonical responsibility icons (Foundation, Identity, Truth,
-  Operational Trust, Stewardship, Continuity, Concierge) and genuinely HTBW-specific semantic icons.
+- **Layer 3: Framework** — the six canonical BehavesWell Framework stage icons (Truth, Identity,
+  Operational Trust, Stewardship, Continuity, Concierge), a distinguishable **Layer 0 Foundation**
+  treatment (the platform substrate, not a seventh stage — **DL-153**), and genuinely HTBW-specific
+  semantic icons. Product marks (BehavesWell Core, Voice Evidence, BehavesWell Extended Intelligence)
+  and the Homes That Behave Well house mark are **not** Layer 3 icons.
   See [../architecture/htbw-framework-aligned-ux-and-information-architecture.md](../architecture/htbw-framework-aligned-ux-and-information-architecture.md)
-  §24 — **this iconography does not yet exist and is tracked as follow-on design work, not produced
-  by this edit.**
+  §24 and Issue **#202** — **this iconography does not yet exist and is tracked as follow-on design
+  work, not produced by this edit.**
+
+> *Icon-layer numbering here (Layers 1–3) is the iconography model, unrelated to the Layer 0–6
+> BehavesWell Core architectural stack.*
 
 Layers 1 and 2 are never redesigned for Framework branding; Layer 3 never redesigns a standard Home
 Assistant interaction icon merely for visual consistency.

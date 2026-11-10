@@ -24,6 +24,11 @@ This document is architecture and documentation only. It is:
 - **not** a Decision Ledger entry and **not** a new ADR. No material architectural decision not
   already governed by the Decision Ledger is made here (§14).
 
+> **Reconciled 2026-11-10 with DL-153.** The Framework is six stages over Layer 0 Foundation; the product
+> is **BehavesWell Core, Home Assistant Edition**; Homes That Behave Well is the residential context.
+> "HTBW" in this document is pre-DL-153 shorthand. See
+> [adr-behaveswell-framework-foundation-core-edition-and-context-identity.md](adr-behaveswell-framework-foundation-core-edition-and-context-identity.md).
+
 Where the direction requested of this document conflicted with accepted architecture, the conflict is
 surfaced rather than silently resolved (§4, §14).
 
@@ -120,33 +125,36 @@ documentation and copy:
 
 ## 5. BWF as the primary HTBW navigation model
 
-The seven responsibilities and the question each answers are already constitutional
-([north-star.md](north-star.md) §"The Question Each Responsibility Answers"):
+> **Reconciled 2026-11-10 by DL-153.** The previous version of this section presented seven
+> responsibilities in the pre-DL-153 order (Foundation, Stewardship, Identity, Truth, Continuity,
+> Operational Trust, Concierge) as "the framework order". That is now historical presentation.
 
-| # | Responsibility | Question |
+The **BehavesWell Framework** has **six stages**, applied by BehavesWell Core over **Layer 0
+Foundation** ([north-star.md](north-star.md); **DL-153**). Together they form the seven-layer
+BehavesWell Core architectural stack:
+
+| Layer | Stage or substrate | Question |
 |---|---|---|
-| 1 | Foundation | What exists, and how do we describe it? |
-| 2 | Stewardship | What matters, and what must be cared for? |
-| 3 | Identity | Who do we believe this is? |
-| 4 | Truth | What is actually true now? |
+| 6 | Concierge | What should happen now? |
 | 5 | Continuity | What should be remembered, resumed, or transferred? |
-| 6 | Operational Trust | What is allowed? |
-| 7 | Concierge | What should happen now? |
+| 4 | Stewardship | What matters, and what must be cared for? |
+| 3 | Operational Trust | What is allowed? |
+| 2 | Identity | Who do we believe this is? |
+| 1 | Truth | What is actually true now? |
+| 0 | **Foundation** (Layer 0 — not a Framework stage) | What platform model and native capabilities provide the substrate? |
 
-This is the **framework order** — "how the framework is taught, assessed, and presented"
-(north-star.md). It is distinct from the dependency order ([dependency-view.md](dependency-view.md))
-and the runtime sequence ([runtime-sequence.md](runtime-sequence.md)), and **must not be reordered**
-to match either.
+The six-stage order — **Truth, Identity, Operational Trust, Stewardship, Continuity, Concierge** — is
+the **Framework stage order**: "how the framework is taught, assessed, and presented" (north-star.md).
+It is distinct from the dependency order ([dependency-view.md](dependency-view.md)) and the runtime
+sequence ([runtime-sequence.md](runtime-sequence.md)), and **must not be reordered** to match either.
 
-**Correction to the originally proposed landing-page stack.** A visual ordering of
-`Concierge / Continuity / Stewardship / Operational Trust / Identity / Truth / Foundation` (Concierge
-at the top, Foundation at the base) was proposed as the HTBW landing-page presentation. That sequence
-is neither the framework order nor its reverse (the reverse of the canonical order is `Concierge,
-Operational Trust, Continuity, Truth, Identity, Stewardship, Foundation`). A landing page **may**
-present the seven responsibilities as a stack with Concierge visually uppermost and Foundation
-visually foundational — a legitimate presentation metaphor — but it must use the canonical order or
-its exact reverse, not a new sequence. Using the canonical order's reverse for the landing page is the
-recommended direction here; it changes presentation only, never the taught/assessed framework order.
+**Landing-page stack.** A landing page **may** present the seven-layer stack vertically, with
+Concierge at the top and Foundation at the bottom, exactly as the table above shows. This is now the
+canonical vertical presentation (**DL-153**), not a new sequence. Foundation must remain visibly
+distinguishable as Layer 0, the substrate, rather than a seventh stage. The earlier correction recorded
+here — rejecting `Concierge / Continuity / Stewardship / Operational Trust / Identity / Truth /
+Foundation` because it matched neither the pre-DL-153 order nor its reverse — is superseded. That
+sequence is the DL-153 stack read top to bottom.
 
 The HTBW landing page should function as framework navigation, an explanation of the architecture, and
 access to layer-specific views and commissioning — not as a store of completion percentages without
@@ -263,8 +271,8 @@ already exist, and it must be read as mapping onto them, never duplicating or su
 
 | UX term | Maps onto existing governed concept |
 |---|---|
-| **Subject** | The governed record a view is about — Home, Room, Merged Room, Person, Asset (Foundation), Stewardship obligation, Domain Event — already defined by Foundation's object-type ownership (framework.md §1) |
-| **Perspective** | The BWF responsibility supplying the answer (Foundation/Truth/Identity/Operational Trust/Stewardship/Continuity/Concierge) — already the framework order (§5) |
+| **Subject** | The governed record a view is about — Home, Room, Merged Room, Person, Asset (Foundation), Stewardship obligation, Domain Event — already defined by Foundation's object-type ownership (framework.md, Layer 0 — Foundation) |
+| **Perspective** | The Layer 0 Foundation substrate or the BWF stage supplying the answer (Foundation; then Truth/Identity/Operational Trust/Stewardship/Continuity/Concierge) — the DL-153 stack order (§5) |
 | **Scope** | Room/Floor/Merged Room/whole-household context — already resolved by Concierge's existing local-first contextual resolution ([context-before-intent.md](context-before-intent.md)) and by [capability-projection-contract.md](../contracts/capability-projection-contract.md)'s room/area/floor/household-wide visibility tiers |
 | **Filter** | Category/status/time-range/attention-state narrowing — already the kind of narrowing [capability-projection-contract.md](../contracts/capability-projection-contract.md) and the (historical, superseded-by-experience-and-session) experience-projection model perform for visibility/availability |
 | **Presentation Surface** | Where the result is rendered — already the governed **Delivery Surface** abstraction ([../models/communication.md](../models/communication.md)): "a governed abstraction of a place through which delivery may occur," declaring supported modality, interactivity, and persistence, with **no surface catalogue** (by design, per **P31**) |
@@ -366,9 +374,10 @@ Asset Intelligence Adoption), it explicitly defers to **OD-85** (§7).
 The direction — Behaves Well Framework (methodology) → Household & Space Outcomes Workbook (household
 outcomes) → HTBW UI (governed operational configuration organized by the framework) → Home Assistant
 (platform mechanics) → the lived Home (outcome) — is affirmed as the organizing principle for HTBW's
-UX. It does not change any responsibility's ownership; it states that the same seven-responsibility
-language used to teach the methodology should organize the software, consistent with
-[north-star.md](north-star.md)'s statement that "the framework is the constitution."
+UX. It does not change any responsibility's ownership; it states that the same six-stage Framework
+language (over Layer 0 Foundation, **DL-153**) used to teach the methodology should organize the
+software, consistent with [north-star.md](north-star.md)'s statement that "the framework is the
+constitution."
 
 ## 17. Josh.ai observations — disposition
 
@@ -391,12 +400,13 @@ reconciled against existing architecture, are retained.
 ## 18. Primary application navigation — subject-first, Framework within
 
 **This document's §5 "BWF as the primary HTBW navigation model" is clarified, not reversed, by this
-section.** Reconciling both: the HTBW landing page may present the seven responsibilities as a
-framework overview and explainer, per §5, as one legitimate entry point. **The persistent application
-navigation that the resident and integrator use for ordinary commissioning work is subject-first**:
+section.** Reconciling both: the HTBW landing page may present the seven-layer BehavesWell Core stack
+(Layer 0 Foundation plus the six Framework stages) as a framework overview and explainer, per §5, as
+one legitimate entry point. **The persistent application navigation that the resident and integrator
+use for ordinary commissioning work is subject-first**:
 
 ```
-[HTBW branding]
+[Product branding — BehavesWell Core mark pending #202; current integration icon is transitional]
 Home
 People
 Places
@@ -412,12 +422,13 @@ The conceptual model is **Subject → Framework responsibility → specific conf
 example `People > Tom > Identity > Voice Enrollment`, `Places > Den > Foundation > Voice Input`,
 `Assets > A.B. Chase Piano > Stewardship > Environmental Care`. **The Framework provides the
 architectural organization within a selected subject; it is not itself the primary navigation rail.**
-This does not reopen or contradict §5's framework-order rule (Foundation → Stewardship → Identity →
-Truth → Continuity → Operational Trust → Concierge must still never be reordered) — it states that
-*where* that order is applied is within a subject, not as the top-level navigation structure.
+This does not reopen or contradict §5's order rule (Layer 0 Foundation, then Truth → Identity →
+Operational Trust → Stewardship → Continuity → Concierge, **DL-153**, must never be reordered) — it
+states that *where* that order is applied is within a subject, not as the top-level navigation
+structure.
 
 **People, Places, and Assets are the three dominant commissioning subjects**, already grounded in
-existing object-type ownership (framework.md §1; [../models/asset.md](../models/asset.md);
+existing object-type ownership (framework.md, Layer 0 — Foundation; [../models/asset.md](../models/asset.md);
 [room.md](../models/room.md)): People ("who does the Home serve?"), Places ("where does the Home
 understand and act?" — broader than traditional Rooms, consistent with the already-accepted Room/
 Merged Room/Physical Room model, [room-configuration.md](../models/room-configuration.md)), and Assets
@@ -583,19 +594,32 @@ governing principle only.**
 ## 24. Brand, visual system, and Framework iconography
 
 **Genuinely new requirement — not yet satisfied by any existing repository artifact.** No canonical
-Framework iconography (one icon per responsibility: Foundation, Identity, Truth, Operational Trust,
-Stewardship, Continuity, Concierge) and no documented HTBW semantic-icon system were found anywhere in
-this repository. This is recorded as a **follow-on requirement** (§26, item H), not invented here —
-producing the actual iconography is a design deliverable, not an architecture decision, and is out of
-scope for this document. The governing principles, reusing `ui-patterns.md`'s existing Iconography
+Framework iconography and no documented HTBW semantic-icon system were found anywhere in this
+repository. This is recorded as a **follow-on requirement** (§26, item H; Issue **#202**), not invented
+here — producing the actual iconography is a design deliverable, not an architecture decision, and is
+out of scope for this document.
+
+**Visual ontology (DL-153).** The visual system must keep six things distinct:
+
+| # | Layer of meaning | Governed treatment |
+|---|---|---|
+| 1 | **Subject navigation** — People, Places, Assets | Derived from and visually compatible with Home Assistant |
+| 2 | **Layer 0 Foundation** | Platform substrate (current provider: Home Assistant). **Not a Framework stage**, but part of the BehavesWell Core stack. May be visually compatible with the Interlock system; its semantic role must stay distinguishable from the six stages |
+| 3 | **Six BehavesWell Framework stages** — Truth, Identity, Operational Trust, Stewardship, Continuity, Concierge | The Interlock stage icons; semantic architecture icons, never product logos |
+| 4 | **BehavesWell Core product identity** | Environment- and platform-neutral mark shared across editions. **Not** the Homes That Behave Well house, **not** an Interlock stage block, **not** a seventh stage. **Pending #202 design and Owner acceptance.** The current integration icon is a **legacy/transitional** artifact until then |
+| 5 | **Homes That Behave Well context identity** | The existing architectural-house mark remains the residential ecosystem's mark. It is not redesigned and not assigned to BehavesWell Core |
+| 6 | **Independent products** | Their own identities: **Voice Evidence is not Identity** (environment-neutral mark pending #202); **BehavesWell Extended Intelligence** (formerly Home Steward) is not Stewardship, Concierge, Home Intelligence, or a Framework stage |
+
+No final mark is created or approved by this document. The governing principles, reusing `ui-patterns.md`'s existing Iconography
 section (which already separates "Layer 1: Native" entity/sensor icons from "Layer 2: System"
 signal/context/interaction icons) and extending it with a third, explicitly Framework-branded layer:
 
 - **"Brand the concepts. Keep platform interactions native."** Framework iconography is reserved for
-  the seven responsibility concepts and genuinely HTBW-specific semantics; standard Home Assistant
-  interaction icons (edit, delete, settings, expand, navigation, device/entity concepts) are never
-  redesigned for branding.
-- **Color is punctuation, not the primary information model.** The seven Framework layers are not
+  the six Framework stage concepts, the Layer 0 Foundation treatment, and genuinely HTBW-specific
+  semantics; standard Home
+  Assistant interaction icons (edit, delete, settings, expand, navigation, device/entity concepts) are
+  never redesigned for branding.
+- **Color is punctuation, not the primary information model.** The six Framework stages are not
   rendered as seven loud colors; `ui-patterns.md`'s existing status-color semantics (§9 cross-
   reference: context/normal/warning/critical/unknown) are a **different dimension** from any Framework-
   layer signature treatment and must not be confused with it.

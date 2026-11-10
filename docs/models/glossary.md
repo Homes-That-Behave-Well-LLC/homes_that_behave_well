@@ -760,7 +760,18 @@ redefined by Home Steward's acceptance. Ordinary questions about governed operat
 directly and are not routed to Home Steward merely because Home Steward exists.
 ADR: [../architecture/adr-home-identity-and-home-intelligence-governance.md](../architecture/adr-home-identity-and-home-intelligence-governance.md)
 
-**Home Steward**
+**BehavesWell Extended Intelligence** (formerly **Home Steward**)
+**Successor public product name, DL-153 (2026-11-10, Issue #214), for the product DL-131 accepted as
+Home Steward** — one product renamed, not a second product. An **independent, separately installed**
+product for private/local reasoning across explicitly authorized sources. **It is not a BehavesWell
+Framework stage, not Layer 0 Foundation, not part of BehavesWell Core, not an Edition, not Stewardship,
+not Concierge, not Home Intelligence, and not General Reasoning.** *"Extended"* describes extension of
+authorized **reasoning context**, never of operational authority: connecting more sources grants no
+additional authority, and Operational Trust and every other governed authorization boundary continue to
+apply. Formal branded notation: **BehavesWell © Extended Intelligence** (never in an identifier). The
+Home Steward repository and its technical identifiers are **not** renamed by DL-153. The accepted
+definition below is DL-131's, recorded under the former name and unchanged in substance:
+
 **Accepted 2026-11-05 (Issue #206, Governance Review, formal acceptance review PASS).** (**DL-131**)
 HTBW's locally governed AI knowledge assistant: it reasons over HTBW/Home Intelligence context
 supplied through governed boundaries plus additional household knowledge the household has explicitly
@@ -780,7 +791,12 @@ current **intent**, consent, confirmation, or authorization absent separate, exp
 No currently accepted HTBW responsibility (Stewardship, calendar, Asset documents, email, Identity,
 Operational Trust, Concierge, etc.) is transferred to Home Steward by this acceptance; a capability may
 be HTBW-owned and Home-Steward-enhanced without becoming Home-Steward-owned.
-ADR: [../architecture/adr-home-steward-product-boundary.md](../architecture/adr-home-steward-product-boundary.md)
+ADR: [../architecture/adr-home-steward-product-boundary.md](../architecture/adr-home-steward-product-boundary.md),
+[../architecture/adr-behaveswell-framework-foundation-core-edition-and-context-identity.md](../architecture/adr-behaveswell-framework-foundation-core-edition-and-context-identity.md)
+
+**Home Steward**
+The **former/working name** of **BehavesWell Extended Intelligence** (**DL-153**); see that entry. Retained
+in historical text (DL-131, its ADR) and in that product's repository identifiers. Not a separate product.
 
 ---
 
@@ -2132,7 +2148,14 @@ The responsibility that answers *who do we believe this is?*
 The responsibility that answers *what is actually true now?*
 
 **Foundation**
-The responsibility that answers *what exists, and how do we describe it?*
+**Layer 0** of the BehavesWell Core architectural stack — the platform substrate on which the six
+BehavesWell Framework stages are applied. **Foundation is not a Framework stage** (**DL-153**). It
+answers *what platform model and native capabilities provide the substrate on which BehavesWell Core
+applies the Framework?*, and guarantees to the six stages *what exists, and how we describe it*. In the
+current edition, Home Assistant supplies the native substrate, and Foundation's governed models (Room
+Configuration, Contextual Vocabulary, the asset, temporal, and communication models) are BehavesWell
+Core's Layer 0 extensions of it. Every previously accepted Foundation ownership is unchanged.
+Contract: [../contracts/foundation-contract.md](../contracts/foundation-contract.md)
 
 **Home Production (HA-Prod)**
 The governed trust/residency boundary within which a household's live production processing and
@@ -2168,6 +2191,88 @@ Model: [person-and-identity.md](person-and-identity.md), [identity-contract.md](
 
 ---
 
+## BehavesWell Framework, Core, Edition, and context
+
+Defined by **DL-153**
+([../architecture/adr-behaveswell-framework-foundation-core-edition-and-context-identity.md](../architecture/adr-behaveswell-framework-foundation-core-edition-and-context-identity.md)).
+
+**BehavesWell**
+The overarching brand for the platform-neutral Framework and the products that implement or extend it.
+It names no responsibility, layer, or object.
+
+**BehavesWell Framework**
+The platform-neutral behavioral architecture of **six stages**, in Framework stage order: **Truth,
+Identity, Operational Trust, Stewardship, Continuity, Concierge**. *"The BehavesWell Framework consists
+of six stages … BehavesWell Core applies those six stages over a Layer 0 Foundation supplied by the
+implementation platform. Foundation is part of the complete BehavesWell Core architectural stack, but it
+is not a seventh stage of the BehavesWell Framework."* Variants *BWF*, *Behaves Well Framework*, and
+*Behaves Well Framework™* refer to it. Human Trust is its outcome, not a stage.
+
+**Framework stage**
+One of the six BehavesWell Framework stages. Each stage is also an architectural **responsibility** with
+an owner, contract, and models; *stage* names its place in the Framework, *responsibility* its ownership
+boundary. The **Framework stage order** is how the Framework is taught, assessed, and presented. It is
+distinct from the dependency view and the runtime sequence and is never reordered to match them.
+
+**Layer 0**
+The bottom layer of the BehavesWell Core architectural stack: **Foundation**, supplied by the
+implementation platform and natively extended by BehavesWell Core. Not a Framework stage.
+
+**BehavesWell Core architectural stack**
+The **seven layers** of a complete BehavesWell Core implementation, bottom to top: **0 Foundation,
+1 Truth, 2 Identity, 3 Operational Trust, 4 Stewardship, 5 Continuity, 6 Concierge** — Layer 0 plus the
+six Framework stages. This is what **DL-01** historically called "seven responsibilities."
+
+**BehavesWell Core**
+The **product**: the governed software implementation of the BehavesWell Framework over an eligible
+Layer 0 Foundation. One product identity across editions; not the Framework, not a stage or layer, not
+tied permanently to one environment type, and not the owner of every BehavesWell-related product.
+Formerly presented publicly as **HTBW Core**. Formal branded notation: **BehavesWell © Core** (never in
+an identifier or a Home Assistant-native searchable name).
+
+**Edition**
+The designation of the Layer 0 Foundation platform on which BehavesWell Core runs. Editions share the
+BehavesWell Core product identity; edition-specific behavior is governed separately per edition. Only one
+edition exists. Other platforms (for example Josh.ai, Control4, Homey) are illustrative only — no other
+edition is authorized, available, or committed.
+
+**BehavesWell Core, Home Assistant Edition**
+The current and only edition: BehavesWell Core over a Home Assistant Layer 0 Foundation. It extends Home
+Assistant and does not replace it; Home Assistant remains authoritative for its native concepts,
+registries, interaction patterns, and platform mechanics. Public language spells out "Home Assistant";
+"HA Edition" is never the primary public name. Its Home Assistant integration domain remains `htbw`.
+
+**Homes That Behave Well**
+The **residential context ecosystem**: the residential problem, research, education, evidence,
+storytelling, and lived-outcome work (the Reference Home, scenarios, articles, YouTube, Substack,
+workbooks, research journals, residential guidance). It discovers, teaches, tests, and socializes
+residential questions and outcomes. **It is not the name of BehavesWell Core** and is not a software
+integration. Its architectural-house mark is its own context identity. *Homes That Behave Well LLC* is the
+legal entity.
+
+**HTBW**
+Abbreviation of **Homes That Behave Well**. In architecture documents written before **DL-153** it is also
+shorthand for the governed architecture and its implementation. Read it as BehavesWell Core (Home
+Assistant Edition) applying the Framework where it names software behavior, and as Homes That Behave
+Well where it names the residential context. Not a product name. Stable technical identifiers (`htbw`,
+`HTBW/`) keep it permanently.
+
+**HTBW Core** (historical)
+The pre-**DL-153** name used both for the seven-responsibility architecture (**DL-01**) and for the Home
+Assistant integration's display name. Retained in historical text, never rewritten. Current readings:
+the architecture is the **BehavesWell Core architectural stack**; the product is **BehavesWell Core,
+Home Assistant Edition**.
+
+**Product, responsibility, and context**
+Three distinct kinds of thing that must never be conflated. A **product** is something installed or
+released (BehavesWell Core; HTBW Voice Evidence; BehavesWell Extended Intelligence; Asset Intelligence).
+A **responsibility** is an ownership boundary — Layer 0 Foundation or one of the six Framework stages. A
+**context** is an environment class in which the Framework is researched and applied (Homes That Behave
+Well). A product may sunset while a responsibility is unchanged (**DL-51**), and a product name is never
+a responsibility name (*BehavesWell Extended Intelligence* is not *Stewardship*).
+
+---
+
 ## Products versus responsibilities
 
 Several names in this repository refer to **repositories and released products**, not to HTBW Core
@@ -2178,6 +2283,12 @@ responsibilities. The distinction matters, because the same word appears in both
 | **Voice Identity** | A real, separately released Home Assistant integration. It remains a valid repository, deployment unit, and governance subject for cross-repo work. | **Superseded.** There is no "Voice Identity" layer in HTBW Core. The responsibility is **Identity**, and voice is one evidence source among many. |
 | **Asset Intelligence** | A real, separately released Home Assistant integration; a **predecessor product**, not an earlier version of the same product. | **Not a layer, and not a runtime evidence source or dependency, mandatory or optional (DL-121).** Foundation owns the descriptive asset model; Stewardship owns obligations. Asset Intelligence is solely an **optional predecessor-product migration source**, adopted once under **DL-52**/**DL-110**. |
 | **Concierge** | A real, separately released Home Assistant integration. | Also a genuine HTBW Core responsibility — *what should happen now?* |
+| **BehavesWell Core** (formerly *HTBW Core*) | The product; current edition **BehavesWell Core, Home Assistant Edition** (integration domain `htbw`). | **Not a layer.** It implements the seven-layer stack (**DL-153**). |
+| **HTBW Voice Evidence** | A separately installed Home Assistant App; a voice-evidence provider. | **Not Identity.** Identity alone resolves who a person is. |
+| **BehavesWell Extended Intelligence** (formerly *Home Steward*) | An independent, separately installed product (**DL-131**, renamed by **DL-153**). | **Not a layer, not Stewardship**, and never a source of operational authority. |
+
+"HTBW Core" in this table's heading and rows is historical wording (**DL-153**): read it as the BehavesWell
+Core architectural stack.
 
 Where an operational, cross-repo, or release-governance document names Voice Identity or Asset
 Intelligence as an ownership domain, it is referring to the **repository**, not to an HTBW Core layer.
