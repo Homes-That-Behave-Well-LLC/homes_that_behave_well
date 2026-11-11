@@ -8,12 +8,12 @@
           "retain_enrollment_recordings": "Retain Enrollment Recordings"
         },
         "data_description": {
-          "retain_enrollment_recordings": "Whether the ten enrollment recordings are kept after a Voiceprint is created. This applies only when the HTBW Voice Evidence App is installed."
+          "retain_enrollment_recordings": "Whether the ten enrollment recordings are kept after a Voiceprint is created. This applies only when the BehavesWell Voice Evidence App is installed."
         }
       },
       "hassio_confirm": {
-        "title": "Connect the HTBW Voice Evidence App",
-        "description": "The HTBW Voice Evidence App was found. Connecting it creates your household's HTBW configuration and links the App to it.\n\nRetain Enrollment Recordings decides whether the ten voice recordings captured when someone sets up Voice Identity are kept after their Voiceprint is created. Keeping them may let a future Voice Identity update rebuild a Voiceprint automatically; it is never a guarantee. Deleting them means a future incompatible update would require that person to enroll again. This setting never deletes a working Voiceprint, and you can change it later.",
+        "title": "Connect the BehavesWell Voice Evidence App",
+        "description": "The BehavesWell Voice Evidence App was found. Connecting it creates your household's HTBW configuration and links the App to it.\n\nRetain Enrollment Recordings decides whether the ten voice recordings captured when someone sets up Voice Identity are kept after their Voiceprint is created. Keeping them may let a future Voice Identity update rebuild a Voiceprint automatically; it is never a guarantee. Deleting them means a future incompatible update would require that person to enroll again. This setting never deletes a working Voiceprint, and you can change it later.",
         "data": {
           "retain_enrollment_recordings": "Retain Enrollment Recordings"
         },
@@ -24,7 +24,7 @@
     },
     "abort": {
       "already_configured": "HTBW is already set up for this household. Add Rooms beneath the existing HTBW entry.",
-      "invalid_discovery_info": "The HTBW Voice Evidence App sent incomplete connection details. Restart the App to provision it again."
+      "invalid_discovery_info": "The BehavesWell Voice Evidence App sent incomplete connection details. Restart the App to provision it again."
     }
   },
   "options": {
@@ -134,24 +134,24 @@
       "description": "The earlier HTBW room entry \"{entry_title}\" could not be moved under the household HTBW entry because a room with the same Area already exists there with different settings. Nothing was deleted: the earlier entry is kept so its settings can be recovered. Compare the two, keep the correct room configuration, and remove the other entry."
     },
     "voice_evidence_unreachable": {
-      "title": "Voice evidence is unavailable: the HTBW Voice Evidence App cannot be reached",
-      "description": "HTBW cannot reach the HTBW Voice Evidence App ({reason_code}). Voice identification is unavailable; everything else in HTBW, including your rooms, keeps working. Check that the App is installed and running under Settings > Apps."
+      "title": "Voice evidence is unavailable: the BehavesWell Voice Evidence App cannot be reached",
+      "description": "HTBW cannot reach the BehavesWell Voice Evidence App ({reason_code}). Voice identification is unavailable; everything else in HTBW, including your rooms, keeps working. Check that the App is installed and running under Settings > Apps."
     },
     "voice_evidence_authentication_failed": {
       "title": "Voice evidence is unavailable: the App rejected HTBW's credential",
-      "description": "The HTBW Voice Evidence App rejected HTBW's stored credential, which happens after the App's secret is rotated or its data is reset. Restart the App so it provisions HTBW again. Voice identification stays unavailable until then; nothing else is affected."
+      "description": "The BehavesWell Voice Evidence App rejected HTBW's stored credential, which happens after the App's secret is rotated or its data is reset. Restart the App so it provisions HTBW again. Voice identification stays unavailable until then; nothing else is affected."
     },
     "voice_evidence_incompatible": {
       "title": "Voice evidence is unavailable: the App version is incompatible",
-      "description": "The installed HTBW Voice Evidence App is not compatible with this version of HTBW ({reason_code}). Update the App and HTBW to matching versions. Voice identification stays unavailable until then; nothing else is affected."
+      "description": "The installed BehavesWell Voice Evidence App is not compatible with this version of HTBW ({reason_code}). Update the App and HTBW to matching versions. Voice identification stays unavailable until then; nothing else is affected."
     },
     "voice_evidence_app_unavailable": {
       "title": "Voice evidence is unavailable: the App is not ready",
-      "description": "The HTBW Voice Evidence App is running but reports that it cannot work yet ({reason_code}), for example because its voice model is missing or failed verification. Open the App's log under Settings > Apps for details. Voice identification stays unavailable until then; nothing else is affected."
+      "description": "The BehavesWell Voice Evidence App is running but reports that it cannot work yet ({reason_code}), for example because its voice model is missing or failed verification. Open the App's log under Settings > Apps for details. Voice identification stays unavailable until then; nothing else is affected."
     },
     "voice_evidence_retention_sync_failed": {
       "title": "The Retain Enrollment Recordings setting has not reached the Voice Evidence App",
-      "description": "HTBW could not apply your Retain Enrollment Recordings setting to the HTBW Voice Evidence App. HTBW keeps retrying. If this persists, check that the App is installed and running under Settings > Apps."
+      "description": "HTBW could not apply your Retain Enrollment Recordings setting to the BehavesWell Voice Evidence App. HTBW keeps retrying. If this persists, check that the App is installed and running under Settings > Apps."
     },
     "external_storage_path_not_allowed": {
       "title": "One more step: allow HTBW to use your selected storage",

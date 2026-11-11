@@ -269,7 +269,7 @@ async def test_household_options_rejects_a_media_usage_path(
 def _discovery(**config: Any) -> HassioServiceInfo:
     return HassioServiceInfo(
         config={"host": "local-htbw-voice-evidence", "port": 8099, "api_secret": SECRET, **config},
-        name="HTBW Voice Evidence",
+        name="BehavesWell Voice Evidence",
         slug="local_htbw_voice_evidence",
         uuid="discovery-uuid",
     )

@@ -2,7 +2,7 @@
 
 > **Document status: Operational — household administrator documentation.**
 > Describes the shipped BehavesWell Core integration (Home Assistant Edition, domain `htbw`; formerly
-> HTBW Core) and the HTBW Voice Evidence App. Creates no architecture
+> HTBW Core) and the BehavesWell Voice Evidence App (formerly HTBW Voice Evidence). Creates no architecture
 > authority; where it differs from canon, [../governance/authority-order.md](../governance/authority-order.md)
 > decides. Distribution and quality tracking:
 > [../governance/home-assistant-quality.md](../governance/home-assistant-quality.md).
@@ -23,7 +23,7 @@ presented as *HTBW Core*. In Home Assistant it ships as two separate components:
 | Component | What it does | How you install it |
 |---|---|---|
 | **BehavesWell Core** (the Home Assistant integration, domain `htbw`; formerly shown as **HTBW Core**) | Holds your household's HTBW configuration and its **Rooms**. Each Room records which Home Assistant entities and devices act as its voice input, spoken response output, interface, and physical remote. | **Home Assistant Marketplace** |
-| **HTBW Voice Evidence App** | Optional. A local voice-evidence runtime that will create and compare Voiceprints. Version 0.1.0 is a foundation: it installs, secures itself, connects to the Integration, and verifies its speaker model. Enrollment and voice comparison are not available yet. | **Settings > Apps**, as an app repository |
+| **BehavesWell Voice Evidence App** (formerly **HTBW Voice Evidence**) | Optional. An independent, local voice-evidence runtime that will create and compare Voiceprints; it never decides who is speaking. Versions 0.1.0 and 0.1.1 (name change only) are a foundation: it installs, secures itself, connects to the Integration, and verifies its speaker model. Enrollment and voice comparison are not available yet. | **Settings > Apps**, as an app repository |
 
 The Integration works without the App. The two are versioned and updated independently. Installing
 one never installs the other.
@@ -75,7 +75,7 @@ release in a production Home Assistant environment.**
 
 1. Go to **Settings** > **Apps** > **Install app**, open the top-right menu, select
    **Repositories**, and add `https://github.com/Homes-That-Behave-Well-LLC/homes_that_behave_well`.
-2. Install **HTBW Voice Evidence** and start it.
+2. Install **BehavesWell Voice Evidence** and start it. (An existing installation shows its new name after the 0.1.1 update; nothing needs to be reinstalled.)
 3. Home Assistant discovers the App for HTBW. Confirm it under **Settings** > **Devices & services**.
 
 The App is built on your device the first time, which can take several minutes. It is marked
@@ -323,7 +323,7 @@ secrets, or unredacted household identifiers.
 
 **App**
 
-1. Under **Settings** > **Apps**, open **HTBW Voice Evidence** and select **Uninstall**.
+1. Under **Settings** > **Apps**, open **BehavesWell Voice Evidence** and select **Uninstall**.
 2. Optionally remove the repository under **Settings** > **Apps** > **Install app** > menu >
    **Repositories**.
 3. Home Assistant backups made while the App was installed still contain its private data, including

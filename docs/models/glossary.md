@@ -2265,11 +2265,32 @@ Home Assistant Edition**.
 
 **Product, responsibility, and context**
 Three distinct kinds of thing that must never be conflated. A **product** is something installed or
-released (BehavesWell Core; HTBW Voice Evidence; BehavesWell Extended Intelligence; Asset Intelligence).
+released (BehavesWell Core; BehavesWell Voice Evidence; BehavesWell Extended Intelligence; Asset Intelligence).
 A **responsibility** is an ownership boundary — Layer 0 Foundation or one of the six Framework stages. A
 **context** is an environment class in which the Framework is researched and applied (Homes That Behave
 Well). A product may sunset while a responsibility is unchanged (**DL-51**), and a product name is never
-a responsibility name (*BehavesWell Extended Intelligence* is not *Stewardship*).
+a responsibility name (*BehavesWell Extended Intelligence* is not *Stewardship*; *BehavesWell Voice
+Evidence* is not *Identity*).
+
+**BehavesWell Voice Evidence**
+An **independent, environment-neutral, bounded product** (**DL-154**). It creates and manages one
+**Voiceprint** per Person from handed-off enrollment recordings, manages retained recordings where
+configured, encodes runtime utterances, and compares each against **every** eligible Voiceprint,
+returning the complete set of ordinal **Voiceprint Match Levels**. It may supply governed
+voice-comparison evidence to BehavesWell Core **Identity** through an explicit contract; its current
+and only consumer is BehavesWell Core, Home Assistant Edition. **It never resolves a Person**, fuses or
+disambiguates evidence, evaluates context, or decides Trust. Its Home Assistant packaging is the
+**BehavesWell Voice Evidence App**. Its stable technical identifiers keep the former name
+(`htbw_voice_evidence`, `htbw-voice-evidence`, `HTBW_VE_*`, and the `htbw-voice-evidence/person-id/v1`
+key-derivation domain), so no Voiceprint or recording becomes unreachable. Formal branded notation:
+**BehavesWell © Voice Evidence**.
+Contract: [../contracts/identity-contract.md](../contracts/identity-contract.md#voice-evidence-app-boundary--four-contracts-phase-1-161).
+ADR: [../architecture/adr-behaveswell-voice-evidence-product-identity.md](../architecture/adr-behaveswell-voice-evidence-product-identity.md)
+
+**HTBW Voice Evidence** (historical)
+The former public name of **BehavesWell Voice Evidence** (to 2026-11-10). It is retained in historical
+text and in technical identifiers. It is not a separate product, and it is not the earlier standalone
+**Voice Identity** product.
 
 ---
 
@@ -2284,7 +2305,7 @@ responsibilities. The distinction matters, because the same word appears in both
 | **Asset Intelligence** | A real, separately released Home Assistant integration; a **predecessor product**, not an earlier version of the same product. | **Not a layer, and not a runtime evidence source or dependency, mandatory or optional (DL-121).** Foundation owns the descriptive asset model; Stewardship owns obligations. Asset Intelligence is solely an **optional predecessor-product migration source**, adopted once under **DL-52**/**DL-110**. |
 | **Concierge** | A real, separately released Home Assistant integration. | Also a genuine HTBW Core responsibility — *what should happen now?* |
 | **BehavesWell Core** (formerly *HTBW Core*) | The product; current edition **BehavesWell Core, Home Assistant Edition** (integration domain `htbw`). | **Not a layer.** It implements the seven-layer stack (**DL-153**). |
-| **HTBW Voice Evidence** | A separately installed Home Assistant App; a voice-evidence provider. | **Not Identity.** Identity alone resolves who a person is. |
+| **BehavesWell Voice Evidence** (formerly *HTBW Voice Evidence*) | An independent, separately installed product; its Home Assistant packaging is the **BehavesWell Voice Evidence App** (slug `htbw_voice_evidence`, unchanged). A voice-evidence provider (**DL-154**). | **Not Identity, not a layer, not a Core Edition.** It returns governed Voiceprint Match Levels; Identity alone resolves who a person is. |
 | **BehavesWell Extended Intelligence** (formerly *Home Steward*) | An independent, separately installed product (**DL-131**, renamed by **DL-153**). | **Not a layer, not Stewardship**, and never a source of operational authority. |
 
 "HTBW Core" in this table's heading and rows is historical wording (**DL-153**): read it as the BehavesWell

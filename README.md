@@ -39,7 +39,7 @@ This repository is public because HTBW is being developed openly, with its archi
 implementation, testing, and Home Assistant integration evolving together.
 
 You may see installable artifacts such as BehavesWell Core (formerly HTBW Core) in the Home Assistant
-Marketplace and the HTBW Voice Evidence Home Assistant App. Their presence does not mean HTBW has
+Marketplace and the BehavesWell Voice Evidence Home Assistant App (formerly HTBW Voice Evidence). Their presence does not mean HTBW has
 reached a public preview or supported release.
 
 Current builds are used only for controlled development and acceptance testing in the HTBW Reference
@@ -68,7 +68,7 @@ This repository also ships two separately versioned Home Assistant components:
 | Component | Install with | Requires |
 |---|---|---|
 | **BehavesWell Core, Home Assistant Edition** — Home Assistant integration `custom_components/htbw` (domain `htbw`), shown in Home Assistant as **BehavesWell Core** (formerly HTBW Core) | **Home Assistant Marketplace** (add this repository as an Integration) | Home Assistant 2026.11.0+ |
-| **HTBW Voice Evidence App** — `apps/htbw_voice_evidence`, optional, experimental | **Settings > Apps** (add this repository as an app repository) | Supervisor; amd64 or aarch64 |
+| **BehavesWell Voice Evidence App** — `apps/htbw_voice_evidence`, optional, experimental; an independent, bounded voice-evidence product that supplies Voiceprint comparison evidence to BehavesWell Core Identity and never resolves a Person (**DL-154**) | **Settings > Apps** (add this repository as an app repository) | Supervisor; amd64 or aarch64 |
 
 The Marketplace installs only the Integration; the app store installs only the App. Neither installs
 the other.
@@ -272,7 +272,7 @@ See [docs/architecture/home-assistant-boundary.md](docs/architecture/home-assist
 | Path | Contents |
 |---|---|
 | `custom_components/htbw/` | BehavesWell Core, Home Assistant Edition — the Home Assistant integration, domain `htbw` (household entry with Room subentries) |
-| `apps/htbw_voice_evidence/` | The external HTBW Voice Evidence Home Assistant App (separate runtime; communicates with the Integration only through the #161 contracts; independently versioned) |
+| `apps/htbw_voice_evidence/` | The BehavesWell Voice Evidence App, formerly HTBW Voice Evidence (independent product; slug unchanged) (separate runtime; communicates with the Integration only through the #161 contracts; independently versioned) |
 | `repository.yaml` | Home Assistant App repository manifest for installing the App through Supervisor |
 | `hacs.json` | Home Assistant Marketplace metadata for installing the Integration |
 | `.github/` | CI (Marketplace, hassfest, Ruff, mypy, pytest, App lint and build), issue forms, Dependabot |

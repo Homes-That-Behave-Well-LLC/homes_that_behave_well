@@ -1,4 +1,4 @@
-# Runtime dependencies of the HTBW Voice Evidence App, fully pinned.
+# Runtime dependencies of the BehavesWell Voice Evidence App, fully pinned.
 # Target: Debian trixie python3 (3.13) on amd64 and aarch64 (glibc manylinux wheels).
 # Resolved with: uv pip compile --universal --python-version 3.13
 aiohappyeyeballs==2.7.1

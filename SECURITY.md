@@ -9,7 +9,7 @@
 | Component | Distribution | Supported version |
 |---|---|---|
 | HTBW Integration (`custom_components/htbw`) | Home Assistant Marketplace | The latest version on the default branch, or the latest GitHub release once releases are published |
-| HTBW Voice Evidence App (`apps/htbw_voice_evidence`) | Home Assistant app repository | The version in `apps/htbw_voice_evidence/config.yaml` on the default branch |
+| BehavesWell Voice Evidence App, formerly HTBW Voice Evidence (`apps/htbw_voice_evidence`) | Home Assistant app repository | The version in `apps/htbw_voice_evidence/config.yaml` on the default branch |
 
 Both components are pre-1.0 and the App is marked `experimental`.
 

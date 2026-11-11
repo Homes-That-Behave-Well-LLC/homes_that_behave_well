@@ -149,6 +149,14 @@ artifact name is the **HTBW Voice Identity App**. It is a **capability component
 Identity**. It is never a responsibility, never a second identity authority, and never Person
 resolution. **The App produces biometric comparison evidence. HTBW produces decisions.**
 
+> **Annotated 2026-11-10 (DL-153, DL-154; Issue #216).** The released artifact was in fact published as
+> **HTBW Voice Evidence** (slug `htbw_voice_evidence`), not "HTBW Voice Identity App". Its current
+> public identity is **BehavesWell Voice Evidence**, the **BehavesWell Voice Evidence App**: an
+> independent, environment-neutral product that supplies governed voice-comparison evidence to
+> BehavesWell Core **Identity** through the contracts below. "HTBW" in this section names BehavesWell
+> Core, Home Assistant Edition. Every boundary, contract, and invariant below is unchanged. See
+> [../architecture/adr-behaveswell-voice-evidence-product-identity.md](../architecture/adr-behaveswell-voice-evidence-product-identity.md).
+
 #### Responsibility boundary
 
 | HTBW Integration (acting for Identity) owns | The App owns, as authoritative technical store and lifecycle executor |

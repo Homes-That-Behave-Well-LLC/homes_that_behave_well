@@ -5,7 +5,7 @@
 > [docs/governance/authority-order.md](docs/governance/authority-order.md).
 
 This repository holds the HTBW architecture **and** two separately versioned runtimes: the HTBW
-Integration (`custom_components/htbw`) and the HTBW Voice Evidence App
+Integration (`custom_components/htbw`) and the BehavesWell Voice Evidence App
 (`apps/htbw_voice_evidence`). A pull request, example, or implementation does not change accepted
 architecture; [docs/governance/authority-order.md](docs/governance/authority-order.md) decides.
 

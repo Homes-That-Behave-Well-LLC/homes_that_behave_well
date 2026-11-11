@@ -19,7 +19,7 @@
 | Component | Channel | Result |
 |---|---|---|
 | HTBW Integration (`custom_components/htbw`) | Home Assistant Marketplace (link install) | **PASS** — conforms to the repository structure, `hacs.json`, manifest, brand, and validation requirements. Not in the catalog (Owner decision; needs a release). |
-| HTBW Voice Evidence App (`apps/htbw_voice_evidence`) | Supervisor app repository | **PASS** for local-build distribution. Prebuilt images are not published (Owner decision). |
+| BehavesWell Voice Evidence App, formerly HTBW Voice Evidence (`apps/htbw_voice_evidence`; **DL-154**) | Supervisor app repository | **PASS** for local-build distribution. Prebuilt images are not published (Owner decision). |
 | Dual distribution | Both | **PASS** — each channel resolves only its own component (see section 3). |
 | Integration Quality Scale | — | **GOLD — HTBW self-assessed.** Every Bronze, Silver, and Gold rule is PASS or exempt with a recorded reason. Home Assistant awards no tier to custom integrations; this is not an official Home Assistant Gold rating. |
 

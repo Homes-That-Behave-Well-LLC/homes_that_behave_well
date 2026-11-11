@@ -1,18 +1,23 @@
-# HTBW Voice Evidence (Home Assistant App)
+# BehavesWell Voice Evidence (Home Assistant App)
 
 > **Development runtime only.** Not ready for household enrollment or production biometric use. See
 > [DOCS.md](DOCS.md).
 
-Local voice-evidence runtime for BehavesWell Core, Home Assistant Edition (integration domain
-`htbw`, formerly presented as HTBW Core). Runs as a Home Assistant App (formerly add-on) next to
-Home Assistant and serves only that integration.
+**BehavesWell Voice Evidence** (formerly HTBW Voice Evidence; DL-154) is an independent,
+environment-neutral, local voice-evidence runtime. It creates and manages Voiceprints and compares a
+voice sample against every eligible Voiceprint, returning ordinal Match Levels. It never resolves who
+is speaking; BehavesWell Core Identity does that. Packaged as the **BehavesWell Voice Evidence App**, it
+runs as a Home Assistant App (formerly add-on) and currently serves one consumer: BehavesWell Core, Home
+Assistant Edition (integration domain `htbw`). Technical identifiers are unchanged: slug, directory and
+package `htbw_voice_evidence`, distribution `htbw-voice-evidence`, `HTBW_VE_*`, and the key-derivation
+domain.
 
-Version 0.1.0 is the Phase 2 runtime foundation (issue #162): packaging, bearer
-authentication, Supervisor discovery provisioning, Contract A status/health, pinned model
-acquisition and verification, the ONNX speaker encoder, App-owned storage, and the
-Voiceprint lifecycle mechanics (retention, deletion, and encoder migration gated on an
-HTBW-issued household migration authorization). There is no
-public enrollment or comparison API yet, and no Match Level calibration.
+Version 0.1.0 is the Phase 2 runtime foundation (issue #162), and 0.1.1 changes only the displayed
+name. The foundation covers: packaging, bearer authentication, Supervisor discovery provisioning,
+Contract A status/health, pinned model acquisition and verification, the ONNX speaker encoder,
+App-owned storage, and the Voiceprint lifecycle mechanics (retention, deletion, and encoder migration
+gated on an HTBW-issued household migration authorization). There is no public enrollment or
+comparison API yet, and no Match Level calibration.
 
 Household documentation: [DOCS.md](DOCS.md). Model licence: [MODEL_LICENSE.md](MODEL_LICENSE.md).
 

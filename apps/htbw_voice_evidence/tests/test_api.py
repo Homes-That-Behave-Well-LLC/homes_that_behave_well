@@ -44,7 +44,7 @@ async def test_status_reports_contract_identity_and_capabilities(runtime_factory
     assert status == 200
     assert set(body) == STATUS_KEYS
     assert body["contract_version"] == CONTRACT_VERSION == "1.0"
-    assert body["app_version"] == APP_VERSION == "0.1.0"
+    assert body["app_version"] == APP_VERSION == "0.1.1"
     assert body["status"] == "available"
     assert body["reason_code"] is None
     identity = FakeEncoder().identity

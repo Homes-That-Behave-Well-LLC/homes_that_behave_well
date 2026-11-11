@@ -260,7 +260,7 @@ async def async_mirror_retention_to_app(
         return False
     from homeassistant.components.hassio import AddonError, AddonManager
 
-    manager = AddonManager(hass, _LOGGER, "HTBW Voice Evidence", connection.app_slug)
+    manager = AddonManager(hass, _LOGGER, "BehavesWell Voice Evidence", connection.app_slug)
     try:
         async with asyncio.timeout(VOICE_EVIDENCE_REQUEST_TIMEOUT_SECONDS):
             await manager.async_set_addon_options({APP_OPTION_RETAIN: retain})
@@ -324,7 +324,7 @@ class VoiceEvidenceManager:
         async_project_voice_evidence_issue(self.hass, self.entry, projected, reason)
         if outcome is not previous:
             _LOGGER.info(
-                "HTBW Voice Evidence capability is %s%s",
+                "BehavesWell Voice Evidence capability is %s%s",
                 outcome.value,
                 f" ({reason})" if reason else "",
             )

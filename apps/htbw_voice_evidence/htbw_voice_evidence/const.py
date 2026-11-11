@@ -1,10 +1,10 @@
-"""Governed constants for the HTBW Voice Evidence App."""
+"""Governed constants for the BehavesWell Voice Evidence App (formerly HTBW Voice Evidence)."""
 
 from __future__ import annotations
 
 from typing import Final
 
-APP_VERSION: Final = "0.1.0"
+APP_VERSION: Final = "0.1.1"
 CONTRACT_VERSION: Final = "1.0"
 
 DEFAULT_PORT: Final = 8099

@@ -189,6 +189,11 @@ Products and capabilities that remain distinct from BehavesWell Core:
 
 The App keeps the name **HTBW Voice Evidence**.
 
+> **Annotated 2026-11-10 by DL-154 (Issue #216).** The Owner subsequently renamed the App's public
+> identity to **BehavesWell Voice Evidence** (the **BehavesWell Voice Evidence App**). It is the same
+> product, and every technical identifier is unchanged. The sentence above records DL-153 as accepted.
+> See [adr-behaveswell-voice-evidence-product-identity.md](adr-behaveswell-voice-evidence-product-identity.md).
+
 **BehavesWell Extended Intelligence is the Owner-directed successor product name for the existing,
 governed Home Steward product (DL-131).** It is a **rename of one product identity, not a second
 product**: *Home Steward* is the former/working name, and *BehavesWell Extended Intelligence* is the

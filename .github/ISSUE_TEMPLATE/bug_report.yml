@@ -1,5 +1,5 @@
 name: Bug report
-description: Report a problem with the HTBW Integration or the HTBW Voice Evidence App.
+description: Report a problem with the BehavesWell Core integration or the BehavesWell Voice Evidence App.
 labels: ["bug"]
 body:
   - type: markdown
@@ -14,7 +14,7 @@ body:
       label: Component
       options:
         - HTBW Integration (installed from the Marketplace)
-        - HTBW Voice Evidence App (installed from Settings > Apps)
+        - BehavesWell Voice Evidence App, formerly HTBW Voice Evidence (installed from Settings > Apps)
         - Both
     validations:
       required: true

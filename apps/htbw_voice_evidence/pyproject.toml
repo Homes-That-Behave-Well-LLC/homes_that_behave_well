@@ -1,7 +1,7 @@
 [project]
 name = "htbw-voice-evidence"
-version = "0.1.0"
-description = "HTBW Voice Evidence Home Assistant App runtime"
+version = "0.1.1"
+description = "BehavesWell Voice Evidence Home Assistant App runtime"
 requires-python = ">=3.13"
 readme = "README.md"
 

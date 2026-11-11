@@ -220,7 +220,7 @@ statuses.
 
 **Current release status: Development.** This applies to every component this repository
 distributes — **BehavesWell Core, Home Assistant Edition** (the Home Assistant integration, domain
-`htbw`, formerly presented as HTBW Core; **DL-153**) and the HTBW Voice Evidence App — regardless of
+`htbw`, formerly presented as HTBW Core; **DL-153**) and the BehavesWell Voice Evidence App (formerly HTBW Voice Evidence; **DL-154**) — regardless of
 which of them is
 Marketplace-discoverable, App-store-installable, or individually further along in its own
 implementation than another.

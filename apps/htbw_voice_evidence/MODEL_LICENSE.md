@@ -1,6 +1,6 @@
 # Model licence and attribution
 
-The HTBW Voice Evidence App uses one third-party model artifact. It is **not** stored in
+The BehavesWell Voice Evidence App uses one third-party model artifact. It is **not** stored in
 this repository or in the App image; the App downloads it at runtime from a
 revision-pinned URL into its private `/data` directory and verifies its SHA-256 digest
 before every use.

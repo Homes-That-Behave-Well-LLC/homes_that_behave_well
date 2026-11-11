@@ -19,7 +19,8 @@ def load(path: Path):
 def test_config_yaml_follows_owner_decisions() -> None:
     config = load(APP_DIR / "config.yaml")
     assert config["slug"] == "htbw_voice_evidence"
-    assert config["version"] == APP_VERSION == "0.1.0"
+    assert config["name"] == "BehavesWell Voice Evidence"
+    assert config["version"] == APP_VERSION == "0.1.1"
     assert set(config["arch"]) == {"amd64", "aarch64"}
     assert config["discovery"] == [DISCOVERY_SERVICE]
     assert config["stdin"] is True

@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.1.1
+
+- Public product name changed to **BehavesWell Voice Evidence** (formerly HTBW Voice Evidence;
+  DL-154, issue #216). The App name and description are updated.
+- Metadata only. No runtime, storage, slug, key-derivation, Voiceprint, retention, comparison, or
+  discovery change. Existing Voiceprints and retained recordings remain in place.
+
 ## 0.1.0
 
 - Initial Phase 2 runtime foundation (issue #162).

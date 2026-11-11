@@ -1,12 +1,17 @@
-# HTBW Voice Evidence
+# BehavesWell Voice Evidence
 
-> **Development runtime only.** The Voice Evidence App is currently being used to validate the HTBW
+> **Development runtime only.** The Voice Evidence App is currently being used to validate the
 > Voice Evidence architecture and is not ready for household enrollment or production biometric use.
 
-The HTBW Voice Evidence App is the local voice-evidence runtime used by **BehavesWell Core, Home
-Assistant Edition** (the Home Assistant integration with domain `htbw`, formerly presented as HTBW
-Core), developed in the Homes That Behave Well (HTBW) Reference Home. It runs next to Home
-Assistant, managed by the Supervisor, and is used only by that integration.
+**BehavesWell Voice Evidence** (formerly HTBW Voice Evidence) is a local, independent voice-evidence
+runtime. It produces governed Voiceprint comparison evidence and never decides who is speaking. In Home
+Assistant it is installed as the **BehavesWell Voice Evidence App**, runs next to Home Assistant under
+the Supervisor, and is used only by its one current consumer: the **BehavesWell Core, Home Assistant
+Edition** integration (domain `htbw`). In the rest of this document, "HTBW" means that integration and
+its household configuration entry.
+
+The App's technical identifiers keep the former name (slug `htbw_voice_evidence`), so existing
+installations, settings and stored Voiceprints are unaffected by the rename.
 
 ## What it does
 
@@ -15,7 +20,8 @@ The App has two biometric responsibilities:
 1. creating and managing **Voiceprints** (one per household person), and
 2. comparing voice against every enrolled Voiceprint, producing ordinal Match Levels.
 
-Version 0.1.0 is the **runtime foundation** only. It installs, secures itself, connects to
+Versions 0.1.0 and 0.1.1 are the **runtime foundation** only (0.1.1 changes the displayed
+name only). It installs, secures itself, connects to
 HTBW, acquires and verifies its speaker-embedding model, and manages its own storage.
 Enrollment, comparison and Match Levels are **not** available to the household yet; the
 App reports its health to HTBW and nothing more.
@@ -27,7 +33,7 @@ not make trust decisions. Those stay in HTBW.
 
 1. Add this repository to Home Assistant: **Settings** > **Apps** > **Install app** >
    menu > **Repositories**, then enter the repository URL.
-2. Install **HTBW Voice Evidence** and start it.
+2. Install **BehavesWell Voice Evidence** and start it.
 3. Home Assistant discovers the App for the HTBW integration. Confirm it under
    **Settings** > **Devices & services**.
 

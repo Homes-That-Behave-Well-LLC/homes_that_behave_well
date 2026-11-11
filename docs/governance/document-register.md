@@ -84,6 +84,7 @@ Dispositions: **New** · **Keep** · **Revise** · **Supersede** · **Merge** ·
 | `adr-managed-label-projection-mechanism.md` | Canonical ADR | **New, Accepted 2026-11-06** as **DL-150** (Issue #141, formal acceptance review PASS). Resolves **OD-68** in full: Option A accepted — namespaced reserved labels (`HTBW · Asset Type · <Display Name>`) identified by a stable internal HTBW taxonomy key plus a stable Home Assistant `label_id`, direction of authority Foundation Asset Type → HTBW managed projection logic → Home Assistant Label, never the reverse; a label-name match alone never proves HTBW ownership; idempotent four-case seeding/reconciliation (resolve-and-reconcile, drift-recreate-safely, create-and-capture, collision-never-adopt); Asset Type reconciliation never clears/rebuilds the full label set, operating only on the proven HTBW-managed Asset Type subset; rename uses the verified `async_update` API, never delete-and-recreate; explicit taxonomy versioning distinct from Asset Type's own identity, with conservative retirement (no auto-delete, no silent reclamation); **a projected Label is never read back as Asset Type, Significance, Trust, or behavioral policy** — formally rejecting the **#155** legacy Asset Intelligence finding that label strings drove debounce/alerting policy directly, with class-level defaults re-homed to the authoritative Asset Type and `sensitivity:high`-shaped keys confirmed routed to the already-closed **OD-21/DL-75**; transient drift self-heals silently, standing administrator-correctable defects use **DL-65** Repairs, applying its own already-stated label/Asset-Type-divergence example rather than inventing a new eligibility rule; platform capability (**DL-30**) discharged by Issue #146 for Label-registry CRUD/read/update/events and Device-registry assignment — the only assignable target this mechanism requires, since an Asset's native backing is a Device; **OD-69/DL-61** and **DL-114** each consumed unchanged, neither reopened nor absorbed. Raised by OD-68 (#141, closed) |
 | `adr-htbw-persistence-placement-and-external-storage-lifecycle.md` | Canonical ADR | **New, Accepted 2026-11-09** as **DL-151** (Issue #207, formal acceptance review PASS). Completes the repository-wide persistence classification **DL-137 §17** identified as a necessary follow-on: an eight-step persistence decision tree; a full data-class classification matrix; a formally accepted External Storage Capability Lifecycle (single household connection, just-in-time capability-driven provisioning, newly accepted capability-level deprovisioning with destructive-consequence disclosure and confirmation, legacy-sibling coexistence, household-owned backup/recovery authority, Share-usage-by-default placement); Voice Identity's exact physical-placement resolution (canonical Connected Storage root, never App `/data`, closing **#209**'s own remaining item); Asset Intelligence coexistence/migration-destination compatibility with **#155**'s own algorithm; Explainability (**DL-137**) confirmed and reconciled with the new lifecycle model; Home Steward's own future indexes/embeddings explicitly left undecided. Reopens no prior DL; implements no runtime code. Raised by the HTBW Structured Data Persistence Placement review (#207, closed) |
 | `adr-behaveswell-framework-foundation-core-edition-and-context-identity.md` | Canonical ADR (constitutional) | **New, Accepted 2026-11-10** as **DL-153** (Issue #214, Owner decisions). The BehavesWell Framework is six stages (Truth, Identity, Operational Trust, Stewardship, Continuity, Concierge) over Layer 0 Foundation, forming a seven-layer BehavesWell Core stack; BehavesWell Core is the product and its current and only edition is BehavesWell Core, Home Assistant Edition; Homes That Behave Well is the residential context ecosystem; BehavesWell Extended Intelligence is the successor name of the DL-131 Home Steward product; backward-compatible public rename with every `htbw` technical identifier protected. No responsibility created, removed, or reassigned. Public stage wording routed to #215 |
+| `adr-behaveswell-voice-evidence-product-identity.md` | Canonical ADR | **New, Accepted 2026-11-10** as **DL-154** (Issue #216, Owner decision). The public identity of the existing HTBW Voice Evidence product becomes BehavesWell Voice Evidence (the BehavesWell Voice Evidence App): one product renamed, environment-neutral, independent of BehavesWell Core, never Identity or Person resolution. Every technical and cryptographic identifier is unchanged; App 0.1.1 is metadata-only. Annotates DL-153's "App keeps the name" statement |
 
 ---
 
@@ -871,18 +872,28 @@ unchanged), `dependency-view.md`, `runtime-sequence.md`, `home-assistant-boundar
 heading and anchor unchanged). None is reclassified. Follow-on issue **#215** tracks public stage-wording
 alignment.
 
+**Updated 2026-11-10, Issue #216 (BehavesWell Voice Evidence Product Identity, DL-154; Owner
+decision)**: one new document, `adr-behaveswell-voice-evidence-product-identity.md`, is added as
+**Canonical ADR** from creation (+1 to new canonical documents, +1 to Canonical total, +1 to Total
+classified). Annotated in place without rewriting: `adr-behaveswell-framework-foundation-core-edition-and-context-identity.md`
+and `../contracts/identity-contract.md`. Revised in place: `../models/glossary.md`, `decision-ledger.md`,
+`open-decision-issue-index.md`, `home-assistant-quality.md`, `home-assistant-distribution-and-quality-standard.md`,
+`../../README.md`, `../../CONTRIBUTING.md`, `../../SECURITY.md`, and `../user-guide/htbw-in-home-assistant.md`.
+The App's packaged Markdown (`README.md`, `DOCS.md`, `CHANGELOG.md`, `MODEL_LICENSE.md`) is updated but
+remains outside this register, as already recorded. None is reclassified.
+
 | Category | Count |
 |---|---|
-| New canonical documents | 85 |
+| New canonical documents | 86 |
 | Revised in place | 3 (`README.md`, `concierge-contract.md`, `../contracts/identity-contract.md`) |
-| **Canonical total** (85 new + 3 revised) | **88** |
+| **Canonical total** (86 new + 3 revised) | **89** |
 | Marked Active — subordinate | 22 |
 | Marked Historical — superseded | 83 |
 | Marked Historical illustration (`examples/`) | 16 |
 | Marked Historical — planning/closure record | 2 |
 | **Historical total** | **101** |
 | Operational | 13 |
-| **Total classified** | **223** |
+| **Total classified** | **224** |
 | **Unclassified** | **0** |
 | **Deleted** | **0** |
 
